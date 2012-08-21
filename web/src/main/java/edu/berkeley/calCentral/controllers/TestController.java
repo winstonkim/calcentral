@@ -1,4 +1,4 @@
-package edu.berkeley.calCentral.controllers;
+package edu.berkeley.calcentral.controllers;
 
 import java.util.Map;
 

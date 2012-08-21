@@ -1,5 +1,5 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+				 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>edu.berkeley.calcentral</groupId>
 	<artifactId>web</artifactId>
@@ -7,12 +7,10 @@
 	<version>1.0</version>
 	<name>CalSimple - CalCentral (but simplified...)</name>
 
-	<!-- Properties -->
 	<properties>
 		<org.springframework.version>3.1.2.RELEASE</org.springframework.version>
 	</properties>
 
-	<!-- Dependencies -->
 	<dependencies>
 		<!-- Spring framework -->
 		<dependency>
@@ -57,7 +55,6 @@
 		</dependency>
 
 		<!-- Other dependencies -->
-		<!-- CAS -->
 		<dependency>
 			<groupId>org.jasig.cas.client</groupId>
 			<artifactId>cas-client-core</artifactId>
@@ -68,15 +65,10 @@
 			<artifactId>servlet-api</artifactId>
 			<version>2.5</version>
 		</dependency>
-        <dependency>
-            <groupId>org.tuckey</groupId>
-            <artifactId>urlrewritefilter</artifactId>
-            <version>4.0.3</version>
-        </dependency>
 		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>4.8.1</version>
+			<groupId>org.tuckey</groupId>
+			<artifactId>urlrewritefilter</artifactId>
+			<version>4.0.3</version>
 		</dependency>
 		<dependency>
 			<groupId>log4j</groupId>
@@ -84,9 +76,33 @@
 			<version>1.2.13</version>
 			<type>jar</type>
 		</dependency>
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+			<version>13.0</version>
+		</dependency>
+		<dependency>
+			<groupId>postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+			<version>9.1-901.jdbc4</version>
+		</dependency>
+
+		<!-- test dependencies -->
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-all</artifactId>
+			<version>1.9.0</version>
+			<type>jar</type>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.8.1</version>
+			<scope>test</scope>
+		</dependency>
 
 	</dependencies>
-
 
 	<build>
 		<finalName>web</finalName>
@@ -97,29 +113,36 @@
 				<artifactId>jetty-maven-plugin</artifactId>
 				<version>8.1.5.v20120716</version>
 				<configuration>
-                    <!-- Changed configs from the old version of jetty
+
 					<connectors>
-						<connector implementation="org.mortbay.jetty.nio.SelectChannelConnector">
+						<connector implementation="org.eclipse.jetty.server.nio.SelectChannelConnector">
 							<port>8080</port>
 							<maxIdleTime>60000</maxIdleTime>
 						</connector>
 					</connectors>
 
-					<requestLog implementation="org.mortbay.jetty.NCSARequestLog">
+					<requestLog implementation="org.eclipse.jetty.server.NCSARequestLog">
 						<filename>target/yyyy_mm_dd.request.log</filename>
 						<retainDays>90</retainDays>
 						<append>true</append>
 						<extended>false</extended>
 						<logTimeZone>GMT</logTimeZone>
 					</requestLog>
-                    -->
-                    <stopKey>stopme</stopKey>
-                    <stopPort>9955</stopPort>
-                    <webApp>
-                        <contextPath>/</contextPath>
-                    </webApp>
+
+					<stopKey>stopme</stopKey>
+					<stopPort>9955</stopPort>
+					<webApp>
+						<contextPath>/</contextPath>
+					</webApp>
 				</configuration>
 			</plugin>
+
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>cobertura-maven-plugin</artifactId>
+				<version>2.5.1</version>
+			</plugin>
+
 		</plugins>
 
 	</build>

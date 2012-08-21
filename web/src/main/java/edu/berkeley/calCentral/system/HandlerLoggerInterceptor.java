@@ -1,4 +1,4 @@
-package edu.berkeley.calCentral.system;
+package edu.berkeley.calcentral.system;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
