@@ -7,12 +7,10 @@
 	<version>1.0</version>
 	<name>CalSimple - CalCentral (but simplified...)</name>
 
-	<!-- Properties -->
 	<properties>
 		<org.springframework.version>3.1.2.RELEASE</org.springframework.version>
 	</properties>
 
-	<!-- Dependencies -->
 	<dependencies>
 		<!-- Spring framework -->
 		<dependency>
@@ -57,7 +55,6 @@
 		</dependency>
 
 		<!-- Other dependencies -->
-		<!-- CAS -->
 		<dependency>
 			<groupId>org.jasig.cas.client</groupId>
 			<artifactId>cas-client-core</artifactId>
@@ -74,11 +71,6 @@
 			<version>4.0.3</version>
 		</dependency>
 		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>4.8.1</version>
-		</dependency>
-		<dependency>
 			<groupId>log4j</groupId>
 			<artifactId>log4j</artifactId>
 			<version>1.2.13</version>
@@ -89,8 +81,6 @@
 			<artifactId>guava</artifactId>
 			<version>13.0</version>
 		</dependency>
-
-		<!-- postgres -->
 		<dependency>
 			<groupId>postgresql</groupId>
 			<artifactId>postgresql</artifactId>
@@ -105,9 +95,14 @@
 			<type>jar</type>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.8.1</version>
+			<scope>test</scope>
+		</dependency>
 
 	</dependencies>
-
 
 	<build>
 		<finalName>web</finalName>
