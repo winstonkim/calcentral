@@ -1,4 +1,4 @@
-package edu.berkeley.calCentral.domain;
+package edu.berkeley.calcentral.domain;
 
 public class Roles {
     private String role;

@@ -1,4 +1,4 @@
-package edu.berkeley.calCentral.daos.jdbc;
+package edu.berkeley.calcentral.daos.jdbc;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -8,8 +8,8 @@ import javax.sql.DataSource;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 
-import edu.berkeley.calCentral.daos.IUserDao;
-import edu.berkeley.calCentral.domain.CalCentralUser;
+import edu.berkeley.calcentral.daos.IUserDao;
+import edu.berkeley.calcentral.domain.CalCentralUser;
 
 public class JdbcUserDao implements IUserDao {
 

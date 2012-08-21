@@ -2,7 +2,7 @@
  * IUserAuthorizationDao.java
  * Copyright (c) 2012 The Regents of the University of California
  */
-package edu.berkeley.calCentral.daos;
+package edu.berkeley.calcentral.daos;
 
 import org.springframework.security.core.userdetails.User;
 

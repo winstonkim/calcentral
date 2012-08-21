@@ -24,7 +24,7 @@
 <bean id="expressionHandler" class="org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler"/>
 
 <!--<start id="spring_component_scan" />-->
-<context:component-scan base-package="edu.berkeley.calCentral" />
+<context:component-scan base-package="edu.berkeley.calcentral" />
 <!--<end id="spring_component_scan" />-->
 
 <context:annotation-config />
@@ -39,7 +39,7 @@
 <mvc:annotation-driven/>
 
 <mvc:interceptors>
-	<bean class="edu.berkeley.calCentral.system.HandlerLoggerInterceptor" />
+	<bean class="edu.berkeley.calcentral.system.HandlerLoggerInterceptor" />
 </mvc:interceptors>
 
 <!--<end id="mvc_annotatedcontrollers" />-->

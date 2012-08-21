@@ -1,7 +1,7 @@
-package edu.berkeley.calCentral.services;
+package edu.berkeley.calcentral.services;
 
-import edu.berkeley.calCentral.daos.IUserDao;
-import edu.berkeley.calCentral.domain.CalCentralUser;
+import edu.berkeley.calcentral.daos.IUserDao;
+import edu.berkeley.calcentral.domain.CalCentralUser;
 
 public class BebopUserService {
 

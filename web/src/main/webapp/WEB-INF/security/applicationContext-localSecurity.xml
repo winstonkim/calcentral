@@ -71,7 +71,7 @@ We refer to these situations as “pre-authenticated” scenarios.
 <bean id="preAuthEntryPoint" class="org.springframework.security.web.authentication.Http403ForbiddenEntryPoint" />
 
 <!--  
-<bean id="j2eePreAuthFilter" class="edu.berkeley.calCentral.system.CustomPreAuthFilter">
+<bean id="j2eePreAuthFilter" class="edu.berkeley.calcentral.system.CustomPreAuthFilter">
     <property name="authenticationManager" ref="authenticationManager"/>
     <property name="userService" ref="bebopUserService"/>
     <property name="authenticationDetailsSource">
@@ -94,7 +94,7 @@ We refer to these situations as “pre-authenticated” scenarios.
     <property name="authenticationEntryPoint" ref="preAuthEntryPoint"/>
 </bean>
 
-<bean id="pageLoggingFilter" class="edu.berkeley.calCentral.system.PageLoggerFilter" />
+<bean id="pageLoggingFilter" class="edu.berkeley.calcentral.system.PageLoggerFilter" />
     
 <bean id="httpRequestAccessDecisionManager" class="org.springframework.security.access.vote.AffirmativeBased">
     <property name="allowIfAllAbstainDecisions" value="false"/>
@@ -115,11 +115,11 @@ We refer to these situations as “pre-authenticated” scenarios.
     
 <!-- User Service wiring -->
 <!--
-<bean id="userDetailsService" class="edu.berkeley.calCentral.services.UserAuthorization">
+<bean id="userDetailsService" class="edu.berkeley.calcentral.services.UserAuthorization">
     <property name="dao" ref="iUserAuthorizationDao" />
 </bean>
     
-<bean id="iUserAuthorizationDao" class="edu.berkeley.calCentral.daos.jdbc.JdbcUserServiceDao">
+<bean id="iUserAuthorizationDao" class="edu.berkeley.calcentral.daos.jdbc.JdbcUserServiceDao">
     <property name="dataSource" ref="dataSource" />
 </bean>
  -->            
