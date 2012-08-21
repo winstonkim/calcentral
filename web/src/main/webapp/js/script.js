@@ -1,23 +1,40 @@
+// Global calcentral object
+calcentral = {};
 
 
-// Top navigation
+/**
+ * Top Navigation
+ */
 (function(){
 
+	var $openMenu = false;
 	var $topNavigation = $('.cc-topnavigation');
 	var $topNavigationItemsWithDropdown = $('a[aria-haspopup="true"]', $topNavigation);
 
 	window.log($topNavigationItemsWithDropdown);
 
-	$topNavigationItemsWithDropdown.on('focus, mouseenter', function() {
-		var $this = $(this);
-		var $dropdown = $this.siblings('.cc-topnavigation-dropdown');
+	var removeSelected = function() {
+		$('.cc-topnavigation-selected').removeClass('cc-topnavigation-selected');
+	};
+
+	var closeMenu = function(){
+		if ($openMenu.length) {
+			$openMenu.hide();
+			removeSelected();
+		}
+	};
+
+	$topNavigationItemsWithDropdown.on('focus mouseenter', function() {
+		var $this = $(this).addClass('cc-topnavigation-selected');
+		$openMenu = $this.siblings('.cc-topnavigation-dropdown');
 		var selectedItemPosition = $this.position();
-		$dropdown.css('top', selectedItemPosition.top + $this.outerHeight()).show();
+		$openMenu.css({
+			'top': selectedItemPosition.top + $this.outerHeight() - 2
+		}).show();
 	});
 
-	$topNavigationItemsWithDropdown.on('blur, mouseleave', function() {
-		$(this).siblings('.cc-topnavigation-dropdown').hide();
-		//console.log('test2');
+	$('.cc-topnavigation > ul > li').on('mouseleave', function(e) {
+		closeMenu();
 	});
 
 })();

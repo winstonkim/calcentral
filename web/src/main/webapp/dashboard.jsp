@@ -8,19 +8,21 @@
 		<ul>
 			<li class="cc-right">
 				<a href="/" aria-haspopup="true">Oliver Heyer</a>
-				<ul class="cc-topnavigation-dropdown" style="display:none">
-					<li>
-						<a href="/">Sign out</a>
-					</li>
-				</ul>
+				<div class="cc-topnavigation-dropdown" style="display:none">
+					<ul>
+						<li>
+							<a href="/">Sign out</a>
+						</li>
+					</ul>
+				</div>
 			</li>
 		</ul>
 	</nav>
 	<div class="cc-container-main" role="main">
 		<!-- Page specific HTML -->
-		<div class="cc-mainleftcolumn">
+		<div class="cc-container-main-left">
 			<section class="cc-entity">
-				<div class="cc-entity-name"><strong>Oliver Heyer<strong></div>
+				<div class="cc-entity-name"><strong>Oliver Heyer</strong></div>
 			</section>
 			<nav class="cc-lefthandnavigation">
 				<ul>
@@ -29,7 +31,11 @@
 				</ul>
 			</nav>
 		</div>
+		<div class="cc-container-main-right">
+
+		</div>
 		<!-- END Page specific HTML -->
+		<hr class="clearfix" />
 	</div>
 	<tags:footer/>
 </body>
