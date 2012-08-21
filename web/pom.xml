@@ -9,6 +9,7 @@
 
 	<properties>
 		<org.springframework.version>3.1.2.RELEASE</org.springframework.version>
+		<jetty.port>8080</jetty.port>
 	</properties>
 
 	<dependencies>
@@ -86,6 +87,11 @@
 			<artifactId>postgresql</artifactId>
 			<version>9.1-901.jdbc4</version>
 		</dependency>
+		<dependency>
+			<groupId>com.oracle</groupId>
+			<artifactId>ojdbc6_g</artifactId>
+			<version>11.2.0.3</version>
+		</dependency>
 
 		<!-- test dependencies -->
 		<dependency>
@@ -116,7 +122,7 @@
 
 					<connectors>
 						<connector implementation="org.eclipse.jetty.server.nio.SelectChannelConnector">
-							<port>8080</port>
+							<port>${jetty.port}</port>
 							<maxIdleTime>60000</maxIdleTime>
 						</connector>
 					</connectors>
@@ -135,12 +141,48 @@
 						<contextPath>/</contextPath>
 					</webApp>
 				</configuration>
+				<executions>
+
+					<execution>
+						<id>start-jetty</id>
+						<phase>pre-integration-test</phase>
+						<goals>
+							<goal>run</goal>
+						</goals>
+						<configuration>
+							<scanIntervalSeconds>0</scanIntervalSeconds>
+							<daemon>true</daemon>
+						</configuration>
+					</execution>
+					<execution>
+						<id>stop-jetty</id>
+						<phase>post-integration-test</phase>
+						<goals>
+							<goal>stop</goal>
+						</goals>
+					</execution>
+
+				</executions>
 			</plugin>
 
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>cobertura-maven-plugin</artifactId>
 				<version>2.5.1</version>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-failsafe-plugin</artifactId>
+				<version>2.12.2</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>integration-test</goal>
+							<goal>verify</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 
 		</plugins>

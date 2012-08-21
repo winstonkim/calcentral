@@ -39,9 +39,11 @@ ctrl-C
 ```
 
 You can take all the default properties, or override some (or all) of them by creating your own *.properties
-files. To take advantage of that, start the server like so:
+files. There are other optional config settings that can be passed on the mvn command line. A partial reference:
 ```
-mvn jetty:run -DcustomPropsDir=/path/to/your/custom/configs
+mvn jetty:run
+		-DcustomPropsDir=/path/to/your/custom/configs
+		-Djetty.port=8778
 ```
 
 To run the server with unit tests plus test coverage reports:
@@ -49,3 +51,8 @@ To run the server with unit tests plus test coverage reports:
 mvn clean install cobertura:cobertura jetty:run
 ```
 You can read coverage reports from target/site/cobertura/index.html.
+
+To run the server with integration tests (requires postgres already running):
+```
+mvn clean verify
+```

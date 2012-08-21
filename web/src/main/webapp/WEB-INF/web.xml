@@ -8,7 +8,7 @@
 	<context-param>
 		<param-name>server</param-name>
 		<!-- <param-value>${deployType}</param-value> <description>(local|prod)</description> -->
-		<param-value>http://localhost:8080</param-value>
+		<param-value>http://localhost:${jetty.port}</param-value>
 	</context-param>
 
 	<!-- If you want to simulate a specific user, you can disable CAS and hardcode 
