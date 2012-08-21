@@ -1,19 +1,70 @@
-<!DOCTYPE web-app PUBLIC
- "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
- "http://java.sun.com/dtd/web-app_2_3.dtd" >
+<web-app id="WebApp_ID" version="2.4"
+	xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee 
+	http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
 
-<web-app>
-  <display-name>CalCentral Web Application</display-name>
-  <filter>
-    <filter-name>UrlRewriteFilter</filter-name>
-    <filter-class>org.tuckey.web.filters.urlrewrite.UrlRewriteFilter</filter-class>
-    <init-param>
-        <param-name>logLevel</param-name>
-        <param-value>WARN</param-value>
-    </init-param>
-  </filter>
-  <filter-mapping>
-    <filter-name>UrlRewriteFilter</filter-name>
-    <url-pattern>/*</url-pattern>
-  </filter-mapping>
+	<display-name>CalCentral Web Application</display-name>
+
+	<context-param>
+		<param-name>server</param-name>
+		<!-- <param-value>${deployType}</param-value> <description>(local|prod)</description> -->
+		<param-value>http://localhost:8080</param-value>
+	</context-param>
+
+	<!-- If you want to simulate a specific user, you can disable CAS and hardcode 
+		the desired uid in MainServlet.java. -->
+	<!-- <context-param id="useCAS"> <param-name>useCAS</param-name> <param-value>${useCAS}</param-value> 
+		<description>(yes|no)</description> </context-param> -->
+
+	<!-- Database. -->
+	<!-- <context-param id="dbType"> <param-name>dbType</param-name> <param-value>${dbType}</param-value> 
+		<description>(dev|qa|prod)</description> </context-param> -->
+
+
+    <context-param>
+    <param-name>contextConfigLocation</param-name>
+    <param-value>
+       /WEB-INF/security/applicationContext-localSecurity.xml
+       classpath:applicationContext-service.xml
+    </param-value>
+    </context-param>
+
+<!-- /WEB-INF/security/applicationContext-${deployType}Security.xml
+       classpath:db/applicationContext-${profileName}Db.xml -->
+
+    <filter>
+        <filter-name>springSecurityFilterChain</filter-name>
+        <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+    </filter>
+
+    <!--
+    <filter-mapping>
+      <filter-name>springSecurityFilterChain</filter-name>
+      <url-pattern>/a/*</url-pattern>
+    </filter-mapping>
+    -->
+
+    <listener>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
+
+    <listener>
+        <listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>
+    </listener>
+
+    <error-page>
+        <error-code>404</error-code>
+        <location>/404.html</location>
+    </error-page>
+
+	<servlet>
+		<servlet-name>spring</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>spring</servlet-name>
+		<url-pattern>/a/*</url-pattern>
+	</servlet-mapping>
+
 </web-app>

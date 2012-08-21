@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:tx="http://www.springframework.org/schema/tx"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+                        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.1.xsd
+                        http://www.springframework.org/schema/context
+                        http://www.springframework.org/schema/context/spring-context-3.1.xsd">
+    
+    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="location" value="WEB-INF/properties/config-all.properties" />
+    </bean>
+    
+    <!-- Default data source(s). Should only need to change this section, if needed. -->
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"/>
+        <property name="url" value="${GRADPROD_url}"/>
+        <property name="username" value="${GRADPROD_username}"/>
+        <property name="password" value="${GRADPROD_password}"/>
+    </bean>
+    
+    <bean id="glowDataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"/>
+        <property name="url" value="${STUPROD_url}"/>
+        <property name="username" value="${STUPROD_username}"/>
+        <property name="password" value="${STUPROD_password}"/>
+    </bean>
+    <!-- End default data source(s) -->
+    
+    <!-- All other dataSources -->
+    <bean id="jazzeeReviewDevDataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"/>
+        <property name="url" value="${GRADDEV_url}"/>
+        <property name="username" value="${GRADDEV_username}"/>
+        <property name="password" value="${GRADDEV_password}"/>
+    </bean>
+    
+    <bean id="jazzeeReviewQaDataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"/>
+        <property name="url" value="${GRADQA_url}"/>
+        <property name="username" value="${GRADQA_username}"/>
+        <property name="password" value="${GRADQA_password}"/>
+    </bean>
+    
+    <bean id="jazzeeReviewProdDataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"/>
+        <property name="url" value="${GRADPROD_url}"/>
+        <property name="username" value="${GRADPROD_username}"/>
+        <property name="password" value="${GRADPROD_password}"/>
+    </bean>
+    
+    <bean id="glowDevDataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"/>
+        <property name="url" value="${STUDEV_url}"/>
+        <property name="username" value="${STUDEV_username}"/>
+        <property name="password" value="${STUDEV_password}"/>
+    </bean>
+    
+    <bean id="glowProdDataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"/>
+        <property name="url" value="${STUPROD_url}"/>
+        <property name="username" value="${STUPROD_username}"/>
+        <property name="password" value="${STUPROD_password}"/>
+    </bean>
+    
+</beans>
