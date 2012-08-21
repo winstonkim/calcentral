@@ -33,12 +33,12 @@
 
 <bean id="casAuthenticationFilter" class="org.jasig.cas.client.authentication.AuthenticationFilter">
     <property name="casServerLoginUrl" value="https://auth-test.berkeley.edu/cas/login" />
-    <property name="serverName" value="http://localhost:8080" />
+    <property name="serverName" value="http://localhost:${jetty.port}" />
     <property name="renew" value="true" />
 </bean>
 
 <bean id="casValidationFilter" class="org.jasig.cas.client.validation.Cas20ProxyReceivingTicketValidationFilter">        
-    <property name="serverName" value="http://localhost:8080" />
+    <property name="serverName" value="http://localhost:${jetty.port}" />
     <property name="exceptionOnValidationFailure" value="true" />
     <property name="redirectAfterValidation" value="true" />
     <property name="ticketValidator" ref="ticketValidator" />        
@@ -81,7 +81,7 @@ We refer to these situations as “pre-authenticated” scenarios.
  -->
     
 <bean id="logoutFilter" class="org.springframework.security.web.authentication.logout.LogoutFilter">
-    <constructor-arg value="https://auth-test.berkeley.edu/cas/logout?url=http%3A%2F%2Flocalhost:8080%2FcalCentral%2F" />
+    <constructor-arg value="https://auth-test.berkeley.edu/cas/logout?url=http%3A%2F%2Flocalhost:${jetty.port}%2FcalCentral%2F" />
     <constructor-arg>
         <bean class="org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler"/>
     </constructor-arg>

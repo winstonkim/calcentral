@@ -9,6 +9,7 @@
 
 	<properties>
 		<org.springframework.version>3.1.2.RELEASE</org.springframework.version>
+		<jetty.port>8080</jetty.port>
 	</properties>
 
 	<dependencies>
@@ -116,7 +117,7 @@
 
 					<connectors>
 						<connector implementation="org.eclipse.jetty.server.nio.SelectChannelConnector">
-							<port>8080</port>
+							<port>${jetty.port}</port>
 							<maxIdleTime>60000</maxIdleTime>
 						</connector>
 					</connectors>
