@@ -28,6 +28,12 @@ cd web
 mvn jetty:run
 ```
 
+You can take all the default properties, or override some (or all) of them by creating your own *.properties
+files. To take advantage of that, start the server like so:
+```
+mvn jetty:run -DcustomPropsDir=/path/to/your/custom/configs
+```
+
 Access the server at <http://localhost:8080/>
 
 To stop the server:
