@@ -6,7 +6,7 @@
   <tags:header/>
   <nav class="cc-topnavigation">
     <ul>
-      <li class="cc-right"><a href="/user">Sign in</a></li>
+      <li class="cc-right"><a href="/secure/dashboard">Sign in</a></li>
     </ul>
   </nav>
 

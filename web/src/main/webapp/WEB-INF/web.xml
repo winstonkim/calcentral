@@ -64,7 +64,7 @@
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>spring</servlet-name>
-		<url-pattern>/a/*</url-pattern>
+		<url-pattern>/secure/*</url-pattern>
 	</servlet-mapping>
 
 </web-app>

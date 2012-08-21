@@ -16,6 +16,6 @@
 
   <!-- Mobile viewport optimized: h5bp.com/viewport -->
   <meta name="viewport" content="width=device-width">
-  <link rel="stylesheet" href="css/style.css">
-  <script src="js/libs/modernizr-2.5.3.min.js"></script>
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/libs/modernizr-2.5.3.min.js"></script>
 </head>
