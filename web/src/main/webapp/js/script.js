@@ -1,11 +1,27 @@
 // Global calcentral object
-calcentral = {};
+var calcentral = calcentral || {};
 
+/**
+ * Widgets
+ */
+(function() {
+
+	calcentral.widgets = calcentral.widgets || {};
+
+	var widgetPrefix = 'cc-widget-';
+	var widgetsToLoad = ['walktime'];
+
+	for (var i = 0; i < widgetsToLoad.length; i++) {
+		var widgetname = widgetsToLoad[i];
+		calcentral.widgets[widgetname](widgetPrefix + widgetname);
+	}
+
+})();
 
 /**
  * Top Navigation
  */
-(function(){
+(function() {
 
 	var $openMenu = false;
 	var $topNavigation = $('.cc-topnavigation');
