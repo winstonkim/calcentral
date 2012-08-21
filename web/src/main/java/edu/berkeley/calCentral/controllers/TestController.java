@@ -10,12 +10,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
 public class TestController {
-
-	@RequestMapping(value = { "/test" }, method = RequestMethod.GET)
-	public String showTest(
+	@RequestMapping(value = { "/dashboard" }, method = RequestMethod.GET)
+	public String foo(
 			Map<String, Object> model,
 			HttpServletRequest request) {
-		model.put("foo", "bar");
-		return "test/test";
+		model.put("foo", "baZ");
+		return "dashboard";
 	}
 }
