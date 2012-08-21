@@ -49,3 +49,8 @@ To run the server with unit tests plus test coverage reports:
 mvn clean install cobertura:cobertura jetty:run
 ```
 You can read coverage reports from target/site/cobertura/index.html.
+
+To run the server with integration tests (requires postgres already running):
+```
+mvn clean verify
+```
