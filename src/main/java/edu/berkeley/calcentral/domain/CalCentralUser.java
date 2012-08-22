@@ -1,44 +1,21 @@
 package edu.berkeley.calcentral.domain;
 
-//XXX: clean out unused fields.
+/**
+ * A simple CalCentral user, containing basic information.  
+ */
 public class CalCentralUser {
-    private String uid;
 
-    private String staffId;
-    
-    private String lastName;
-    
-    private String firstName;
-    
-    private String userFlag;
-    
-    private String email;
-    
-    private String department;
-    
-    private String title;
-        
-    private String comments;
-    
-    private String activeFlag;
-    
-    private String modifyDate;
-    
-    private String calnetId;
-    
-    /**
-	 * @return the staffId
-	 */
-	public String getStaffId() {
-		return staffId;
-	}
+	/** Wonderful identifier from CAS. */
+	private String uid;
 
-	/**
-	 * @param staffId the staffId to set
-	 */
-	public void setStaffId(String staffId) {
-		this.staffId = staffId;
-	}
+	/** OPTIONAL: basic last name i'm assuming we might want. **/
+	private String lastName;
+
+	/** OPTIONAL: basic first name i'm assuming we might want. **/
+	private String firstName;
+
+	/** Need at least one boolean to enable disable users **/ 
+	private boolean activeFlag;
 
 	/**
 	 * @return the lastName
@@ -69,116 +46,24 @@ public class CalCentralUser {
 	}
 
 	/**
-	 * @return the userFlag
-	 */
-	public String getUserFlag() {
-		return userFlag;
-	}
-
-	/**
-	 * @param userFlag the userFlag to set
-	 */
-	public void setUserFlag(String userFlag) {
-		this.userFlag = userFlag;
-	}
-
-	/**
-	 * @return the comments
-	 */
-	public String getComments() {
-		return comments;
-	}
-
-	/**
-	 * @param comments the comments to set
-	 */
-	public void setComments(String comments) {
-		this.comments = comments;
-	}
-
-	/**
 	 * @return the activeFlag
 	 */
-	public String getActiveFlag() {
+	public boolean getActiveFlag() {
 		return activeFlag;
 	}
 
 	/**
 	 * @param activeFlag the activeFlag to set
 	 */
-	public void setActiveFlag(String activeFlag) {
+	public void setActiveFlag(boolean activeFlag) {
 		this.activeFlag = activeFlag;
 	}
 
-	/**
-	 * @return the modifyDate
-	 */
-	public String getModifyDate() {
-		return modifyDate;
+	public String getUid() {
+		return uid;
 	}
 
-	/**
-	 * @param modifyDate the modifyDate to set
-	 */
-	public void setModifyDate(String modifyDate) {
-		this.modifyDate = modifyDate;
+	public void setUid(String uid) {
+		this.uid = uid;
 	}
-
-	/**
-	 * @return the calnetId
-	 */
-	public String getCalnetId() {
-		return calnetId;
-	}
-
-	/**
-	 * @param calnetId the calnetId to set
-	 */
-	public void setCalnetId(String calnetId) {
-		this.calnetId = calnetId;
-	}
-
-    public String getUid() {
-        return uid;
-    }
-
-    public void setUid(String uid) {
-        this.uid = uid;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    /**
-     * @return the department
-     */
-    public String getDepartment() {
-        return department;
-    }
-
-    /**
-     * @param department the department to set
-     */
-    public void setDepartment(String department) {
-        this.department = department;
-    }
-
-    /**
-     * @return the title
-     */
-    public String getTitle() {
-        return title;
-    }
-
-    /**
-     * @param title the title to set
-     */
-    public void setTitle(String title) {
-        this.title = title;
-    }
 }

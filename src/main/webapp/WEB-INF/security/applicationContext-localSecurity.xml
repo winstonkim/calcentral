@@ -67,7 +67,6 @@ We refer to these situations as “pre-authenticated” scenarios.
 
 <bean id="j2eePreAuthFilter" class="edu.berkeley.calcentral.system.CustomPreAuthFilter">
 	<property name="authenticationManager" ref="authenticationManager"/>
-	<property name="userService" ref="calCentralUserService"/>
 	<property name="authenticationDetailsSource">
 		<bean class="org.springframework.security.web.authentication.WebAuthenticationDetailsSource" />
 	</property>

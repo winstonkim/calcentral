@@ -14,9 +14,17 @@ import org.springframework.web.bind.annotation.RequestMethod;
  */
 @Controller
 public class DashboardController {
+	
+	/**
+	 * GET call for the dashboard. 
+	 * 
+	 * @param model map to return to the view.
+	 * @param request servlet request object.
+	 * @return dashboard view.
+	 */
 	@PreAuthorize("true")
 	@RequestMapping(value = { "/dashboard" }, method = RequestMethod.GET)
-	public String foo(
+	public String getDashboard(
 			Map<String, Object> model,
 			HttpServletRequest request) {
 		String uid = request.getUserPrincipal().getName();

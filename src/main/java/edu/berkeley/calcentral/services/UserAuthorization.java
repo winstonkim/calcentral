@@ -25,17 +25,6 @@ public class UserAuthorization implements UserDetailsService {
 	}
 	
 	/**
-	 * Whether or not the user is a sysUser.
-	 * 
-	 * @param uid uid of user.
-	 * @return true/false if the user is SYS.
-	 * @throws UsernameNotFoundException when uid is not found.
-	 */
-	public boolean isSysUser(String uid) throws UsernameNotFoundException {
-	    return dao.isSysUser(uid);
-	}
-	
-	/**
 	 * @return the dao
 	 */
 	public UserServiceDao getDao() {
