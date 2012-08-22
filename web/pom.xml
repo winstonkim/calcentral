@@ -1,5 +1,5 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-				 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>edu.berkeley.calcentral</groupId>
 	<artifactId>web</artifactId>
@@ -12,6 +12,21 @@
 		<jetty.port>8080</jetty.port>
 	</properties>
 
+	<!-- Repositories -->
+	<repositories>
+		<repository>
+			<id>myberkeley-snapshots</id>
+			<url>http://svn.media.berkeley.edu/nexus/content/repositories/myberkeley</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+	</repositories>
+
+	<!-- Dependencies -->
 	<dependencies>
 		<!-- Spring framework -->
 		<dependency>
@@ -36,6 +51,11 @@
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
+			<artifactId>spring-aop</artifactId>
+			<version>${org.springframework.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
 			<artifactId>spring-test</artifactId>
 			<version>${org.springframework.version}</version>
 		</dependency>
@@ -54,8 +74,19 @@
 			<artifactId>spring-security-web</artifactId>
 			<version>${org.springframework.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-cas</artifactId>
+			<version>${org.springframework.version}</version>
+		</dependency>
 
 		<!-- Other dependencies -->
+		<!-- Evil oracle -->
+		<dependency>
+			<groupId>com.oracle</groupId>
+			<artifactId>ojdbc6</artifactId>
+			<version>11.2.0.3</version>
+		</dependency>
 		<dependency>
 			<groupId>org.jasig.cas.client</groupId>
 			<artifactId>cas-client-core</artifactId>
@@ -82,6 +113,15 @@
 			<artifactId>guava</artifactId>
 			<version>13.0</version>
 		</dependency>
+
+		<!-- AOP dependency -->
+		<dependency>
+			<groupId>cglib</groupId>
+			<artifactId>cglib-nodep</artifactId>
+			<version>2.2</version>
+		</dependency>
+
+		<!-- postgres -->
 		<dependency>
 			<groupId>postgresql</groupId>
 			<artifactId>postgresql</artifactId>
@@ -118,10 +158,28 @@
 					<connectors>
 						<connector implementation="org.eclipse.jetty.server.nio.SelectChannelConnector">
 							<port>${jetty.port}</port>
+							<confidentialPort>8443</confidentialPort>
 							<maxIdleTime>60000</maxIdleTime>
 						</connector>
+						<connector implementation="org.eclipse.jetty.server.ssl.SslSocketConnector">
+							<port>8443</port>
+							<keystore>src/main/resources/certificates/server.jks</keystore>
+							<password>password</password>
+							<keyPassword>password</keyPassword>
+							<truststore>src/main/resources/certificates/server.jks</truststore>
+							<trustPassword>password</trustPassword>
+						</connector>
 					</connectors>
-
+					<systemProperties>
+						<systemProperty>
+							<name>javax.net.ssl.trustStore</name>
+							<value>src/main/resources/certificates/server.jks</value>
+						</systemProperty>
+						<systemProperty>
+							<name>javax.net.ssl.trustStorePassword</name>
+							<value>password</value>
+						</systemProperty>
+					</systemProperties>
 					<requestLog implementation="org.eclipse.jetty.server.NCSARequestLog">
 						<filename>target/yyyy_mm_dd.request.log</filename>
 						<retainDays>90</retainDays>

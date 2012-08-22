@@ -15,6 +15,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.preauth.j2ee.J2eePreAuthenticatedProcessingFilter;
 
+import edu.berkeley.calcentral.domain.CalCentralUser;
+import edu.berkeley.calcentral.services.CalCentralUserService;
+
 /**
  * Overrides the predefined J2EE Preauthenticated filter to fit system needs. 
  * Does two main functions:
@@ -32,7 +35,7 @@ import org.springframework.security.web.authentication.preauth.j2ee.J2eePreAuthe
  */
 public class CustomPreAuthFilter extends J2eePreAuthenticatedProcessingFilter{
     
-//    private BebopUserService userService;
+    private CalCentralUserService userService;
     
     private boolean alreadyCasAuthed = false;
     
@@ -44,17 +47,17 @@ public class CustomPreAuthFilter extends J2eePreAuthenticatedProcessingFilter{
     /**
      * @return the userService
      */
-//    public BebopUserService getUserService() {
-//        return userService;
-//    }
+    public CalCentralUserService getUserService() {
+        return userService;
+    }
 
 
     /**
      * @param userService the userService to set
      */
-//    public void setUserService(BebopUserService userService) {
-//        this.userService = userService;
-//    }
+    public void setUserService(CalCentralUserService userService) {
+        this.userService = userService;
+    }
 
     /**
      * Blow away the old authentication token to always force reload from db.
@@ -109,21 +112,21 @@ public class CustomPreAuthFilter extends J2eePreAuthenticatedProcessingFilter{
         HttpSession session = request.getSession(true);
         
         String calnetID = (String) session.getAttribute("s_calnetid");
-        String bebopUserId = (String) session.getAttribute("s_bebopuserid");
-//        BebopUser user = null;
-//        if (session.getAttribute("s_bebopuserid") == null
-//                || session.getAttribute("s_calnetid") == null) {
-//            user = userService.getUser(uid);
-//        }
+        String calCentralUserId = (String) session.getAttribute("s_bebopuserid");
+        CalCentralUser user = null;
+        if (session.getAttribute("s_bebopuserid") == null
+                || session.getAttribute("s_calnetid") == null) {
+            user = userService.getUser(uid);
+        }
         
         if (calnetID == null) {
-//            calnetID = user.getCalnetId();
+            calnetID = user.getCalnetId();
             session.setAttribute("s_calnetid", calnetID);
         }
         
-        if (bebopUserId == null) {
-//            bebopUserId = user.getStaffId();
-            session.setAttribute("s_bebopuserid", bebopUserId);
+        if (calCentralUserId == null) {
+            calCentralUserId = user.getStaffId();
+            session.setAttribute("s_bebopuserid", calCentralUserId);
         }
         
         session.setAttribute("s_calnetuid", uid);

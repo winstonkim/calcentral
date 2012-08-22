@@ -3,7 +3,7 @@ package edu.berkeley.calcentral.services;
 import edu.berkeley.calcentral.daos.IUserDao;
 import edu.berkeley.calcentral.domain.CalCentralUser;
 
-public class BebopUserService {
+public class CalCentralUserService {
 
     private IUserDao userDao;
     

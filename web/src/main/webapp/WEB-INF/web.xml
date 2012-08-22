@@ -11,15 +11,14 @@
 		<param-value>http://localhost:${jetty.port}</param-value>
 	</context-param>
 
-	<!-- If you want to simulate a specific user, you can disable CAS and hardcode 
-		the desired uid in MainServlet.java. -->
-	<!-- <context-param id="useCAS"> <param-name>useCAS</param-name> <param-value>${useCAS}</param-value> 
-		<description>(yes|no)</description> </context-param> -->
-
 	<!-- Database. -->
 	<!-- <context-param id="dbType"> <param-name>dbType</param-name> <param-value>${dbType}</param-value> 
 		<description>(dev|qa|prod)</description> </context-param> -->
 
+    <context-param>
+        <param-name>webAppRootKey</param-name>
+        <param-value>cas.root</param-value>
+    </context-param>
 
 	<context-param>
 	<param-name>contextConfigLocation</param-name>
@@ -32,17 +31,29 @@
 <!-- /WEB-INF/security/applicationContext-${deployType}Security.xml
 	classpath:db/applicationContext-${profileName}Db.xml -->
 
+    <filter>
+       <filter-name>CAS Single Sign Out Filter</filter-name>
+       <filter-class>org.jasig.cas.client.session.SingleSignOutFilter</filter-class>
+    </filter>
+    
+    <filter-mapping>
+       <filter-name>CAS Single Sign Out Filter</filter-name>
+       <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
 	<filter>
 		<filter-name>springSecurityFilterChain</filter-name>
 		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
 	</filter>
 
-	<!--
 	<filter-mapping>
 		<filter-name>springSecurityFilterChain</filter-name>
-		<url-pattern>/a/*</url-pattern>
+		<url-pattern>/secure/*</url-pattern>
 	</filter-mapping>
-	-->
+
+    <listener>
+        <listener-class>org.jasig.cas.client.session.SingleSignOutHttpSessionListener</listener-class>
+    </listener>
 
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
@@ -56,6 +67,11 @@
 		<error-code>404</error-code>
 		<location>/404.html</location>
 	</error-page>
+	
+	<error-page>
+        <error-code>403</error-code>
+        <location>/403.html</location>
+    </error-page>
 
 	<servlet>
 		<servlet-name>spring</servlet-name>
