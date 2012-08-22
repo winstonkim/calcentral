@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="tags" %>
 
 <tags:head/>
@@ -7,11 +8,11 @@
 	<nav class="cc-topnavigation">
 		<ul>
 			<li class="cc-right">
-				<a href="/" aria-haspopup="true">Oliver Heyer</a>
+				<a href="/" aria-haspopup="true"><c:out value="${uid}" /> User!</a>
 				<div class="cc-topnavigation-dropdown" style="display:none">
 					<ul>
 						<li>
-							<a href="/">Sign out</a>
+							<a href="/secure/logout">Sign out</a>
 						</li>
 					</ul>
 				</div>
@@ -22,7 +23,7 @@
 		<!-- Page specific HTML -->
 		<div class="cc-container-main-left">
 			<section class="cc-entity">
-				<div class="cc-entity-name"><strong>Oliver Heyer</strong></div>
+				<div class="cc-entity-name"><strong><c:out value="${uid}" /> User!</strong></div>
 			</section>
 			<nav class="cc-lefthandnavigation">
 				<ul>
