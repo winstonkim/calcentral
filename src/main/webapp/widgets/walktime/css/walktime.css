@@ -1,0 +1,14 @@
+#cc-widget-walktime #walktime_map_container {
+	width: 200px;
+	height: 200px;
+}
+
+#cc-widget-walktime #walktime_answer {
+	font-size: 1.2em;
+	color: #323D71;
+	font-weight: bold;
+}
+
+#cc-widget-walktime #walktime_startpoint, #cc-widget-walktime #walktime_endpoint {
+	width: 100%;
+}
