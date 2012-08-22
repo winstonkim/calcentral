@@ -37,14 +37,6 @@ public class WidgetDataController {
 	@Autowired
 	private WidgetDataService widgetDataService;
 
-	@GET
-	@Produces({MediaType.APPLICATION_JSON})
-	@Path("{widgetID}")
-	public WidgetData get(@PathParam(RESTConstants.PARAM_USER_ID) String userID,
-												@PathParam("widgetID") String widgetID) {
-		return widgetDataService.get(userID, widgetID);
-	}
-
 	/**
 	 * Get all the widget data for a particular user.
 	 *
@@ -57,6 +49,29 @@ public class WidgetDataController {
 		return widgetDataService.getAllForUser(userID);
 	}
 
+	/**
+	 * Get a particular widget's data.
+	 *
+	 * @param userID   The user to retrieve the widget data from
+	 * @param widgetID The ID of the widget to get
+	 * @return A single piece of Widget data
+	 */
+	@GET
+	@Produces({MediaType.APPLICATION_JSON})
+	@Path("{widgetID}")
+	public WidgetData get(@PathParam(RESTConstants.PARAM_USER_ID) String userID,
+												@PathParam("widgetID") String widgetID) {
+		return widgetDataService.get(userID, widgetID);
+	}
+
+	/**
+	 * Save widget data. Updates an existing widget or creates a new one if none exists.
+	 *
+	 * @param userID   The user to save widget data on
+	 * @param widgetID the ID of the widget to save.
+	 * @param jsonData A String representation of the JSON data to save.
+	 * @return The created Widget data.
+	 */
 	@POST
 	@Produces({MediaType.APPLICATION_JSON})
 	@Path("{widgetID}")
@@ -68,6 +83,12 @@ public class WidgetDataController {
 		return widgetData;
 	}
 
+	/**
+	 * Delete a widget.
+	 *
+	 * @param userID   The user ID
+	 * @param widgetID The widget ID
+	 */
 	@DELETE
 	@Path("{widgetID}")
 	public void delete(@PathParam(RESTConstants.PARAM_USER_ID) String userID,
