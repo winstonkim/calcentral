@@ -1,5 +1,6 @@
 package edu.berkeley.calcentral.domain;
 
+//XXX: clean out unused fields.
 public class CalCentralUser {
     private String uid;
 

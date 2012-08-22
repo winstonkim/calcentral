@@ -74,7 +74,7 @@ We refer to these situations as “pre-authenticated” scenarios.
 </bean>
 
 <bean id="logoutFilter" class="org.springframework.security.web.authentication.logout.LogoutFilter">
-	<constructor-arg value="https://auth-test.berkeley.edu/cas/logout?url=http%3A%2F%2Flocalhost%3A8080%2FcalCentral%2F" />
+	<constructor-arg value="https://auth-test.berkeley.edu/cas/logout?url=http%3A%2F%2Flocalhost%3A8080%2F" />
 	<constructor-arg>
 		<bean class="org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler"/>
 	</constructor-arg>
