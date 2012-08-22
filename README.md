@@ -27,7 +27,6 @@ grant all privileges on database calcentral to calcentral;
 
 To start the CalCentral server:
 ```
-cd web
 mvn jetty:run
 ```
 
