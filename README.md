@@ -27,7 +27,7 @@ grant all privileges on database calcentral to calcentral;
 
 To start the CalCentral server:
 ```
-mvn jetty:run
+mvn clean package jetty:run
 ```
 
 Access the server at <http://localhost:8080/>
@@ -35,6 +35,11 @@ Access the server at <http://localhost:8080/>
 To stop the server:
 ```
 ctrl-C
+```
+
+To start the server a little quicker, when you know Java code and XML configs have not changed:
+```
+mvn jetty:run
 ```
 
 You can take all the default properties, or override some (or all) of them by creating your own *.properties
@@ -46,7 +51,7 @@ mvn jetty:run
 		-Dlog4j.configuration=file:/path/to/my/favorite/log4j.properties
 ```
 
-To run the server with unit tests plus test coverage reports:
+To run the server with unit tests, integration tests, and test coverage reports:
 ```
 mvn clean install cobertura:cobertura jetty:run
 ```
