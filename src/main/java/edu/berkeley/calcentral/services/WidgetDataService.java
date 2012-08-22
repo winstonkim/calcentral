@@ -64,10 +64,14 @@ public class WidgetDataService {
 		if (thisUsersWidgets == null) {
 			return;
 		}
+		WidgetData widgetToRemove = null;
 		for (WidgetData widgetData : thisUsersWidgets) {
 			if (widgetData.getWidgetID().equals(widgetID)) {
-				thisUsersWidgets.remove(widgetData);
+				widgetToRemove = widgetData;
 			}
+		}
+		if ( widgetToRemove != null ) {
+			thisUsersWidgets.remove(widgetToRemove);
 		}
 	}
 
