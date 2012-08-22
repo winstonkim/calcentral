@@ -1,13 +1,12 @@
-package edu.berkeley.calcentral.daos.jdbc;
+package edu.berkeley.calcentral.daos;
 
 import javax.sql.DataSource;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 
-import edu.berkeley.calcentral.daos.IUserDao;
 import edu.berkeley.calcentral.domain.CalCentralUser;
 
-public class JdbcUserDao implements IUserDao {
+public class UserDao {
 
 	private JdbcTemplate jdbcTemplate;
 

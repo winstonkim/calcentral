@@ -108,10 +108,10 @@ We refer to these situations as “pre-authenticated” scenarios.
 
 <!-- User Service wiring -->
 <bean id="userDetailsService" class="edu.berkeley.calcentral.services.UserAuthorization">
-	<property name="dao" ref="iUserAuthorizationDao" />
+	<property name="dao" ref="userAuthorizationDao" />
 </bean>
 
-<bean id="iUserAuthorizationDao" class="edu.berkeley.calcentral.daos.jdbc.JdbcUserServiceDao">
+<bean id="userAuthorizationDao" class="edu.berkeley.calcentral.daos.UserServiceDao">
 	<property name="dataSource" ref="dataSource" />
 </bean>
 

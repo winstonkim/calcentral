@@ -1,11 +1,10 @@
 /**
- * JdbcUserServiceDao.java
+ * UserServiceDao.java
  * Copyright (c) 2012 The Regents of the University of California
  */
-package edu.berkeley.calcentral.daos.jdbc;
+package edu.berkeley.calcentral.daos;
 
 import java.util.List;
-import java.util.Map;
 
 import javax.sql.DataSource;
 
@@ -15,12 +14,9 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
-import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 
-import edu.berkeley.calcentral.daos.IUserAuthorizationDao;
-
-public class JdbcUserServiceDao implements IUserAuthorizationDao {
+public class UserServiceDao {
 
 	private DataSource dataSource;
 	

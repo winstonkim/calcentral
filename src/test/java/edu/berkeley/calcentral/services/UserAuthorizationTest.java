@@ -18,7 +18,7 @@
 
 package edu.berkeley.calcentral.services;
 
-import edu.berkeley.calcentral.daos.IUserAuthorizationDao;
+import edu.berkeley.calcentral.daos.UserServiceDao;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -32,7 +32,7 @@ public class UserAuthorizationTest {
 	private UserAuthorization userAuthorization;
 
 	@Mock
-	private IUserAuthorizationDao iUserAuthorizationDao;
+	private UserServiceDao iUserAuthorizationDao;
 
 	@Before
 	public void setUp() throws Exception {

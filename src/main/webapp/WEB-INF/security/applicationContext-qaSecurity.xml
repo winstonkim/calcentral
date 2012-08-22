@@ -93,7 +93,7 @@ We refer to these situations as “pre-authenticated” scenarios.
     
 <!-- User Service wiring -->
 <bean id="userDetailsService" class="edu.berkeley.JazzeeReview.services.UserAuthorization">
-    <property name="dao" ref="iUserAuthorizationDao" />
+    <property name="dao" ref="userAuthorizationDao" />
 </bean>
     
 <bean id="iUserAuthorizationDao" class="edu.berkeley.JazzeeReview.daos.jdbc.JdbcUserServiceDao">
