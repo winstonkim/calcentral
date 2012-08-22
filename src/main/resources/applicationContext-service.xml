@@ -12,6 +12,6 @@
 		<property name="password" value="secret"/>
 	</bean>
 
-	<!--  <context:property-override location="file:///${customPropsDir}/dataSource.properties" ignore-resource-not-found="true"/> -->
+	<context:property-override location="file:///${customPropsDir}/dataSource.properties" ignore-resource-not-found="true"/>
 
 </beans>
