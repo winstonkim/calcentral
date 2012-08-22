@@ -223,7 +223,6 @@
 					</webApp>
 				</configuration>
 				<executions>
-
 					<execution>
 						<id>start-jetty</id>
 						<phase>pre-integration-test</phase>
@@ -242,7 +241,6 @@
 							<goal>stop</goal>
 						</goals>
 					</execution>
-
 				</executions>
 			</plugin>
 
@@ -305,11 +303,6 @@
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>cobertura-maven-plugin</artifactId>
 				<version>2.5.1</version>
-				<executions>
-					<execution>
-						<phase>integration-test</phase>
-					</execution>
-				</executions>
 			</plugin>
 
 			<plugin>
@@ -318,9 +311,14 @@
 				<version>2.12.2</version>
 				<executions>
 					<execution>
-						<phase>integration-test</phase>
+						<id>integration-test</id>
 						<goals>
 							<goal>integration-test</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>verify</id>
+						<goals>
 							<goal>verify</goal>
 						</goals>
 					</execution>
