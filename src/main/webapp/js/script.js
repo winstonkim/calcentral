@@ -2,19 +2,55 @@
 var calcentral = calcentral || {};
 
 /**
+ * API
+ */
+(function() {
+	calcentral.Api = calcentral.Api || {};
+})
+
+/**
+ * API Users
+ */
+(function() {
+	calcentral.Api.Users = calcentral.Api.Users || {};
+
+})
+
+/**
  * Widgets
  */
 (function() {
 
 	calcentral.widgets = calcentral.widgets || {};
 
+	var widgetLocation = '/widgets/';
 	var widgetPrefix = 'cc-widget-';
-	var widgetsToLoad = ['walktime'];
+	var widgetsToLoad = ['quicklinks', 'walktime'];
 
-	for (var i = 0; i < widgetsToLoad.length; i++) {
-		var widgetname = widgetsToLoad[i];
-		calcentral.widgets[widgetname](widgetPrefix + widgetname);
-	}
+	var loadCSS = function(widgetName) {
+		var widgetCSSLocation = widgetLocation + widgetName + '/css/' + widgetName + '.css';
+		$('<link rel="stylesheet" type="text/css" href="' + widgetCSSLocation + '"/>').appendTo('head');
+	};
+
+	var loadJavaScript = function(widgetName) {
+		var widgetJavaScriptLocation = widgetLocation + widgetName + '/javascript/' + widgetName + '.js';
+		$.getScript(widgetJavaScriptLocation, function(data, textStatus, jqxhr) {
+			calcentral.widgets[widgetName]();
+		});
+	};
+
+	var loadWidget = function(widgetName){
+		loadCSS(widgetName);
+		loadJavaScript(widgetName);
+	};
+
+	var loadWidgets = function() {
+		for (var i = 0; i < widgetsToLoad.length; i++) {
+			var widgetName = widgetsToLoad[i];
+			loadWidget(widgetName);
+		}
+	};
+	loadWidgets();
 
 })();
 
