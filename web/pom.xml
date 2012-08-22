@@ -87,11 +87,6 @@
 			<artifactId>postgresql</artifactId>
 			<version>9.1-901.jdbc4</version>
 		</dependency>
-		<dependency>
-			<groupId>com.oracle</groupId>
-			<artifactId>ojdbc6_g</artifactId>
-			<version>11.2.0.3</version>
-		</dependency>
 
 		<!-- test dependencies -->
 		<dependency>
