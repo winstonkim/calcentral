@@ -1,5 +1,5 @@
 var calcentral = calcentral || {};
-calcentral.widgets = calcentral.widgets || {};
+calcentral.Widgets = calcentral.Widgets || {};
 /**
  * @class quicklinks
  *
@@ -10,7 +10,7 @@ calcentral.widgets = calcentral.widgets || {};
  * @version 0.0.1
  * @param {String} tuid Unique id of the widget
  */
-calcentral.widgets.quicklinks = function() {
+calcentral.Widgets.quicklinks = function() {
 
 	/** VARIABLES. **/
 

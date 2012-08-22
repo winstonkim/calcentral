@@ -6,22 +6,28 @@ var calcentral = calcentral || {};
  */
 (function() {
 	calcentral.Api = calcentral.Api || {};
-})
+})();
 
 /**
  * API Users
  */
 (function() {
-	calcentral.Api.Users = calcentral.Api.Users || {};
+	calcentral.Api.User = calcentral.Api.User || {};
 
-})
+	calcentral.Api.User.getUser = function(callback) {
+
+		callback({
+			'userId': 12345
+		});
+	};
+})();
 
 /**
  * Widgets
  */
 (function() {
 
-	calcentral.widgets = calcentral.widgets || {};
+	calcentral.Widgets = calcentral.Widgets || {};
 
 	var widgetLocation = '/widgets/';
 	var widgetPrefix = 'cc-widget-';
@@ -35,7 +41,7 @@ var calcentral = calcentral || {};
 	var loadJavaScript = function(widgetName) {
 		var widgetJavaScriptLocation = widgetLocation + widgetName + '/javascript/' + widgetName + '.js';
 		$.getScript(widgetJavaScriptLocation, function(data, textStatus, jqxhr) {
-			calcentral.widgets[widgetName]();
+			calcentral.Widgets[widgetName]();
 		});
 	};
 

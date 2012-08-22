@@ -1,6 +1,6 @@
 var calcentral = calcentral || {};
-calcentral.widgets = calcentral.widgets || {};
-calcentral.widgets.walktime = function() {
+calcentral.Widgets = calcentral.Widgets || {};
+calcentral.Widgets.walktime = function() {
 
 	/////////////////////////////
 	// Configuration variables //
