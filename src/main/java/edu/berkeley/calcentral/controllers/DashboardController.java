@@ -22,7 +22,7 @@ public class DashboardController {
 	 * @param request servlet request object.
 	 * @return dashboard view.
 	 */
-	@PreAuthorize("true")
+	@PreAuthorize("hasRole('ROLE_USER')")
 	@RequestMapping(value = { "/dashboard" }, method = RequestMethod.GET)
 	public String getDashboard(
 			Map<String, Object> model,
