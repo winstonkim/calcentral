@@ -1,5 +1,5 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+				 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>edu.berkeley.calcentral</groupId>
 	<artifactId>calcentral</artifactId>
@@ -16,6 +16,16 @@
 	<repositories>
 		<repository>
 			<id>myberkeley-snapshots</id>
+			<url>http://svn.media.berkeley.edu/nexus/content/repositories/myberkeley-snapshots</url>
+			<releases>
+				<enabled>false</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+		<repository>
+			<id>myberkeley</id>
 			<url>http://svn.media.berkeley.edu/nexus/content/repositories/myberkeley</url>
 			<releases>
 				<enabled>true</enabled>
@@ -81,12 +91,6 @@
 		</dependency>
 
 		<!-- Other dependencies -->
-		<!-- Evil oracle -->
-		<!--<dependency>
-			<groupId>com.oracle</groupId>
-			<artifactId>ojdbc6</artifactId>
-			<version>11.2.0.3</version>
-		</dependency>-->
 		<dependency>
 			<groupId>org.jasig.cas.client</groupId>
 			<artifactId>cas-client-core</artifactId>
@@ -121,11 +125,16 @@
 			<version>2.2</version>
 		</dependency>
 
-		<!-- postgres -->
+		<!-- databases -->
 		<dependency>
 			<groupId>postgresql</groupId>
 			<artifactId>postgresql</artifactId>
 			<version>9.1-901.jdbc4</version>
+		</dependency>
+		<dependency>
+			<groupId>com.oracle</groupId>
+			<artifactId>ojdbc6</artifactId>
+			<version>11.2.0.3</version>
 		</dependency>
 
 		<!-- test dependencies -->
