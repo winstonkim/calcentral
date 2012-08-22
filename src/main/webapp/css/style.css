@@ -355,8 +355,8 @@ header h1 {
 	-webkit-box-shadow: 1px -2px 7px #888;
 	box-shadow: 1px -2px 7px #888;
 	float: left;
+	padding: 20px;
 	width: 775px;
-	padding: 0 0 20px;
 }
 
 .cc-container-main-left, .cc-container-main-right {
@@ -448,6 +448,48 @@ header h1 {
 .cc-index-welcome2 .cc-index-welcome2-handshake {
 	padding-left: 50px;
 	background: url('/img/myb/handshake.png') no-repeat top left scroll;
+}
+
+/* Widgets */
+.cc-container-widgets .cc-container-widget {
+	border: solid 1px #DFDFDF;
+	border-top: none;
+	border-radius: 0 0 5px 5px;
+	margin-bottom: 10px;
+	width: 348px;
+}
+.cc-container-widgets .cc-widget-main {
+	padding: 0px 12px;
+}
+.cc-container-widgets .cc-widget-title {
+	background: #ececec;
+	background: -moz-linear-gradient(top, #ececec 0%, #e2e2e2 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ececec), color-stop(100%,#e2e2e2));
+	background: -webkit-linear-gradient(top, #ececec 0%,#e2e2e2 100%);
+	background: -o-linear-gradient(top, #ececec 0%,#e2e2e2 100%);
+	background: -ms-linear-gradient(top, #ececec 0%,#e2e2e2 100%);
+	background: linear-gradient(top, #ececec 0%,#e2e2e2 100%);
+}
+.cc-container-widgets .cc-widget-title h2 {
+	color: #666;
+	margin: 0;
+	padding: 8px 12px;
+	font-size: 13px;
+}
+
+.cc-container-widgets .cc-container-widget .cc-widget-footer {
+    background: #ececec;
+    background: -moz-linear-gradient(top, #ececec 0%, #e2e2e2 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ececec), color-stop(100%,#e2e2e2));
+    background: -webkit-linear-gradient(top, #ececec 0%,#e2e2e2 100%);
+    background: -o-linear-gradient(top, #ececec 0%,#e2e2e2 100%);
+    background: -ms-linear-gradient(top, #ececec 0%,#e2e2e2 100%);
+    background: linear-gradient(top, #ececec 0%,#e2e2e2 100%);
+	border-radius: 0 0 5px 5px;
+	box-shadow: 0 1px 0 0 #bbb;
+	margin-top: 7px;
+	min-height: 14px;
+	padding: 7px 12px;
 }
 
 /* Footer */
