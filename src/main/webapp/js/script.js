@@ -2,6 +2,15 @@
 var calcentral = calcentral || {};
 
 /**
+ * Data
+ */
+(function() {
+	calcentral.Data = calcentral.Data || {};
+	calcentral.Data.User = calcentral.Data.User || {};
+	calcentral.Data.User.userId = 300646;
+})();
+
+/**
  * API
  */
 (function() {
@@ -14,12 +23,232 @@ var calcentral = calcentral || {};
 (function() {
 	calcentral.Api.User = calcentral.Api.User || {};
 
-	calcentral.Api.User.getUser = function(callback) {
-
-		callback({
-			'userId': 12345
+	calcentral.Api.User.getUser = function(config, callback) {
+		callback(true, {
+			'userId': calcentral.Data.User.userId
 		});
 	};
+})();
+
+(function() {
+	var templateCache = [];
+	calcentral.Api.Util = calcentral.Api.Util || {};
+
+	calcentral.Api.Util.Forms = calcentral.Api.Util.Forms || {};
+
+	calcentral.Api.Util.Forms.clearValidation = function($form) {
+		$form.find("span.cc-error, span.cc-error-after").remove();
+		$form.find(".cc-error").removeClass("cc-error");
+		$form.find(".cc-error-after").removeClass("cc-error-after");
+		$form.find("*[aria-invalid]").removeAttr("aria-invalid");
+		$form.find("*[aria-describedby]").removeAttr("aria-describedby");
+	};
+
+	calcentral.Api.Util.Forms.validate = function($form, opts, insertAfterLabel) {
+		var options = {
+			onclick: false,
+			onkeyup: false,
+			onfocusout: false
+		};
+
+		// When you set onclick to true, you actually just don't set it
+		// to false, because onclick is a handler function, not a boolean
+		if (opts) {
+			$.each(options, function(key,val) {
+				if (opts.hasOwnProperty(key) && opts[key] === true) {
+					delete opts[key];
+					delete options[key];
+				}
+			});
+		}
+		options.errorElement = 'span';
+		options.errorClass = insertAfterLabel ? 'cc-error-after' : 'cc-error';
+
+		// We need to handle success and invalid in the framework first
+		// then we can pass it to the caller
+		var successCallback = false;
+		var invalidCallback = false;
+
+		if (opts) {
+			if (opts.hasOwnProperty('success') && $.isFunction(opts.success)) {
+				successCallback = opts.success;
+				delete opts.success;
+			}
+
+			if (opts && opts.hasOwnProperty('invalidCallback') && $.isFunction(opts.invalidCallback)) {
+				invalidCallback = opts.invalidCallback;
+				delete opts.invalidCallback;
+			}
+		}
+
+		// Don't allow spaces in the field
+		$.validator.addMethod('nospaces', function(value, element) {
+			return this.optional(element) || (value.indexOf(' ') === -1);
+		}, 'No spaces are allowed');
+
+		// Appends http:// or ftp:// or https:// when necessary
+		$.validator.addMethod('appendhttp', function(value, element) {
+			if (value.substring(0,7) !== 'http://' &&
+				value.substring(0,6) !== 'ftp://' &&
+				value.substring(0,8) !== 'https://' &&
+				$.trim(value) !== '') {
+					$(element).val('http://' + value);
+			}
+			return true;
+		});
+
+		// Add the methods that were being passed in
+		if (opts && opts.hasOwnProperty('methods')) {
+			$.each(opts.methods, function(key, value) {
+				$.validator.addMethod(key, value.method, value.text);
+			});
+			delete opts.methods;
+		}
+
+		// Include the passed in options
+		$.extend(true, options, opts);
+
+		// Success is a callback on each individual field being successfully validated
+		options.success = options.success || function($label) {
+			// For autosuggest clearing, since we have to put the error on the ul instead of the element
+			if (insertAfterLabel && $label.next('ul.as-selections').length) {
+				$label.next('ul.as-selections').removeClass('cc-error');
+			} else if ($label.prev('ul.as-selections').length) {
+				$label.prev('ul.as-selections').removeClass('cc-error');
+			}
+			$label.remove();
+			if ($.isFunction(successCallback)) {
+				successCallback($label);
+			}
+		};
+
+		options.errorPlacement = options.errorPlacement || function($error, $element) {
+			if ($element.hasClass('cc-error-calculate')) {
+				// special element with variable left margin
+				// calculate left margin and width, set it directly on the error element
+				$error.css({
+					'margin-left': $element.position().left,
+					'width': $element.width()
+				});
+			}
+			// Get the closest-previous label in the DOM
+			var $prevLabel = $form.find('label[for="' + $element.attr('id') + '"]');
+			$error.attr('id', $element.attr('name') + '_error');
+			$element.attr('aria-describedby', $element.attr('name') + '_error');
+			if (insertAfterLabel) {
+				$error.insertAfter($prevLabel);
+			} else {
+				$error.insertBefore($prevLabel);
+			}
+		};
+
+		options.invalidHandler = options.invalidHandler || function($thisForm, validator) {
+			$form.find('.cc-error').attr('aria-invalid', 'false');
+			if ($.isFunction(invalidCallback)) {
+				invalidCallback($thisForm, validator);
+			}
+		};
+
+		options.showErrors = options.showErrors || function(errorMap, errorList) {
+			if (errorList.length !== 0 && $.isFunction(options.error)) {
+				options.error();
+			}
+			$.each(errorList, function(i,error) {
+				$(error.element).attr('aria-invalid', 'true');
+				// Handle errors on autosuggest
+				if ($(error.element).hasClass('cc-error-autosuggest')) {
+					$(error.element).parents('ul.as-selections').addClass('cc-error');
+				}
+			});
+			this.defaultShowErrors();
+			if ($.isFunction(options.errorsShown)) {
+				options.errorsShown();
+			}
+		};
+
+		// Set up the form with these options in jquery.validate
+		$form.validate(options);
+	};
+
+	calcentral.Api.Util.renderTemplate = function(templateElement, templateData, outputElement) {
+
+		// {{#each_with_index records}}
+		//	<li class="legend_item{{index}}"><span></span>{{Name}}</li>
+		// {{/each_with_index}}
+		Handlebars.registerHelper("each_with_index", function(array, fn) {
+			var buffer = "";
+			for (var i = 0, j = array.length; i < j; i++) {
+				var item = array[i];
+
+				// stick an index property onto the item, starting with 1, may make configurable later
+				item.index = i+1;
+
+				// show the inside of the block
+				buffer += fn(item);
+			}
+
+			// return the finished buffer
+			return buffer;
+
+		});
+
+		var source = $('#' + templateElement).html();
+		var template = Handlebars.compile(source);
+		return template(templateData);
+	};
+})();
+
+/**
+ * API Widgets
+ */
+
+(function() {
+
+	calcentral.Api.Widgets = calcentral.Api.Widgets || {};
+
+	var createWidgetDataUrl = function(widgetId) {
+		return '/api/user/' + calcentral.Data.User.userId + '/widgetData/' + widgetId;
+	};
+
+	calcentral.Api.Widgets.loadWidgetData = function(config, callback) {
+
+		if (!config || !config.id) {
+			window.log('calcentral.Api.Widgets.loadWidgetData - Please provide a config object with an id.');
+		}
+
+		$.ajax({
+			'success': function(data) {
+				if (data && data.widgetData && data.widgetData.data) {
+					callback(true, data.widgetData.data);
+				} else {
+					callback(false);
+				}
+			},
+			'url': createWidgetDataUrl(config.id)
+		});
+
+	};
+
+	calcentral.Api.Widgets.saveWidgetData = function(config, callback) {
+
+		if (!config || !config.id || !config.data) {
+			window.log('calcentral.Api.Widgets.saveWidgetData - Please provide a config object with an id and data.');
+		}
+
+		//curle localhost:8080/api/user/3jane/widgetData/m1 -d"data=xclkj"
+
+		$.ajax({
+			'data': JSON.stringify(config.data),
+			'success': function(data) {
+				if ($.isFunction(callback)) {
+					callback(true, data);
+				}
+			},
+			'type': 'POST',
+			'url': createWidgetDataUrl(config.id)
+		});
+	};
+
 })();
 
 /**
@@ -38,16 +267,42 @@ var calcentral = calcentral || {};
 		$('<link rel="stylesheet" type="text/css" href="' + widgetCSSLocation + '"/>').appendTo('head');
 	};
 
-	var loadJavaScript = function(widgetName) {
+	var loadJavaScript = function(widgetName, callback) {
+
+		var widgetJavaScriptLocation = widgetLocation + widgetName + '/javascript/' + widgetName + '.js';
+
+		var script = document.createElement("script");
+		script.type = "text/javascript";
+
+		if (script.readyState) { //IE
+			script.onreadystatechange = function () {
+				if (script.readyState == "loaded" || script.readyState == "complete") {
+					script.onreadystatechange = null;
+					callback();
+				}
+			};
+		} else { //Others
+			script.onload = function () {
+				callback();
+			};
+		}
+
+		script.src = widgetJavaScriptLocation;
+		document.getElementsByTagName("head")[0].appendChild(script);
+	};
+
+	/* var loadJavaScript = function(widgetName) {
 		var widgetJavaScriptLocation = widgetLocation + widgetName + '/javascript/' + widgetName + '.js';
 		$.getScript(widgetJavaScriptLocation, function(data, textStatus, jqxhr) {
 			calcentral.Widgets[widgetName]();
 		});
-	};
+	};*/
 
 	var loadWidget = function(widgetName){
 		loadCSS(widgetName);
-		loadJavaScript(widgetName);
+		loadJavaScript(widgetName, function() {
+			calcentral.Widgets[widgetName](widgetPrefix + widgetName);
+		});
 	};
 
 	var loadWidgets = function() {
@@ -68,8 +323,6 @@ var calcentral = calcentral || {};
 	var $openMenu = false;
 	var $topNavigation = $('.cc-topnavigation');
 	var $topNavigationItemsWithDropdown = $('a[aria-haspopup="true"]', $topNavigation);
-
-	window.log($topNavigationItemsWithDropdown);
 
 	var removeSelected = function() {
 		$('.cc-topnavigation-selected').removeClass('cc-topnavigation-selected');

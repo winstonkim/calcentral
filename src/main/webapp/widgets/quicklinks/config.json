@@ -1,8 +1,8 @@
 {
-    "enabled": true,
+    "enabled": false,
     "defaultConfiguration": {
-        "roleAware": true,
-        "roleLookupScheme": "berkeley",
+        "roleAware": false,
+        "roleLookupScheme": "testing",
         "roleMappings": {
             "Faculty": [
                 "academic_related_staff",

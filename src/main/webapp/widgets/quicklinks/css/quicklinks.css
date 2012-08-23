@@ -1,12 +1,12 @@
-.quicklinks .s3d-contentpage-title {
+.quicklinks .cc-contentpage-title {
 	margin-bottom: 0;
 }
 
-.quicklinks .s3d-widget-footer {
+.quicklinks .cc-widget-footer {
 	margin-top: 0;
 }
 
-.quicklinks .s3d-widget-footer .s3d-overlay-button {
+.quicklinks .cc-widget-footer .cc-overlay-button {
 	margin: -5px -5px 0 0;
 }
 
@@ -166,7 +166,7 @@
 	padding: 9px 10px;
 }
 
-.quicklinks_widget .s3d-link-button {
+.quicklinks_widget .cc-link-button {
 	margin-right: 6px;
 }
 
@@ -175,7 +175,7 @@
 	color: #CC0000;
 }
 
-.quicklinks_widget .quicklinks_addedit_link_panel h2.s3d-addlink-header {
+.quicklinks_widget .quicklinks_addedit_link_panel h2.cc-addlink-header {
 	border-bottom: 1px dotted #D4D4D4;
 	font-size: 1.1em;
 	padding-bottom: 6px;
@@ -186,7 +186,7 @@
 	padding: 0 10px;
 }
 
-.quicklinks_widget .s3d-button.disabled {
+.quicklinks_widget .cc-button.disabled {
 	-moz-opacity: 0.4;
 	opacity: 0.4;
 }
