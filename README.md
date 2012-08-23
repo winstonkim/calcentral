@@ -2,7 +2,7 @@
 
 Home of CalCentral.
 
-To run the server, you will first need PostgreSQL running on your machine. 
+To run the server, you will first need PostgreSQL running on your machine.
 
 There's a good setup guide for OSX at <http://russbrooks.com/2010/11/25/install-postgresql-9-on-os-x> and guides for
 other OSes at <http://wiki.postgresql.org/wiki/Detailed_installation_guides>. On my Mac, I found it easiest to
@@ -24,6 +24,7 @@ create database calcentral;
 create user calcentral with password 'secret';
 grant all privileges on database calcentral to calcentral;
 ```
+Mac OS X Lion users: If you're encountering issues connecting to the postgres server: <http://nextmarvel.net/blog/2011/09/brew-install-postgresql-on-os-x-lion/>
 
 To start the CalCentral server:
 ```
