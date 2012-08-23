@@ -37,12 +37,12 @@ var calcentral = calcentral || {};
 	calcentral.Api.Util.Forms = calcentral.Api.Util.Forms || {};
 
 	calcentral.Api.Util.Forms.clearValidation = function($form) {
-        $form.find("span.cc-error, span.cc-error-after").remove();
-        $form.find(".cc-error").removeClass("cc-error");
-        $form.find(".cc-error-after").removeClass("cc-error-after");
-        $form.find("*[aria-invalid]").removeAttr("aria-invalid");
-        $form.find("*[aria-describedby]").removeAttr("aria-describedby");
-    };
+		$form.find("span.cc-error, span.cc-error-after").remove();
+		$form.find(".cc-error").removeClass("cc-error");
+		$form.find(".cc-error-after").removeClass("cc-error-after");
+		$form.find("*[aria-invalid]").removeAttr("aria-invalid");
+		$form.find("*[aria-describedby]").removeAttr("aria-describedby");
+	};
 
 	calcentral.Api.Util.Forms.validate = function($form, opts, insertAfterLabel) {
 		var options = {
@@ -238,9 +238,9 @@ var calcentral = calcentral || {};
 		//curle localhost:8080/api/user/3jane/widgetData/m1 -d"data=xclkj"
 
 		$.ajax({
-			'data': config.data,
+			'data': JSON.stringify(config.data),
 			'success': function(data) {
-				if ($.isFunction(data)) {
+				if ($.isFunction(callback)) {
 					callback(true, data);
 				}
 			},
