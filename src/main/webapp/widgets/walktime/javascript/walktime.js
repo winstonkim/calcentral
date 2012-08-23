@@ -1,12 +1,12 @@
 var calcentral = calcentral || {};
 calcentral.Widgets = calcentral.Widgets || {};
-calcentral.Widgets.walktime = function() {
+calcentral.Widgets.walktime = function(tuid) {
 
 	/////////////////////////////
 	// Configuration variables //
 	/////////////////////////////
 
-	var $rootel = $('#' + 'cc-widget-walktime');  // unique container for each widget instance
+	var $rootel = $('#' + tuid);  // unique container for each widget instance
 	var $mainContainer = $('#walktime_main', $rootel);
 	var $resultsDisplayContainer = $('#walktime_response', $rootel);
 	var $startPoint = $('#walktime_startpoint', $rootel);

@@ -10,7 +10,7 @@ calcentral.Widgets = calcentral.Widgets || {};
  * @version 0.0.1
  * @param {String} tuid Unique id of the widget
  */
-calcentral.Widgets.quicklinks = function() {
+calcentral.Widgets.quicklinks = function(tuid) {
 
 	/** VARIABLES. **/
 
@@ -56,7 +56,7 @@ calcentral.Widgets.quicklinks = function() {
 
 		var strategies = {
 			'default': function (callback) {
-				sakai.api.User.getUser(sakai.data.me.user.userid, function(success, data) {
+				calcentral.Api.User.getUser('', function(success, data) {
 					//for now, seems like OAE only supports 1 role per person.
 					var exists = data && data.basic && data.basic.elements && data.basic.elements.role &&
 								data.basic.elements.role.value;
@@ -67,12 +67,12 @@ calcentral.Widgets.quicklinks = function() {
 			},
 
 			'testing': function (callback) {
-				listedRoles.push('academic_related_staff', 'academic_staff', 'research_staff');
+				listedRoles.push('graduate_student', 'undergraduate_student', 'postgraduate_student');
 				callback(listedRoles);
 			},
 
 			'berkeley': function (callback) {
-				sakai.api.User.getUser(sakai.data.me.user.userid, function(success, data) {
+				calcentral.Api.User.getUser('', function(success, data) {
 					$.each(data.institutional.elements.role, function(key, value) {
 						if (key === 'value') {
 							listedRoles.push(value);
@@ -191,7 +191,9 @@ calcentral.Widgets.quicklinks = function() {
 	 * by trigging renderLinkList to show the updated defaultLinks object.
 	 */
 	var loadUserList = function() {
-		sakai.api.Widgets.loadWidgetData(tuid, function (success, data) {
+		calcentral.Api.Widgets.loadWidgetData({
+			id: tuid
+		}, function (success, data) {
 			var renderAllLinks = function (userData) {
 				// merge the user's links with the default links
 				$.extend(userLinkData, userData, {"label": "My Links"});
@@ -207,33 +209,7 @@ calcentral.Widgets.quicklinks = function() {
 			if (success) {
 				renderAllLinks(data);
 			} else {
-				//-- START - REMOVE THIS AFTER A YEAR --//
-				var oldLinksPath = "/~" + sakai.data.me.user.userid + "/private/my_links";
-				sakai.api.Server.loadJSON(oldLinksPath, function(success, oldData) {
-					//check oldData to see if it can be used to extend current widget data.
-					if (oldData && oldData.links && $.isArray(oldData.links)) {
-						renderAllLinks(oldData);
-					} else {
-						renderAllLinks({"links": []});
-					}
-					//-- END - REMOVE THIS AFTER A YEAR --//
-
-					//-- START - EXTRACT THIS OUTSIDE THE loadJSON THIS AFTER A YEAR --//
-					//
-					//attempting to initialize user object for subsequent loads.
-					sakai.api.Widgets.saveWidgetData(tuid, userLinkData, function (success) {
-						if (!success) {
-							sakai.api.Util.notification.show('',
-								sakai.api.i18n.getValueForKey('SERVER_ERROR_INITIALIZE_USER_OBJECT', 'quicklinks'),
-								sakai.api.Util.notification.type.ERROR, false);
-						}
-					});
-					//-- END - EXTRACT THIS OUTSIDE THE loadJSON THIS AFTER A YEAR --//
-
-					//-- START - REMOVE THIS AFTER A YEAR --//
-					sakai.api.Server.removeJSON(oldLinksPath);
-					//-- END - REMOVE THIS AFTER A YEAR --//
-				});
+				renderAllLinks(userLinkData);
 			}
 		});
 	};
@@ -294,13 +270,13 @@ calcentral.Widgets.quicklinks = function() {
 			};
 			defaultLinks.sections[defaultLinks.userSectionIndex] = userLinkData;
 
-			sakai.api.Widgets.saveWidgetData(tuid, userLinkData, function(success) {
+			calcentral.Api.Widgets.saveWidgetData({
+				id: tuid,
+				data: userLinkData
+			}, function(success) {
 				if (success) {
 					cancelEditMode();
 					renderLinkList(defaultLinks);
-				} else {
-					sakai.api.Util.notification.show('', sakai.api.i18n.getValueForKey('SERVER_ERROR_SAVE_LINK', 'quicklinks'),
-						sakai.api.Util.notification.type.ERROR, false);
 				}
 			});
 		};
@@ -311,7 +287,7 @@ calcentral.Widgets.quicklinks = function() {
 		 *
 		 * @type Validator object (http://docs.jquery.com/Plugins/Validation#Validator).
 		 */
-		sakai.api.Util.Forms.validate($myLinksFormId, {
+		calcentral.Api.Util.Forms.validate($myLinksFormId, {
 			submitHandler: storeNewLink
 		}, true);
 
@@ -325,7 +301,7 @@ calcentral.Widgets.quicklinks = function() {
 	 */
 	var renderLinkList = function(data) {
 		data = filterLinksList(data);
-		$accordionContainer.html(sakai.api.Util.TemplateRenderer('quicklinks_accordion_template', data));
+		$accordionContainer.html(calcentral.Api.Util.renderTemplate('quicklinks_accordion_template', data));
 		setupAccordion();
 		setupEditIcons();
 	};
@@ -346,7 +322,7 @@ calcentral.Widgets.quicklinks = function() {
 	 * @return {undefined} return to accordion panes
 	 */
 	var cancelEditMode = function() {
-		sakai.api.Util.Forms.clearValidation($myLinksFormId);
+		calcentral.Api.Util.Forms.clearValidation($myLinksFormId);
 		$addEditPanel.hide();
 		$myLinksFormId.attr('data-eltindex', '');
 		$('label.error', $widgetContainer).hide();
@@ -359,7 +335,7 @@ calcentral.Widgets.quicklinks = function() {
 	 */
 	var enterAddMode = function() {
 		showPane($('.quicklinks_accordion_pane:last'));
-		setAddEditLinkTitle(sakai.api.i18n.getValueForKey('ADD_LINK', 'quicklinks'));
+		setAddEditLinkTitle('Add Link');
 		$myLinksFormId.attr('data-eltindex', '');
 		$addEditPanel.show();
 		$addLinkButton.show();
@@ -374,7 +350,7 @@ calcentral.Widgets.quicklinks = function() {
 	 */
 	var enterEditMode = function(index) {
 		var link = userLinkData.links[index];
-		setAddEditLinkTitle(sakai.api.i18n.getValueForKey('EDIT_LINK', 'quicklinks'));
+		setAddEditLinkTitle('Edit Link');
 		$linkTitleInput.val(link.name);
 		$linkUrlInput.val(link.url);
 		$myLinksFormId.attr('data-eltindex', index);
@@ -401,12 +377,12 @@ calcentral.Widgets.quicklinks = function() {
 			var idx = $(this).attr('data-eltindex');
 			userLinkData.links.splice(idx, 1);
 			defaultLinks.sections[defaultLinks.userSectionIndex] = userLinkData;
-			sakai.api.Widgets.saveWidgetData(tuid, userLinkData, function(success) {
+			calcentral.Api.Widgets.saveWidgetData({
+				id: tuid,
+				data: userLinkData
+			}, function(success) {
 				if (success) {
 					renderLinkList(defaultLinks);
-				} else {
-					sakai.api.Util.notification.show('', sakai.api.i18n.getValueForKey('SERVER_ERROR_DELETE_LINK', 'quicklinks'),
-							sakai.api.Util.notification.type.ERROR, false);
 				}
 			}, true);
 		});
@@ -435,7 +411,10 @@ calcentral.Widgets.quicklinks = function() {
 		defaultLinks.activeSection = userLinkData.activeSection;
 		if (previousActiveSection !== userLinkData.activeSection) {
 			// save active section only if it's different
-			sakai.api.Widgets.saveWidgetData(tuid, userLinkData);
+			calcentral.Api.Widgets.saveWidgetData({
+				id: tuid,
+				data: userLinkData
+			});
 		}
 	};
 
