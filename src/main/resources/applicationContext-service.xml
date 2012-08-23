@@ -11,6 +11,13 @@
 		<property name="username" value="calcentral"/>
 		<property name="password" value="secret"/>
 	</bean>
+	
+	<bean id="oracleDataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"/>
+        <property name="url" value="jdbc:oracle:thin:@dba-oracle-prod-30.ist.berkeley.edu:1521:STUPROD"/>
+        <property name="username" value="calcentral"/>
+        <property name="password" value="secret"/>
+    </bean>
 
 	<context:property-override location="file:///${customPropsDir}/dataSource.properties" ignore-resource-not-found="true"/>
 

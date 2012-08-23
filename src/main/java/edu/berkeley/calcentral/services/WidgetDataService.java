@@ -18,61 +18,62 @@
 
 package edu.berkeley.calcentral.services;
 
-import edu.berkeley.calcentral.domain.WidgetData;
-import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import org.springframework.stereotype.Service;
+
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+
+import edu.berkeley.calcentral.domain.WidgetData;
 
 @Service
 public class WidgetDataService {
 
 	// TODO replace this with persistence to postgres
-	private Map<String, List<WidgetData>> widgets = new HashMap<String, List<WidgetData>>();
+	//add another key, widgetID to mash on.
+	private Map<String, Map<String, WidgetData>> widgets = new HashMap<String, Map<String, WidgetData>>();
 
 	public void save(WidgetData widgetData) {
-		List<WidgetData> thisUsersWidgets = widgets.get(widgetData.getUid());
+		Map<String, WidgetData> thisUsersWidgets = widgets.get(widgetData.getUid());
 		if (thisUsersWidgets == null) {
-			thisUsersWidgets = new ArrayList<WidgetData>();
+			thisUsersWidgets = Maps.newHashMap();
 		}
-		thisUsersWidgets.add(widgetData);
+		
+		thisUsersWidgets.put(widgetData.getWidgetID(), widgetData);
 		widgets.put(widgetData.getUid(), thisUsersWidgets);
 	}
 
 	public List<WidgetData> getAllForUser(String userID) {
-		return widgets.get(userID);
+		//flatten the hashmap into a list.
+		Map<String, WidgetData> widgetDataMap  = widgets.get(userID);
+		List<WidgetData> returnWidgetData = Lists.newArrayList();
+		
+		for (Map.Entry<String, WidgetData> widgetDataEntry : widgetDataMap.entrySet()) {
+			returnWidgetData.add(widgetDataEntry.getValue());
+		}
+		
+		return returnWidgetData;
 	}
 
 	public WidgetData get(String userID, String widgetID) {
 		// TODO wow, this is inefficient! a db will be much better!
-		List<WidgetData> thisUsersWidgets = widgets.get(userID);
+		Map<String, WidgetData> thisUsersWidgets = widgets.get(userID);
 		if (thisUsersWidgets == null) {
 			return null;
 		}
-		for (WidgetData widgetData : thisUsersWidgets) {
-			if (widgetData.getWidgetID().equals(widgetID)) {
-				return widgetData;
-			}
-		}
-		return null;
+		
+		return thisUsersWidgets.get(widgetID);
 	}
 
 	public void delete(String userID, String widgetID) {
-		List<WidgetData> thisUsersWidgets = widgets.get(userID);
+		Map<String, WidgetData> thisUsersWidgets = widgets.get(userID);
 		if (thisUsersWidgets == null) {
 			return;
 		}
-		WidgetData widgetToRemove = null;
-		for (WidgetData widgetData : thisUsersWidgets) {
-			if (widgetData.getWidgetID().equals(widgetID)) {
-				widgetToRemove = widgetData;
-			}
-		}
-		if ( widgetToRemove != null ) {
-			thisUsersWidgets.remove(widgetToRemove);
-		}
+		thisUsersWidgets.remove(widgetID);
 	}
 
 }
