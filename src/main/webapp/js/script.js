@@ -217,9 +217,10 @@ var calcentral = calcentral || {};
 		}
 
 		$.ajax({
+			'cache': false,
 			'success': function(data) {
 				if (data && data.widgetData && data.widgetData.data) {
-					callback(true, data.widgetData.data);
+					callback(true, $.parseJSON(data.widgetData.data));
 				} else {
 					callback(false);
 				}
@@ -237,8 +238,12 @@ var calcentral = calcentral || {};
 
 		//curle localhost:8080/api/user/3jane/widgetData/m1 -d"data=xclkj"
 
+		console.log(JSON.stringify(config.data));
+
 		$.ajax({
-			'data': JSON.stringify(config.data),
+			'data': {
+				'data': JSON.stringify(config.data)
+			},
 			'success': function(data) {
 				if ($.isFunction(callback)) {
 					callback(true, data);
