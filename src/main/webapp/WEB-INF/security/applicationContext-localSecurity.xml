@@ -114,4 +114,6 @@ We refer to these situations as “pre-authenticated” scenarios.
 	<property name="dataSource" ref="dataSource" />
 </bean>
 
+  <context:property-override location="file:///${customPropsDir}/security.properties" ignore-resource-not-found="true"/>
+
 </beans>
