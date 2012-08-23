@@ -70,7 +70,27 @@ public class WidgetDataControllerIT extends IntegrationTest {
 		assertEquals("{foo:bar}", widget.get("data"));
 	}
 
-	@Test
+  @Test
+  public void getRevisedContent() throws IOException, JSONException {
+    PostMethod post = doPost("/api/user/" + user + "/widgetData/abc",
+        ImmutableMap.<String, String>of("data", "{foo:initialvalue}"));
+    assertEquals(HttpResponseCodes.SC_OK, post.getStatusCode());
+    post = doPost("/api/user/" + user + "/widgetData/abc",
+        ImmutableMap.<String, String>of("data", "{foo:newvalue}"));
+    assertEquals(HttpResponseCodes.SC_OK, post.getStatusCode());
+
+    GetMethod get = doGet("/api/user/" + user + "/widgetData");
+    assertEquals(HttpResponseCodes.SC_OK, get.getStatusCode());
+    LOGGER.info(get.getResponseBodyAsString());
+    JSONArray json = new JSONArray(get.getResponseBodyAsString());
+    assertEquals(1, json.length());
+    JSONObject widget = json.getJSONObject(0).getJSONObject("widgetData");
+    assertEquals(user, widget.get("uid"));
+    assertEquals("abc", widget.get("widgetID"));
+    assertEquals("{foo:newvalue}", widget.get("data"));
+  }
+
+  @Test
 	public void delete() throws IOException, JSONException {
 		PostMethod post = doPost("/api/user/" + user + "/widgetData/abc", null);
 		assertEquals(HttpResponseCodes.SC_OK, post.getStatusCode());
