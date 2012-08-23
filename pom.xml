@@ -160,6 +160,13 @@
 			<scope>test</scope>
 		</dependency>
 
+		<!-- Flyway DDL -->
+		<dependency>
+			<groupId>com.googlecode.flyway</groupId>
+			<artifactId>flyway-core</artifactId>
+			<version>1.7</version>
+		</dependency>
+
 		<!-- test dependencies -->
 		<dependency>
 			<groupId>org.mockito</groupId>
@@ -236,7 +243,7 @@
 								<dependencyLocationsEnabled>false</dependencyLocationsEnabled>
 							</configuration>
 							<!-- simpler configuration without reportSets available for usual 
-								cases -->
+							cases -->
 							<reports>
 								<report>dependencies</report>
 								<report>scm</report>
@@ -301,6 +308,18 @@
 						</goals>
 					</execution>
 				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>com.googlecode.flyway</groupId>
+				<artifactId>flyway-maven-plugin</artifactId>
+				<version>1.7</version>
+				<configuration>
+					<driver>org.postgresql.Driver</driver>
+					<url>jdbc:postgresql://localhost:5432/calcentral</url>
+					<user>calcentral</user>
+					<password>secret</password>
+				</configuration>
 			</plugin>
 
 		</plugins>
