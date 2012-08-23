@@ -13,6 +13,7 @@
 
 	<bean id="loggerListener" class="org.springframework.security.authentication.event.LoggerListener" />
 
+    <!-- XXX: will need to do something about figuring out what to do with checking cas tickets on the REST api calls -->
 	<bean id="springSecurityFilterChain" class="org.springframework.security.web.FilterChainProxy">
 		<sec:filter-chain-map path-type="ant">
 			<sec:filter-chain pattern="/secure/logout" filters="logoutFilter,etf" />
@@ -25,6 +26,7 @@
 				logoutFilter,
 				etf,
 				pageLoggingFilter"/>
+			<sec:filter-chain pattern="/api/**" filters="none" />
 			</sec:filter-chain-map>
 		</bean>
 

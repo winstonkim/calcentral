@@ -1,5 +1,5 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-				 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>edu.berkeley.calcentral</groupId>
 	<artifactId>calcentral</artifactId>
@@ -11,6 +11,10 @@
 	<properties>
 		<org.springframework.version>3.1.2.RELEASE</org.springframework.version>
 		<jetty.port>8080</jetty.port>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
 	</properties>
 
 	<!-- Repositories -->
@@ -231,7 +235,8 @@
 								<dependencyDetailsEnabled>false</dependencyDetailsEnabled>
 								<dependencyLocationsEnabled>false</dependencyLocationsEnabled>
 							</configuration>
-							<!-- simpler configuration without reportSets available for usual cases -->
+							<!-- simpler configuration without reportSets available for usual 
+								cases -->
 							<reports>
 								<report>dependencies</report>
 								<report>scm</report>
