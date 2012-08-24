@@ -28,6 +28,13 @@ var calcentral = calcentral || {};
 			'userId': calcentral.Data.User.userId
 		});
 	};
+
+	calcentral.Api.User.getCurrentUser = function(callback) {
+		callback(true, {
+			'userId': calcentral.Data.User.userId
+		});
+	};
+
 })();
 
 (function() {
@@ -419,6 +426,10 @@ var calcentral = calcentral || {};
 	$('.cc-topnavigation > ul > li').on('mouseleave', function(e) {
 		closeMenu();
 	});
+
+	if ($topNavigation.length) {
+		//calcentral.Api.User.getCurrentUser();
+	}
 
 })();
 

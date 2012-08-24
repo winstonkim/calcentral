@@ -4,11 +4,7 @@
 
 <body class="cc-page-index">
 	<tags:header/>
-	<nav class="cc-topnavigation">
-		<ul>
-			<li class="cc-right"><a href="/secure/dashboard">Sign in</a></li>
-		</ul>
-	</nav>
+	<tags:topnavigation/>
 
 	<div class="cc-container-main" role="main">
 		<div class="cc-page-index-welcome cc-page-index-welcome1">
