@@ -3,7 +3,7 @@
 
 <tags:head/>
 
-<body class="cc-dashboard">
+<body class="cc-page-dashboard">
 	<tags:header/>
 	<nav class="cc-topnavigation">
 		<ul>

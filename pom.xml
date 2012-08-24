@@ -141,6 +141,11 @@
 			<artifactId>ojdbc6</artifactId>
 			<version>11.2.0.3</version>
 		</dependency>
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<version>1.3.168</version>
+		</dependency>
 
 		<!-- resteasy -->
 		<dependency>
@@ -185,8 +190,6 @@
 	</dependencies>
 
 	<build>
-		<finalName>web</finalName>
-
 		<plugins>
 			<plugin>
 				<groupId>org.mortbay.jetty</groupId>
@@ -242,7 +245,7 @@
 								<dependencyDetailsEnabled>false</dependencyDetailsEnabled>
 								<dependencyLocationsEnabled>false</dependencyLocationsEnabled>
 							</configuration>
-							<!-- simpler configuration without reportSets available for usual 
+							<!-- simpler configuration without reportSets available for usual
 							cases -->
 							<reports>
 								<report>dependencies</report>

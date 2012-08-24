@@ -172,6 +172,25 @@ var calcentral = calcentral || {};
 
 	calcentral.Api.Util.renderTemplate = function(templateElement, templateData, outputElement) {
 
+		// HELPER: #each_object
+		//
+		// Usage: {{#each_object obj}} Key: {{key}} // Value: {{value}} {{/each_object}}
+		//
+		// Iterate over an object, setting 'key' and 'value' for each property in
+		// the object.
+		Handlebars.registerHelper('each_object', function(obj, fn) {
+			var buffer = '',
+				key;
+
+			for (key in obj) {
+				if (obj.hasOwnProperty(key)) {
+					buffer += fn({key: key, value: obj[key]});
+				}
+			}
+
+			return buffer;
+		});
+
 		// {{#each_with_index records}}
 		//	<li class="legend_item{{index}}"><span></span>{{Name}}</li>
 		// {{/each_with_index}}
@@ -296,9 +315,15 @@ var calcentral = calcentral || {};
 })();
 
 /**
- * Widgets
+ * Dashboard
  */
 (function() {
+
+	/*$('.cc-container-widgets').masonry({
+		itemSelector: '.cc-container-widget',
+		columnWidth: 348,
+		gutterWidth: 20
+	});*/
 
 	calcentral.Widgets = calcentral.Widgets || {};
 
@@ -335,7 +360,8 @@ var calcentral = calcentral || {};
 		document.getElementsByTagName("head")[0].appendChild(script);
 	};
 
-	/* var loadJavaScript = function(widgetName) {
+	/* This doesn't work well with the chrome dev tools
+	var loadJavaScript = function(widgetName) {
 		var widgetJavaScriptLocation = widgetLocation + widgetName + '/javascript/' + widgetName + '.js';
 		$.getScript(widgetJavaScriptLocation, function(data, textStatus, jqxhr) {
 			calcentral.Widgets[widgetName]();
@@ -355,7 +381,9 @@ var calcentral = calcentral || {};
 			loadWidget(widgetName);
 		}
 	};
-	loadWidgets();
+	if ($('.cc-page-dashboard').length){
+		loadWidgets();
+	}
 
 })();
 
@@ -395,12 +423,25 @@ var calcentral = calcentral || {};
 })();
 
 /**
- * Dashboard
+ * Colleges and schools
  */
 (function() {
-	/*$('.cc-container-widgets').masonry({
-		itemSelector: '.cc-container-widget',
-		columnWidth: 348,
-		gutterWidth: 20
-	});*/
+	$collegesAndSchools = $('.cc-page-colleges-and-schools');
+
+	$collegesAndSchoolsContainer = $('.cc-page-colleges-and-schools-container', $collegesAndSchools);
+
+	var renderCollegesAndSchools = function(data) {
+		$collegesAndSchoolsContainer.html(calcentral.Api.Util.renderTemplate('cc-page-colleges-and-schools-template', $.parseJSON(data)));
+	};
+
+	var loadCollegesAndSchools = function() {
+		return $.ajax({
+			'url': '/dummy/colleges-and-schools.json'
+		});
+	};
+
+	if($collegesAndSchools.length) {
+		$.when(loadCollegesAndSchools()).then(renderCollegesAndSchools);
+	}
+
 })();
