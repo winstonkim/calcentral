@@ -5,20 +5,28 @@
 package edu.berkeley.calcentral.daos;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.sql.DataSource;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Repository;
 
+import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 
 /**
  * Dao Used for populating a spring security user object.
  */
+@Repository
 public class UserServiceDao {
 
+	@Autowired
 	private DataSource dataSource;
 	
 	public DataSource getDataSource() {
@@ -36,23 +44,49 @@ public class UserServiceDao {
 	 * @return User object
 	 * @throws UsernameNotFoundException on issues looking up the user.
 	 */
-	public User getUserDetails(String uid) throws UsernameNotFoundException {
+	public User getUserDetails(String uid) {
 	    //sanity check
 	    if (uid == null || uid.isEmpty()) {
 	        throw new UsernameNotFoundException("User: " + uid + " not found!");
 	    }
 	    
-	    //Only one role for now to make @PreAuth simple and easy.
+	    return fetchUser(uid);
+    }
+	
+	/**
+	 * Fetch the user from the database and populate a UserDetails/User object
+	 * 
+	 * @param uid calnet uid string
+	 * @return UserDetails/User object.
+	 */
+	private User fetchUser(String uid) {
+		Map<String, String> params = Maps.newHashMap();
+		params.put("calnetUID", uid);
+		
+		NamedParameterJdbcTemplate paramedQueryRunner = new NamedParameterJdbcTemplate(dataSource);
+		String sql = 
+				"   SELECT cu.uid username, "
+				+ "   'testuser' passwordString, "
+				+ "   cu.activeFlag activeFlag "
+				+ " FROM calcentral_users cu "
+				+ " WHERE "
+				+ "   cu.uid = :calnetUID";
+		
+		Map<String, Object> results =  paramedQueryRunner.queryForMap(sql, params);
+		String username = Strings.nullToEmpty((String) results.get("username"));
+		String password = Strings.nullToEmpty((String) results.get("passwordString"));
+		boolean active = (Boolean) results.get("activeFlag");
+		
+		//sanity check
+		if (username.isEmpty() || password.isEmpty()) {
+			throw new UsernameNotFoundException("User: " + uid + " not found!");
+		}
+		
+		//Only one role for now to make @PreAuth simple and easy.
 	    List<SimpleGrantedAuthority> authorities = Lists.newArrayList();
 	    authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
-	    
-	    //eventually this flag will be populated by the user object from the database.
-	    boolean active = true;
-	    
-	    //db password: can probably use this when we eventually want to setup the cas bypass
-	    String testpassword = "testuser";
-	    
-	    return new User(uid, testpassword, active, active, active, active, authorities);
-    }
+		
+		return new User(username, password, active, active, active, active, authorities);
+	}
     
 }

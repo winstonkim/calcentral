@@ -44,6 +44,17 @@
 		<filter-name>springSecurityFilterChain</filter-name>
 		<url-pattern>/secure/*</url-pattern>
 	</filter-mapping>
+	
+	<filter-mapping>
+        <filter-name>springSecurityFilterChain</filter-name>
+        <url-pattern>/sapi/*</url-pattern>
+    </filter-mapping>
+    
+    <filter-mapping>
+        <filter-name>springSecurityFilterChain</filter-name>
+        <url-pattern>/api/*</url-pattern>
+    </filter-mapping>
+
 
 	<listener>
 		<listener-class>org.jasig.cas.client.session.SingleSignOutHttpSessionListener</listener-class>
@@ -85,6 +96,11 @@
 		<servlet-name>spring</servlet-name>
 		<url-pattern>/api/*</url-pattern>
 	</servlet-mapping>
+	
+	   <servlet-mapping>
+        <servlet-name>spring</servlet-name>
+        <url-pattern>/sapi/*</url-pattern>
+    </servlet-mapping>
 
 	<session-config>
 		<session-timeout>240</session-timeout>

@@ -55,7 +55,7 @@ public class CalCentralUser {
 	/**
 	 * @param activeFlag the activeFlag to set
 	 */
-	public void setActiveFlag(boolean activeFlag) {
+	public final void setActiveFlag(boolean activeFlag) {
 		this.activeFlag = activeFlag;
 	}
 
