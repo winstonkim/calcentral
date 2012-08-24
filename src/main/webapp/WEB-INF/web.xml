@@ -39,11 +39,6 @@
 		<url-pattern>/secure/*</url-pattern>
 	</filter-mapping>
 	
-	<filter-mapping>
-        <filter-name>springSecurityFilterChain</filter-name>
-        <url-pattern>/sapi/*</url-pattern>
-    </filter-mapping>
-    
     <filter-mapping>
         <filter-name>springSecurityFilterChain</filter-name>
         <url-pattern>/api/*</url-pattern>
@@ -89,11 +84,6 @@
 		<servlet-name>spring</servlet-name>
 		<url-pattern>/api/*</url-pattern>
 	</servlet-mapping>
-	
-	   <servlet-mapping>
-        <servlet-name>spring</servlet-name>
-        <url-pattern>/sapi/*</url-pattern>
-    </servlet-mapping>
 
 	<session-config>
 		<session-timeout>240</session-timeout>
