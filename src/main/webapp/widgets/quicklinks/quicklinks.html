@@ -9,11 +9,11 @@
 
         <script id="quicklinks_accordion_template" type="text/x-handlebars-template" style="display:none;">
         {{#each_with_index sections}}
-            {{#if activeSection}}
+            {{#compare ../activeSection index}}
                 <div class="quicklinks_accordion_pane quicklinks_accordion_open" data-sectionid="{{this.index}}">
             {{else}}
                 <div class="quicklinks_accordion_pane" data-sectionid="{{this.index}}">
-            {{/if}}
+            {{/compare}}
             <div class="quicklinks_section_label">{{label}}</div>
             <div class="quicklinks_accordion_content{{#if isEditable}} quicklinks_section{{/if}}">
                 <ul>
@@ -24,10 +24,10 @@
                             target="_blank"
                             class="cc-widget-links"
                             data-gatrack="true">{{name}}</a>
-                        {{#if section.isEditable}}
+                        {{#if ../isEditable}}
                             <div class="quicklinks_edit_buttons">
-                                <div class="quicklinks_icon_button quicklinks_delete_icon quicklinks-delete-mylink" data-eltindex="{{this.index}}"><span class="cc-aural-text">Delete Link: {{name}}</div>
-                                <div class="quicklinks_icon_button quicklinks_edit_icon quicklinks-edit-mylink" data-eltindex="{{this.index}}"><span class="cc-aural-text">Edit Link: ${name}}</div>
+                                <div class="quicklinks_icon_button quicklinks_delete_icon quicklinks-delete-mylink" data-eltindex="{{this.index}}"><span class="ir">Delete Link: {{name}}</div>
+                                <div class="quicklinks_icon_button quicklinks_edit_icon quicklinks-edit-mylink" data-eltindex="{{this.index}}"><span class="ir">Edit Link: {{name}}</div>
                             </div>
                         {{/if}}
                     </li>

@@ -15,9 +15,10 @@
 }
 
 .quicklinks_widget .quicklinks_icon_button {
+	cursor: pointer;
 	display: block;
 	float: right;
-	background-image: url("/devwidgets/quicklinks/images/edit-delete-icon-sprite.png");
+	background-image: url("/widgets/quicklinks/images/edit-delete-icon-sprite.png");
 	background-color: #EFEFEF;
 	border: 1px solid #CCC;
 	border-radius: 3px;
@@ -113,11 +114,11 @@
 }
 
 .quicklinks_widget .quicklinks_delete_icon {
-	background-position: 0 0;
+	background-position: -1px -1px;
 }
 
 .quicklinks_widget .quicklinks_edit_icon {
-	background-position: -20px 0;
+	background-position: -21px -1px;
 	margin-right: 3px;
 }
 

@@ -181,7 +181,7 @@ var calcentral = calcentral || {};
 				var item = array[i];
 
 				// stick an index property onto the item, starting with 1, may make configurable later
-				item.index = i+1;
+				item.index = i;
 
 				// show the inside of the block
 				buffer += fn(item);
@@ -189,6 +189,49 @@ var calcentral = calcentral || {};
 
 			// return the finished buffer
 			return buffer;
+
+		});
+
+		// {{#compare "Test" "Test"}}
+		// Default comparison of "==="
+		// {{/compare}}
+		Handlebars.registerHelper('compare', function (lvalue, operator, rvalue, options) {
+
+			var operators, result;
+
+			if (arguments.length < 3) {
+				throw new Error("Handlerbars Helper 'compare' needs 2 parameters");
+			}
+
+			if (options === undefined) {
+				options = rvalue;
+				rvalue = operator;
+				operator = "===";
+			}
+
+			operators = {
+				'==': function (l, r) { return l == r; },
+				'===': function (l, r) { return l === r; },
+				'!=': function (l, r) { return l != r; },
+				'!==': function (l, r) { return l !== r; },
+				'<': function (l, r) { return l < r; },
+				'>': function (l, r) { return l > r; },
+				'<=': function (l, r) { return l <= r; },
+				'>=': function (l, r) { return l >= r; },
+				'typeof': function (l, r) { return typeof l == r; }
+			};
+
+			if (!operators[operator]) {
+				throw new Error("Handlerbars Helper 'compare' doesn't know the operator " + operator);
+			}
+
+			result = operators[operator](lvalue, rvalue);
+
+			if (result) {
+				return options.fn(this);
+			} else {
+				return options.inverse(this);
+			}
 
 		});
 
@@ -236,10 +279,6 @@ var calcentral = calcentral || {};
 			window.log('calcentral.Api.Widgets.saveWidgetData - Please provide a config object with an id and data.');
 		}
 
-		//curle localhost:8080/api/user/3jane/widgetData/m1 -d"data=xclkj"
-
-		console.log(JSON.stringify(config.data));
-
 		$.ajax({
 			'data': {
 				'data': JSON.stringify(config.data)
@@ -265,7 +304,7 @@ var calcentral = calcentral || {};
 
 	var widgetLocation = '/widgets/';
 	var widgetPrefix = 'cc-widget-';
-	var widgetsToLoad = ['quicklinks', 'walktime'];
+	var widgetsToLoad = ['quicklinks', 'walktime', 'bspacefavourites'];
 
 	var loadCSS = function(widgetName) {
 		var widgetCSSLocation = widgetLocation + widgetName + '/css/' + widgetName + '.css';
@@ -353,4 +392,15 @@ var calcentral = calcentral || {};
 		closeMenu();
 	});
 
+})();
+
+/**
+ * Dashboard
+ */
+(function() {
+	/*$('.cc-container-widgets').masonry({
+		itemSelector: '.cc-container-widget',
+		columnWidth: 348,
+		gutterWidth: 20
+	});*/
 })();

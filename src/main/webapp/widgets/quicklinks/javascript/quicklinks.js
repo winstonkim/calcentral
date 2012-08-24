@@ -370,11 +370,13 @@ calcentral.Widgets.quicklinks = function(tuid) {
 	var setupEditIcons = function() {
 		$('.quicklinks-edit-mylink', $widgetContainer).on('click', function() {
 			var idx = $(this).attr('data-eltindex');
+			idx = parseInt(idx, 10);
 			enterEditMode(idx);
 		});
 
 		$('.quicklinks-delete-mylink', $widgetContainer).on('click', function() {
 			var idx = $(this).attr('data-eltindex');
+			idx = parseInt(idx, 10);
 			userLinkData.links.splice(idx, 1);
 			defaultLinks.sections[defaultLinks.userSectionIndex] = userLinkData;
 			calcentral.Api.Widgets.saveWidgetData({
