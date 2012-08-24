@@ -48,19 +48,19 @@ public class WidgetDataControllerIT extends IntegrationTest {
 	@Test
 	public void getWithNoContent() throws IOException {
 		GetMethod get = doGet("/api/user/" + user + "/widgetData");
-		assertEquals(HttpResponseCodes.SC_NO_CONTENT, get.getStatusCode());
+		assertResponse(HttpResponseCodes.SC_NO_CONTENT, get);
 		get = doGet("/api/user/" + user + "/widgetData/abc");
-		assertEquals(HttpResponseCodes.SC_NO_CONTENT, get.getStatusCode());
+		assertResponse(HttpResponseCodes.SC_NO_CONTENT, get);
 	}
 
 	@Test
 	public void getWithContent() throws IOException, JSONException {
 		PostMethod post = doPost("/api/user/" + user + "/widgetData/abc",
 				ImmutableMap.<String, String>of("data", "{foo:bar}"));
-		assertEquals(HttpResponseCodes.SC_OK, post.getStatusCode());
+		assertResponse(HttpResponseCodes.SC_OK, post);
 
 		GetMethod get = doGet("/api/user/" + user + "/widgetData");
-		assertEquals(HttpResponseCodes.SC_OK, get.getStatusCode());
+		assertResponse(HttpResponseCodes.SC_OK, get);
 		LOGGER.info(get.getResponseBodyAsString());
 		JSONArray json = new JSONArray(get.getResponseBodyAsString());
 		assertEquals(1, json.length());
@@ -70,38 +70,38 @@ public class WidgetDataControllerIT extends IntegrationTest {
 		assertEquals("{foo:bar}", widget.get("data"));
 	}
 
-  @Test
-  public void getRevisedContent() throws IOException, JSONException {
-    PostMethod post = doPost("/api/user/" + user + "/widgetData/abc",
-        ImmutableMap.<String, String>of("data", "{foo:initialvalue}"));
-    assertEquals(HttpResponseCodes.SC_OK, post.getStatusCode());
-    post = doPost("/api/user/" + user + "/widgetData/abc",
-        ImmutableMap.<String, String>of("data", "{foo:newvalue}"));
-    assertEquals(HttpResponseCodes.SC_OK, post.getStatusCode());
+	@Test
+	public void getRevisedContent() throws IOException, JSONException {
+		PostMethod post = doPost("/api/user/" + user + "/widgetData/abc",
+				ImmutableMap.<String, String>of("data", "{foo:initialvalue}"));
+		assertResponse(HttpResponseCodes.SC_OK, post);
+		post = doPost("/api/user/" + user + "/widgetData/abc",
+				ImmutableMap.<String, String>of("data", "{foo:newvalue}"));
+		assertResponse(HttpResponseCodes.SC_OK, post);
 
-    GetMethod get = doGet("/api/user/" + user + "/widgetData");
-    assertEquals(HttpResponseCodes.SC_OK, get.getStatusCode());
-    LOGGER.info(get.getResponseBodyAsString());
-    JSONArray json = new JSONArray(get.getResponseBodyAsString());
-    assertEquals(1, json.length());
-    JSONObject widget = json.getJSONObject(0).getJSONObject("widgetData");
-    assertEquals(user, widget.get("uid"));
-    assertEquals("abc", widget.get("widgetID"));
-    assertEquals("{foo:newvalue}", widget.get("data"));
-  }
+		GetMethod get = doGet("/api/user/" + user + "/widgetData");
+		assertResponse(HttpResponseCodes.SC_OK, get);
+		LOGGER.info(get.getResponseBodyAsString());
+		JSONArray json = new JSONArray(get.getResponseBodyAsString());
+		assertEquals(1, json.length());
+		JSONObject widget = json.getJSONObject(0).getJSONObject("widgetData");
+		assertEquals(user, widget.get("uid"));
+		assertEquals("abc", widget.get("widgetID"));
+		assertEquals("{foo:newvalue}", widget.get("data"));
+	}
 
-  @Test
+	@Test
 	public void delete() throws IOException, JSONException {
 		PostMethod post = doPost("/api/user/" + user + "/widgetData/abc", null);
-		assertEquals(HttpResponseCodes.SC_OK, post.getStatusCode());
+		assertResponse(HttpResponseCodes.SC_OK, post);
 
 		GetMethod get = doGet("/api/user/" + user + "/widgetData/abc");
-		assertEquals(HttpResponseCodes.SC_OK, get.getStatusCode());
+		assertResponse(HttpResponseCodes.SC_OK, get);
 
 		DeleteMethod delete = doDelete("/api/user/" + user + "/widgetData/abc");
-		assertEquals(HttpResponseCodes.SC_NO_CONTENT, delete.getStatusCode());
+		assertResponse(HttpResponseCodes.SC_NO_CONTENT, delete);
 
 		get = doGet("/api/user/" + user + "/widgetData/abc");
-		assertEquals(HttpResponseCodes.SC_NO_CONTENT, get.getStatusCode());
+		assertResponse(HttpResponseCodes.SC_NO_CONTENT, get);
 	}
 }

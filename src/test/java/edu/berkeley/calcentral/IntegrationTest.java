@@ -19,6 +19,7 @@
 package edu.berkeley.calcentral;
 
 import org.apache.commons.httpclient.HttpClient;
+import org.apache.commons.httpclient.HttpMethod;
 import org.apache.commons.httpclient.HttpState;
 import org.apache.commons.httpclient.methods.DeleteMethod;
 import org.apache.commons.httpclient.methods.GetMethod;
@@ -71,6 +72,14 @@ public abstract class IntegrationTest extends Assert {
 
 	public long randomness() {
 		return new Random().nextLong();
+	}
+
+	public void assertResponse(int expectedStatus, HttpMethod method) throws IOException {
+		if ( method.getStatusCode() != expectedStatus ) {
+			LOGGER.error("HTTP assertion failed. Response body: " + method.getResponseBodyAsString());
+			fail("Expected statusCode of " + expectedStatus + " but got " + method.getStatusCode()
+					+ " " + method.getStatusText());
+		}
 	}
 
 }
