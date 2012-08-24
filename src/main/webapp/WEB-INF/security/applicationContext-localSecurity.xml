@@ -49,6 +49,10 @@
 		<property name="renew" value="true" />
 	</bean>
 
+	<context:property-override
+			location="file:///${customPropsDir}/server.properties"
+			ignore-resource-not-found="true" />
+
 	<bean id="casValidationFilter"
 		class="org.jasig.cas.client.validation.Cas20ProxyReceivingTicketValidationFilter">
 		<property name="serverName" value="http://localhost:8080" />

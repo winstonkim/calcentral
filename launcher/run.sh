@@ -13,8 +13,10 @@ SRC_LOC=$1
 INPUT_FILE="$SRC_LOC/.build.cf"
 if [ -f $INPUT_FILE ]; then
   POSTGRES_PASSWORD=`awk -F"=" '/^POSTGRES_PASSWORD=/ {print $2}' $INPUT_FILE`
+  APPLICATION_HOST=`awk -F"=" '/^APPLICATION_HOST=/ {print $2}' $INPUT_FILE`
 else
   POSTGRES_PASSWORD='secret'
+  APPLICATION_HOST='http://localhost:8080'
 fi
 
 LOG=$2
@@ -47,6 +49,15 @@ if [ -f $POSTGRES_CFG ]; then
 	grep -v dataSource\.password= $POSTGRES_CFG > $POSTGRES_CFG.new
 	echo "dataSource.password=\"$POSTGRES_PASSWORD\"" >> $POSTGRES_CFG.new
 	mv -f $POSTGRES_CFG.new $POSTGRES_CFG
+fi
+
+# put the app host into server config file (2 places)
+SERVER_CFG=$CONFIG_FILES/server.properties
+if [ -f $SERVER_CFG ]; then
+	grep -v Filter\.serverName= $SERVER_CFG > $SERVER_CFG.new
+	echo "casAuthenticationFilter.serverName=\"$APPLICATION_HOST\"" >> $SERVER_CFG.new
+  echo "casValidationFilter.serverName=\"$APPLICATION_HOST\"" >> $SERVER_CFG.new
+	mv -f $SERVER_CFG.new $SERVER_CFG
 fi
 
 cd launcher
