@@ -1,10 +1,10 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+				 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>edu.berkeley.calcentral</groupId>
 	<artifactId>calcentral</artifactId>
 	<packaging>war</packaging>
-	<version>1.0</version>
+	<version>0.1-SNAPSHOT</version>
 	<name>CalSimple - CalCentral (but simplified...)</name>
 	<url>http://calcentral.berkeley.edu</url>
 
@@ -12,9 +12,7 @@
 		<org.springframework.version>3.1.2.RELEASE</org.springframework.version>
 		<jetty.port>8080</jetty.port>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-
 	</properties>
 
 	<!-- Repositories -->
@@ -324,6 +322,29 @@
 
 		</plugins>
 
+		<extensions>
+			<extension>
+				<groupId>org.apache.maven.wagon</groupId>
+				<artifactId>wagon-webdav-jackrabbit</artifactId>
+				<version>2.1</version>
+			</extension>
+		</extensions>
+
 	</build>
+
+	<distributionManagement>
+		<snapshotRepository>
+			<id>myberkeley-snapshots</id>
+			<name>MyBerkeley Snapshots</name>
+			<url>dav:http://svn.media.berkeley.edu/nexus/content/repositories/myberkeley-snapshots/</url>
+			<uniqueVersion>false</uniqueVersion>
+		</snapshotRepository>
+		<repository>
+			<id>myberkeley</id>
+			<name>MyBerkeley</name>
+			<url>dav:http://svn.media.berkeley.edu/nexus/content/repositories/myberkeley/</url>
+			<uniqueVersion>false</uniqueVersion>
+		</repository>
+	</distributionManagement>
 
 </project>
