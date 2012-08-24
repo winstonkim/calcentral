@@ -29,6 +29,7 @@ import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.junit.Assert;
+import org.junit.Before;
 
 import java.io.IOException;
 import java.util.Map;
@@ -40,11 +41,15 @@ public abstract class IntegrationTest extends Assert {
 	
 	private final HttpClient httpClient = new HttpClient();
 
-	protected void setup() {
+	@Before
+	public void init() {
 		HttpState state = new HttpState();
 		httpClient.setState(state);
 		this.logger = Logger.getLogger(this.getClass());
+		setup();
 	}
+
+	protected abstract void setup();
 
 	protected GetMethod doGet(String url) throws IOException {
 		// TODO figure out how to configure localhost and port

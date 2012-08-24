@@ -27,7 +27,6 @@ import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.jboss.resteasy.util.HttpResponseCodes;
-import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -36,9 +35,8 @@ public class WidgetDataControllerIT extends IntegrationTest {
 
 	String user;
 
-	@Before
+	@Override
 	public void setup() {
-		super.setup();
 		user = "jane" + randomness();
 	}
 
