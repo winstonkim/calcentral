@@ -36,14 +36,14 @@ import java.util.Random;
 
 public abstract class IntegrationTest extends Assert {
 
-	private Logger logger; 
+	protected Logger logger;
 	
 	private final HttpClient httpClient = new HttpClient();
 
-	protected void setup(Logger logger) {
+	protected void setup() {
 		HttpState state = new HttpState();
 		httpClient.setState(state);
-		this.logger = logger;
+		this.logger = Logger.getLogger(this.getClass());
 	}
 
 	protected GetMethod doGet(String url) throws IOException {

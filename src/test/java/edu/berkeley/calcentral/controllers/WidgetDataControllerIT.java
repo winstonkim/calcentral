@@ -23,7 +23,6 @@ import edu.berkeley.calcentral.IntegrationTest;
 import org.apache.commons.httpclient.methods.DeleteMethod;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.methods.PostMethod;
-import org.apache.log4j.Logger;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
@@ -35,13 +34,11 @@ import java.io.IOException;
 
 public class WidgetDataControllerIT extends IntegrationTest {
 
-	private static final Logger LOGGER = Logger.getLogger(WidgetDataControllerIT.class);
-
 	String user;
 
 	@Before
 	public void setup() {
-		super.setup(LOGGER);
+		super.setup();
 		user = "jane" + randomness();
 	}
 
@@ -61,7 +58,7 @@ public class WidgetDataControllerIT extends IntegrationTest {
 
 		GetMethod get = doGet("/api/user/" + user + "/widgetData");
 		assertResponse(HttpResponseCodes.SC_OK, get);
-		LOGGER.info(get.getResponseBodyAsString());
+		logger.info(get.getResponseBodyAsString());
 		JSONArray json = toJSONArray(get);
 		assertEquals(1, json.length());
 		JSONObject widget = json.getJSONObject(0).getJSONObject("widgetData");
@@ -81,7 +78,7 @@ public class WidgetDataControllerIT extends IntegrationTest {
 
 		GetMethod get = doGet("/api/user/" + user + "/widgetData");
 		assertResponse(HttpResponseCodes.SC_OK, get);
-		LOGGER.info(get.getResponseBodyAsString());
+		logger.info(get.getResponseBodyAsString());
 		JSONArray json = toJSONArray(get);
 		assertEquals(1, json.length());
 		JSONObject widget = json.getJSONObject(0).getJSONObject("widgetData");
