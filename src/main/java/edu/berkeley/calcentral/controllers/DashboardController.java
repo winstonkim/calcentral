@@ -8,10 +8,14 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+
+import edu.berkeley.calcentral.domain.CalCentralUser;
+import edu.berkeley.calcentral.services.UserDataService;
 
 /**
  * Controller for pulling up the initial dashboard after a user logs in.
@@ -19,6 +23,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 public class DashboardController {
 	
+    @Autowired
+    private UserDataService userDataService;
+    
 	/**
 	 * GET call for the dashboard. 
 	 * 
@@ -32,7 +39,14 @@ public class DashboardController {
 			Map<String, Object> model,
 			HttpServletRequest request) {
 		String uid = request.getUserPrincipal().getName();
+		CalCentralUser user = userDataService.get(uid);
+		String username = "";
+		if (user != null) {
+		    username = new StringBuffer(user.getFirstName()).append(" ").append(user.getLastName()).toString();
+		}
+		
 		model.put("uid", uid);
+		model.put("name", username);
 		return "dashboard";
 	}
 }

@@ -26,9 +26,13 @@ public class HandlerLoggerInterceptor extends HandlerInterceptorAdapter {
             String servletPath = new StringBuffer()
                 .append("Servlet: ")
                 .append(request.getContextPath()).toString();
+            String userUid = "<anonymous>";
+            if (request.getUserPrincipal() != null) {
+                userUid = request.getUserPrincipal().getName();
+            }
             String uid = new StringBuffer()
                 .append("UID: ")
-                .append(request.getUserPrincipal().getName()).toString();
+                .append(userUid).toString();
             StringBuffer logMessage = new StringBuffer()
                 .append("Found Handler - ")
                 .append(httpMethod).append("; ")

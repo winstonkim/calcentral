@@ -28,9 +28,8 @@
 				logoutFilter,
 				etf,
 				pageLoggingFilter" />
-			<sec:filter-chain pattern="/sapi/**"
+			<sec:filter-chain pattern="/api/**"
 				filters="
-                casAuthenticationFilter,
                 casValidationFilter,
                 wrappingFilter,
                 sif,
@@ -38,7 +37,6 @@
                 logoutFilter,
                 etf,
                 pageLoggingFilter" />
-			<sec:filter-chain pattern="/api/**" filters="none" />
 		</sec:filter-chain-map>
 	</bean>
 

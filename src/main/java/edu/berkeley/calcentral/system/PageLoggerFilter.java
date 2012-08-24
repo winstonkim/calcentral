@@ -27,9 +27,13 @@ public class PageLoggerFilter extends OncePerRequestFilter  {
         String servletPath = new StringBuffer()
             .append("Servlet: ")
             .append(httpRequest.getContextPath()).toString();
+        String userUid = "<anonymous>";
+        if (request.getUserPrincipal() != null) {
+            userUid = request.getUserPrincipal().getName();
+        }
         String uid = new StringBuffer()
             .append("UID: ")
-            .append(httpRequest.getUserPrincipal().getName()).toString();
+            .append(userUid).toString();
         StringBuffer logMessage = new StringBuffer()
             .append("User Request - ")
             .append(httpMethod).append("; ")

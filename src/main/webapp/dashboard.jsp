@@ -8,7 +8,7 @@
 	<nav class="cc-topnavigation">
 		<ul>
 			<li class="cc-right">
-				<a href="/" aria-haspopup="true"><c:out value="${uid}" /> User!</a>
+				<a href="/" aria-haspopup="true"><c:out value="${name}" /> User!</a>
 				<div class="cc-topnavigation-dropdown" style="display:none">
 					<ul>
 						<li>
@@ -23,7 +23,7 @@
 		<!-- Page specific HTML -->
 		<div class="cc-container-main-left">
 			<section class="cc-entity">
-				<div class="cc-entity-name"><strong><c:out value="${uid}" /> User!</strong></div>
+				<div class="cc-entity-name"><strong><c:out value="${name}" /> User!</strong></div>
 			</section>
 			<nav class="cc-lefthandnavigation">
 				<ul>

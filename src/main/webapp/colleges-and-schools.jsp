@@ -5,11 +5,7 @@
 
 <body class="cc-page-colleges-and-schools">
 	<tags:header/>
-	<nav class="cc-topnavigation">
-		<ul>
-			<li class="cc-right"><a href="/secure/dashboard">Sign in</a></li>
-		</ul>
-	</nav>
+	<tags:topnavigation/>
 	<div class="cc-container-main cc-container-main-full" role="main">
 		<!-- Page specific HTML -->
 		<h1>Colleges and Schools</h1>
