@@ -256,6 +256,9 @@ header h1 {
 .cc-right {
 	float: right;
 }
+.cc-left {
+	float: left;
+}
 
 /* Navigation */
 .cc-topnavigation {
