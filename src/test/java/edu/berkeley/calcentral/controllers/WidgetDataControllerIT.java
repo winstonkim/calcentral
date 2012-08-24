@@ -62,7 +62,7 @@ public class WidgetDataControllerIT extends IntegrationTest {
 		GetMethod get = doGet("/api/user/" + user + "/widgetData");
 		assertResponse(HttpResponseCodes.SC_OK, get);
 		LOGGER.info(get.getResponseBodyAsString());
-		JSONArray json = new JSONArray(get.getResponseBodyAsString());
+		JSONArray json = toJSONArray(get);
 		assertEquals(1, json.length());
 		JSONObject widget = json.getJSONObject(0).getJSONObject("widgetData");
 		assertEquals(user, widget.get("uid"));
@@ -82,7 +82,7 @@ public class WidgetDataControllerIT extends IntegrationTest {
 		GetMethod get = doGet("/api/user/" + user + "/widgetData");
 		assertResponse(HttpResponseCodes.SC_OK, get);
 		LOGGER.info(get.getResponseBodyAsString());
-		JSONArray json = new JSONArray(get.getResponseBodyAsString());
+		JSONArray json = toJSONArray(get);
 		assertEquals(1, json.length());
 		JSONObject widget = json.getJSONObject(0).getJSONObject("widgetData");
 		assertEquals(user, widget.get("uid"));
