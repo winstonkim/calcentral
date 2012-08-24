@@ -53,7 +53,14 @@ cd launcher
 echo "`date`: Stopping CalCentral..." | $LOGIT
 mvn -B -e jetty:stop >>$LOG 2>&1 | $LOGIT
 
+# initialize the db
+echo "------------------------------------------" | $LOGIT
+echo "Migrating the database..." | $LOGIT
+cd ..
+mvn -B -e flyway:migrate -Dflyway.password=$POSTGRES_PASSWORD >>$LOG 2>&1 | $LOGIT
+
 echo "`date`: Starting CalCentral..." | $LOGIT
+cd launcher
 mkdir -p logs
 mvn -B -e clean install >>$LOG 2>&1 | $LOGIT
 

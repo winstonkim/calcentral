@@ -13,6 +13,8 @@
 		<jetty.port>8080</jetty.port>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<flyway.user>calcentral</flyway.user>
+		<flyway.password>secret</flyway.password>
 	</properties>
 
 	<!-- Repositories -->
@@ -315,8 +317,8 @@
 				<configuration>
 					<driver>org.postgresql.Driver</driver>
 					<url>jdbc:postgresql://localhost:5432/calcentral</url>
-					<user>calcentral</user>
-					<password>secret</password>
+					<user>${flyway.user}</user>
+					<password>${flyway.password}</password>
 				</configuration>
 			</plugin>
 
