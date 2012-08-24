@@ -1,9 +1,9 @@
-package edu.berkeley.calcentral.controllers;
-
 /**
- * DashboardController.java
+ * UserDataController.java
  * Copyright (c) 2012 The Regents of the University of California
  */
+package edu.berkeley.calcentral.controllers;
+
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -12,27 +12,18 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
-/**
- * Controller for pulling up the initial dashboard after a user logs in.
- */
 @Controller
-public class DashboardController {
-	
-	/**
-	 * GET call for the dashboard. 
-	 * 
-	 * @param model map to return to the view.
-	 * @param request servlet request object.
-	 * @return dashboard view.
-	 */
+public class UserDataController {
+
 	@PreAuthorize("hasRole('ROLE_USER')")
-	@RequestMapping(value = { "/dashboard" }, method = RequestMethod.GET)
-	public String getDashboard(
+	@RequestMapping(value = { "/currentuser" }, method = RequestMethod.GET, produces = "application/json")
+	@ResponseBody
+	public String getCurrentUser(
 			Map<String, Object> model,
 			HttpServletRequest request) {
 		String uid = request.getUserPrincipal().getName();
-		model.put("uid", uid);
-		return "dashboard";
+		return uid;
 	}
 }

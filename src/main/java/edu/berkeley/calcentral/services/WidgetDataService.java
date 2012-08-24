@@ -18,65 +18,44 @@
 
 package edu.berkeley.calcentral.services;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
+import com.google.common.base.Strings;
 
+import edu.berkeley.calcentral.daos.WidgetDataDao;
 import edu.berkeley.calcentral.domain.WidgetData;
 
 @Service
 public class WidgetDataService {
 
-	// TODO replace this with persistence to postgres
-	//add another key, widgetID to mash on.
-	private Map<String, Map<String, WidgetData>> widgets = new HashMap<String, Map<String, WidgetData>>();
-
+	@Autowired
+	private WidgetDataDao widgetDataDao;
+	
 	public void save(WidgetData widgetData) {
-		Map<String, WidgetData> thisUsersWidgets = widgets.get(widgetData.getUid());
-		if (thisUsersWidgets == null) {
-			thisUsersWidgets = Maps.newHashMap();
-		}
-		
-		thisUsersWidgets.put(widgetData.getWidgetID(), widgetData);
-		widgets.put(widgetData.getUid(), thisUsersWidgets);
+	    //sanity check
+	    if (Strings.nullToEmpty(widgetData.getUid()).isEmpty() ||
+	            Strings.nullToEmpty(widgetData.getWidgetID()).isEmpty()) {
+	        return;
+	    }
+
+		widgetDataDao.saveWidgetData(widgetData);
 	}
 
 	public List<WidgetData> getAllForUser(String userID) {
-		//flatten the hashmap into a list.
-		Map<String, WidgetData> widgetDataMap  = widgets.get(userID);
-		if (widgetDataMap == null) {
-			return null;
-		}
-		List<WidgetData> returnWidgetData = Lists.newArrayList();
-		
-		for (Map.Entry<String, WidgetData> widgetDataEntry : widgetDataMap.entrySet()) {
-			returnWidgetData.add(widgetDataEntry.getValue());
-		}
-		
-		return returnWidgetData;
+	    List<WidgetData> widgetData = widgetDataDao.getAllWidgetData(userID);
+	    return widgetData;
 	}
 
 	public WidgetData get(String userID, String widgetID) {
-		// TODO wow, this is inefficient! a db will be much better!
-		Map<String, WidgetData> thisUsersWidgets = widgets.get(userID);
-		if (thisUsersWidgets == null) {
-			return null;
-		}
-		
-		return thisUsersWidgets.get(widgetID);
+	    WidgetData returnData = widgetDataDao.getWidgetData(userID, widgetID);
+	    return returnData;
 	}
 
 	public void delete(String userID, String widgetID) {
-		Map<String, WidgetData> thisUsersWidgets = widgets.get(userID);
-		if (thisUsersWidgets == null) {
-			return;
-		}
-		thisUsersWidgets.remove(widgetID);
+	    widgetDataDao.deleteWidgetData(userID, widgetID);
 	}
 
 }

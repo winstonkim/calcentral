@@ -37,7 +37,7 @@ public class UserAuthorizationTest {
 	@Before
 	public void setUp() throws Exception {
 		this.userAuthorization = new UserAuthorization();
-		this.userAuthorization.setDao(this.iUserAuthorizationDao);
+		this.userAuthorization.setUserServiceDao(this.iUserAuthorizationDao);
 	}
 
 	@Test

@@ -18,15 +18,23 @@
 
 package edu.berkeley.calcentral.controllers;
 
-import edu.berkeley.calcentral.RESTConstants;
-import edu.berkeley.calcentral.domain.WidgetData;
-import edu.berkeley.calcentral.services.WidgetDataService;
+import java.util.List;
+
+import javax.ws.rs.DELETE;
+import javax.ws.rs.FormParam;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
-import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
-import java.util.List;
+import edu.berkeley.calcentral.RESTConstants;
+import edu.berkeley.calcentral.domain.WidgetData;
+import edu.berkeley.calcentral.services.WidgetDataService;
 
 @Controller
 @Path(WidgetDataController.PATH)

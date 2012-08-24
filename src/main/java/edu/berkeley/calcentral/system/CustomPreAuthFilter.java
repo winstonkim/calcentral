@@ -8,15 +8,15 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.preauth.j2ee.J2eePreAuthenticatedProcessingFilter;
 
 /**
- * Overrides the predefined J2EE Preauthenticated filter to fit system needs. 
+ * Overrides the predefined J2EE Preauthenticated filter to fit system needs.
  * Does only one thing (for now):
  * 
- * 1) Extends the normal J2eePreAuthProcessing filter to inject in other interesting 
+ * 1) Extends the normal J2eePreAuthProcessing filter to inject in other interesting
  * tidbits about the user in the httpRequest after a successful authentication.
  * Items are injected into the session and persists until user destroys their session.
  * 
  */
-public class CustomPreAuthFilter extends J2eePreAuthenticatedProcessingFilter{
+public class CustomPreAuthFilter extends J2eePreAuthenticatedProcessingFilter {
 
 	private boolean alreadyCasAuthed = false;
 
