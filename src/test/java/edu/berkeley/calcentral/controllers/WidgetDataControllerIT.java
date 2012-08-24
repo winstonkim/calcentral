@@ -23,46 +23,41 @@ import edu.berkeley.calcentral.IntegrationTest;
 import org.apache.commons.httpclient.methods.DeleteMethod;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.methods.PostMethod;
-import org.apache.log4j.Logger;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.jboss.resteasy.util.HttpResponseCodes;
-import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
 
 public class WidgetDataControllerIT extends IntegrationTest {
 
-	private static final Logger LOGGER = Logger.getLogger(WidgetDataControllerIT.class);
-
 	String user;
 
-	@Before
+	@Override
 	public void setup() {
-		super.setup();
 		user = "jane" + randomness();
 	}
 
 	@Test
 	public void getWithNoContent() throws IOException {
 		GetMethod get = doGet("/api/user/" + user + "/widgetData");
-		assertEquals(HttpResponseCodes.SC_NO_CONTENT, get.getStatusCode());
+		assertResponse(HttpResponseCodes.SC_NO_CONTENT, get);
 		get = doGet("/api/user/" + user + "/widgetData/abc");
-		assertEquals(HttpResponseCodes.SC_NO_CONTENT, get.getStatusCode());
+		assertResponse(HttpResponseCodes.SC_NO_CONTENT, get);
 	}
 
 	@Test
 	public void getWithContent() throws IOException, JSONException {
 		PostMethod post = doPost("/api/user/" + user + "/widgetData/abc",
 				ImmutableMap.<String, String>of("data", "{foo:bar}"));
-		assertEquals(HttpResponseCodes.SC_OK, post.getStatusCode());
+		assertResponse(HttpResponseCodes.SC_OK, post);
 
 		GetMethod get = doGet("/api/user/" + user + "/widgetData");
-		assertEquals(HttpResponseCodes.SC_OK, get.getStatusCode());
-		LOGGER.info(get.getResponseBodyAsString());
-		JSONArray json = new JSONArray(get.getResponseBodyAsString());
+		assertResponse(HttpResponseCodes.SC_OK, get);
+		logger.info(get.getResponseBodyAsString());
+		JSONArray json = toJSONArray(get);
 		assertEquals(1, json.length());
 		JSONObject widget = json.getJSONObject(0).getJSONObject("widgetData");
 		assertEquals(user, widget.get("uid"));
@@ -71,17 +66,37 @@ public class WidgetDataControllerIT extends IntegrationTest {
 	}
 
 	@Test
+	public void getRevisedContent() throws IOException, JSONException {
+		PostMethod post = doPost("/api/user/" + user + "/widgetData/abc",
+				ImmutableMap.<String, String>of("data", "{foo:initialvalue}"));
+		assertResponse(HttpResponseCodes.SC_OK, post);
+		post = doPost("/api/user/" + user + "/widgetData/abc",
+				ImmutableMap.<String, String>of("data", "{foo:newvalue}"));
+		assertResponse(HttpResponseCodes.SC_OK, post);
+
+		GetMethod get = doGet("/api/user/" + user + "/widgetData");
+		assertResponse(HttpResponseCodes.SC_OK, get);
+		logger.info(get.getResponseBodyAsString());
+		JSONArray json = toJSONArray(get);
+		assertEquals(1, json.length());
+		JSONObject widget = json.getJSONObject(0).getJSONObject("widgetData");
+		assertEquals(user, widget.get("uid"));
+		assertEquals("abc", widget.get("widgetID"));
+		assertEquals("{foo:newvalue}", widget.get("data"));
+	}
+
+	@Test
 	public void delete() throws IOException, JSONException {
 		PostMethod post = doPost("/api/user/" + user + "/widgetData/abc", null);
-		assertEquals(HttpResponseCodes.SC_OK, post.getStatusCode());
+		assertResponse(HttpResponseCodes.SC_OK, post);
 
 		GetMethod get = doGet("/api/user/" + user + "/widgetData/abc");
-		assertEquals(HttpResponseCodes.SC_OK, get.getStatusCode());
+		assertResponse(HttpResponseCodes.SC_OK, get);
 
 		DeleteMethod delete = doDelete("/api/user/" + user + "/widgetData/abc");
-		assertEquals(HttpResponseCodes.SC_NO_CONTENT, delete.getStatusCode());
+		assertResponse(HttpResponseCodes.SC_NO_CONTENT, delete);
 
 		get = doGet("/api/user/" + user + "/widgetData/abc");
-		assertEquals(HttpResponseCodes.SC_NO_CONTENT, get.getStatusCode());
+		assertResponse(HttpResponseCodes.SC_NO_CONTENT, get);
 	}
 }

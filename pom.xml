@@ -1,5 +1,5 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-				 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>edu.berkeley.calcentral</groupId>
 	<artifactId>calcentral</artifactId>
@@ -11,6 +11,10 @@
 	<properties>
 		<org.springframework.version>3.1.2.RELEASE</org.springframework.version>
 		<jetty.port>8080</jetty.port>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
 	</properties>
 
 	<!-- Repositories -->
@@ -156,6 +160,13 @@
 			<scope>test</scope>
 		</dependency>
 
+		<!-- Flyway DDL -->
+		<dependency>
+			<groupId>com.googlecode.flyway</groupId>
+			<artifactId>flyway-core</artifactId>
+			<version>1.7</version>
+		</dependency>
+
 		<!-- test dependencies -->
 		<dependency>
 			<groupId>org.mockito</groupId>
@@ -182,32 +193,6 @@
 				<artifactId>jetty-maven-plugin</artifactId>
 				<version>8.1.5.v20120716</version>
 				<configuration>
-
-					<connectors>
-						<connector implementation="org.eclipse.jetty.server.nio.SelectChannelConnector">
-							<port>${jetty.port}</port>
-							<confidentialPort>8443</confidentialPort>
-							<maxIdleTime>60000</maxIdleTime>
-						</connector>
-						<connector implementation="org.eclipse.jetty.server.ssl.SslSocketConnector">
-							<port>8443</port>
-							<keystore>src/main/resources/certificates/server.jks</keystore>
-							<password>password</password>
-							<keyPassword>password</keyPassword>
-							<truststore>src/main/resources/certificates/server.jks</truststore>
-							<trustPassword>password</trustPassword>
-						</connector>
-					</connectors>
-					<systemProperties>
-						<systemProperty>
-							<name>javax.net.ssl.trustStore</name>
-							<value>src/main/resources/certificates/server.jks</value>
-						</systemProperty>
-						<systemProperty>
-							<name>javax.net.ssl.trustStorePassword</name>
-							<value>password</value>
-						</systemProperty>
-					</systemProperties>
 					<requestLog implementation="org.eclipse.jetty.server.NCSARequestLog">
 						<filename>target/yyyy_mm_dd.request.log</filename>
 						<retainDays>90</retainDays>
@@ -215,7 +200,6 @@
 						<extended>false</extended>
 						<logTimeZone>GMT</logTimeZone>
 					</requestLog>
-
 					<stopKey>stopme</stopKey>
 					<stopPort>9955</stopPort>
 					<webApp>
@@ -258,7 +242,8 @@
 								<dependencyDetailsEnabled>false</dependencyDetailsEnabled>
 								<dependencyLocationsEnabled>false</dependencyLocationsEnabled>
 							</configuration>
-							<!-- simpler configuration without reportSets available for usual cases -->
+							<!-- simpler configuration without reportSets available for usual 
+							cases -->
 							<reports>
 								<report>dependencies</report>
 								<report>scm</report>
@@ -323,6 +308,18 @@
 						</goals>
 					</execution>
 				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>com.googlecode.flyway</groupId>
+				<artifactId>flyway-maven-plugin</artifactId>
+				<version>1.7</version>
+				<configuration>
+					<driver>org.postgresql.Driver</driver>
+					<url>jdbc:postgresql://localhost:5432/calcentral</url>
+					<user>calcentral</user>
+					<password>secret</password>
+				</configuration>
 			</plugin>
 
 		</plugins>

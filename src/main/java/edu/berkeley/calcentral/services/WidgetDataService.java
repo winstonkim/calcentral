@@ -49,6 +49,9 @@ public class WidgetDataService {
 	public List<WidgetData> getAllForUser(String userID) {
 		//flatten the hashmap into a list.
 		Map<String, WidgetData> widgetDataMap  = widgets.get(userID);
+		if (widgetDataMap == null) {
+			return null;
+		}
 		List<WidgetData> returnWidgetData = Lists.newArrayList();
 		
 		for (Map.Entry<String, WidgetData> widgetDataEntry : widgetDataMap.entrySet()) {

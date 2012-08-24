@@ -26,6 +26,18 @@ grant all privileges on database calcentral to calcentral;
 ```
 Mac OS X Lion users: If you're encountering issues connecting to the postgres server: <http://nextmarvel.net/blog/2011/09/brew-install-postgresql-on-os-x-lion/>
 
+Stopping postgres:
+```
+pg_ctl -D /usr/local/var/postgres stop -s -m fast
+```
+
+Initializing the database :
+```
+mvn flyway:clean
+mvn flyway:migrate
+```
+More information can be found here: <http://code.google.com/p/flyway/wiki/MavenPlugin>
+
 To start the CalCentral server:
 ```
 mvn clean package jetty:run

@@ -19,12 +19,17 @@
 package edu.berkeley.calcentral;
 
 import org.apache.commons.httpclient.HttpClient;
+import org.apache.commons.httpclient.HttpMethod;
 import org.apache.commons.httpclient.HttpState;
 import org.apache.commons.httpclient.methods.DeleteMethod;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.log4j.Logger;
+import org.codehaus.jettison.json.JSONArray;
+import org.codehaus.jettison.json.JSONException;
+import org.codehaus.jettison.json.JSONObject;
 import org.junit.Assert;
+import org.junit.Before;
 
 import java.io.IOException;
 import java.util.Map;
@@ -32,24 +37,29 @@ import java.util.Random;
 
 public abstract class IntegrationTest extends Assert {
 
-	private static final Logger LOGGER = Logger.getLogger(IntegrationTest.class);
-
+	protected Logger logger;
+	
 	private final HttpClient httpClient = new HttpClient();
 
-	public void setup() {
+	@Before
+	public void init() {
 		HttpState state = new HttpState();
 		httpClient.setState(state);
+		this.logger = Logger.getLogger(this.getClass());
+		setup();
 	}
 
-	public GetMethod doGet(String url) throws IOException {
+	protected abstract void setup();
+
+	protected GetMethod doGet(String url) throws IOException {
 		// TODO figure out how to configure localhost and port
 		GetMethod getMethod = new GetMethod("http://localhost:8080" + url);
 		httpClient.executeMethod(getMethod);
-		LOGGER.info("HTTP GET of " + getMethod.getPath() + "; statusCode = " + getMethod.getStatusCode());
+		logger.info("HTTP GET of " + getMethod.getPath() + "; statusCode = " + getMethod.getStatusCode());
 		return getMethod;
 	}
 
-	public PostMethod doPost(String url, Map<String, String> params) throws IOException {
+	protected PostMethod doPost(String url, Map<String, String> params) throws IOException {
 		PostMethod postMethod = new PostMethod("http://localhost:8080" + url);
 		if (params != null) {
 			for (String key : params.keySet()) {
@@ -57,20 +67,48 @@ public abstract class IntegrationTest extends Assert {
 			}
 		}
 		httpClient.executeMethod(postMethod);
-		LOGGER.info("HTTP POST of " + postMethod.getPath() + "; statusCode = " + postMethod.getStatusCode()
+		logger.info("HTTP POST of " + postMethod.getPath() + "; statusCode = " + postMethod.getStatusCode()
 				+ "; params = " + postMethod.getParams().toString());
 		return postMethod;
 	}
 
-	public DeleteMethod doDelete(String url) throws IOException {
+	protected DeleteMethod doDelete(String url) throws IOException {
 		DeleteMethod deleteMethod = new DeleteMethod("http://localhost:8080" + url);
 		httpClient.executeMethod(deleteMethod);
-		LOGGER.info("HTTP DELETE of " + deleteMethod.getPath() + "; statusCode = " + deleteMethod.getStatusCode());
+		logger.info("HTTP DELETE of " + deleteMethod.getPath() + "; statusCode = " + deleteMethod.getStatusCode());
 		return deleteMethod;
 	}
 
-	public long randomness() {
+	protected long randomness() {
 		return new Random().nextLong();
+	}
+
+	protected void assertResponse(int expectedStatus, HttpMethod method) throws IOException {
+		if (method.getStatusCode() != expectedStatus) {
+			logger.error("HTTP assertion failed. Response body: " + method.getResponseBodyAsString());
+			fail("Expected statusCode of " + expectedStatus + " but got " + method.getStatusCode()
+					+ " " + method.getStatusText());
+		}
+	}
+
+	protected JSONArray toJSONArray(GetMethod get) throws IOException {
+		try {
+			return new JSONArray(get.getResponseBodyAsString());
+		} catch (JSONException e) {
+			logger.error("Could not convert body to JSONArray. Body text: " + get.getResponseBodyAsString(), e);
+			fail(e.getMessage());
+		}
+		return null;
+	}
+
+	protected JSONObject toJSONObject(GetMethod get) throws IOException {
+		try {
+			return new JSONObject(get.getResponseBodyAsString());
+		} catch (JSONException e) {
+			logger.error("Could not convert body to JSONObject. Body text: " + get.getResponseBodyAsString(), e);
+			fail(e.getMessage());
+		}
+		return null;
 	}
 
 }
