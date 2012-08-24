@@ -7,13 +7,10 @@
 
 	<context-param>
 		<param-name>server</param-name>
-		<!-- <param-value>${deployType}</param-value> <description>(local|prod)</description> -->
 		<param-value>http://localhost:${jetty.port}</param-value>
 	</context-param>
 
 	<!-- Database. -->
-	<!-- <context-param id="dbType"> <param-name>dbType</param-name> <param-value>${dbType}</param-value>
-		<description>(dev|qa|prod)</description> </context-param> -->
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
 		<param-value>
@@ -21,9 +18,6 @@
 			classpath:applicationContext-service.xml
 		</param-value>
 	</context-param>
-
-	<!-- /WEB-INF/security/applicationContext-${deployType}Security.xml
-			classpath:db/applicationContext-${profileName}Db.xml -->
 
 	<filter>
 		<filter-name>CAS Single Sign Out Filter</filter-name>
@@ -78,7 +72,6 @@
 		<location>/403.html</location>
 	</error-page>
 
-	<!--  All in one mashup servlet - RESTEasy + normal page views -->
 	<servlet>
 		<servlet-name>spring</servlet-name>
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
