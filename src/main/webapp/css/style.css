@@ -232,6 +232,7 @@ a, a:visited, a:active {
 	text-decoration: none;
 }
 a:hover, a:focus {
+	color: #2683BC;
 	text-decoration: underline;
 }
 header {
@@ -240,7 +241,7 @@ header {
 	height: 42px;
 	width: 960px;
 }
-.cc-index header {
+.cc-page-index header {
 	background: url("/img/myb/calcentral_masthead_landing.png");
 	height: 90px;
 }
@@ -340,6 +341,18 @@ header h1 {
 	width: 960px;
 }
 
+.cc-container-main h1 {
+	border-bottom: 2px solid #E4C495;
+	font-size: 15px;
+	margin: 0;
+	padding: 5px;
+}
+
+/* Full container */
+.cc-container-main-full {
+	padding: 20px;
+}
+
 /* Left main container */
 .cc-container-main-left {
 	float: left;
@@ -397,18 +410,53 @@ header h1 {
 	background: linear-gradient(top, #3b5d86, #012955);
 }
 
+/* Colleges and schools */
+.cc-page-colleges-and-schools-container ul {
+	padding: 0;
+	margin-top: 10px;
+}
+.cc-page-colleges-and-schools-container ul li {
+	list-style-type: none;
+}
+.cc-page-colleges-and-schools-container ul li a {
+	background: #194270 url('/img/myb/right-arrow-icon.png') 270px center no-repeat;
+	border-radius: 5px;
+	color: #fff;
+	display: block;
+	float: left;
+	margin-bottom: 10px;
+	margin-right: 20px;
+	padding: 10px;
+	width: 290px;
+}
+.cc-page-colleges-and-schools-container ul li:nth-child(3n+3) a {
+	margin-right: 0;
+}
+.cc-page-colleges-and-schools-title {
+	display: block;
+	font-size: 16px;
+	margin-left: 10px;
+}
+.cc-page-colleges-and-schools-container ul li .cc-page-colleges-and-schools-item-letters-and-science {
+	background-color: #3375A5;
+}
+.cc-page-colleges-and-schools-container ul li .cc-page-colleges-and-schools-item-graduate {
+	background-color: #B67325;
+}
+
+
 /* Index */
-.cc-index-welcome {
+.cc-page-index-welcome {
 	border: 1px solid #B6C6D3;
 	float: left;
 	margin-top: 20px;
 	width: 339px;
 }
 
-.cc-index-welcome1 {
+.cc-page-index-welcome1 {
 	margin: 20px 20px 20px 110px;
 }
-.cc-index-welcome1 h3 {
+.cc-page-index-welcome1 h3 {
 	color: #fff;
 	background-color: #C68811;
 	border-bottom: 5px solid #3F8BBF;
@@ -417,7 +465,7 @@ header h1 {
 	margin: 0;
 	padding: 10px;
 }
-.cc-index-welcome1 p {
+.cc-page-index-welcome1 p {
 	background: url('/img/myb/calcentral_homepage_collage.png') no-repeat top left scroll;
 	font-size: 1.3em;
 	height: 329px;
@@ -425,37 +473,42 @@ header h1 {
 	padding: 10px;
 }
 
-.cc-index-welcome2 {
+.cc-page-index-welcome2 {
 	height: 412px;
 }
-.cc-index-welcome2 h3 {
+.cc-page-index-welcome2 h3 {
 	border-bottom: 5px solid #3F8BBF;
 	font-size: 1.4em;
 	margin: 0;
 	padding: 10px;
 }
-.cc-index-welcome2 p {
+.cc-page-index-welcome2 p {
 	margin: 1em 0.5em 1em 1em;
 }
-.cc-index-welcome2 li {
+.cc-page-index-welcome2 li {
 	line-height: 1.5em;
 	list-style-image: url('/img/myb/speech_bubble_tiny.png');
 }
-.cc-index-welcome2 .cc-index-welcome2-herefromyou {
+.cc-page-index-welcome2 .cc-page-index-welcome2-herefromyou {
 	font-weight: bold;
 	font-size: 1.1em;
 }
-.cc-index-welcome2 .cc-index-welcome2-handshake {
+.cc-page-index-welcome2 .cc-page-index-welcome2-handshake {
 	padding-left: 50px;
 	background: url('/img/myb/handshake.png') no-repeat top left scroll;
 }
+
+/* Colleges & Schools */
+
 
 /* Widgets */
 .cc-container-widgets .cc-container-widget {
 	border: solid 1px #DFDFDF;
 	border-top: none;
 	border-radius: 0 0 5px 5px;
+	float: left;
 	margin-bottom: 10px;
+	margin-right: 10px;
 	width: 348px;
 }
 .cc-container-widgets .cc-widget-main {
