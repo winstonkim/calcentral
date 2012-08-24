@@ -1,0 +1,27 @@
+<div class="cc-container-widget" id="cc-widget-bspacefavourites">
+	<div class="cc-widget-title">
+		<h2>Bspace Favourites</h2>
+	</div>
+	<!-- MAIN VIEW -->
+	<div class="cc-widget-bspacefavourites-list"><!-- --></div>
+	<script id="cc-widget-bspacefavourites-list-template" type="text/x-handlebars-template" style="display:none;">
+		{{#if categories}}
+			<ul>
+			{{#each categories}}
+				{{#each sites}}
+					<li><a href="#">{{title}}</a></li>
+				{{/each}}
+			{{/each}}
+			</ul>
+		{{else}}
+			<div class="cc-widget-bspacefavourites-no-results">
+				When you select your favourite bSpace sites, they will be shown here along with the number of new forum posts and messages.
+				<a href="#">Select sites</a>
+			</div>
+		{{/if}}
+	</script>
+	<div class="cc-widget-footer" style="display:none;">
+		<button>Select sites</a>
+		<button>View all my sites</a>
+	</div>
+</div>

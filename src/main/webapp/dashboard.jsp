@@ -34,8 +34,9 @@
 		</div>
 		<div class="cc-container-main-right">
 			<div class="cc-container-widgets">
-				<jsp:include page="widgets/walktime/walktime.jsp" />
-				<jsp:include page="widgets/quicklinks/quicklinks.jsp" />
+				<jsp:include page="widgets/walktime/walktime.html" />
+				<jsp:include page="widgets/quicklinks/quicklinks.html" />
+				<jsp:include page="widgets/bspacefavourites/bspacefavourites.html" />
 			</div>
 		</div>
 		<!-- END Page specific HTML -->
