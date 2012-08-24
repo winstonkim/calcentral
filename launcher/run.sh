@@ -29,6 +29,7 @@ echo "=========================================" | $LOGIT
 echo "`date`: CalCentral run started" | $LOGIT
 
 echo | $LOGIT
+rm -rf ~/.m2/repository/edu/berkeley/
 
 cd $SRC_LOC/calcentral
 
@@ -55,8 +56,8 @@ fi
 SERVER_CFG=$CONFIG_FILES/server.properties
 if [ -f $SERVER_CFG ]; then
 	grep -v Filter\.serverName= $SERVER_CFG > $SERVER_CFG.new
-	echo "casAuthenticationFilter.serverName=\"$APPLICATION_HOST\"" >> $SERVER_CFG.new
-  echo "casValidationFilter.serverName=\"$APPLICATION_HOST\"" >> $SERVER_CFG.new
+	echo "casAuthenticationFilter.serverName=$APPLICATION_HOST" >> $SERVER_CFG.new
+  echo "casValidationFilter.serverName=$APPLICATION_HOST" >> $SERVER_CFG.new
 	mv -f $SERVER_CFG.new $SERVER_CFG
 fi
 
