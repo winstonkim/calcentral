@@ -41,7 +41,7 @@ public class WidgetDataControllerIT extends IntegrationTest {
 
 	@Before
 	public void setup() {
-		super.setup();
+		super.setup(LOGGER);
 		user = "jane" + randomness();
 	}
 

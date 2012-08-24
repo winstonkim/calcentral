@@ -36,20 +36,21 @@ import java.util.Random;
 
 public abstract class IntegrationTest extends Assert {
 
-	private static final Logger LOGGER = Logger.getLogger(IntegrationTest.class);
-
+	private Logger logger; 
+	
 	private final HttpClient httpClient = new HttpClient();
 
-	protected void setup() {
+	protected void setup(Logger logger) {
 		HttpState state = new HttpState();
 		httpClient.setState(state);
+		this.logger = logger;
 	}
 
 	protected GetMethod doGet(String url) throws IOException {
 		// TODO figure out how to configure localhost and port
 		GetMethod getMethod = new GetMethod("http://localhost:8080" + url);
 		httpClient.executeMethod(getMethod);
-		LOGGER.info("HTTP GET of " + getMethod.getPath() + "; statusCode = " + getMethod.getStatusCode());
+		logger.info("HTTP GET of " + getMethod.getPath() + "; statusCode = " + getMethod.getStatusCode());
 		return getMethod;
 	}
 
@@ -61,7 +62,7 @@ public abstract class IntegrationTest extends Assert {
 			}
 		}
 		httpClient.executeMethod(postMethod);
-		LOGGER.info("HTTP POST of " + postMethod.getPath() + "; statusCode = " + postMethod.getStatusCode()
+		logger.info("HTTP POST of " + postMethod.getPath() + "; statusCode = " + postMethod.getStatusCode()
 				+ "; params = " + postMethod.getParams().toString());
 		return postMethod;
 	}
@@ -69,7 +70,7 @@ public abstract class IntegrationTest extends Assert {
 	protected DeleteMethod doDelete(String url) throws IOException {
 		DeleteMethod deleteMethod = new DeleteMethod("http://localhost:8080" + url);
 		httpClient.executeMethod(deleteMethod);
-		LOGGER.info("HTTP DELETE of " + deleteMethod.getPath() + "; statusCode = " + deleteMethod.getStatusCode());
+		logger.info("HTTP DELETE of " + deleteMethod.getPath() + "; statusCode = " + deleteMethod.getStatusCode());
 		return deleteMethod;
 	}
 
@@ -79,7 +80,7 @@ public abstract class IntegrationTest extends Assert {
 
 	protected void assertResponse(int expectedStatus, HttpMethod method) throws IOException {
 		if (method.getStatusCode() != expectedStatus) {
-			LOGGER.error("HTTP assertion failed. Response body: " + method.getResponseBodyAsString());
+			logger.error("HTTP assertion failed. Response body: " + method.getResponseBodyAsString());
 			fail("Expected statusCode of " + expectedStatus + " but got " + method.getStatusCode()
 					+ " " + method.getStatusText());
 		}
@@ -89,7 +90,7 @@ public abstract class IntegrationTest extends Assert {
 		try {
 			return new JSONArray(get.getResponseBodyAsString());
 		} catch (JSONException e) {
-			LOGGER.error("Could not convert body to JSONArray. Body text: " + get.getResponseBodyAsString(), e);
+			logger.error("Could not convert body to JSONArray. Body text: " + get.getResponseBodyAsString(), e);
 			fail(e.getMessage());
 		}
 		return null;
@@ -99,7 +100,7 @@ public abstract class IntegrationTest extends Assert {
 		try {
 			return new JSONObject(get.getResponseBodyAsString());
 		} catch (JSONException e) {
-			LOGGER.error("Could not convert body to JSONObject. Body text: " + get.getResponseBodyAsString(), e);
+			logger.error("Could not convert body to JSONObject. Body text: " + get.getResponseBodyAsString(), e);
 			fail(e.getMessage());
 		}
 		return null;
