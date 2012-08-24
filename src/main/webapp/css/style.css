@@ -282,22 +282,22 @@ header h1 {
 .cc-topnavigation ul li a:hover, .cc-topnavigation ul li a:focus, .cc-topnavigation .cc-topnavigation-selected {
 	background: #3b8ec0;
 	background: -moz-linear-gradient(top, #57c9fa 0%, #50bbec 22%, #3b8ec0 69%, #3581b3 89%, #3480b2 100%);
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#57c9fa), color-stop(22%,#50bbec), color-stop(69%,#3b8ec0), color-stop(89%,#3581b3), color-stop(100%,#3480b2));
-	background: -webkit-linear-gradient(top, #57c9fa 0%,#50bbec 22%,#3b8ec0 69%,#3581b3 89%,#3480b2 100%);
-	background: -o-linear-gra	dient(top, #57c9fa 0%,#50bbec 22%,#3b8ec0 69%,#3581b3 89%,#3480b2 100%);
-	background: -ms-linear-gradient(top, #57c9fa 0%,#50bbec 22%,#3b8ec0 69%,#3581b3 89%,#3480b2 100%);
-	background: linear-gradient(top, #57c9fa 0%,#50bbec 22%,#3b8ec0 69%,#3581b3 89%,#3480b2 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #57c9fa), color-stop(22%, #50bbec), color-stop(69%, #3b8ec0), color-stop(89%, #3581b3), color-stop(100%, #3480b2));
+	background: -webkit-linear-gradient(top, #57c9fa 0%, #50bbec 22%, #3b8ec0 69%, #3581b3 89%, #3480b2 100%);
+	background: -o-linear-gra	dient(top, #57c9fa 0%, #50bbec 22%, #3b8ec0 69%, #3581b3 89%, #3480b2 100%);
+	background: -ms-linear-gradient(top, #57c9fa 0%, #50bbec 22%, #3b8ec0 69%, #3581b3 89%, #3480b2 100%);
+	background: linear-gradient(top, #57c9fa 0%, #50bbec 22%, #3b8ec0 69%, #3581b3 89%, #3480b2 100%);
 	border-radius: 2px;
 	text-decoration: none;
 }
 .cc-topnavigation .cc-topnavigation-dropdown {
 	background: #3b8ec0;
 	background: -moz-linear-gradient(top, #3480b2 0%, #2d77a8 23%, #155986 72%, #0b4e79 100%);
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#3480b2), color-stop(23%,#2d77a8), color-stop(72%,#155986), color-stop(100%,#0b4e79));
-	background: -webkit-linear-gradient(top, #3480b2 0%,#2d77a8 23%,#155986 72%,#0b4e79 100%);
-	background: -o-linear-gradient(top, #3480b2 0%,#2d77a8 23%,#155986 72%,#0b4e79 100%);
-	background: -ms-linear-gradient(top, #3480b2 0%,#2d77a8 23%,#155986 72%,#0b4e79 100%);
-	background: linear-gradient(top, #3480b2 0%,#2d77a8 23%,#155986 72%,#0b4e79 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #3480b2), color-stop(23%, #2d77a8), color-stop(72%, #155986), color-stop(100%, #0b4e79));
+	background: -webkit-linear-gradient(top, #3480b2 0%, #2d77a8 23%, #155986 72%, #0b4e79 100%);
+	background: -o-linear-gradient(top, #3480b2 0%, #2d77a8 23%, #155986 72%, #0b4e79 100%);
+	background: -ms-linear-gradient(top, #3480b2 0%, #2d77a8 23%, #155986 72%, #0b4e79 100%);
+	background: linear-gradient(top, #3480b2 0%, #2d77a8 23%, #155986 72%, #0b4e79 100%);
 	border-radius: 0 2px 2px 2px;
 	-moz-box-shadow: 0 10px 10px -3px #333333;
 	-webkit-box-shadow: 0 10px 10px -3px #333333;
@@ -325,11 +325,11 @@ header h1 {
 .cc-topnavigation .cc-topnavigation-dropdown a:hover, .cc-topnavigation .cc-topnavigation-dropdown a:focus {
 	background: #3ab8ef;
 	background: -moz-linear-gradient(top, #3ab8ef 0%, #35b5ed 19%, #19a5e2 78%, #12a0df 100%);
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#3ab8ef), color-stop(19%,#35b5ed), color-stop(78%,#19a5e2), color-stop(100%,#12a0df));
-	background: -webkit-linear-gradient(top, #3ab8ef 0%,#35b5ed 19%,#19a5e2 78%,#12a0df 100%);
-	background: -o-linear-gradient(top, #3ab8ef 0%,#35b5ed 19%,#19a5e2 78%,#12a0df 100%);
-	background: -ms-linear-gradient(top, #3ab8ef 0%,#35b5ed 19%,#19a5e2 78%,#12a0df 100%);
-	background: linear-gradient(top, #3ab8ef 0%,#35b5ed 19%,#19a5e2 78%,#12a0df 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #3ab8ef), color-stop(19%, #35b5ed), color-stop(78%, #19a5e2), color-stop(100%, #12a0df));
+	background: -webkit-linear-gradient(top, #3ab8ef 0%, #35b5ed 19%, #19a5e2 78%, #12a0df 100%);
+	background: -o-linear-gradient(top, #3ab8ef 0%, #35b5ed 19%, #19a5e2 78%, #12a0df 100%);
+	background: -ms-linear-gradient(top, #3ab8ef 0%, #35b5ed 19%, #19a5e2 78%, #12a0df 100%);
+	background: linear-gradient(top, #3ab8ef 0%, #35b5ed 19%, #19a5e2 78%, #12a0df 100%);
 	color: #f3f3f3;
 }
 
@@ -388,11 +388,11 @@ header h1 {
 .cc-lefthandnavigation {
 	background: #ffffff;
 	background: -moz-linear-gradient(top, #f7f7f7 0%, #f7f7f7 5%, #ffffff 12%);
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f7f7f7), color-stop(5%,#f7f7f7), color-stop(12%,#ffffff));
-	background: -webkit-linear-gradient(top, #f7f7f7 0%,#f7f7f7 5%,#ffffff 12%);
-	background: -o-linear-gradient(top, #f7f7f7 0%,#f7f7f7 5%,#ffffff 12%);
-	background: -ms-linear-gradient(top, #f7f7f7 0%,#f7f7f7 5%,#ffffff 12%);
-	background: linear-gradient(top, #f7f7f7 0%,#f7f7f7 5%,#ffffff 12%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #f7f7f7), color-stop(5%, #f7f7f7), color-stop(12%, #ffffff));
+	background: -webkit-linear-gradient(top, #f7f7f7 0%, #f7f7f7 5%, #ffffff 12%);
+	background: -o-linear-gradient(top, #f7f7f7 0%, #f7f7f7 5%, #ffffff 12%);
+	background: -ms-linear-gradient(top, #f7f7f7 0%, #f7f7f7 5%, #ffffff 12%);
+	background: linear-gradient(top, #f7f7f7 0%, #f7f7f7 5%, #ffffff 12%);
 }
 .cc-lefthandnavigation a {
 	color: #707E8C;
@@ -498,9 +498,6 @@ header h1 {
 	background: url('/img/myb/handshake.png') no-repeat top left scroll;
 }
 
-/* Colleges & Schools */
-
-
 /* Widgets */
 .cc-container-widgets .cc-container-widget {
 	border: solid 1px #DFDFDF;
@@ -517,11 +514,11 @@ header h1 {
 .cc-container-widgets .cc-widget-title {
 	background: #ececec;
 	background: -moz-linear-gradient(top, #ececec 0%, #e2e2e2 100%);
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ececec), color-stop(100%,#e2e2e2));
-	background: -webkit-linear-gradient(top, #ececec 0%,#e2e2e2 100%);
-	background: -o-linear-gradient(top, #ececec 0%,#e2e2e2 100%);
-	background: -ms-linear-gradient(top, #ececec 0%,#e2e2e2 100%);
-	background: linear-gradient(top, #ececec 0%,#e2e2e2 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #ececec), color-stop(100%, #e2e2e2));
+	background: -webkit-linear-gradient(top, #ececec 0%, #e2e2e2 100%);
+	background: -o-linear-gradient(top, #ececec 0%, #e2e2e2 100%);
+	background: -ms-linear-gradient(top, #ececec 0%, #e2e2e2 100%);
+	background: linear-gradient(top, #ececec 0%, #e2e2e2 100%);
 }
 .cc-container-widgets .cc-widget-title h2 {
 	color: #666;
@@ -531,13 +528,13 @@ header h1 {
 }
 
 .cc-container-widgets .cc-container-widget .cc-widget-footer {
-    background: #ececec;
-    background: -moz-linear-gradient(top, #ececec 0%, #e2e2e2 100%);
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ececec), color-stop(100%,#e2e2e2));
-    background: -webkit-linear-gradient(top, #ececec 0%,#e2e2e2 100%);
-    background: -o-linear-gradient(top, #ececec 0%,#e2e2e2 100%);
-    background: -ms-linear-gradient(top, #ececec 0%,#e2e2e2 100%);
-    background: linear-gradient(top, #ececec 0%,#e2e2e2 100%);
+	background: #ececec;
+	background: -moz-linear-gradient(top, #ececec 0%, #e2e2e2 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #ececec), color-stop(100%, #e2e2e2));
+	background: -webkit-linear-gradient(top, #ececec 0%, #e2e2e2 100%);
+	background: -o-linear-gradient(top, #ececec 0%, #e2e2e2 100%);
+	background: -ms-linear-gradient(top, #ececec 0%, #e2e2e2 100%);
+	background: linear-gradient(top, #ececec 0%, #e2e2e2 100%);
 	border-radius: 0 0 5px 5px;
 	box-shadow: 0 1px 0 0 #bbb;
 	margin-top: 7px;
