@@ -11,8 +11,6 @@
 		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.1.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd">
 
-	<!-- MVC:resources sets up a handler for serving static content. WebContent/resources -->
-	<!-- so full path will be <HOST_ROOT>/web/resources/<???> -->
 	<mvc:resources mapping="/resources/**" location="/static_resources/" />
 
 	<security:global-method-security
@@ -23,11 +21,8 @@
 	<bean id="expressionHandler"
 		class="org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler" />
 
-	<!--<start id="spring_component_scan" /> -->
 	<context:component-scan base-package="edu.berkeley.calcentral" />
-	<!--<end id="spring_component_scan" /> -->
 
-	<context:annotation-config />
 	<import resource="classpath:springmvc-resteasy.xml" />
 
 	<bean id="viewResolver"
@@ -38,12 +33,10 @@
 		<property name="suffix" value=".jsp" />
 	</bean>
 
-	<!-- use annotations for controllers -->
 	<mvc:annotation-driven />
 
 	<mvc:interceptors>
 		<bean class="edu.berkeley.calcentral.system.HandlerLoggerInterceptor" />
 	</mvc:interceptors>
 
-	<!--<end id="mvc_annotatedcontrollers" /> -->
 </beans>
