@@ -23,6 +23,9 @@ psql postgres
 create database calcentral;
 create user calcentral with password 'secret';
 grant all privileges on database calcentral to calcentral;
+create database calcentraltest;
+create user calcentraltest with password 'secret';
+grant all privileges on database calcentraltest to calcentraltest;
 ```
 Mac OS X Lion users: If you're encountering issues connecting to the postgres server: <http://nextmarvel.net/blog/2011/09/brew-install-postgresql-on-os-x-lion/>
 

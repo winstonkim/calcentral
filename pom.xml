@@ -229,6 +229,12 @@
 						<configuration>
 							<scanIntervalSeconds>0</scanIntervalSeconds>
 							<daemon>true</daemon>
+							<systemProperties>
+								<systemProperty>
+									<name>spring.profiles.active</name>
+									<value>test</value>
+								</systemProperty>
+							</systemProperties>
 						</configuration>
 					</execution>
 					<execution>
