@@ -29,10 +29,12 @@ echo "=========================================" | $LOGIT
 echo "`date`: CalCentral run started" | $LOGIT
 
 echo | $LOGIT
+rm -rf ~/.m2/repository/edu/berkeley/
 
 cd $SRC_LOC/calcentral
 
 echo "`date`: Fetching new sources for CalCentral..." | $LOGIT
+git reset --hard HEAD
 git pull >>$LOG 2>&1
 echo "Last commit:" | $LOGIT
 git log -1 | $LOGIT
@@ -41,7 +43,7 @@ echo | $LOGIT
 echo "------------------------------------------" | $LOGIT
 echo "Updating local configuration files..." | $LOGIT
 
-CONFIG_FILES="$SRC_LOC/calcentral/launcher/properties"
+CONFIG_FILES=`pwd`/launcher/properties
 
 # put the postgres password into config file
 POSTGRES_CFG=$CONFIG_FILES/dataSource.properties
@@ -55,8 +57,8 @@ fi
 SERVER_CFG=$CONFIG_FILES/server.properties
 if [ -f $SERVER_CFG ]; then
 	grep -v Filter\.serverName= $SERVER_CFG > $SERVER_CFG.new
-	echo "casAuthenticationFilter.serverName=\"$APPLICATION_HOST\"" >> $SERVER_CFG.new
-  echo "casValidationFilter.serverName=\"$APPLICATION_HOST\"" >> $SERVER_CFG.new
+	echo "casAuthenticationFilter.serverName=$APPLICATION_HOST" >> $SERVER_CFG.new
+  echo "casValidationFilter.serverName=$APPLICATION_HOST" >> $SERVER_CFG.new
 	mv -f $SERVER_CFG.new $SERVER_CFG
 fi
 
@@ -76,7 +78,7 @@ mkdir -p logs
 mvn -B -e clean install >>$LOG 2>&1 | $LOGIT
 
 # actually run the server (in the background)
-nohup mvn -B -e jetty:run-war -DcustomPropsDir=$SRC_LOC/calcentral/launcher/properties >> logs/jetty.log 2>&1 &
+nohup mvn -B -e jetty:run-war -DcustomPropsDir=$CONFIG_FILES >> logs/jetty.log 2>&1 &
 
 # wait 30s for server to get started
 sleep 30;
