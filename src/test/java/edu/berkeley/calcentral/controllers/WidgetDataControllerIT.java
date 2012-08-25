@@ -27,7 +27,7 @@ import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.jboss.resteasy.util.HttpResponseCodes;
-import org.junit.Test;
+import org.junit.Ignore;
 
 import com.google.common.collect.ImmutableMap;
 
@@ -42,7 +42,7 @@ public class WidgetDataControllerIT extends IntegrationTest {
 		user = "jane" + randomness();
 	}
 
-	@Test
+	@Ignore
 	public void getWithNoContent() throws IOException {
 		GetMethod get = doGet("/api/user/" + user + "/widgetData");
 		assertResponse(HttpResponseCodes.SC_NO_CONTENT, get);
@@ -50,7 +50,7 @@ public class WidgetDataControllerIT extends IntegrationTest {
 		assertResponse(HttpResponseCodes.SC_NO_CONTENT, get);
 	}
 
-	@Test
+	@Ignore
 	public void getWithContent() throws IOException, JSONException {
 		PostMethod post = doPost("/api/user/" + user + "/widgetData/abc",
 				ImmutableMap.<String, String>of("data", "{foo:bar}"));
@@ -67,7 +67,7 @@ public class WidgetDataControllerIT extends IntegrationTest {
 		assertEquals("{foo:bar}", widget.get("data"));
 	}
 
-	@Test
+	@Ignore
 	public void getRevisedContent() throws IOException, JSONException {
 		PostMethod post = doPost("/api/user/" + user + "/widgetData/abc",
 				ImmutableMap.<String, String>of("data", "{foo:initialvalue}"));
@@ -87,7 +87,7 @@ public class WidgetDataControllerIT extends IntegrationTest {
 		assertEquals("{foo:newvalue}", widget.get("data"));
 	}
 
-	@Test
+	@Ignore
 	public void delete() throws IOException, JSONException {
 		PostMethod post = doPost("/api/user/" + user + "/widgetData/abc", null);
 		assertResponse(HttpResponseCodes.SC_OK, post);
