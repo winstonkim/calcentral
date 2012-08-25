@@ -4,5 +4,7 @@
 .project
 .settings
 target/
-logs/
-
+/logs/
+.idea/
+.iml
+/properties/
