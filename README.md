@@ -61,7 +61,6 @@ files. There are other optional config settings that can be passed on the mvn co
 mvn jetty:run
 		-DcustomPropsDir=/path/to/your/custom/configs
 		-Djetty.port=8778
-		-Dlog4j.configuration=file:/path/to/my/favorite/log4j.properties
 ```
 
 To run the server with unit tests, integration tests, and test coverage reports:
