@@ -70,7 +70,7 @@ mvn -B -e jetty:stop >>$LOG 2>&1 | $LOGIT
 echo "------------------------------------------" | $LOGIT
 echo "Migrating the database..." | $LOGIT
 cd ..
-mvn -e flyway:migrate -Dflyway.password='$POSTGRES_PASSWORD' >>$LOG 2>&1 | $LOGIT
+mvn -e flyway:migrate -Dflyway.password='$POSTGRES_PASSWORD' | $LOGIT
 
 echo "`date`: Starting CalCentral..." | $LOGIT
 cd launcher
