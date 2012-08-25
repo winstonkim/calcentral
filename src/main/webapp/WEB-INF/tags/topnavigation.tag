@@ -1,17 +1,12 @@
-<nav class="cc-topnavigation">
-	<ul>
-		<li class="cc-left"><a href="/colleges-and-schools.jsp">Colleges and Schools</a></li>
-		<li class="cc-right"><a href="/secure/dashboard">Sign in</a></li>
-	</ul>
-</nav>
+<nav class="cc-topnavigation"><!-- --></nav>
 
 <script id="cc-topnavigation-template" type="text/x-handlebars-template" style="display:none;">
 	<ul>
 		<li class="cc-left"><a href="/colleges-and-schools.jsp">Colleges and Schools</a></li>
-	{{#if anon}}
+	{{#if loggedIn}}
 		<ul>
 			<li class="cc-right">
-				<a href="/" aria-haspopup="true"><c:out value="${uid}" /> User!</a>
+				<a href="/" aria-haspopup="true">{{firstName}} {{lastName}}</a>
 				<div class="cc-topnavigation-dropdown" style="display:none">
 					<ul>
 						<li>
