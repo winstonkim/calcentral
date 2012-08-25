@@ -491,14 +491,6 @@ calcentral.Widgets.quicklinks = function(tuid) {
 				setupEventHandlers();
 			});
 		});
-		
-		$.ajax({
-			url: "/api/currentUser",
-			success: function (success, data) {
-				console.log(data);
-				console.log(success);
-			}
-		})
 	};
 
 
