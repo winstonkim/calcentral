@@ -49,7 +49,7 @@ CONFIG_FILES=`pwd`/launcher/properties
 POSTGRES_CFG=$CONFIG_FILES/dataSource.properties
 if [ -f $POSTGRES_CFG ]; then
 	grep -v dataSource\.password= $POSTGRES_CFG > $POSTGRES_CFG.new
-	echo "dataSource.password=\"$POSTGRES_PASSWORD\"" >> $POSTGRES_CFG.new
+	echo "dataSource.password=$POSTGRES_PASSWORD" >> $POSTGRES_CFG.new
 	mv -f $POSTGRES_CFG.new $POSTGRES_CFG
 fi
 
