@@ -34,6 +34,7 @@ rm -rf ~/.m2/repository/edu/berkeley/
 cd $SRC_LOC/calcentral
 
 echo "`date`: Fetching new sources for CalCentral..." | $LOGIT
+git reset --hard HEAD
 git pull >>$LOG 2>&1
 echo "Last commit:" | $LOGIT
 git log -1 | $LOGIT
