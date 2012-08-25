@@ -30,8 +30,11 @@ var calcentral = calcentral || {};
 	};
 
 	calcentral.Api.User.getCurrentUser = function(callback) {
-		callback(true, {
-			'userId': calcentral.Data.User.userId
+		$.ajax({
+			'success': function(data) {
+				callback(true, data);
+			},
+			'url': '/api/currentUser'
 		});
 	};
 
@@ -399,36 +402,44 @@ var calcentral = calcentral || {};
  */
 (function() {
 
-	var $openMenu = false;
 	var $topNavigation = $('.cc-topnavigation');
-	var $topNavigationItemsWithDropdown = $('a[aria-haspopup="true"]', $topNavigation);
 
-	var removeSelected = function() {
-		$('.cc-topnavigation-selected').removeClass('cc-topnavigation-selected');
+	var addBinding = function() {
+
+		var $openMenu = false;
+		var $topNavigationItemsWithDropdown = $('a[aria-haspopup="true"]', $topNavigation);
+
+		var removeSelected = function() {
+			$('.cc-topnavigation-selected').removeClass('cc-topnavigation-selected');
+		};
+
+		var closeMenu = function(){
+			if ($openMenu.length) {
+				$openMenu.hide();
+				removeSelected();
+			}
+		};
+
+		$topNavigationItemsWithDropdown.on('focus mouseenter', function() {
+			var $this = $(this).addClass('cc-topnavigation-selected');
+			$openMenu = $this.siblings('.cc-topnavigation-dropdown');
+			var selectedItemPosition = $this.position();
+			$openMenu.css({
+				'top': selectedItemPosition.top + $this.outerHeight() - 2
+			}).show();
+		});
+
+		$('.cc-topnavigation > ul > li').on('mouseleave', function(e) {
+			closeMenu();
+		});
+
 	};
-
-	var closeMenu = function(){
-		if ($openMenu.length) {
-			$openMenu.hide();
-			removeSelected();
-		}
-	};
-
-	$topNavigationItemsWithDropdown.on('focus mouseenter', function() {
-		var $this = $(this).addClass('cc-topnavigation-selected');
-		$openMenu = $this.siblings('.cc-topnavigation-dropdown');
-		var selectedItemPosition = $this.position();
-		$openMenu.css({
-			'top': selectedItemPosition.top + $this.outerHeight() - 2
-		}).show();
-	});
-
-	$('.cc-topnavigation > ul > li').on('mouseleave', function(e) {
-		closeMenu();
-	});
 
 	if ($topNavigation.length) {
-		//calcentral.Api.User.getCurrentUser();
+		calcentral.Api.User.getCurrentUser(function(success, data){
+			$('.cc-topnavigation').html(calcentral.Api.Util.renderTemplate('cc-topnavigation-template', data));
+			addBinding();
+		});
 	}
 
 })();
