@@ -2,6 +2,8 @@
 
 <tags:head/>
 
+<!-- just testing continuous deploy -->
+
 <body class="cc-page-index">
 	<tags:header/>
 	<tags:topnavigation/>
