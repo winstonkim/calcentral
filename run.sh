@@ -10,6 +10,8 @@ fi
 
 SRC_LOC=$1
 cd $SRC_LOC/calcentral
+# disable history expansion so password with ! does not cause problems
+set +H
 mkdir -p logs
 mkdir -p properties
 
@@ -64,7 +66,7 @@ mvn -B -e clean verify >>$LOG 2>&1 | $LOGIT
 echo | $LOGIT
 echo "------------------------------------------" | $LOGIT
 echo "Migrating the database..." | $LOGIT
-mvn -e flyway:migrate -Dflyway.password='$POSTGRES_PASSWORD' | $LOGIT
+mvn -e flyway:migrate -Dflyway.password=$POSTGRES_PASSWORD | $LOGIT
 
 echo | $LOGIT
 echo "------------------------------------------" | $LOGIT
@@ -73,8 +75,8 @@ echo "`date`: Starting CalCentral..." | $LOGIT
 # actually run the server (in the background)
 nohup mvn -e jetty:run -DcustomPropsDir=$CONFIG_FILES >> logs/jetty.log 2>&1 &
 
-# wait 30s for server to get started
-sleep 30;
+# wait 90s for server to get started
+sleep 90;
 
 echo | $LOGIT
 echo "------------------------------------------" | $LOGIT
