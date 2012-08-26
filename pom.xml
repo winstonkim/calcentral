@@ -352,50 +352,14 @@
 						</goals>
 					</execution>
 				</executions>
-
 				<configuration>
-					<!-- that's the default value, you don't have to set it -->
-					<prefix>git</prefix>
-
-					<!-- that's the default value -->
-					<dateFormat>MM/dd/yyyy '@' HH:mm:ss z</dateFormat>
-
-					<!-- false is default here, it prints some more information during the build -->
+					<dateFormat>MM-dd-yyyy '@' HH:mm:ss z (Z)</dateFormat>
 					<verbose>true</verbose>
-
-					<!--
-																	If you'd like to tell the plugin where your .git directory is,
-																	use this setting, otherwise we'll perform a search trying to
-																	figure out the right directory. It's better to add it explicite IMHO.
-															-->
 					<dotGitDirectory>${project.basedir}/.git</dotGitDirectory>
-
-					<!-- ALTERNATE SETUP - GENERATE FILE -->
-					<!--
-																	If you want to keep git information, even in your WAR file etc,
-																	use this mode, which will generate a properties file (with filled out values)
-																	which you can then normally read using new Properties().load(/**/)
-															-->
-
-					<!--
-																	this is true by default; You may want to set this to false, if the plugin should run inside a
-																	<packaging>pom</packaging> project. Most projects won't need to override this property.
-
-																	For an use-case for this kind of behaviour see: https://github.com/ktoso/maven-git-commit-id-plugin/issues/21
-															-->
-					<skipPoms>true</skipPoms>
-
-					<!-- this is false by default, forces the plugin to generate the git.properties file -->
 					<generateGitPropertiesFile>true</generateGitPropertiesFile>
-
-					<!-- The path for the to be generated properties file, it's relative to ${project.basedir} -->
 					<generateGitPropertiesFilename>src/main/resources/git.properties</generateGitPropertiesFilename>
-
-					<!-- true by default, controls whether the plugin will fail when no .git directory is found, when set to false the plugin will just skip execution -->
-					<!-- @since 2.0.4 -->
-					<failOnNoGitDirectory>false</failOnNoGitDirectory>
+					<failOnNoGitDirectory>true</failOnNoGitDirectory>
 				</configuration>
-
 			</plugin>
 
 		</plugins>
