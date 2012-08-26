@@ -29,7 +29,7 @@
 			location="file:///${customPropsDir}/dataSource.properties"
 			ignore-resource-not-found="true" />
 
-	<beans profile="test">
+	<!--<beans profile="test">
 		<bean id="dataSource"
 					class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 			<property name="driverClassName" value="org.postgresql.Driver" />
@@ -43,7 +43,7 @@
 		<bean id="flywayInit" class="com.googlecode.flyway.core.Flyway" init-method="migrate" depends-on="flywayClean">
 			<property name="dataSource" ref="dataSource"/>
 		</bean>
-	</beans>
+	</beans>-->
 
 	<util:properties id="gitProperties" location="classpath:/git.properties"/>
 
