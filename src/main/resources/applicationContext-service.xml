@@ -4,8 +4,12 @@
 			 xmlns:context="http://www.springframework.org/schema/context"
 			 xmlns:util="http://www.springframework.org/schema/util"
 			 xmlns:jdbc="http://www.springframework.org/schema/jdbc"
-			 xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
-    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.0.xsd">
+			 xsi:schemaLocation="http://www.springframework.org/schema/beans
+			 http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+			 http://www.springframework.org/schema/context
+			 http://www.springframework.org/schema/context/spring-context-3.1.xsd
+			 http://www.springframework.org/schema/util
+			 http://www.springframework.org/schema/util/spring-util-2.0.xsd">
 
 	<context:component-scan base-package="edu.berkeley.calcentral" />
 
@@ -29,7 +33,9 @@
 			location="file:///${customPropsDir}/dataSource.properties"
 			ignore-resource-not-found="true" />
 
-	<!--<beans profile="test">
+	<util:properties id="gitProperties" location="classpath:/git.properties"/>
+
+	<beans profile="test">
 		<bean id="dataSource"
 					class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 			<property name="driverClassName" value="org.postgresql.Driver" />
@@ -43,8 +49,6 @@
 		<bean id="flywayInit" class="com.googlecode.flyway.core.Flyway" init-method="migrate" depends-on="flywayClean">
 			<property name="dataSource" ref="dataSource"/>
 		</bean>
-	</beans>-->
-
-	<util:properties id="gitProperties" location="classpath:/git.properties"/>
+	</beans>
 
 </beans>
