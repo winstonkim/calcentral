@@ -13,11 +13,20 @@
 
 	<context:component-scan base-package="edu.berkeley.calcentral" />
 
-	<bean id="dataSource"
+	<!-- Local application storage -->
+	<bean id="runDataSource"
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName" value="org.postgresql.Driver" />
 		<property name="url" value="jdbc:postgresql://localhost:5432/calcentral" />
 		<property name="username" value="calcentral" />
+		<property name="password" value="secret" />
+	</bean>
+	<!-- Integration test storage -->
+	<bean id="itDataSource"
+				class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="org.postgresql.Driver" />
+		<property name="url" value="jdbc:postgresql://localhost:5432/calcentraltest" />
+		<property name="username" value="calcentraltest" />
 		<property name="password" value="secret" />
 	</bean>
 
@@ -35,13 +44,14 @@
 
 	<util:properties id="gitProperties" location="classpath:/git.properties"/>
 
+	<beans profile="default">
+		<bean id="dataSource" class="org.springframework.aop.framework.ProxyFactoryBean">
+			<property name="targetName" value="runDataSource"/>
+		</bean>
+	</beans>
 	<beans profile="test">
-		<bean id="dataSource"
-					class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-			<property name="driverClassName" value="org.postgresql.Driver" />
-			<property name="url" value="jdbc:postgresql://localhost:5432/calcentraltest" />
-			<property name="username" value="calcentraltest" />
-			<property name="password" value="secret" />
+		<bean id="dataSource" class="org.springframework.aop.framework.ProxyFactoryBean">
+			<property name="targetName" value="itDataSource"/>
 		</bean>
 		<bean id="flywayClean" class="com.googlecode.flyway.core.Flyway" init-method="clean">
 			<property name="dataSource" ref="dataSource"/>
