@@ -23,6 +23,9 @@ psql postgres
 create database calcentral;
 create user calcentral with password 'secret';
 grant all privileges on database calcentral to calcentral;
+create database calcentraltest;
+create user calcentraltest with password 'secret';
+grant all privileges on database calcentraltest to calcentraltest;
 ```
 Mac OS X Lion users: If you're encountering issues connecting to the postgres server: <http://nextmarvel.net/blog/2011/09/brew-install-postgresql-on-os-x-lion/>
 
@@ -61,7 +64,6 @@ files. There are other optional config settings that can be passed on the mvn co
 mvn jetty:run
 		-DcustomPropsDir=/path/to/your/custom/configs
 		-Djetty.port=8778
-		-Dlog4j.configuration=file:/path/to/my/favorite/log4j.properties
 ```
 
 To run the server with unit tests, integration tests, and test coverage reports:

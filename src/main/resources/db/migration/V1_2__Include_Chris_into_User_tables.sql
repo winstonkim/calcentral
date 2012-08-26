@@ -1,0 +1,1 @@
+INSERT INTO calcentral_users(id, uid, lastName, firstName, activeFlag) VALUES (NEXTVAL('calcentral_users_seq'), '904715', 'Tweney', 'Chris', TRUE);
