@@ -103,5 +103,15 @@ public class WidgetDataController {
 										 @PathParam("widgetID") String widgetID) {
 		widgetDataService.delete(userID, widgetID);
 	}
-
+	
+	/**
+	 * Delete all widget data for a user.
+	 * 
+	 * @param userID   The user ID
+	 */
+	@DELETE
+	public void deleteAll(@PathParam(RESTConstants.PARAM_USER_ID) String userID) {
+	    widgetDataService.deleteAll(userID);
+	}
+	
 }

@@ -35,7 +35,7 @@ public class UserDataDao {
         return user;
     }
 
-    public void update(String uid) {
+    public void update(CalCentralUser user) {
         //TODO: fill me in
     }
 

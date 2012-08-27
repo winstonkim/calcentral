@@ -1,11 +1,14 @@
 package edu.berkeley.calcentral.domain;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
 /**
  * A simple CalCentral user, containing basic information.  
  */
+@XmlRootElement
 public class CalCentralUser {
 
-	/** Wonderful identifier from CAS. */
+    /** Wonderful identifier from CAS. */
 	private String uid;
 
 	/** OPTIONAL: basic last name i'm assuming we might want. **/
@@ -17,6 +20,8 @@ public class CalCentralUser {
 	/** Need at least one boolean to enable disable users **/ 
 	private boolean activeFlag;
 
+	public CalCentralUser() {}
+	
 	/**
 	 * @return the lastName
 	 */

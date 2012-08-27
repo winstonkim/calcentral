@@ -164,6 +164,13 @@
 			<version>2.3.4.Final</version>
 			<scope>test</scope>
 		</dependency>
+		<!--  JacksonASL: For oddball serialization use cases -->
+	    <dependency>
+	      <groupId>org.codehaus.jackson</groupId>
+	      <artifactId>jackson-mapper-asl</artifactId>
+	      <version>1.9.9</version>
+	      <scope>compile</scope>
+	    </dependency>
 
 		<!-- Flyway DDL -->
 		<dependency>

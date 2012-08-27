@@ -58,4 +58,8 @@ public class WidgetDataService {
 	    widgetDataDao.deleteWidgetData(userID, widgetID);
 	}
 
+    public void deleteAll(String userID) {
+        widgetDataDao.deleteAllWidgetData(userID);
+    }
+
 }

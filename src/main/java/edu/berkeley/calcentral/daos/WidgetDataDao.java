@@ -41,6 +41,13 @@ public class WidgetDataDao {
         queryRunner.update(SqlQueries.delete, params);
     }
     
+    public void deleteAllWidgetData(String userID) {
+        Map<String, String> params = Maps.newHashMap();
+        params.put("uid", userID);
+        NamedParameterJdbcTemplate queryRunner = new NamedParameterJdbcTemplate(dataSource);
+        queryRunner.update(SqlQueries.deleteAll, params);
+    }
+    
     public final WidgetData getWidgetData(String userId, String widgetId) {
         Map<String, String> params = Maps.newHashMap();
         params.put("uid", userId);
@@ -92,5 +99,10 @@ public class WidgetDataDao {
         static String delete = 
                 " DELETE FROM calcentral_widgetdata wd "
                 + " WHERE wd.uid = :uid AND wd.widgetId = :widgetId";
+        
+        static String deleteAll = " DELETE FROM calcentral_widgetdata wd "
+                + " WHERE wd.uid = :uid";
     }
+
+    
 }
