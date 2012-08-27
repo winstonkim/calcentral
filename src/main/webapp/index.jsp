@@ -2,7 +2,7 @@
 
 <tags:head/>
 
-<!-- just testing continuous deploy -->
+<!-- another test of continuous deploy -->
 
 <body class="cc-page-index">
 	<tags:header/>
