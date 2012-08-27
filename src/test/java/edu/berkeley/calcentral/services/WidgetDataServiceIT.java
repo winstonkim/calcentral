@@ -34,7 +34,6 @@ import com.google.common.collect.ImmutableMap;
 import edu.berkeley.calcentral.IntegrationTest;
 import org.junit.Test;
 
-@Ignore
 public class WidgetDataServiceIT extends IntegrationTest {
 
 	String user;
