@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations under the License.
  */
 
-package edu.berkeley.calcentral.controllers;
+package edu.berkeley.calcentral.services;
 
 import java.io.IOException;
 
@@ -32,8 +32,9 @@ import org.junit.Ignore;
 import com.google.common.collect.ImmutableMap;
 
 import edu.berkeley.calcentral.IntegrationTest;
+import org.junit.Test;
 
-public class WidgetDataControllerIT extends IntegrationTest {
+public class WidgetDataServiceIT extends IntegrationTest {
 
 	String user;
 
@@ -42,7 +43,7 @@ public class WidgetDataControllerIT extends IntegrationTest {
 		user = "jane" + randomness();
 	}
 
-	@Ignore
+	@Test
 	public void getWithNoContent() throws IOException {
 		GetMethod get = doGet("/api/user/" + user + "/widgetData");
 		assertResponse(HttpResponseCodes.SC_NO_CONTENT, get);
@@ -50,7 +51,7 @@ public class WidgetDataControllerIT extends IntegrationTest {
 		assertResponse(HttpResponseCodes.SC_NO_CONTENT, get);
 	}
 
-	@Ignore
+	@Test
 	public void getWithContent() throws IOException, JSONException {
 		PostMethod post = doPost("/api/user/" + user + "/widgetData/abc",
 				ImmutableMap.<String, String>of("data", "{foo:bar}"));
@@ -67,7 +68,7 @@ public class WidgetDataControllerIT extends IntegrationTest {
 		assertEquals("{foo:bar}", widget.get("data"));
 	}
 
-	@Ignore
+	@Test
 	public void getRevisedContent() throws IOException, JSONException {
 		PostMethod post = doPost("/api/user/" + user + "/widgetData/abc",
 				ImmutableMap.<String, String>of("data", "{foo:initialvalue}"));
@@ -87,7 +88,7 @@ public class WidgetDataControllerIT extends IntegrationTest {
 		assertEquals("{foo:newvalue}", widget.get("data"));
 	}
 
-	@Ignore
+	@Test
 	public void delete() throws IOException, JSONException {
 		PostMethod post = doPost("/api/user/" + user + "/widgetData/abc", null);
 		assertResponse(HttpResponseCodes.SC_OK, post);

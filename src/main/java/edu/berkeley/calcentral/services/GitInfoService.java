@@ -1,18 +1,18 @@
-package edu.berkeley.calcentral.controllers;
+package edu.berkeley.calcentral.services;
 
 import edu.berkeley.calcentral.RESTConstants;
 import edu.berkeley.calcentral.domain.GitInfo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Service;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-@Controller
+@Service
 @Path(RESTConstants.PATH_API + "/gitInfo")
-public class GitInfoController {
+public class GitInfoService {
 
 	@Autowired
 	private GitInfo gitInfo;
