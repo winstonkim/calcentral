@@ -44,7 +44,7 @@ public class GitInfo {
 	public void init() {
 		this.branch = properties.getProperty("git.branch");
 		this.commitId = properties.getProperty("git.commit.id");
-		this.commitIdAbbrev = properties.getProperty("git.commit.id").substring(0, 10);
+		this.commitIdAbbrev = this.commitId.substring(0, 10);
 		this.buildUserName = properties.getProperty("git.build.user.name");
 		this.buildUserEmail = properties.getProperty("git.build.user.email");
 		this.buildTime = properties.getProperty("git.build.time");
