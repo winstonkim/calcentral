@@ -224,10 +224,6 @@
 					<stopPort>9955</stopPort>
 					<systemProperties>
 						<systemProperty>
-							<name>log4j.configuration</name>
-							<value>file:./src/main/resources/log4j.properties</value>
-						</systemProperty>
-						<systemProperty>
 							<name>spring.profiles.active</name>
 							<value>default</value>
 						</systemProperty>
