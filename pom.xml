@@ -411,8 +411,7 @@
 									<!-- ssh myberkeley@calcentral-dev.berkeley.edu "/home/myberkeley/calcentral/run.sh ~/" -->
 									<executable>ssh</executable>
 									<arguments>
-										<argument>myberkeley@calcentral-dev.berkeley.edu</argument>
-										<argument>"/home/myberkeley/calcentral/run.sh ~/"</argument>
+										<argument>myberkeley@calcentral-dev.berkeley.edu "/home/myberkeley/calcentral/run.sh ~/"</argument>
 									</arguments>
 								</configuration>
 							</execution>
