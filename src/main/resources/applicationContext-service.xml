@@ -37,6 +37,9 @@
 		<property name="username" value="ORACLE_USERNAME" />
 		<property name="password" value="ORACLE_PASSWORD" />
 	</bean>
+	<bean id="campusDataSource" class="org.springframework.aop.framework.ProxyFactoryBean">
+		<property name="targetName" value="oracleDataSource"/>
+	</bean>
 
 	<context:property-override
 			location="file:///${customPropsDir}/dataSource.properties"
