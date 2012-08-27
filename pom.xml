@@ -171,12 +171,12 @@
 		</dependency>
 
 		<!--  JacksonASL: For oddball serialization use cases -->
-	    <dependency>
-	      <groupId>org.codehaus.jackson</groupId>
-	      <artifactId>jackson-mapper-asl</artifactId>
-	      <version>1.9.9</version>
-	      <scope>compile</scope>
-	    </dependency>
+		<dependency>
+			<groupId>org.codehaus.jackson</groupId>
+			<artifactId>jackson-mapper-asl</artifactId>
+			<version>1.9.9</version>
+			<scope>compile</scope>
+		</dependency>
 
 		<!-- Flyway DDL -->
 		<dependency>
@@ -390,6 +390,38 @@
 		</extensions>
 
 	</build>
+
+	<profiles>
+		<profile>
+			<id>reinstall-calcentral-dev</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>exec-maven-plugin</artifactId>
+						<version>1.2.1</version>
+						<executions>
+							<execution>
+								<id>reinstall-calcentral-dev</id>
+								<phase>deploy</phase>
+								<goals>
+									<goal>exec</goal>
+								</goals>
+								<configuration>
+									<!-- ssh myberkeley@calcentral-dev.berkeley.edu "/home/myberkeley/calcentral/run.sh ~/" -->
+									<executable>ssh</executable>
+									<arguments>
+										<argument>myberkeley@calcentral-dev.berkeley.edu</argument>
+										<argument>"/home/myberkeley/calcentral/run.sh ~/"</argument>
+									</arguments>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 
 	<distributionManagement>
 		<snapshotRepository>
