@@ -91,7 +91,7 @@ echo "`date`: Checking that server is alive..." | $LOGIT
 echo "GET $APPLICATION_HOST"
 curl -i -stderr /dev/null $APPLICATION_HOST | head -2 | $LOGIT | grep "HTTP/1.1 200 OK" || die "ERROR: Index page failed to respond 200 OK"
 echo "GET $APPLICATION_HOST/api/user/jane/widgetData"
-curl -i -stderr /dev/null $APPLICATION_HOST/api/user/jane/widgetData | head -2 | $LOGIT | grep "ZZZHTTP/1.1" || die "ERROR: widgetData page failed to respond"
+curl -i -stderr /dev/null $APPLICATION_HOST/api/user/jane/widgetData | head -2 | $LOGIT | grep "HTTP/1.1" || die "ERROR: widgetData page failed to respond"
 
 echo | $LOGIT
 echo "`date`: Reinstall complete." | $LOGIT
