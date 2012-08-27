@@ -26,6 +26,7 @@ import org.apache.commons.httpclient.methods.PostMethod;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
+import org.jboss.resteasy.util.HttpHeaderNames;
 import org.jboss.resteasy.util.HttpResponseCodes;
 import org.junit.Ignore;
 
@@ -73,12 +74,20 @@ public class WidgetDataServiceIT extends IntegrationTest {
 		PostMethod post = doPost("/api/user/" + user + "/widgetData/abc",
 				ImmutableMap.<String, String>of("data", "{foo:initialvalue}"));
 		assertResponse(HttpResponseCodes.SC_OK, post);
+		GetMethod getBefore = doGet("/api/user/" + user + "/widgetData");
+		String origEtag = getBefore.getResponseHeader(HttpHeaderNames.ETAG).toString();
+		assertNotNull(origEtag);
+
 		post = doPost("/api/user/" + user + "/widgetData/abc",
 				ImmutableMap.<String, String>of("data", "{foo:newvalue}"));
 		assertResponse(HttpResponseCodes.SC_OK, post);
 
 		GetMethod get = doGet("/api/user/" + user + "/widgetData");
 		assertResponse(HttpResponseCodes.SC_OK, get);
+		String newEtag = get.getResponseHeader(HttpHeaderNames.ETAG).toString();
+		assertNotSame(origEtag, newEtag);
+    assertNotNull(newEtag);
+
 		logger.info(get.getResponseBodyAsString());
 		JSONArray json = toJSONArray(get);
 		assertEquals(1, json.length());

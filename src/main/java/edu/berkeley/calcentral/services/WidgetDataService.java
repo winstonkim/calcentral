@@ -21,6 +21,7 @@ package edu.berkeley.calcentral.services;
 import java.util.List;
 
 import edu.berkeley.calcentral.RESTConstants;
+import org.jboss.resteasy.annotations.cache.Cache;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -71,6 +72,7 @@ public class WidgetDataService {
 	 * @param userID The user to retrieve the widget data from
 	 * @return Array of Widget data
 	 */
+	@Cache
 	@GET
 	@Produces({MediaType.APPLICATION_JSON})
 	public List<WidgetData> getAllForUser(@PathParam(RESTConstants.PARAM_USER_ID) String userID) {
@@ -84,6 +86,7 @@ public class WidgetDataService {
 	 * @param widgetID The ID of the widget to get
 	 * @return A single piece of Widget data
 	 */
+	@Cache
 	@GET
 	@Produces({MediaType.APPLICATION_JSON})
 	@Path("{widgetID}")

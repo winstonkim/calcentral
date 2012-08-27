@@ -2,6 +2,7 @@ package edu.berkeley.calcentral.services;
 
 import edu.berkeley.calcentral.RESTConstants;
 import edu.berkeley.calcentral.domain.GitInfo;
+import org.jboss.resteasy.annotations.cache.Cache;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +18,7 @@ public class GitInfoService {
 	@Autowired
 	private GitInfo gitInfo;
 
+	@Cache
 	@GET
 	@Produces({MediaType.APPLICATION_JSON})
 	public GitInfo get() {

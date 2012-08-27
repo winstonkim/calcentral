@@ -89,4 +89,26 @@
 		<session-timeout>240</session-timeout>
 	</session-config>
 
+	<listener>
+		<listener-class>
+			org.jboss.resteasy.plugins.server.servlet.ResteasyBootstrap
+		</listener-class>
+	</listener>
+
+	<context-param>
+		<param-name>resteasy.server.cache.maxsize</param-name>
+		<param-value>1000</param-value>
+	</context-param>
+
+	<context-param>
+		<param-name>resteasy.server.cache.eviction.wakeup.interval</param-name>
+		<param-value>5000</param-value>
+	</context-param>
+
+	<listener>
+		<listener-class>
+			org.jboss.resteasy.plugins.cache.server.ServletServerCache
+		</listener-class>
+	</listener>
+
 </web-app>
