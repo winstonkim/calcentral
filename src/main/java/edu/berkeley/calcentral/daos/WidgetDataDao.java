@@ -10,6 +10,7 @@ import java.util.Map;
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -21,7 +22,7 @@ import edu.berkeley.calcentral.domain.WidgetData;
 
 @Repository
 public class WidgetDataDao {
-    @Autowired
+	@Autowired @Qualifier("dataSource")
     private DataSource dataSource;
 
     public final void saveWidgetData(WidgetData widgetData) {

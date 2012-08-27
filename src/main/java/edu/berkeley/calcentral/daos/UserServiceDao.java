@@ -10,6 +10,7 @@ import java.util.Map;
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -26,7 +27,7 @@ import com.google.common.collect.Maps;
 @Repository
 public class UserServiceDao {
 
-	@Autowired
+	@Autowired @Qualifier("dataSource")
 	private DataSource dataSource;
 	
 	public DataSource getDataSource() {

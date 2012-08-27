@@ -5,6 +5,7 @@ import java.util.Map;
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -17,7 +18,7 @@ import edu.berkeley.calcentral.domain.CalCentralUser;
 @Repository
 public class UserDataDao {
 
-    @Autowired
+    @Autowired @Qualifier("dataSource")
     private DataSource dataSource;
 
     public CalCentralUser get(String uid) {
