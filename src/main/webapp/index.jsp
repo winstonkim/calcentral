@@ -1,5 +1,7 @@
 <%@ taglib tagdir="/WEB-INF/tags" prefix="tags" %>
 
+<!-- one more test of continuous deployment -->
+
 <tags:head/>
 
 <body class="cc-page-index">
