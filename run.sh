@@ -3,6 +3,11 @@
 
 export MAVEN_OPTS="-Xmx512M -XX:MaxPermSize=128M"
 
+function die {
+	echo "$1" 1>&2
+  exit 3
+}
+
 if [ -z "$1" ]; then
     echo "Usage: $0 source_root [logfile]"
     exit;
@@ -12,6 +17,7 @@ SRC_LOC=$1
 cd $SRC_LOC/calcentral
 # disable history expansion so password with ! does not cause problems
 set +H
+set -e
 mkdir -p logs
 mkdir -p properties
 
@@ -56,12 +62,12 @@ echo "casValidationFilter.serverName=$APPLICATION_HOST" >> $CONFIG_FILES/server.
 echo | $LOGIT
 echo "------------------------------------------" | $LOGIT
 echo "`date`: Stopping CalCentral..." | $LOGIT
-mvn -B -e jetty:stop >>$LOG 2>&1 | $LOGIT
+mvn -B -e jetty:stop | $LOGIT
 
 echo | $LOGIT
 echo "------------------------------------------" | $LOGIT
 echo "`date`: Building code..." | $LOGIT
-mvn -B -e clean verify >>$LOG 2>&1 | $LOGIT
+mvn -B -e clean verify | $LOGIT
 
 # initialize the db
 echo | $LOGIT
@@ -83,9 +89,9 @@ echo | $LOGIT
 echo "------------------------------------------" | $LOGIT
 echo "`date`: Checking that server is alive..." | $LOGIT
 echo "GET $APPLICATION_HOST"
-curl -i -stderr /dev/null $APPLICATION_HOST | grep "HTTP/1.1 200 OK" || echo "ERROR: Index page failed to respond 200 OK" | $LOGIT
+curl -i -stderr /dev/null $APPLICATION_HOST | head -2 | $LOGIT | grep "HTTP/1.1 200 OK" || die "ERROR: Index page failed to respond 200 OK"
 echo "GET $APPLICATION_HOST/api/user/jane/widgetData"
-curl -i -stderr /dev/null $APPLICATION_HOST/api/user/jane/widgetData | grep "HTTP/1.1" || echo "ERROR: widgetData page failed to respond" | $LOGIT
+curl -i -stderr /dev/null $APPLICATION_HOST/api/user/jane/widgetData | head -2 | $LOGIT | grep "HTTP/1.1" || die "ERROR: widgetData page failed to respond"
 
 echo | $LOGIT
 echo "`date`: Reinstall complete." | $LOGIT
