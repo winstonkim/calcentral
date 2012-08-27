@@ -48,7 +48,8 @@ CONFIG_FILES=`pwd`/properties
 
 # put the config params into customPropsDir properties files
 # this overwrites existing files!
-echo "dataSource.password=$POSTGRES_PASSWORD" > $CONFIG_FILES/dataSource.properties
+echo "runDataSource.password=$POSTGRES_PASSWORD" > $CONFIG_FILES/dataSource.properties
+echo "itDataSource.password=$POSTGRES_PASSWORD" >> $CONFIG_FILES/dataSource.properties
 echo "casAuthenticationFilter.serverName=$APPLICATION_HOST" > $CONFIG_FILES/server.properties
 echo "casValidationFilter.serverName=$APPLICATION_HOST" >> $CONFIG_FILES/server.properties
 
