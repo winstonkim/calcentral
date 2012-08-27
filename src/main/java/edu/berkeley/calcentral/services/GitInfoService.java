@@ -18,7 +18,7 @@ public class GitInfoService {
 	@Autowired
 	private GitInfo gitInfo;
 
-	@Cache
+	@Cache(maxAge = 0, mustRevalidate = true)
 	@GET
 	@Produces({MediaType.APPLICATION_JSON})
 	public GitInfo get() {
