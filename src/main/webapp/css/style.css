@@ -447,6 +447,51 @@ header h1 {
 	background-color: #B67325;
 }
 
+/* Classpage */
+.cc-page-classpage-container {
+	margin: 0 auto;
+	width: 716px;
+}
+.cc-page-classpage-courseinfo .cc-widget-main,
+.cc-page-classpage-description .cc-widget-main,
+.cc-page-classpage-instructor .cc-widget-main {
+	overflow: hidden;
+	padding: 20px;
+}
+.cc-page-classpage-instructor {
+	width: 705px !important;
+}
+.cc-page-classpage-instructor ul {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+}
+.cc-page-classpage-instructor .cc-page-classpage-instructor-profile {
+	float: left;
+	margin-right: 20px;
+}
+.cc-page-classpage-instructor-heading {
+	font-weight: bold;
+	margin: 0 0 10px 295px;
+}
+
+.cc-page-classpage-list {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+}
+.cc-page-classpage-list li {
+	display: block;
+	overflow: hidden;
+}
+.cc-page-classpage-list li span:first-child {
+	color: #666;
+	float: left;
+	font-weight: bold;
+	margin-right: 10px;
+	text-align: right;
+	width: 120px;
+}
 
 /* Index */
 .cc-page-index-welcome {
@@ -502,7 +547,7 @@ header h1 {
 }
 
 /* Widgets */
-.cc-container-widgets .cc-container-widget {
+.cc-container-widget {
 	border: solid 1px #DFDFDF;
 	border-top: none;
 	border-radius: 0 0 5px 5px;
@@ -511,10 +556,10 @@ header h1 {
 	margin-right: 10px;
 	width: 348px;
 }
-.cc-container-widgets .cc-widget-main {
+.cc-widget-main {
 	padding: 0px 12px;
 }
-.cc-container-widgets .cc-widget-title {
+.cc-widget-title {
 	background: #ececec;
 	background: -moz-linear-gradient(top, #ececec 0%, #e2e2e2 100%);
 	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #ececec), color-stop(100%, #e2e2e2));
@@ -523,14 +568,14 @@ header h1 {
 	background: -ms-linear-gradient(top, #ececec 0%, #e2e2e2 100%);
 	background: linear-gradient(top, #ececec 0%, #e2e2e2 100%);
 }
-.cc-container-widgets .cc-widget-title h2 {
+.cc-widget-title h2 {
 	color: #666;
 	margin: 0;
 	padding: 8px 12px;
 	font-size: 13px;
 }
 
-.cc-container-widgets .cc-container-widget .cc-widget-footer {
+.cc-container-widget .cc-widget-footer {
 	background: #ececec;
 	background: -moz-linear-gradient(top, #ececec 0%, #e2e2e2 100%);
 	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #ececec), color-stop(100%, #e2e2e2));

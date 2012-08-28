@@ -180,7 +180,28 @@ var calcentral = calcentral || {};
 		$form.validate(options);
 	};
 
-	calcentral.Api.Util.renderTemplate = function(templateElement, templateData, outputElement) {
+	calcentral.Api.Util.renderTemplate = function(config) {
+
+		if (!config || !config.template || !config.data || !config.container) {
+			throw 'Please supply a config parameter with a template, some data and a container';
+		}
+
+		// Register the partials if you supply any:
+		if (config.partials) {
+			for (var i in config.partials) {
+				if (config.partials.hasOwnProperty(i)) {
+					Handlebars.registerPartial(i, config.partials[i]);
+				}
+			}
+		}
+
+		Handlebars.registerHelper('available', function(item) {
+			if (item) {
+				return item;
+			} else {
+				return new Handlebars.SafeString('<em>Not available</em>');
+			}
+		});
 
 		// HELPER: #each_object
 		//
@@ -264,9 +285,9 @@ var calcentral = calcentral || {};
 
 		});
 
-		var source = $('#' + templateElement).html();
+		var source = config.template.html();
 		var template = Handlebars.compile(source);
-		return template(templateData);
+		config.container.html(template(config.data));
 	};
 })();
 
@@ -437,7 +458,11 @@ var calcentral = calcentral || {};
 
 	if ($topNavigation.length) {
 		calcentral.Api.User.getCurrentUser(function(success, data){
-			$('.cc-topnavigation').html(calcentral.Api.Util.renderTemplate('cc-topnavigation-template', data));
+			calcentral.Api.Util.renderTemplate({
+				'container': $topNavigation,
+				'data': data,
+				'template': $('#cc-topnavigation-template')
+			});
 			addBinding();
 		});
 	}
@@ -448,12 +473,16 @@ var calcentral = calcentral || {};
  * Colleges and schools
  */
 (function() {
-	$collegesAndSchools = $('.cc-page-colleges-and-schools');
+	var $collegesAndSchools = $('.cc-page-colleges-and-schools');
 
-	$collegesAndSchoolsContainer = $('.cc-page-colleges-and-schools-container', $collegesAndSchools);
+	var $collegesAndSchoolsContainer = $('.cc-page-colleges-and-schools-container', $collegesAndSchools);
 
 	var renderCollegesAndSchools = function(data) {
-		$collegesAndSchoolsContainer.html(calcentral.Api.Util.renderTemplate('cc-page-colleges-and-schools-template', $.parseJSON(data)));
+		calcentral.Api.Util.renderTemplate({
+			'container': $collegesAndSchoolsContainer,
+			'data': $.parseJSON(data),
+			'template': $('#cc-page-colleges-and-schools-template', $collegesAndSchools)
+		});
 	};
 
 	var loadCollegesAndSchools = function() {
@@ -464,6 +493,41 @@ var calcentral = calcentral || {};
 
 	if($collegesAndSchools.length) {
 		$.when(loadCollegesAndSchools()).then(renderCollegesAndSchools);
+	}
+
+})();
+
+/**
+ * ClassPage
+ */
+(function() {
+	var $classPage = $('.cc-page-classpage');
+
+	var $classPageContainer = $('.cc-page-classpage-container', $classPage);
+
+	var renderClassPage = function(data) {
+		var partials = {
+			'courseInfo': $('#cc-page-classpage-courseinfo-template', $classPage).html(),
+			'description': $('#cc-page-classpage-description-template', $classPage).html(),
+			'instructor': $('#cc-page-classpage-instructor-template', $classPage).html()
+		};
+
+		calcentral.Api.Util.renderTemplate({
+			'container': $classPageContainer,
+			'data': $.parseJSON(data),
+			'partials': partials,
+			'template': $('#cc-page-classpage-template', $classPage)
+		});
+	};
+
+	var loadClassPage = function(id) {
+		return $.ajax({
+			'url': '/dummy/classpage.json'
+		});
+	};
+
+	if($classPage.length) {
+		$.when(loadClassPage()).then(renderClassPage);
 	}
 
 })();
