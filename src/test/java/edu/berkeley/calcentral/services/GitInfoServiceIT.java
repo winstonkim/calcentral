@@ -1,4 +1,4 @@
-package edu.berkeley.calcentral.controllers;
+package edu.berkeley.calcentral.services;
 
 import edu.berkeley.calcentral.IntegrationTest;
 import org.apache.commons.httpclient.methods.GetMethod;
@@ -9,7 +9,7 @@ import org.junit.Test;
 
 import java.io.IOException;
 
-public class GitInfoIT extends IntegrationTest {
+public class GitInfoServiceIT extends IntegrationTest {
 
 	@Override
 	protected void setup() {
