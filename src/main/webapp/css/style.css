@@ -260,10 +260,14 @@ header h1 {
 	float: left;
 }
 
-.imgleftfloat {
-	margin-right: 40px;
+.cc-404-div {
+    float:right;
+    margin-right:150px;
 }
 
+.cc-smalltop {
+	margin-top:-5px;
+}
 
 /* Navigation */
 .cc-topnavigation {
@@ -605,7 +609,9 @@ footer {
 	width: 960px;
 }
 
-
+.copyright {
+	padding-top:26px;
+}
 
 
 /* ==|== media queries ======================================================
