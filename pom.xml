@@ -1,5 +1,5 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+				 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>edu.berkeley.calcentral</groupId>
 	<artifactId>calcentral</artifactId>
@@ -206,73 +206,73 @@
 					<!-- Uncomment to support command-line reloads after compilation -->
 					<!--
 					<reload>manual</reload>
-				-->
-				<requestLog implementation="org.eclipse.jetty.server.NCSARequestLog">
-					<filename>${project.build.directory}/yyyy_mm_dd.request.log</filename>
-					<retainDays>90</retainDays>
-					<append>true</append>
-					<extended>false</extended>
-					<logTimeZone>GMT</logTimeZone>
-				</requestLog>
-				<stopKey>stopme</stopKey>
-				<stopPort>9955</stopPort>
-				<systemProperties>
-					<systemProperty>
-						<name>spring.profiles.active</name>
-						<value>default</value>
-					</systemProperty>
-				</systemProperties>
-				<webApp>
-					<contextPath>/</contextPath>
-				</webApp>
-			</configuration>
-			<executions>
-				<execution>
-					<id>start-jetty</id>
-					<phase>pre-integration-test</phase>
-					<goals>
-						<goal>run</goal>
-					</goals>
-					<configuration>
-						<scanIntervalSeconds>0</scanIntervalSeconds>
-						<daemon>true</daemon>
-						<systemProperties>
-							<!--
-							  The plugin will not overwrite a system property which has already been set,
-							  and so we use different properties for the integration-test and jetty:run
-							  phases.
-							-->
-							<systemProperty>
-								<name>spring.profiles.default</name>
-								<value>test</value>
-							</systemProperty>
-						</systemProperties>
-					</configuration>
-				</execution>
-				<execution>
-					<id>stop-jetty</id>
-					<phase>post-integration-test</phase>
-					<goals>
-						<goal>stop</goal>
-					</goals>
-				</execution>
-			</executions>
-		</plugin>
-
-		<plugin>
-			<groupId>org.apache.maven.plugins</groupId>
-			<artifactId>maven-site-plugin</artifactId>
-			<version>3.1</version>
-			<configuration>
-				<reportPlugins>
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-project-info-reports-plugin</artifactId>
-						<version>2.4</version>
+					-->
+					<requestLog implementation="org.eclipse.jetty.server.NCSARequestLog">
+						<filename>${project.build.directory}/yyyy_mm_dd.request.log</filename>
+						<retainDays>90</retainDays>
+						<append>true</append>
+						<extended>false</extended>
+						<logTimeZone>GMT</logTimeZone>
+					</requestLog>
+					<stopKey>stopme</stopKey>
+					<stopPort>9955</stopPort>
+					<systemProperties>
+						<systemProperty>
+							<name>spring.profiles.active</name>
+							<value>default</value>
+						</systemProperty>
+					</systemProperties>
+					<webApp>
+						<contextPath>/</contextPath>
+					</webApp>
+				</configuration>
+				<executions>
+					<execution>
+						<id>start-jetty</id>
+						<phase>pre-integration-test</phase>
+						<goals>
+							<goal>run</goal>
+						</goals>
 						<configuration>
-							<dependencyDetailsEnabled>false</dependencyDetailsEnabled>
-							<dependencyLocationsEnabled>false</dependencyLocationsEnabled>
+							<scanIntervalSeconds>0</scanIntervalSeconds>
+							<daemon>true</daemon>
+							<systemProperties>
+								<!--
+								 The plugin will not overwrite a system property which has already been set,
+								 and so we use different properties for the integration-test and jetty:run
+								 phases.
+							 -->
+								<systemProperty>
+									<name>spring.profiles.default</name>
+									<value>test</value>
+								</systemProperty>
+							</systemProperties>
 						</configuration>
+					</execution>
+					<execution>
+						<id>stop-jetty</id>
+						<phase>post-integration-test</phase>
+						<goals>
+							<goal>stop</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-site-plugin</artifactId>
+				<version>3.1</version>
+				<configuration>
+					<reportPlugins>
+						<plugin>
+							<groupId>org.apache.maven.plugins</groupId>
+							<artifactId>maven-project-info-reports-plugin</artifactId>
+							<version>2.4</version>
+							<configuration>
+								<dependencyDetailsEnabled>false</dependencyDetailsEnabled>
+								<dependencyLocationsEnabled>false</dependencyLocationsEnabled>
+							</configuration>
 							<!-- simpler configuration without reportSets available for usual
 							cases -->
 							<reports>
