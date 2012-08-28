@@ -1,5 +1,5 @@
 <footer>
-	<p><strong>Open Academic Environment</strong><br />&copy; UC Regents and The Sakai Foundation 2012 All rights reserved</p>
+	<p class="copyright">&copy; UC Regents 2012 All rights reserved</p>
 </footer>
 
 
