@@ -27,7 +27,7 @@
 			</div>
 		</div>
 		<!-- END Page specific HTML -->
-		<hr class="clearfix" />
+		<br class="clearfix" />
 	</div>
 	<tags:footer/>
 </body>

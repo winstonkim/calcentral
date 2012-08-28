@@ -27,7 +27,6 @@
 			<p class="cc-page-index-welcome2-handshake"><span class="cc-page-index-welcome2-herefromyou">We want to hear from you!</span><br /><a href="http://ets.berkeley.edu/calcentral-feedback">Tell us what you think</a>.</p>
 		</div>
 	</div>
-  <hr class="clearfix" />
 	<tags:footer/>
 </body>
 </html>
