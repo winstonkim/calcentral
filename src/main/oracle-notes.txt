@@ -1,0 +1,261 @@
+RAW UNFRIENDLY ORACLE NOTES
+===========================
+
+No existing views provide a staff member's department.
+
+Views that were available to MyBerkeley-OAE pilot:
+
+BSPACE_ADMIT_SPECIAL_PGM_VW
+BSPACE_CATEGORY_CODE_VW
+BSPACE_CLASS_ROSTER_VW
+BSPACE_CLASS_SCHEDULE_VW
+BSPACE_COURSE_INFO_VW
+BSPACE_COURSE_INSTRUCTOR_VW
+BSPACE_CROSS_LISTING_VW
+BSPACE_DEPT_VW
+BSPACE_INSTRUCTOR_INFO_VW
+BSPACE_PERSON_INFO_VW
+BSPACE_STUDENT_DEGREE_VW
+BSPACE_STUDENT_INFO_VW
+BSPACE_STUDENT_MAJOR_VW
+BSPACE_STUDENT_PHOTO_VW
+BSPACE_STUDENT_PORTAL_VW - includes LEVEL_DESC_S ("Freshman", "Masters", "Adv Doc", etc.)
+BSPACE_STUDENT_REGHIST_VW
+BSPACE_STUDENT_TERM_VW - includes NEW_TRFR_FLAG, etc.
+BSPACE_TERM_INFO_VW
+
+Views currently available to calcentral-dev:
+
+BSPACE_CLASS_ROSTER_VW
+BSPACE_CLASS_SCHEDULE_VW
+BSPACE_COURSE_INFO_VW
+BSPACE_COURSE_INSTRUCTOR_VW
+BSPACE_DEPT_VW
+BSPACE_INSTRUCTOR_INFO_VW
+BSPACE_PERSON_INFO_VW
+BSPACE_STUDENT_INFO_VW
+BSPACE_STUDENT_MAJOR_VW
+BSPACE_STUDENT_PHOTO_VW
+BSPACE_TERM_INFO_VW
+
+Used by current bSpace/MyBerkeley person + class pages + course-management:
+
+BSPACE_CLASS_ROSTER_VW
+BSPACE_CLASS_SCHEDULE_VW
+BSPACE_COURSE_INFO_VW
+BSPACE_COURSE_INSTRUCTOR_VW
+BSPACE_DEPT_VW
+BSPACE_INSTRUCTOR_INFO_VW
+BSPACE_PERSON_INFO_VW
+BSPACE_STUDENT_MAJOR_VW
+BSPACE_STUDENT_PHOTO_VW
+BSPACE_STUDENT_PORTAL_VW
+BSPACE_STUDENT_TERM_VW
+BSPACE_TERM_INFO_VW
+
+Missing from calcentral-dev at present:
+
+- BSPACE_STUDENT_PORTAL_VW - includes LEVEL_DESC_S ("Freshman", "Masters", "Adv Doc", etc.)
+However, BSPACE_STUDENT_INFO_VW has a one-character EDUC_LEVEL code which can be partly mapped to that data:
+    Limited  L
+    Freshman 1
+    Senior   4
+	Adv Doc  5
+    Masters  6
+    Doctoral 6
+
+- BSPACE_STUDENT_TERM_VW - includes NEW_TRFR_FLAG, etc.
+
+***
+SQL samples
+
+MyBerkeley-OAE people query:
+    "select pi.LDAP_UID, pi.UG_GRAD_FLAG, pi.FIRST_NAME, pi.LAST_NAME, pi.EMAIL_ADDRESS, pi.AFFILIATIONS, " +
+      "sm.MAJOR_NAME, sm.MAJOR_TITLE, sm.COLLEGE_ABBR, sm.MAJOR_NAME2, sm.MAJOR_TITLE2, sm.COLLEGE_ABBR2, " +
+      "sm.MAJOR_NAME3, sm.MAJOR_TITLE3, sm.COLLEGE_ABBR3, sm.MAJOR_NAME4, sm.MAJOR_TITLE4, sm.COLLEGE_ABBR4, " +
+      "sp.LEVEL_DESC_S, st.NEW_TRFR_FLAG " +
+      "from BSPACE_PERSON_INFO_VW pi " +
+      "left join BSPACE_STUDENT_MAJOR_VW sm on pi.LDAP_UID = sm.LDAP_UID " +
+      "left join BSPACE_STUDENT_PORTAL_VW sp on pi.LDAP_UID = sp.LDAP_UID " +
+      "left join BSPACE_STUDENT_TERM_VW st on pi.LDAP_UID = st.LDAP_UID " +
+      "where pi.LDAP_UID = ?";
+
+MyBerkeley-OAE class pages:
+  protected static final String SELECT_CLASS_SQL = "select * from BSPACE_COURSE_INFO_VW bci " +
+          "left join BSPACE_CLASS_SCHEDULE_VW bcs on bci.COURSE_CNTL_NUM = bcs.COURSE_CNTL_NUM " +
+          "and bci.TERM_YR = bcs.TERM_YR and bci.TERM_CD = bcs.TERM_CD " +
+          "where bci.PRIMARY_SECONDARY_CD = 'P' and bci.TERM_YR = ? and bci.TERM_CD = ? and bci.COURSE_CNTL_NUM = ?";
+  protected static final String SELECT_INSTRUCTORS_SQL = "select * from BSPACE_INSTRUCTOR_INFO_VW bii " +
+  "where bii.INSTRUCTOR_LDAP_UID in " +
+  "(select bci.INSTRUCTOR_LDAP_UID from BSPACE_COURSE_INSTRUCTOR_VW bci " +
+  "where bci.TERM_YR = ? and bci.TERM_CD = ? and bci.COURSE_CNTL_NUM = ?)";
+  protected static final String SELECT_SECTIONS_SQL = "select * from BSPACE_COURSE_INFO_VW bcii"
+      + " left join BSPACE_CLASS_SCHEDULE_VW bcs on bcii.COURSE_CNTL_NUM = bcs.COURSE_CNTL_NUM and bcii.TERM_YR = bcs.TERM_YR and bcii.TERM_CD = bcs.TERM_CD"
+      + " where bcii.TERM_YR = ? and bcii.TERM_CD = ? and bcii.DEPT_NAME = ? and bcii.CATALOG_ID = ?"
+      + " order by bcii.COURSE_CNTL_NUM asc";
+  protected static final String SELECT_INSTRUCTORS_SQL = "select * from BSPACE_INSTRUCTOR_INFO_VW bii " +
+  "where bii.INSTRUCTOR_LDAP_UID in " +
+  "(select bci.INSTRUCTOR_LDAP_UID from BSPACE_COURSE_INSTRUCTOR_VW bci " +
+  "where bci.TERM_YR = ? and bci.TERM_CD = ? and bci.COURSE_CNTL_NUM = ?)";
+
+bSpace Course Management API:
+	academic_session_exists=select count(*) from BSPACE_TERM_INFO_VW where TERM_CENTURY||TERM_YR\=? and TERM_CD\=?
+
+	academic_sessions=select TERM_CD, TERM_CENTURY||TERM_YR as TERM_FULL_YR, TERM_NAME, TERM_START_DATE, TERM_END_DATE from BSPACE_TERM_INFO_VW
+
+	academic_session=select TERM_CD, TERM_CENTURY||TERM_YR as TERM_FULL_YR, TERM_NAME, TERM_START_DATE,
+	TERM_END_DATE from BSPACE_TERM_INFO_VW where TERM_CENTURY||TERM_YR\=? and TERM_CD\=?
+
+	academic_session_current=select TERM_CD, TERM_CENTURY||TERM_YR as TERM_FULL_YR, TERM_NAME, TERM_START_DATE, TERM_END_DATE
+	from BSPACE_TERM_INFO_VW where BSPACE_CURRENT \= 'Y'
+
+	course_sets=select DEPT_NAME, DEPT_DESCRIPTION from BSPACE_DEPT_VW
+
+	course_set=select DEPT_DESCRIPTION from BSPACE_DEPT_VW where DEPT_NAME=?
+
+	canonical_course=select dept.DEPT_NAME, course.CATALOG_ID, course.COURSE_TITLE, dept.DEPT_DESCRIPTION from
+	BSPACE_COURSE_INFO_VW  course join BSPACE_DEPT_VW dept on course.DEPT_NAME \= dept.DEPT_NAME where course.DEPT_NAME \= ? and course.CATALOG_ID\=?
+	order by course.TERM_YR desc, course.TERM_CD desc
+
+	canonical_course_in_course_set=select distinct dept.DEPT_NAME, dept.DEPT_DESCRIPTION, course.CATALOG_ID,
+	course.COURSE_TITLE, course.SECTION_CANCEL_FLAG, course.TERM_YR, course.TERM_CD from BSPACE_COURSE_INFO_VW course
+	join BSPACE_DEPT_VW dept on course.DEPT_NAME \= dept.DEPT_NAME where course.DEPT_NAME\=?
+
+	course_offering=select distinct course.CATALOG_ID, course.DEPT_NAME, dept.DEPT_DESCRIPTION, course.SECTION_CANCEL_FLAG,
+	course.TERM_YR, course.TERM_CD, course.COURSE_TITLE, term.TERM_CENTURY||term.TERM_YR as TERM_FULL_YR, term.TERM_NAME,
+	term.TERM_START_DATE, term.TERM_END_DATE from BSPACE_COURSE_INFO_VW course join BSPACE_DEPT_VW dept on
+	course.DEPT_NAME \= dept.DEPT_NAME join BSPACE_TERM_INFO_VW term on course.TERM_YR\=term.TERM_CENTURY||term.TERM_YR
+	and course.TERM_CD\=term.TERM_CD and course.PRIMARY_SECONDARY_CD\='P' and course.TERM_YR\=? and course.TERM_CD\=?
+	and course.DEPT_NAME\=? and course.CATALOG_ID\=?
+
+	course_offering_in_course_set=select distinct course.CATALOG_ID, course.DEPT_NAME, dept.DEPT_DESCRIPTION,
+	course.SECTION_CANCEL_FLAG, course.TERM_YR, course.TERM_CD, course.COURSE_TITLE, term.TERM_CENTURY||term.TERM_YR
+	as TERM_FULL_YR, term.TERM_NAME, term.TERM_START_DATE, term.TERM_END_DATE from BSPACE_COURSE_INFO_VW course join
+	BSPACE_DEPT_VW dept on course.DEPT_NAME \= dept.DEPT_NAME join BSPACE_TERM_INFO_VW term on
+	course.TERM_YR\=term.TERM_CENTURY||term.TERM_YR and course.TERM_CD\=term.TERM_CD and course.PRIMARY_SECONDARY_CD\='P' and course.DEPT_NAME\=?
+
+	course_offering_in_course_set_and_academic_session=select distinct course.CATALOG_ID, course.DEPT_NAME,
+	dept.DEPT_DESCRIPTION, course.SECTION_CANCEL_FLAG, course.TERM_YR, course.TERM_CD, course.COURSE_TITLE,
+	term.TERM_CENTURY||term.TERM_YR as TERM_FULL_YR, term.TERM_NAME, term.TERM_START_DATE, term.TERM_END_DATE
+	from BSPACE_COURSE_INFO_VW course join BSPACE_DEPT_VW dept on course.DEPT_NAME \= dept.DEPT_NAME
+	join BSPACE_TERM_INFO_VW term on course.TERM_YR\=term.TERM_CENTURY||term.TERM_YR and course.TERM_CD\=term.TERM_CD
+	and course.PRIMARY_SECONDARY_CD\='P' and course.DEPT_NAME\=? and course.TERM_YR\=? and course.TERM_CD\=?
+
+	course_offering_in_canonical_course=select course.CATALOG_ID, course.DEPT_NAME, dept.DEPT_DESCRIPTION,
+	course.SECTION_CANCEL_FLAG, course.TERM_YR, course.TERM_CD, course.COURSE_TITLE, term.TERM_CENTURY||term.TERM_YR as
+	TERM_FULL_YR, term.TERM_NAME, term.TERM_START_DATE, term.TERM_END_DATE from BSPACE_COURSE_INFO_VW course join
+	BSPACE_TERM_INFO_VW term on course.TERM_YR=term.TERM_CENTURY||term.TERM_YR join BSPACE_DEPT_VW dept on
+	course.DEPT_NAME = dept.DEPT_NAME and course.TERM_CD=term.TERM_CD and course.DEPT_NAME=? and course.CATALOG_ID=?
+
+	meetings=select sched.BUILDING_NAME, sched.ROOM_NUMBER, sched.MEETING_DAYS, sched.MEETING_START_TIME,
+	sched.MEETING_START_TIME_AMPM_FLAG, sched.MEETING_END_TIME, sched.MEETING_END_TIME_AMPM_FLAG from
+	BSPACE_CLASS_SCHEDULE_VW sched where sched.TERM_YR\=? and sched.TERM_CD\=? and sched.COURSE_CNTL_NUM\=? and
+	(sched.PRINT_CD is null or sched.PRINT_CD <> 'C') and (sched.MULTI_ENTRY_CD is null or sched.MULTI_ENTRY_CD <> 'C')
+
+	primary_section=select course.COURSE_TITLE, course.TERM_YR, course.TERM_CD, course.COURSE_CNTL_NUM, course.DEPT_NAME,
+	course.CATALOG_ID, course.PRIMARY_SECONDARY_CD, course.INSTRUCTION_FORMAT, course.CATALOG_DESCRIPTION,
+	course.SECTION_NUM, course.ENROLL_LIMIT, course.LOWER_RANGE_UNIT, course.UPPER_RANGE_UNIT, course.FIXED_UNIT,
+	course.COURSE_OPTION from BSPACE_COURSE_INFO_VW course where course.PRIMARY_SECONDARY_CD\='P' and course.TERM_YR\=?
+	and course.TERM_CD\=? and course.COURSE_CNTL_NUM\=? and course.SECTION_CANCEL_FLAG is null
+
+	primary_sections_in_course_offering=select course.COURSE_TITLE, course.TERM_YR, course.TERM_CD, course.COURSE_CNTL_NUM,
+	course.DEPT_NAME, course.CATALOG_ID, course.PRIMARY_SECONDARY_CD, course.INSTRUCTION_FORMAT, course.CATALOG_DESCRIPTION,
+	course.SECTION_NUM, course.ENROLL_LIMIT, course.LOWER_RANGE_UNIT, course.UPPER_RANGE_UNIT, course.FIXED_UNIT,
+	course.COURSE_OPTION from BSPACE_COURSE_INFO_VW course where course.PRIMARY_SECONDARY_CD\='P' and course.TERM_YR\=?
+	and course.TERM_CD\=? and course.DEPT_NAME\=? and course.CATALOG_ID\=? and course.SECTION_CANCEL_FLAG is null
+
+	section=select course.COURSE_TITLE, course.TERM_YR, course.TERM_CD, course.COURSE_CNTL_NUM, course.DEPT_NAME,
+	course.CATALOG_ID, course.PRIMARY_SECONDARY_CD, course.INSTRUCTION_FORMAT, course.CATALOG_DESCRIPTION, course.SECTION_NUM,
+	course.ENROLL_LIMIT, course.LOWER_RANGE_UNIT, course.UPPER_RANGE_UNIT, course.FIXED_UNIT, course.COURSE_OPTION from
+	BSPACE_COURSE_INFO_VW course where course.TERM_YR\=? and course.TERM_CD\=? and course.COURSE_CNTL_NUM\=? and
+	course.SECTION_CANCEL_FLAG is null
+
+	sections_in_course_offering=select course.COURSE_TITLE, course.TERM_YR, course.TERM_CD, course.COURSE_CNTL_NUM,
+	course.DEPT_NAME, course.CATALOG_ID, course.PRIMARY_SECONDARY_CD, course.INSTRUCTION_FORMAT, course.CATALOG_DESCRIPTION,
+	course.SECTION_NUM, course.ENROLL_LIMIT, course.LOWER_RANGE_UNIT, course.UPPER_RANGE_UNIT, course.FIXED_UNIT,
+	course.COURSE_OPTION from BSPACE_COURSE_INFO_VW course where course.TERM_YR\=? and course.TERM_CD\=? and course.DEPT_NAME\=?
+	and course.CATALOG_ID\=? and course.SECTION_CANCEL_FLAG is null
+
+	secondary_sections_in_course_offering=select course.COURSE_TITLE, course.TERM_YR, course.TERM_CD, course.COURSE_CNTL_NUM,
+	course.DEPT_NAME, course.CATALOG_ID, course.PRIMARY_SECONDARY_CD, course.INSTRUCTION_FORMAT, course.CATALOG_DESCRIPTION,
+	course.SECTION_NUM, course.ENROLL_LIMIT, course.LOWER_RANGE_UNIT, course.UPPER_RANGE_UNIT, course.FIXED_UNIT,
+	course.COURSE_OPTION from BSPACE_COURSE_INFO_VW course where course.PRIMARY_SECONDARY_CD\='S' and course.TERM_YR\=?
+	and course.TERM_CD\=? and course.DEPT_NAME\=? and course.CATALOG_ID\=? and course.SECTION_CANCEL_FLAG is null
+
+	user_enrollments=select course.COURSE_TITLE, course.TERM_YR, course.TERM_CD, course.COURSE_CNTL_NUM, course.DEPT_NAME,
+	course.CATALOG_ID, course.PRIMARY_SECONDARY_CD, course.SECTION_NUM, course.INSTRUCTION_FORMAT, course.CATALOG_DESCRIPTION,
+	course.ENROLL_LIMIT, course.LOWER_RANGE_UNIT, course.UPPER_RANGE_UNIT, course.FIXED_UNIT, course.COURSE_OPTION from
+	BSPACE_COURSE_INFO_VW course, BSPACE_CLASS_ROSTER_VW roster where course.PRIMARY_SECONDARY_CD\='P' and
+	course.TERM_YR \= roster.term_yr and course.TERM_CD \= roster.term_cd and course.COURSE_CNTL_NUM \= roster.course_cntl_num
+	and roster.ENROLL_STATUS <> 'D' and roster.STUDENT_LDAP_UID\=? and course.SECTION_CANCEL_FLAG is null
+
+	is_secondary_section=select count(*) from BSPACE_COURSE_INFO_VW where TERM_YR\=? and TERM_CD\=? and COURSE_CNTL_NUM\=? and PRIMARY_SECONDARY_CD\='S'
+
+	user_enrollments_by_term=select course.COURSE_TITLE, course.TERM_YR, course.TERM_CD, course.COURSE_CNTL_NUM,
+	course.DEPT_NAME, course.CATALOG_ID, course.PRIMARY_SECONDARY_CD, course.INSTRUCTION_FORMAT, course.COURSE_OPTION,
+	course.CATALOG_DESCRIPTION, course.SECTION_NUM, course.FIXED_UNIT, course.ENROLL_LIMIT, course.LOWER_RANGE_UNIT,
+	course.UPPER_RANGE_UNIT from BSPACE_COURSE_INFO_VW course, BSPACE_CLASS_ROSTER_VW roster where course.PRIMARY_SECONDARY_CD\='P'
+	and course.TERM_YR \= roster.term_yr and course.TERM_CD \= roster.term_cd and course.COURSE_CNTL_NUM \=
+	roster.course_cntl_num and roster.ENROLL_STATUS <> 'D' and roster.STUDENT_LDAP_UID\=? and roster.TERM_YR\=? and roster.TERM_CD\=? and course.SECTION_CANCEL_FLAG is null
+
+	enrollment=select roster.STUDENT_LDAP_UID, roster.UNIT, roster.ENROLL_STATUS, roster.PNP_FLAG, roster.CREDIT_CD,
+	roster.TERM_YR, roster.TERM_CD, roster.COURSE_CNTL_NUM from BSPACE_CLASS_ROSTER_VW roster where roster.STUDENT_LDAP_UID\=?
+	and roster.TERM_YR\=? and roster.TERM_CD\=? and roster.COURSE_CNTL_NUM\=?
+
+	is_enrolled=select count(*) from BSPACE_CLASS_ROSTER_VW where TERM_YR\=? and TERM_CD\=? and COURSE_CNTL_NUM\=? and STUDENT_LDAP_UID\=?
+
+	enrollments=select roster.STUDENT_LDAP_UID, roster.UNIT, roster.ENROLL_STATUS, roster.PNP_FLAG, roster.CREDIT_CD,
+	roster.TERM_YR, roster.TERM_CD, roster.COURSE_CNTL_NUM from BSPACE_CLASS_ROSTER_VW roster where roster.TERM_YR\=?
+	and roster.TERM_CD\=? and roster.COURSE_CNTL_NUM\=?
+
+	instructors_sections_by_term=select course.COURSE_TITLE, course.TERM_YR, course.TERM_CD, course.COURSE_CNTL_NUM,
+	course.DEPT_NAME, course.SECTION_NUM, course.CATALOG_ID, course.PRIMARY_SECONDARY_CD, course.INSTRUCTION_FORMAT,
+	course.CATALOG_DESCRIPTION, course.ENROLL_LIMIT, course.LOWER_RANGE_UNIT, course.UPPER_RANGE_UNIT, course.FIXED_UNIT,
+	course.COURSE_OPTION from BSPACE_COURSE_INFO_VW course, BSPACE_COURSE_INSTRUCTOR_VW instr where
+	course.PRIMARY_SECONDARY_CD\='P' and (instr.INSTRUCTOR_FUNC\=1 or instr.INSTRUCTOR_FUNC\=3) and instr.TERM_YR \=
+	course.TERM_YR and instr.TERM_CD \= course.TERM_CD and instr.COURSE_CNTL_NUM \= course.COURSE_CNTL_NUM and
+	instr.INSTRUCTOR_LDAP_UID\=? and instr.TERM_YR\=? and instr.TERM_CD\=? and course.SECTION_CANCEL_FLAG is null
+
+	instructors_sections=select course.COURSE_TITLE, course.TERM_YR, course.TERM_CD, course.COURSE_CNTL_NUM, course.DEPT_NAME,
+	course.CATALOG_ID, course.PRIMARY_SECONDARY_CD, course.INSTRUCTION_FORMAT, course.CATALOG_DESCRIPTION, course.ENROLL_LIMIT,
+	course.SECTION_NUM, course.LOWER_RANGE_UNIT, course.UPPER_RANGE_UNIT, course.FIXED_UNIT, course.COURSE_OPTION from
+	BSPACE_COURSE_INFO_VW course, BSPACE_COURSE_INSTRUCTOR_VW instr where course.PRIMARY_SECONDARY_CD\='P' and
+	(instr.INSTRUCTOR_FUNC\=1 or instr.INSTRUCTOR_FUNC\=3) and instr.COURSE_CNTL_NUM \= course.COURSE_CNTL_NUM and
+	instr.TERM_YR \= course.TERM_YR and instr.TERM_CD \= course.TERM_CD and instr.INSTRUCTOR_LDAP_UID\=? and
+	course.SECTION_CANCEL_FLAG is null
+
+	instructors_primary_sections_any_csir=select course.COURSE_TITLE, course.TERM_YR, course.TERM_CD, course.COURSE_CNTL_NUM,
+	course.DEPT_NAME, course.CATALOG_ID, course.PRIMARY_SECONDARY_CD, course.INSTRUCTION_FORMAT, course.CATALOG_DESCRIPTION,
+	course.ENROLL_LIMIT, course.SECTION_NUM, course.LOWER_RANGE_UNIT, course.UPPER_RANGE_UNIT, course.COURSE_OPTION,
+	course.FIXED_UNIT from BSPACE_COURSE_INFO_VW course, BSPACE_COURSE_INSTRUCTOR_VW instr where
+	course.PRIMARY_SECONDARY_CD\='P' and instr.COURSE_CNTL_NUM \= course.COURSE_CNTL_NUM and instr.TERM_YR \= course.TERM_YR
+	and instr.TERM_CD \= course.TERM_CD and instr.INSTRUCTOR_LDAP_UID\=? and course.SECTION_CANCEL_FLAG is null
+
+	instructors_of_record=select INSTRUCTOR_LDAP_UID from BSPACE_COURSE_INSTRUCTOR_VW where (INSTRUCTOR_FUNC\=1 or
+	INSTRUCTOR_FUNC\=3) and TERM_YR\=? and TERM_CD\=? and COURSE_CNTL_NUM\=?
+
+	instructor_not_of_record=select i.TERM_YR, i.TERM_CD, i.COURSE_CNTL_NUM, i.INSTRUCTOR_FUNC, c.PRIMARY_SECONDARY_CD
+	from BSPACE_COURSE_INSTRUCTOR_VW i, BSPACE_COURSE_INFO_VW c where i.TERM_YR\= c.TERM_YR and i.TERM_CD \= c.TERM_CD
+	and i.COURSE_CNTL_NUM \= c.COURSE_CNTL_NUM and (i.INSTRUCTOR_FUNC\=2 or i.INSTRUCTOR_FUNC\=4) and i.INSTRUCTOR_LDAP_UID\=?
+
+	instructors_not_of_record=select INSTRUCTOR_LDAP_UID from BSPACE_COURSE_INSTRUCTOR_VW where (INSTRUCTOR_FUNC\=2 or
+	INSTRUCTOR_FUNC\=4) and TERM_YR\=? and TERM_CD\=? and COURSE_CNTL_NUM\=?
+
+	students=select STUDENT_LDAP_UID from BSPACE_CLASS_ROSTER_VW where TERM_YR\=? and TERM_CD\=? and COURSE_CNTL_NUM\=?
+
+	students_in_secondary_section=select c.TERM_YR, c.TERM_CD, c.COURSE_CNTL_NUM from BSPACE_COURSE_INFO_VW c,
+	BSPACE_CLASS_ROSTER_VW s where c.TERM_YR\=s.TERM_YR and c.TERM_CD\=s.TERM_CD and c.COURSE_CNTL_NUM\=s.COURSE_CNTL_NUM
+	and c.PRIMARY_SECONDARY_CD\='S' and STUDENT_LDAP_UID\=? and c.SECTION_CANCEL_FLAG is null
+
+bSpace roster photo
+		String sql = "select PHOTO from bspace_student_photo_vw where STUDENT_LDAP_UID=?";
+
+bSpace User Directory Service:
+		<property name="userIdDbQuery" value="SELECT * FROM (SELECT LDAP_UID, FIRST_NAME, LAST_NAME, EMAIL_ADDRESS,
+		AFFILIATIONS, STUDENT_ID, PERSON_TYPE FROM BSPACE_PERSON_INFO_VW WHERE LDAP_UID=?) WHERE ROWNUM=1" />
+		<property name="userEmailDbQuery" value="SELECT * FROM (SELECT LDAP_UID, FIRST_NAME, LAST_NAME, EMAIL_ADDRESS,
+		AFFILIATIONS, STUDENT_ID, PERSON_TYPE FROM BSPACE_PERSON_INFO_VW WHERE EMAIL_ADDRESS LIKE ? ESCAPE '\') WHERE ROWNUM=1" />
+		<property name="userInIdsDbQueryPrefix" value="SELECT LDAP_UID, FIRST_NAME, LAST_NAME, EMAIL_ADDRESS,
+		AFFILIATIONS, STUDENT_ID, PERSON_TYPE FROM BSPACE_PERSON_INFO_VW WHERE LDAP_UID IN " />
+
+***
