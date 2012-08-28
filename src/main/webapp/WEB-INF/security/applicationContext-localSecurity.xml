@@ -91,10 +91,13 @@
 		</property>
 	</bean>
 
+	<bean id="logoutSuccessHandler" class="org.springframework.security.web.authentication.logout.SimpleUrlLogoutSuccessHandler">
+		<property name="defaultTargetUrl"	value="https://auth-test.berkeley.edu/cas/logout?url=http%3A%2F%2FlocalhostZ%3A8080%2F"/>
+	</bean>
+
 	<bean id="logoutFilter"
 		class="org.springframework.security.web.authentication.logout.LogoutFilter">
-		<constructor-arg
-			value="https://auth-test.berkeley.edu/cas/logout?url=http%3A%2F%2Flocalhost%3A8080%2F" />
+		<constructor-arg ref="logoutSuccessHandler"></constructor-arg>
 		<constructor-arg>
 			<bean
 				class="org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler" />
