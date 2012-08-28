@@ -29,7 +29,7 @@ public class UserServiceDao {
 
 	@Autowired @Qualifier("dataSource")
 	private DataSource dataSource;
-	
+
 	public DataSource getDataSource() {
 		return dataSource;
 	}
@@ -46,14 +46,14 @@ public class UserServiceDao {
 	 * @throws UsernameNotFoundException on issues looking up the user.
 	 */
 	public User getUserDetails(String uid) {
-	    //sanity check
-	    if (uid == null || uid.isEmpty()) {
-	        throw new UsernameNotFoundException("User: " + uid + " not found!");
-	    }
-	    
-	    return fetchUser(uid);
-    }
-	
+		//sanity check
+		if (uid == null || uid.isEmpty()) {
+			throw new UsernameNotFoundException("User: " + uid + " not found!");
+		}
+
+		return fetchUser(uid);
+	}
+
 	/**
 	 * Fetch the user from the database and populate a UserDetails/User object
 	 * 
@@ -63,31 +63,31 @@ public class UserServiceDao {
 	private User fetchUser(String uid) {
 		Map<String, String> params = Maps.newHashMap();
 		params.put("calnetUID", uid);
-		
+
 		NamedParameterJdbcTemplate paramedQueryRunner = new NamedParameterJdbcTemplate(dataSource);
 		String sql = 
 				"   SELECT cu.uid username, "
-				+ "   'testuser' passwordString, "
-				+ "   cu.activeFlag activeFlag "
-				+ " FROM calcentral_users cu "
-				+ " WHERE "
-				+ "   cu.uid = :calnetUID";
-		
+						+ "   'testuser' passwordString, "
+						+ "   cu.activeFlag activeFlag "
+						+ " FROM calcentral_users cu "
+						+ " WHERE "
+						+ "   cu.uid = :calnetUID";
+
 		Map<String, Object> results =  paramedQueryRunner.queryForMap(sql, params);
 		String username = Strings.nullToEmpty((String) results.get("username"));
 		String password = Strings.nullToEmpty((String) results.get("passwordString"));
 		boolean active = (Boolean) results.get("activeFlag");
-		
+
 		//sanity check
 		if (username.isEmpty() || password.isEmpty()) {
 			throw new UsernameNotFoundException("User: " + uid + " not found!");
 		}
-		
+
 		//Only one role for now to make @PreAuth simple and easy.
-	    List<SimpleGrantedAuthority> authorities = Lists.newArrayList();
-	    authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
-		
+		List<SimpleGrantedAuthority> authorities = Lists.newArrayList();
+		authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
+
 		return new User(username, password, active, active, active, active, authorities);
 	}
-    
+
 }

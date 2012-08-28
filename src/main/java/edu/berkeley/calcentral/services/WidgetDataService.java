@@ -54,8 +54,8 @@ public class WidgetDataService {
 	@Produces({MediaType.APPLICATION_JSON})
 	@Path("{widgetID}")
 	public WidgetData save(@PathParam(RESTConstants.PARAM_USER_ID) String userID,
-												 @PathParam("widgetID") String widgetID,
-												 @FormParam(RESTConstants.PARAM_DATA) String jsonData) {
+			@PathParam("widgetID") String widgetID,
+			@FormParam(RESTConstants.PARAM_DATA) String jsonData) {
 		WidgetData widgetData = new WidgetData(userID, widgetID, jsonData);
 		//sanity check
 		if (Strings.nullToEmpty(widgetData.getUid()).isEmpty() ||
@@ -91,7 +91,7 @@ public class WidgetDataService {
 	@Produces({MediaType.APPLICATION_JSON})
 	@Path("{widgetID}")
 	public WidgetData get(@PathParam(RESTConstants.PARAM_USER_ID) String userID,
-												@PathParam("widgetID") String widgetID) {
+			@PathParam("widgetID") String widgetID) {
 		return widgetDataDao.getWidgetData(userID, widgetID);
 	}
 
@@ -104,7 +104,7 @@ public class WidgetDataService {
 	@DELETE
 	@Path("{widgetID}")
 	public void delete(@PathParam(RESTConstants.PARAM_USER_ID) String userID,
-										 @PathParam("widgetID") String widgetID) {
+			@PathParam("widgetID") String widgetID) {
 		widgetDataDao.deleteWidgetData(userID, widgetID);
 	}
 

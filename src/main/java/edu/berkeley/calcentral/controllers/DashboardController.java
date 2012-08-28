@@ -17,8 +17,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.google.common.collect.Maps;
 
+import edu.berkeley.calcentral.daos.UserDataDao;
 import edu.berkeley.calcentral.domain.CalCentralUser;
-import edu.berkeley.calcentral.services.UserDataService;
 
 /**
  * Controller for pulling up the initial dashboard after a user logs in.
@@ -26,29 +26,29 @@ import edu.berkeley.calcentral.services.UserDataService;
 @Controller
 public class DashboardController {
 
-    @Autowired
-    private UserDataService userDataService;
+	@Autowired
+	private UserDataDao userDataDao;
 
-    /**
-     * GET call for the dashboard. 
-     * 
-     * @param model map to return to the view.
-     * @param request servlet request object.
-     * @return dashboard view.
-     */
-    @PreAuthorize("hasRole('ROLE_USER')")
-    @RequestMapping(value = { "/dashboard" }, method = RequestMethod.GET)
-    public ModelAndView getDashboard(HttpServletRequest request) {
-	String uid = request.getUserPrincipal().getName();
-	CalCentralUser user = userDataService.get(uid);
-	String username = "";
-	if (user != null) {
-	    username = new StringBuffer(user.getFirstName()).append(" ").append(user.getLastName()).toString();
+	/**
+	 * GET call for the dashboard. 
+	 * 
+	 * @param model map to return to the view.
+	 * @param request servlet request object.
+	 * @return dashboard view.
+	 */
+	@PreAuthorize("hasRole('ROLE_USER')")
+	@RequestMapping(value = { "/dashboard" }, method = RequestMethod.GET)
+	public ModelAndView getDashboard(
+			HttpServletRequest request) {
+		String uid = request.getUserPrincipal().getName();
+		CalCentralUser user = userDataDao.get(uid);
+		String username = "";
+		if (user != null) {
+			username = new StringBuffer(user.getFirstName()).append(" ").append(user.getLastName()).toString();
+		}
+		Map<String, Object> model = Maps.newHashMap();
+		model.put("uid", uid);
+		model.put("name", username);
+		return new ModelAndView("dashboard", model);
 	}
-	Map<String, Object> model = Maps.newHashMap();
-	model.put("uid", uid);
-	model.put("name", username);
-	
-	return new ModelAndView("dashboard", model);
-    }
 }

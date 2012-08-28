@@ -16,67 +16,74 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
 import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.node.ObjectNode;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Service;
 
 import edu.berkeley.calcentral.RESTConstants;
-import edu.berkeley.calcentral.services.UserDataService;
+import edu.berkeley.calcentral.daos.UserDataDao;
+import edu.berkeley.calcentral.daos.WidgetDataDao;
+import edu.berkeley.calcentral.domain.CalCentralUser;
+import edu.berkeley.calcentral.domain.CurrentUser;
+import edu.berkeley.calcentral.domain.UserData;
 
-@Controller
+@Service
 @Path(RESTConstants.PATH_API)
 public class UserDataController {
 
-    private ObjectMapper jMapper = new ObjectMapper();
+	private ObjectMapper jMapper = new ObjectMapper();
 
-    @Autowired
-    private UserDataService userDataService;
+	@Autowired
+	private UserDataDao userDataDao;
 
-    @GET
-    @Path("currentUser")
-    @Produces({MediaType.APPLICATION_JSON})
-    public String getCurrentUser(
-            @Context HttpServletRequest request) {
-        ObjectNode responseNode = jMapper.getNodeFactory().objectNode();
-        if (request.getUserPrincipal() == null) {
-            responseNode.put("loggedIn", false);
-            return responseNode.toString();
-        } else {
-            responseNode.put("loggedIn", true);
-        }
+	@Autowired
+	private WidgetDataDao widgetDataDao;
 
-        String uid = request.getUserPrincipal().getName();
-        ObjectNode userNode = userDataService.getUserAndWidgetData(uid);
-        responseNode.putAll(userNode);
-        return responseNode.toString();
-    }
-    
-    @GET
-    @Path("user/{userID}")
-    @Produces({MediaType.APPLICATION_JSON})
-    public String getUser(@PathParam(RESTConstants.PARAM_USER_ID) String userID) {
-        ObjectNode responseNode = userDataService.getUserAndWidgetData(userID);
-        if (responseNode == null) {
-            return null;
-        } else {
-            return responseNode.toString();
-        }
-    }
-    
-    @POST
-    @Path("user/{userID}")
-    @Produces({MediaType.APPLICATION_JSON})
-    public String saveUserAndWidgetData(@PathParam(RESTConstants.PARAM_USER_ID) String userID,
-            @FormParam(RESTConstants.PARAM_DATA) String jsonData) {
-        String savedData = null;
-        savedData = userDataService.saveUser(jsonData);
-        return savedData;
-    }
-    
-    @DELETE
-    @Path("user/{userID}")
-    public void deleteUserAndWidgetData(@PathParam(RESTConstants.PARAM_USER_ID) String userID) {
-        userDataService.deleteUserAndWidgetData(userID);
-    }
-    
+	@GET
+	@Path("currentUser")
+	@Produces({MediaType.APPLICATION_JSON})
+	public CurrentUser getCurrentUser(
+			@Context HttpServletRequest request) {
+
+		if (request.getUserPrincipal() == null) {
+			return new CurrentUser();
+		}
+		String uid = request.getUserPrincipal().getName(); 
+		UserData user = userDataDao.getUserAndWidgetData(uid);
+		CurrentUser currentUser = new CurrentUser(user);
+		return currentUser;
+	}
+
+	@GET
+	@Path("user/{userID}")
+	@Produces({MediaType.APPLICATION_JSON})
+	public CurrentUser getUser(@PathParam(RESTConstants.PARAM_USER_ID) String userID) {
+		UserData user = userDataDao.getUserAndWidgetData(userID);
+		CurrentUser currentUser = new CurrentUser(user);
+		return currentUser;
+	}
+
+	@POST
+	@Path("user/{userID}")
+	@Produces({MediaType.APPLICATION_JSON})
+	public CalCentralUser saveUserData(@PathParam(RESTConstants.PARAM_USER_ID) String userID,
+			@FormParam(RESTConstants.PARAM_DATA) String jsonData) {
+		CalCentralUser userToSave = null;
+		try {
+			//making sure items serialize and deserialize properly before attempting to save.
+			userToSave = jMapper.readValue(jsonData, CalCentralUser.class);
+			userDataDao.update(userToSave);
+			return userToSave;
+		} catch(Exception e) {
+			//ignore malformed data.
+			return null;
+		}
+	}
+
+	@DELETE
+	@Path("user/{userID}")
+	public void deleteUserAndWidgetData(@PathParam(RESTConstants.PARAM_USER_ID) String userID) {
+		userDataDao.delete(userID);
+		widgetDataDao.deleteAllWidgetData(userID);
+	}
+
 }
