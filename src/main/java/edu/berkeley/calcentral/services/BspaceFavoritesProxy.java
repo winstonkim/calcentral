@@ -20,6 +20,7 @@ package edu.berkeley.calcentral.services;
 
 
 import edu.berkeley.calcentral.Urls;
+import edu.berkeley.calcentral.util.Signature;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpState;
 import org.apache.commons.httpclient.methods.GetMethod;
@@ -29,6 +30,7 @@ import org.springframework.stereotype.Service;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import java.io.IOException;
+import java.security.SignatureException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -38,11 +40,34 @@ public class BspaceFavoritesProxy {
 
 	private static final Logger logger = Logger.getLogger(BspaceFavoritesProxy.class);
 
+	private static final String SECURE_TOKEN_HEADER_NAME = "x-sakai-token";
+
+	private static final String TOKEN_SEPARATOR = ";";
+
 	@GET
 	public Map<String, Object> get() throws IOException {
 		HttpClient httpClient = new HttpClient();
 		httpClient.setState(new HttpState());
-		GetMethod get = new GetMethod("http://sakai-dev.berkeley.edu:80/sakai-hybrid/sites?categorized=true");
+
+		GetMethod get = new GetMethod("https://sakai-dev.berkeley.edu:80/sakai-hybrid/sites?categorized=true");
+
+		String user = "904715"; // TODO replace with request.getRemoteUser()
+		String hmac;
+		String sharedSecret = "foo"; // TODO parameterize
+
+		final String message = user + TOKEN_SEPARATOR + System.currentTimeMillis();
+		try {
+			hmac = Signature.calculateRFC2104HMAC(message, sharedSecret);
+		} catch (SignatureException e) {
+			logger.error(e.getLocalizedMessage(), e);
+			throw new Error(e);
+		}
+
+		final String token = hmac + TOKEN_SEPARATOR + message;
+		logger.debug("x-sakai-token=" + token);
+
+		get.setRequestHeader(SECURE_TOKEN_HEADER_NAME, token);
+
 		httpClient.executeMethod(get);
 		if (logger.isDebugEnabled()) {
 			logger.debug("Proxy get of url " + get.getURI() + " returned statusCode=" + get.getStatusCode() + " " + get.getStatusText());
