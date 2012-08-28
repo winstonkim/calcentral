@@ -89,7 +89,7 @@ nohup mvn -e jetty:run -Dmaven.test.skip=true -DcustomPropsDir=$CONFIG_FILES >> 
 sleep 20;
 
 # attempt to restart apache proxy
-sudo -n /sbin/service httpd_proxy restart
+# sudo -n /sbin/service httpd_proxy restart
 
 echo | $LOGIT
 echo "------------------------------------------" | $LOGIT
