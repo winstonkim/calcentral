@@ -21,11 +21,14 @@ package edu.berkeley.calcentral.domain;
 import javax.ws.rs.FormParam;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.codehaus.jackson.map.annotate.JsonSerialize;
+
 /**
  * Widget Data.
  *
  */
 @XmlRootElement
+@JsonSerialize(include=JsonSerialize.Inclusion.NON_NULL)
 public class WidgetData {
 
 	private String uid;

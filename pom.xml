@@ -155,22 +155,22 @@
 		</dependency>
 		<dependency>
 			<groupId>org.jboss.resteasy</groupId>
-			<artifactId>resteasy-jaxb-provider</artifactId>
-			<version>2.3.4.Final</version>
-		</dependency>
-		<dependency>
-			<groupId>org.jboss.resteasy</groupId>
 			<artifactId>tjws</artifactId>
 			<version>2.3.4.Final</version>
 			<scope>test</scope>
 		</dependency>
-		<!--  JacksonASL: For oddball serialization use cases -->
-	    <dependency>
-	      <groupId>org.codehaus.jackson</groupId>
-	      <artifactId>jackson-mapper-asl</artifactId>
-	      <version>1.9.9</version>
-	      <scope>compile</scope>
-	    </dependency>
+		<dependency>
+			<groupId>org.jboss.resteasy</groupId>
+			<artifactId>resteasy-cache-core</artifactId>
+			<version>2.3.4.Final</version>
+		</dependency>
+
+		<!--  Jackson resteasy provider. -->
+		<dependency>
+			<groupId>org.jboss.resteasy</groupId>
+			<artifactId>resteasy-jackson-provider</artifactId>
+			<version>2.3.4.Final</version>
+		</dependency>
 
 		<!-- Flyway DDL -->
 		<dependency>
@@ -218,8 +218,8 @@
 					<stopPort>9955</stopPort>
 					<systemProperties>
 						<systemProperty>
-							<name>log4j.configuration</name>
-							<value>file:./src/main/resources/log4j.properties</value>
+							<name>spring.profiles.active</name>
+							<value>default</value>
 						</systemProperty>
 					</systemProperties>
 					<webApp>
@@ -237,8 +237,13 @@
 							<scanIntervalSeconds>0</scanIntervalSeconds>
 							<daemon>true</daemon>
 							<systemProperties>
+								<!--
+								 The plugin will not overwrite a system property which has already been set,
+								 and so we use different properties for the integration-test and jetty:run
+								 phases.
+							 -->
 								<systemProperty>
-									<name>spring.profiles.active</name>
+									<name>spring.profiles.default</name>
 									<value>test</value>
 								</systemProperty>
 							</systemProperties>
@@ -380,6 +385,38 @@
 		</extensions>
 
 	</build>
+
+	<profiles>
+		<profile>
+			<id>reinstall-calcentral-dev</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>exec-maven-plugin</artifactId>
+						<version>1.2.1</version>
+						<executions>
+							<execution>
+								<id>reinstall-calcentral-dev</id>
+								<phase>deploy</phase>
+								<goals>
+									<goal>exec</goal>
+								</goals>
+								<configuration>
+									<!-- ssh myberkeley@calcentral-dev.berkeley.edu "/home/myberkeley/calcentral/run.sh ~/" -->
+									<executable>ssh</executable>
+									<arguments>
+										<argument>myberkeley@calcentral-dev.berkeley.edu</argument>
+										<argument>/home/myberkeley/calcentral/run.sh ~/</argument>
+									</arguments>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 
 	<distributionManagement>
 		<snapshotRepository>

@@ -18,14 +18,20 @@
 
 package edu.berkeley.calcentral;
 
-public interface RESTConstants {
+public interface Urls {
 
-	String PATH_API = "/api";
+	String API = "/api";
 
-	String PATH_USER = PATH_API + "/user";
+	String USERS = API + "/user";
 
-	String PARAM_USER_ID = "userID";
+	String SPECIFIC_USER = USERS + "/{userID}";
 
-	String PARAM_DATA = "data";
+	String WIDGET_DATA = SPECIFIC_USER + "/widgetData";
+
+	String GIT_INFO = API + "/gitInfo";
+
+	String CAMPUS_DATA = API + "/campusdata";
+
+	String DASHBOARD = "/dashboard";
 
 }
