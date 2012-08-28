@@ -237,6 +237,11 @@
 						<scanIntervalSeconds>0</scanIntervalSeconds>
 						<daemon>true</daemon>
 						<systemProperties>
+							<!--
+							  The plugin will not overwrite a system property which has already been set,
+							  and so we use different properties for the integration-test and jetty:run
+							  phases.
+							-->
 							<systemProperty>
 								<name>spring.profiles.default</name>
 								<value>test</value>
