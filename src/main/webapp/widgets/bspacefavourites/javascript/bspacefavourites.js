@@ -19,7 +19,11 @@ calcentral.Widgets.bspacefavourites = function(tuid) {
 
 	var renderFavouritesList = function(data) {
 		data = $.parseJSON(data);
-		$bspacefavouritesList.html(calcentral.Api.Util.renderTemplate('cc-widget-bspacefavourites-list-template', data));
+		calcentral.Api.Util.renderTemplate({
+			'container': $bspacefavouritesList,
+			'data': data,
+			'template': $('#cc-widget-bspacefavourites-list-template', $rootel)
+		});
 	};
 
 	///////////////////

@@ -301,7 +301,11 @@ calcentral.Widgets.quicklinks = function(tuid) {
 	 */
 	var renderLinkList = function(data) {
 		data = filterLinksList(data);
-		$accordionContainer.html(calcentral.Api.Util.renderTemplate('quicklinks_accordion_template', data));
+		calcentral.Api.Util.renderTemplate({
+			'container': $accordionContainer,
+			'data': data,
+			'template': $('#quicklinks_accordion_template')
+		});
 		setupAccordion();
 		setupEditIcons();
 	};
