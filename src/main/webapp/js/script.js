@@ -32,7 +32,7 @@ var calcentral = calcentral || {};
 	calcentral.Api.User.getCurrentUser = function(callback) {
 		$.ajax({
 			'success': function(data) {
-				callback(true, data);
+				callback(true, data.currentUser);
 			},
 			'url': '/api/currentUser'
 		});
