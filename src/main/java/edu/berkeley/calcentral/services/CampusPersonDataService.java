@@ -19,6 +19,7 @@ package edu.berkeley.calcentral.services;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
+import edu.berkeley.calcentral.Urls;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +35,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-@Path("/api/campusdata")
+@Path(Urls.CAMPUS_DATA)
 public class CampusPersonDataService {
 	private static final Log LOGGER = LogFactory.getLog(CampusPersonDataService.class);
 	public static final String SELECT_PERSON_SQL =

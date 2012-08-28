@@ -20,7 +20,8 @@ package edu.berkeley.calcentral.services;
 
 import java.util.List;
 
-import edu.berkeley.calcentral.RESTConstants;
+import edu.berkeley.calcentral.Params;
+import edu.berkeley.calcentral.Urls;
 import org.jboss.resteasy.annotations.cache.Cache;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -34,10 +35,8 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 
 @Service
-@Path(WidgetDataService.PATH)
+@Path(Urls.WIDGET_DATA)
 public class WidgetDataService {
-
-	public static final String PATH = RESTConstants.PATH_USER + "/{userID}/widgetData";
 
 	@Autowired
 	private WidgetDataDao widgetDataDao;
@@ -52,10 +51,10 @@ public class WidgetDataService {
 	 */
 	@POST
 	@Produces({MediaType.APPLICATION_JSON})
-	@Path("{widgetID}")
-	public WidgetData save(@PathParam(RESTConstants.PARAM_USER_ID) String userID,
-			@PathParam("widgetID") String widgetID,
-			@FormParam(RESTConstants.PARAM_DATA) String jsonData) {
+	@Path("/{" + Params.WIDGET_ID + "}")
+	public WidgetData save(@PathParam(Params.USER_ID) String userID,
+												 @PathParam(Params.WIDGET_ID) String widgetID,
+												 @FormParam(Params.DATA) String jsonData) {
 		WidgetData widgetData = new WidgetData(userID, widgetID, jsonData);
 		//sanity check
 		if (Strings.nullToEmpty(widgetData.getUid()).isEmpty() ||
@@ -75,7 +74,7 @@ public class WidgetDataService {
 	@Cache(mustRevalidate = true)
 	@GET
 	@Produces({MediaType.APPLICATION_JSON})
-	public List<WidgetData> getAllForUser(@PathParam(RESTConstants.PARAM_USER_ID) String userID) {
+	public List<WidgetData> getAllForUser(@PathParam(Params.USER_ID) String userID) {
 		return widgetDataDao.getAllWidgetData(userID);
 	}
 
@@ -89,9 +88,9 @@ public class WidgetDataService {
 	@Cache(mustRevalidate = true)
 	@GET
 	@Produces({MediaType.APPLICATION_JSON})
-	@Path("{widgetID}")
-	public WidgetData get(@PathParam(RESTConstants.PARAM_USER_ID) String userID,
-			@PathParam("widgetID") String widgetID) {
+	@Path("/{" + Params.WIDGET_ID + "}")
+	public WidgetData get(@PathParam(Params.USER_ID) String userID,
+												@PathParam(Params.WIDGET_ID) String widgetID) {
 		return widgetDataDao.getWidgetData(userID, widgetID);
 	}
 
@@ -102,9 +101,9 @@ public class WidgetDataService {
 	 * @param widgetID The widget ID
 	 */
 	@DELETE
-	@Path("{widgetID}")
-	public void delete(@PathParam(RESTConstants.PARAM_USER_ID) String userID,
-			@PathParam("widgetID") String widgetID) {
+	@Path("/{" + Params.WIDGET_ID + "}")
+	public void delete(@PathParam(Params.USER_ID) String userID,
+										 @PathParam(Params.WIDGET_ID) String widgetID) {
 		widgetDataDao.deleteWidgetData(userID, widgetID);
 	}
 
@@ -114,7 +113,7 @@ public class WidgetDataService {
 	 * @param userID The user ID
 	 */
 	@DELETE
-	public void deleteAll(@PathParam(RESTConstants.PARAM_USER_ID) String userID) {
+	public void deleteAll(@PathParam(Params.USER_ID) String userID) {
 		widgetDataDao.deleteAllWidgetData(userID);
 	}
 

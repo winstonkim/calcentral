@@ -8,6 +8,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import edu.berkeley.calcentral.Urls;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -37,7 +38,7 @@ public class DashboardController {
 	 * @return dashboard view.
 	 */
 	@PreAuthorize("hasRole('ROLE_USER')")
-	@RequestMapping(value = { "/dashboard" }, method = RequestMethod.GET)
+	@RequestMapping(value = { Urls.DASHBOARD }, method = RequestMethod.GET)
 	public ModelAndView getDashboard(
 			HttpServletRequest request) {
 		String uid = request.getUserPrincipal().getName();
