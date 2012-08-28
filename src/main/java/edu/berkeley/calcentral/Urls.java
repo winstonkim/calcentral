@@ -36,4 +36,6 @@ public interface Urls {
 
 	String DASHBOARD = "/dashboard";
 
+	String BSPACE_FAVORITES = API + "/bspacefavorites";
+
 }
