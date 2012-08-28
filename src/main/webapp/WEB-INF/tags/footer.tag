@@ -1,5 +1,5 @@
 <footer>
-	<p class="copyright">&copy; UC Regents 2012 All rights reserved</p>
+	<p class="cc-copyright">&copy; UC Regents 2012 All rights reserved</p>
 </footer>
 
 

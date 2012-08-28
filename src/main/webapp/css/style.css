@@ -609,8 +609,8 @@ footer {
 	width: 960px;
 }
 
-.copyright {
-	padding-top:26px;
+footer .cc-copyright {
+	padding-top: 26px;
 }
 
 
