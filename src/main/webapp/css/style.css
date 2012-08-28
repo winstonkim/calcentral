@@ -260,15 +260,6 @@ header h1 {
 	float: left;
 }
 
-.cc-404-div {
-    float:right;
-    margin-right:150px;
-}
-
-.cc-smalltop {
-	margin-top:-5px;
-}
-
 /* Navigation */
 .cc-topnavigation {
 	background: #194270;
@@ -420,6 +411,15 @@ header h1 {
 	background: -o-linear-gradient(top, #3b5d86, #012955);
 	background: -ms-linear-gradient(top, #3b5d86, #012955);
 	background: linear-gradient(top, #3b5d86, #012955);
+}
+
+/* Error pages */
+.cc-page-404 .cc-container-main img {
+	margin-right: 50px;
+}
+
+.cc-page-404 h2 {
+	margin-top: 0;
 }
 
 /* Colleges and schools */
@@ -609,8 +609,8 @@ footer {
 	width: 960px;
 }
 
-.copyright {
-	padding-top:26px;
+footer .cc-copyright {
+	padding-top: 26px;
 }
 
 
