@@ -2,9 +2,8 @@
  * UserDataController.java
  * Copyright (c) 2012 The Regents of the University of California
  */
-package edu.berkeley.calcentral.controllers;
+package edu.berkeley.calcentral.services;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
@@ -12,15 +11,14 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
-import edu.berkeley.calcentral.Params;
-import edu.berkeley.calcentral.Urls;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import edu.berkeley.calcentral.Params;
+import edu.berkeley.calcentral.Urls;
 import edu.berkeley.calcentral.daos.UserDataDao;
 import edu.berkeley.calcentral.daos.WidgetDataDao;
 import edu.berkeley.calcentral.domain.CalCentralUser;
@@ -28,8 +26,8 @@ import edu.berkeley.calcentral.domain.CurrentUser;
 import edu.berkeley.calcentral.domain.UserData;
 
 @Service
-@Path(Urls.API)
-public class UserDataController {
+@Path(Urls.USERS)
+public class UserDataService {
 
 	private ObjectMapper jMapper = new ObjectMapper();
 
@@ -39,23 +37,9 @@ public class UserDataController {
 	@Autowired
 	private WidgetDataDao widgetDataDao;
 
+	
 	@GET
-	@Path("currentUser")
-	@Produces({MediaType.APPLICATION_JSON})
-	public CurrentUser getCurrentUser(
-			@Context HttpServletRequest request) {
-
-		if (request.getUserPrincipal() == null) {
-			return new CurrentUser();
-		}
-		String uid = request.getUserPrincipal().getName(); 
-		UserData user = userDataDao.getUserAndWidgetData(uid);
-		CurrentUser currentUser = new CurrentUser(user);
-		return currentUser;
-	}
-
-	@GET
-	@Path("user/{userID}")
+	@Path("{userID}")
 	@Produces({MediaType.APPLICATION_JSON})
 	public CurrentUser getUser(@PathParam(Params.USER_ID) String userID) {
 		UserData user = userDataDao.getUserAndWidgetData(userID);
@@ -64,7 +48,7 @@ public class UserDataController {
 	}
 
 	@POST
-	@Path("user/{userID}")
+	@Path("{userID}")
 	@Produces({MediaType.APPLICATION_JSON})
 	public CalCentralUser saveUserData(@PathParam(Params.USER_ID) String userID,
 			@FormParam(Params.DATA) String jsonData) {
@@ -81,7 +65,7 @@ public class UserDataController {
 	}
 
 	@DELETE
-	@Path("user/{userID}")
+	@Path("{userID}")
 	public void deleteUserAndWidgetData(@PathParam(Params.USER_ID) String userID) {
 		userDataDao.delete(userID);
 		widgetDataDao.deleteAllWidgetData(userID);

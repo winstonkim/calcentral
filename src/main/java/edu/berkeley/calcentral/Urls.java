@@ -23,6 +23,8 @@ public interface Urls {
 	String API = "/api";
 
 	String USERS = API + "/user";
+	
+	String CURRENT_USER = API + "/currentUser";
 
 	String SPECIFIC_USER = USERS + "/{userID}";
 

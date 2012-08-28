@@ -22,11 +22,11 @@ public class UserAuthorization implements UserDetailsService {
 	/** Dao interface. */
 	@Autowired
 	private UserServiceDao userServiceDao;
-	
+
 	public UserDetails loadUserByUsername(String uid) throws UsernameNotFoundException {
-	    return userServiceDao.getUserDetails(uid);
+		return userServiceDao.getUserDetails(uid);
 	}
-	
+
 	/**
 	 * @return the dao
 	 */
@@ -40,5 +40,5 @@ public class UserAuthorization implements UserDetailsService {
 	public void setUserServiceDao(UserServiceDao userServiceDao) {
 		this.userServiceDao = userServiceDao;
 	}
-	
+
 }

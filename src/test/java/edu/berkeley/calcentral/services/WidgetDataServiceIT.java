@@ -33,7 +33,6 @@ import org.junit.Test;
 import com.google.common.collect.ImmutableMap;
 
 import edu.berkeley.calcentral.IntegrationTest;
-import org.junit.Test;
 
 public class WidgetDataServiceIT extends IntegrationTest {
 

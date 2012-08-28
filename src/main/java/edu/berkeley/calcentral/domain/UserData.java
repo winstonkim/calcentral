@@ -32,41 +32,29 @@ public class UserData {
 	}
 
 
-	/**
-	 * @return the lastName
-	 */
-	 public String getLastName() {
-		 return user.getLastName();
-	 }
+	public String getLastName() {
+		return user.getLastName();
+	}
 
-	 /**
-	  * @param lastName the lastName to set
-	  */
-	 public void setLastName(String lastName) {
-		 user.setLastName(lastName);
-	 }
+	public void setLastName(String lastName) {
+		user.setLastName(lastName);
+	}
 
-	 /**
-	  * @return the firstName
-	  */
-	 public String getFirstName() {
-		 return user.getFirstName();
-	 }
+	public String getFirstName() {
+		return user.getFirstName();
+	}
 
-	 /**
-	  * @param firstName the firstName to set
-	  */
-	 public void setFirstName(String firstName) {
-		 user.setFirstName(firstName);
-	 }
+	public void setFirstName(String firstName) {
+		user.setFirstName(firstName);
+	}
 
 
-	 public String getUid() {
-		 return user.getUid();
-	 }
+	public String getUid() {
+		return user.getUid();
+	}
 
-	 public void setUid(String uid) {
-		 user.setUid(uid);
-	 }
+	public void setUid(String uid) {
+		user.setUid(uid);
+	}
 
 }
