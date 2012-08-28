@@ -30,14 +30,13 @@ import javax.sql.DataSource;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
 import java.util.List;
 import java.util.Map;
 
 @Service
 @Path("/api/campusdata")
-public class CampusDataService {
-	private static final Log LOGGER = LogFactory.getLog(CampusDataService.class);
+public class CampusPersonDataService {
+	private static final Log LOGGER = LogFactory.getLog(CampusPersonDataService.class);
 	public static final String SELECT_PERSON_SQL =
 			"select pi.LDAP_UID, pi.UG_GRAD_FLAG, pi.FIRST_NAME, pi.LAST_NAME, pi.EMAIL_ADDRESS, pi.AFFILIATIONS, " +
 					"sm.MAJOR_NAME, sm.MAJOR_TITLE, sm.COLLEGE_ABBR, sm.MAJOR_NAME2, sm.MAJOR_TITLE2, sm.COLLEGE_ABBR2, " +
