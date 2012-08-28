@@ -88,9 +88,6 @@ nohup mvn -e jetty:run -Dmaven.test.skip=true -DcustomPropsDir=$CONFIG_FILES >> 
 # wait 20s for server to get started
 sleep 20;
 
-# attempt to restart apache proxy
-# sudo -n /sbin/service httpd_proxy restart
-
 echo | $LOGIT
 echo "------------------------------------------" | $LOGIT
 echo "`date`: Checking that server is alive..." | $LOGIT
