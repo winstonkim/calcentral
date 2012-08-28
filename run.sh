@@ -25,9 +25,11 @@ INPUT_FILE="$SRC_LOC/.build.cf"
 if [ -f $INPUT_FILE ]; then
   POSTGRES_PASSWORD=`awk -F"=" '/^POSTGRES_PASSWORD=/ {print $2}' $INPUT_FILE`
   APPLICATION_HOST=`awk -F"=" '/^APPLICATION_HOST=/ {print $2}' $INPUT_FILE`
+  CAS_LOGOUT_URL=`awk -F"=" '/^CAS_LOGOUT_URL=/ {print $2}' $INPUT_FILE`
 else
   POSTGRES_PASSWORD='secret'
   APPLICATION_HOST='http://localhost:8080'
+  CAS_LOGOUT_URL='https://auth-test.berkeley.edu/cas/logout?url=http%3A%2F%2FlocalhostZ%3A8080%2F'
 fi
 
 LOG=$2
@@ -58,6 +60,7 @@ echo "runDataSource.password=$POSTGRES_PASSWORD" > $CONFIG_FILES/dataSource.prop
 echo "itDataSource.password=$POSTGRES_PASSWORD" >> $CONFIG_FILES/dataSource.properties
 echo "casAuthenticationFilter.serverName=$APPLICATION_HOST" > $CONFIG_FILES/server.properties
 echo "casValidationFilter.serverName=$APPLICATION_HOST" >> $CONFIG_FILES/server.properties
+echo "logoutSuccessHandler.defaultTargetUrl=$CAS_LOGOUT_URL" >> $CONFIG_FILES/server.properties
 
 echo | $LOGIT
 echo "------------------------------------------" | $LOGIT
