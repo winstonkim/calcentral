@@ -11,6 +11,8 @@
 			 http://www.springframework.org/schema/util
 			 http://www.springframework.org/schema/util/spring-util-3.1.xsd">
 
+	<context:annotation-config/>
+
 	<context:component-scan base-package="edu.berkeley.calcentral" />
 
 	<!-- Local application storage -->
@@ -42,8 +44,10 @@
 	</bean>
 
 	<context:property-override
-			location="file:///${customPropsDir}/dataSource.properties"
+			location="classpath:/dataSource.properties"
 			ignore-resource-not-found="true" />
+
+	<util:properties id="calcentralProperties" location="classpath:/calcentral.properties"/>
 
 	<util:properties id="gitProperties" location="classpath:/git.properties"/>
 

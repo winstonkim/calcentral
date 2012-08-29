@@ -83,7 +83,7 @@ echo "------------------------------------------" | $LOGIT
 echo "`date`: Starting CalCentral..." | $LOGIT
 
 # actually run the server (in the background)
-nohup mvn -e jetty:run -Dmaven.test.skip=true -DcustomPropsDir=$CONFIG_FILES >> logs/jetty.log 2>&1 &
+nohup mvn -e jetty:run -Dmaven.test.skip=true >> logs/jetty.log 2>&1 &
 
 # wait 20s for server to get started
 sleep 20;

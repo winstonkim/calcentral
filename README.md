@@ -62,7 +62,6 @@ You can take all the default properties, or override some (or all) of them by cr
 files. There are other optional config settings that can be passed on the mvn command line. A partial reference:
 ```
 mvn jetty:run
-		-DcustomPropsDir=/path/to/your/custom/configs
 		-Djetty.port=8778
 ```
 

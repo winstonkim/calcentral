@@ -18,6 +18,7 @@
 
 package edu.berkeley.calcentral.services;
 
+import edu.berkeley.calcentral.DatabaseAwareTest;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.junit.Before;
@@ -26,15 +27,16 @@ import org.junit.Test;
 import java.io.IOException;
 import java.util.Map;
 
-public class BspaceFavoritesProxyTest extends Assert {
+public class Sakai2ProxyTest extends Assert {
 
-	private static final Logger logger = Logger.getLogger(BspaceFavoritesProxyTest.class);
+	private static final Logger logger = Logger.getLogger(Sakai2ProxyTest.class);
 
-	private BspaceFavoritesProxy proxy;
+	private Sakai2Proxy proxy;
 
 	@Before
 	public void setup() {
-		this.proxy = new BspaceFavoritesProxy();
+		this.proxy = new Sakai2Proxy();
+		this.proxy.sharedSecret = "foo";
 	}
 
 	@Test

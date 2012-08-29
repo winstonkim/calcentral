@@ -146,7 +146,7 @@
 	</bean>
 
 	<context:property-override
-		location="file:///${customPropsDir}/server.properties"
+		location="classpath:/server.properties"
 		ignore-resource-not-found="true" />
 
 </beans>
