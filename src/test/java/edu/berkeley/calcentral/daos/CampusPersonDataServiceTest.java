@@ -27,7 +27,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Map;
 
-@Ignore
 public class CampusPersonDataServiceTest extends DatabaseAwareTest {
 	private static final Log LOGGER = LogFactory.getLog(CampusPersonDataServiceTest.class);
 

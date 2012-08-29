@@ -48,23 +48,6 @@ public class CampusPersonDataService {
 		this.jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 	}
 
-	/**
-	 * <pre>
-	 * curl http://localhost:8080/api/campusdata/person/2040
-	 * {LDAP_UID=2040, UG_GRAD_FLAG=null, FIRST_NAME=Oliver, LAST_NAME=Heyer, \
-	 *   EMAIL_ADDRESS=oliver@media.berkeley.edu, AFFILIATIONS=EMPLOYEE-TYPE-STAFF,STUDENT-STATUS-EXPIRED, \
-	 *   MAJOR_NAME=null, MAJOR_TITLE=null, COLLEGE_ABBR=null, MAJOR_NAME2=null, MAJOR_TITLE2=null, \
-	 *   COLLEGE_ABBR2=null, MAJOR_NAME3=null, MAJOR_TITLE3=null, COLLEGE_ABBR3=null, MAJOR_NAME4=null, \
-	 *   MAJOR_TITLE4=null, COLLEGE_ABBR4=null}
-	 * curl http://localhost:8080/api/campusdata/person/000000
-	 * {LDAP_UID=000000, UG_GRAD_FLAG=G, FIRST_NAME=WTUIWQWPPWQW, LAST_NAME=GBFSABTBIIB, \
-	 *   EMAIL_ADDRESS=xyz@mba.berkeley.edu, AFFILIATIONS=EMPLOYEE-TYPE-STAFF,STUDENT-STATUS-EXPIRED, \
-	 *   MAJOR_NAME=BUSINESS ADMIN-EWMBA, \
-	 *   MAJOR_TITLE=BUSINESS ADMINISTRATION                                       , \
-	 *   COLLEGE_ABBR=BUS ADM , MAJOR_NAME2=null, MAJOR_TITLE2=null, COLLEGE_ABBR2=null, \
-	 *   MAJOR_NAME3=null, MAJOR_TITLE3=null, COLLEGE_ABBR3=null, MAJOR_NAME4=null, MAJOR_TITLE4=null, COLLEGE_ABBR4=null}
-	 * </pre>
-	 */
 	public Map<String, Object> getPersonAttributes(@PathParam("id") String personId) {
 		long ldapUid;
 		try {
