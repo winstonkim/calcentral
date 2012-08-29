@@ -61,6 +61,14 @@
 		<property name="targetName" value="h2CampusDataSource"/>
 	</bean>
 
+	<bean id="connectionParams" class="org.apache.commons.httpclient.params.HttpConnectionManagerParams">
+		<property name="connectionTimeout" value="2000"/>
+		<property name="maxTotalConnections" value="1000"/>
+	</bean>
+	<bean id="connectionManager" class="org.apache.commons.httpclient.MultiThreadedHttpConnectionManager">
+		<property name="params" ref="connectionParams"/>
+	</bean>
+
 	<context:property-override
 			location="classpath:/dataSource.properties"
 			ignore-resource-not-found="true" />
