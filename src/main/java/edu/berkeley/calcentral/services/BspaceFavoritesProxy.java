@@ -21,9 +21,13 @@ package edu.berkeley.calcentral.services;
 
 import edu.berkeley.calcentral.Urls;
 import edu.berkeley.calcentral.util.Signature;
+import org.apache.commons.httpclient.Header;
+import org.apache.commons.httpclient.HostConfiguration;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpState;
 import org.apache.commons.httpclient.methods.GetMethod;
+
+import org.apache.commons.httpclient.protocol.Protocol;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
@@ -48,8 +52,9 @@ public class BspaceFavoritesProxy {
 	public Map<String, Object> get() throws IOException {
 		HttpClient httpClient = new HttpClient();
 		httpClient.setState(new HttpState());
-
-		GetMethod get = new GetMethod("http://sakai-dev.berkeley.edu/sakai-hybrid/sites?categorized=true");
+		HostConfiguration hostConfiguration = new HostConfiguration();
+		hostConfiguration.setHost("sakai-dev.berkeley.edu", 443, Protocol.getProtocol("https"));
+		GetMethod get = new GetMethod("/sakai-hybrid/sites?categorized=true");
 
 		String user = "904715"; // TODO replace with request.getRemoteUser()
 		String hmac;
@@ -63,14 +68,17 @@ public class BspaceFavoritesProxy {
 			throw new Error(e);
 		}
 
-		final String token = hmac + TOKEN_SEPARATOR + message;
-		logger.debug("x-sakai-token=" + token);
+		get.setRequestHeader(SECURE_TOKEN_HEADER_NAME, hmac + TOKEN_SEPARATOR + message);
 
-		get.setRequestHeader(SECURE_TOKEN_HEADER_NAME, token);
-
-		httpClient.executeMethod(get);
+		httpClient.executeMethod(hostConfiguration, get);
 		if (logger.isDebugEnabled()) {
-			logger.debug("Proxy get of url " + get.getURI() + " returned statusCode=" + get.getStatusCode() + " " + get.getStatusText());
+			logger.debug("Proxy GET of " + hostConfiguration.getHostURL() + get.getURI() + " returned " + get.getStatusCode() + " " + get.getStatusText());
+			for ( Header header : get.getRequestHeaders() ) {
+				logger.trace("Request header: " + header.getName() + "=" + header.getValue());
+			}
+			for ( Header header : get.getResponseHeaders() ) {
+				logger.trace("Response header: " + header.getName() + "=" + header.getValue());
+			}
 			logger.trace("Response body: " + get.getResponseBodyAsString());
 		}
 
