@@ -418,6 +418,27 @@ var calcentral = calcentral || {};
 
 })();
 
+
+/**
+ * Clickable masthead - Logged in users go to dashboard, anon users go to "/"
+ */
+(function() {
+
+	var $bannerTop = $('header');
+	var gotoURL = '/';
+
+	calcentral.Api.User.getCurrentUser(function(success, data){
+		if (data.loggedIn === true) {
+			gotoURL = '/secure/dashboard/';
+		}
+
+	$bannerTop.on('click', function() {
+		window.location = gotoURL;
+		});
+	});
+})();
+
+
 /**
  * Top Navigation
  */
