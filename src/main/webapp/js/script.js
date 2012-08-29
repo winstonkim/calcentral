@@ -391,14 +391,6 @@ var calcentral = calcentral || {};
 		document.getElementsByTagName("head")[0].appendChild(script);
 	};
 
-	/* This doesn't work well with the chrome dev tools
-	var loadJavaScript = function(widgetName) {
-		var widgetJavaScriptLocation = widgetLocation + widgetName + '/javascript/' + widgetName + '.js';
-		$.getScript(widgetJavaScriptLocation, function(data, textStatus, jqxhr) {
-			calcentral.Widgets[widgetName]();
-		});
-	};*/
-
 	var loadWidget = function(widgetName){
 		loadCSS(widgetName);
 		loadJavaScript(widgetName, function() {
@@ -412,8 +404,24 @@ var calcentral = calcentral || {};
 			loadWidget(widgetName);
 		}
 	};
+
+	var renderLeftHandNavigation = function(data) {
+		calcentral.Api.Util.renderTemplate({
+			'container': $('.cc-container-main-left'),
+			'data': data,
+			'template': $('#cc-container-main-left-template')
+		});
+	};
+
+	var loadLeftHandNavigation = function() {
+		calcentral.Api.User.getCurrentUser(function(success, data) {
+			renderLeftHandNavigation(data);
+		});
+	};
+
 	if ($('.cc-page-dashboard').length){
 		loadWidgets();
+		loadLeftHandNavigation();
 	}
 
 })();
