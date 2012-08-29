@@ -31,8 +31,8 @@ public class DashboardController {
 	private UserDataDao userDataDao;
 
 	/**
-	 * GET call for the dashboard. 
-	 * 
+	 * GET call for the dashboard.
+	 *
 	 * @param model map to return to the view.
 	 * @param request servlet request object.
 	 * @return dashboard view.
@@ -41,15 +41,6 @@ public class DashboardController {
 	@RequestMapping(value = { Urls.DASHBOARD }, method = RequestMethod.GET)
 	public ModelAndView getDashboard(
 			HttpServletRequest request) {
-		String uid = request.getUserPrincipal().getName();
-		CalCentralUser user = userDataDao.get(uid);
-		String username = "";
-		if (user != null) {
-			username = new StringBuffer(user.getFirstName()).append(" ").append(user.getLastName()).toString();
-		}
-		Map<String, Object> model = Maps.newHashMap();
-		model.put("uid", uid);
-		model.put("name", username);
-		return new ModelAndView("dashboard", model);
+		return new ModelAndView("dashboard");
 	}
 }
