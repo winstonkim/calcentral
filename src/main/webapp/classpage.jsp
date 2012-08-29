@@ -47,12 +47,12 @@
 		<script id="cc-page-classpage-courseinfo-template" type="text/x-handlebars-template" style="display:none;">
 			{{#with courseinfo}}
 			<ul class="cc-page-classpage-list">
-				<li><span>Format:</span><span>{{available format}}</span></li>
-				<li><span>Units:</span><span>{{available units}}</span></li>
-				<li><span>Semesters offered:</span><span>{{available semesters_offered}}</span></li>
-				<li><span>Requirements:</span><span>{{available requirements}}</span></li>
-				<li><span>Grading:</span><span>{{available grading}}</span></li>
-				<li><span>Prerequisites:</span><span>{{available prereqs}}</span></li>
+				<li><span>Format:</span><span>{{#if format}}{{format}}{{else}}<em>Not available</em>{{/if}}</span></li>
+				<li><span>Units:</span><span>{{#if units}}{{units}}{{else}}<em>Not available</em>{{/if}}</span></li>
+				<li><span>Semesters offered:</span><span>{{#if semesters_offered}}{{semesters_offered}}{{else}}<em>Not available</em>{{/if}}</span></li>
+				<li><span>Requirements:</span><span>{{#if requirements}}{{requirements}}{{else}}<em>Not available</em>{{/if}}</span></li>
+				<li><span>Grading:</span><span>{{#if grading}}{{grading}}{{else}}<em>Not available</em>{{/if}}</span></li>
+				<li><span>Prerequisites:</span><span>{{#if prereqs}}{{prereqs}}{{else}}<em>Not available</em>{{/if}}</span></li>
 			</ul>
 			{{/with}}
 		</script>
