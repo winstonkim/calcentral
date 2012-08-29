@@ -18,10 +18,13 @@ calcentral.Widgets.bspacefavourites = function(tuid) {
 	///////////////
 
 	var renderFavouritesList = function(data) {
-		data = $.parseJSON(data);
+		if (!data.body) {
+			window.log('bspacefavourites widget - renderFavouritesList: ' + data.statusText);
+			data.body = '{}';
+		}
 		calcentral.Api.Util.renderTemplate({
 			'container': $bspacefavouritesList,
-			'data': data,
+			'data': $.parseJSON(data.body),
 			'template': $('#cc-widget-bspacefavourites-list-template', $rootel)
 		});
 	};
@@ -33,7 +36,7 @@ calcentral.Widgets.bspacefavourites = function(tuid) {
 	var loadFavouritesList = function() {
 		return $.ajax({
 			'cache': false,
-			'url': '/widgets/bspacefavourites/dummy/bspacesites.json'
+			'url': '/api/bspacefavorites'
 		});
 	};
 

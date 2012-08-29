@@ -5,7 +5,9 @@
 	<!-- MAIN VIEW -->
     <!-- MAIN PANEL: List of links and categories. -->
     <div class="quicklinks_link_list">
-        <div id="quicklinks_accordion">Loading...<!-- filled by trimpath, HACK: don't remove 'Loading...', it is here to make IE8 think that the outer widget div is not empty --></div>
+        <div id="quicklinks_accordion">
+            <div class="cc-widget-text">Loading...</div>
+        </div>
 
         <script id="quicklinks_accordion_template" type="text/x-handlebars-template">
         {{#each_with_index sections}}

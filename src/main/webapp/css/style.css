@@ -617,6 +617,10 @@ header h1 {
 	min-height: 14px;
 	padding: 7px 12px;
 }
+.cc-container-widget .cc-widget-text {
+	color: #666;
+	padding: 20px;
+}
 
 /* Footer */
 footer {
