@@ -11,7 +11,7 @@
 		<h1>Colleges and Schools</h1>
 		<div class="cc-page-colleges-and-schools-container"><!-- --></div>
 
-		<script id="cc-page-colleges-and-schools-template" type="text/x-handlebars-template" style="display:none;">
+		<script id="cc-page-colleges-and-schools-template" type="text/x-handlebars-template">
 		<ul>
         {{#each_object collegesandschools}}
         	<li><a {{#if value.cssclass}} class="cc-page-colleges-and-schools-item-{{value.cssclass}}"{{/if}} href="/classpage.jsp">{{value.title_prefix}}<br /><span class="cc-page-colleges-and-schools-title">{{value.title}}</span></a></li>

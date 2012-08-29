@@ -195,14 +195,6 @@ var calcentral = calcentral || {};
 			}
 		}
 
-		Handlebars.registerHelper('available', function(item) {
-			if (item) {
-				return item;
-			} else {
-				return new Handlebars.SafeString('<em>Not available</em>');
-			}
-		});
-
 		// HELPER: #each_object
 		//
 		// Usage: {{#each_object obj}} Key: {{key}} // Value: {{value}} {{/each_object}}
