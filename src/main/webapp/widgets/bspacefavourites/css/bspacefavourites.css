@@ -1,17 +1,3 @@
-.cc-widget-bspacefavourites-list {
-	max-height: 200px;
-	overflow: auto;
-}
-.cc-widget-bspacefavourites-list ul {
-	margin: 0;
-	padding: 0;
-}
-.cc-widget-bspacefavourites-list ul li {
-    list-style-type: none;
-}
-.cc-widget-bspacefavourites-list ul li a {
+.cc-widget-bspacefavourites-list .cc-widget-list li a {
 	background: url(/widgets/bspacefavourites/images/bspace_icon.png) no-repeat scroll 10px 7px transparent;
-    border-bottom: 1px solid #ccc;
-	display: block;
-	padding: 6px 40px 4px;
 }

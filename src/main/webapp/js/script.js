@@ -360,7 +360,7 @@ var calcentral = calcentral || {};
 
 	var widgetLocation = '/widgets/';
 	var widgetPrefix = 'cc-widget-';
-	var widgetsToLoad = ['quicklinks', 'walktime', 'bspacefavourites'];
+	var widgetsToLoad = ['quicklinks', 'walktime', 'bspacefavourites', 'canvascourses'];
 
 	var loadCSS = function(widgetName) {
 		var widgetCSSLocation = widgetLocation + widgetName + '/css/' + widgetName + '.css';
