@@ -49,7 +49,7 @@ public class BspaceFavoritesProxy {
 		HttpClient httpClient = new HttpClient();
 		httpClient.setState(new HttpState());
 
-		GetMethod get = new GetMethod("https://sakai-dev.berkeley.edu:80/sakai-hybrid/sites?categorized=true");
+		GetMethod get = new GetMethod("http://sakai-dev.berkeley.edu/sakai-hybrid/sites?categorized=true");
 
 		String user = "904715"; // TODO replace with request.getRemoteUser()
 		String hmac;

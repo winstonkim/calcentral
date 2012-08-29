@@ -18,22 +18,24 @@
 
 package edu.berkeley.calcentral.services;
 
-import edu.berkeley.calcentral.DatabaseAwareTest;
-import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.IOException;
 import java.util.Map;
 
-public class BspaceFavoritesProxyTest extends DatabaseAwareTest {
+public class BspaceFavoritesProxyTest extends Assert {
 
 	private static final Logger logger = Logger.getLogger(BspaceFavoritesProxyTest.class);
 
-	@Autowired
 	private BspaceFavoritesProxy proxy;
+
+	@Before
+	public void setup() {
+		this.proxy = new BspaceFavoritesProxy();
+	}
 
 	@Test
 	public void testGet() throws Exception {
