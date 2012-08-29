@@ -8,7 +8,7 @@
 	<div class="cc-container-main" role="main">
 		<!-- Page specific HTML -->
 		<div class="cc-container-main-left"><!-- --></div>
-		<script id="cc-container-main-left-template" type="text/x-handlebars-template" style="display:none;">
+		<script id="cc-container-main-left-template" type="text/x-handlebars-template">
 			<section class="cc-entity">
 				<div class="cc-entity-name"><strong>{{firstName}} {{lastName}}</strong></div>
 			</section>

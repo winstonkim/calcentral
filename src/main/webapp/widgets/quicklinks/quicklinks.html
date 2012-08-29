@@ -7,7 +7,7 @@
     <div class="quicklinks_link_list">
         <div id="quicklinks_accordion">Loading...<!-- filled by trimpath, HACK: don't remove 'Loading...', it is here to make IE8 think that the outer widget div is not empty --></div>
 
-        <script id="quicklinks_accordion_template" type="text/x-handlebars-template" style="display:none;">
+        <script id="quicklinks_accordion_template" type="text/x-handlebars-template">
         {{#each_with_index sections}}
             {{#compare ../activeSection index}}
                 <div class="quicklinks_accordion_pane quicklinks_accordion_open" data-sectionid="{{this.index}}">

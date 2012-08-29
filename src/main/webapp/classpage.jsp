@@ -10,7 +10,7 @@
 		<!-- Page specific HTML -->
 		<div class="cc-page-classpage-container"><!-- --></div>
 
-		<script id="cc-page-classpage-template" type="text/x-handlebars-template" style="display:none;">
+		<script id="cc-page-classpage-template" type="text/x-handlebars-template">
 			<div class="cc-container-widget cc-page-classpage-description">
 				<div class="cc-widget-title">
 					<h2>Course Catalog Description</h2>
@@ -36,15 +36,15 @@
 				</div>
 			</div>
 		</script>
-		<script id="cc-page-classpage-header-template" type="text/x-handlebars-template" style="display:none;">
+		<script id="cc-page-classpage-header-template" type="text/x-handlebars-template">
 
 		</script>
 
-		<script id="cc-page-classpage-description-template" type="text/x-handlebars-template" style="display:none;">
+		<script id="cc-page-classpage-description-template" type="text/x-handlebars-template">
 			{{description}}
 		</script>
 
-		<script id="cc-page-classpage-courseinfo-template" type="text/x-handlebars-template" style="display:none;">
+		<script id="cc-page-classpage-courseinfo-template" type="text/x-handlebars-template">
 			{{#with courseinfo}}
 			<ul class="cc-page-classpage-list">
 				<li><span>Format:</span><span>{{#if format}}{{format}}{{else}}<em>Not available</em>{{/if}}</span></li>
@@ -57,7 +57,7 @@
 			{{/with}}
 		</script>
 
-		<script id="cc-page-classpage-instructor-template" type="text/x-handlebars-template" style="display:none;">
+		<script id="cc-page-classpage-instructor-template" type="text/x-handlebars-template">
 			<ul class="cc-page-classpage-instructor-item">
 				{{#each instructors}}
 					<li>

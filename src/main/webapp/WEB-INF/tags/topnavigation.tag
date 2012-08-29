@@ -1,6 +1,6 @@
 <nav class="cc-topnavigation"><!-- --></nav>
 
-<script id="cc-topnavigation-template" type="text/x-handlebars-template" style="display:none;">
+<script id="cc-topnavigation-template" type="text/x-handlebars-template">
 	<ul>
 		<li class="cc-left"><a href="/colleges-and-schools.jsp">Colleges and Schools</a></li>
 	{{#if loggedIn}}
