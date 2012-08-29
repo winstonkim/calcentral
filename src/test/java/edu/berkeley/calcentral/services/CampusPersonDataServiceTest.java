@@ -15,13 +15,11 @@
   * KIND, either express or implied. See the License for the
   * specific language governing permissions and limitations under the License.
  */
-package edu.berkeley.calcentral.daos;
+package edu.berkeley.calcentral.services;
 
 import edu.berkeley.calcentral.DatabaseAwareTest;
-import edu.berkeley.calcentral.services.CampusPersonDataService;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
