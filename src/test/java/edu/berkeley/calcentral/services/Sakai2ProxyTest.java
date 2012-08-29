@@ -20,24 +20,19 @@ package edu.berkeley.calcentral.services;
 
 import edu.berkeley.calcentral.DatabaseAwareTest;
 import org.apache.log4j.Logger;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.IOException;
 import java.util.Map;
 
-public class Sakai2ProxyTest extends Assert {
+public class Sakai2ProxyTest extends DatabaseAwareTest {
 
 	private static final Logger logger = Logger.getLogger(Sakai2ProxyTest.class);
 
+	@Autowired
 	private Sakai2Proxy proxy;
-
-	@Before
-	public void setup() {
-		this.proxy = new Sakai2Proxy();
-		this.proxy.sharedSecret = "foo";
-	}
 
 	@Test
 	public void testGet() throws Exception {
