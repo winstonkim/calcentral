@@ -431,11 +431,12 @@ var calcentral = calcentral || {};
 		if (data.loggedIn === true) {
 			gotoURL = '/secure/dashboard/';
 		}
+	});
 
 	$bannerTop.on('click', function() {
 		window.location = gotoURL;
-		});
 	});
+
 })();
 
 
