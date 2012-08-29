@@ -29,7 +29,7 @@ if [ -f $INPUT_FILE ]; then
 else
   POSTGRES_PASSWORD='secret'
   APPLICATION_HOST='http://localhost:8080'
-  CAS_LOGOUT_URL='https://auth-test.berkeley.edu/cas/logout?url=http%3A%2F%2FlocalhostZ%3A8080%2F'
+  CAS_LOGOUT_URL='https://auth-test.berkeley.edu/cas/logout?url=http%3A%2F%2Flocalhost%3A8080%2F'
 fi
 
 LOG=$2

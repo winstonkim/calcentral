@@ -92,7 +92,7 @@
 	</bean>
 
 	<bean id="logoutSuccessHandler" class="org.springframework.security.web.authentication.logout.SimpleUrlLogoutSuccessHandler">
-		<property name="defaultTargetUrl"	value="https://auth-test.berkeley.edu/cas/logout?url=http%3A%2F%2FlocalhostZ%3A8080%2F"/>
+		<property name="defaultTargetUrl" value="https://auth-test.berkeley.edu/cas/logout?url=http%3A%2F%2Flocalhost%3A8080%2F"/>
 	</bean>
 
 	<bean id="logoutFilter"
