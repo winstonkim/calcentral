@@ -38,4 +38,6 @@ public interface Urls {
 
 	String BSPACE_FAVORITES = API + "/bspacefavorites";
 
+	String BSPACE_FAVORITES_UNREAD = BSPACE_FAVORITES + "/unread";
+
 }

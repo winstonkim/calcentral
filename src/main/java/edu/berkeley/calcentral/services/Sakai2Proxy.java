@@ -71,13 +71,20 @@ public class Sakai2Proxy {
 	@GET
 	@Produces({MediaType.APPLICATION_JSON})
 	public Map<String, Object> get(@Context HttpServletRequest request) {
-		return get(request.getRemoteUser());
+		return get(request.getRemoteUser(), "/sakai-hybrid/sites?categorized=true");
 	}
 
-	public Map<String, Object> get(String username) {
+	@GET
+	@Path("unread")
+	@Produces({MediaType.APPLICATION_JSON})
+	public Map<String, Object> getUnread(@Context HttpServletRequest request) {
+		return get(request.getRemoteUser(), "/sakai-hybrid/sites?unread=true");
+	}
+
+	public Map<String, Object> get(String username, String uri) {
 		Map<String, Object> result = new HashMap<String, Object>();
 
-		GetMethod get = new GetMethod("/sakai-hybrid/sites?categorized=true");
+		GetMethod get = new GetMethod(uri);
 		setSakaiToken(get, username);
 
 		try {
@@ -125,7 +132,7 @@ public class Sakai2Proxy {
 		HostConfiguration hostConfiguration = new HostConfiguration();
 		hostConfiguration.setHost(sakai2Host, 443, Protocol.getProtocol("https"));
 		HttpClientParams params = new HttpClientParams();
-		params.setSoTimeout(3000);
+		params.setSoTimeout(1000);
 		HttpClient httpClient = new HttpClient(params, connectionManager);
 		httpClient.setHostConfiguration(hostConfiguration);
 		return httpClient;
