@@ -9,7 +9,9 @@
 			 http://www.springframework.org/schema/context
 			 http://www.springframework.org/schema/context/spring-context-3.1.xsd
 			 http://www.springframework.org/schema/util
-			 http://www.springframework.org/schema/util/spring-util-3.1.xsd">
+			 http://www.springframework.org/schema/util/spring-util-3.1.xsd
+			 http://www.springframework.org/schema/jdbc
+			 http://www.springframework.org/schema/jdbc/spring-jdbc-3.1.xsd">
 
 	<context:annotation-config/>
 
@@ -39,8 +41,24 @@
 		<property name="username" value="ORACLE_USERNAME" />
 		<property name="password" value="ORACLE_PASSWORD" />
 	</bean>
+
+	<bean id="h2CampusDataSource"
+				class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="org.h2.Driver"/>
+		<property name="url" value="jdbc:h2:mem:h2CampusDataSource;DB_CLOSE_DELAY=-1;MODE=Oracle"/>
+		<property name="username" value="sa"/>
+		<property name="password" value="sa"/>
+	</bean>
+	<!--
+	  By default Spring will always load data non-lazily, whether it is needed or not.
+	  If that becomes a problem, the configuration will need to be tweaked.
+	-->
+	<jdbc:initialize-database data-source="h2CampusDataSource">
+		<jdbc:script location="classpath:/db/campusdata/recreate_tables.sql"/>
+		<jdbc:script location="classpath:/db/campusdata/load_person_data.sql"/>
+	</jdbc:initialize-database>
 	<bean id="campusDataSource" class="org.springframework.aop.framework.ProxyFactoryBean">
-		<property name="targetName" value="oracleDataSource"/>
+		<property name="targetName" value="h2CampusDataSource"/>
 	</bean>
 
 	<context:property-override
