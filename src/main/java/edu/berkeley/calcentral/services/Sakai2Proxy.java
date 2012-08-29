@@ -21,10 +21,7 @@ package edu.berkeley.calcentral.services;
 
 import edu.berkeley.calcentral.Urls;
 import edu.berkeley.calcentral.util.Signature;
-import org.apache.commons.httpclient.Header;
-import org.apache.commons.httpclient.HostConfiguration;
-import org.apache.commons.httpclient.HttpClient;
-import org.apache.commons.httpclient.HttpState;
+import org.apache.commons.httpclient.*;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.params.HttpClientParams;
 import org.apache.commons.httpclient.protocol.Protocol;
@@ -36,7 +33,9 @@ import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.MediaType;
 import java.io.IOException;
 import java.security.SignatureException;
 import java.util.HashMap;
@@ -56,48 +55,39 @@ public class Sakai2Proxy {
 	@Autowired
 	private Properties calcentralProperties;
 
+	@Autowired
+	private HttpConnectionManager connectionManager;
+
 	String sharedSecret;
+
+	String sakai2Host;
 
 	@PostConstruct
 	public void init() {
 		this.sharedSecret = calcentralProperties.getProperty("sakai2Proxy.sharedSecret");
+		this.sakai2Host = calcentralProperties.getProperty("sakai2Proxy.sakai2Host");
 	}
 
 	@GET
+	@Produces({MediaType.APPLICATION_JSON})
 	public Map<String, Object> get(@Context HttpServletRequest request) {
 		return get(request.getRemoteUser());
 	}
 
 	public Map<String, Object> get(String username) {
-		LOGGER.debug("Shared secret = " + sharedSecret);
 		Map<String, Object> result = new HashMap<String, Object>();
 
-		HttpClient httpClient = new HttpClient();
-		httpClient.setState(new HttpState());
-		HttpClientParams params = new HttpClientParams();
-		params.setSoTimeout(3000);
-		httpClient.setParams(params);
-		HostConfiguration hostConfiguration = new HostConfiguration();
-		hostConfiguration.setHost("sakai-dev.berkeley.edu", 443, Protocol.getProtocol("https"));
-
-		String hmac;
-		final String message = username + TOKEN_SEPARATOR + System.currentTimeMillis();
-		try {
-			hmac = Signature.calculateRFC2104HMAC(message, sharedSecret);
-		} catch (SignatureException e) {
-			LOGGER.error(e.getLocalizedMessage(), e);
-			throw new Error(e);
-		}
-
 		GetMethod get = new GetMethod("/sakai-hybrid/sites?categorized=true");
-		get.setRequestHeader(SECURE_TOKEN_HEADER_NAME, hmac + TOKEN_SEPARATOR + message);
+		setSakaiToken(get, username);
 
 		try {
-			LOGGER.info("Attempting Proxy GET of " + hostConfiguration.getHost() + get.getURI() + " on behalf of user "
+			HttpClient httpClient = getHttpClient();
+			LOGGER.info("Attempting Proxy GET of " + httpClient.getHostConfiguration().getHost() + get.getURI() + " on behalf of user "
 					+ username + ", with x-sakai-token = " + get.getRequestHeader(SECURE_TOKEN_HEADER_NAME));
-			httpClient.executeMethod(hostConfiguration, get);
+			httpClient.executeMethod(get);
 			if (LOGGER.isDebugEnabled()) {
-				LOGGER.debug("Proxy GET of " + hostConfiguration.getHostURL() + get.getURI() + " returned " + get.getStatusCode() + " " + get.getStatusText());
+				LOGGER.debug("Proxy GET of " + httpClient.getHostConfiguration().getHostURL() + get.getURI() + " returned "
+						+ get.getStatusCode() + " " + get.getStatusText());
 				for (Header header : get.getRequestHeaders()) {
 					LOGGER.trace("Request header: " + header.getName() + "=" + header.getValue());
 				}
@@ -116,6 +106,29 @@ public class Sakai2Proxy {
 			LOGGER.error("Sakai2 Proxy server unreachable due to IOException. Message: " + ioe.getMessage());
 		}
 		return result;
+	}
+
+	private void setSakaiToken(GetMethod get, String username) {
+		String hmac;
+		final String message = username + TOKEN_SEPARATOR + System.currentTimeMillis();
+		try {
+			LOGGER.debug("Shared secret = " + sharedSecret);
+			hmac = Signature.calculateRFC2104HMAC(message, sharedSecret);
+		} catch (SignatureException e) {
+			LOGGER.error(e.getLocalizedMessage(), e);
+			throw new Error(e);
+		}
+		get.setRequestHeader(SECURE_TOKEN_HEADER_NAME, hmac + TOKEN_SEPARATOR + message);
+	}
+
+	private HttpClient getHttpClient() {
+		HostConfiguration hostConfiguration = new HostConfiguration();
+		hostConfiguration.setHost(sakai2Host, 443, Protocol.getProtocol("https"));
+		HttpClientParams params = new HttpClientParams();
+		params.setSoTimeout(3000);
+		HttpClient httpClient = new HttpClient(params, connectionManager);
+		httpClient.setHostConfiguration(hostConfiguration);
+		return httpClient;
 	}
 
 }
