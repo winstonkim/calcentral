@@ -32,8 +32,6 @@ public interface Urls {
 
 	String GIT_INFO = API + "/gitInfo";
 
-	String CAMPUS_DATA = API + "/campusdata";
-
 	String DASHBOARD = "/dashboard";
 
 	String BSPACE_FAVORITES = API + "/bspacefavorites";

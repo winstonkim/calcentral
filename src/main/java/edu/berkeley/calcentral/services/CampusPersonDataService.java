@@ -19,7 +19,6 @@ package edu.berkeley.calcentral.services;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
-import edu.berkeley.calcentral.Urls;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,14 +27,11 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Service;
 
 import javax.sql.DataSource;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import java.util.List;
 import java.util.Map;
 
 @Service
-@Path(Urls.CAMPUS_DATA)
 public class CampusPersonDataService {
 	private static final Log LOGGER = LogFactory.getLog(CampusPersonDataService.class);
 	public static final String SELECT_PERSON_SQL =
@@ -69,8 +65,6 @@ public class CampusPersonDataService {
 	 *   MAJOR_NAME3=null, MAJOR_TITLE3=null, COLLEGE_ABBR3=null, MAJOR_NAME4=null, MAJOR_TITLE4=null, COLLEGE_ABBR4=null}
 	 * </pre>
 	 */
-	@GET
-	@Path("/person/{id}")
 	public Map<String, Object> getPersonAttributes(@PathParam("id") String personId) {
 		long ldapUid;
 		try {
