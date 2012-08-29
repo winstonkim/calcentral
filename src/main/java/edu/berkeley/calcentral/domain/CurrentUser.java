@@ -15,7 +15,6 @@ public class CurrentUser {
 	public CurrentUser(UserData user) {
 		if (user != null) {
 			this.user = user;
-			this.loggedIn = true;
 		}
 	}
 
@@ -24,18 +23,6 @@ public class CurrentUser {
 	public void setUserData(UserData userData) {
 		this.user = userData;
 	}
-
-	private boolean loggedIn;
-
-	public boolean isLoggedIn() {
-		return loggedIn;
-	}
-
-
-	public void setLoggedIn(boolean loggedIn) {
-		this.loggedIn = loggedIn;
-	}
-
 
 	public List<WidgetData> getWidgetData() {
 		return user.getWidgetData();
@@ -61,7 +48,6 @@ public class CurrentUser {
 	public void setFirstName(String firstName) {
 		user.setFirstName(firstName);
 	}
-
 
 	public String getUid() {
 		return user.getUid();
