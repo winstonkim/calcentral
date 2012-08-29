@@ -5,98 +5,158 @@
 			"title": "Arts & Humanities",
 			"cssclass": "letters-and-science",
 			"children": {
-				"scienceartshumanitiesancienthistorymediterraneanarchaeology": {
+				"AHMA": {
 					"title": "Ancient History & Mediterranean Archaeology"
 				},
-				"scienceartshumanitiesarthistory": {
-					"title": "Art History"
+				"ARABIC": {
+					"title": "Arabic"
 				},
-				"scienceartshumanitiesartpractice": {
-					"title": "Art Practice"
+				"ASIANST": {
+					"title": "Asian Studies"
 				},
-				"scienceartshumanitiesartsresearchcenter": {
-					"title": "Arts Research Center"
+				"CATALAN": {
+					"title": "Catalan"
 				},
-				"scienceartshumanitiesberkeleylanguagecenter": {
-					"title": "Berkeley Language Center"
-				},
-				"scienceartshumanitiesberkeleywarcrimesstudiescenter": {
-					"title": "Berkeley War Crimes Studies Center"
-				},
-				"scienceartshumanitiesbuddhiststudies": {
-					"title": "Buddhist Studies"
-				},
-				"scienceartshumanitiescelticstudies": {
+				"CELTIC": {
 					"title": "Celtic Studies"
 				},
-				"scienceartshumanitiescenterfornewmusicaudiotechnologies": {
-					"title": "Center for New Music & Audio Technologies"
+				"CHINESE": {
+					"title": "Chinese"
 				},
-				"scienceartshumanitiesclassics": {
+				"CLASSIC": {
 					"title": "Classics"
 				},
-				"scienceartshumanitiescomparativeliterature": {
+				"COM LIT": {
 					"title": "Comparative Literature"
 				},
-				"scienceartshumanitiesdutchstudies": {
-					"title": "Dutch Studies"
+				"CUNEIF": {
+					"title": "Cuneiform"
 				},
-				"scienceartshumanitieseastasianlanguagescultures": {
-					"title": "East Asian Languages & Cultures"
+				"DUTCH": {
+					"title": "Dutch"
 				},
-				"scienceartshumanitiesenglish": {
+				"EA LANG": {
+					"title": "East Asian Languages and Cultures"
+				},
+				"EAEURST": {
+					"title": "East European Studies"
+				},
+				"EGYPT": {
+					"title": "Egyptian"
+				},
+				"ENGLISH": {
 					"title": "English"
 				},
-				"scienceartshumanitiesfilmmedia": {
-					"title": "Film & Media"
+				"FILIPN": {
+					"title": "Filipino"
 				},
-				"scienceartshumanitiesfrench": {
+				"FILM": {
+					"title": "Film and Media"
+				},
+				"FRENCH": {
 					"title": "French"
 				},
-				"scienceartshumanitiesgerman": {
+				"GERMAN": {
 					"title": "German"
 				},
-				"scienceartshumanitiesitalianstudies": {
+				"GREEK": {
+					"title": "Greek"
+				},
+				"HEBREW": {
+					"title": "Hebrew"
+				},
+				"HIN-URD": {
+					"title": "Hindi-Urdu"
+				},
+				"HISTART": {
+					"title": "History of Art"
+				},
+				"ITALIAN": {
 					"title": "Italian Studies"
 				},
-				"scienceartshumanitiesjewishstudies": {
+				"JAPAN": {
+					"title": "Japanese"
+				},
+				"JEWISH": {
 					"title": "Jewish Studies"
 				},
-				"scienceartshumanitiesmedievalstudies": {
+				"KHMER": {
+					"title": "Khmer"
+				},
+				"KOREAN": {
+					"title": "Korean"
+				},
+				"LATIN": {
+					"title": "Latin"
+				},
+				"MALAY/I": {
+					"title": "Malay/Indonesian"
+				},
+				"MED ST": {
 					"title": "Medieval Studies"
 				},
-				"scienceartshumanitiesmusic": {
+				"MUSIC": {
 					"title": "Music"
 				},
-				"scienceartshumanitiesneareasternstudies": {
+				"NE STUD": {
 					"title": "Near Eastern Studies"
 				},
-				"scienceartshumanitiesphilosophy": {
+				"PERSIAN": {
+					"title": "Persian"
+				},
+				"PHILOS": {
 					"title": "Philosophy"
 				},
-				"scienceartshumanitiesrhetoric": {
+				"ART": {
+					"title": "Practice of Art"
+				},
+				"PUNJABI": {
+					"title": "Punjabi"
+				},
+				"RHETOR": {
 					"title": "Rhetoric"
 				},
-				"scienceartshumanitiesromancelanguagesliterature": {
-					"title": "Romance Languages & Literature"
+				"SANSKR": {
+					"title": "Sanskrit"
 				},
-				"scienceartshumanitiesscandinavian": {
+				"SCANDIN": {
 					"title": "Scandinavian"
 				},
-				"scienceartshumanitiesslaviclanguagesandliterature": {
-					"title": "Slavic Languages and Literature"
+				"SLAVIC": {
+					"title": "Slavic Languages and Literatures"
 				},
-				"scienceartshumanitiessouthsoutheastasianstudies": {
-					"title": "South & Southeast Asian Studies"
+				"S,SEASN": {
+					"title": "South and Southeast Asian Studies"
 				},
-				"scienceartshumanitiesspanishportugese": {
-					"title": "Spanish & Portugese"
+				"SPANISH": {
+					"title": "Spanish"
 				},
-				"scienceartshumanitiestheaterdanceperformancestudies": {
-					"title": "Theater, Dance & Performance Studies"
+				"STUDIES": {
+					"title": "Studies"
 				},
-				"scienceartshumanitiestownsendcenterforthehumanities": {
-					"title": "Townsend Center for the Humanities"
+				"TAMIL": {
+					"title": "Tamil"
+				},
+				"TELUGU": {
+					"title": "Telugu"
+				},
+				"THAI": {
+					"title": "Thai"
+				},
+				"THEATER": {
+					"title": "Theater, Dance, and Performance Studies"
+				},
+				"TIBETAN": {
+					"title": "Tibetan"
+				},
+				"TURKISH": {
+					"title": "Turkish"
+				},
+				"VIETNMS": {
+					"title": "Vietnamese"
+				},
+				"YIDDISH": {
+					"title": "Yiddish"
 				}
 			}
 		},
@@ -105,28 +165,19 @@
 			"title": "Biological Sciences",
 			"cssclass": "letters-and-science",
 			"children": {
-				"sciencebiologicalsciencesbiochemistrybiophysicsstructuralbiology": {
-					"title": "Biochemistry, Biophysics & Structural Biology"
+				"BIOLOGY": {
+					"title": "Biology"
 				},
-				"sciencebiologicalsciencescelldevelopmentalbiology": {
-					"title": "Cell & Developmental Biology"
+				"BIOPHY": {
+					"title": "Biophysics"
 				},
-				"sciencebiologicalsciencesgeneticsgeonomicsdevelopment": {
-					"title": "Genetics, Geonomics & Development"
-				},
-				"sciencebiologicalsciencesimmunologypathogenesis": {
-					"title": "Immunology & Pathogenesis"
-				},
-				"sciencebiologicalsciencesintegrativebiology": {
+				"INTEGBI": {
 					"title": "Integrative Biology"
 				},
-				"sciencebiologicalsciencesmolecularandcellbiology": {
+				"MCELLBI": {
 					"title": "Molecular and Cell Biology"
 				},
-				"sciencebiologicalsciencesneurobiology": {
-					"title": "Neurobiology"
-				},
-				"sciencebiologicalsciencesphysicaleducation": {
+				"PHYS ED": {
 					"title": "Physical Education"
 				}
 			}
@@ -135,29 +186,23 @@
 			"title_prefix": "Haas School of",
 			"title": "Business",
 			"children": {
-				"haasaccounting": {
-					"title": "Accounting"
+				"EWMBA": {
+					"title": "Eve/Wknd Masters in Bus. Adm."
 				},
-				"haasbusinesspublicpolicy": {
-					"title": "Business & Public Policy"
+				"XMBA": {
+					"title": "Executive Masters in Bus. Adm."
 				},
-				"haaseconomicanalysispolicy": {
-					"title": "Economic Analysis & Policy"
+				"MBA": {
+					"title": "Masters in Business Administration"
 				},
-				"haasfinance": {
-					"title": "Finance"
+				"MFE": {
+					"title": "Masters in Financial Engineering"
 				},
-				"haasmanagementoforganizations": {
-					"title": "Management of Organizations"
+				"PHDBA": {
+					"title": "Ph.D. in Business Administration"
 				},
-				"haasmarketing": {
-					"title": "Marketing"
-				},
-				"haasoperationsinformationtechnologymanagement": {
-					"title": "Operations & Information Technology Management"
-				},
-				"haasrealestate": {
-					"title": "Real Estate"
+				"UGBA": {
+					"title": "Undergrad. Business Administration"
 				}
 			}
 		},
@@ -165,16 +210,16 @@
 			"title_prefix": "College of",
 			"title": "Chemistry",
 			"children": {
-				"collegeofchemistrychemicalbiomolecularengineering": {
+				"CHM ENG": {
 					"title": "Chemical & Biomolecular Engineering"
 				},
-				"collegeofchemistrychemistry": {
+				"CHEM": {
 					"title": "Chemistry"
 				},
-				"collegeofchemistrymaterialsscienceengineering": {
+				"MAT SCI": {
 					"title": "Materials Science & Engineering"
 				},
-				"collegeofchemistrynuclearengineering": {
+				"NUC ENG": {
 					"title": "Nuclear Engineering"
 				}
 			}
@@ -184,10 +229,10 @@
 			"title": "Education",
 			"cssclass": "graduate",
 			"children": {
-				"graduateschoolofeducationeducation": {
+				"EDUC": {
 					"title": "Education"
 				},
-				"graduateschoolofeducationsciencemathematicseducation": {
+				"SCMATHE": {
 					"title": "Science & Mathematics Education"
 				}
 			}
@@ -196,41 +241,32 @@
 			"title_prefix": "College of",
 			"title": "Engineering",
 			"children": {
-				"collegeofengineeringappliedsciencetechnology": {
+				"AST": {
 					"title": "Applied Science & Technology"
 				},
-				"collegeofengineeringbioengineering": {
+				"BIO ENG": {
 					"title": "Bioengineering"
 				},
-				"collegeofengineeringcivilenvironmentalengineering": {
+				"CIV ENG": {
 					"title": "Civil & Environmental Engineering"
 				},
-				"collegeofengineeringcomputationalgenomicbiology": {
-					"title": "Computational & Genomic Biology "
-				},
-				"collegeofengineeringcomputerscience": {
+				"COMPSCI": {
 					"title": "Computer Science"
 				},
-				"collegeofengineeringelectricalengineering": {
+				"EL ENG": {
 					"title": "Electrical Engineering"
 				},
-				"collegeofengineeringengineering": {
+				"ENGIN": {
 					"title": "Engineering"
 				},
-				"collegeofengineeringindustrialengineeringoperationsresearch": {
+				"IND ENG": {
 					"title": "Industrial Engineering & Operations Research"
 				},
-				"collegeofengineeringmaterialsscienceengineering": {
-					"title": "Materials Science & Engineering "
-				},
-				"collegeofengineeringmechanicalengineering": {
+				"MEC ENG": {
 					"title": "Mechanical Engineering"
 				},
-				"collegeofengineeringnanoscalescienceengineering": {
+				"NSE": {
 					"title": "Nanoscale Science & Engineering"
-				},
-				"collegeofengineeringoceanengineering": {
-					"title": "Ocean Engineering"
 				}
 			}
 		},
@@ -238,19 +274,19 @@
 			"title_prefix": "College of",
 			"title": "Environmental Design",
 			"children": {
-				"cedarchitecture": {
+				"ARCH": {
 					"title": "Architecture"
 				},
-				"cedcityregionalplanning": {
+				"CY PLAN": {
 					"title": "City & Regional Planning"
 				},
-				"cedenvironmentaldesign": {
+				"ENV DES": {
 					"title": "Environmental Design"
 				},
-				"cedlandscapearchitecture": {
+				"LD ARCH": {
 					"title": "Landscape Architecture"
 				},
-				"cedvisualstudies": {
+				"VIS STD": {
 					"title": "Visual Studies"
 				}
 			}
@@ -259,26 +295,8 @@
 			"title_prefix": "School of",
 			"title": "Information",
 			"children": {
-				"schoolofinformationhumancomputerinteraction": {
-					"title": "Human-Computer Interaction"
-				},
-				"schoolofinformationinformationcommunicationtechnologiesdevelopment": {
-					"title": "Information & Communication Technologies & Development"
-				},
-				"schoolofinformationinformationeconomicspolicy": {
-					"title": "Information Economics & Policy"
-				},
-				"schoolofinformationinformationlawpolicy": {
-					"title": "Information Law & Policy"
-				},
-				"schoolofinformationinformationorganizationretrieval": {
-					"title": "Information Organization & Retrieval"
-				},
-				"schoolofinformationinformationsystemsdesign": {
-					"title": "Information Systems Design"
-				},
-				"schoolofinformationsocialaspectsofinformation": {
-					"title": "Social Aspects of Information"
+				"INFO": {
+					"title": "Information"
 				}
 			}
 		},
@@ -287,10 +305,10 @@
 			"title_prefix": "Graduate Programs",
 			"cssclass": "graduate",
 			"children": {
-				"interdepartmentalgraduateprogramscomparativebiochemistry": {
+				"COMPBIO": {
 					"title": "Comparative Biochemistry"
 				},
-				"interdepartmentalgraduateprogramsenergyresourcesgroup": {
+				"ENE,RES": {
 					"title": "Energy & Resources Group"
 				}
 			}
@@ -300,41 +318,8 @@
 			"title": "Journalism",
 			"cssclass": "graduate",
 			"children": {
-				"jschoolbusinessreporting": {
-					"title": "Business Reporting"
-				},
-				"jschooldocumentary": {
-					"title": "Documentary"
-				},
-				"jschoolenvironmentalsciencejournalism": {
-					"title": "Environmental & Science Journalism"
-				},
-				"jschoolinternationalreporting": {
-					"title": "International Reporting"
-				},
-				"jschoolinvestigativereporting": {
-					"title": "Investigative Reporting"
-				},
-				"jschoolmagazine": {
-					"title": "Magazine"
-				},
-				"jschoolnewmedia": {
-					"title": "New Media"
-				},
-				"jschoolnewspaper": {
-					"title": "Newspaper"
-				},
-				"jschoolphotojournalism": {
-					"title": "Photojournalism"
-				},
-				"jschoolpoliticalreporting": {
-					"title": "Political Reporting"
-				},
-				"jschoolradio": {
-					"title": "Radio"
-				},
-				"jschooltelevision": {
-					"title": "Television"
+				"JOURN": {
+					"title": "Journalism"
 				}
 			}
 		},
@@ -342,29 +327,11 @@
 			"title_prefix": "School of",
 			"title": "Law",
 			"children": {
-				"schooloflawbusinesslaweconomics": {
-					"title": "Business, Law & Economics"
-				},
-				"schooloflawcomparativelegalstudies": {
-					"title": "Comparative Legal Studies"
-				},
-				"schooloflawenvironmentallaw": {
-					"title": "Environmental Law"
-				},
-				"schooloflawinternationallegalstudies": {
-					"title": "International Legal Studies"
-				},
-				"schooloflawlaw": {
+				"LAW": {
 					"title": "Law"
 				},
-				"schooloflawlawtechnology": {
-					"title": "Law & Technology"
-				},
-				"schooloflawlegalstudies": {
+				"LEGALST": {
 					"title": "Legal Studies"
-				},
-				"schooloflawsocialjustice": {
-					"title": "Social Justice"
 				}
 			}
 		},
@@ -373,16 +340,16 @@
 			"title": "Mathematical & Physical Sciences",
 			"cssclass": "letters-and-science",
 			"children": {
-				"mathematicalphysicalsciencesastronomy": {
+				"ASTRON": {
 					"title": "Astronomy"
 				},
-				"mathematicalphysicalsciencesearthplanetaryscience": {
+				"EPS": {
 					"title": "Earth & Planetary Science"
 				},
-				"mathematicalphysicalsciencesphysics": {
+				"PHYSICS": {
 					"title": "Physics"
 				},
-				"mathematicalphysicalsciencesstatistics": {
+				"STAT": {
 					"title": "Statistics"
 				}
 			}
@@ -391,22 +358,22 @@
 			"title_prefix": "College of",
 			"title": "Natural Resources",
 			"children": {
-				"cnragriculturalresourceeconomics": {
+				"A,RESEC": {
 					"title": "Agricultural & Resource Economics"
 				},
-				"cnrenvironmentalsciencepolicymanagement": {
+				"ESPM": {
 					"title": "Environmental Science Policy & Management"
 				},
-				"cnrenvironmentaleconomicspolicy": {
+				"ENVECON": {
 					"title": "Environmental Economics & Policy"
 				},
-				"cnrnaturalresources": {
+				"NAT RES": {
 					"title": "Natural Resources"
 				},
-				"cnrnutritionalsciencestoxicology": {
+				"NUSCTX": {
 					"title": "Nutritional Sciences & Toxicology"
 				},
-				"cnrplantmicrobialbiology": {
+				"PLANTBI": {
 					"title": "Plant & Microbial Biology"
 				}
 			}
@@ -415,10 +382,10 @@
 			"title_prefix": "School of",
 			"title": "Optometry",
 			"children": {
-				"schoolofoptometryoptometry": {
+				"OPTOM": {
 					"title": "Optometry"
 				},
-				"schoolofoptometryvisionscience": {
+				"VIS SCI": {
 					"title": "Vision Science"
 				}
 			}
@@ -427,38 +394,11 @@
 			"title_prefix": "School of",
 			"title": "Public Health",
 			"children": {
-				"schoolofpublichealthbiostatistics": {
-					"title": "Biostatistics"
+				"HMEDSCI": {
+					"title": "Health & Medical Sciences"
 				},
-				"schoolofpublichealthenvironmentalhealthsciences": {
-					"title": "Environmental Health Sciences"
-				},
-				"schoolofpublichealthepidemiology": {
-					"title": "Epidemiology"
-				},
-				"schoolofpublichealthhealthmedicalservices": {
-					"title": "Health & Medical Services"
-				},
-				"schoolofpublichealthhealthsocialbehavior": {
-					"title": "Health & Social Behavior"
-				},
-				"schoolofpublichealthhealthpolicymanagement": {
-					"title": "Health Policy & Management"
-				},
-				"schoolofpublichealthhealthservicespolicyanalysis": {
-					"title": "Health Services & Policy Analysis"
-				},
-				"schoolofpublichealthinfectiousdiseasevaccinology": {
-					"title": "Infectious Disease & Vaccinology"
-				},
-				"schoolofpublichealthmaternalchildhealth": {
-					"title": "Maternal & Child Health"
-				},
-				"schoolofpublichealthpublichealth": {
+				"PB HLTH": {
 					"title": "Public Health"
-				},
-				"schoolofpublichealthpublichealthnutrition": {
-					"title": "Public Health Nutrition"
 				}
 			}
 		},
@@ -466,7 +406,7 @@
 			"title_prefix": "Goldman School of",
 			"title": "Public Policy",
 			"children": {
-				"publicpolicypublicpolicy": {
+				"PUB POL": {
 					"title": "Public Policy"
 				}
 			}
@@ -476,40 +416,46 @@
 			"title": "Social Sciences",
 			"cssclass": "letters-and-science",
 			"children": {
-				"sciencesocialsciencesafricanamericanstudies": {
+				"AFRICAM": {
 					"title": "African American Studies"
 				},
-				"sciencesocialsciencesanthropology": {
+				"ANTHRO": {
 					"title": "Anthropology"
 				},
-				"sciencesocialsciencesdemography": {
+				"DEMOG": {
 					"title": "Demography"
 				},
-				"sciencesocialscienceseconomics": {
+				"ECON": {
 					"title": "Economics"
 				},
-				"sciencesocialsciencesethnicstudies": {
+				"ETH STD": {
 					"title": "Ethnic Studies"
 				},
-				"sciencesocialsciencesgenderandwomensstudies": {
+				"ETH GRP": {
+					"title": "Ethnic Studies Graduate Group"
+				},
+				"GWS": {
 					"title": "Gender and Women's Studies"
 				},
-				"sciencesocialsciencesgeography": {
+				"GEOG": {
 					"title": "Geography"
 				},
-				"sciencesocialscienceshistory": {
+				"HISTORY": {
 					"title": "History"
 				},
-				"sciencesocialscienceslinguistics": {
+				"LINGUIS": {
 					"title": "Linguistics"
 				},
-				"sciencesocialsciencespoliticalscience": {
+				"POL SCI": {
 					"title": "Political Science"
 				},
-				"sciencesocialsciencespsychology": {
+				"PORTUG": {
+					"title": "Portuguese"
+				},
+				"PSYCH": {
 					"title": "Psychology"
 				},
-				"sciencesocialsciencessociology": {
+				"SOCIOL": {
 					"title": "Sociology"
 				}
 			}
@@ -518,7 +464,7 @@
 			"title_prefix": "School of",
 			"title": "Social Welfare",
 			"children": {
-				"schoolofsocialwelfaresocialwelfare": {
+				"SOC WEL": {
 					"title": "Social Welfare"
 				}
 			}
@@ -528,52 +474,67 @@
 			"title": "Undergraduate & Interdisciplinary Studies",
 			"cssclass": "letters-and-science",
 			"children": {
-				"undergraduateinterdisciplinarystudiesamericanstudies": {
+				"AEROSPC": {
+					"title": "Aerospace Studies"
+				},
+				"AMERSTD": {
 					"title": "American Studies"
 				},
-				"undergraduateinterdisciplinarystudiesasianstudies": {
-					"title": "Asian Studies"
+				"ASAMST": {
+					"title": "Asian American Studies"
 				},
-				"undergraduateinterdisciplinarystudiescognitivescience": {
+				"BANGLA": {
+					"title": "Bengali"
+				},
+				"CHICANO": {
+					"title": "Chicano Studies"
+				},
+				"COG SCI": {
 					"title": "Cognitive Science"
 				},
-				"undergraduateinterdisciplinarystudiescreativewriting": {
-					"title": "Creative Writing"
-				},
-				"undergraduateinterdisciplinarystudiescollegewritingprogram": {
+				"COLWRIT": {
 					"title": "College Writing Program"
 				},
-				"undergraduateinterdisciplinarystudiesdevelopmentstudies": {
+				"DEV STD": {
 					"title": "Development Studies"
 				},
-				"undergraduateinterdisciplinarystudiesdisabilitystudies": {
-					"title": "Disability Studies"
-				},
-				"undergraduateinterdisciplinarystudiesenvironmentalsciences": {
+				"ENV SCI": {
 					"title": "Environmental Sciences"
 				},
-				"undergraduateinterdisciplinarystudiesinterdisciplinarystudies": {
+				"ISF": {
 					"title": "Interdisciplinary Studies"
 				},
-				"undergraduateinterdisciplinarystudieslatinamericanstudies": {
-					"title": "Latin American Studies"
-				},
-				"undergraduateinterdisciplinarystudiesmediastudies": {
+				"MEDIAST": {
 					"title": "Media Studies"
 				},
-				"undergraduateinterdisciplinarystudiesmiddleeasternstudies": {
+				"M E STU": {
 					"title": "Middle Eastern Studies"
 				},
-				"undergraduateinterdisciplinarystudiesmilitaryaffairs": {
+				"MIL AFF": {
 					"title": "Military Affairs"
 				},
-				"undergraduateinterdisciplinarystudiespeaceconflictstudies": {
+				"MIL SCI": {
+					"title": "Military Science"
+				},
+				"NATAMST": {
+					"title": "Native American Studies"
+				},
+				"NAV SCI": {
+					"title": "Naval Science"
+				},
+				"NWMEDIA": {
+					"title": "New Media"
+				},
+				"PACS": {
 					"title": "Peace & Conflict Studies"
 				},
-				"undergraduateinterdisciplinarystudiespoliticaleconomyofindustrialsocieties": {
+				"POLECON": {
 					"title": "Political Economy of Industrial Societies"
 				},
-				"undergraduateinterdisciplinarystudiesreligiousstudies": {
+				"POL SCI": {
+					"title": "Political Science"
+				},
+				"RELIGST": {
 					"title": "Religious Studies"
 				}
 			}
