@@ -47,6 +47,10 @@
 			location="classpath:/dataSource.properties"
 			ignore-resource-not-found="true" />
 
+	<context:property-override
+			location="file:///${customPropsDir}/dataSource.properties"
+			ignore-resource-not-found="true" />
+
 	<util:properties id="calcentralProperties" location="classpath:/calcentral.properties"/>
 
 	<util:properties id="gitProperties" location="classpath:/git.properties"/>
