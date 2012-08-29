@@ -36,7 +36,8 @@ public class Sakai2ProxyTest extends DatabaseAwareTest {
 
 	@Test
 	public void testGet() throws Exception {
-		Map<String, Object> result = proxy.get();
-
+		Map<String, Object> result = proxy.get("2040");
+		assertNotNull(result.get("body"));
+		assertNotNull(result.get("statusCode"));
 	}
 }

@@ -33,8 +33,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.core.Context;
 import java.io.IOException;
 import java.security.SignatureException;
 import java.util.HashMap;
@@ -62,21 +64,24 @@ public class Sakai2Proxy {
 	}
 
 	@GET
-	public Map<String, Object> get() {
+	public Map<String, Object> get(@Context HttpServletRequest request) {
+		return get(request.getRemoteUser());
+	}
+
+	public Map<String, Object> get(String username) {
 		LOGGER.debug("Shared secret = " + sharedSecret);
 		Map<String, Object> result = new HashMap<String, Object>();
 
 		HttpClient httpClient = new HttpClient();
 		httpClient.setState(new HttpState());
 		HttpClientParams params = new HttpClientParams();
-		params.setSoTimeout(5000);
+		params.setSoTimeout(3000);
 		httpClient.setParams(params);
 		HostConfiguration hostConfiguration = new HostConfiguration();
 		hostConfiguration.setHost("sakai-dev.berkeley.edu", 443, Protocol.getProtocol("https"));
 
-		String user = "2040"; // TODO replace with request.getRemoteUser()
 		String hmac;
-		final String message = user + TOKEN_SEPARATOR + System.currentTimeMillis();
+		final String message = username + TOKEN_SEPARATOR + System.currentTimeMillis();
 		try {
 			hmac = Signature.calculateRFC2104HMAC(message, sharedSecret);
 		} catch (SignatureException e) {
@@ -88,6 +93,8 @@ public class Sakai2Proxy {
 		get.setRequestHeader(SECURE_TOKEN_HEADER_NAME, hmac + TOKEN_SEPARATOR + message);
 
 		try {
+			LOGGER.info("Attempting Proxy GET of " + hostConfiguration.getHost() + get.getURI() + " on behalf of user "
+					+ username + ", with x-sakai-token = " + get.getRequestHeader(SECURE_TOKEN_HEADER_NAME));
 			httpClient.executeMethod(hostConfiguration, get);
 			if (LOGGER.isDebugEnabled()) {
 				LOGGER.debug("Proxy GET of " + hostConfiguration.getHostURL() + get.getURI() + " returned " + get.getStatusCode() + " " + get.getStatusText());
@@ -106,7 +113,7 @@ public class Sakai2Proxy {
 			result.put("body", "");
 			result.put("statusCode", 503);
 			result.put("statusText", "Server unreachable");
-			LOGGER.warn("Sakai2 Proxy server unreachable", ioe);
+			LOGGER.error("Sakai2 Proxy server unreachable due to IOException. Message: " + ioe.getMessage());
 		}
 		return result;
 	}
