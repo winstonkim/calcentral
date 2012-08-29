@@ -467,7 +467,7 @@ var calcentral = calcentral || {};
 			}).show();
 		});
 
-		$('.cc-topnavigation > ul > li').on('mouseleave', function(e) {
+		$topNavigationItemsWithDropdown.parent().on('mouseleave', function(e) {
 			closeMenu();
 		});
 
