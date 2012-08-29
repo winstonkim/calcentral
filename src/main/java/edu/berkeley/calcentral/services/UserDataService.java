@@ -22,7 +22,6 @@ import edu.berkeley.calcentral.Urls;
 import edu.berkeley.calcentral.daos.UserDataDao;
 import edu.berkeley.calcentral.daos.WidgetDataDao;
 import edu.berkeley.calcentral.domain.CalCentralUser;
-import edu.berkeley.calcentral.domain.CurrentUser;
 import edu.berkeley.calcentral.domain.UserData;
 
 @Service
@@ -41,10 +40,9 @@ public class UserDataService {
 	@GET
 	@Path("{userID}")
 	@Produces({MediaType.APPLICATION_JSON})
-	public CurrentUser getUser(@PathParam(Params.USER_ID) String userID) {
+	public UserData getUser(@PathParam(Params.USER_ID) String userID) {
 		UserData user = userDataDao.getUserAndWidgetData(userID);
-		CurrentUser currentUser = new CurrentUser(user);
-		return currentUser;
+		return user;
 	}
 
 	@POST
