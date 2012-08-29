@@ -42,8 +42,8 @@ body { margin: 0; font-size: 1em; line-height: 1.4; }
  * Also: hot pink! (or customize the background color to match your design)
  */
 
-::-moz-selection { background: #fe57a1; color: #fff; text-shadow: none; }
-::selection { background: #fe57a1; color: #fff; text-shadow: none; }
+::-moz-selection { background: #57C9FA; color: #fff; text-shadow: none; }
+::selection { background: #57C9FA; color: #fff; text-shadow: none; }
 
 
 /* =============================================================================
@@ -259,6 +259,9 @@ header h1 {
 .cc-left {
 	float: left;
 }
+.cc-top-20 {
+	margin-top: 20px;
+}
 
 /* Navigation */
 .cc-topnavigation {
@@ -358,6 +361,13 @@ header h1 {
 
 /* Left main container */
 .cc-container-main-left {
+	background: #ffffff;
+	background: -moz-linear-gradient(top, #f7f7f7 0%, #f7f7f7 5%, #ffffff 12%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #f7f7f7), color-stop(5%, #f7f7f7), color-stop(12%, #ffffff));
+	background: -webkit-linear-gradient(top, #f7f7f7 0%, #f7f7f7 5%, #ffffff 12%);
+	background: -o-linear-gradient(top, #f7f7f7 0%, #f7f7f7 5%, #ffffff 12%);
+	background: -ms-linear-gradient(top, #f7f7f7 0%, #f7f7f7 5%, #ffffff 12%);
+	background: linear-gradient(top, #f7f7f7 0%, #f7f7f7 5%, #ffffff 12%);
 	float: left;
 	min-height: 500px;
 	width: 185px;
@@ -388,15 +398,6 @@ header h1 {
 }
 
 /* Lefthandnavigation */
-.cc-lefthandnavigation {
-	background: #ffffff;
-	background: -moz-linear-gradient(top, #f7f7f7 0%, #f7f7f7 5%, #ffffff 12%);
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #f7f7f7), color-stop(5%, #f7f7f7), color-stop(12%, #ffffff));
-	background: -webkit-linear-gradient(top, #f7f7f7 0%, #f7f7f7 5%, #ffffff 12%);
-	background: -o-linear-gradient(top, #f7f7f7 0%, #f7f7f7 5%, #ffffff 12%);
-	background: -ms-linear-gradient(top, #f7f7f7 0%, #f7f7f7 5%, #ffffff 12%);
-	background: linear-gradient(top, #f7f7f7 0%, #f7f7f7 5%, #ffffff 12%);
-}
 .cc-lefthandnavigation a {
 	color: #707E8C;
 	display: block;

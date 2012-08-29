@@ -397,6 +397,22 @@ var calcentral = calcentral || {};
 		}
 	};
 
+	if ($('.cc-page-dashboard').length){
+		loadWidgets();
+	}
+
+})();
+
+
+/**
+ * Left hand navigation
+ */
+
+/**
+ * Dashboard
+ */
+(function() {
+
 	var renderLeftHandNavigation = function(data) {
 		calcentral.Api.Util.renderTemplate({
 			'container': $('.cc-container-main-left'),
@@ -406,18 +422,27 @@ var calcentral = calcentral || {};
 	};
 
 	var loadLeftHandNavigation = function() {
-		calcentral.Api.User.getCurrentUser(function(success, data) {
+		var data = {};
+		calcentral.Api.User.getCurrentUser(function(success, userData) {
+			data.profile = userData;
+			data.pages = [{
+				'title': 'My dashboard',
+				'url': '/secure/dashboard'
+			},
+			{
+				'title': 'My profile',
+				'url': '/profile.jsp'
+			}];
+			data.pathname = window.location.pathname;
 			renderLeftHandNavigation(data);
 		});
 	};
 
-	if ($('.cc-page-dashboard').length){
-		loadWidgets();
+	if ($('.cc-page-dashboard, .cc-page-profile').length){
 		loadLeftHandNavigation();
 	}
 
 })();
-
 
 /**
  * Clickable masthead - Logged in users go to dashboard, anon users go to "/"
