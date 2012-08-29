@@ -214,7 +214,7 @@
 					<reload>manual</reload>
 					-->
 					<requestLog implementation="org.eclipse.jetty.server.NCSARequestLog">
-						<filename>${project.build.directory}/yyyy_mm_dd.request.log</filename>
+						<filename>${basedir}/logs/yyyy_mm_dd.request.log</filename>
 						<retainDays>90</retainDays>
 						<append>true</append>
 						<extended>false</extended>
