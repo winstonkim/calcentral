@@ -30,7 +30,6 @@ import org.apache.commons.httpclient.params.HttpClientParams;
 import org.apache.commons.httpclient.protocol.Protocol;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
@@ -46,7 +45,7 @@ import java.util.Properties;
 @Path(Urls.BSPACE_FAVORITES)
 public class Sakai2Proxy {
 
-	private static final Logger logger = Logger.getLogger(Sakai2Proxy.class);
+	private static final Logger LOGGER = Logger.getLogger(Sakai2Proxy.class);
 
 	private static final String SECURE_TOKEN_HEADER_NAME = "x-sakai-token";
 
@@ -63,8 +62,10 @@ public class Sakai2Proxy {
 	}
 
 	@GET
-	public Map<String, Object> get() throws IOException {
-		logger.debug("Shared secret = " + sharedSecret);
+	public Map<String, Object> get() {
+		LOGGER.debug("Shared secret = " + sharedSecret);
+		Map<String, Object> result = new HashMap<String, Object>();
+
 		HttpClient httpClient = new HttpClient();
 		httpClient.setState(new HttpState());
 		HttpClientParams params = new HttpClientParams();
@@ -79,27 +80,34 @@ public class Sakai2Proxy {
 		try {
 			hmac = Signature.calculateRFC2104HMAC(message, sharedSecret);
 		} catch (SignatureException e) {
-			logger.error(e.getLocalizedMessage(), e);
+			LOGGER.error(e.getLocalizedMessage(), e);
 			throw new Error(e);
 		}
 
 		GetMethod get = new GetMethod("/sakai-hybrid/sites?categorized=true");
 		get.setRequestHeader(SECURE_TOKEN_HEADER_NAME, hmac + TOKEN_SEPARATOR + message);
-		httpClient.executeMethod(hostConfiguration, get);
 
-		if (logger.isDebugEnabled()) {
-			logger.debug("Proxy GET of " + hostConfiguration.getHostURL() + get.getURI() + " returned " + get.getStatusCode() + " " + get.getStatusText());
-			for ( Header header : get.getRequestHeaders() ) {
-				logger.trace("Request header: " + header.getName() + "=" + header.getValue());
+		try {
+			httpClient.executeMethod(hostConfiguration, get);
+			if (LOGGER.isDebugEnabled()) {
+				LOGGER.debug("Proxy GET of " + hostConfiguration.getHostURL() + get.getURI() + " returned " + get.getStatusCode() + " " + get.getStatusText());
+				for (Header header : get.getRequestHeaders()) {
+					LOGGER.trace("Request header: " + header.getName() + "=" + header.getValue());
+				}
+				for (Header header : get.getResponseHeaders()) {
+					LOGGER.trace("Response header: " + header.getName() + "=" + header.getValue());
+				}
+				LOGGER.trace("Response body: " + get.getResponseBodyAsString());
 			}
-			for ( Header header : get.getResponseHeaders() ) {
-				logger.trace("Response header: " + header.getName() + "=" + header.getValue());
-			}
-			logger.trace("Response body: " + get.getResponseBodyAsString());
+			result.put("body", get.getResponseBodyAsString());
+			result.put("statusCode", get.getStatusCode());
+			result.put("statusText", get.getStatusText());
+		} catch (IOException ioe) {
+			result.put("body", "");
+			result.put("statusCode", 503);
+			result.put("statusText", "Server unreachable");
+			LOGGER.warn("Sakai2 Proxy server unreachable", ioe);
 		}
-
-		Map<String, Object> result = new HashMap<String, Object>();
-		result.put("body", get.getResponseBodyAsString());
 		return result;
 	}
 

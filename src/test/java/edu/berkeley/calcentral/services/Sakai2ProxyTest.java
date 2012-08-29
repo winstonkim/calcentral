@@ -36,12 +36,7 @@ public class Sakai2ProxyTest extends DatabaseAwareTest {
 
 	@Test
 	public void testGet() throws Exception {
-		try {
-			Map<String, Object> result = proxy.get();
-			//logger.info(result);
-		} catch (IOException e) {
-			// warn about IOE but don't fail the test just because remote resource is down
-			logger.warn("Got IOException running test, is BSpace server reachable?", e);
-		}
+		Map<String, Object> result = proxy.get();
+
 	}
 }
