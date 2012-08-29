@@ -24,6 +24,7 @@
 				<jsp:include page="widgets/walktime/walktime.html" />
 				<jsp:include page="widgets/quicklinks/quicklinks.html" />
 				<jsp:include page="widgets/bspacefavourites/bspacefavourites.html" />
+				<jsp:include page="widgets/canvascourses/canvascourses.html" />
 			</div>
 		</div>
 		<!-- END Page specific HTML -->

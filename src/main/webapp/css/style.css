@@ -584,6 +584,24 @@ header h1 {
 	font-size: 13px;
 }
 
+.cc-container-widget .cc-widget-list {
+	margin: 0;
+	max-height: 200px;
+	overflow: auto;
+	padding: 0;
+}
+.cc-container-widget .cc-widget-list li {
+    list-style-type: none;
+}
+.cc-container-widget .cc-widget-list li a {
+    border-bottom: 1px solid #ccc;
+	display: block;
+	padding: 6px 40px 4px;
+}
+.cc-container-widget .cc-widget-list li:last-child a {
+	border-bottom: none;
+}
+
 .cc-container-widget .cc-widget-footer {
 	background: #ececec;
 	background: -moz-linear-gradient(top, #ececec 0%, #e2e2e2 100%);
