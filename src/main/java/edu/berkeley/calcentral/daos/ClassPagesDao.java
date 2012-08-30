@@ -7,6 +7,8 @@ import javax.sql.DataSource;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.Produces;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -28,6 +30,7 @@ public class ClassPagesDao {
 	
 	//Would prefer there to be two different ways of lookup up class info, one by "class ids" and one with data already split out.
 	@GET
+	@Produces({MediaType.APPLICATION_JSON})
 	@Path("{year}/{term}/{courseID}")
 	public List<Map<String, Object>>  foo(@PathParam("year") String year,
 			@PathParam("term") String term,
