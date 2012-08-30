@@ -23,14 +23,14 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 
-public class UserAuthorizationTest extends DatabaseAwareTest {
+public class UserAuthorizationServiceTest extends DatabaseAwareTest {
 
 	@Autowired
-	private UserAuthorization userAuthorization;
+	private UserAuthorizationService userAuthorizationService;
 
 	@Test
 	public void testLoadUserByUsername() throws Exception {
-		UserDetails details = this.userAuthorization.loadUserByUsername("2040");
+		UserDetails details = this.userAuthorizationService.loadUserByUsername("2040");
 		assertNotNull(details);
 	}
 }

@@ -17,9 +17,8 @@ import edu.berkeley.calcentral.daos.UserAuthorizationDao;
  * spring security for pageAuth checks.
  */
 @Service
-public class UserAuthorization implements UserDetailsService {
+public class UserAuthorizationService implements UserDetailsService {
 
-	/** Dao interface. */
 	@Autowired
 	private UserAuthorizationDao userAuthorizationDao;
 
@@ -27,16 +26,10 @@ public class UserAuthorization implements UserDetailsService {
 		return userAuthorizationDao.getUserDetails(uid);
 	}
 
-	/**
-	 * @return the dao
-	 */
 	public UserAuthorizationDao getUserAuthorizationDao() {
 		return userAuthorizationDao;
 	}
 
-	/**
-	 * @param dao the dao to set
-	 */
 	public void setUserAuthorizationDao(UserAuthorizationDao userAuthorizationDao) {
 		this.userAuthorizationDao = userAuthorizationDao;
 	}
