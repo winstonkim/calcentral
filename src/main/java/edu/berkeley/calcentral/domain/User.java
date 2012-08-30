@@ -1,72 +1,26 @@
 package edu.berkeley.calcentral.domain;
 
-import javax.xml.bind.annotation.XmlRootElement;
-
-import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 
+import javax.xml.bind.annotation.XmlRootElement;
+import java.sql.Timestamp;
+
 /**
- * A simple CalCentral user, containing basic information.  
+ * A simple CalCentral user, containing basic information.
  */
 @XmlRootElement
-@JsonSerialize(include=JsonSerialize.Inclusion.NON_NULL)
+@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
 public class User {
 
-	/** Wonderful identifier from CAS. */
 	private String uid;
 
-	/** OPTIONAL: basic last name i'm assuming we might want. **/
-	private String lastName;
+	private String preferredName;
 
-	/** OPTIONAL: basic first name i'm assuming we might want. **/
-	private String firstName;
+	private String link;
 
-	/** Need at least one boolean to enable disable users **/
-	@JsonIgnore
-	private boolean activeFlag;
+	private Timestamp firstLogin;
 
-	public User() {}
-
-	/**
-	 * @return the lastName
-	 */
-	public String getLastName() {
-		return lastName;
-	}
-
-	/**
-	 * @param lastName the lastName to set
-	 */
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
-
-	/**
-	 * @return the firstName
-	 */
-	public String getFirstName() {
-		return firstName;
-	}
-
-	/**
-	 * @param firstName the firstName to set
-	 */
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
-
-	/**
-	 * @return the activeFlag
-	 */
-	public boolean getActiveFlag() {
-		return activeFlag;
-	}
-
-	/**
-	 * @param activeFlag the activeFlag to set
-	 */
-	public final void setActiveFlag(boolean activeFlag) {
-		this.activeFlag = activeFlag;
+	public User() {
 	}
 
 	public String getUid() {
@@ -76,4 +30,39 @@ public class User {
 	public void setUid(String uid) {
 		this.uid = uid;
 	}
+
+	public String getPreferredName() {
+		return preferredName;
+	}
+
+	public void setPreferredName(String preferredName) {
+		this.preferredName = preferredName;
+	}
+
+	public String getLink() {
+		return link;
+	}
+
+	public void setLink(String link) {
+		this.link = link;
+	}
+
+	public Timestamp getFirstLogin() {
+		return firstLogin;
+	}
+
+	public void setFirstLogin(Timestamp firstLogin) {
+		this.firstLogin = firstLogin;
+	}
+
+	@Override
+	public String toString() {
+		return "User{" +
+				"uid='" + uid + '\'' +
+				", preferredName='" + preferredName + '\'' +
+				", link='" + link + '\'' +
+				", firstLogin=" + firstLogin +
+				'}';
+	}
+
 }

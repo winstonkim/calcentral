@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations under the License.
  */
 
-package edu.berkeley.calcentral.services;
+package edu.berkeley.calcentral.daos;
 
 import edu.berkeley.calcentral.DatabaseAwareTest;
 import edu.berkeley.calcentral.domain.User;
@@ -24,52 +24,62 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.Map;
 import java.util.Random;
 
-@SuppressWarnings("unchecked")
-public class UserServiceTest extends DatabaseAwareTest {
+public class UserDaoTest extends DatabaseAwareTest {
 
-	private static final Log LOGGER = LogFactory.getLog(UserServiceTest.class);
+	private static final Log LOGGER = LogFactory.getLog(UserDaoTest.class);
 
 	@Autowired
-	private UserService userService;
+	private UserDao dao;
 
 	@Test
-	public void getUser() throws Exception {
-		Map<String, Object> userMap = userService.getUser("2040");
-		LOGGER.info(userMap);
-		Map<String, Object> campusData = (Map<String, Object>)userMap.get("campusData");
-		assertNotNull(campusData);
-		User user = (User) userMap.get("user");
-		assertNotNull(user);
-		assertNull(userMap.get("widgetData"));
+	public void get() throws Exception {
+		User user = dao.get("2040");
+
+		// once authorized, user is created
+		if (user == null) {
+			dao.insert("2040", "Oliver Heyer");
+			UserDetails details = dao.getUserDetails("2040");
+			assertNotNull(details);
+		}
+
+		// now he should exist
+		user = dao.get("2040");
+		LOGGER.info(user);
+
+		assertEquals("Oliver Heyer", user.getPreferredName());
 	}
 
 	@Test
 	public void getNonexistent() throws Exception {
-		Map<String, Object> userMap = userService.getUser("00000000");
-		LOGGER.info(userMap);
-		assertNull(userMap.get("user"));
-		assertNull(userMap.get("widgetData"));
+		assertNull(dao.get("000000"));
 	}
 
 	@Test
-	public void saveUserData() throws Exception {
-		// TODO write test
+	public void update() throws Exception {
+		//TODO: fill me in
 	}
 
 	@Test
-	public void deleteUserAndWidgetData() throws Exception {
-		// TODO write test
+	public void delete() throws Exception {
+		//TODO: fill me in
+	}
+
+	@Test(expected = EmptyResultDataAccessException.class)
+	public void getUserDetails() throws Exception {
+		dao.getUserDetails("0000000");
 	}
 
 	@Test
-	public void testLoadUserByUsername() throws Exception {
-		UserDetails details = this.userService.loadUserByUsername(String.valueOf(new Random().nextLong()));
-		assertNotNull(details);
+	public void insertUser() throws Exception {
+		String uid = String.valueOf(new Random().nextLong());
+		dao.insert(uid, "Jane Random");
+		org.springframework.security.core.userdetails.User user = dao.getUserDetails(uid);
+		assertNotNull(user);
 	}
 
 }

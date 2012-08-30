@@ -6,7 +6,7 @@
 	{{#if loggedIn}}
 		<ul>
 			<li class="cc-right">
-				<a href="/" aria-haspopup="true">{{firstName}} {{lastName}}</a>
+				<a href="/" aria-haspopup="true">{{preferredName}}</a>
 				<div class="cc-topnavigation-dropdown" style="display:none">
 					<ul>
 						<li>

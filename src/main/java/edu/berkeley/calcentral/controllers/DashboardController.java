@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import edu.berkeley.calcentral.daos.UserDataDao;
+import edu.berkeley.calcentral.daos.UserDao;
 
 /**
  * Controller for pulling up the initial dashboard after a user logs in.
@@ -24,7 +24,7 @@ import edu.berkeley.calcentral.daos.UserDataDao;
 public class DashboardController {
 
 	@Autowired
-	private UserDataDao userDataDao;
+	private UserDao userDao;
 
 	/**
 	 * GET call for the dashboard.

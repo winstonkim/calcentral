@@ -137,13 +137,7 @@
 	</bean>
 
 	<!-- User Service wiring -->
-	<bean id="userDetailsService" class="edu.berkeley.calcentral.services.UserAuthorizationService">
-		<property name="userAuthorizationDao" ref="userAuthorizationDao" />
-	</bean>
-
-	<bean id="userAuthorizationDao" class="edu.berkeley.calcentral.daos.UserAuthorizationDao">
-		<property name="dataSource" ref="dataSource" />
-	</bean>
+	<bean id="userDetailsService" class="edu.berkeley.calcentral.services.UserService"/>
 
 	<context:property-override
 		location="classpath:/server.properties"
