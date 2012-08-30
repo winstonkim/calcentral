@@ -19,17 +19,17 @@ import java.util.Map;
 
 @Service
 @Path(Urls.CURRENT_USER)
-public class CurrentUserDataService {
+public class CurrentUserService {
 
 	@Autowired
-	private UserDataService userDataService;
+	private UserService userService;
 
 	@GET
 	@Produces({MediaType.APPLICATION_JSON})
 	public Map<String, Object> getCurrentUser(@Context HttpServletRequest request) {
 		if (request.getUserPrincipal() != null) {
 			String uid = request.getUserPrincipal().getName();
-			return userDataService.getUser(uid);
+			return userService.getUser(uid);
 		} else {
 			return new HashMap<String, Object>(0);
 		}

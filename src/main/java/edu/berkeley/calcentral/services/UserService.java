@@ -30,7 +30,7 @@ import java.util.Map;
 
 @Service
 @Path(Urls.SPECIFIC_USER)
-public class UserDataService {
+public class UserService {
 
 	private ObjectMapper jMapper = new ObjectMapper();
 
