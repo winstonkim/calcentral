@@ -23,10 +23,10 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
 
-public class UserServiceDaoTest extends DatabaseAwareTest {
+public class UserAuthorizationDaoTest extends DatabaseAwareTest {
 
 	@Autowired
-	private UserServiceDao dao;
+	private UserAuthorizationDao dao;
 
 	@Test
 	public void testGetUserDetails() throws Exception {

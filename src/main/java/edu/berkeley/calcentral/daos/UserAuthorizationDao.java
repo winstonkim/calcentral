@@ -25,7 +25,7 @@ import com.google.common.collect.Maps;
  * Dao Used for populating a spring security user object.
  */
 @Repository
-public class UserServiceDao {
+public class UserAuthorizationDao {
 
 	@Autowired @Qualifier("dataSource")
 	private DataSource dataSource;

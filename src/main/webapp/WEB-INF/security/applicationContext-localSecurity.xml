@@ -138,10 +138,10 @@
 
 	<!-- User Service wiring -->
 	<bean id="userDetailsService" class="edu.berkeley.calcentral.services.UserAuthorization">
-		<property name="userServiceDao" ref="userAuthorizationDao" />
+		<property name="userAuthorizationDao" ref="userAuthorizationDao" />
 	</bean>
 
-	<bean id="userAuthorizationDao" class="edu.berkeley.calcentral.daos.UserServiceDao">
+	<bean id="userAuthorizationDao" class="edu.berkeley.calcentral.daos.UserAuthorizationDao">
 		<property name="dataSource" ref="dataSource" />
 	</bean>
 

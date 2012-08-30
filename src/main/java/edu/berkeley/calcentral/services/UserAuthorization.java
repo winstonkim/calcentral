@@ -10,7 +10,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import edu.berkeley.calcentral.daos.UserServiceDao;
+import edu.berkeley.calcentral.daos.UserAuthorizationDao;
 
 /**
  * Main service/helper used to check user authorization. Also used by
@@ -21,24 +21,24 @@ public class UserAuthorization implements UserDetailsService {
 
 	/** Dao interface. */
 	@Autowired
-	private UserServiceDao userServiceDao;
+	private UserAuthorizationDao userAuthorizationDao;
 
 	public UserDetails loadUserByUsername(String uid) throws UsernameNotFoundException {
-		return userServiceDao.getUserDetails(uid);
+		return userAuthorizationDao.getUserDetails(uid);
 	}
 
 	/**
 	 * @return the dao
 	 */
-	public UserServiceDao getUserServiceDao() {
-		return userServiceDao;
+	public UserAuthorizationDao getUserAuthorizationDao() {
+		return userAuthorizationDao;
 	}
 
 	/**
 	 * @param dao the dao to set
 	 */
-	public void setUserServiceDao(UserServiceDao userServiceDao) {
-		this.userServiceDao = userServiceDao;
+	public void setUserAuthorizationDao(UserAuthorizationDao userAuthorizationDao) {
+		this.userAuthorizationDao = userAuthorizationDao;
 	}
 
 }
