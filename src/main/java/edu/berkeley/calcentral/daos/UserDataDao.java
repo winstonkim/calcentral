@@ -1,7 +1,7 @@
 package edu.berkeley.calcentral.daos;
 
 import com.google.common.collect.Maps;
-import edu.berkeley.calcentral.domain.CalCentralUser;
+import edu.berkeley.calcentral.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -21,14 +21,14 @@ public class UserDataDao {
 	@Autowired
 	private WidgetDataDao widgetDataDao;
 
-	public CalCentralUser get(String uid) {
+	public User get(String uid) {
 		Map<String, String> params = Maps.newHashMap();
 		params.put("uid", uid);
 
 		NamedParameterJdbcTemplate queryRunner = new NamedParameterJdbcTemplate(dataSource);
-		CalCentralUser user = null;
+		User user = null;
 		try {
-			user = queryRunner.queryForObject(SqlQueries.get, params, new BeanPropertyRowMapper<CalCentralUser>(CalCentralUser.class));
+			user = queryRunner.queryForObject(SqlQueries.get, params, new BeanPropertyRowMapper<User>(User.class));
 		} catch (EmptyResultDataAccessException e) {
 			return null;
 		}
@@ -36,7 +36,7 @@ public class UserDataDao {
 		return user;
 	}
 
-	public void update(CalCentralUser user) {
+	public void update(User user) {
 		//TODO: fill me in
 	}
 

@@ -19,7 +19,7 @@
 package edu.berkeley.calcentral.services;
 
 import edu.berkeley.calcentral.DatabaseAwareTest;
-import edu.berkeley.calcentral.domain.CalCentralUser;
+import edu.berkeley.calcentral.domain.User;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.junit.Test;
@@ -41,7 +41,7 @@ public class UserServiceTest extends DatabaseAwareTest {
 		LOGGER.info(userMap);
 		Map<String, Object> campusData = (Map<String, Object>)userMap.get("campusData");
 		assertNotNull(campusData);
-		CalCentralUser user = (CalCentralUser) userMap.get("user");
+		User user = (User) userMap.get("user");
 		assertNotNull(user);
 		assertNull(userMap.get("widgetData"));
 	}

@@ -10,7 +10,7 @@ import org.codehaus.jackson.map.annotate.JsonSerialize;
  */
 @XmlRootElement
 @JsonSerialize(include=JsonSerialize.Inclusion.NON_NULL)
-public class CalCentralUser {
+public class User {
 
 	/** Wonderful identifier from CAS. */
 	private String uid;
@@ -25,7 +25,7 @@ public class CalCentralUser {
 	@JsonIgnore
 	private boolean activeFlag;
 
-	public CalCentralUser() {}
+	public User() {}
 
 	/**
 	 * @return the lastName

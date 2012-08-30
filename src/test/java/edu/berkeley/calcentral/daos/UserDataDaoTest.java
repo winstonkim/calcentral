@@ -19,7 +19,7 @@
 package edu.berkeley.calcentral.daos;
 
 import edu.berkeley.calcentral.DatabaseAwareTest;
-import edu.berkeley.calcentral.domain.CalCentralUser;
+import edu.berkeley.calcentral.domain.User;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -30,7 +30,7 @@ public class UserDataDaoTest extends DatabaseAwareTest {
 
 	@Test
 	public void testGet() throws Exception {
-		CalCentralUser user = dao.get("2040");
+		User user = dao.get("2040");
 		assertNotNull(user);
 		assertEquals("Oliver", user.getFirstName());
 		assertNull(dao.get("nonexistent_user"));

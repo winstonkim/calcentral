@@ -4,7 +4,6 @@ package edu.berkeley.calcentral.controllers;
  * DashboardController.java
  * Copyright (c) 2012 The Regents of the University of California
  */
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -16,10 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.google.common.collect.Maps;
-
 import edu.berkeley.calcentral.daos.UserDataDao;
-import edu.berkeley.calcentral.domain.CalCentralUser;
 
 /**
  * Controller for pulling up the initial dashboard after a user logs in.
