@@ -33,11 +33,11 @@ var calcentral = calcentral || {};
 		$.ajax({
 			'success': function(data) {
 				// If the user doesn't have a uid, they aren't logged in
-				if (!data.currentUser) {
-					data.currentUser = {};
+				if (!data.user) {
+					data.user = {};
 				}
-				data.currentUser.loggedIn = data.currentUser.uid ? true : false;
-				callback(true, data.currentUser);
+				data.user.loggedIn = data.user.uid ? true : false;
+				callback(true, data.user);
 			},
 			'url': '/api/currentUser'
 		});
