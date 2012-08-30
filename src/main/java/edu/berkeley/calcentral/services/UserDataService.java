@@ -13,6 +13,8 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import com.google.common.collect.Maps;
+import edu.berkeley.calcentral.domain.WidgetData;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,7 +24,9 @@ import edu.berkeley.calcentral.Urls;
 import edu.berkeley.calcentral.daos.UserDataDao;
 import edu.berkeley.calcentral.daos.WidgetDataDao;
 import edu.berkeley.calcentral.domain.CalCentralUser;
-import edu.berkeley.calcentral.domain.UserData;
+
+import java.util.List;
+import java.util.Map;
 
 @Service
 @Path(Urls.USERS)
@@ -36,13 +40,16 @@ public class UserDataService {
 	@Autowired
 	private WidgetDataDao widgetDataDao;
 
-	
 	@GET
 	@Path("{userID}")
 	@Produces({MediaType.APPLICATION_JSON})
-	public UserData getUser(@PathParam(Params.USER_ID) String userID) {
-		UserData user = userDataDao.getUserAndWidgetData(userID);
-		return user;
+	public Map<String, Object> getUser(@PathParam(Params.USER_ID) String userID) {
+		Map<String, Object> userData = Maps.newHashMap();
+		CalCentralUser user = userDataDao.get(userID);
+		userData.put("user", user);
+		List<WidgetData> widgetData = widgetDataDao.getAllWidgetData(userID);
+		userData.put("widgetData", widgetData);
+		return userData;
 	}
 
 	@POST

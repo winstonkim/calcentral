@@ -37,12 +37,6 @@ public class UserDataDaoTest extends DatabaseAwareTest {
 	}
 
 	@Test
-	public void testGetUserAndWidgetData() throws Exception {
-		assertNotNull(dao.getUserAndWidgetData("2040"));
-		assertNull(dao.getUserAndWidgetData("nonexistent user"));
-	}
-
-	@Test
 	public void testUpdate() throws Exception {
 		//TODO: fill me in
 	}

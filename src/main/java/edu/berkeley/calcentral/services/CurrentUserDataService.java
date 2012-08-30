@@ -4,10 +4,7 @@
  */
 package edu.berkeley.calcentral.services;
 
-import com.google.common.collect.Maps;
 import edu.berkeley.calcentral.Urls;
-import edu.berkeley.calcentral.daos.UserDataDao;
-import edu.berkeley.calcentral.domain.UserData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +14,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import java.util.HashMap;
 import java.util.Map;
 
 @Service
@@ -24,20 +22,17 @@ import java.util.Map;
 public class CurrentUserDataService {
 
 	@Autowired
-	private UserDataDao userDataDao;
+	private UserDataService userDataService;
 
 	@GET
 	@Produces({MediaType.APPLICATION_JSON})
 	public Map<String, Object> getCurrentUser(@Context HttpServletRequest request) {
-		Map<String, Object> result = Maps.newHashMap();
 		if (request.getUserPrincipal() != null) {
 			String uid = request.getUserPrincipal().getName();
-			UserData userData = userDataDao.getUserAndWidgetData(uid);
-			result.put("currentUser", userData);
+			return userDataService.getUser(uid);
 		} else {
-			result.put("currentUser", Maps.newHashMap());
+			return new HashMap<String, Object>(0);
 		}
-		return result;
 	}
 
 }

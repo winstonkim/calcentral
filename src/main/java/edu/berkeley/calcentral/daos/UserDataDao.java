@@ -1,10 +1,7 @@
 package edu.berkeley.calcentral.daos;
 
-import java.util.List;
-import java.util.Map;
-
-import javax.sql.DataSource;
-
+import com.google.common.collect.Maps;
+import edu.berkeley.calcentral.domain.CalCentralUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -12,11 +9,8 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import com.google.common.collect.Maps;
-
-import edu.berkeley.calcentral.domain.CalCentralUser;
-import edu.berkeley.calcentral.domain.UserData;
-import edu.berkeley.calcentral.domain.WidgetData;
+import javax.sql.DataSource;
+import java.util.Map;
 
 @Repository
 public class UserDataDao {
@@ -40,23 +34,6 @@ public class UserDataDao {
 		}
 
 		return user;
-	}
-
-	public UserData getUserAndWidgetData(String uid) {
-		UserData userData = new UserData();
-
-		CalCentralUser user = this.get(uid);
-		if (user == null) {
-			return null;
-		}
-		userData.setUser(user);
-
-		List<WidgetData> widgetData = widgetDataDao.getAllWidgetData(uid);
-		if (widgetData != null) {
-			userData.setWidgetData(widgetData);
-		}
-
-		return userData;
 	}
 
 	public void update(CalCentralUser user) {
