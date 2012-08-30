@@ -40,6 +40,9 @@ public class UserService {
 	@Autowired
 	private WidgetDataDao widgetDataDao;
 
+	@Autowired
+	private CampusPersonDataService campusPersonDataService;
+
 	@GET
 	@Produces({MediaType.APPLICATION_JSON})
 	public Map<String, Object> getUser(@PathParam(Params.USER_ID) String userID) {
@@ -48,6 +51,7 @@ public class UserService {
 		userData.put("user", user);
 		List<WidgetData> widgetData = widgetDataDao.getAllWidgetData(userID);
 		userData.put("widgetData", widgetData);
+		userData.put("campusData", campusPersonDataService.getPersonAttributes(userID));
 		return userData;
 	}
 
