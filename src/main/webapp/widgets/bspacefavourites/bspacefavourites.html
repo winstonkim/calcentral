@@ -1,9 +1,11 @@
 <div class="cc-container-widget" id="cc-widget-bspacefavourites">
 	<div class="cc-widget-title">
-		<h2>Bspace Favourites</h2>
+		<h2>bSpace Favourites</h2>
 	</div>
 	<!-- MAIN VIEW -->
-	<div class="cc-widget-bspacefavourites-list"><!-- --></div>
+	<div class="cc-widget-bspacefavourites-list">
+		<div class="cc-widget-text">Loading...</div>
+	</div>
 	<script id="cc-widget-bspacefavourites-list-template" type="text/x-handlebars-template">
 		{{#if categories}}
 			<ul class="cc-widget-list">
@@ -14,9 +16,8 @@
 			{{/each}}
 			</ul>
 		{{else}}
-			<div class="cc-widget-bspacefavourites-no-results">
-				When you select your favourite bSpace sites, they will be shown here along with the number of new forum posts and messages.
-				<a href="#">Select sites</a>
+			<div class="cc-widget-text">
+				There are currently no bSpace sites available.
 			</div>
 		{{/if}}
 	</script>
