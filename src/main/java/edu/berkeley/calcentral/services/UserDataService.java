@@ -29,7 +29,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-@Path(Urls.USERS)
+@Path(Urls.SPECIFIC_USER)
 public class UserDataService {
 
 	private ObjectMapper jMapper = new ObjectMapper();
@@ -41,7 +41,6 @@ public class UserDataService {
 	private WidgetDataDao widgetDataDao;
 
 	@GET
-	@Path("{userID}")
 	@Produces({MediaType.APPLICATION_JSON})
 	public Map<String, Object> getUser(@PathParam(Params.USER_ID) String userID) {
 		Map<String, Object> userData = Maps.newHashMap();
@@ -53,7 +52,6 @@ public class UserDataService {
 	}
 
 	@POST
-	@Path("{userID}")
 	@Produces({MediaType.APPLICATION_JSON})
 	public CalCentralUser saveUserData(@PathParam(Params.USER_ID) String userID,
 			@FormParam(Params.DATA) String jsonData) {
@@ -70,7 +68,6 @@ public class UserDataService {
 	}
 
 	@DELETE
-	@Path("{userID}")
 	public void deleteUserAndWidgetData(@PathParam(Params.USER_ID) String userID) {
 		userDataDao.delete(userID);
 		widgetDataDao.deleteAllWidgetData(userID);
