@@ -34,6 +34,14 @@
 					{{>instructor}}
 				</div>
 			</div>
+			<div class="cc-container-widget cc-page-classpage-sections">
+				<div class="cc-widget-title">
+					<h2>Lecture &amp; Section Details</h2>
+				</div>
+				<div class="cc-widget-main">
+					{{>sections}}
+				</div>
+			</div>
 		</script>
 		<script id="cc-page-classpage-header-template" type="text/x-handlebars-template">
 
@@ -81,6 +89,164 @@
 					</li>
 				{{/each}}
 			</ul>
+		</script>
+
+		<script id="cc-page-classpage-sections-template" type="text/x-handlebars-template">
+        {{#if sections}}
+        <span id="classpages_showhideall">
+        	<button id="classpages_expandall" class="s3d-link-button">Expand all</button> |
+        	<button id="classpages_collapseall" class="s3d-link-button">Collapse all</button>
+        </span>
+        <table id="classpages_section_results">
+            <thead>
+                <tr>
+                    <th class="classpages_sections_col1">Class Meeting</th>
+                    <th>CCN</th>
+                    <th>Instructor</th>
+                    <th>Enrolled</th>
+                    <th>Waitlist</th>
+                    <th class="classpages_sections_timecol">Time</th>
+                    <th class="classpages_sections_loccol">Location</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each sections}}
+                <tr class="classpages_classrow">
+                    <td>
+                        <a href="#"><div class="classpages_sections_arrow" id="sectionarrow-{{ccn}}"></div></a>
+                        <span class="classpages_section_title_warrow">
+                            <strong>{{section}}</strong></span>
+                        </span>
+                    </td>
+
+                    <td>
+                        {{ccn}}
+                    </td>
+
+                    <td class="classpages_sections_instrnames">
+	                    {{#each section_instructors}}
+	                        {{#if id}}
+	                            <a href="/~{{id}}">{{name}}</a>
+	                        {{else}}
+	                            {{name}}
+	                        {{/if}}
+	                    {{/each}}
+                    </td>
+
+                    <%-- Mustache doesnt allow tests like 'if this AND that' so we double nest the tests --%>
+                    <td>{{#if enrolled_cur}}
+	                    	{{#if enrolled_max}}
+	                    		{{enrolled_cur}}/{{enrolled_max}}
+	                    	{{/if}}
+                    	{{/if}}
+                    </td>
+
+                    <td>
+                    	{{#if waitlist}}
+                    		Y
+                    	{{/if}}
+                    </td>
+
+                    <td class="classpages_sections_timecol">
+                        {{#if time }}
+                            {{time}}
+                        {{/if}}
+                    </td>
+
+                    <td class="classpages_sections_timecol">
+                        {{#if location }}
+                            {{location}}
+                        {{/if}}
+                    </td>
+                </tr>
+
+                <tr class="classpages_metadata">
+                    <td colspan="5">
+                        <table class="classpages_sections_table_inner">
+                            {{#if note}}
+                            <tr>
+                                <td class="classpages_sections_col1 classpages_table_label">
+                                    Note:
+                                </td>
+
+                                <td>
+                                    {{note}}
+                                </td>
+                            </tr>
+                            {{/if}}
+
+                            <tr>
+                                <td class="classpages_sections_col1 classpages_table_label">
+                                    Final exam:
+                                </td>
+
+                                <td>
+                                    {{#if final_datetime}}{{final_datetime}}
+                                        {{#if final_coords}}
+                                            <a href="http://maps.google.com/maps?daddr={{final_coords}}&l=en&dirflg=w&t=m&z=17" target="_blank">in {{final_location}}</a>
+                                        {{else}}
+                                            <em>Not available</em>
+                                        {{/if}}
+                                    {{else}}
+                                            <em>Not available, location unknown</em>
+                                    {{/if}}
+
+                                    {{#if final_note}}
+                                        <a href="#" class="show_note" data-note="{{final_note}}">[Note]</a>
+                                    {{/if}}
+                                </td>
+                            </tr>
+
+                            {{#if midterm_datetime}}
+                            <tr>
+                                <td class="classpages_sections_col1 classpages_table_label">
+                                    Mid-term:
+                                </td>
+
+                                <td>
+                                    {{#if midterm_datetime}}{{midterm_datetime}}
+                                        {{#if midterm_coords}}
+                                            <a href="http://maps.google.com/maps?daddr={{midterm_coords}}&l=en&dirflg=w&t=m&z=17" target="_blank">in {{midterm_location}}</a>
+                                        {{/if}}
+                                    {{else}}
+                                        <em>Not available</em>
+                                    {{/if}}
+                                    {{#if midterm_note}}
+                                        <a href="#" class="show_note" data-note="{{midterm_note}}">[Note]</a>
+                                    {{/if}}
+                                </td>
+                            </tr>
+                            {{/if}}
+
+                            {{#if restrictions}}
+                            <tr>
+                                <td class="classpages_sections_col1 classpages_table_label">
+                                    Restrictions:
+                                </td>
+
+                                <td>
+                                    {{restrictions}}
+                                </td>
+                            </tr>
+                            {{/if}}
+
+                        </table>
+                    </td>
+
+                    <td colspan="2">
+                        {{#if coords}}
+                            <a href="http://maps.google.com/maps?daddr={{coords}}&l=en&dirflg=w&t=m&z=17" target="_blank"><img src="http://maps.googleapis.com/maps/api/staticmap?center={{coords}}&zoom=16&size=200x200&maptype=roadmap&markers=color:blue%7C{{coords}}&sensor=false" /></a>
+                        {{else}}
+                            <img src="/img/myb/classpages_map_not_available.png" />
+                        {{/if}}
+                    </td>
+                </tr>
+
+                {{/each}}
+            </tbody>
+        {{else}}
+            <em>Not available</em>
+        {{/if}}
 		</script>
 
 		<!-- END Page specific HTML -->

@@ -5,16 +5,16 @@ var calcentral = calcentral || {};
  * Data
  */
 (function() {
-	calcentral.Data = calcentral.Data || {};
-	calcentral.Data.User = calcentral.Data.User || {};
-	calcentral.Data.User.userId = 300646;
+    calcentral.Data = calcentral.Data || {};
+    calcentral.Data.User = calcentral.Data.User || {};
+    calcentral.Data.User.userId = 300646;
 })();
 
 /**
  * API
  */
 (function() {
-	calcentral.Api = calcentral.Api || {};
+    calcentral.Api = calcentral.Api || {};
 })();
 
 /**
@@ -42,7 +42,6 @@ var calcentral = calcentral || {};
 			'url': '/api/currentUser'
 		});
 	};
-
 })();
 
 (function() {
@@ -294,51 +293,51 @@ var calcentral = calcentral || {};
 
 (function() {
 
-	calcentral.Api.Widgets = calcentral.Api.Widgets || {};
+    calcentral.Api.Widgets = calcentral.Api.Widgets || {};
 
-	var createWidgetDataUrl = function(widgetId) {
-		return '/api/user/' + calcentral.Data.User.userId + '/widgetData/' + widgetId;
-	};
+    var createWidgetDataUrl = function(widgetId) {
+        return '/api/user/' + calcentral.Data.User.userId + '/widgetData/' + widgetId;
+    };
 
-	calcentral.Api.Widgets.loadWidgetData = function(config, callback) {
+    calcentral.Api.Widgets.loadWidgetData = function(config, callback) {
 
-		if (!config || !config.id) {
-			window.log('calcentral.Api.Widgets.loadWidgetData - Please provide a config object with an id.');
-		}
+        if (!config || !config.id) {
+            window.log('calcentral.Api.Widgets.loadWidgetData - Please provide a config object with an id.');
+        }
 
-		$.ajax({
-			'cache': false,
-			'success': function(data) {
-				if (data && data.widgetData && data.widgetData.data) {
-					callback(true, $.parseJSON(data.widgetData.data));
-				} else {
-					callback(false);
-				}
-			},
-			'url': createWidgetDataUrl(config.id)
-		});
+        $.ajax({
+            'cache': false,
+            'success': function(data) {
+                if (data && data.widgetData && data.widgetData.data) {
+                    callback(true, $.parseJSON(data.widgetData.data));
+                } else {
+                    callback(false);
+                }
+            },
+            'url': createWidgetDataUrl(config.id)
+        });
 
-	};
+    };
 
-	calcentral.Api.Widgets.saveWidgetData = function(config, callback) {
+    calcentral.Api.Widgets.saveWidgetData = function(config, callback) {
 
-		if (!config || !config.id || !config.data) {
-			window.log('calcentral.Api.Widgets.saveWidgetData - Please provide a config object with an id and data.');
-		}
+        if (!config || !config.id || !config.data) {
+            window.log('calcentral.Api.Widgets.saveWidgetData - Please provide a config object with an id and data.');
+        }
 
-		$.ajax({
-			'data': {
-				'data': JSON.stringify(config.data)
-			},
-			'success': function(data) {
-				if ($.isFunction(callback)) {
-					callback(true, data);
-				}
-			},
-			'type': 'POST',
-			'url': createWidgetDataUrl(config.id)
-		});
-	};
+        $.ajax({
+            'data': {
+                'data': JSON.stringify(config.data)
+            },
+            'success': function(data) {
+                if ($.isFunction(callback)) {
+                    callback(true, data);
+                }
+            },
+            'type': 'POST',
+            'url': createWidgetDataUrl(config.id)
+        });
+    };
 
 })();
 
@@ -446,22 +445,21 @@ var calcentral = calcentral || {};
 	if ($('.cc-page-dashboard, .cc-page-profile').length){
 		loadLeftHandNavigation();
 	}
-
 })();
+
 
 /**
  * Clickable masthead - Logged in users go to dashboard, anon users go to "/"
  */
 (function() {
 
-	var $bannerTop = $('header');
+    var $bannerTop = $('header');
 
-	calcentral.Api.User.getCurrentUser(function(success, data) {
-		$bannerTop.on('click', function() {
-			window.location = data.loggedIn ? '/secure/dashboard' : '/';
-		});
-	});
-
+    calcentral.Api.User.getCurrentUser(function(success, data) {
+        $bannerTop.on('click', function() {
+            window.location = data.loggedIn ? '/secure/dashboard' : '/';
+        });
+    });
 })();
 
 
@@ -470,49 +468,49 @@ var calcentral = calcentral || {};
  */
 (function() {
 
-	var $topNavigation = $('.cc-topnavigation');
+    var $topNavigation = $('.cc-topnavigation');
 
-	var addBinding = function() {
+    var addBinding = function() {
 
-		var $openMenu = false;
-		var $topNavigationItemsWithDropdown = $('a[aria-haspopup="true"]', $topNavigation);
+        var $openMenu = false;
+        var $topNavigationItemsWithDropdown = $('a[aria-haspopup="true"]', $topNavigation);
 
-		var removeSelected = function() {
-			$('.cc-topnavigation-selected').removeClass('cc-topnavigation-selected');
-		};
+        var removeSelected = function() {
+            $('.cc-topnavigation-selected').removeClass('cc-topnavigation-selected');
+        };
 
-		var closeMenu = function(){
-			if ($openMenu.length) {
-				$openMenu.hide();
-				removeSelected();
-			}
-		};
+        var closeMenu = function(){
+            if ($openMenu.length) {
+                $openMenu.hide();
+                removeSelected();
+            }
+        };
 
-		$topNavigationItemsWithDropdown.on('focus mouseenter', function() {
-			var $this = $(this).addClass('cc-topnavigation-selected');
-			$openMenu = $this.siblings('.cc-topnavigation-dropdown');
-			var selectedItemPosition = $this.position();
-			$openMenu.css({
-				'top': selectedItemPosition.top + $this.outerHeight() - 2
-			}).show();
-		});
+        $topNavigationItemsWithDropdown.on('focus mouseenter', function() {
+            var $this = $(this).addClass('cc-topnavigation-selected');
+            $openMenu = $this.siblings('.cc-topnavigation-dropdown');
+            var selectedItemPosition = $this.position();
+            $openMenu.css({
+                'top': selectedItemPosition.top + $this.outerHeight() - 2
+            }).show();
+        });
 
-		$topNavigationItemsWithDropdown.parent().on('mouseleave', function(e) {
-			closeMenu();
-		});
+        $topNavigationItemsWithDropdown.parent().on('mouseleave', function(e) {
+            closeMenu();
+        });
 
-	};
+    };
 
-	if ($topNavigation.length) {
-		calcentral.Api.User.getCurrentUser(function(success, data){
-			calcentral.Api.Util.renderTemplate({
-				'container': $topNavigation,
-				'data': data,
-				'template': $('#cc-topnavigation-template')
-			});
-			addBinding();
-		});
-	}
+    if ($topNavigation.length) {
+        calcentral.Api.User.getCurrentUser(function(success, data){
+            calcentral.Api.Util.renderTemplate({
+                'container': $topNavigation,
+                'data': data,
+                'template': $('#cc-topnavigation-template')
+            });
+            addBinding();
+        });
+    }
 
 })();
 
@@ -520,27 +518,27 @@ var calcentral = calcentral || {};
  * Colleges and schools
  */
 (function() {
-	var $collegesAndSchools = $('.cc-page-colleges-and-schools');
+    var $collegesAndSchools = $('.cc-page-colleges-and-schools');
 
-	var $collegesAndSchoolsContainer = $('.cc-page-colleges-and-schools-container', $collegesAndSchools);
+    var $collegesAndSchoolsContainer = $('.cc-page-colleges-and-schools-container', $collegesAndSchools);
 
-	var renderCollegesAndSchools = function(data) {
-		calcentral.Api.Util.renderTemplate({
-			'container': $collegesAndSchoolsContainer,
-			'data': $.parseJSON(data),
-			'template': $('#cc-page-colleges-and-schools-template', $collegesAndSchools)
-		});
-	};
+    var renderCollegesAndSchools = function(data) {
+        calcentral.Api.Util.renderTemplate({
+            'container': $collegesAndSchoolsContainer,
+            'data': $.parseJSON(data),
+            'template': $('#cc-page-colleges-and-schools-template', $collegesAndSchools)
+        });
+    };
 
-	var loadCollegesAndSchools = function() {
-		return $.ajax({
-			'url': '/dummy/colleges-and-schools.json'
-		});
-	};
+    var loadCollegesAndSchools = function() {
+        return $.ajax({
+            'url': '/dummy/colleges-and-schools.json'
+        });
+    };
 
-	if($collegesAndSchools.length) {
-		$.when(loadCollegesAndSchools()).then(renderCollegesAndSchools);
-	}
+    if($collegesAndSchools.length) {
+        $.when(loadCollegesAndSchools()).then(renderCollegesAndSchools);
+    }
 
 })();
 
@@ -548,33 +546,120 @@ var calcentral = calcentral || {};
  * ClassPage
  */
 (function() {
-	var $classPage = $('.cc-page-classpage');
+    var $classPage = $('.cc-page-classpage');
 
-	var $classPageContainer = $('.cc-page-classpage-container', $classPage);
+    var $classPageContainer = $('.cc-page-classpage-container', $classPage);
 
-	var renderClassPage = function(data) {
-		var partials = {
-			'courseInfo': $('#cc-page-classpage-courseinfo-template', $classPage).html(),
-			'description': $('#cc-page-classpage-description-template', $classPage).html(),
-			'instructor': $('#cc-page-classpage-instructor-template', $classPage).html()
-		};
+    var renderClassPage = function(data) {
+        var partials = {
+            'courseInfo': $('#cc-page-classpage-courseinfo-template', $classPage).html(),
+            'description': $('#cc-page-classpage-description-template', $classPage).html(),
+            'instructor': $('#cc-page-classpage-instructor-template', $classPage).html(),
+            'sections': $('#cc-page-classpage-sections-template', $classPage).html()
+        };
 
-		calcentral.Api.Util.renderTemplate({
-			'container': $classPageContainer,
-			'data': $.parseJSON(data),
-			'partials': partials,
-			'template': $('#cc-page-classpage-template', $classPage)
-		});
-	};
+        calcentral.Api.Util.renderTemplate({
+            'container': $classPageContainer,
+            'data': $.parseJSON(data),
+            'partials': partials,
+            'template': $('#cc-page-classpage-template', $classPage)
+        });
 
-	var loadClassPage = function(id) {
-		return $.ajax({
-			'url': '/dummy/classpage.json'
-		});
-	};
+        // Initially hide all section rows
+        $('tr.classpages_metadata').hide();
 
-	if($classPage.length) {
-		$.when(loadClassPage()).then(renderClassPage);
-	}
+        // Bind to individual section opener
+        singleToggle();
+
+        // Enable show all / hide all functionality
+        hideAllSections();
+        showAllSections();
+    };
+
+    var loadClassPage = function(id) {
+        return $.ajax({
+            'url': '/dummy/classpage.json'
+        });
+    };
+
+    // Collapse all class section rows and set initial value for expand/collapse text
+    // $('tr.classpages_metadata').hide();
+
+    var singleToggle = function() {
+        // Toggle individual sections open/closed when clicked
+        $('div.classpages_sections_arrow').on('click',function() {
+            // Each class section consists of two table rows - one shown on page load, the other hidden.
+            // Each section arrow lives in a td inside the first row of its set.
+            // When clicked, find its parent tr, then find that tr's next sibling and show/hide it.
+            $(this).parents('tr.classpages_classrow').eq(0).next().toggle('slow');
+
+            // And turn the disclosure triangle by adding or removing an additional class
+            if ($(this).hasClass('classpages_sections_arrow_opened')) {
+                $(this).removeClass('classpages_sections_arrow_opened');
+            } else {
+                $(this).addClass('classpages_sections_arrow_opened');
+            }
+            // On _section click_, check whether we need to link/delink the expand/collapse text
+            expandTextToggle();
+
+        });
+    };
+
+    var expandTextToggle = function() {
+
+        // If ALL sections are expanded, add a class to disable the Expand All link.
+        // Otherwise remove that class. Similar for Collapse All.
+
+        var totalSections = $('div.classpages_sections_arrow').length;
+        var curOpen = $('div.classpages_sections_arrow_opened').length;
+
+        if (totalSections === curOpen) {
+            $('button#classpages_expandall').addClass('classpages_nolink');
+        } else {
+            $('button#classpages_expandall').removeClass('classpages_nolink');
+        }
+
+        // Do same in reverse for the Collapse all link
+        if (curOpen !== 0) {
+            $('button#classpages_collapseall').removeClass('classpages_nolink');
+        } else {
+            $('button#classpages_collapseall').addClass('classpages_nolink');
+        }
+    };
+
+    var showNotes = function() {
+        // Throw alerts when "Notes" are present for midterms or finals
+        $('a.show_note').on('click',function() {
+            alert($(this).attr('data-note'));
+        });
+    };
+
+    // On _page load_, check whether we need to link/delink the expand/collapse text.
+    // Also enable binding for midterm and final alert boxes.
+    expandTextToggle();
+    showNotes();
+
+    var showAllSections = function() {
+        // Expand all sections regardless their current state
+        $('button#classpages_expandall').on('click',function() {
+            $('div.classpages_sections_arrow').addClass('classpages_sections_arrow_opened');
+            $('tr.classpages_metadata').show();
+            expandTextToggle();
+        });
+    };
+
+    var hideAllSections = function() {
+        // Collapse all sections regardless their current state
+        $('button#classpages_collapseall').on('click',function() {
+            $('div.classpages_sections_arrow').removeClass('classpages_sections_arrow_opened');
+            $('tr.classpages_metadata').hide();
+            expandTextToggle();
+        });
+    };
+
+
+    if($classPage.length) {
+        $.when(loadClassPage()).then(renderClassPage);
+    }
 
 })();

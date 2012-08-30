@@ -468,7 +468,7 @@ header h1 {
 	overflow: hidden;
 	padding: 20px;
 }
-.cc-page-classpage-instructor {
+.cc-page-classpage-instructor, .cc-page-classpage-sections {
 	width: 705px !important;
 }
 .cc-page-classpage-instructor ul {
@@ -694,4 +694,247 @@ footer .cc-copyright {
 	@page { margin: 0.5cm; }
 	p, h2, h3 { orphans: 3; widows: 3; }
 	h2, h3 { page-break-after: avoid; }
+}
+
+
+/* ==|== classpage styles =======================================================
+	 Classpages styles.
+	 ========================================================================== */
+
+
+
+.classpages_widget_body {
+    margin:10px;
+}
+
+
+.classpages_table_label {
+    text-align:right;
+    padding-right:7px;
+    font-weight:bold;
+    color:#999;
+    white-space:nowrap;
+    vertical-align: top;
+    padding-bottom:3px;
+}
+
+img.classpages_instructor_pic {
+    float:left;
+    margin-right:30px;
+    width:120px;
+    height:120px;
+}
+
+
+table#classpages_section_results {
+    font-size:0.9em;
+    width:703px;
+    max-width:703px;
+    margin-top:20px;
+}
+
+table#classpages_section_results,
+table#classpages_section_results td,
+table#classpages_section_results th {
+    border-collapse: collapse;
+    padding: 3px 5px 3px 2px;
+    vertical-align:top;
+    margin-left:-12px;
+}
+
+table#classpages_section_results th {
+    text-align:left;
+    padding-left:5px;
+    background-color:#e4e9ed;
+    color:#747577;
+    font-size:1.1em;
+}
+
+
+ /*
+   This was used to shorten the list of instructor names with ellipses,
+    but we need to accomodate many instr names, so removing.
+*/
+/*td.classpages_sections_instrnames {
+    white-space: nowrap;
+    width: 180px;
+    max-width:180px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -o-text-overflow: ellipsis;
+    -ms-text-overflow: ellipsis;
+}*/
+
+
+.classpages_instructorinfo_body {
+    border-bottom: 1px dotted #c6c6c6;
+    clear: both;
+    margin-bottom: 15px;
+    padding-bottom: 15px;
+}
+
+/* Don't put a gray divider after the last instructor */
+#classpages_instructorinfo .classpages_instructorinfo_body:last-child {
+    border-bottom:none;
+    margin-bottom:0px;
+}
+
+.classpages_instr_name {
+    padding-top: 5px;
+}
+
+.classpages_instr_title {
+    padding-bottom: 10px;
+}
+
+.classpages_instr_table {
+    height:110px;
+}
+
+.classpages_instr_table th {
+    text-align:left;
+    min-width:100px;
+}
+
+.classpages_instr_table td {
+    vertical-align:top;
+}
+
+.classpages_message_icon {
+    margin-left:5px;
+    margin-bottom:-3px;
+}
+
+table.classpages_sections_table_inner {
+    margin:0px 0px 0px -5px;
+}
+
+table.classpages_sections_table_inner td {
+    border:none;
+}
+
+table tr.classpages_classrow td {
+    border-top: 1px solid #D5D5D5;
+}
+
+td.classpages_sections_col1, th.classpages_sections_col1 {
+    width:110px;
+    min-width:110px;
+    vertical-align:top;
+}
+
+th.classpages_sections_timecol, td.classpages_sections_timecol, th.classpages_sections_loccol, td.classpages_sections_loccol {
+    width:100px;
+}
+
+
+span.classpages_section_title_warrow {
+    margin-left:15px;
+}
+
+/* Expando arrows */
+div.classpages_sections_arrow {
+    background: url("/img/myb/icons_sprite.png") no-repeat scroll -863px -21px transparent !important;
+    height: 10px;
+    position: absolute;
+    width: 12px;
+    margin:2px 3px 0 2px;
+}
+
+div.classpages_sections_arrow_opened {
+    background: url("/img/myb/icons_sprite.png") no-repeat scroll -882px -22px transparent !important;
+    height: 10px;
+    margin-top: 3px;
+    position: absolute;
+    width: 12px;
+}
+
+span#classpages_showhideall {
+    float:right;
+}
+
+.classpages_nolink {
+    text-decoration:none;
+    color:#666666 !important;
+}
+
+
+.classpages_updated_on {
+    color: #989898;
+    margin-top:10px;
+}
+
+/* Need to add a property to this OAE class if we want to float things inside widget divs. */
+.s3d-widget-container {
+    overflow:hidden;
+    padding-bottom:10px;
+}
+
+div#cc-classpage-description.s3d-widget-container {
+    float:left;
+    width:350px;
+}
+
+div#cc-classpage-ccclassinfo.s3d-widget-container {
+    float:right;
+    width:350px;
+}
+
+div.break {
+    clear: both;
+}
+
+div.s3d-page-column-right {
+    padding:15px;
+}
+
+/* Add to the OAE style on this  to guarantee header height since other header elements have been removed */
+#entity_container {
+    height:60px;
+}
+
+#entity_name {
+    margin-left:10px;
+}
+
+#entity_semester {
+    color:#676767;
+    font-size:18px;
+    margin-left:10px;
+}
+
+#entity_container .entity_profilepic_internal {
+    margin-top: -5px;
+}
+
+
+/* Link buttons */
+.s3d-link-button {
+	margin: 0;
+	padding: 0;
+	background: none repeat scroll 0 0 transparent;
+	border: medium none;
+	color: #2683bc;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 13px;
+	display: inline-block;
+	text-align: left;
+	font-size: 11px;
+}
+.s3d-link-button:disabled {
+	cursor: default !important;
+	color: #999;
+}
+.s3d-link-button:focus {
+	box-shadow: none !important;
+}
+.s3d-link-button:hover {
+	cursor: pointer;
+	text-decoration: none;
+	color: #999;
+}
+.s3d-link-button::-moz-focus-inner {
+	padding: 0;
+	margin: 0;
+	border: 0;
 }
