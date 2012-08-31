@@ -21,12 +21,19 @@ package edu.berkeley.calcentral.services;
 
 import edu.berkeley.calcentral.Urls;
 import edu.berkeley.calcentral.util.Signature;
-import org.apache.commons.httpclient.*;
+import org.apache.commons.httpclient.Header;
+import org.apache.commons.httpclient.HostConfiguration;
+import org.apache.commons.httpclient.HttpClient;
+import org.apache.commons.httpclient.HttpConnectionManager;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.params.HttpClientParams;
 import org.apache.commons.httpclient.protocol.Protocol;
+import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
+import org.codehaus.jettison.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
@@ -62,15 +69,37 @@ public class Sakai2Proxy {
 
 	String sakai2Host;
 
+	boolean dummy;
+
+	Map<String, Object> dummyResult;
+
 	@PostConstruct
 	public void init() {
 		this.sharedSecret = calcentralProperties.getProperty("sakai2Proxy.sharedSecret");
 		this.sakai2Host = calcentralProperties.getProperty("sakai2Proxy.sakai2Host");
+		if (calcentralProperties.getProperty("sakai2Proxy.dummy") != null) {
+			dummy = true;
+			Resource resource = new ClassPathResource("sakai2Proxy.dummy.json");
+			try {
+				String body = IOUtils.toString(resource.getInputStream(), "utf-8");
+				dummyResult = new HashMap<String, Object>();
+				dummyResult.put("body", body);
+				dummyResult.put("statusCode", 200);
+				dummyResult.put("statusText", "OK");
+			} catch (Exception e) {
+				LOGGER.warn("Got exception loading dummy json", e);
+			}
+
+		}
 	}
 
 	@GET
 	@Produces({MediaType.APPLICATION_JSON})
 	public Map<String, Object> get(@Context HttpServletRequest request) {
+		if (dummy) {
+			LOGGER.info("Returning dummy JSON for BSpace feed");
+			return dummyResult;
+		}
 		return get(request.getRemoteUser(), "/sakai-hybrid/sites?categorized=true");
 	}
 
@@ -78,6 +107,10 @@ public class Sakai2Proxy {
 	@Path("unread")
 	@Produces({MediaType.APPLICATION_JSON})
 	public Map<String, Object> getUnread(@Context HttpServletRequest request) {
+		if (dummy) {
+			LOGGER.info("Returning dummy JSON for BSpace feed");
+			return dummyResult;
+		}
 		return get(request.getRemoteUser(), "/sakai-hybrid/sites?unread=true");
 	}
 
