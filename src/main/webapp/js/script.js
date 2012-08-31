@@ -42,26 +42,25 @@ var calcentral = calcentral || {};
 			'url': '/api/currentUser'
 		});
 	};
+
+    calcentral.Api.User.saveUser = function (userData, callback) {
+        $.ajax({
+            'data':{
+                'data':JSON.stringify(userData)
+            },
+            'success':function (data) {
+                if ($.isFunction(callback)) {
+                    callback(true, data);
+                }
+            },
+            'type':'POST',
+            'url':'/api/user/' + userData.uid
+        });
+    };
+
 })();
 
 
-<<<<<<< HEAD
-	calcentral.Api.User.saveUser = function (userData, callback) {
-		$.ajax({
-			'data':{
-				'data':JSON.stringify(userData)
-			},
-			'success':function (data) {
-				if ($.isFunction(callback)) {
-					callback(true, data);
-				}
-			},
-			'type':'POST',
-			'url':'/api/user/' + userData.uid
-		});
-	};
-
-=======
 (function() {
     calcentral.Api.GetURLParams = calcentral.Api.GetURLParams || {};
 
@@ -74,7 +73,6 @@ var calcentral = calcentral || {};
       }
       return hash;
     };
->>>>>>> CLC-22
 })();
 
 
