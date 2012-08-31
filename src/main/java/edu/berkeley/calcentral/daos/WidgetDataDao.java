@@ -4,33 +4,23 @@
  */
 package edu.berkeley.calcentral.daos;
 
+import com.google.common.collect.Maps;
+import edu.berkeley.calcentral.domain.WidgetData;
+import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import org.springframework.stereotype.Repository;
+
 import java.util.List;
 import java.util.Map;
 
-import javax.sql.DataSource;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.springframework.stereotype.Repository;
-
-import com.google.common.collect.Maps;
-
-import edu.berkeley.calcentral.domain.WidgetData;
-
 @Repository
-public class WidgetDataDao {
-	@Autowired @Qualifier("dataSource")
-	private DataSource dataSource;
+public class WidgetDataDao extends BaseDao {
 
 	public final void saveWidgetData(WidgetData widgetData) {
 		Map<String, String> params = Maps.newHashMap();
 		params.put("uid", widgetData.getUid());
 		params.put("widgetId", widgetData.getWidgetID());
 		params.put("data", widgetData.getData());
-		NamedParameterJdbcTemplate queryRunner = new NamedParameterJdbcTemplate(dataSource);
 		queryRunner.update(SqlQueries.saveWidgetData, params);
 	}
 
@@ -38,14 +28,12 @@ public class WidgetDataDao {
 		Map<String, String> params = Maps.newHashMap();
 		params.put("uid", userId);
 		params.put("widgetId", widgetId);
-		NamedParameterJdbcTemplate queryRunner = new NamedParameterJdbcTemplate(dataSource);
 		queryRunner.update(SqlQueries.delete, params);
 	}
 
 	public void deleteAllWidgetData(String userID) {
 		Map<String, String> params = Maps.newHashMap();
 		params.put("uid", userID);
-		NamedParameterJdbcTemplate queryRunner = new NamedParameterJdbcTemplate(dataSource);
 		queryRunner.update(SqlQueries.deleteAll, params);
 	}
 
@@ -53,8 +41,7 @@ public class WidgetDataDao {
 		Map<String, String> params = Maps.newHashMap();
 		params.put("uid", userId);
 		params.put("widgetId", widgetId);
-		NamedParameterJdbcTemplate queryRunner = new NamedParameterJdbcTemplate(dataSource);
-		WidgetData result = null;
+		WidgetData result;
 		try {
 			result = queryRunner.queryForObject(SqlQueries.get, params, new BeanPropertyRowMapper<WidgetData>(WidgetData.class));
 		} catch (EmptyResultDataAccessException e) {
@@ -66,7 +53,6 @@ public class WidgetDataDao {
 	public final List<WidgetData> getAllWidgetData(String userId) {
 		Map<String, String> params = Maps.newHashMap();
 		params.put("uid", userId);
-		NamedParameterJdbcTemplate queryRunner = new NamedParameterJdbcTemplate(dataSource);
 		List<WidgetData> result = queryRunner.query(SqlQueries.getAllForUser, params, new BeanPropertyRowMapper<WidgetData>(WidgetData.class));
 		if (result.isEmpty()) {
 			return null;

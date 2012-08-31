@@ -19,20 +19,17 @@ package edu.berkeley.calcentral.services;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
+import edu.berkeley.calcentral.daos.BaseDao;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Service;
 
-import javax.sql.DataSource;
 import javax.ws.rs.PathParam;
 import java.util.List;
 import java.util.Map;
 
 @Service
-public class CampusPersonDataService {
+public class CampusPersonDataService extends BaseDao {
 	private static final Log LOGGER = LogFactory.getLog(CampusPersonDataService.class);
 	public static final String SELECT_PERSON_SQL =
 			"select pi.LDAP_UID, pi.UG_GRAD_FLAG, pi.FIRST_NAME, pi.LAST_NAME, pi.PERSON_NAME, pi.EMAIL_ADDRESS, pi.AFFILIATIONS, " +
@@ -41,12 +38,6 @@ public class CampusPersonDataService {
 					"from BSPACE_PERSON_INFO_VW pi " +
 					"left join BSPACE_STUDENT_MAJOR_VW sm on pi.LDAP_UID = sm.LDAP_UID " +
 					"where pi.LDAP_UID = :ldap_uid";
-	private NamedParameterJdbcTemplate jdbcTemplate;
-
-	@Autowired @Qualifier("campusDataSource")
-	public void setDataSource(DataSource dataSource) {
-		this.jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
-	}
 
 	public Map<String, Object> getPersonAttributes(@PathParam("id") String personId) {
 		long ldapUid;
@@ -57,7 +48,7 @@ public class CampusPersonDataService {
 			return null;
 		}
 		Map<String, Object> personAttributes = Maps.newHashMap();
-		List<Map<String, Object>> sqlResults = jdbcTemplate.queryForList(SELECT_PERSON_SQL, ImmutableMap.of("ldap_uid", ldapUid));
+		List<Map<String, Object>> sqlResults = campusQueryRunner.queryForList(SELECT_PERSON_SQL, ImmutableMap.of("ldap_uid", ldapUid));
 		if (sqlResults.size() > 1) {
 			LOGGER.error("Multiple rows found for ldap_uid " + ldapUid);
 		} else if (sqlResults.size() == 1) {

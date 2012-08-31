@@ -23,11 +23,8 @@ import edu.berkeley.calcentral.Urls;
 @Service
 @Repository
 @Path(Urls.CLASS_PAGES)
-public class ClassPagesDao {
-	
-	@Autowired
-	private DataSource campusDataSource;
-	
+public class ClassPagesDao extends BaseDao {
+
 	//Would prefer there to be two different ways of lookup up class info, one by "class ids" and one with data already split out.
 	@GET
 	@Produces({MediaType.APPLICATION_JSON})
@@ -45,9 +42,8 @@ public class ClassPagesDao {
 		params.put("year", Integer.parseInt(year));
 		params.put("term", term);
 		params.put("courseID", courseID);
-			
-		NamedParameterJdbcTemplate queryRunner = new NamedParameterJdbcTemplate(campusDataSource);
-		List<Map<String, Object>> result = queryRunner.queryForList(SqlQueries.courseInfo, params);
+
+		List<Map<String, Object>> result = campusQueryRunner.queryForList(SqlQueries.courseInfo, params);
 		
 		
 		return result;
