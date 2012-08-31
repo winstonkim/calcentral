@@ -37,6 +37,9 @@ public class UserServiceTest extends DatabaseAwareTest {
 	@Autowired
 	private UserService userService;
 
+	@Autowired
+	private WidgetDataService widgetDataService;
+
 	@Test
 	public void getUser() throws Exception {
 		Map<String, Object> userMap = userService.getUser("2040");
@@ -71,7 +74,16 @@ public class UserServiceTest extends DatabaseAwareTest {
 
 	@Test
 	public void deleteUserAndWidgetData() throws Exception {
-		// TODO write test
+		String uid = randomString();
+		userService.loadUserByUsername(uid);
+		assertNotNull(userService.getUser(uid));
+		widgetDataService.save(uid, "abc", "data");
+		assertEquals(1, widgetDataService.getAllForUser(uid).size());
+
+		userService.deleteUserAndWidgetData(uid);
+		assertNull(userService.getUser(uid));
+		assertNull(widgetDataService.getAllForUser(uid));
+		assertNull(widgetDataService.get(uid, "abc"));
 	}
 
 	@Test
