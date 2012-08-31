@@ -35,7 +35,7 @@ import java.util.Map;
 public class CampusPersonDataService {
 	private static final Log LOGGER = LogFactory.getLog(CampusPersonDataService.class);
 	public static final String SELECT_PERSON_SQL =
-			"select pi.LDAP_UID, pi.UG_GRAD_FLAG, pi.FIRST_NAME, pi.LAST_NAME, pi.EMAIL_ADDRESS, pi.AFFILIATIONS, " +
+			"select pi.LDAP_UID, pi.UG_GRAD_FLAG, pi.FIRST_NAME, pi.LAST_NAME, pi.PERSON_NAME, pi.EMAIL_ADDRESS, pi.AFFILIATIONS, " +
 					"sm.MAJOR_NAME, sm.MAJOR_TITLE, sm.COLLEGE_ABBR, sm.MAJOR_NAME2, sm.MAJOR_TITLE2, sm.COLLEGE_ABBR2, " +
 					"sm.MAJOR_NAME3, sm.MAJOR_TITLE3, sm.COLLEGE_ABBR3, sm.MAJOR_NAME4, sm.MAJOR_TITLE4, sm.COLLEGE_ABBR4 " +
 					"from BSPACE_PERSON_INFO_VW pi " +
