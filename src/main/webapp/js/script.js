@@ -49,6 +49,21 @@ var calcentral = calcentral || {};
 		}
 	});
 
+	calcentral.Api.User.saveUser = function (userData, callback) {
+		$.ajax({
+			'data':{
+				'data':JSON.stringify(userData)
+			},
+			'success':function (data) {
+				if ($.isFunction(callback)) {
+					callback(true, data);
+				}
+			},
+			'type':'POST',
+			'url':'/api/user/' + userData.uid
+		});
+	};
+
 })();
 
 (function() {
@@ -363,7 +378,7 @@ var calcentral = calcentral || {};
 
 	var widgetLocation = '/widgets/';
 	var widgetPrefix = 'cc-widget-';
-	var widgetsToLoad = ['quicklinks', 'walktime', 'bspacefavourites', 'canvascourses'];
+	var widgetsToLoad = ['quicklinks', 'walktime', 'bspacefavourites', 'canvascourses', 'profile'];
 
 	var loadCSS = function(widgetName) {
 		var widgetCSSLocation = widgetLocation + widgetName + '/css/' + widgetName + '.css';
