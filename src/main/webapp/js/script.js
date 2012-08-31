@@ -7,7 +7,6 @@ var calcentral = calcentral || {};
 (function() {
     calcentral.Data = calcentral.Data || {};
     calcentral.Data.User = calcentral.Data.User || {};
-    calcentral.Data.User.userId = 300646;
 })();
 
 /**
@@ -25,7 +24,7 @@ var calcentral = calcentral || {};
 
 	calcentral.Api.User.getUser = function(config, callback) {
 		callback(true, {
-			'userId': calcentral.Data.User.userId
+			'userId': calcentral.Data.User.uid
 		});
 	};
 
@@ -42,6 +41,14 @@ var calcentral = calcentral || {};
 			'url': '/api/currentUser'
 		});
 	};
+
+	// initialize calcentral.Api.User with the data for the current user
+	calcentral.Api.User.getCurrentUser(function(success, userData) {
+		if (success && userData) {
+			calcentral.Data.User = userData;
+		}
+	});
+
 })();
 
 (function() {
@@ -296,7 +303,7 @@ var calcentral = calcentral || {};
     calcentral.Api.Widgets = calcentral.Api.Widgets || {};
 
     var createWidgetDataUrl = function(widgetId) {
-        return '/api/user/' + calcentral.Data.User.userId + '/widgetData/' + widgetId;
+        return '/api/user/' + calcentral.Data.User.uid + '/widgetData/' + widgetId;
     };
 
     calcentral.Api.Widgets.loadWidgetData = function(config, callback) {
