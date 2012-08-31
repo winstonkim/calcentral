@@ -42,6 +42,22 @@ var calcentral = calcentral || {};
 		});
 	};
 
+    calcentral.Api.User.saveUser = function (userData, callback) {
+        $.ajax({
+            'data':{
+                'data':JSON.stringify(userData)
+            },
+            'success':function (data) {
+                if ($.isFunction(callback)) {
+                    callback(true, data);
+                }
+            },
+            'type':'POST',
+            'url':'/api/user/' + userData.uid
+        });
+    };
+
+
 	// initialize calcentral.Api.User with the data for the current user
 	calcentral.Api.User.getCurrentUser(function(success, userData) {
 		if (success && userData) {
@@ -49,22 +65,23 @@ var calcentral = calcentral || {};
 		}
 	});
 
-	calcentral.Api.User.saveUser = function (userData, callback) {
-		$.ajax({
-			'data':{
-				'data':JSON.stringify(userData)
-			},
-			'success':function (data) {
-				if ($.isFunction(callback)) {
-					callback(true, data);
-				}
-			},
-			'type':'POST',
-			'url':'/api/user/' + userData.uid
-		});
-	};
-
 })();
+
+
+(function() {
+    calcentral.Api.GetURLParams = calcentral.Api.GetURLParams || {};
+
+    calcentral.Api.GetURLParams = function(url) {
+      var searchString = window.location.search.substring(1), params = searchString.split("&"), hash = {};
+
+      for (var i = 0; i < params.length; i++) {
+        var val = params[i].split("=");
+        hash[unescape(val[0])] = unescape(val[1]);
+      }
+      return hash;
+    };
+})();
+
 
 (function() {
 	var templateCache = [];
@@ -574,6 +591,7 @@ var calcentral = calcentral || {};
 
     var renderClassPage = function(data) {
         var partials = {
+            'header': $('#cc-page-classpage-header-template', $classPage).html(),
             'courseInfo': $('#cc-page-classpage-courseinfo-template', $classPage).html(),
             'description': $('#cc-page-classpage-description-template', $classPage).html(),
             'instructor': $('#cc-page-classpage-instructor-template', $classPage).html(),
@@ -582,7 +600,8 @@ var calcentral = calcentral || {};
 
         calcentral.Api.Util.renderTemplate({
             'container': $classPageContainer,
-            'data': $.parseJSON(data),
+            // 'data': $.parseJSON(data),
+            'data': data,
             'partials': partials,
             'template': $('#cc-page-classpage-template', $classPage)
         });
@@ -593,19 +612,16 @@ var calcentral = calcentral || {};
         // Bind to individual section opener
         singleToggle();
 
-        // Enable show all / hide all functionality
+        // Enable show all/hide all functions
         hideAllSections();
         showAllSections();
     };
 
     var loadClassPage = function(id) {
         return $.ajax({
-            'url': '/dummy/classpage.json'
+            'url': '/api/classPages/' + id
         });
     };
-
-    // Collapse all class section rows and set initial value for expand/collapse text
-    // $('tr.classpages_metadata').hide();
 
     var singleToggle = function() {
         // Toggle individual sections open/closed when clicked
@@ -679,9 +695,11 @@ var calcentral = calcentral || {};
         });
     };
 
+    // Get class ID from URL
+    var classid = calcentral.Api.GetURLParams().cid;
 
     if($classPage.length) {
-        $.when(loadClassPage()).then(renderClassPage);
+        $.when(loadClassPage(classid)).then(renderClassPage);
     }
 
 })();

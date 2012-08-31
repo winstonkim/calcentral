@@ -9,7 +9,24 @@
 		<!-- Page specific HTML -->
 		<div class="cc-page-classpage-container"><!-- --></div>
 
+        <ul style="position:relative;right:-20px;">
+            <li><a href="/classpage.jsp?cid=2012D16442">One</a></li>
+            <li><a href="/classpage.jsp?cid=2012D16487">Two</a></li>
+            <li><a href="/classpage.jsp?cid=2012D26287">Three</a></li>
+            <li><a href="/classpage.jsp?cid=2012D31021">Four</a></li>
+            <li><a href="/classpage.jsp?cid=2012D32233">Five</a></li>
+            <li><a href="/classpage.jsp?cid=2012D74058">Six</a></li>
+        </ul>
+
 		<script id="cc-page-classpage-template" type="text/x-handlebars-template">
+            <div class="cc-container-widget cc-page-classpage-header">
+                <div class="cc-widget-title">
+                    <h2>UC Berkeley Course</h2>
+                </div>
+                <div class="cc-widget-main">
+                    {{>header}}
+                </div>
+            </div>
 			<div class="cc-container-widget cc-page-classpage-description">
 				<div class="cc-widget-title">
 					<h2>Course Catalog Description</h2>
@@ -44,15 +61,16 @@
 			</div>
 		</script>
 		<script id="cc-page-classpage-header-template" type="text/x-handlebars-template">
-
+            <h2>{{classPage.classtitle}}</h2>
+            <h3>{{classPage.courseinfo.department}} {{classPage.courseinfo.coursenum}} : {{classPage.courseinfo.term}} {{classPage.courseinfo.year}}</h3>
 		</script>
 
 		<script id="cc-page-classpage-description-template" type="text/x-handlebars-template">
-			{{description}}
+			{{classPage.description}}
 		</script>
 
 		<script id="cc-page-classpage-courseinfo-template" type="text/x-handlebars-template">
-			{{#with courseinfo}}
+			{{#with classPage.courseinfo}}
 			<ul class="cc-page-classpage-list">
 				<li><span>Format:</span><span>{{#if format}}{{format}}{{else}}<em>Not available</em>{{/if}}</span></li>
 				<li><span>Units:</span><span>{{#if units}}{{units}}{{else}}<em>Not available</em>{{/if}}</span></li>
@@ -66,7 +84,8 @@
 
 		<script id="cc-page-classpage-instructor-template" type="text/x-handlebars-template">
 			<ul class="cc-page-classpage-instructor-item">
-				{{#each instructors}}
+
+				{{#each classPage.instructors}}
 					<li>
 						{{#if img}}
 							<img class="cc-page-classpage-instructor-profile" src="{{img}}" />
@@ -92,7 +111,7 @@
 		</script>
 
 		<script id="cc-page-classpage-sections-template" type="text/x-handlebars-template">
-        {{#if sections}}
+        {{#if classPage.sections}}
         <span id="classpages_showhideall">
         	<button id="classpages_expandall" class="s3d-link-button">Expand all</button> |
         	<button id="classpages_collapseall" class="s3d-link-button">Collapse all</button>
@@ -110,7 +129,7 @@
                 </tr>
             </thead>
             <tbody>
-                {{#each sections}}
+                {{#each classPage.sections}}
                 <tr class="classpages_classrow">
                     <td>
                         <a href="#"><div class="classpages_sections_arrow" id="sectionarrow-{{ccn}}"></div></a>
@@ -124,7 +143,7 @@
                     </td>
 
                     <td class="classpages_sections_instrnames">
-	                    {{#each section_instructors}}
+	                    {{#each instructors}}
 	                        {{#if id}}
 	                            <a href="/~{{id}}">{{name}}</a>
 	                        {{else}}

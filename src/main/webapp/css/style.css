@@ -241,6 +241,11 @@ header {
 	height: 42px;
 	width: 960px;
 }
+
+header h1 {
+	cursor:pointer;
+}
+
 .cc-page-index header {
 	background: url("/img/myb/calcentral_masthead_landing.png");
 	height: 90px;
@@ -468,9 +473,10 @@ header h1 {
 	overflow: hidden;
 	padding: 20px;
 }
-.cc-page-classpage-instructor, .cc-page-classpage-sections {
+.cc-page-classpage-instructor, .cc-page-classpage-sections, .cc-page-classpage-header {
 	width: 705px !important;
 }
+
 .cc-page-classpage-instructor ul {
 	list-style-type: none;
 	margin: 0;
@@ -568,6 +574,11 @@ header h1 {
 }
 .cc-widget-main {
 	padding: 0px 12px;
+}
+
+/*Temporary pending design input*/
+.cc-widget-main h3 {
+	margin-top:-10px;
 }
 .cc-widget-title {
 	background: #ececec;
