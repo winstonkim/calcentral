@@ -571,7 +571,7 @@ var calcentral = calcentral || {};
 
     var loadCollegesAndSchools = function() {
         return $.ajax({
-            'url': '/dummy/colleges-and-schools.json'
+            'url': '/data/colleges-and-schools.json'
         });
     };
 
