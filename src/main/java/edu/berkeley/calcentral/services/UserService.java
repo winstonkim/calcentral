@@ -47,22 +47,60 @@ public class UserService implements UserDetailsService {
 	@Autowired
 	private CampusPersonDataService campusPersonDataService;
 
+	/**
+	 * Get all the information about a user.
+	 *
+	 * @param userID The user ID to retrieve
+	 * @return JSON data: <pre>
+	 *         {
+	 *           user : {@link edu.berkeley.calcentral.domain.User},
+	 *           widgetData : {@link edu.berkeley.calcentral.domain.WidgetData},
+	 *           campusData : {@link java.util.Map}
+	 *         }
+	 *         </pre>
+	 */
 	@GET
 	@Produces({MediaType.APPLICATION_JSON})
 	public Map<String, Object> getUser(@PathParam(Params.USER_ID) String userID) {
 		Map<String, Object> userData = Maps.newHashMap();
-		User user = userDao.get(userID);
-		userData.put("user", user);
+		try {
+			User user = userDao.get(userID);
+			userData.put("user", user);
+		} catch (EmptyResultDataAccessException e) {
+			return null;
+		}
 		List<WidgetData> widgetData = widgetDataDao.getAllWidgetData(userID);
 		userData.put("widgetData", widgetData);
 		userData.put("campusData", campusPersonDataService.getPersonAttributes(userID));
 		return userData;
 	}
 
+	/**
+	 * Used by Spring framework to get user authentication. Inserts a new row into our local database
+	 * if it's not already in the calcentral_users table, seeding data from the campus data source.
+	 *
+	 * @param uid The user id
+	 * @return Authenticated user as a {@link User} instance.
+	 * @throws UsernameNotFoundException
+	 */
+	public UserDetails loadUserByUsername(String uid) throws UsernameNotFoundException {
+		User user;
+		try {
+			user = userDao.get(uid);
+		} catch (EmptyResultDataAccessException e) {
+			Map<String, Object> campusPersonData = campusPersonDataService.getPersonAttributes(uid);
+			userDao.insert(uid, String.valueOf(campusPersonData.get("FIRST_NAME")) + " "
+					+ String.valueOf(campusPersonData.get("LAST_NAME")));
+			user = userDao.get(uid);
+		}
+		return user;
+	}
+
 	@POST
 	@Produces({MediaType.APPLICATION_JSON})
 	public User saveUserData(@PathParam(Params.USER_ID) String userID,
 													 @FormParam(Params.DATA) String jsonData) {
+		// TODO make save work
 		User userToSave = null;
 		try {
 			//making sure items serialize and deserialize properly before attempting to save.
@@ -81,16 +119,4 @@ public class UserService implements UserDetailsService {
 		widgetDataDao.deleteAllWidgetData(userID);
 	}
 
-	public UserDetails loadUserByUsername(String uid) throws UsernameNotFoundException {
-		UserDetails userDetails;
-		try {
-			userDetails = userDao.getUserDetails(uid);
-		} catch (EmptyResultDataAccessException e) {
-			Map<String, Object> campusPersonData = campusPersonDataService.getPersonAttributes(uid);
-			userDao.insert(uid, String.valueOf(campusPersonData.get("FIRST_NAME")) + " "
-					+ String.valueOf(campusPersonData.get("LAST_NAME")));
-			userDetails = userDao.getUserDetails(uid);
-		}
-		return userDetails;
-	}
 }

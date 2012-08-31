@@ -6,7 +6,6 @@ import com.google.common.collect.Maps;
 import edu.berkeley.calcentral.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -28,11 +27,7 @@ public class UserDao {
 		Map<String, String> params = Maps.newHashMap();
 		params.put("uid", uid);
 		NamedParameterJdbcTemplate queryRunner = new NamedParameterJdbcTemplate(dataSource);
-		try {
-			return queryRunner.queryForObject(sql, params, new BeanPropertyRowMapper<User>(User.class));
-		} catch (EmptyResultDataAccessException e) {
-			return null;
-		}
+		return queryRunner.queryForObject(sql, params, new BeanPropertyRowMapper<User>(User.class));
 	}
 
 	public void update(User user) {

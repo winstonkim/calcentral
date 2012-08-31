@@ -22,6 +22,7 @@ import edu.berkeley.calcentral.DatabaseAwareTest;
 import edu.berkeley.calcentral.domain.User;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -33,30 +34,31 @@ public class UserDaoTest extends DatabaseAwareTest {
 
 	private static final Log LOGGER = LogFactory.getLog(UserDaoTest.class);
 
+	private String uid;
+
 	@Autowired
 	private UserDao dao;
 
+	@Before
+	public void setup() {
+		uid = String.valueOf(new Random().nextLong());
+	}
+
 	@Test
 	public void get() throws Exception {
-		User user = dao.get("2040");
-
-		// once authorized, user is created
-		if (user == null) {
+		try {
+			dao.get("2040");
+		} catch (EmptyResultDataAccessException e) {
+			// once authorized, user is created
 			dao.insert("2040", "Oliver Heyer");
 			UserDetails details = dao.getUserDetails("2040");
 			assertNotNull(details);
 		}
 
 		// now he should exist
-		user = dao.get("2040");
+		User user = dao.get("2040");
 		LOGGER.info(user);
-
 		assertEquals("Oliver Heyer", user.getPreferredName());
-	}
-
-	@Test
-	public void getNonexistent() throws Exception {
-		assertNull(dao.get("000000"));
 	}
 
 	@Test
@@ -70,15 +72,14 @@ public class UserDaoTest extends DatabaseAwareTest {
 	}
 
 	@Test(expected = EmptyResultDataAccessException.class)
-	public void getUserDetails() throws Exception {
-		dao.getUserDetails("0000000");
+	public void getNonExistent() throws Exception {
+		dao.get("0000000");
 	}
 
 	@Test
 	public void insertUser() throws Exception {
-		String uid = String.valueOf(new Random().nextLong());
 		dao.insert(uid, "Jane Random");
-		org.springframework.security.core.userdetails.User user = dao.getUserDetails(uid);
+		UserDetails user = dao.get(uid);
 		assertNotNull(user);
 	}
 

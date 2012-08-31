@@ -24,6 +24,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Map;
@@ -40,19 +41,15 @@ public class UserServiceTest extends DatabaseAwareTest {
 	@Test
 	public void getUser() throws Exception {
 		Map<String, Object> userMap = userService.getUser("2040");
+		if (userMap == null) {
+			userService.loadUserByUsername("2040");
+			userMap = userService.getUser("2040");
+		}
 		LOGGER.info(userMap);
-		Map<String, Object> campusData = (Map<String, Object>)userMap.get("campusData");
+		Map<String, Object> campusData = (Map<String, Object>) userMap.get("campusData");
 		assertNotNull(campusData);
 		User user = (User) userMap.get("user");
 		assertNotNull(user);
-		assertNull(userMap.get("widgetData"));
-	}
-
-	@Test
-	public void getNonexistent() throws Exception {
-		Map<String, Object> userMap = userService.getUser("00000000");
-		LOGGER.info(userMap);
-		assertNull(userMap.get("user"));
 		assertNull(userMap.get("widgetData"));
 	}
 

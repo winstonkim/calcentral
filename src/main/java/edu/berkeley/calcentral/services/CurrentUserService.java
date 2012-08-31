@@ -24,6 +24,17 @@ public class CurrentUserService {
 	@Autowired
 	private UserService userService;
 
+	/**
+	 * Get all the information about the currently logged-in user.
+	 *
+	 * @return JSON data: <pre>
+	 * userData : {
+	 *   user : {@link edu.berkeley.calcentral.domain.User},
+	 *   widgetData : {@link edu.berkeley.calcentral.domain.WidgetData},
+	 *   campusData : {@link Map}
+	 * }
+	 * </pre>
+	 */
 	@GET
 	@Produces({MediaType.APPLICATION_JSON})
 	public Map<String, Object> getCurrentUser(@Context HttpServletRequest request) {
