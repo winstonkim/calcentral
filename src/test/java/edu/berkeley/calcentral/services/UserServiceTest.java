@@ -25,11 +25,9 @@ import org.apache.commons.logging.LogFactory;
 import org.codehaus.jettison.json.JSONObject;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Map;
-import java.util.Random;
 
 @SuppressWarnings("unchecked")
 public class UserServiceTest extends DatabaseAwareTest {
@@ -56,7 +54,7 @@ public class UserServiceTest extends DatabaseAwareTest {
 
 	@Test
 	public void saveUserData() throws Exception {
-		String uid = String.valueOf(new Random().nextLong());
+		String uid = randomString();
 		userService.loadUserByUsername(uid);
 		User originalUser = (User)userService.getUser(uid).get("user");
 		LOGGER.info(originalUser);
@@ -78,7 +76,7 @@ public class UserServiceTest extends DatabaseAwareTest {
 
 	@Test
 	public void testLoadUserByUsername() throws Exception {
-		UserDetails details = this.userService.loadUserByUsername(String.valueOf(new Random().nextLong()));
+		UserDetails details = this.userService.loadUserByUsername(randomString());
 		assertNotNull(details);
 		assertNull(((User)details).getPreferredName());
 	}

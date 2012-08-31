@@ -110,6 +110,7 @@ public class UserService implements UserDetailsService {
 
 	@DELETE
 	public void deleteUserAndWidgetData(@PathParam(Params.USER_ID) String userID) {
+		LOGGER.info("Deleting user: " + userID);
 		userDao.delete(userID);
 		widgetDataDao.deleteAllWidgetData(userID);
 	}

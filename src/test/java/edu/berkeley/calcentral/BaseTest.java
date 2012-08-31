@@ -18,22 +18,18 @@
 
 package edu.berkeley.calcentral;
 
-
 import org.junit.Assert;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = "/applicationContext-service.xml")
-@ActiveProfiles(profiles = {"test"})
-public abstract class DatabaseAwareTest extends BaseTest {
+import java.util.Random;
 
-	@SuppressWarnings("UnusedDeclaration")
-	@Autowired
-	protected ApplicationContext applicationContext;
+public abstract class BaseTest extends Assert {
+
+	protected long randomness() {
+		return Math.abs(new Random().nextLong());
+	}
+
+	protected String randomString() {
+		return String.valueOf(randomness());
+	}
 
 }

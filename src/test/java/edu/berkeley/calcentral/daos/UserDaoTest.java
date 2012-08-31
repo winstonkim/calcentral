@@ -22,27 +22,17 @@ import edu.berkeley.calcentral.DatabaseAwareTest;
 import edu.berkeley.calcentral.domain.User;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.Random;
-
 public class UserDaoTest extends DatabaseAwareTest {
 
 	private static final Log LOGGER = LogFactory.getLog(UserDaoTest.class);
 
-	private String uid;
-
 	@Autowired
 	private UserDao dao;
-
-	@Before
-	public void setup() {
-		uid = String.valueOf(new Random().nextLong());
-	}
 
 	@Test
 	public void get() throws Exception {
@@ -61,6 +51,7 @@ public class UserDaoTest extends DatabaseAwareTest {
 
 	@Test
 	public void update() throws Exception {
+		String uid = randomString();
 		dao.insert(uid, "Joe Schmoe");
 		User user = new User();
 		user.setUid(uid);
@@ -74,6 +65,7 @@ public class UserDaoTest extends DatabaseAwareTest {
 
 	@Test(expected = EmptyResultDataAccessException.class)
 	public void delete() throws Exception {
+		String uid = randomString();
 		dao.insert(uid, "Joe Schmoe");
 		assertNotNull(dao.get(uid));
 		dao.delete(uid);
@@ -87,6 +79,7 @@ public class UserDaoTest extends DatabaseAwareTest {
 
 	@Test
 	public void insertUser() throws Exception {
+		String uid = randomString();
 		dao.insert(uid, "Jane Random");
 		UserDetails user = dao.get(uid);
 		assertNotNull(user);

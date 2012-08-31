@@ -28,14 +28,12 @@ import org.apache.log4j.Logger;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
-import org.junit.Assert;
 import org.junit.Before;
 
 import java.io.IOException;
 import java.util.Map;
-import java.util.Random;
 
-public abstract class IntegrationTest extends Assert {
+public abstract class IntegrationTest extends BaseTest {
 
 	protected Logger logger;
 	
@@ -77,10 +75,6 @@ public abstract class IntegrationTest extends Assert {
 		httpClient.executeMethod(deleteMethod);
 		logger.info("HTTP DELETE of " + deleteMethod.getPath() + "; statusCode = " + deleteMethod.getStatusCode());
 		return deleteMethod;
-	}
-
-	protected long randomness() {
-		return new Random().nextLong();
 	}
 
 	protected void assertResponse(int expectedStatus, HttpMethod method) throws IOException {

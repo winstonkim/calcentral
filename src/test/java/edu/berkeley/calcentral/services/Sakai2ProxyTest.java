@@ -19,7 +19,6 @@
 package edu.berkeley.calcentral.services;
 
 import edu.berkeley.calcentral.DatabaseAwareTest;
-import org.apache.log4j.Logger;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
