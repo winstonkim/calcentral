@@ -22,6 +22,7 @@ import edu.berkeley.calcentral.DatabaseAwareTest;
 import edu.berkeley.calcentral.domain.User;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.codehaus.jettison.json.JSONObject;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -55,7 +56,19 @@ public class UserServiceTest extends DatabaseAwareTest {
 
 	@Test
 	public void saveUserData() throws Exception {
-		// TODO write test
+		String uid = String.valueOf(new Random().nextLong());
+		userService.loadUserByUsername(uid);
+		User originalUser = (User)userService.getUser(uid).get("user");
+		LOGGER.info(originalUser);
+		assertNull(originalUser.getPreferredName());
+
+		JSONObject json = new JSONObject();
+		json.put("preferredName", "Joe Blow");
+		Map<String, Object> savedUserMap = userService.saveUserData(uid, json.toString());
+		LOGGER.info(savedUserMap);
+		assertNotNull(savedUserMap);
+		User savedUser = (User)savedUserMap.get("user");
+		assertEquals("Joe Blow", savedUser.getPreferredName());
 	}
 
 	@Test
@@ -67,6 +80,7 @@ public class UserServiceTest extends DatabaseAwareTest {
 	public void testLoadUserByUsername() throws Exception {
 		UserDetails details = this.userService.loadUserByUsername(String.valueOf(new Random().nextLong()));
 		assertNotNull(details);
+		assertNull(((User)details).getPreferredName());
 	}
 
 }
