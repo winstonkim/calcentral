@@ -12,7 +12,7 @@ public class ClassPage {
 	private String classtitle;
 	private String description;
 	private List<ClassPageInstructor> instructors; 
-	private List<String> schedule; //TODO
+	private List<ClassPageSchedule> schedule; 
 	private List<String> sections; //TODO
 	
 	public String getClassId() {
@@ -33,7 +33,7 @@ public class ClassPage {
 	public List<ClassPageInstructor> getInstructors() {
 		return instructors;
 	}
-	public List<String> getSchedule() {
+	public List<ClassPageSchedule> getSchedule() {
 		return schedule;
 	}
 	public List<String> getSections() {
@@ -57,7 +57,7 @@ public class ClassPage {
 	public void setInstructors(List<ClassPageInstructor> instructors) {
 		this.instructors = instructors;
 	}
-	public void setSchedule(List<String> schedule) {
+	public void setSchedule(List<ClassPageSchedule> schedule) {
 		this.schedule = schedule;
 	}
 	public void setSections(List<String> sections) {

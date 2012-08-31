@@ -2,9 +2,10 @@ package edu.berkeley.calcentral.domain;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
-import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 @XmlRootElement
+@JsonIgnoreProperties({"misc_scheduleprintcd", "misc_lowerRangeUnit", "misc_upperRangeUnit", "misc_variableUnitCd", "misc_fixedunit" })
 public class ClassPageCourseInfo {
 	private String title;
 	private String format;
@@ -19,15 +20,10 @@ public class ClassPageCourseInfo {
 	private String units;
 	
 	//hidden values used for parsing
-	@JsonIgnore
 	private String misc_scheduleprintcd;
-	@JsonIgnore
 	private String misc_lowerRangeUnit;
-	@JsonIgnore
 	private String misc_upperRangeUnit;
-	@JsonIgnore
 	private String misc_variableUnitCd;
-	@JsonIgnore
 	private String misc_fixedunit;
 	
 	public String getTitle() {
