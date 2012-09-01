@@ -7,6 +7,4 @@ target/
 /logs
 .idea/
 .iml
-/properties/
-src/main/resources/git.properties
-
+/properties
