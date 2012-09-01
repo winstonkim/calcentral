@@ -639,12 +639,10 @@ var calcentral = calcentral || {};
             }
             // On _section click_, check whether we need to link/delink the expand/collapse text
             expandTextToggle();
-
         });
     };
 
     var expandTextToggle = function() {
-
         // If ALL sections are expanded, add a class to disable the Expand All link.
         // Otherwise remove that class. Similar for Collapse All.
 
