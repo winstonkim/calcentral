@@ -402,7 +402,7 @@
 					<verbose>true</verbose>
 					<dotGitDirectory>${project.basedir}/.git</dotGitDirectory>
 					<generateGitPropertiesFile>true</generateGitPropertiesFile>
-					<generateGitPropertiesFilename>properties/git.properties</generateGitPropertiesFilename>
+					<generateGitPropertiesFilename>target/classes/git.properties</generateGitPropertiesFilename>
 					<failOnNoGitDirectory>true</failOnNoGitDirectory>
 				</configuration>
 			</plugin>
