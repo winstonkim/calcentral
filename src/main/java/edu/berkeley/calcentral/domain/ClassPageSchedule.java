@@ -1,6 +1,13 @@
 package edu.berkeley.calcentral.domain;
 
+import java.util.List;
+import java.util.Map;
+
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+
+import com.google.common.base.Strings;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 
 @JsonIgnoreProperties({"misc_room", "misc_building_name", "misc_weekdays"})
 public class ClassPageSchedule {
@@ -14,6 +21,72 @@ public class ClassPageSchedule {
 	private String misc_room;
 	private String misc_building_name;
 	private char[] misc_weekdays;
+	
+	
+	public void decodeAll() {
+		locationDecode();
+		weekdaysDecode();
+	}
+
+	private void weekdaysDecode() {
+		List<String> weekdaysList = Lists.newArrayList();
+		Map<Character, String> weekdayDict = Maps.newHashMap();
+		weekdayDict.put('M', "Mon");
+		weekdayDict.put('W', "Wed");
+		weekdayDict.put('F', "Fri");
+		
+		//because some genius decided not to differentiate between tues and thurs, sunday and saturdays...
+		int index = 0;
+		for (char possibleDay : misc_weekdays) {
+			String translatedDay = "";
+			if (possibleDay == 'S' && index == 0) {
+				translatedDay = "Sun";
+			} else if (possibleDay == 'S' && index == 6) {
+				translatedDay = "Sat";
+			} else if (possibleDay == 'T' && index == 2) {
+				translatedDay = "Tues";
+			} else if (possibleDay == 'T' && index == 4) {
+				translatedDay = "Thurs";
+			} else {
+				translatedDay = Strings.nullToEmpty(weekdayDict.get(possibleDay));
+			}
+			
+			if (!translatedDay.isEmpty()) {
+				weekdaysList.add(translatedDay);
+			}
+			index++;
+		}
+		
+		StringBuffer sb = new StringBuffer();
+		for(int i = 0; i < weekdaysList.size(); i++) {
+			if (i == 0) {
+				sb.append(weekdaysList.get(i));
+			} else if (i == weekdaysList.size()-1) {
+				sb.append(" and ").append(weekdaysList.get(i));
+			} else {
+				sb.append(", ").append(weekdaysList.get(i));
+			}
+		}
+		
+		weekdays = sb.toString();
+	}
+
+	private void locationDecode() {
+		//attempts to cleanup the data....
+		try {
+			misc_room = Integer.toString(Integer.parseInt(misc_room));
+		} catch (NumberFormatException e) {
+			//dont' touch the ugly formatted room.
+		}
+		
+		if (misc_building_name.equalsIgnoreCase("No Facility")) {
+			misc_building_name = "";
+		}
+		
+		if (!misc_building_name.isEmpty() && !misc_room.isEmpty()) {
+			location = misc_room + " " + misc_building_name;
+		}
+	}
 	
 	public String getCoords() {
 		return coords;
