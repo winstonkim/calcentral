@@ -57,7 +57,7 @@ public class ClassPageSchedule {
 			index++;
 		}
 		
-		StringBuffer sb = new StringBuffer();
+		StringBuilder sb = new StringBuilder();
 		for(int i = 0; i < weekdaysList.size(); i++) {
 			if (i == 0) {
 				sb.append(weekdaysList.get(i));
@@ -73,6 +73,9 @@ public class ClassPageSchedule {
 
 	private void locationDecode() {
 		//attempts to cleanup the data....
+		misc_room = Strings.nullToEmpty(misc_room);
+		misc_building_name = Strings.nullToEmpty(misc_building_name);
+		
 		try {
 			misc_room = Integer.toString(Integer.parseInt(misc_room));
 		} catch (NumberFormatException e) {
