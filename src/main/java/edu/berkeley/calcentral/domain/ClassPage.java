@@ -10,11 +10,12 @@ public class ClassPage {
 	private String info_last_updated;
 	private ClassPageCourseInfo courseinfo; 
 	private String classtitle;
+	private String department;
 	private String description;
-	private List<ClassPageInstructor> instructors; 
+	private List<ClassPageInstructor> instructors;
 	private List<ClassPageSchedule> schedule; 
-	private List<ClassPageSection> sections; 
-	
+	private List<ClassPageSection> sections;
+
 	public String getClassId() {
 		return classid;
 	}
@@ -26,6 +27,9 @@ public class ClassPage {
 	}
 	public String getClasstitle() {
 		return classtitle;
+	}
+	public String getDepartment() {
+		return department;
 	}
 	public String getDescription() {
 		return description;
@@ -50,6 +54,9 @@ public class ClassPage {
 	}
 	public void setClasstitle(String classtitle) {
 		this.classtitle = classtitle;
+	}
+	public void setDepartment(String department) {
+		this.department = department;
 	}
 	public void setDescription(String description) {
 		this.description = description;

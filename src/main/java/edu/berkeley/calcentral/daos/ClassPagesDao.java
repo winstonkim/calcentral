@@ -26,6 +26,7 @@ public class ClassPagesDao extends BaseDao {
 				+ " bci.TERM_YR || bci.TERM_CD || bci.COURSE_CNTL_NUM classid, " //ignoring course control num permissions issues for now.
 				+ " '' info_last_updated, "
 				+ " bci.COURSE_TITLE classtitle, "
+				+ " bci.DEPT_NAME department, "
 				+ " bci.CATALOG_DESCRIPTION description "
 				+ " FROM BSPACE_COURSE_INFO_VW bci "
 				+ " WHERE bci.TERM_YR = :year AND bci.TERM_CD = :term AND bci.COURSE_CNTL_NUM = :courseID";

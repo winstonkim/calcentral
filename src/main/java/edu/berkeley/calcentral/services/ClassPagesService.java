@@ -45,7 +45,6 @@ public class ClassPagesService {
 	@Produces({MediaType.APPLICATION_JSON})
 	@Path("{ccc}")
 	public Map<String, Object> getClassInfoMap(@PathParam("ccc") String ccc) {
-		
 		ClassPage classPage;
 		Map<String, Object> returnObject = Maps.newHashMap();
 		try {
@@ -54,13 +53,14 @@ public class ClassPagesService {
 			returnObject.put("info_last_updated", classPage.getInfo_last_updated());
 			returnObject.put("courseinfo", classPage.getCourseinfo());
 			returnObject.put("classtitle", classPage.getClasstitle());
+			returnObject.put("department", classPage.getDepartment());
 			returnObject.put("description", classPage.getDescription());
 			returnObject.put("instructors", classPage.getInstructors());
 			returnObject.put("schedule", classPage.getSchedule());
 			returnObject.put("sections", classPage.getSections());
 		} catch (Exception e) {
 			//TODO: Change this to use whatever final exception handling scheme, instead of swallowing the exception.
-			LOGGER.error(Throwables.getStackTraceAsString(e));
+			LOGGER.error(e.getMessage(), e);
 		}
 		return returnObject;
 	}
