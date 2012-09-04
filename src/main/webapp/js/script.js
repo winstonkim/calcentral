@@ -615,6 +615,19 @@ var calcentral = calcentral || {};
         // Enable show all/hide all functions
         hideAllSections();
         showAllSections();
+
+        // Set Description and Info boxes to equal heights
+        var $classPageDescriptionContainer = $('#cc-page-classpage-description');
+        var $classPageInfoContainer = $('#cc-page-classpage-courseinfo');
+
+        var descHeight = parseFloat($classPageDescriptionContainer.height());
+        var infoHeight = parseFloat($classPageInfoContainer.height());
+
+        if (descHeight > infoHeight) {
+            $classPageInfoContainer.height(descHeight);
+        } else {
+            $classPageDescriptionContainer.height(infoHeight);
+        }
     };
 
     var loadClassPage = function(id) {

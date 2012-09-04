@@ -27,7 +27,7 @@
                     {{>header}}
                 </div>
             </div>
-			<div class="cc-container-widget cc-page-classpage-description">
+			<div class="cc-container-widget cc-page-classpage-description" id="cc-page-classpage-description">
 				<div class="cc-widget-title">
 					<h2>Course Catalog Description</h2>
 				</div>
@@ -36,7 +36,7 @@
 				</div>
 			</div>
 
-            <div class="cc-container-widget cc-page-classpage-courseinfo">
+            <div class="cc-container-widget cc-page-classpage-courseinfo" id="cc-page-classpage-courseinfo">
                 <div class="cc-widget-title">
                     <h2>Course Info</h2>
                 </div>
