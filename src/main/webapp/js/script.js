@@ -5,15 +5,15 @@ var calcentral = calcentral || {};
  * Data
  */
 (function() {
-    calcentral.Data = calcentral.Data || {};
-    calcentral.Data.User = calcentral.Data.User || {};
+	calcentral.Data = calcentral.Data || {};
+	calcentral.Data.User = calcentral.Data.User || {};
 })();
 
 /**
  * API
  */
 (function() {
-    calcentral.Api = calcentral.Api || {};
+	calcentral.Api = calcentral.Api || {};
 })();
 
 /**
@@ -42,20 +42,20 @@ var calcentral = calcentral || {};
 		});
 	};
 
-    calcentral.Api.User.saveUser = function (userData, callback) {
-        $.ajax({
-            'data':{
-                'data':JSON.stringify(userData)
-            },
-            'success':function (data) {
-                if ($.isFunction(callback)) {
-                    callback(true, data);
-                }
-            },
-            'type':'POST',
-            'url':'/api/user/' + userData.uid
-        });
-    };
+	calcentral.Api.User.saveUser = function (userData, callback) {
+		$.ajax({
+			'data':{
+				'data':JSON.stringify(userData)
+			},
+			'success':function (data) {
+				if ($.isFunction(callback)) {
+					callback(true, data);
+				}
+			},
+			'type':'POST',
+			'url':'/api/user/' + userData.uid
+		});
+	};
 
 
 	// initialize calcentral.Api.User with the data for the current user
@@ -69,17 +69,17 @@ var calcentral = calcentral || {};
 
 
 (function() {
-    calcentral.Api.GetURLParams = calcentral.Api.GetURLParams || {};
+	calcentral.Api.GetURLParams = calcentral.Api.GetURLParams || {};
 
-    calcentral.Api.GetURLParams = function(url) {
-      var searchString = window.location.search.substring(1), params = searchString.split("&"), hash = {};
+	calcentral.Api.GetURLParams = function(url) {
+	  var searchString = window.location.search.substring(1), params = searchString.split("&"), hash = {};
 
-      for (var i = 0; i < params.length; i++) {
-        var val = params[i].split("=");
-        hash[unescape(val[0])] = unescape(val[1]);
-      }
-      return hash;
-    };
+	  for (var i = 0; i < params.length; i++) {
+		var val = params[i].split("=");
+		hash[unescape(val[0])] = unescape(val[1]);
+	  }
+	  return hash;
+	};
 })();
 
 
@@ -332,51 +332,51 @@ var calcentral = calcentral || {};
 
 (function() {
 
-    calcentral.Api.Widgets = calcentral.Api.Widgets || {};
+	calcentral.Api.Widgets = calcentral.Api.Widgets || {};
 
-    var createWidgetDataUrl = function(widgetId) {
-        return '/api/user/' + calcentral.Data.User.uid + '/widgetData/' + widgetId;
-    };
+	var createWidgetDataUrl = function(widgetId) {
+		return '/api/user/' + calcentral.Data.User.uid + '/widgetData/' + widgetId;
+	};
 
-    calcentral.Api.Widgets.loadWidgetData = function(config, callback) {
+	calcentral.Api.Widgets.loadWidgetData = function(config, callback) {
 
-        if (!config || !config.id) {
-            window.log('calcentral.Api.Widgets.loadWidgetData - Please provide a config object with an id.');
-        }
+		if (!config || !config.id) {
+			window.log('calcentral.Api.Widgets.loadWidgetData - Please provide a config object with an id.');
+		}
 
-        $.ajax({
-            'cache': false,
-            'success': function(data) {
-                if (data && data.widgetData && data.widgetData.data) {
-                    callback(true, $.parseJSON(data.widgetData.data));
-                } else {
-                    callback(false);
-                }
-            },
-            'url': createWidgetDataUrl(config.id)
-        });
+		$.ajax({
+			'cache': false,
+			'success': function(data) {
+				if (data && data.widgetData && data.widgetData.data) {
+					callback(true, $.parseJSON(data.widgetData.data));
+				} else {
+					callback(false);
+				}
+			},
+			'url': createWidgetDataUrl(config.id)
+		});
 
-    };
+	};
 
-    calcentral.Api.Widgets.saveWidgetData = function(config, callback) {
+	calcentral.Api.Widgets.saveWidgetData = function(config, callback) {
 
-        if (!config || !config.id || !config.data) {
-            window.log('calcentral.Api.Widgets.saveWidgetData - Please provide a config object with an id and data.');
-        }
+		if (!config || !config.id || !config.data) {
+			window.log('calcentral.Api.Widgets.saveWidgetData - Please provide a config object with an id and data.');
+		}
 
-        $.ajax({
-            'data': {
-                'data': JSON.stringify(config.data)
-            },
-            'success': function(data) {
-                if ($.isFunction(callback)) {
-                    callback(true, data);
-                }
-            },
-            'type': 'POST',
-            'url': createWidgetDataUrl(config.id)
-        });
-    };
+		$.ajax({
+			'data': {
+				'data': JSON.stringify(config.data)
+			},
+			'success': function(data) {
+				if ($.isFunction(callback)) {
+					callback(true, data);
+				}
+			},
+			'type': 'POST',
+			'url': createWidgetDataUrl(config.id)
+		});
+	};
 
 })();
 
@@ -481,7 +481,7 @@ var calcentral = calcentral || {};
 		});
 	};
 
-	if ($('.cc-page-dashboard, .cc-page-profile').length){
+	if ($('.cc-page-dashboard, .cc-page-profile, .cc-page-classpage').length){
 		loadLeftHandNavigation();
 	}
 })();
@@ -492,13 +492,13 @@ var calcentral = calcentral || {};
  */
 (function() {
 
-    var $bannerTop = $('header');
+	var $bannerTop = $('header');
 
-    calcentral.Api.User.getCurrentUser(function(success, data) {
-        $bannerTop.on('click', function() {
-            window.location = data.loggedIn ? '/secure/dashboard' : '/';
-        });
-    });
+	calcentral.Api.User.getCurrentUser(function(success, data) {
+		$bannerTop.on('click', function() {
+			window.location = data.loggedIn ? '/secure/dashboard' : '/';
+		});
+	});
 })();
 
 
@@ -507,49 +507,49 @@ var calcentral = calcentral || {};
  */
 (function() {
 
-    var $topNavigation = $('.cc-topnavigation');
+	var $topNavigation = $('.cc-topnavigation');
 
-    var addBinding = function() {
+	var addBinding = function() {
 
-        var $openMenu = false;
-        var $topNavigationItemsWithDropdown = $('a[aria-haspopup="true"]', $topNavigation);
+		var $openMenu = false;
+		var $topNavigationItemsWithDropdown = $('a[aria-haspopup="true"]', $topNavigation);
 
-        var removeSelected = function() {
-            $('.cc-topnavigation-selected').removeClass('cc-topnavigation-selected');
-        };
+		var removeSelected = function() {
+			$('.cc-topnavigation-selected').removeClass('cc-topnavigation-selected');
+		};
 
-        var closeMenu = function(){
-            if ($openMenu.length) {
-                $openMenu.hide();
-                removeSelected();
-            }
-        };
+		var closeMenu = function(){
+			if ($openMenu.length) {
+				$openMenu.hide();
+				removeSelected();
+			}
+		};
 
-        $topNavigationItemsWithDropdown.on('focus mouseenter', function() {
-            var $this = $(this).addClass('cc-topnavigation-selected');
-            $openMenu = $this.siblings('.cc-topnavigation-dropdown');
-            var selectedItemPosition = $this.position();
-            $openMenu.css({
-                'top': selectedItemPosition.top + $this.outerHeight() - 2
-            }).show();
-        });
+		$topNavigationItemsWithDropdown.on('focus mouseenter', function() {
+			var $this = $(this).addClass('cc-topnavigation-selected');
+			$openMenu = $this.siblings('.cc-topnavigation-dropdown');
+			var selectedItemPosition = $this.position();
+			$openMenu.css({
+				'top': selectedItemPosition.top + $this.outerHeight() - 2
+			}).show();
+		});
 
-        $topNavigationItemsWithDropdown.parent().on('mouseleave', function(e) {
-            closeMenu();
-        });
+		$topNavigationItemsWithDropdown.parent().on('mouseleave', function(e) {
+			closeMenu();
+		});
 
-    };
+	};
 
-    if ($topNavigation.length) {
-        calcentral.Api.User.getCurrentUser(function(success, data){
-            calcentral.Api.Util.renderTemplate({
-                'container': $topNavigation,
-                'data': data,
-                'template': $('#cc-topnavigation-template')
-            });
-            addBinding();
-        });
-    }
+	if ($topNavigation.length) {
+		calcentral.Api.User.getCurrentUser(function(success, data){
+			calcentral.Api.Util.renderTemplate({
+				'container': $topNavigation,
+				'data': data,
+				'template': $('#cc-topnavigation-template')
+			});
+			addBinding();
+		});
+	}
 
 })();
 
@@ -557,27 +557,27 @@ var calcentral = calcentral || {};
  * Colleges and schools
  */
 (function() {
-    var $collegesAndSchools = $('.cc-page-colleges-and-schools');
+	var $collegesAndSchools = $('.cc-page-colleges-and-schools');
 
-    var $collegesAndSchoolsContainer = $('.cc-page-colleges-and-schools-container', $collegesAndSchools);
+	var $collegesAndSchoolsContainer = $('.cc-page-colleges-and-schools-container', $collegesAndSchools);
 
-    var renderCollegesAndSchools = function(data) {
-        calcentral.Api.Util.renderTemplate({
-            'container': $collegesAndSchoolsContainer,
-            'data': $.parseJSON(data),
-            'template': $('#cc-page-colleges-and-schools-template', $collegesAndSchools)
-        });
-    };
+	var renderCollegesAndSchools = function(data) {
+		calcentral.Api.Util.renderTemplate({
+			'container': $collegesAndSchoolsContainer,
+			'data': $.parseJSON(data),
+			'template': $('#cc-page-colleges-and-schools-template', $collegesAndSchools)
+		});
+	};
 
-    var loadCollegesAndSchools = function() {
-        return $.ajax({
-            'url': '/data/colleges-and-schools.json'
-        });
-    };
+	var loadCollegesAndSchools = function() {
+		return $.ajax({
+			'url': '/data/colleges-and-schools.json'
+		});
+	};
 
-    if($collegesAndSchools.length) {
-        $.when(loadCollegesAndSchools()).then(renderCollegesAndSchools);
-    }
+	if($collegesAndSchools.length) {
+		$.when(loadCollegesAndSchools()).then(renderCollegesAndSchools);
+	}
 
 })();
 
@@ -585,132 +585,132 @@ var calcentral = calcentral || {};
  * ClassPage
  */
 (function() {
-    var $classPage = $('.cc-page-classpage');
+	var $classPage = $('.cc-page-classpage');
 
-    var $classPageContainer = $('.cc-page-classpage-container', $classPage);
+	var $classPageContainer = $('.cc-page-classpage-container', $classPage);
 
-    var renderClassPage = function(data) {
-        var partials = {
-            'header': $('#cc-page-classpage-header-template', $classPage).html(),
-            'courseInfo': $('#cc-page-classpage-courseinfo-template', $classPage).html(),
-            'description': $('#cc-page-classpage-description-template', $classPage).html(),
-            'instructor': $('#cc-page-classpage-instructor-template', $classPage).html(),
-            'sections': $('#cc-page-classpage-sections-template', $classPage).html()
-        };
+	var renderClassPage = function(data) {
+		var partials = {
+			'header': $('#cc-page-classpage-header-template', $classPage).html(),
+			'courseInfo': $('#cc-page-classpage-courseinfo-template', $classPage).html(),
+			'description': $('#cc-page-classpage-description-template', $classPage).html(),
+			'instructor': $('#cc-page-classpage-instructor-template', $classPage).html(),
+			'sections': $('#cc-page-classpage-sections-template', $classPage).html()
+		};
 
-        calcentral.Api.Util.renderTemplate({
-            'container': $classPageContainer,
-            // 'data': $.parseJSON(data),
-            'data': data,
-            'partials': partials,
-            'template': $('#cc-page-classpage-template', $classPage)
-        });
+		calcentral.Api.Util.renderTemplate({
+			'container': $classPageContainer,
+			// 'data': $.parseJSON(data),
+			'data': data,
+			'partials': partials,
+			'template': $('#cc-page-classpage-template', $classPage)
+		});
 
-        // Initially hide all section rows
-        $('tr.classpages_metadata').hide();
+		// Initially hide all section rows
+		$('tr.classpages_metadata').hide();
 
-        // Bind to individual section opener
-        singleToggle();
+		// Bind to individual section opener
+		singleToggle();
 
-        // Enable show all/hide all functions
-        hideAllSections();
-        showAllSections();
+		// Enable show all/hide all functions
+		hideAllSections();
+		showAllSections();
 
-        // Set Description and Info boxes to equal heights
-        var $classPageDescriptionContainer = $('#cc-page-classpage-description');
-        var $classPageInfoContainer = $('#cc-page-classpage-courseinfo');
+		// Set Description and Info boxes to equal heights
+		var $classPageDescriptionContainer = $('#cc-page-classpage-description');
+		var $classPageInfoContainer = $('#cc-page-classpage-courseinfo');
 
-        var descHeight = parseFloat($classPageDescriptionContainer.height());
-        var infoHeight = parseFloat($classPageInfoContainer.height());
+		var descHeight = parseFloat($classPageDescriptionContainer.height());
+		var infoHeight = parseFloat($classPageInfoContainer.height());
 
-        if (descHeight > infoHeight) {
-            $classPageInfoContainer.height(descHeight);
-        } else {
-            $classPageDescriptionContainer.height(infoHeight);
-        }
-    };
+		if (descHeight > infoHeight) {
+			$classPageInfoContainer.height(descHeight);
+		} else {
+			$classPageDescriptionContainer.height(infoHeight);
+		}
+	};
 
-    var loadClassPage = function(id) {
-        return $.ajax({
-            'url': '/api/classPages/' + id
-        });
-    };
+	var loadClassPage = function(id) {
+		return $.ajax({
+			'url': '/api/classPages/' + id
+		});
+	};
 
-    var singleToggle = function() {
-        // Toggle individual sections open/closed when clicked
-        $('div.classpages_sections_arrow').on('click',function() {
-            // Each class section consists of two table rows - one shown on page load, the other hidden.
-            // Each section arrow lives in a td inside the first row of its set.
-            // When clicked, find its parent tr, then find that tr's next sibling and show/hide it.
-            $(this).parents('tr.classpages_classrow').eq(0).next().toggle('slow');
+	var singleToggle = function() {
+		// Toggle individual sections open/closed when clicked
+		$('div.classpages_sections_arrow').on('click',function() {
+			// Each class section consists of two table rows - one shown on page load, the other hidden.
+			// Each section arrow lives in a td inside the first row of its set.
+			// When clicked, find its parent tr, then find that tr's next sibling and show/hide it.
+			$(this).parents('tr.classpages_classrow').eq(0).next().toggle('slow');
 
-            // And turn the disclosure triangle by adding or removing an additional class
-            if ($(this).hasClass('classpages_sections_arrow_opened')) {
-                $(this).removeClass('classpages_sections_arrow_opened');
-            } else {
-                $(this).addClass('classpages_sections_arrow_opened');
-            }
-            // On _section click_, check whether we need to link/delink the expand/collapse text
-            expandTextToggle();
-        });
-    };
+			// And turn the disclosure triangle by adding or removing an additional class
+			if ($(this).hasClass('classpages_sections_arrow_opened')) {
+				$(this).removeClass('classpages_sections_arrow_opened');
+			} else {
+				$(this).addClass('classpages_sections_arrow_opened');
+			}
+			// On _section click_, check whether we need to link/delink the expand/collapse text
+			expandTextToggle();
+		});
+	};
 
-    var expandTextToggle = function() {
-        // If ALL sections are expanded, add a class to disable the Expand All link.
-        // Otherwise remove that class. Similar for Collapse All.
+	var expandTextToggle = function() {
+		// If ALL sections are expanded, add a class to disable the Expand All link.
+		// Otherwise remove that class. Similar for Collapse All.
 
-        var totalSections = $('div.classpages_sections_arrow').length;
-        var curOpen = $('div.classpages_sections_arrow_opened').length;
+		var totalSections = $('div.classpages_sections_arrow').length;
+		var curOpen = $('div.classpages_sections_arrow_opened').length;
 
-        if (totalSections === curOpen) {
-            $('button#classpages_expandall').addClass('classpages_nolink');
-        } else {
-            $('button#classpages_expandall').removeClass('classpages_nolink');
-        }
+		if (totalSections === curOpen) {
+			$('button#classpages_expandall').addClass('classpages_nolink');
+		} else {
+			$('button#classpages_expandall').removeClass('classpages_nolink');
+		}
 
-        // Do same in reverse for the Collapse all link
-        if (curOpen !== 0) {
-            $('button#classpages_collapseall').removeClass('classpages_nolink');
-        } else {
-            $('button#classpages_collapseall').addClass('classpages_nolink');
-        }
-    };
+		// Do same in reverse for the Collapse all link
+		if (curOpen !== 0) {
+			$('button#classpages_collapseall').removeClass('classpages_nolink');
+		} else {
+			$('button#classpages_collapseall').addClass('classpages_nolink');
+		}
+	};
 
-    var showNotes = function() {
-        // Throw alerts when "Notes" are present for midterms or finals
-        $('a.show_note').on('click',function() {
-            alert($(this).attr('data-note'));
-        });
-    };
+	var showNotes = function() {
+		// Throw alerts when "Notes" are present for midterms or finals
+		$('a.show_note').on('click',function() {
+			alert($(this).attr('data-note'));
+		});
+	};
 
-    // On _page load_, check whether we need to link/delink the expand/collapse text.
-    // Also enable binding for midterm and final alert boxes.
-    expandTextToggle();
-    showNotes();
+	// On _page load_, check whether we need to link/delink the expand/collapse text.
+	// Also enable binding for midterm and final alert boxes.
+	expandTextToggle();
+	showNotes();
 
-    var showAllSections = function() {
-        // Expand all sections regardless their current state
-        $('button#classpages_expandall').on('click',function() {
-            $('div.classpages_sections_arrow').addClass('classpages_sections_arrow_opened');
-            $('tr.classpages_metadata').show();
-            expandTextToggle();
-        });
-    };
+	var showAllSections = function() {
+		// Expand all sections regardless their current state
+		$('button#classpages_expandall').on('click',function() {
+			$('div.classpages_sections_arrow').addClass('classpages_sections_arrow_opened');
+			$('tr.classpages_metadata').show();
+			expandTextToggle();
+		});
+	};
 
-    var hideAllSections = function() {
-        // Collapse all sections regardless their current state
-        $('button#classpages_collapseall').on('click',function() {
-            $('div.classpages_sections_arrow').removeClass('classpages_sections_arrow_opened');
-            $('tr.classpages_metadata').hide();
-            expandTextToggle();
-        });
-    };
+	var hideAllSections = function() {
+		// Collapse all sections regardless their current state
+		$('button#classpages_collapseall').on('click',function() {
+			$('div.classpages_sections_arrow').removeClass('classpages_sections_arrow_opened');
+			$('tr.classpages_metadata').hide();
+			expandTextToggle();
+		});
+	};
 
-    // Get class ID from URL
-    var classid = calcentral.Api.GetURLParams().cid;
+	// Get class ID from URL
+	var classid = calcentral.Api.GetURLParams().cid;
 
-    if($classPage.length) {
-        $.when(loadClassPage(classid)).then(renderClassPage);
-    }
+	if($classPage.length) {
+		$.when(loadClassPage(classid)).then(renderClassPage);
+	}
 
 })();
