@@ -13,7 +13,7 @@ public class ClassPage {
 	private String description;
 	private List<ClassPageInstructor> instructors; 
 	private List<ClassPageSchedule> schedule; 
-	private List<String> sections; //TODO
+	private List<ClassPageSection> sections; 
 	
 	public String getClassId() {
 		return classid;
@@ -36,7 +36,7 @@ public class ClassPage {
 	public List<ClassPageSchedule> getSchedule() {
 		return schedule;
 	}
-	public List<String> getSections() {
+	public List<ClassPageSection> getSections() {
 		return sections;
 	}
 	public void setClassId(String classId) {
@@ -60,7 +60,7 @@ public class ClassPage {
 	public void setSchedule(List<ClassPageSchedule> schedule) {
 		this.schedule = schedule;
 	}
-	public void setSections(List<String> sections) {
+	public void setSections(List<ClassPageSection> sections) {
 		this.sections = sections;
 	}
 }

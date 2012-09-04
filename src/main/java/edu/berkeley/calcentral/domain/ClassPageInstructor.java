@@ -1,7 +1,9 @@
 package edu.berkeley.calcentral.domain;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
+@JsonIgnoreProperties({"misc_email_disclosure"})
 public class ClassPageInstructor {
 	private String email;
 	private String id;
@@ -14,6 +16,12 @@ public class ClassPageInstructor {
 	
 	@JsonIgnore
 	private String misc_email_disclosure;
+	
+	public void emailDisclosureDecode() {
+		if (misc_email_disclosure.equalsIgnoreCase("N")) {
+			email = "";
+		}
+	}
 	
 	public String getEmail() {
 		return email;

@@ -1,11 +1,16 @@
 package edu.berkeley.calcentral.domain;
 
+import java.util.Map;
+
 import javax.xml.bind.annotation.XmlRootElement;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
+import com.google.common.collect.Maps;
+
 @XmlRootElement
-@JsonIgnoreProperties({"misc_scheduleprintcd", "misc_lowerRangeUnit", "misc_upperRangeUnit", "misc_variableUnitCd", "misc_fixedunit" })
+@JsonIgnoreProperties({"misc_scheduleprintcd", "misc_lowerRangeUnit", "misc_upperRangeUnit", 
+	"misc_variableUnitCd", "misc_fixedunit", "misc_catalogid", "misc_deptname"})
 public class ClassPageCourseInfo {
 	private String title;
 	private String format;
@@ -25,6 +30,77 @@ public class ClassPageCourseInfo {
 	private String misc_upperRangeUnit;
 	private String misc_variableUnitCd;
 	private String misc_fixedunit;
+	private String misc_catalogid;
+	private String misc_deptname;
+	
+	public void decodeAll() {
+		gradingDecode();
+		termDecode();
+		courseNumDecode();
+		unitsDecode();
+	}
+	
+	private void gradingDecode() {
+		Map<String, String> gradingDict = Maps.newHashMap();
+		gradingDict.put("PF", "PASSED/NOT PASSED");
+		gradingDict.put("SU", "SATISFACTORY/UNSATISFACTORY");
+		String gradingLookup = gradingDict.get(grading);
+		if (gradingLookup == null) {
+			gradingLookup = "Letter Grade";
+		}
+		grading = gradingLookup;
+		return;
+	}
+
+	private void termDecode() {
+		Map<String, String> termDict = Maps.newHashMap();
+		termDict.put("B", "Spring");
+		termDict.put("C", "Summer");
+		termDict.put("D", "Fall");
+		String termLookup = termDict.get(term);
+		if (termLookup == null) {
+			termLookup = "Letter Grade";
+		}
+		term = termLookup;
+		return;
+	}
+
+	/** 
+	 * This is going to handwave some of the other security implications related to SCHEDULE_PRINT_CD for the time being. 
+	 * See CLC-13 for details.
+	 */
+	private void courseNumDecode() {
+		Map<String, String> printCdDict = Maps.newHashMap();
+		printCdDict.put("H", "SEE NOTE");
+		printCdDict.put("G", "SEE DEPT");
+		printCdDict.put("E", "SEE DEPT");
+		printCdDict.put("D", "");
+		printCdDict.put("C", "NONE");
+		printCdDict.put("B", "TO BE ARRANGED");
+		String courseNumValue = printCdDict.get(misc_scheduleprintcd);
+		if (courseNumValue != null) {
+			coursenum = courseNumValue;
+		}
+		return;
+	}
+
+	private void unitsDecode() {
+		if (!misc_fixedunit.equalsIgnoreCase("0.0")) {
+			units = misc_fixedunit;
+			return;
+		}
+
+		Map<String, String> variableUnitCdDict = Maps.newHashMap();
+		variableUnitCdDict.put("F", misc_lowerRangeUnit);
+		variableUnitCdDict.put("R", misc_lowerRangeUnit + " - " + misc_upperRangeUnit);
+		variableUnitCdDict.put("E", misc_lowerRangeUnit + " or " + misc_upperRangeUnit);
+		String variableUnitValue = variableUnitCdDict.get(misc_variableUnitCd);
+		if (variableUnitValue == null) {
+			variableUnitValue = "0";
+		}
+		units = variableUnitValue;
+		return;
+	}
 	
 	public String getTitle() {
 		return title;
@@ -121,5 +197,21 @@ public class ClassPageCourseInfo {
 	}
 	public void setMisc_fixedunit(String misc_fixedunit) {
 		this.misc_fixedunit = misc_fixedunit;
+	}
+
+	public String getMisc_catalogid() {
+		return misc_catalogid;
+	}
+
+	public void setMisc_catalogid(String misc_catalogid) {
+		this.misc_catalogid = misc_catalogid;
+	}
+
+	public String getMisc_deptname() {
+		return misc_deptname;
+	}
+
+	public void setMisc_deptname(String misc_deptname) {
+		this.misc_deptname = misc_deptname;
 	}
 }
