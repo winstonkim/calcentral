@@ -40,4 +40,6 @@ public interface Urls {
 
 	String BSPACE_FAVORITES_UNREAD = BSPACE_FAVORITES + "/unread";
 
+	String CANVAS = API +"/canvas";
+
 }
