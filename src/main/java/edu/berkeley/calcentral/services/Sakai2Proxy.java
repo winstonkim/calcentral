@@ -30,7 +30,6 @@ import org.apache.commons.httpclient.params.HttpClientParams;
 import org.apache.commons.httpclient.protocol.Protocol;
 import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
-import org.codehaus.jettison.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
@@ -89,7 +88,6 @@ public class Sakai2Proxy {
 			} catch (Exception e) {
 				LOGGER.warn("Got exception loading dummy json", e);
 			}
-
 		}
 	}
 
