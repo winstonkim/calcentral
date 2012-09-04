@@ -36,10 +36,10 @@ public class CanvasProxyTest extends DatabaseAwareTest {
 	@Test
 	public void getCourses() throws Exception {
 		try {
-			String get = proxy.getCourses();
+			String get = proxy.get("courses");
 			JSONArray json = new JSONArray(get);
 			LOGGER.info(json.toString(2));
-		} catch ( RestClientException e) {
+		} catch (RestClientException e) {
 			LOGGER.error("Got a RestClientException, is canvas server properly configured or unavailable?", e);
 		}
 	}
@@ -47,16 +47,20 @@ public class CanvasProxyTest extends DatabaseAwareTest {
 	@Test
 	public void getSpecificCourse() throws Exception {
 		try {
-			String allCourses = proxy.getCourses();
+			String allCourses = proxy.get("courses");
 			JSONArray json = new JSONArray(allCourses);
 			LOGGER.info(json.toString(2));
 			JSONObject first = json.getJSONObject(0);
 			int id = first.getInt("id");
-			String firstResponse = proxy.getSpecificCourse(id);
+			String firstResponse = proxy.get("courses/" + id);
 			LOGGER.info(firstResponse);
-		} catch ( RestClientException e) {
+		} catch (RestClientException e) {
 			LOGGER.error("Got a RestClientException, is canvas server properly configured or unavailable?", e);
 		}
 	}
 
+	@Test
+	public void post() throws Exception {
+
+	}
 }

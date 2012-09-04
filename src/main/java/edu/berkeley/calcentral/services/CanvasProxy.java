@@ -26,15 +26,17 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import javax.annotation.PostConstruct;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
+import javax.servlet.http.HttpServletRequest;
+import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
 
 
@@ -59,31 +61,53 @@ public class CanvasProxy {
 		String accessToken = calcentralProperties.getProperty("canvasProxy.accessToken");
 		LOGGER.info("canvasRoot = " + canvasRoot + "; canvas access token = " + accessToken);
 		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(org.springframework.http.MediaType.APPLICATION_FORM_URLENCODED);
 		headers.set("Authorization", "Bearer " + accessToken);
 		headersEntity = new HttpEntity<String>(headers);
 		restTemplate = new RestTemplate();
 	}
 
 	@GET
-	@Path("courses")
+	@Path("{canvaspath:.*}")
 	@Produces({MediaType.APPLICATION_JSON})
-	public String getCourses() {
-		ResponseEntity<String> response = restTemplate.exchange(canvasRoot + "/api/v1/courses",
-				HttpMethod.GET, headersEntity, String.class, new HashMap<String, Object>());
-		LOGGER.debug("Response: " + response.getStatusCode() + "; body = " + response.getBody());
-		LOGGER.debug("Response headers: " + response.getHeaders().toSingleValueMap());
-		return response.getBody();
+	public String get(@PathParam(value = "canvaspath") String canvasPath) {
+		return doMethod(HttpMethod.GET, canvasPath, new HashMap<String, Object>(0));
 	}
 
-	@GET
-	@Path("courses/{courseid}")
+	@PUT
+	@Path("{canvaspath:.*}")
 	@Produces({MediaType.APPLICATION_JSON})
-	public String getSpecificCourse(@PathParam(value = "courseid") Integer courseID) {
-		ResponseEntity<String> response = restTemplate.exchange(canvasRoot + "/api/v1/courses/" + courseID,
-				HttpMethod.GET, headersEntity, String.class, new HashMap<String, Object>());
-		LOGGER.debug("Response: " + response.getStatusCode() + "; body = " + response.getBody());
-		LOGGER.debug("Response headers: " + response.getHeaders().toSingleValueMap());
-		return response.getBody();
+	public String put(@PathParam(value = "canvaspath") String canvasPath, @Context HttpServletRequest request) {
+		HashMap<String, Object> parms = new HashMap<String, Object>();
+		parms.put("course[name]", "API Edited Course");
+		return doMethod(HttpMethod.PUT, canvasPath, parms);
 	}
 
+	@POST
+	@Path("{canvaspath:.*}")
+	@Produces({MediaType.APPLICATION_JSON})
+	public String post(@PathParam(value = "canvaspath") String canvasPath, @Context HttpServletRequest request) {
+		return doMethod(HttpMethod.POST, canvasPath, request.getParameterMap());
+	}
+
+	@DELETE
+	@Path("{canvaspath:.*}")
+	@Produces({MediaType.APPLICATION_JSON})
+	public String delete(@PathParam(value = "canvaspath") String canvasPath, @Context HttpServletRequest request) {
+		return doMethod(HttpMethod.DELETE, canvasPath, request.getParameterMap());
+	}
+
+	public String doMethod(HttpMethod method, String canvasPath, Map<String, Object> params) {
+		String url = canvasRoot + "/api/v1/" + StringUtils.trimLeadingCharacter(canvasPath, '/');
+		LOGGER.info("Doing " + method.toString() + " on url " + url);
+		try {
+			ResponseEntity<String> response = restTemplate.exchange(url, method, headersEntity, String.class, params);
+			LOGGER.debug("Response: " + response.getStatusCode() + "; body = " + response.getBody());
+			LOGGER.debug("Response headers: " + response.getHeaders().toSingleValueMap());
+			return response.getBody();
+		} catch (HttpServerErrorException e) {
+			LOGGER.error(e.getMessage(), e);
+		}
+		return null;
+	}
 }
