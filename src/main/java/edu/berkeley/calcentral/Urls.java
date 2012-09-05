@@ -23,7 +23,7 @@ public interface Urls {
 	String API = "/api";
 
 	String USERS = API + "/user";
-	
+
 	String CURRENT_USER = API + "/currentUser";
 
 	String SPECIFIC_USER = USERS + "/{userID}";
@@ -33,13 +33,13 @@ public interface Urls {
 	String GIT_INFO = API + "/gitInfo";
 
 	String DASHBOARD = "/dashboard";
-	
+
 	String CLASS_PAGES = API + "/classPages";
 
 	String BSPACE_FAVORITES = API + "/bspacefavorites";
 
 	String BSPACE_FAVORITES_UNREAD = BSPACE_FAVORITES + "/unread";
 
-	String CANVAS = API +"/canvas";
+	String CANVAS = API + "/canvas";
 
 }
