@@ -23,8 +23,12 @@ import org.apache.log4j.Logger;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONObject;
 import org.junit.Test;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.client.RestClientException;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.*;
 
 public class CanvasProxyTest extends DatabaseAwareTest {
 
@@ -54,13 +58,28 @@ public class CanvasProxyTest extends DatabaseAwareTest {
 			int id = first.getInt("id");
 			String firstResponse = proxy.get("courses/" + id);
 			LOGGER.info(firstResponse);
+			assertNotNull(firstResponse);
 		} catch (RestClientException e) {
 			LOGGER.error("Got a RestClientException, is canvas server properly configured or unavailable?", e);
 		}
 	}
 
 	@Test
-	public void post() throws Exception {
+	public void put() throws Exception {
+		try {
+			String name = "Edited by test " + randomString();
+			HttpServletRequest request = Mockito.mock(HttpServletRequest.class);
+			Vector<String> paramNames = new Vector<String>();
+			paramNames.add("course[name]");
+			Mockito.when(request.getParameterNames()).thenReturn(paramNames.elements());
+			Mockito.when(request.getParameter("course[name]")).thenReturn(name);
+			String response = proxy.put("/courses/767330", request);
 
+			JSONObject json = new JSONObject(response);
+			LOGGER.info(json.toString(2));
+			assertEquals(name, json.getString("name"));
+		} catch (RestClientException e) {
+			LOGGER.error("Got a RestClientException, is canvas server properly configured or unavailable?", e);
+		}
 	}
 }
