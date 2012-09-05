@@ -2,6 +2,13 @@
 	<p class="cc-copyright">&copy; UC Regents 2012 All rights reserved</p>
 </footer>
 
+<script>
+	var calcentral = calcentral || {};
+	(function() {
+		calcentral.Data = calcentral.Data || {};
+		calcentral.Data.User = ${userJSON};
+	})();
+</script>
 
 <!-- JavaScript at the bottom for fast page loading -->
 

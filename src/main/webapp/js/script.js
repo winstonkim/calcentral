@@ -27,7 +27,7 @@ var calcentral = calcentral || {};
 			'userId': calcentral.Data.User.uid
 		});
 	};
-
+	         v
 	calcentral.Api.User.getCurrentUser = function(callback) {
 		$.ajax({
 			'success': function(data) {
