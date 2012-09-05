@@ -343,7 +343,7 @@ var calcentral = calcentral || {};
 	calcentral.Api.Widgets.loadWidgetData = function(config, callback) {
 
 		if (!config || !config.id) {
-			window.log('calcentral.Api.Widgets.loadWidgetData - Please provide a config object with an id.');
+			console.log('calcentral.Api.Widgets.loadWidgetData - Please provide a config object with an id.');
 		}
 
 		$.ajax({
@@ -363,7 +363,7 @@ var calcentral = calcentral || {};
 	calcentral.Api.Widgets.saveWidgetData = function(config, callback) {
 
 		if (!config || !config.id || !config.data) {
-			window.log('calcentral.Api.Widgets.saveWidgetData - Please provide a config object with an id and data.');
+			console.log('calcentral.Api.Widgets.saveWidgetData - Please provide a config object with an id and data.');
 		}
 
 		$.ajax({

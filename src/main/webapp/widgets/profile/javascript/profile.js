@@ -41,9 +41,9 @@ calcentral.Widgets.profile = function (tuid) {
 			"link" : $linkInput.val(),
 			"uid" : calcentral.Data.User.uid
 		};
-		window.log("Saving profile: ", newUserData);
+		console.log('Profile widget - Saving profile: ', newUserData);
 		calcentral.Api.User.saveUser(newUserData, function(success, data) {
-			window.log("Profile saved: " + success);
+			console.log('Profile widget - Profile saved: ' + success);
 		});
 	};
 

@@ -19,7 +19,7 @@ calcentral.Widgets.bspacefavourites = function(tuid) {
 
 	var renderFavouritesList = function(data) {
 		if (!data.body) {
-			window.log('bspacefavourites widget - renderFavouritesList: ' + data.statusText);
+			console.log('bspacefavourites widget - renderFavouritesList: ' + data.statusText);
 			data.body = '{}';
 		}
 		calcentral.Api.Util.renderTemplate({
