@@ -2,7 +2,7 @@
 
 <tags:head/>
 
-<body class="cc-page-dashboard">
+<body class="cc-page-profile">
 <tags:header/>
 <tags:topnavigation/>
 <div class="cc-container-main" role="main">

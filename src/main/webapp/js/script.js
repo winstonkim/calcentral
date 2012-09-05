@@ -397,7 +397,6 @@ var calcentral = calcentral || {};
 
 	var widgetLocation = '/widgets/';
 	var widgetPrefix = 'cc-widget-';
-	var widgetsToLoad = ['quicklinks', 'walktime', 'bspacefavourites', 'canvascourses', 'profile'];
 
 	var loadCSS = function(widgetName) {
 		var widgetCSSLocation = widgetLocation + widgetName + '/css/' + widgetName + '.css';
@@ -435,16 +434,16 @@ var calcentral = calcentral || {};
 		});
 	};
 
-	var loadWidgets = function() {
-		for (var i = 0; i < widgetsToLoad.length; i++) {
-			var widgetName = widgetsToLoad[i];
-			loadWidget(widgetName);
-		}
+	/**
+	 * Get all the widgets on the current page and load them
+	 */
+	var getWidgets = function() {
+		$('div[id^="cc-widget-"]').each(function(index, item) {
+			loadWidget(item.id.replace(widgetPrefix, ''));
+		});
 	};
 
-	if ($('.cc-page-dashboard').length){
-		loadWidgets();
-	}
+	getWidgets();
 
 })();
 
