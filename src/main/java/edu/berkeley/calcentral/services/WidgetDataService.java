@@ -32,20 +32,15 @@ import javax.ws.rs.core.MediaType;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.codehaus.jackson.JsonNode;
-import org.codehaus.jackson.map.ObjectMapper;
 import org.jboss.resteasy.annotations.cache.Cache;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.google.common.base.Strings;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 
 import edu.berkeley.calcentral.Params;
 import edu.berkeley.calcentral.Urls;
 import edu.berkeley.calcentral.daos.WidgetDataDao;
-import edu.berkeley.calcentral.domain.WidgetData;
 
 @Service
 @Path(Urls.WIDGET_DATA)
@@ -67,17 +62,23 @@ public class WidgetDataService {
 	@POST
 	@Produces({MediaType.APPLICATION_JSON})
 	@Path("/{" + Params.WIDGET_ID + "}")
-	public WidgetData save(@PathParam(Params.USER_ID) String userID,
+	public Map<String, Object> save(@PathParam(Params.USER_ID) String userID,
 												 @PathParam(Params.WIDGET_ID) String widgetID,
 												 @FormParam(Params.DATA) String jsonData) {
-		WidgetData widgetData = new WidgetData(userID, widgetID, jsonData);
 		//sanity check
-		if (Strings.nullToEmpty(widgetData.getUid()).isEmpty() ||
-				Strings.nullToEmpty(widgetData.getWidgetID()).isEmpty()) {
+		if (Strings.nullToEmpty(userID).isEmpty() ||
+				Strings.nullToEmpty(widgetID).isEmpty()) {
 			return null;
 		}
-		widgetDataDao.saveWidgetData(widgetData);
-		return widgetData;
+		
+		Map<String, Object> response = null;
+		try {
+			response = widgetDataDao.saveWidgetData(userID, widgetID, jsonData);
+		} catch (Exception e) {
+			LOGGER.error("Error parsing JSON for saving", e);
+			return null;
+		}
+		return response;
 	}
 
 	/**
@@ -90,18 +91,8 @@ public class WidgetDataService {
 	@GET
 	@Produces({MediaType.APPLICATION_JSON})
 	public List<Map<String, Object>> getAllForUser(@PathParam(Params.USER_ID) String userID) {
-		List<WidgetData> allWidgetData =  widgetDataDao.getAllWidgetData(userID);
-		List<Map<String, Object>> response = Lists.newArrayList();
-		if (allWidgetData == null) {
-			return null;
-		}
-		for(WidgetData widgetData : allWidgetData) {
-			Map<String, Object> singleWidgetData = convertBeanResponse(widgetData);
-			if (singleWidgetData != null) {
-				response.add(singleWidgetData);
-			}
-		}
-		return response;
+		List<Map<String, Object>> allWidgetData =  widgetDataDao.getAllWidgetData(userID);
+		return allWidgetData;
 			
 	}
 
@@ -118,36 +109,8 @@ public class WidgetDataService {
 	@Path("/{" + Params.WIDGET_ID + "}")
 	public Map<String, Object> get(@PathParam(Params.USER_ID) String userID,
 												@PathParam(Params.WIDGET_ID) String widgetID) {
-		WidgetData responseBean = widgetDataDao.getWidgetData(userID, widgetID);
-		return convertBeanResponse(responseBean);
-	}
-	
-	/**
-	 * Deals with the problem of data being stored as beans. Extracts the data string and
-	 * converts result into json.
-	 * 
-	 * @param dataBean widgetData bean.
-	 * @return map with data converted into json.
-	 */
-	private Map<String, Object> convertBeanResponse(WidgetData dataBean) {
-		Map<String, Object> response = Maps.newHashMap();
-		if (dataBean == null || dataBean.getUid() == null || dataBean.getWidgetID() == null) {
-			return null;
-		}
-		response.put("uid", dataBean.getUid());
-		response.put("widgetID", dataBean.getWidgetID());
-		ObjectMapper mapper = new ObjectMapper();
-		JsonNode dataNode = null;
-		try {
-			dataNode = mapper.readValue(dataBean.getData(), JsonNode.class);
-			response.put("data", dataNode);
-		} catch (Exception e) {
-			LOGGER.error("Malformed JSON", e);
-			response.put("data", "");
-		}
-		Map<String, Object> wrapper = Maps.newHashMap();
-		wrapper.put("widgetData", response);
-		return wrapper;
+		Map<String, Object> responseBean = widgetDataDao.getWidgetData(userID, widgetID);
+		return responseBean;
 	}
 
 	/**

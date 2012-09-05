@@ -18,10 +18,10 @@
 
 package edu.berkeley.calcentral.daos;
 
-import edu.berkeley.calcentral.DatabaseAwareTest;
-import edu.berkeley.calcentral.domain.WidgetData;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import edu.berkeley.calcentral.DatabaseAwareTest;
 
 public class WidgetDataDaoTest extends DatabaseAwareTest {
 
@@ -30,16 +30,13 @@ public class WidgetDataDaoTest extends DatabaseAwareTest {
 
 	@Test
 	public void testSaveWidgetData() throws Exception {
-		WidgetData data = new WidgetData("joe", "abc", "somedata");
-		dao.saveWidgetData(data);
+		dao.saveWidgetData("joe", "abc", "{\"somedata\":\"foo\"}");
 	}
 
 	@Test
 	public void testDeleteWidgetData() throws Exception {
-		WidgetData data = new WidgetData("joe", "abc", "somedata");
-		dao.saveWidgetData(data);
-		WidgetData janesData = new WidgetData("jane", "abc", "somedata");
-		dao.saveWidgetData(janesData);
+		dao.saveWidgetData("joe", "abc", "{\"somedata\":\"foo\"}");
+		dao.saveWidgetData("jane", "abc", "{\"somedata\":\"foo\"}");
 		dao.deleteWidgetData("joe", "abc");
 		assertNull(dao.getWidgetData("joe", "abc"));
 		assertNotNull(dao.getWidgetData("jane", "abc"));
@@ -47,22 +44,22 @@ public class WidgetDataDaoTest extends DatabaseAwareTest {
 
 	@Test
 	public void testDeleteAllWidgetData() throws Exception {
-		dao.saveWidgetData(new WidgetData("joe", "abc", "somedata"));
-		dao.saveWidgetData(new WidgetData("joe", "def", "somedata"));
+		dao.saveWidgetData("joe", "abc", "{\"somedata\":\"foo\"}");
+		dao.saveWidgetData("joe", "def", "{\"somedata\":\"foo\"}");
 		dao.deleteAllWidgetData("joe");
 		assertNull(dao.getAllWidgetData("joe"));
 	}
 
 	@Test
 	public void testGetWidgetData() throws Exception {
-		dao.saveWidgetData(new WidgetData("joe", "abc", "somedata"));
+		dao.saveWidgetData("joe", "abc", "{\"somedata\":\"foo\"}");
 		assertNotNull(dao.getWidgetData("joe", "abc"));
 	}
 
 	@Test
 	public void testGetAllWidgetData() throws Exception {
-		dao.saveWidgetData(new WidgetData("joe", "abc", "somedata"));
-		dao.saveWidgetData(new WidgetData("joe", "def", "somedata"));
+		dao.saveWidgetData("joe", "abc", "{\"somedata\":\"foo\"}");
+		dao.saveWidgetData("joe", "def", "{\"somedata\":\"foo\"}");
 		assertEquals(2, dao.getAllWidgetData("joe").size());
 	}
 }

@@ -65,7 +65,8 @@ public class WidgetDataServiceIT extends IntegrationTest {
 		JSONObject widget = json.getJSONObject(0).getJSONObject("widgetData");
 		assertEquals(user, widget.get("uid"));
 		assertEquals("abc", widget.get("widgetID"));
-		assertEquals("{\"foo\":\"bar\"}", widget.get("data").toString());
+		logger.info(widget.get("data"));
+		assertEquals("bar", widget.getJSONObject("data").getString("foo"));
 	}
 
 	@Test
@@ -93,20 +94,14 @@ public class WidgetDataServiceIT extends IntegrationTest {
 		JSONObject widget = json.getJSONObject(0).getJSONObject("widgetData");
 		assertEquals(user, widget.get("uid"));
 		assertEquals("abc", widget.get("widgetID"));
-		assertEquals("{\"foo\":\"newvalue\"}", widget.get("data").toString());
+		assertEquals("newvalue", widget.getJSONObject("data").getString("foo"));
 	}
 
 	@Test
 	public void getMalformedJSONContent() throws IOException, JSONException {
 		PostMethod post = doPost("/api/user/" + user + "/widgetData/bad",
 				ImmutableMap.<String, String>of("data", "bad JSON"));
-		//will store without issues.
-		assertResponse(HttpResponseCodes.SC_OK, post);
-		GetMethod get = doGet("/api/user/" + user + "/widgetData/bad");
-		assertResponse(HttpResponseCodes.SC_OK, get);
-		logger.info(get.getResponseBodyAsString());
-		JSONObject json = toJSONObject(get).getJSONObject("widgetData");
-		assertEquals("", json.get("data").toString());
+		assertResponse(HttpResponseCodes.SC_NO_CONTENT, post);
 	}
 	
 	@Test
