@@ -19,20 +19,33 @@
 package edu.berkeley.calcentral.services;
 
 import java.util.List;
+import java.util.Map;
 
-import edu.berkeley.calcentral.Params;
-import edu.berkeley.calcentral.Urls;
+import javax.ws.rs.DELETE;
+import javax.ws.rs.FormParam;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.codehaus.jackson.JsonNode;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.jboss.resteasy.annotations.cache.Cache;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.google.common.base.Strings;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 
+import edu.berkeley.calcentral.Params;
+import edu.berkeley.calcentral.Urls;
 import edu.berkeley.calcentral.daos.WidgetDataDao;
 import edu.berkeley.calcentral.domain.WidgetData;
-
-import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
 
 @Service
 @Path(Urls.WIDGET_DATA)
@@ -41,6 +54,8 @@ public class WidgetDataService {
 	@Autowired
 	private WidgetDataDao widgetDataDao;
 
+	private static final Log LOGGER = LogFactory.getLog(WidgetDataService.class);
+	
 	/**
 	 * Save widget data. Updates an existing widget or creates a new one if none exists.
 	 *
@@ -74,8 +89,20 @@ public class WidgetDataService {
 	@Cache(mustRevalidate = true)
 	@GET
 	@Produces({MediaType.APPLICATION_JSON})
-	public List<WidgetData> getAllForUser(@PathParam(Params.USER_ID) String userID) {
-		return widgetDataDao.getAllWidgetData(userID);
+	public List<Map<String, Object>> getAllForUser(@PathParam(Params.USER_ID) String userID) {
+		List<WidgetData> allWidgetData =  widgetDataDao.getAllWidgetData(userID);
+		List<Map<String, Object>> response = Lists.newArrayList();
+		if (allWidgetData == null) {
+			return null;
+		}
+		for(WidgetData widgetData : allWidgetData) {
+			Map<String, Object> singleWidgetData = convertBeanResponse(widgetData);
+			if (singleWidgetData != null) {
+				response.add(singleWidgetData);
+			}
+		}
+		return response;
+			
 	}
 
 	/**
@@ -89,9 +116,38 @@ public class WidgetDataService {
 	@GET
 	@Produces({MediaType.APPLICATION_JSON})
 	@Path("/{" + Params.WIDGET_ID + "}")
-	public WidgetData get(@PathParam(Params.USER_ID) String userID,
+	public Map<String, Object> get(@PathParam(Params.USER_ID) String userID,
 												@PathParam(Params.WIDGET_ID) String widgetID) {
-		return widgetDataDao.getWidgetData(userID, widgetID);
+		WidgetData responseBean = widgetDataDao.getWidgetData(userID, widgetID);
+		return convertBeanResponse(responseBean);
+	}
+	
+	/**
+	 * Deals with the problem of data being stored as beans. Extracts the data string and
+	 * converts result into json.
+	 * 
+	 * @param dataBean widgetData bean.
+	 * @return map with data converted into json.
+	 */
+	private Map<String, Object> convertBeanResponse(WidgetData dataBean) {
+		Map<String, Object> response = Maps.newHashMap();
+		if (dataBean == null || dataBean.getUid() == null || dataBean.getWidgetID() == null) {
+			return null;
+		}
+		response.put("uid", dataBean.getUid());
+		response.put("widgetID", dataBean.getWidgetID());
+		ObjectMapper mapper = new ObjectMapper();
+		JsonNode dataNode = null;
+		try {
+			dataNode = mapper.readValue(dataBean.getData(), JsonNode.class);
+			response.put("data", dataNode);
+		} catch (Exception e) {
+			LOGGER.error("Malformed JSON", e);
+			response.put("data", "");
+		}
+		Map<String, Object> wrapper = Maps.newHashMap();
+		wrapper.put("widgetData", response);
+		return wrapper;
 	}
 
 	/**
