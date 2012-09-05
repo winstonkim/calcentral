@@ -27,6 +27,10 @@ if [ -f $INPUT_FILE ]; then
   APPLICATION_HOST=`awk -F"=" '/^APPLICATION_HOST=/ {print $2}' $INPUT_FILE`
   CAS_LOGOUT_HOST=`awk -F"=" '/^CAS_LOGOUT_HOST=/ {print $2}' $INPUT_FILE`
   CAS_LOGOUT_URL=`awk -F"=" '/^CAS_LOGOUT_URL=/ {print $2}' $INPUT_FILE`
+  ORACLE_DB=`awk -F"=" '/^ORACLE_DB=/ {print $2}' $INPUT_FILE`
+  ORACLE_USERNAME=`awk -F"=" '/^ORACLE_USERNAME=/ {print $2}' $INPUT_FILE`
+  ORACLE_PASSWORD=`awk -F"=" '/^ORACLE_PASSWORD=/ {print $2}' $INPUT_FILE`
+  ORACLE_URL=`awk -F"=" '/^ORACLE_URL=/ {print $2}' $INPUT_FILE`
 else
   POSTGRES_PASSWORD='secret'
   APPLICATION_HOST='http://localhost:8080'
@@ -63,6 +67,12 @@ echo "itDataSource.password=$POSTGRES_PASSWORD" >> $CONFIG_FILES/dataSource.prop
 echo "casAuthenticationFilter.serverName=$APPLICATION_HOST" > $CONFIG_FILES/server.properties
 echo "casValidationFilter.serverName=$APPLICATION_HOST" >> $CONFIG_FILES/server.properties
 echo "logoutSuccessHandler.defaultTargetUrl=$CAS_LOGOUT_HOST?url=$CAS_LOGOUT_URL" >> $CONFIG_FILES/server.properties
+if [ $ORACLE_DB ]; then
+  echo "campusDataSource.targetName=oracleDataSource" >> $CONFIG_FILES/server.properties
+  echo "oracleDataSource.url=jdbc:oracle:thin:@$ORACLE_URL:$ORACLE_DB" >> $CONFIG_FILES/server.properties
+  echo "oracleDataSource.username=$ORACLE_USERNAME" >> $CONFIG_FILES/server.properties
+  echo "oracleDataSource.password=$ORACLE_PASSWORD" >> $CONFIG_FILES/server.properties
+fi
 
 echo | $LOGIT
 echo "------------------------------------------" | $LOGIT
