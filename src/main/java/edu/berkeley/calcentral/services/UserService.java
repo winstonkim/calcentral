@@ -86,10 +86,12 @@ public class UserService implements UserDetailsService {
 			user = userDao.get(uid);
 		} catch (EmptyResultDataAccessException e) {
 			Map<String, Object> campusPersonData = campusPersonDataService.getPersonAttributes(uid);
-			String preferredName = null;
+			String preferredName;
 			Object preferredNameObj = campusPersonData.get("PERSON_NAME");
 			if ( preferredNameObj != null ) {
 				preferredName = String.valueOf(preferredNameObj);
+			} else {
+				preferredName = uid;
 			}
 			userDao.insert(uid, preferredName);
 			user = userDao.get(uid);

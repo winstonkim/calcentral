@@ -61,7 +61,7 @@ public class UserServiceTest extends DatabaseAwareTest {
 		userService.loadUserByUsername(uid);
 		User originalUser = (User)userService.getUser(uid).get("user");
 		LOGGER.info(originalUser);
-		assertNull(originalUser.getPreferredName());
+		assertNotNull(originalUser.getPreferredName());
 
 		JSONObject json = new JSONObject();
 		json.put("preferredName", "Joe Blow");
@@ -90,7 +90,7 @@ public class UserServiceTest extends DatabaseAwareTest {
 	public void testLoadUserByUsername() throws Exception {
 		UserDetails details = this.userService.loadUserByUsername(randomString());
 		assertNotNull(details);
-		assertNull(((User)details).getPreferredName());
+		assertNotNull(details.getUsername());
 	}
 
 }

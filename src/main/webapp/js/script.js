@@ -36,8 +36,6 @@ var calcentral = calcentral || {};
 					data.user = {};
 				}
 				data.user.loggedIn = data.user.uid ? true : false;
-				// Set a preferred name when there isn't one given
-				data.user.preferredName = data.user.preferredName || data.user.username;
 				callback(true, data.user);
 			},
 			'url': '/api/currentUser'
