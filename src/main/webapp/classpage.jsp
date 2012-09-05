@@ -81,9 +81,13 @@
 
 				{{#each instructors}}
 					<li>
-						{{#if img}}
+						{{#instrimg}}
 							<img class="cc-page-classpage-instructor-profile" src="{{img}}" />
-						{{/if}}
+						{{/instrimg}}
+						{{^instrimg}}
+							<img class="cc-page-classpage-instructor-profile" src="/img/myb/default_User_icon_100x100.png" />
+						{{/instrimg}}
+
 						<div class="cc-page-classpage-instructor-heading">
 						{{#if name}}
 							<a href="https://calnet.berkeley.edu/directory/details.pl?uid={{id}}">{{name}}</a>
