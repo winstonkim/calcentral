@@ -18,7 +18,6 @@ calcentral.Widgets.canvascourses = function(tuid) {
 	///////////////
 
 	var renderCourses = function(data) {
-		data = $.parseJSON(data);
 		calcentral.Api.Util.renderTemplate({
 			'container': $canvascoursesList,
 			'data': {

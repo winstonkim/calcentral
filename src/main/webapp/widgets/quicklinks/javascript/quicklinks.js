@@ -467,7 +467,7 @@ calcentral.Widgets.quicklinks = function(tuid) {
 			'cache': false,
 			'url': '/widgets/quicklinks/default-links.json',
 			'success': function(data) {
-				defaultLinks = $.parseJSON(data);
+				defaultLinks = $.extend(true, {}, data);
 				userLinkData = defaultLinks.sections[defaultLinks.userSectionIndex]
 				callback();
 			}
@@ -479,7 +479,7 @@ calcentral.Widgets.quicklinks = function(tuid) {
 			'cache': false,
 			'url': '/widgets/quicklinks/config.json',
 			'success': function(data) {
-				configObj = $.parseJSON(data);
+				configObj = $.extend(true, {}, data);
 				callback();
 			}
 		});

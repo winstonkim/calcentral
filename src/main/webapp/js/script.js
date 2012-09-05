@@ -565,7 +565,6 @@ var calcentral = calcentral || {};
 	var renderCollegesAndSchools = function(data) {
 		calcentral.Api.Util.renderTemplate({
 			'container': $collegesAndSchoolsContainer,
-			// 'data': $.parseJSON(data),
 			'data': data,
 			'template': $('#cc-page-colleges-and-schools-template', $collegesAndSchools)
 		});
@@ -573,8 +572,7 @@ var calcentral = calcentral || {};
 
 	var loadCollegesAndSchools = function() {
 		return $.ajax({
-			'url': '/data/colleges-and-schools.json',
-			'dataType': 'json'
+			'url': '/data/colleges-and-schools.json'
 		});
 	};
 
@@ -603,7 +601,6 @@ var calcentral = calcentral || {};
 
 		calcentral.Api.Util.renderTemplate({
 			'container': $classPageContainer,
-			// 'data': $.parseJSON(data),
 			'data': data,
 			'partials': partials,
 			'template': $('#cc-page-classpage-template', $classPage)
