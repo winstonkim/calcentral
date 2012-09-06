@@ -55,7 +55,7 @@ calcentral.Widgets.profile = function(tuid) {
 	var doInit = function() {
 		// We always want an updated version of the the current user on the profile page.
 		calcentral.Api.User.getCurrentUser({
-			'refresh': true
+			'refresh': false
 		}, renderProfile);
 	};
 
