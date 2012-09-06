@@ -30,6 +30,8 @@ import org.apache.commons.httpclient.params.HttpClientParams;
 import org.apache.commons.httpclient.protocol.Protocol;
 import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
+import org.codehaus.jackson.JsonNode;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
@@ -64,6 +66,8 @@ public class Sakai2Proxy {
 	@Autowired
 	private HttpConnectionManager connectionManager;
 
+	private ObjectMapper mapper = new ObjectMapper();
+
 	String sharedSecret;
 
 	String sakai2Host;
@@ -76,13 +80,15 @@ public class Sakai2Proxy {
 	public void init() {
 		this.sharedSecret = calcentralProperties.getProperty("sakai2Proxy.sharedSecret");
 		this.sakai2Host = calcentralProperties.getProperty("sakai2Proxy.sakai2Host");
-		if (calcentralProperties.getProperty("sakai2Proxy.dummy") != null) {
+		String dummyValue = calcentralProperties.getProperty("sakai2Proxy.dummy");
+		if (dummyValue != null && Boolean.parseBoolean(dummyValue)) {
 			dummy = true;
 			Resource resource = new ClassPathResource("sakai2Proxy.dummy.json");
 			try {
 				String body = IOUtils.toString(resource.getInputStream(), "utf-8");
+				JsonNode bodyNode = mapper.readValue(body, JsonNode.class);
 				dummyResult = new HashMap<String, Object>();
-				dummyResult.put("body", body);
+				dummyResult.put("body", bodyNode);
 				dummyResult.put("statusCode", 200);
 				dummyResult.put("statusText", "OK");
 			} catch (Exception e) {
@@ -134,7 +140,15 @@ public class Sakai2Proxy {
 				}
 				LOGGER.trace("Response body: " + get.getResponseBodyAsString());
 			}
-			result.put("body", get.getResponseBodyAsString());
+			String body = get.getResponseBodyAsString();
+			JsonNode bodyNode = null;
+			try {
+				bodyNode = mapper.readValue(body, JsonNode.class);
+			} catch (Exception e) {
+				LOGGER.error("Problem parsing Sakai2 json body. Message: " + e.getMessage());
+				bodyNode = mapper.createObjectNode();
+			}
+			result.put("body", bodyNode);
 			result.put("statusCode", get.getStatusCode());
 			result.put("statusText", get.getStatusText());
 		} catch (IOException ioe) {
