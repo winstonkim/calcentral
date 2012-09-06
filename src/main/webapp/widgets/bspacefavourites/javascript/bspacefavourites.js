@@ -24,7 +24,7 @@ calcentral.Widgets.bspacefavourites = function(tuid) {
 		}
 		calcentral.Api.Util.renderTemplate({
 			'container': $bspacefavouritesList,
-			'data': $.parseJSON(data.body),
+			'data': data.body,
 			'template': $('#cc-widget-bspacefavourites-list-template', $rootel)
 		});
 	};
