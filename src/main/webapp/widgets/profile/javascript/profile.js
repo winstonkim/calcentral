@@ -20,7 +20,6 @@ calcentral.Widgets.profile = function(tuid) {
 	///////////////
 
 	var renderProfile = function(success, data) {
-		console.log("data", data);
 		calcentral.Api.Util.renderTemplate({
 			'container': $profileList,
 			'data': data,
@@ -38,7 +37,7 @@ calcentral.Widgets.profile = function(tuid) {
 		newUserData = {
 			'preferredName': $preferredNameInput.val(),
 			'link': $linkInput.val(),
-			'uid': calcentral.Data.User.uid
+			'uid': calcentral.Data.User.user.uid
 		};
 		console.log('Profile widget - Saving profile: ', newUserData);
 		calcentral.Api.User.saveUser(newUserData, function(success, data) {
