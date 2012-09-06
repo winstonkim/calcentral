@@ -53,7 +53,10 @@ calcentral.Widgets.profile = function(tuid) {
 	 * Initialise the profile widget
 	 */
 	var doInit = function() {
-		calcentral.Api.User.getCurrentUser(renderProfile);
+		// We always want an updated version of the the current user on the profile page.
+		calcentral.Api.User.getCurrentUser({
+			'refresh': true
+		}, renderProfile);
 	};
 
 	// Start the request
