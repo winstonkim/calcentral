@@ -28,8 +28,8 @@
 				logoutFilter,
 				etf,
 				pageLoggingFilter" />
-			<sec:filter-chain pattern="/api/**"
-				filters="
+			<sec:filter-chain pattern="/**"
+												filters="
                 casValidationFilter,
                 wrappingFilter,
                 sif,

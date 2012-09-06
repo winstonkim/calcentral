@@ -28,18 +28,36 @@ var calcentral = calcentral || {};
 		});
 	};
 
-	calcentral.Api.User.getCurrentUser = function(callback) {
-		$.ajax({
-			'success': function(data) {
-				// If the user doesn't have a uid, they aren't logged in
-				if (!data.user) {
-					data.user = {};
-				}
-				data.user.loggedIn = data.user.uid ? true : false;
-				callback(true, data.user);
-			},
-			'url': '/api/currentUser'
-		});
+	/**
+	 * Get the current user
+	 * @param {Object} config Configuration object
+	 * {
+	 * 	"refresh": false // Refresh the data for the current user
+	 * }
+	 * @param {Function} callback Callback function
+	 * @return {Object} All the data for the current user
+	 */
+	calcentral.Api.User.getCurrentUser = function(config, callback) {
+
+		var processCurrentUser = function(user) {
+			// If the user doesn't have a uid, they aren't logged in
+			if (!user) {
+				user = {};
+			}
+			user.loggedIn = user.uid ? true : false;
+			return user;
+		};
+
+		if (config && config.refresh) {
+			$.ajax({
+				'success': function(data) {
+					callback(true, processCurrentUser(data.user));
+				},
+				'url': '/api/currentUser'
+			});
+		} else {
+			callback(true, processCurrentUser(calcentral.Data.User.user));
+		}
 	};
 
 	calcentral.Api.User.saveUser = function (userData, callback) {
@@ -56,14 +74,6 @@ var calcentral = calcentral || {};
 			'url':'/api/user/' + userData.uid
 		});
 	};
-
-
-	// initialize calcentral.Api.User with the data for the current user
-	calcentral.Api.User.getCurrentUser(function(success, userData) {
-		if (success && userData) {
-			calcentral.Data.User = userData;
-		}
-	});
 
 })();
 
@@ -465,7 +475,7 @@ var calcentral = calcentral || {};
 
 	var loadLeftHandNavigation = function() {
 		var data = {};
-		calcentral.Api.User.getCurrentUser(function(success, userData) {
+		calcentral.Api.User.getCurrentUser('', function(success, userData) {
 			data.profile = userData;
 			data.pages = [{
 				'title': 'My dashboard',
@@ -473,7 +483,7 @@ var calcentral = calcentral || {};
 			},
 			{
 				'title': 'My profile',
-				'url': '/profile.jsp'
+				'url': '/secure/profile'
 			}];
 			data.pathname = window.location.pathname;
 			renderLeftHandNavigation(data);
@@ -493,7 +503,7 @@ var calcentral = calcentral || {};
 
 	var $bannerTop = $('header');
 
-	calcentral.Api.User.getCurrentUser(function(success, data) {
+	calcentral.Api.User.getCurrentUser('', function(success, data) {
 		$bannerTop.on('click', function() {
 			window.location = data.loggedIn ? '/secure/dashboard' : '/';
 		});
@@ -540,7 +550,7 @@ var calcentral = calcentral || {};
 	};
 
 	if ($topNavigation.length) {
-		calcentral.Api.User.getCurrentUser(function(success, data){
+		calcentral.Api.User.getCurrentUser('', function(success, data){
 			calcentral.Api.Util.renderTemplate({
 				'container': $topNavigation,
 				'data': data,

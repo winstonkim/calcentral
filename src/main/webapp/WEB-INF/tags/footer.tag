@@ -1,7 +1,16 @@
+<%@ taglib prefix="cc" uri="http://calcentral.berkeley.edu"%>
+
 <footer>
 	<p class="cc-copyright">&copy; UC Regents 2012 All rights reserved</p>
 </footer>
 
+<script>
+	var calcentral = calcentral || {};
+	(function() {
+		calcentral.Data = calcentral.Data || {};
+		calcentral.Data.User = <cc:userJSON/>;
+	})();
+</script>
 
 <!-- JavaScript at the bottom for fast page loading -->
 

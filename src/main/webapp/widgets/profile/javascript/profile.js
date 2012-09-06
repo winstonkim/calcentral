@@ -19,10 +19,10 @@ calcentral.Widgets.profile = function(tuid) {
 	// Rendering //
 	///////////////
 
-	var renderProfile = function(data) {
+	var renderProfile = function(success, data) {
 		calcentral.Api.Util.renderTemplate({
 			'container': $profileList,
-			'data': calcentral.Data.User,
+			'data': data,
 			'template': $('#cc-widget-profile-list-template', $rootel)
 		});
 		$preferredNameInput = $('#cc-widget-profile-preferredName', $rootel).on('blur', saveProfile);
@@ -37,7 +37,7 @@ calcentral.Widgets.profile = function(tuid) {
 		newUserData = {
 			'preferredName': $preferredNameInput.val(),
 			'link': $linkInput.val(),
-			'uid': calcentral.Data.User.uid
+			'uid': calcentral.Data.User.user.uid
 		};
 		console.log('Profile widget - Saving profile: ', newUserData);
 		calcentral.Api.User.saveUser(newUserData, function(success, data) {
@@ -53,7 +53,10 @@ calcentral.Widgets.profile = function(tuid) {
 	 * Initialise the profile widget
 	 */
 	var doInit = function() {
-		calcentral.Api.User.getCurrentUser(renderProfile);
+		// We always want an updated version of the the current user on the profile page.
+		calcentral.Api.User.getCurrentUser({
+			'refresh': false
+		}, renderProfile);
 	};
 
 	// Start the request
