@@ -4,13 +4,19 @@
  */
 package edu.berkeley.calcentral.services;
 
-import com.google.common.collect.Maps;
-import edu.berkeley.calcentral.Params;
-import edu.berkeley.calcentral.Urls;
-import edu.berkeley.calcentral.daos.UserDao;
-import edu.berkeley.calcentral.daos.WidgetDataDao;
-import edu.berkeley.calcentral.domain.User;
-import edu.berkeley.calcentral.domain.WidgetData;
+import java.io.IOException;
+import java.util.List;
+import java.util.Map;
+
+import javax.ws.rs.DELETE;
+import javax.ws.rs.FormParam;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -21,11 +27,13 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
-import java.io.IOException;
-import java.util.List;
-import java.util.Map;
+import com.google.common.collect.Maps;
+
+import edu.berkeley.calcentral.Params;
+import edu.berkeley.calcentral.Urls;
+import edu.berkeley.calcentral.daos.UserDao;
+import edu.berkeley.calcentral.daos.WidgetDataDao;
+import edu.berkeley.calcentral.domain.User;
 
 @Service
 @Path(Urls.SPECIFIC_USER)
@@ -51,7 +59,7 @@ public class UserService implements UserDetailsService {
 	 * @return JSON data: <pre>
 	 *                 {
 	 *                   user : {@link edu.berkeley.calcentral.domain.User},
-	 *                   widgetData : {@link edu.berkeley.calcentral.domain.WidgetData},
+	 *                   widgetData : {@link java.util.List},
 	 *                   campusData : {@link java.util.Map}
 	 *                 }
 	 *                 </pre>
@@ -66,7 +74,7 @@ public class UserService implements UserDetailsService {
 		} catch (EmptyResultDataAccessException e) {
 			return null;
 		}
-		List<WidgetData> widgetData = widgetDataDao.getAllWidgetData(userID);
+		List<Map<String, Object>> widgetData = widgetDataDao.getAllWidgetData(userID);
 		userData.put("widgetData", widgetData);
 		userData.put("campusData", campusPersonDataService.getPersonAttributes(userID));
 		return userData;

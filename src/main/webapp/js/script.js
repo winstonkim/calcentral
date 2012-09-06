@@ -348,7 +348,7 @@ var calcentral = calcentral || {};
 			'cache': false,
 			'success': function(data) {
 				if (data && data.widgetData && data.widgetData.data) {
-					callback(true, $.parseJSON(data.widgetData.data));
+					callback(true, data.widgetData.data);
 				} else {
 					callback(false);
 				}

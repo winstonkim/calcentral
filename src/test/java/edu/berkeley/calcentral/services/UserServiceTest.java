@@ -77,7 +77,7 @@ public class UserServiceTest extends DatabaseAwareTest {
 		String uid = randomString();
 		userService.loadUserByUsername(uid);
 		assertNotNull(userService.getUser(uid));
-		widgetDataService.save(uid, "abc", "data");
+		widgetDataService.save(uid, "abc", "{\"data\":\"foo\"}");
 		assertEquals(1, widgetDataService.getAllForUser(uid).size());
 
 		userService.deleteUserAndWidgetData(uid);

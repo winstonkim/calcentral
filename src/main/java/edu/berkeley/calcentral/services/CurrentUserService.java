@@ -30,7 +30,7 @@ public class CurrentUserService {
 	 * @return JSON data: <pre>
 	 * userData : {
 	 *   user : {@link edu.berkeley.calcentral.domain.User},
-	 *   widgetData : {@link edu.berkeley.calcentral.domain.WidgetData},
+	 *   widgetData : {@link List},
 	 *   campusData : {@link Map}
 	 * }
 	 * </pre>

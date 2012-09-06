@@ -19,20 +19,28 @@
 package edu.berkeley.calcentral.services;
 
 import java.util.List;
+import java.util.Map;
 
-import edu.berkeley.calcentral.Params;
-import edu.berkeley.calcentral.Urls;
+import javax.ws.rs.DELETE;
+import javax.ws.rs.FormParam;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.jboss.resteasy.annotations.cache.Cache;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.google.common.base.Strings;
 
+import edu.berkeley.calcentral.Params;
+import edu.berkeley.calcentral.Urls;
 import edu.berkeley.calcentral.daos.WidgetDataDao;
-import edu.berkeley.calcentral.domain.WidgetData;
-
-import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
 
 @Service
 @Path(Urls.WIDGET_DATA)
@@ -41,6 +49,8 @@ public class WidgetDataService {
 	@Autowired
 	private WidgetDataDao widgetDataDao;
 
+	private static final Log LOGGER = LogFactory.getLog(WidgetDataService.class);
+	
 	/**
 	 * Save widget data. Updates an existing widget or creates a new one if none exists.
 	 *
@@ -52,17 +62,23 @@ public class WidgetDataService {
 	@POST
 	@Produces({MediaType.APPLICATION_JSON})
 	@Path("/{" + Params.WIDGET_ID + "}")
-	public WidgetData save(@PathParam(Params.USER_ID) String userID,
+	public Map<String, Object> save(@PathParam(Params.USER_ID) String userID,
 												 @PathParam(Params.WIDGET_ID) String widgetID,
 												 @FormParam(Params.DATA) String jsonData) {
-		WidgetData widgetData = new WidgetData(userID, widgetID, jsonData);
 		//sanity check
-		if (Strings.nullToEmpty(widgetData.getUid()).isEmpty() ||
-				Strings.nullToEmpty(widgetData.getWidgetID()).isEmpty()) {
+		if (Strings.nullToEmpty(userID).isEmpty() ||
+				Strings.nullToEmpty(widgetID).isEmpty()) {
 			return null;
 		}
-		widgetDataDao.saveWidgetData(widgetData);
-		return widgetData;
+		
+		Map<String, Object> response = null;
+		try {
+			response = widgetDataDao.saveWidgetData(userID, widgetID, jsonData);
+		} catch (Exception e) {
+			LOGGER.error("Error parsing JSON for saving", e);
+			return null;
+		}
+		return response;
 	}
 
 	/**
@@ -74,8 +90,10 @@ public class WidgetDataService {
 	@Cache(mustRevalidate = true)
 	@GET
 	@Produces({MediaType.APPLICATION_JSON})
-	public List<WidgetData> getAllForUser(@PathParam(Params.USER_ID) String userID) {
-		return widgetDataDao.getAllWidgetData(userID);
+	public List<Map<String, Object>> getAllForUser(@PathParam(Params.USER_ID) String userID) {
+		List<Map<String, Object>> allWidgetData =  widgetDataDao.getAllWidgetData(userID);
+		return allWidgetData;
+			
 	}
 
 	/**
@@ -89,9 +107,10 @@ public class WidgetDataService {
 	@GET
 	@Produces({MediaType.APPLICATION_JSON})
 	@Path("/{" + Params.WIDGET_ID + "}")
-	public WidgetData get(@PathParam(Params.USER_ID) String userID,
+	public Map<String, Object> get(@PathParam(Params.USER_ID) String userID,
 												@PathParam(Params.WIDGET_ID) String widgetID) {
-		return widgetDataDao.getWidgetData(userID, widgetID);
+		Map<String, Object> responseBean = widgetDataDao.getWidgetData(userID, widgetID);
+		return responseBean;
 	}
 
 	/**

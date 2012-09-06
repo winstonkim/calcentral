@@ -54,7 +54,7 @@ public class WidgetDataServiceIT extends IntegrationTest {
 	@Test
 	public void getWithContent() throws IOException, JSONException {
 		PostMethod post = doPost("/api/user/" + user + "/widgetData/abc",
-				ImmutableMap.<String, String>of("data", "{foo:bar}"));
+				ImmutableMap.<String, String>of("data", "{\"foo\":\"bar\"}"));
 		assertResponse(HttpResponseCodes.SC_OK, post);
 
 		GetMethod get = doGet("/api/user/" + user + "/widgetData");
@@ -65,27 +65,28 @@ public class WidgetDataServiceIT extends IntegrationTest {
 		JSONObject widget = json.getJSONObject(0).getJSONObject("widgetData");
 		assertEquals(user, widget.get("uid"));
 		assertEquals("abc", widget.get("widgetID"));
-		assertEquals("{foo:bar}", widget.get("data"));
+		logger.info(widget.get("data"));
+		assertEquals("bar", widget.getJSONObject("data").getString("foo"));
 	}
 
 	@Test
 	public void getRevisedContent() throws IOException, JSONException {
 		PostMethod post = doPost("/api/user/" + user + "/widgetData/abc",
-				ImmutableMap.<String, String>of("data", "{foo:initialvalue}"));
+				ImmutableMap.<String, String>of("data", "{\"foo\":\"initialvalue\"}"));
 		assertResponse(HttpResponseCodes.SC_OK, post);
 		GetMethod getBefore = doGet("/api/user/" + user + "/widgetData");
 		String origEtag = getBefore.getResponseHeader(HttpHeaderNames.ETAG).toString();
 		assertNotNull(origEtag);
 
 		post = doPost("/api/user/" + user + "/widgetData/abc",
-				ImmutableMap.<String, String>of("data", "{foo:newvalue}"));
+				ImmutableMap.<String, String>of("data", "{\"foo\":\"newvalue\"}"));
 		assertResponse(HttpResponseCodes.SC_OK, post);
 
 		GetMethod get = doGet("/api/user/" + user + "/widgetData");
 		assertResponse(HttpResponseCodes.SC_OK, get);
 		String newEtag = get.getResponseHeader(HttpHeaderNames.ETAG).toString();
 		assertNotSame(origEtag, newEtag);
-    assertNotNull(newEtag);
+		assertNotNull(newEtag);
 
 		logger.info(get.getResponseBodyAsString());
 		JSONArray json = toJSONArray(get);
@@ -93,9 +94,16 @@ public class WidgetDataServiceIT extends IntegrationTest {
 		JSONObject widget = json.getJSONObject(0).getJSONObject("widgetData");
 		assertEquals(user, widget.get("uid"));
 		assertEquals("abc", widget.get("widgetID"));
-		assertEquals("{foo:newvalue}", widget.get("data"));
+		assertEquals("newvalue", widget.getJSONObject("data").getString("foo"));
 	}
 
+	@Test
+	public void getMalformedJSONContent() throws IOException, JSONException {
+		PostMethod post = doPost("/api/user/" + user + "/widgetData/bad",
+				ImmutableMap.<String, String>of("data", "bad JSON"));
+		assertResponse(HttpResponseCodes.SC_NO_CONTENT, post);
+	}
+	
 	@Test
 	public void delete() throws IOException, JSONException {
 		PostMethod post = doPost("/api/user/" + user + "/widgetData/abc", null);
