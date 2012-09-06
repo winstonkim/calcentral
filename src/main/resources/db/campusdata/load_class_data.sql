@@ -288,7 +288,7 @@ INSERT INTO bspace_course_instructor_vw (term_yr, term_cd, course_cntl_num, inst
 INSERT INTO bspace_course_instructor_vw (term_yr, term_cd, course_cntl_num, instructor_ldap_uid, multi_entry_cd, sub_term_cd, instructor_func) VALUES (2012, 'D', 73821, 212386, ' ', '2', '2');
 INSERT INTO bspace_course_instructor_vw (term_yr, term_cd, course_cntl_num, instructor_ldap_uid, multi_entry_cd, sub_term_cd, instructor_func) VALUES (2012, 'D', 75423, 212387, ' ', '2', '2');
 INSERT INTO bspace_course_instructor_vw (term_yr, term_cd, course_cntl_num, instructor_ldap_uid, multi_entry_cd, sub_term_cd, instructor_func) VALUES (2012, 'D', 73980, 212388, ' ', '2', '2');
-INSERT INTO bspace_course_instructor_vw (term_yr, term_cd, course_cntl_num, instructor_ldap_uid, multi_entry_cd, sub_term_cd, instructor_func) VALUES (2012, 'D', 73857, 300846, ' ', '2', '2');
+
 INSERT INTO bspace_course_instructor_vw (term_yr, term_cd, course_cntl_num, instructor_ldap_uid, multi_entry_cd, sub_term_cd, instructor_func) VALUES (2012, 'D', 32221, 300847, ' ', '2', '2');
 INSERT INTO bspace_course_instructor_vw (term_yr, term_cd, course_cntl_num, instructor_ldap_uid, multi_entry_cd, sub_term_cd, instructor_func) VALUES (2012, 'D', 73845, 300848, ' ', '2', '2');
 INSERT INTO bspace_course_instructor_vw (term_yr, term_cd, course_cntl_num, instructor_ldap_uid, multi_entry_cd, sub_term_cd, instructor_func) VALUES (2012, 'D', 32218, 300849, ' ', '2', '2');

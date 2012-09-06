@@ -56,6 +56,15 @@ public class UserServiceTest extends DatabaseAwareTest {
 	}
 
 	@Test
+	public void getUserNotRepresentedInCampusData() throws Exception {
+		String uid = randomString();
+		userService.loadUserByUsername(uid);
+		Map<String, Object> userMap = userService.getUser(uid);
+		User user = (User) userMap.get("user");
+		assertEquals(uid, user.getPreferredName());
+	}
+
+	@Test
 	public void saveUserData() throws Exception {
 		String uid = randomString();
 		userService.loadUserByUsername(uid);
