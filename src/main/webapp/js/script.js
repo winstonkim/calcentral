@@ -82,13 +82,13 @@ var calcentral = calcentral || {};
 	calcentral.Api.GetURLParams = calcentral.Api.GetURLParams || {};
 
 	calcentral.Api.GetURLParams = function(url) {
-	  var searchString = window.location.search.substring(1), params = searchString.split("&"), hash = {};
+		var searchString = window.location.search.substring(1), params = searchString.split("&"), hash = {};
 
-	  for (var i = 0; i < params.length; i++) {
-		var val = params[i].split("=");
-		hash[unescape(val[0])] = unescape(val[1]);
-	  }
-	  return hash;
+		for (var i = 0; i < params.length; i++) {
+			var val = params[i].split("=");
+			hash[unescape(val[0])] = unescape(val[1]);
+		}
+		return hash;
 	};
 })();
 
@@ -598,7 +598,9 @@ var calcentral = calcentral || {};
 
 	var $classPageContainer = $('.cc-page-classpage-container', $classPage);
 
-	var renderClassPage = function(data) {
+	var renderClassPage = function(data, buildingData) {
+		data = data[0];
+		buildingData = buildingData[0];
 		var partials = {
 			'header': $('#cc-page-classpage-header-template', $classPage).html(),
 			'courseInfo': $('#cc-page-classpage-courseinfo-template', $classPage).html(),
@@ -606,6 +608,24 @@ var calcentral = calcentral || {};
 			'instructor': $('#cc-page-classpage-instructor-template', $classPage).html(),
 			'sections': $('#cc-page-classpage-sections-template', $classPage).html()
 		};
+
+		var setBuildingCoords = function(callback) {
+			// Iterate through class sections data, converting building names to coords and replacing in the JSON
+			$.each(data.sections, function(i) {
+				var buildingName = data.sections[i].location;
+				// Strip address prefix and leading space, leaving just the bldg name
+				buildingName = buildingName.replace(/[0-9]/g, '').replace(/^\ /g, '');
+
+				// Find matching building and set values
+				var building = buildingData[buildingName] ? buildingData[buildingName] : false;
+				var coordinates = building ? building.lat + "," + building.lon : false;
+
+				// Re-write value of coords field in this section
+				data.sections[i].coords = coordinates;
+			});
+		};
+
+		setBuildingCoords();
 
 		calcentral.Api.Util.renderTemplate({
 			'container': $classPageContainer,
@@ -636,12 +656,6 @@ var calcentral = calcentral || {};
 		} else {
 			$classPageDescriptionContainer.height(infoHeight);
 		}
-	};
-
-	var loadClassPage = function(id) {
-		return $.ajax({
-			'url': '/api/classPages/' + id
-		});
 	};
 
 	var singleToggle = function() {
@@ -714,11 +728,25 @@ var calcentral = calcentral || {};
 		});
 	};
 
-	// Get class ID from URL
-	var classid = calcentral.Api.GetURLParams().cid;
+	var loadClassPage = function() {
+		// Get class ID from URL
+		var classid = calcentral.Api.GetURLParams().cid;
+		return $.ajax({
+			'url': '/api/classPages/' + classid
+		}).promise();
+	};
+
+
+	var loadBuildingCoords = function() {
+		// Cross-reference campus building designators with our own lookup table to get coords.
+		// Takes a string arg like 'BANCROFT'
+		return $.ajax({
+			url: '/data/building_coords.json'
+		}).promise();
+	};
 
 	if($classPage.length) {
-		$.when(loadClassPage(classid)).then(renderClassPage);
+		$.when(loadClassPage(), loadBuildingCoords()).done(renderClassPage);
 	}
 
 })();

@@ -130,14 +130,14 @@
 				{{#each sections}}
 				<tr class="classpages_classrow">
 					<td>
-						<a href="#"><div class="classpages_sections_arrow" id="sectionarrow-{{ccn}}"></div></a>
+						<a href="#"><div class="classpages_sections_arrow" id="sectionarrow-{{coursenum}}"></div></a>
 						<span class="classpages_section_title_warrow">
 							<strong>{{section}}</strong></span>
 						</span>
 					</td>
 
 					<td>
-						{{ccn}}
+						{{coursenum}}
 					</td>
 
 					<td class="classpages_sections_instrnames">
