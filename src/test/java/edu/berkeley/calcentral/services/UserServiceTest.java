@@ -48,10 +48,10 @@ public class UserServiceTest extends DatabaseAwareTest {
 			userMap = userService.getUser("2040");
 		}
 		LOGGER.info(userMap);
-		Map<String, Object> campusData = (Map<String, Object>) userMap.get("campusData");
-		assertNotNull(campusData);
+
 		User user = (User) userMap.get("user");
 		assertNotNull(user);
+		assertEquals("Oliver Heyer", user.getPreferredName());
 		assertNull(userMap.get("widgetData"));
 	}
 

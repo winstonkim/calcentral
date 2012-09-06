@@ -39,19 +39,19 @@ public class UserDaoTest extends DatabaseAwareTest {
 			dao.get("2040");
 		} catch (EmptyResultDataAccessException e) {
 			// once authorized, user is created
-			dao.insert("2040", "Oliver Heyer");
+			dao.insert("2040");
 		}
 
 		// now he should exist
 		User user = dao.get("2040");
 		LOGGER.info(user);
-		assertEquals("Oliver Heyer", user.getPreferredName());
+		assertEquals(null, user.getPreferredName());
 	}
 
 	@Test
 	public void update() throws Exception {
 		String uid = randomString();
-		dao.insert(uid, "Joe Schmoe");
+		dao.insert(uid);
 		User user = new User();
 		user.setUid(uid);
 		user.setLink("foo.com");
@@ -65,7 +65,7 @@ public class UserDaoTest extends DatabaseAwareTest {
 	@Test(expected = EmptyResultDataAccessException.class)
 	public void delete() throws Exception {
 		String uid = randomString();
-		dao.insert(uid, "Joe Schmoe");
+		dao.insert(uid);
 		assertNotNull(dao.get(uid));
 		dao.delete(uid);
 		dao.get(uid);
@@ -79,7 +79,7 @@ public class UserDaoTest extends DatabaseAwareTest {
 	@Test
 	public void insertUser() throws Exception {
 		String uid = randomString();
-		dao.insert(uid, "Jane Random");
+		dao.insert(uid);
 		User user = dao.get(uid);
 		assertNotNull(user);
 	}

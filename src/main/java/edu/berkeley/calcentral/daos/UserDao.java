@@ -32,15 +32,13 @@ public class UserDao extends BaseDao {
 		queryRunner.update(sql, params);
 	}
 
-	public void insert(String uid, String preferredName) {
+	public void insert(String uid) {
 		String sql = "INSERT INTO calcentral_users " +
-				"( uid, preferredName, link, firstLogin ) " +
+				"( uid, firstLogin ) " +
 				"VALUES " +
-				"( :uid, :preferredName, :link, :firstLogin ) ";
+				"( :uid, :firstLogin ) ";
 		Map<String, Object> params = Maps.newHashMap();
 		params.put("uid", uid);
-		params.put("preferredName", preferredName);
-		params.put("link", "https://calnet.berkeley.edu/directory/details.pl?uid=" + uid);
 		params.put("firstLogin", new Timestamp(System.currentTimeMillis()));
 		queryRunner.update(sql, params);
 	}

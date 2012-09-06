@@ -51,27 +51,28 @@ public class UserService implements UserDetailsService {
 	 * Get all the information about a user.
 	 *
 	 * @param userID The user ID to retrieve
-	 * @return JSON data: <pre>
-	 *                 {
-	 *                   user : {@link edu.berkeley.calcentral.domain.User},
-	 *                   widgetData : {@link java.util.List},
-	 *                   campusData : {@link java.util.Map}
-	 *                 }
-	 *                 </pre>
+	 * @return JSON data:
+	 *	<pre>
+	 *	{
+	 *		user : {@link edu.berkeley.calcentral.domain.User},
+	 *		widgetData : {@link java.util.List}
+	 *	}
+	 *	</pre>
 	 */
 	@GET
 	@Produces({MediaType.APPLICATION_JSON})
 	public Map<String, Object> getUser(@PathParam(Params.USER_ID) String userID) {
 		Map<String, Object> userData = Maps.newHashMap();
+		User user;
 		try {
-			User user = userDao.get(userID);
+			user = userDao.get(userID);
+			campusPersonDataService.mergeCampusData(user);
 			userData.put("user", user);
 		} catch (EmptyResultDataAccessException e) {
 			return null;
 		}
 		List<Map<String, Object>> widgetData = widgetDataDao.getAllWidgetData(userID);
 		userData.put("widgetData", widgetData);
-		userData.put("campusData", campusPersonDataService.getPersonAttributes(userID));
 		return userData;
 	}
 
@@ -106,18 +107,10 @@ public class UserService implements UserDetailsService {
 		try {
 			user = userDao.get(uid);
 		} catch (EmptyResultDataAccessException e) {
-			Map<String, Object> campusPersonData = campusPersonDataService.getPersonAttributes(uid);
-			String preferredName;
-			Object preferredNameObj = campusPersonData.get("PERSON_NAME");
-			if ( preferredNameObj != null ) {
-				preferredName = String.valueOf(preferredNameObj);
-			} else {
-				preferredName = uid;
-			}
-			userDao.insert(uid, preferredName);
+			userDao.insert(uid);
 			user = userDao.get(uid);
 		}
-		if ( user == null ) {
+		if (user == null) {
 			throw new UsernameNotFoundException("User " + uid + " does not exist");
 		}
 		Collection<GrantedAuthority> roles = new ArrayList<GrantedAuthority>(1);
