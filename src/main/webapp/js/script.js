@@ -24,7 +24,7 @@ var calcentral = calcentral || {};
 
 	calcentral.Api.User.getUser = function(config, callback) {
 		callback(true, {
-			'userId': calcentral.Data.User.uid
+			'userId': calcentral.Data.User.user.uid
 		});
 	};
 
@@ -345,7 +345,7 @@ var calcentral = calcentral || {};
 	calcentral.Api.Widgets = calcentral.Api.Widgets || {};
 
 	var createWidgetDataUrl = function(widgetId) {
-		return '/api/user/' + calcentral.Data.User.uid + '/widgetData/' + widgetId;
+		return '/api/user/' + calcentral.Data.User.user.uid + '/widgetData/' + widgetId;
 	};
 
 	calcentral.Api.Widgets.loadWidgetData = function(config, callback) {
@@ -365,27 +365,29 @@ var calcentral = calcentral || {};
 			},
 			'url': createWidgetDataUrl(config.id)
 		});
-
 	};
 
 	calcentral.Api.Widgets.saveWidgetData = function(config, callback) {
 
 		if (!config || !config.id || !config.data) {
 			console.log('calcentral.Api.Widgets.saveWidgetData - Please provide a config object with an id and data.');
+			if ($.isFunction(callback)) {
+				callback(false);
+			}
+		} else {
+			$.ajax({
+				'data': {
+					'data': JSON.stringify(config.data)
+				},
+				'success': function(data) {
+					if ($.isFunction(callback)) {
+						callback(true, data);
+					}
+				},
+				'type': 'POST',
+				'url': createWidgetDataUrl(config.id)
+			});
 		}
-
-		$.ajax({
-			'data': {
-				'data': JSON.stringify(config.data)
-			},
-			'success': function(data) {
-				if ($.isFunction(callback)) {
-					callback(true, data);
-				}
-			},
-			'type': 'POST',
-			'url': createWidgetDataUrl(config.id)
-		});
 	};
 
 })();
