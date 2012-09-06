@@ -14,10 +14,11 @@ import java.util.List;
 /**
  * A CalCentral user, containing basic information that we can save in our local database.
  */
-@SuppressWarnings("UnusedDeclaration")
 @XmlRootElement
 @JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
 public class User implements UserDetails {
+
+	private static final long serialVersionUID = -9025866493825768572L;
 
 	private String uid;
 

@@ -39,6 +39,7 @@ public abstract class BaseDao {
 
 	protected NamedParameterJdbcTemplate campusQueryRunner;
 
+	@SuppressWarnings("unused")
 	@PostConstruct
 	private void init() {
 		queryRunner = new NamedParameterJdbcTemplate(dataSource);
