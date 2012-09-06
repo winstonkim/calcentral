@@ -31,11 +31,19 @@ if [ -f $INPUT_FILE ]; then
   ORACLE_USERNAME=`awk -F"=" '/^ORACLE_USERNAME=/ {print $2}' $INPUT_FILE`
   ORACLE_PASSWORD=`awk -F"=" '/^ORACLE_PASSWORD=/ {print $2}' $INPUT_FILE`
   ORACLE_URL=`awk -F"=" '/^ORACLE_URL=/ {print $2}' $INPUT_FILE`
+  SAKAI2_HOST=`awk -F"=" '/^SAKAI2_HOST=/ {print $2}' $INPUT_FILE`
+  SAKAI2_SECRET=`awk -F"=" '/^X_SAKAI_TOKEN_SHARED_SECRET=/ {print $2}' $INPUT_FILE`
+  CANVAS_ROOT=`awk -F"=" '/^CANVAS_ROOT=/ {print $2}' $INPUT_FILE`
+  CANVAS_SECRET=`awk -F"=" '/^CANVAS_SECRET=/ {print $2}' $INPUT_FILE`
 else
   POSTGRES_PASSWORD='secret'
   APPLICATION_HOST='http://localhost:8080'
   CAS_LOGOUT_HOST='https://auth-test.berkeley.edu/cas/logout'
   CAS_LOGOUT_URL='http%3A%2F%2Flocalhost%3A8080%2F'
+  SAKAI2_HOST='localhost:8080'
+  SAKAI2_SECRET=POSTGRES_PASSWORD
+  CANVAS_ROOT=APPLICATION_HOST
+  CANVAS_SECRET=POSTGRES_PASSWORD
 fi
 
 LOG=$2
@@ -73,6 +81,12 @@ if [ $ORACLE_DB ]; then
   echo "oracleDataSource.username=$ORACLE_USERNAME" >> $CONFIG_FILES/server.properties
   echo "oracleDataSource.password=$ORACLE_PASSWORD" >> $CONFIG_FILES/server.properties
 fi
+# finicky calcentral.properties for the time being will require all the values to get written out
+echo "sakai2Proxy.sharedSecret=$SAKAI2_SECRET" > $CONFIG_FILES/calcentral.properties
+echo "sakai2Proxy.sakai2Host=$SAKAI2_HOST" >> $CONFIG_FILES/calcentral.properties
+echo "canvasProxy.canvasRoot=$CANVAS_ROOT" >> $CONFIG_FILES/calcentral.properties
+echo "canvasProxy.accessToken=$CANVAS_SECRET" >> $CONFIG_FILES/calcentral.properties
+
 
 echo | $LOGIT
 echo "------------------------------------------" | $LOGIT
