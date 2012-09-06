@@ -78,7 +78,6 @@
 
 		<script id="cc-page-classpage-instructor-template" type="text/x-handlebars-template">
 			<ul class="cc-page-classpage-instructor-item">
-
 				{{#each instructors}}
 					<li>
 						{{#instrimg}}

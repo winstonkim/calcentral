@@ -486,9 +486,18 @@ header h1 {
 	float: left;
 	margin-right: 20px;
 }
+.cc-page-classpage-instructor-item li {
+	height:100px;
+	clear: both;
+	margin-bottom: 20px;
+}
+ul.cc-page-classpage-instructor-item li:last-child {
+	margin-bottom:0;
+}
 .cc-page-classpage-instructor-heading {
 	font-weight: bold;
 	margin: 0 0 10px 295px;
+	padding-top:20px;
 }
 
 .cc-page-classpage-list {
