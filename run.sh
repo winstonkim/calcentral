@@ -82,10 +82,10 @@ if [ $ORACLE_DB ]; then
   echo "oracleDataSource.password=$ORACLE_PASSWORD" >> $CONFIG_FILES/server.properties
 fi
 # finicky calcentral.properties for the time being will require all the values to get written out
-echo "sakai2Proxy.sharedSecret=$SAKAI2_SECRET" > $CONFIG/calcentral.properties
-echo "sakai2Proxy.sakai2Host=$SAKAI2_HOST" >> $CONFIG/calcentral.properties
-echo "canvasProxy.canvasRoot=$CANVAS_ROOT" >> $CONFIG/calcentral.properties
-echo "canvasProxy.accessToken=$CANVAS_SECRET" >> $CONFIG/calcentral.properties
+echo "sakai2Proxy.sharedSecret=$SAKAI2_SECRET" > $CONFIG_FILES/calcentral.properties
+echo "sakai2Proxy.sakai2Host=$SAKAI2_HOST" >> $CONFIG_FILES/calcentral.properties
+echo "canvasProxy.canvasRoot=$CANVAS_ROOT" >> $CONFIG_FILES/calcentral.properties
+echo "canvasProxy.accessToken=$CANVAS_SECRET" >> $CONFIG_FILES/calcentral.properties
 
 
 echo | $LOGIT
