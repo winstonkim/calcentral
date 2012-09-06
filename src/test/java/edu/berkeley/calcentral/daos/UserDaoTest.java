@@ -62,6 +62,25 @@ public class UserDaoTest extends DatabaseAwareTest {
 		assertEquals("foo.com", updatedUser.getLink());
 	}
 
+	@Test
+	public void updatePartial() throws Exception {
+		String uid = randomString();
+		dao.insert(uid);
+		User user = new User();
+		user.setUid(uid);
+		user.setLink("foo.com");
+		dao.update(user);
+		User updatedUser = dao.get(uid);
+		assertNull(updatedUser.getPreferredName());
+		assertEquals("foo.com", updatedUser.getLink());
+		user.setLink(null);
+		user.setPreferredName("Joe Blow");
+		dao.update(user);
+		updatedUser = dao.get(uid);
+		assertEquals("foo.com", updatedUser.getLink());
+		assertEquals("Joe Blow", updatedUser.getPreferredName());
+	}
+
 	@Test(expected = EmptyResultDataAccessException.class)
 	public void delete() throws Exception {
 		String uid = randomString();

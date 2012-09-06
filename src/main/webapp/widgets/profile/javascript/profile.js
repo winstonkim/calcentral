@@ -25,20 +25,26 @@ calcentral.Widgets.profile = function(tuid) {
 			'data': data,
 			'template': $('#cc-widget-profile-list-template', $rootel)
 		});
-		$preferredNameInput = $('#cc-widget-profile-preferredName', $rootel).on('blur', saveProfile);
-		$linkInput = $('#cc-widget-profile-link', $rootel).on('blur', saveProfile);
+		$preferredNameInput = $('#cc-widget-profile-preferredName', $rootel).on('blur', function() {
+			saveProfile({
+				'preferredName': $(this).val()
+			})});
+
+		$linkInput = $('#cc-widget-profile-link', $rootel).on('blur', function() {
+			saveProfile({
+				'link': $(this).val()
+			})});
 	};
 
 	///////////////////
 	// Ajax Requests //
 	///////////////////
 
-	var saveProfile = function() {
+	var saveProfile = function(data) {
 		newUserData = {
-			'preferredName': $preferredNameInput.val(),
-			'link': $linkInput.val(),
 			'uid': calcentral.Data.User.user.uid
 		};
+		$.extend(newUserData, data);
 		console.log('Profile widget - Saving profile: ', newUserData);
 		calcentral.Api.User.saveUser(newUserData, function(success, data) {
 			console.log('Profile widget - Profile saved: ' + success);
