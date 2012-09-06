@@ -4,36 +4,31 @@
  */
 package edu.berkeley.calcentral.services;
 
-import java.io.IOException;
-import java.util.List;
-import java.util.Map;
-
-import javax.ws.rs.DELETE;
-import javax.ws.rs.FormParam;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.stereotype.Service;
-
 import com.google.common.collect.Maps;
-
 import edu.berkeley.calcentral.Params;
 import edu.berkeley.calcentral.Urls;
 import edu.berkeley.calcentral.daos.UserDao;
 import edu.berkeley.calcentral.daos.WidgetDataDao;
 import edu.berkeley.calcentral.domain.User;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.codehaus.jackson.map.ObjectMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
+
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
 
 @Service
 @Path(Urls.SPECIFIC_USER)
@@ -80,12 +75,30 @@ public class UserService implements UserDetailsService {
 		return userData;
 	}
 
+	@POST
+	@Produces({MediaType.APPLICATION_JSON})
+	public Map<String, Object> saveUserData(@PathParam(Params.USER_ID) String userID,
+																					@FormParam(Params.DATA) String jsonData) throws IOException {
+		User userToSave = jMapper.readValue(jsonData, User.class);
+		userToSave.setUid(userID);
+		LOGGER.info("Saving user: " + userToSave);
+		userDao.update(userToSave);
+		return getUser(userID);
+	}
+
+	@DELETE
+	public void deleteUserAndWidgetData(@PathParam(Params.USER_ID) String userID) {
+		LOGGER.info("Deleting user: " + userID);
+		userDao.delete(userID);
+		widgetDataDao.deleteAllWidgetData(userID);
+	}
+
 	/**
 	 * Used by Spring framework to get user authentication. Inserts a new row into our local database
 	 * if it's not already in the calcentral_users table, seeding data from the campus data source.
 	 *
 	 * @param uid The user id
-	 * @return Authenticated user as a {@link User} instance.
+	 * @return Authenticated user as an instance of {@link org.springframework.security.core.userdetails.User}.
 	 * @throws UsernameNotFoundException
 	 */
 	public UserDetails loadUserByUsername(String uid) throws UsernameNotFoundException {
@@ -104,25 +117,13 @@ public class UserService implements UserDetailsService {
 			userDao.insert(uid, preferredName);
 			user = userDao.get(uid);
 		}
-		return user;
-	}
-
-	@POST
-	@Produces({MediaType.APPLICATION_JSON})
-	public Map<String, Object> saveUserData(@PathParam(Params.USER_ID) String userID,
-																					@FormParam(Params.DATA) String jsonData) throws IOException {
-		User userToSave = jMapper.readValue(jsonData, User.class);
-		userToSave.setUid(userID);
-		LOGGER.info("Saving user: " + userToSave);
-		userDao.update(userToSave);
-		return getUser(userID);
-	}
-
-	@DELETE
-	public void deleteUserAndWidgetData(@PathParam(Params.USER_ID) String userID) {
-		LOGGER.info("Deleting user: " + userID);
-		userDao.delete(userID);
-		widgetDataDao.deleteAllWidgetData(userID);
+		if ( user == null ) {
+			throw new UsernameNotFoundException("User " + uid + " does not exist");
+		}
+		Collection<GrantedAuthority> roles = new ArrayList<GrantedAuthority>(1);
+		roles.add(new SimpleGrantedAuthority("ROLE_USER"));
+		return new org.springframework.security.core.userdetails.User(
+				user.getUid(), "", true, true, true, true, roles);
 	}
 
 }

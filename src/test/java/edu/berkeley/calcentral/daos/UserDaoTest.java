@@ -25,7 +25,6 @@ import org.apache.commons.logging.LogFactory;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.security.core.userdetails.UserDetails;
 
 public class UserDaoTest extends DatabaseAwareTest {
 
@@ -81,7 +80,7 @@ public class UserDaoTest extends DatabaseAwareTest {
 	public void insertUser() throws Exception {
 		String uid = randomString();
 		dao.insert(uid, "Jane Random");
-		UserDetails user = dao.get(uid);
+		User user = dao.get(uid);
 		assertNotNull(user);
 	}
 
