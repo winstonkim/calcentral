@@ -19,20 +19,8 @@
 package edu.berkeley.calcentral.services;
 
 
-import java.io.IOException;
-import java.security.SignatureException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Properties;
-
-import javax.annotation.PostConstruct;
-import javax.servlet.http.HttpServletRequest;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.MediaType;
-
+import edu.berkeley.calcentral.Urls;
+import edu.berkeley.calcentral.util.Signature;
 import org.apache.commons.httpclient.Header;
 import org.apache.commons.httpclient.HostConfiguration;
 import org.apache.commons.httpclient.HttpClient;
@@ -49,8 +37,18 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 
-import edu.berkeley.calcentral.Urls;
-import edu.berkeley.calcentral.util.Signature;
+import javax.annotation.PostConstruct;
+import javax.servlet.http.HttpServletRequest;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.MediaType;
+import java.io.IOException;
+import java.security.SignatureException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Properties;
 
 @Service
 @Path(Urls.BSPACE_FAVORITES)
@@ -69,7 +67,7 @@ public class Sakai2Proxy {
 	private HttpConnectionManager connectionManager;
 
 	private ObjectMapper mapper = new ObjectMapper();
-	
+
 	String sharedSecret;
 
 	String sakai2Host;
