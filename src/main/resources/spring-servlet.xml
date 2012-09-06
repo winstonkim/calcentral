@@ -11,8 +11,6 @@
 		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.1.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd">
 
-	<mvc:resources mapping="/resources/**" location="/static_resources/" />
-
 	<security:global-method-security
 		pre-post-annotations="enabled">
 		<security:expression-handler ref="expressionHandler" />

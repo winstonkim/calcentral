@@ -19,10 +19,11 @@ calcentral.Widgets.profile = function(tuid) {
 	// Rendering //
 	///////////////
 
-	var renderProfile = function(data) {
+	var renderProfile = function(success, data) {
+		console.log("data", data);
 		calcentral.Api.Util.renderTemplate({
 			'container': $profileList,
-			'data': calcentral.Data.User,
+			'data': data,
 			'template': $('#cc-widget-profile-list-template', $rootel)
 		});
 		$preferredNameInput = $('#cc-widget-profile-preferredName', $rootel).on('blur', saveProfile);

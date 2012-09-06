@@ -34,6 +34,8 @@ public interface Urls {
 
 	String DASHBOARD = "/dashboard";
 
+	String PROFILE = "/profile";
+
 	String CLASS_PAGES = API + "/classPages";
 
 	String BSPACE_FAVORITES = API + "/bspacefavorites";
