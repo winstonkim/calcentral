@@ -19,6 +19,7 @@
 	<bean id="expressionHandler"
 		class="org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler" />
 
+	<!-- TODO Remove duplicate bean creation -->
 	<context:component-scan base-package="edu.berkeley.calcentral" />
 
 	<import resource="classpath:springmvc-resteasy.xml" />
@@ -36,5 +37,10 @@
 	<mvc:interceptors>
 		<bean class="edu.berkeley.calcentral.system.HandlerLoggerInterceptor" />
 	</mvc:interceptors>
+
+	<!-- TODO Remove duplicate property override -->
+	<context:property-override
+			location="classpath:/calcentral.properties"
+			ignore-resource-not-found="true" />
 
 </beans>
