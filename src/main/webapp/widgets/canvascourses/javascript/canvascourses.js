@@ -89,10 +89,7 @@ calcentral.Widgets.canvascourses = function(tuid) {
 	 * Initialise the canvas classes widget
 	 */
 	var doInit = function(){
-		$.when(getCurrentUserData()).done(function(userData) {
-			$.when(loadCourses(userData)).done(renderCourses);
-		});
-
+		$.when(getCurrentUserData()).pipe(loadCourses).done(renderCourses);
 	};
 
 	// Start the request
