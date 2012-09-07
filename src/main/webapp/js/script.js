@@ -71,7 +71,7 @@ var calcentral = calcentral || {};
 				}
 			},
 			'type':'POST',
-			'url':'/api/user/' + userData.uid
+			'url':'/secure/api/user/' + userData.uid
 		});
 	};
 
@@ -345,7 +345,7 @@ var calcentral = calcentral || {};
 	calcentral.Api.Widgets = calcentral.Api.Widgets || {};
 
 	var createWidgetDataUrl = function(widgetId) {
-		return '/api/user/' + calcentral.Data.User.user.uid + '/widgetData/' + widgetId;
+		return '/secure/api/user/' + calcentral.Data.User.user.uid + '/widgetData/' + widgetId;
 	};
 
 	calcentral.Api.Widgets.loadWidgetData = function(config, callback) {

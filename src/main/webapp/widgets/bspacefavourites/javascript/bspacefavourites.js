@@ -36,7 +36,7 @@ calcentral.Widgets.bspacefavourites = function(tuid) {
 	var loadFavouritesList = function() {
 		return $.ajax({
 			'cache': false,
-			'url': '/api/bspacefavorites'
+			'url': '/secure/api/bspacefavorites'
 		});
 	};
 
