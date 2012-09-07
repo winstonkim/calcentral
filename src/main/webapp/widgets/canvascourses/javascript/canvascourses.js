@@ -52,18 +52,16 @@ calcentral.Widgets.canvascourses = function(tuid) {
 		} else {
 			var $loadCoursesDeferred = $.Deferred();
 			$.when(getCanvasData(data.enrollment_url), getCanvasData(data.courses_url)).done(function(user_enrollment, allCourses){
-				var renderData = [];
-				var courseIds = [];
-				$.each(user_enrollment[0], function(index, value) {
-					courseIds.push(value.course_id);
+				var courseIds = $.map(user_enrollment[0], function(value, index) {
+					return value.course_id;
 				});
 
-				$.grep(allCourses[0], function(course, index) {
+				var renderData = $.map(allCourses[0], function(course, index) {
 					if ($.inArray(course.id, courseIds) > -1) {
-						renderData.push({
+						return {
 							'name' : course.course_code + ": " + course.name,
 							'id': course.id
-						});
+						};
 					}
 				});
 				$loadCoursesDeferred.resolve(renderData);
