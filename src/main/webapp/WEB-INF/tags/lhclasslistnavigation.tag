@@ -5,12 +5,12 @@
 	</section>
 	<nav class="cc-lefthandnavigation">
 		<ul>
-			<li><a href="" class="cc-lefthandnavigation-item-selected">Overview</a></li>
-			<li><a href="">Instructors</a></li>
-			<li><a href="">Grading &amp; Policies</a></li>
-			<li><a href="">Class Policies</a></li>
-			<li><a href="">Class Library</a></li>
-			<li><a href="">Class Materials</a></li>
+			<li><a href="" class="cc-lefthandnavigation-item-selected">Subcats</a></li>
+			<li><a href="">Will</a></li>
+			<li><a href="">Go</a></li>
+			<li><a href="">In</a></li>
+			<li><a href="">This</a></li>
+			<li><a href="">Column</a></li>
 		</ul>
 	</nav>
 </script>

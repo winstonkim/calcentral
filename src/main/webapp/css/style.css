@@ -473,7 +473,7 @@ header h1 {
 	overflow: hidden;
 	padding: 20px;
 }
-.cc-page-classpage-instructor, .cc-page-classpage-sections, .cc-page-classpage-header {
+.cc-page-classpage-instructor, .cc-page-classpage-sections, .cc-page-classpage-header, .cc-classlist-section {
 	width: 705px !important;
 }
 
@@ -516,6 +516,11 @@ ul.cc-page-classpage-instructor-item li:last-child {
 	margin-right: 10px;
 	text-align: right;
 	width: 120px;
+}
+
+/* Class listings per category */
+.cc-page-classlist-container {
+	margin-top:20px;
 }
 
 /* Index */

@@ -492,7 +492,8 @@ var calcentral = calcentral || {};
 		});
 	};
 
-	if ($('.cc-page-dashboard, .cc-page-profile, .cc-page-classpage').length){
+	// Navigation hidden on all pages unless specifically referenced here - do we need this?
+	if ($('.cc-page-dashboard, .cc-page-profile, .cc-page-classpage, .cc-page-classlist').length){
 		loadLeftHandNavigation();
 	}
 })();
@@ -749,6 +750,44 @@ var calcentral = calcentral || {};
 
 	if($classPage.length) {
 		$.when(loadClassPage(), loadBuildingCoords()).done(renderClassPage);
+	}
+
+})();
+
+
+/**
+ * ClassList
+ * Given a class list API endpoint, display all classes in that category
+ */
+(function() {
+	var $classList = $('.cc-page-classlist');
+
+	var $classListContainer = $('.cc-page-classlist-container', $classList);
+
+	var renderClassList = function(data) {
+		var partials = {
+			'courseInfo': $('#cc-page-classlist-courseinfo-template', $classList).html()
+		};
+		calcentral.Api.Util.renderTemplate({
+			'container': $classListContainer,
+			'data': data,
+			'partials': partials,
+			'template': $('#cc-page-classlist-template', $classList)
+		});
+	};
+
+
+	var loadClassList = function() {
+		// Get class ID from URL
+		// var classid = calcentral.Api.GetURLParams().cid;
+		return $.ajax({
+			'url': '/dummy/classlist.json'
+		}).promise();
+	};
+
+
+	if($classList.length) {
+		$.when(loadClassList()).done(renderClassList);
 	}
 
 })();
