@@ -116,7 +116,7 @@
 	</filter>
 	<filter-mapping>
 		<filter-name>userSecurityFilter</filter-name>
-		<url-pattern>/secure/api/user/*</url-pattern>
+		<url-pattern>/api/user/*</url-pattern>
 	</filter-mapping>
 
 </web-app>

@@ -52,10 +52,10 @@ public class UserSecurityFilterTest extends BaseTest {
 	@Test
 	public void filterUserIsAllowed() throws IOException, ServletException {
 		Mockito.when(request.getRemoteUser()).thenReturn("alice");
-		Mockito.when(request.getRequestURI()).thenReturn("/secure/api/user/alice");
+		Mockito.when(request.getRequestURI()).thenReturn("/api/user/alice");
 		filter.doFilter(request, response, filterChain);
 
-		Mockito.when(request.getRequestURI()).thenReturn("/secure/api/user/alice/foo/bar/baz");
+		Mockito.when(request.getRequestURI()).thenReturn("/api/user/alice/foo/bar/baz");
 		filter.doFilter(request, response, filterChain);
 		Mockito.verify(filterChain, Mockito.times(2)).doFilter(request, response);
 
@@ -64,7 +64,7 @@ public class UserSecurityFilterTest extends BaseTest {
 	@Test
 	public void filterUserNotAllowed() throws IOException, ServletException {
 		Mockito.when(request.getRemoteUser()).thenReturn("alice");
-		Mockito.when(request.getRequestURI()).thenReturn("/secure/api/user/bob");
+		Mockito.when(request.getRequestURI()).thenReturn("/api/user/bob");
 		filter.doFilter(request, response, filterChain);
 		Mockito.verify(response).sendError(HttpServletResponse.SC_FORBIDDEN, "You do not have permission to operate on that user");
 		Mockito.verify(filterChain, Mockito.never()).doFilter(request, response);

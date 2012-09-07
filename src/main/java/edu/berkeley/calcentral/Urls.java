@@ -22,9 +22,7 @@ public interface Urls {
 
 	String API = "/api";
 
-	String API_SECURE = "/secure/api";
-
-	String USERS = API_SECURE + "/user";
+	String USERS = API + "/user";
 
 	String CURRENT_USER = API + "/currentUser";
 
@@ -40,7 +38,7 @@ public interface Urls {
 
 	String CLASS_PAGES = API + "/classPages";
 
-	String BSPACE_FAVORITES = API_SECURE + "/bspacefavorites";
+	String BSPACE_FAVORITES = API + "/bspacefavorites";
 
 	String BSPACE_FAVORITES_UNREAD = BSPACE_FAVORITES + "/unread";
 

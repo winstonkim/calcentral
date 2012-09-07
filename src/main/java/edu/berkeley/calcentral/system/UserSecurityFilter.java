@@ -38,7 +38,7 @@ public class UserSecurityFilter extends OncePerRequestFilter {
 
 	private static final Log LOGGER = LogFactory.getLog(UserSecurityFilter.class);
 
-	private static final Pattern PATTERN_USER_ID = Pattern.compile("/secure/api/user/(.*)");
+	private static final Pattern PATTERN_USER_ID = Pattern.compile("/api/user/(.*)");
 
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
