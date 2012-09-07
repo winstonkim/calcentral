@@ -46,24 +46,28 @@ calcentral.Widgets.canvascourses = function(tuid) {
 		});
 	}
 
+	var extractCourseNameAndId = function(user_enrollment, allCourses) {
+		var courseIds = $.map(user_enrollment[0], function(value, index) {
+			return value.course_id;
+		});
+		var renderData = $.map(allCourses[0], function(course, index) {
+			if ($.inArray(course.id, courseIds) > -1) {
+				return {
+					'name' : course.course_code + ": " + course.name,
+					'id': course.id
+				};
+			}
+		});
+		return renderData;
+	}
+
 	var loadCourses = function(data) {
 		if (dummy) {
 			return loadDummyCourses();
 		} else {
 			var $loadCoursesDeferred = $.Deferred();
 			$.when(getCanvasData(data.enrollment_url), getCanvasData(data.courses_url)).done(function(user_enrollment, allCourses){
-				var courseIds = $.map(user_enrollment[0], function(value, index) {
-					return value.course_id;
-				});
-
-				var renderData = $.map(allCourses[0], function(course, index) {
-					if ($.inArray(course.id, courseIds) > -1) {
-						return {
-							'name' : course.course_code + ": " + course.name,
-							'id': course.id
-						};
-					}
-				});
+				var renderData = extractCourseNameAndId(user_enrollment, allCourses);
 				$loadCoursesDeferred.resolve(renderData);
 			}).fail(function() {
 				loadDummyCourses().done(function(data) {
@@ -74,18 +78,6 @@ calcentral.Widgets.canvascourses = function(tuid) {
 		}
 	};
 
-	var getCurrentUserData = function() {
-		var $currentUserDeferred = $.Deferred();
-		calcentral.Api.User.getCurrentUser('', function(success, data) {
-			$currentUserDeferred.resolve({
-				'uid': data.uid,
-				'enrollment_url': '/api/canvas/users/sis_user_id:' + data.uid + '/enrollments',
-				'courses_url': '/api/canvas/accounts/' + accountID + '/courses'
-			});
-		});
-		return $currentUserDeferred.promise();
-	}
-
 	////////////////////
 	// Initialisation //
 	////////////////////
@@ -93,9 +85,14 @@ calcentral.Widgets.canvascourses = function(tuid) {
 	/**
 	 * Initialise the canvas classes widget
 	 */
-	var doInit = function(){
-		$.when(getCurrentUserData()).pipe(loadCourses).done(renderCourses);
-	};
+	 var doInit = function(){
+	 	var data = {
+	 		'uid': calcentral.Data.User.user.uid,
+	 		'enrollment_url': '/api/canvas/users/sis_user_id:' + calcentral.Data.User.user.uid + '/enrollments',
+	 		'courses_url': '/api/canvas/accounts/' + accountID + '/courses'
+	 	};
+	 	$.when(loadCourses(data)).done(renderCourses);
+	 };
 
 	// Start the request
 	doInit();
