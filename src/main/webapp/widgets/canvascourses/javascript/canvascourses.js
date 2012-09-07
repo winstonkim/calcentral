@@ -39,17 +39,20 @@ calcentral.Widgets.canvascourses = function(tuid) {
 		});
 	}
 
+	var loadDummyCourses = function() {
+		return $.ajax({
+			'cache': false,
+			'url': '/widgets/canvascourses/dummy/canvascourses.json'
+		});
+	}
 
 	var loadCourses = function(data) {
 		if (dummy) {
-			return $.ajax({
-				'cache': false,
-				'url': '/widgets/canvascourses/dummy/canvascourses.json'
-			});
+			return loadDummyCourses();
 		} else {
 			var $loadCoursesDeferred = $.Deferred();
 			$.when(getCanvasData(data.enrollment_url), getCanvasData(data.courses_url)).done(function(user_enrollment, allCourses){
-			var renderData = [];
+				var renderData = [];
 				var courseIds = [];
 				$.each(user_enrollment[0], function(index, value) {
 					courseIds.push(value.course_id);
@@ -64,6 +67,10 @@ calcentral.Widgets.canvascourses = function(tuid) {
 					}
 				});
 				$loadCoursesDeferred.resolve(renderData);
+			}).fail(function() {
+				loadDummyCourses().done(function(data) {
+					$loadCoursesDeferred.resolve(data);
+				});
 			});
 			return $loadCoursesDeferred.promise();
 		}
