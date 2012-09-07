@@ -20,7 +20,6 @@ package edu.berkeley.calcentral.system;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
@@ -38,15 +37,14 @@ public class UserSecurityFilter extends OncePerRequestFilter {
 
 	private static final Log LOGGER = LogFactory.getLog(UserSecurityFilter.class);
 
-	private static final Pattern PATTERN_USER_ID = Pattern.compile("/api/user/(.*)");
+	private static final Pattern PATTERN_USER_ID = Pattern.compile("/api/user/([^/]+)");
 
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
 		Matcher matcher = PATTERN_USER_ID.matcher(request.getRequestURI());
 		if (matcher.matches()) {
-			String match = matcher.group(1);
-			String targetUser = StringUtils.tokenizeToStringArray(match, "/")[0];
+			String targetUser = matcher.group(1);
 			String remoteUser = request.getRemoteUser();
 			if (targetUser != null && targetUser.equals(remoteUser)) {
 				LOGGER.debug("Remote user " + remoteUser + " is allowed to operate on target user " + targetUser);
