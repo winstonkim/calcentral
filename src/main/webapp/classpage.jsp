@@ -78,6 +78,7 @@
 
 		<script id="cc-page-classpage-instructor-template" type="text/x-handlebars-template">
 			<ul class="cc-page-classpage-instructor-item">
+			{{#if instructors}}
 				{{#each instructors}}
 					<li>
 						{{#instrimg}}
@@ -104,6 +105,9 @@
 						</ul>
 					</li>
 				{{/each}}
+			{{else}}
+				Instructor names not found
+			{{/if}}
 			</ul>
 		</script>
 
