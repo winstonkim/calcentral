@@ -4,6 +4,7 @@ import com.google.common.collect.Maps;
 import edu.berkeley.calcentral.domain.User;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.stereotype.Repository;
+import org.springframework.util.StringUtils;
 
 import java.sql.Timestamp;
 import java.util.Map;
@@ -21,26 +22,29 @@ public class UserDao extends BaseDao {
 	}
 
 	public void update(User user) {
-		String sql = "UPDATE calcentral_users " +
-				"SET preferredName = :preferredName, " +
-				"link = :link " +
-				"WHERE uid = :uid";
+		// update only non-null non-blank fields
+		StringBuilder sql = new StringBuilder("UPDATE calcentral_users SET uid=uid");
 		Map<String, String> params = Maps.newHashMap();
+		if (StringUtils.hasLength(user.getPreferredName())) {
+			sql.append(" ,preferredName = :preferredName");
+			params.put("preferredName", user.getPreferredName());
+		}
+		if (StringUtils.hasLength(user.getLink())) {
+			sql.append(" ,link = :link");
+			params.put("link", user.getLink());
+		}
+		sql.append(" WHERE uid = :uid");
 		params.put("uid", user.getUid());
-		params.put("preferredName", user.getPreferredName());
-		params.put("link", user.getLink());
-		queryRunner.update(sql, params);
+		queryRunner.update(sql.toString(), params);
 	}
 
-	public void insert(String uid, String preferredName) {
+	public void insert(String uid) {
 		String sql = "INSERT INTO calcentral_users " +
-				"( uid, preferredName, link, firstLogin ) " +
+				"( uid, firstLogin ) " +
 				"VALUES " +
-				"( :uid, :preferredName, :link, :firstLogin ) ";
+				"( :uid, :firstLogin ) ";
 		Map<String, Object> params = Maps.newHashMap();
 		params.put("uid", uid);
-		params.put("preferredName", preferredName);
-		params.put("link", "https://calnet.berkeley.edu/directory/details.pl?uid=" + uid);
 		params.put("firstLogin", new Timestamp(System.currentTimeMillis()));
 		queryRunner.update(sql, params);
 	}

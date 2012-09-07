@@ -20,11 +20,12 @@ package edu.berkeley.calcentral.services;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 import edu.berkeley.calcentral.daos.BaseDao;
+import edu.berkeley.calcentral.domain.User;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
-import javax.ws.rs.PathParam;
 import java.util.List;
 import java.util.Map;
 
@@ -39,7 +40,7 @@ public class CampusPersonDataService extends BaseDao {
 					"left join BSPACE_STUDENT_MAJOR_VW sm on pi.LDAP_UID = sm.LDAP_UID " +
 					"where pi.LDAP_UID = :ldap_uid";
 
-	public Map<String, Object> getPersonAttributes(@PathParam("id") String personId) {
+	public Map<String, Object> getPersonAttributes(String personId) {
 		long ldapUid;
 		try {
 			ldapUid = Long.parseLong(personId);
@@ -55,6 +56,24 @@ public class CampusPersonDataService extends BaseDao {
 			personAttributes = sqlResults.get(0);
 		}
 		return personAttributes;
-
 	}
+
+	public void mergeCampusData(User user) {
+		// merge in campus data if the user's fields are null
+		Map<String, Object> campusPersonData = this.getPersonAttributes(user.getUid());
+
+		if (!StringUtils.hasLength(user.getPreferredName())) {
+			Object preferredNameObj = campusPersonData.get("PERSON_NAME");
+			if (preferredNameObj != null) {
+				user.setPreferredName(String.valueOf(preferredNameObj));
+			} else {
+				user.setPreferredName(user.getUid());
+			}
+		}
+
+		if (!StringUtils.hasLength(user.getLink())) {
+			user.setLink("https://calnet.berkeley.edu/directory/details.pl?uid=" + user.getUid());
+		}
+	}
+
 }

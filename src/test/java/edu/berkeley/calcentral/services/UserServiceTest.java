@@ -48,11 +48,20 @@ public class UserServiceTest extends DatabaseAwareTest {
 			userMap = userService.getUser("2040");
 		}
 		LOGGER.info(userMap);
-		Map<String, Object> campusData = (Map<String, Object>) userMap.get("campusData");
-		assertNotNull(campusData);
+
 		User user = (User) userMap.get("user");
 		assertNotNull(user);
+		assertEquals("Oliver Heyer", user.getPreferredName());
 		assertNull(userMap.get("widgetData"));
+	}
+
+	@Test
+	public void getUserNotRepresentedInCampusData() throws Exception {
+		String uid = randomString();
+		userService.loadUserByUsername(uid);
+		Map<String, Object> userMap = userService.getUser(uid);
+		User user = (User) userMap.get("user");
+		assertEquals(uid, user.getPreferredName());
 	}
 
 	@Test

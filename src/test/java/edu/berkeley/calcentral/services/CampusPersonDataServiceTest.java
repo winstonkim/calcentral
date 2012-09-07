@@ -18,6 +18,7 @@
 package edu.berkeley.calcentral.services;
 
 import edu.berkeley.calcentral.DatabaseAwareTest;
+import edu.berkeley.calcentral.domain.User;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.junit.Test;
@@ -44,4 +45,16 @@ public class CampusPersonDataServiceTest extends DatabaseAwareTest {
 		assertNotNull(personAttributes);
 		assertEquals(0, personAttributes.size());
 	}
+
+	@Test
+	public void mergeCampusData() {
+		User user = new User();
+		user.setUid("2040");
+		assertNull(user.getPreferredName());
+		assertNull(user.getLink());
+		campusPersonDataService.mergeCampusData(user);
+		assertEquals("Oliver Heyer", user.getPreferredName());
+		assertEquals("https://calnet.berkeley.edu/directory/details.pl?uid=2040", user.getLink());
+	}
+
 }
