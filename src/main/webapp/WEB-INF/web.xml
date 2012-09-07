@@ -110,4 +110,13 @@
 		</listener-class>
 	</listener>
 
+	<filter>
+		<filter-name>userSecurityFilter</filter-name>
+		<filter-class>edu.berkeley.calcentral.system.UserSecurityFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>userSecurityFilter</filter-name>
+		<url-pattern>/secure/api/user/*</url-pattern>
+	</filter-mapping>
+
 </web-app>
