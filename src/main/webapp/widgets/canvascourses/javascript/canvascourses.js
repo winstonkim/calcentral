@@ -61,6 +61,11 @@ calcentral.Widgets.canvascourses = function(tuid) {
 		return renderData;
 	}
 
+	/**
+	 * Fetch users's course data from canvas.
+	 * @param  {Object} data Javascript Object containing uid and other urls to get data from.
+	 * @return {Object} Deferred promise object for a Deferrred chain, with a (data) param.
+	 */
 	var loadCourses = function(data) {
 		if (dummy) {
 			return loadDummyCourses();
@@ -86,11 +91,13 @@ calcentral.Widgets.canvascourses = function(tuid) {
 	 * Initialise the canvas classes widget
 	 */
 	 var doInit = function(){
+	 	/** Data available already for the current user, on every page. */
 	 	var data = {
 	 		'uid': calcentral.Data.User.user.uid,
 	 		'enrollment_url': '/api/canvas/users/sis_user_id:' + calcentral.Data.User.user.uid + '/enrollments',
 	 		'courses_url': '/api/canvas/accounts/' + accountID + '/courses'
 	 	};
+
 	 	$.when(loadCourses(data)).done(renderCourses);
 	 };
 
