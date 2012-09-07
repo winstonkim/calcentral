@@ -56,10 +56,15 @@ public class CanvasProxy {
 
 	private static final Logger LOGGER = Logger.getLogger(CanvasProxy.class);
 
-	@Autowired
-	private Properties calcentralProperties;
-
 	private String canvasRoot;
+	public void setCanvasRoot(String canvasRoot) {
+		this.canvasRoot = canvasRoot;
+	}
+
+	private String accessToken;
+	public void setAccessToken(String accessToken) {
+		this.accessToken = accessToken;
+	}
 
 	private RestTemplate restTemplate;
 
@@ -67,8 +72,6 @@ public class CanvasProxy {
 
 	@PostConstruct
 	public void init() {
-		this.canvasRoot = calcentralProperties.getProperty("canvasProxy.canvasRoot");
-		String accessToken = calcentralProperties.getProperty("canvasProxy.accessToken");
 		LOGGER.info("canvasRoot = " + canvasRoot + "; canvas access token = " + accessToken);
 		headers = new HttpHeaders();
 		headers.setContentType(org.springframework.http.MediaType.APPLICATION_FORM_URLENCODED);

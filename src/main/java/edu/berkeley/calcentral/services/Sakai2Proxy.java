@@ -61,28 +61,30 @@ public class Sakai2Proxy {
 	private static final String TOKEN_SEPARATOR = ";";
 
 	@Autowired
-	private Properties calcentralProperties;
-
-	@Autowired
 	private HttpConnectionManager connectionManager;
 
 	private ObjectMapper mapper = new ObjectMapper();
 
 	String sharedSecret;
+	public void setSharedSecret(String sharedSecret) {
+		this.sharedSecret = sharedSecret;
+	}
 
 	String sakai2Host;
+	public void setSakai2Host(String sakai2Host) {
+		this.sakai2Host = sakai2Host;
+	}
 
 	boolean dummy;
+	public void setDummy(boolean dummy) {
+		this.dummy = dummy;
+	}
 
 	Map<String, Object> dummyResult;
 
 	@PostConstruct
 	public void init() {
-		this.sharedSecret = calcentralProperties.getProperty("sakai2Proxy.sharedSecret");
-		this.sakai2Host = calcentralProperties.getProperty("sakai2Proxy.sakai2Host");
-		String dummyValue = calcentralProperties.getProperty("sakai2Proxy.dummy");
-		if (dummyValue != null && Boolean.parseBoolean(dummyValue)) {
-			dummy = true;
+		if (this.dummy) {
 			Resource resource = new ClassPathResource("sakai2Proxy.dummy.json");
 			try {
 				String body = IOUtils.toString(resource.getInputStream(), "utf-8");
