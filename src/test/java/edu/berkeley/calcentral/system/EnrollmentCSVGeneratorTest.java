@@ -46,6 +46,11 @@ public class EnrollmentCSVGeneratorTest extends DatabaseAwareTest {
 		assertTrue(sections.size() > 1);
 	}
 
+	@Test(expected = IllegalArgumentException.class)
+	public void badSectionID() {
+		generator.getStudentsForSection("abc");
+	}
+
 	@Test
 	public void getStudentsForSection() throws Exception {
 		List<Map<String, Object>> enrollments = generator.getStudentsForSection("2012-D-32203");
