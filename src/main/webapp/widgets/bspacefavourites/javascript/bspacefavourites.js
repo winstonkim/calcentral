@@ -8,6 +8,8 @@ calcentral.Widgets.bspacefavourites = function(tuid) {
 
 	var $rootel = $('#' + tuid);
 	var $bspacefavouritesList = $('.cc-widget-bspacefavourites-list', $rootel);
+	// Method to filter the bspaceFavorites feed based on categories. If the value is left empty or null, will assume "All sites"
+	var categoryFilter = "Fall 2012"
 
 	////////////////////
 	// Event Handlers //
@@ -33,32 +35,46 @@ calcentral.Widgets.bspacefavourites = function(tuid) {
 	// Ajax Requests //
 	///////////////////
 
+	/**
+	 * Returns a JSON Object of all the bSpace sites, in categories.
+	 * @return {Array} Array of JSONObject categories of bSpace sites.
+	 */
 	var loadFavouritesList = function() {
-		return $.ajax({
+		var $ajaxWrapper = $.Deferred();
+		$.ajax({
 			'cache': false,
-			'url': '/api/bspacefavorites'
+			'url': '/api/bspacefavorites',
+			'success': function(data) {
+				//only care about the categories.
+				return $ajaxWrapper.resolve(data.body.categories);
+			},
+			'error': $ajaxWrapper.reject
 		});
+		return $ajaxWrapper.promise();
 	};
 
-	var removeDuplicateSites = function(data, statusText, jqXHR) {
+	/**
+	 * Applies a category filter on the feed of sites from /api/bspacefavorites.
+	 * @param  {Object} data.categories JSON response from /api/bspacefavorites
+	 * @param  {String} category name of category to filger on.
+	 * @return {[type]}          [description]
+	 */
+	var filterOnCategory = function(data, filter) {
 		var $sitesDeferred = $.Deferred();
-		var filteredSites = {
-			'urls' : [],
-			'uniqueSites' : []
-		};
-		$.each(data.body.categories, function(index, value) {
-			filteredSites.urls = filteredSites.urls.concat($.map(value.sites, function(site, index) {
-				// doesn't seem like inArray works with js objects.
-				if ($.inArray(site.url, filteredSites.urls) === -1) {
-					filteredSites.uniqueSites.push(site);
-					return site.url;
-				}
-			}));
+		//Assume that someone wants "All Sites" if filter is falsy
+		if (!filter) {
+			filter = "All sites";
+		}
+		var sites = $.map(data, function(value, index) {
+			if (filter === value.category) {
+				return value.sites;
+			}
 		});
+		$sitesDeferred.resolve({'sites' : sites});
 
-		$sitesDeferred.resolve({'sites' : filteredSites.uniqueSites});
 		return $sitesDeferred.promise();
 	}
+
 
 	////////////////////
 	// Initialisation //
@@ -68,7 +84,9 @@ calcentral.Widgets.bspacefavourites = function(tuid) {
 	 * Initialise the bspace favourites widget
 	 */
 	var doInit = function(){
-		$.when(loadFavouritesList()).pipe(removeDuplicateSites).done(renderFavouritesList);
+		$.when(loadFavouritesList()).pipe(function(data) {
+			return filterOnCategory(data, categoryFilter);
+		}).done(renderFavouritesList);
 	};
 
 	// Start the request
