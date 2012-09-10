@@ -8,7 +8,9 @@ calcentral.Widgets.canvascourses = function(tuid) {
 
 	var $rootel = $('#' + tuid);
 	var $canvascoursesList = $('.cc-widget-canvascourses-list', $rootel);
+	// Used to control whether or not to load the dummy feed.
 	var dummy = false;
+	// Hardcoded for the time being. Will be refactored out soon enough.
 	var accountID = 90242;
 
 	////////////////////
@@ -39,6 +41,10 @@ calcentral.Widgets.canvascourses = function(tuid) {
 		});
 	}
 
+	/**
+	 * Will always load the list of dummy courses hardcoded for the widget.
+	 * @return {Object} Ajax object for fetching the dummy couress.
+	 */
 	var loadDummyCourses = function() {
 		return $.ajax({
 			'cache': false,
@@ -46,6 +52,14 @@ calcentral.Widgets.canvascourses = function(tuid) {
 		});
 	}
 
+	/**
+	 * Merge the the array of courses a user is enrolled in, with the list of all avaiable
+	 * courses to extract information necessary for rendering the widget.
+	 *
+	 * @param  {Array} user_enrollment Array of JSONObjects of couress user is enrolled in.
+	 * @param  {Array} allCourses Array of all the courses avaiable on canvas for this account.
+	 * @return {Array} Array of JSONOjects, containing course name and course ID.
+	 */
 	var extractCourseNameAndId = function(user_enrollment, allCourses) {
 		var courseIds = $.map(user_enrollment[0], function(value, index) {
 			return value.course_id;
@@ -87,9 +101,7 @@ calcentral.Widgets.canvascourses = function(tuid) {
 	// Initialisation //
 	////////////////////
 
-	/**
-	 * Initialise the canvas classes widget
-	 */
+	 // Initialise the canvas classes widget
 	 var doInit = function(){
 	 	/** Data available already for the current user, on every page. */
 	 	var data = {
