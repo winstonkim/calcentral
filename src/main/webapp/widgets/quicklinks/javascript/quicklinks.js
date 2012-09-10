@@ -38,7 +38,34 @@ calcentral.Widgets.quicklinks = function(tuid) {
 	/** the user's own links ("My Links"). Specified by default-links.js JSON source. **/
 	var userLinkData;
 	var defaultLinks;
-	var configObj;
+	var configObj = {
+		'defaultConfiguration': {
+			'roleAware': false,
+			'roleLookupScheme': 'testing',
+			'roleMappings': {
+				'Faculty': [
+					'academic_related_staff',
+					'academic_staff',
+					'assistant_staff'
+				],
+				'Students': [
+					'graduate_student',
+					'undergraduate_student',
+					'postgraduate_student'
+				],
+				'Staff': [
+					'non_academic_staff',
+					'research_staff'
+				],
+				'Guests': [
+					'other'
+				],
+				'ALL': [
+					'ALL'
+				]
+			}
+		}
+	};
 
 	/** END VARIABLES. **/
 
@@ -474,26 +501,13 @@ calcentral.Widgets.quicklinks = function(tuid) {
 		});
 	}
 
-	var loadConfig = function(callback) {
-		$.ajax({
-			'cache': false,
-			'url': '/widgets/quicklinks/config.json',
-			'success': function(data) {
-				configObj = $.extend(true, {}, data);
-				callback();
-			}
-		});
-	}
-
 	/**
 	 * Initialization Function.
 	 */
 	var doInit = function() {
-		loadConfig(function(){
-			loadDefaultLinks(function(){
-				loadUserData();
-				setupEventHandlers();
-			});
+		loadDefaultLinks(function(){
+			loadUserData();
+			setupEventHandlers();
 		});
 	};
 
