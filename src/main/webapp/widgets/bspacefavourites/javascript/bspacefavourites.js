@@ -9,7 +9,7 @@ calcentral.Widgets.bspacefavourites = function(tuid) {
 	var $rootel = $('#' + tuid);
 	var $bspacefavouritesList = $('.cc-widget-bspacefavourites-list', $rootel);
 	// Method to filter the bspaceFavorites feed based on categories. If the value is left empty or null, will assume "All sites"
-	var categoryFilter = "Fall 2012"
+	var categoryFilter = "";
 
 	////////////////////
 	// Event Handlers //
