@@ -34,10 +34,6 @@
 
 	<mvc:annotation-driven />
 
-	<mvc:interceptors>
-		<bean class="edu.berkeley.calcentral.system.HandlerLoggerInterceptor" />
-	</mvc:interceptors>
-
 	<!-- TODO Remove duplicate property override -->
 	<context:property-override
 			location="classpath:/calcentral.properties"

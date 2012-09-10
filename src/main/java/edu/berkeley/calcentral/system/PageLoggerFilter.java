@@ -40,7 +40,7 @@ public class PageLoggerFilter extends OncePerRequestFilter  {
 		.append(uid).append("; ")
 		.append(servletPath).append("; ")
 		.append(path).append("; ");
-		logger.warn(logMessage);
+		logger.info(logMessage);
 		chain.doFilter(request, response);
 	}
 

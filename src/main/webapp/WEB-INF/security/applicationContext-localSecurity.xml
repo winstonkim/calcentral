@@ -10,9 +10,6 @@
 	http://www.springframework.org/schema/security
 	http://www.springframework.org/schema/security/spring-security-3.1.xsd">
 
-	<bean id="loggerListener"
-		class="org.springframework.security.authentication.event.LoggerListener" />
-
 	<bean id="springSecurityFilterChain" class="org.springframework.security.web.FilterChainProxy">
 		<sec:filter-chain-map path-type="ant">
 			<sec:filter-chain pattern="/secure/logout" filters="logoutFilter" />
