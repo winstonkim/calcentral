@@ -352,9 +352,9 @@ var calcentral = calcentral || {};
 	 * Load the widget data
 	 * @param {Object} config The configuration object
 	 * {
-	 * "refresh": false // Load reload the widget data
+	 * "refresh": false // Reload the widget data
 	 * }
-	 * @param  {Function} callback Callback function
+	 * @param {Function} callback Callback function
 	 */
 	calcentral.Api.Widgets.loadWidgetData = function(config, callback) {
 
