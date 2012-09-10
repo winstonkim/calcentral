@@ -40,9 +40,9 @@ public class EnrollmentCSVGeneratorTest extends DatabaseAwareTest {
 
 	@Test
 	public void readSections() throws IOException {
-		Map<String, String> sections = generator.readSectionsFromCSV();
+		List<String> sections = generator.readSectionsFromCSV();
 		assertNotNull(sections);
-		assertTrue(sections.keySet().size() > 1);
+		assertTrue(sections.size() > 1);
 	}
 
 	@Test(expected = IllegalArgumentException.class)
@@ -70,11 +70,12 @@ public class EnrollmentCSVGeneratorTest extends DatabaseAwareTest {
 
 		List<Map<String, Object>> enrollments = new ArrayList<Map<String, Object>>(1);
 		enrollments.add(ImmutableMap.<String, Object>of("LDAP_UID", "12345", "ENROLL_STATUS", "E", "ROLE", "student"));
-		generator.writeEnrollmentCSV("2012-D-FRENCH-1", "2012-D-32203", enrollments, csvPath);
+		generator.writeEnrollmentCSV("2012-D-32203", enrollments, csvPath);
 
 		CSVParser parser = new CSVParser(new FileReader(csvPath));
 		String[] values = parser.getLine();
 		assertEquals(5, values.length);
+		assertEquals("", values[0]);
 	}
 
 	@Test

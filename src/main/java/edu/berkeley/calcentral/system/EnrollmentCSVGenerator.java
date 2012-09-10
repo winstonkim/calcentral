@@ -29,39 +29,42 @@ import org.springframework.stereotype.Component;
 
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.LinkedHashMap;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 @Component
 public class EnrollmentCSVGenerator extends BaseDao {
 
+	// email gets changed to uid@example.edu
+	// TODO does UID itself need to be obsfuscated?
+
 	private static final Logger LOGGER = Logger.getLogger(EnrollmentCSVGenerator.class);
 
 	/**
-	 * Generates enrollments csv file at the specified path based on the static file /canvas/sections.csv.
+	 * Append to enrollments csv file at the specified path based on the static file /canvas/sections.csv.
+	 *
 	 * @param path Path of the generated csv.
 	 * @throws IOException
 	 */
 	public void generate(String path) throws IOException {
-		writeCSVHeaders(path);
-		Map<String, String> sections = readSectionsFromCSV();
-		for (String section : sections.keySet()) {
+		List<String> sections = readSectionsFromCSV();
+		for (String section : sections) {
 			List<Map<String, Object>> enrollments = getStudentsForSection(section);
 			List<Map<String, Object>> instructors = getInstructorsForSection(section);
 			enrollments.addAll(instructors);
-			writeEnrollmentCSV(sections.get(section), section, enrollments, path);
+			writeEnrollmentCSV(section, enrollments, path);
 		}
 	}
 
-	Map<String, String> readSectionsFromCSV() throws IOException {
-		Map<String, String> sections = new LinkedHashMap<String, String>();
+	List<String> readSectionsFromCSV() throws IOException {
+		List<String> sections = new ArrayList<String>();
 		LabeledCSVParser parser = new LabeledCSVParser(new CSVParser(new ClassPathResource("/canvas/sections.csv").getInputStream()));
 		while (parser.getLine() != null) {
 			String courseID = parser.getValueByLabel("course_id");
 			String sectionID = parser.getValueByLabel("section_id");
 			LOGGER.debug("Section ID = " + sectionID + " CourseID = " + courseID);
-			sections.put(sectionID, courseID);
+			sections.add(sectionID);
 		}
 		return sections;
 	}
@@ -101,34 +104,17 @@ public class EnrollmentCSVGenerator extends BaseDao {
 						"course_cntl_num", sectionIDParts[2]));
 	}
 
-	void writeCSVHeaders(String path) throws IOException {
-		CSVPrinter printer = null;
-		try {
-			printer = new CSVPrinter(new FileWriter(path, true));
-			printer.writeln(new String[]{
-					"course_id",
-					"user_id",
-					"role",
-					"section_id",
-					"status"});
-		} finally {
-			if (printer != null) {
-				printer.close();
-			}
-		}
-	}
-
-	void writeEnrollmentCSV(String courseID, String sectionID, List<Map<String, Object>> enrollments, String path) throws IOException {
+	void writeEnrollmentCSV(String sectionID, List<Map<String, Object>> enrollments, String path) throws IOException {
 		CSVPrinter printer = null;
 		try {
 			printer = new CSVPrinter(new FileWriter(path, true));
 			for (Map<String, Object> enrollment : enrollments) {
 				printer.writeln(new String[]{
-						courseID,
+						null,
 						enrollment.get("LDAP_UID").toString(),
 						enrollment.get("ROLE").toString(),
 						sectionID,
-						"active"}); // TODO canvas wants one of active, deleted, completed -- where do these values live in oracle?
+						"active"});
 			}
 		} finally {
 			if (printer != null) {
