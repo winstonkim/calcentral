@@ -35,6 +35,7 @@ if [ -f $INPUT_FILE ]; then
   SAKAI2_SECRET=`awk -F"=" '/^X_SAKAI_TOKEN_SHARED_SECRET=/ {print $2}' $INPUT_FILE`
   CANVAS_ROOT=`awk -F"=" '/^CANVAS_ROOT=/ {print $2}' $INPUT_FILE`
   CANVAS_SECRET=`awk -F"=" '/^CANVAS_SECRET=/ {print $2}' $INPUT_FILE`
+  CANVAS_ACCOUNT_ID=`awk -F"=" '/^CANVAS_ACCOUNT_ID=/ {print $2}' $INPUT_FILE`
 else
   POSTGRES_PASSWORD='secret'
   APPLICATION_HOST='http://localhost:8080'
@@ -42,8 +43,6 @@ else
   CAS_LOGOUT_URL='http%3A%2F%2Flocalhost%3A8080%2F'
   SAKAI2_HOST='localhost:8080'
   SAKAI2_SECRET=POSTGRES_PASSWORD
-  CANVAS_ROOT=APPLICATION_HOST
-  CANVAS_SECRET=POSTGRES_PASSWORD
 fi
 
 LOG=$2
@@ -84,9 +83,11 @@ fi
 # finicky calcentral.properties for the time being will require all the values to get written out
 echo "sakai2Proxy.sharedSecret=$SAKAI2_SECRET" > $CONFIG_FILES/calcentral.properties
 echo "sakai2Proxy.sakai2Host=$SAKAI2_HOST" >> $CONFIG_FILES/calcentral.properties
-echo "canvasProxy.canvasRoot=$CANVAS_ROOT" >> $CONFIG_FILES/calcentral.properties
-echo "canvasProxy.accessToken=$CANVAS_SECRET" >> $CONFIG_FILES/calcentral.properties
-
+if [ $CANVAS_ROOT ]; then
+  echo "canvasProxy.canvasRoot=$CANVAS_ROOT" >> $CONFIG_FILES/calcentral.properties
+  echo "canvasProxy.accessToken=$CANVAS_SECRET" >> $CONFIG_FILES/calcentral.properties
+  echo "canvasProxy.accountId=$CANVAS_ACCOUNT_ID" >> $CONFIG_FILES/calcentral.properties
+fi
 
 echo | $LOGIT
 echo "------------------------------------------" | $LOGIT
