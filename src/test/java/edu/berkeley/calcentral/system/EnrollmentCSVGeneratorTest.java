@@ -19,7 +19,6 @@
 package edu.berkeley.calcentral.system;
 
 import com.Ostermiller.util.CSVParser;
-import com.Ostermiller.util.LabeledCSVParser;
 import com.google.common.collect.ImmutableMap;
 import edu.berkeley.calcentral.DatabaseAwareTest;
 import org.apache.log4j.Logger;
@@ -41,9 +40,9 @@ public class EnrollmentCSVGeneratorTest extends DatabaseAwareTest {
 
 	@Test
 	public void readSections() throws IOException {
-		List<String> sections = generator.readSections();
+		Map<String, String> sections = generator.readSectionsFromCSV();
 		assertNotNull(sections);
-		assertTrue(sections.size() > 1);
+		assertTrue(sections.keySet().size() > 1);
 	}
 
 	@Test(expected = IllegalArgumentException.class)
@@ -73,8 +72,20 @@ public class EnrollmentCSVGeneratorTest extends DatabaseAwareTest {
 		enrollments.add(ImmutableMap.<String, Object>of("LDAP_UID", "12345", "ENROLL_STATUS", "E", "ROLE", "student"));
 		generator.writeEnrollmentCSV("2012-D-FRENCH-1", "2012-D-32203", enrollments, csvPath);
 
-		LabeledCSVParser parser = new LabeledCSVParser(new CSVParser(new FileReader(csvPath)));
+		CSVParser parser = new CSVParser(new FileReader(csvPath));
 		String[] values = parser.getLine();
+		assertEquals(5, values.length);
+	}
+
+	@Test
+	public void generate() throws Exception {
+		String csvPath = "target/enrollments-fulltest-" + System.currentTimeMillis() + ".csv";
+		generator.generate(csvPath);
+
+		CSVParser parser = new CSVParser(new FileReader(csvPath));
+		String[] values = parser.getLine();
+		assertEquals(5, values.length);
+		values = parser.getLine();
 		assertEquals(5, values.length);
 	}
 }
