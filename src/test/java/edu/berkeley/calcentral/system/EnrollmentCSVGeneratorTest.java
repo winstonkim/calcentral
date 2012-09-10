@@ -18,14 +18,23 @@
 
 package edu.berkeley.calcentral.system;
 
+import com.Ostermiller.util.CSVParser;
+import com.Ostermiller.util.LabeledCSVParser;
+import com.google.common.collect.ImmutableMap;
 import edu.berkeley.calcentral.DatabaseAwareTest;
+import org.apache.log4j.Logger;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class EnrollmentCSVGeneratorTest extends DatabaseAwareTest {
+
+	private static final Logger LOGGER = Logger.getLogger(EnrollmentCSVGeneratorTest.class);
 
 	@Autowired
 	private EnrollmentCSVGenerator generator;
@@ -38,8 +47,29 @@ public class EnrollmentCSVGeneratorTest extends DatabaseAwareTest {
 	}
 
 	@Test
-	public void getEnrollmentsForSection() throws Exception {
-		List<String> sections = generator.readSections();
-		generator.getEnrollmentsForSection(sections.get(0));
+	public void getStudentsForSection() throws Exception {
+		List<Map<String, Object>> enrollments = generator.getStudentsForSection("2012-D-32203");
+		assertNotNull(enrollments);
+		assertTrue(enrollments.size() > 0);
+	}
+
+	@Test
+	public void getInstructorsForSection() throws Exception {
+		List<Map<String, Object>> enrollments = generator.getInstructorsForSection("2012-D-32203");
+		assertNotNull(enrollments);
+		assertTrue(enrollments.size() > 0);
+	}
+
+	@Test
+	public void writeEnrollmentCSV() throws Exception {
+		String csvPath = "target/enrollments-test-" + System.currentTimeMillis() + ".csv";
+
+		List<Map<String, Object>> enrollments = new ArrayList<Map<String, Object>>(1);
+		enrollments.add(ImmutableMap.<String, Object>of("LDAP_UID", "12345", "ENROLL_STATUS", "E", "ROLE", "student"));
+		generator.writeEnrollmentCSV("2012-D-FRENCH-1", "2012-D-32203", enrollments, csvPath);
+
+		LabeledCSVParser parser = new LabeledCSVParser(new CSVParser(new FileReader(csvPath)));
+		String[] values = parser.getLine();
+		assertEquals(5, values.length);
 	}
 }
