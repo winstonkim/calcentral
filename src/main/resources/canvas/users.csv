@@ -1,0 +1,16 @@
+user_id,login_id,password,first_name,last_name,email,status
+192517,192517,,"Yu-Hung","Lin","yuhung@example.edu",active
+238382,238382,,"BERNADETTE ANNE","GEUY","bernie@example.edu",active
+2040,2040,,"Oliver","Heyer","oliver@example.edu",active
+191779,191779,,"Scot","Hacker","scot@example.edu",active
+208861,208861,,"Allison","BLOODWORTH","allison@example.edu",active
+211159,211159,,"Ray","Davis","ray@example.edu",active
+322279,322279,,"Eli","Cochran","eli@example.edu",active
+323487,323487,,"Jon","Hays","jon@example.edu",active
+675750,675750,,"Rachel","Hollowgrass","rachel@example.edu",active
+730057,730057,,"Lisa","Rothrauff","lisa@example.edu",active
+904715,904715,,"Chris","Tweney","chris@example.edu",active
+978966,978966,,"Christian Raymond Marcel","Vuerings","christian@example.edu",active
+322587,322587,,"Empfaculty","Testa","test-322587@berkeley.edu",active
+300846,300846,,"Stu","Testb","test-300846@berkeley.edu",active
+322583,322583,,"Empstaff","Testc","test-322583@berkeley.edu",active

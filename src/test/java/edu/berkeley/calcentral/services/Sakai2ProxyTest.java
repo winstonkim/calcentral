@@ -19,9 +19,11 @@
 package edu.berkeley.calcentral.services;
 
 import edu.berkeley.calcentral.DatabaseAwareTest;
+import org.codehaus.jettison.json.JSONException;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.io.IOException;
 import java.util.Map;
 
 public class Sakai2ProxyTest extends DatabaseAwareTest {
@@ -31,8 +33,18 @@ public class Sakai2ProxyTest extends DatabaseAwareTest {
 
 	@Test
 	public void testGet() throws Exception {
-		Map<String, Object> result = proxy.get("2040", "/sakai-hybrid/sites?categorized=true");
+		Map<String, Object> result = proxy.get(randomString(), "/sakai-hybrid/sites?categorized=true");
 		assertNotNull(result.get("body"));
 		assertNotNull(result.get("statusCode"));
+		assertNotNull(result.get("statusText"));
+	}
+
+	@Test
+	public void getUnread() throws IOException, JSONException {
+		Map<String, Object> response = proxy.get(randomString(), "/sakai-hybrid/sites?unread=true");
+		assertNotNull(response);
+		assertNotNull(response.get("body"));
+		assertNotNull(response.get("statusCode"));
+		assertNotNull(response.get("statusText"));
 	}
 }

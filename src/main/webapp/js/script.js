@@ -348,23 +348,50 @@ var calcentral = calcentral || {};
 		return '/api/user/' + calcentral.Data.User.user.uid + '/widgetData/' + widgetId;
 	};
 
+	/**
+	 * Load the widget data
+	 * @param {Object} config The configuration object
+	 * {
+	 * "refresh": false // Reload the widget data
+	 * }
+	 * @param {Function} callback Callback function
+	 */
 	calcentral.Api.Widgets.loadWidgetData = function(config, callback) {
 
 		if (!config || !config.id) {
 			console.log('calcentral.Api.Widgets.loadWidgetData - Please provide a config object with an id.');
 		}
 
-		$.ajax({
-			'cache': false,
-			'success': function(data) {
-				if (data && data.widgetData && data.widgetData.data) {
-					callback(true, data.widgetData.data);
-				} else {
-					callback(false);
-				}
-			},
-			'url': createWidgetDataUrl(config.id)
-		});
+		// This should be removed after the widgetData response has been refactored in CLC-141
+		// We should be able to replace it by calcentral.Data.User.widgetData[config.id]
+		var getWidgetData = function(widgetId) {
+			return _.find(calcentral.Data.User.widgetData, function(item) {
+				return item.widgetData.widgetID === widgetId;
+			});
+		};
+
+		// We only perform an extra Ajax request when necessary
+		if (config && config.refresh) {
+			$.ajax({
+				'cache': false,
+				'success': function(data) {
+					if (data && data.widgetData && data.widgetData.data) {
+						callback(true, data.widgetData.data);
+					} else {
+						callback(false);
+					}
+				},
+				'url': createWidgetDataUrl(config.id)
+			});
+		} else {
+			var widgetData = getWidgetData(config.id);
+			if (calcentral.Data.User.widgetData && widgetData &&
+					widgetData.widgetData && widgetData.widgetData.data) {
+				callback(true, widgetData.widgetData.data);
+			} else {
+				callback(false);
+			}
+		}
 	};
 
 	calcentral.Api.Widgets.saveWidgetData = function(config, callback) {

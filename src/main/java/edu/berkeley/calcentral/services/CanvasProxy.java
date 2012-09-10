@@ -60,10 +60,16 @@ public class CanvasProxy {
 	public void setCanvasRoot(String canvasRoot) {
 		this.canvasRoot = canvasRoot;
 	}
-
 	private String accessToken;
 	public void setAccessToken(String accessToken) {
 		this.accessToken = accessToken;
+	}
+	private String accountId;
+	public String getAccountId() {
+		return accountId;
+	}
+	public void setAccountId(String accountId) {
+		this.accountId = accountId;
 	}
 
 	private RestTemplate restTemplate;
@@ -72,7 +78,8 @@ public class CanvasProxy {
 
 	@PostConstruct
 	public void init() {
-		LOGGER.info("canvasRoot = " + canvasRoot + "; canvas access token = " + accessToken);
+		LOGGER.info("canvasRoot = " + canvasRoot + "; canvas access token = " + accessToken +
+				"; account ID = " + accountId);
 		headers = new HttpHeaders();
 		headers.setContentType(org.springframework.http.MediaType.APPLICATION_FORM_URLENCODED);
 		headers.set("Authorization", "Bearer " + accessToken);

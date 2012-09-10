@@ -13,29 +13,23 @@
 	<bean id="loggerListener"
 		class="org.springframework.security.authentication.event.LoggerListener" />
 
-	<!-- XXX: will need to do something about figuring out what to do with checking 
-		cas tickets on the REST api calls -->
 	<bean id="springSecurityFilterChain" class="org.springframework.security.web.FilterChainProxy">
 		<sec:filter-chain-map path-type="ant">
-			<sec:filter-chain pattern="/secure/logout" filters="logoutFilter,etf" />
+			<sec:filter-chain pattern="/secure/logout" filters="logoutFilter" />
 			<sec:filter-chain pattern="/secure/**"
 				filters="
 				casAuthenticationFilter,
 				casValidationFilter,
 				wrappingFilter,
-				sif,
 				j2eePreAuthFilter,
 				logoutFilter,
-				etf,
 				pageLoggingFilter" />
 			<sec:filter-chain pattern="/**"
 												filters="
                 casValidationFilter,
                 wrappingFilter,
-                sif,
                 j2eePreAuthFilter,
                 logoutFilter,
-                etf,
                 pageLoggingFilter" />
 		</sec:filter-chain-map>
 	</bean>
@@ -44,7 +38,7 @@
 		class="org.jasig.cas.client.authentication.AuthenticationFilter">
 		<property name="casServerLoginUrl" value="https://auth-test.berkeley.edu/cas/login" />
 		<property name="serverName" value="http://localhost:8080" />
-		<property name="renew" value="true" />
+		<property name="renew" value="false" />
 	</bean>
 
 	<bean id="casValidationFilter"
@@ -55,21 +49,26 @@
 		<property name="ticketValidator" ref="ticketValidator" />
 	</bean>
 
+	<bean class="org.jasig.cas.client.validation.Cas20ServiceTicketValidator"
+	      id="ticketValidator">
+		<constructor-arg index="0" value="https://auth-test.berkeley.edu/cas" />
+	</bean>
+
 	<bean id="wrappingFilter"
 		class="org.jasig.cas.client.util.HttpServletRequestWrapperFilter" />
 
-	<bean id="sif"
-		class="org.springframework.security.web.context.SecurityContextPersistenceFilter" />
+	<bean id="j2eePreAuthFilter" class="org.springframework.security.web.authentication.preauth.j2ee.J2eePreAuthenticatedProcessingFilter">
+		<property name="authenticationManager" ref="authenticationManager" />
+		<property name="authenticationDetailsSource">
+			<bean
+					class="org.springframework.security.web.authentication.WebAuthenticationDetailsSource" />
+		</property>
+	</bean>
 
 	<sec:authentication-manager alias="authenticationManager">
 		<sec:authentication-provider ref="preAuthAuthProvider" />
 	</sec:authentication-manager>
 
-
-	<!-- There are situations where you want to use Spring Security for authorization, 
-		but the user has already been reliably authenticated by some external system 
-		prior to accessing the application. We refer to these situations as “pre-authenticated” 
-		scenarios. -->
 	<bean id="preAuthAuthProvider"
 		class="org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationProvider">
 		<property name="preAuthenticatedUserDetailsService">
@@ -80,16 +79,7 @@
 		</property>
 	</bean>
 
-	<bean id="preAuthEntryPoint"
-		class="org.springframework.security.web.authentication.Http403ForbiddenEntryPoint" />
-
-	<bean id="j2eePreAuthFilter" class="edu.berkeley.calcentral.system.CustomPreAuthFilter">
-		<property name="authenticationManager" ref="authenticationManager" />
-		<property name="authenticationDetailsSource">
-			<bean
-				class="org.springframework.security.web.authentication.WebAuthenticationDetailsSource" />
-		</property>
-	</bean>
+	<bean id="userDetailsService" class="edu.berkeley.calcentral.services.UserService"/>
 
 	<bean id="logoutSuccessHandler" class="org.springframework.security.web.authentication.logout.SimpleUrlLogoutSuccessHandler">
 		<property name="defaultTargetUrl" value="https://auth-test.berkeley.edu/cas/logout?url=http%3A%2F%2Flocalhost%3A8080%2F"/>
@@ -97,7 +87,7 @@
 
 	<bean id="logoutFilter"
 		class="org.springframework.security.web.authentication.logout.LogoutFilter">
-		<constructor-arg ref="logoutSuccessHandler"></constructor-arg>
+		<constructor-arg ref="logoutSuccessHandler"/>
 		<constructor-arg>
 			<bean
 				class="org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler" />
@@ -105,39 +95,7 @@
 		<property name="filterProcessesUrl" value="/secure/logout" />
 	</bean>
 
-	<bean id="servletContext"
-		class="org.springframework.web.context.support.ServletContextFactoryBean" />
-
-	<bean id="etf"
-		class="org.springframework.security.web.access.ExceptionTranslationFilter">
-		<property name="authenticationEntryPoint" ref="preAuthEntryPoint" />
-	</bean>
-
 	<bean id="pageLoggingFilter" class="edu.berkeley.calcentral.system.PageLoggerFilter" />
-
-	<bean id="httpRequestAccessDecisionManager"
-		class="org.springframework.security.access.vote.AffirmativeBased">
-		<property name="allowIfAllAbstainDecisions" value="false" />
-		<property name="decisionVoters">
-			<list>
-				<ref bean="roleVoter" />
-			</list>
-		</property>
-	</bean>
-
-	<bean id="roleVoter" class="org.springframework.security.access.vote.RoleVoter" />
-
-	<bean id="securityContextHolderAwareRequestFilter"
-		class="org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter" />
-
-	<bean class="org.jasig.cas.client.validation.Cas20ServiceTicketValidator"
-		id="ticketValidator">
-		<constructor-arg index="0"
-			value="https://auth-test.berkeley.edu/cas" />
-	</bean>
-
-	<!-- User Service wiring -->
-	<bean id="userDetailsService" class="edu.berkeley.calcentral.services.UserService"/>
 
 	<context:property-override
 		location="classpath:/server.properties"
