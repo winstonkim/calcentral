@@ -57,6 +57,7 @@
 		<jdbc:script location="classpath:/db/campusdata/recreate_tables.sql"/>
 		<jdbc:script location="classpath:/db/campusdata/load_person_data.sql"/>
 		<jdbc:script location="classpath:/db/campusdata/load_class_data.sql"/>
+		<jdbc:script location="classpath:/db/campusdata/load_enrollment_data.sql"/>
 	</jdbc:initialize-database>
 	<bean id="campusDataSource" class="org.springframework.aop.framework.ProxyFactoryBean">
 		<property name="targetName" value="h2CampusDataSource"/>
