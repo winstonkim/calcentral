@@ -32,7 +32,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-@Ignore
 public class EnrollmentCSVGeneratorTest extends DatabaseAwareTest {
 
 	private static final Logger LOGGER = Logger.getLogger(EnrollmentCSVGeneratorTest.class);
