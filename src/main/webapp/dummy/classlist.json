@@ -1,4 +1,28 @@
 {
+
+    "department": "BIOPHY",
+    "dept_title": "Biophysics",
+    "college_slug": "collegeofletterssciencebiologicalsciences",
+    "college_prefix": "College of Letters & Science",
+    "college_title": "Biological Sciences",
+    "siblings": {
+        "BIOLOGY": {
+            "title": "Biology"
+        },
+        "BIOPHY": {
+            "title": "Biophysics"
+        },
+        "INTEGBI": {
+            "title": "Integrative Biology"
+        },
+        "MCELLBI": {
+            "title": "Molecular and Cell Biology"
+        },
+        "PHYS ED": {
+            "title": "Physical Education"
+        }
+    },
+
     "classes": [
     {
         "cid": "2012D7303",

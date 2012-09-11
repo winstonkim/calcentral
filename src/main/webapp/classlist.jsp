@@ -10,10 +10,14 @@
         <tags:lhclasslistnavigation/>
         <div class="cc-page-classpage-container cc-container-main-right">
 
-        <h1>Class Page Listings in category: foo</h1>
         <div class="cc-page-classlist-container"><!-- --></div>
 
+
         <script id="cc-page-classlist-template" type="text/x-handlebars-template">
+
+        <h2>Class Page Listings in {{dept_title}}</h2>
+        <p style="color:green;">(Dummy data - menu and classes do not change during navigation)</p>
+
         {{#each classes}}
             <div class="cc-container-widget cc-classlist-section">
                 <div class="cc-widget-title">

@@ -409,6 +409,12 @@ header h1 {
 	font-weight: bold;
 	padding: 8px 5px 8px 28px;
 }
+
+.cc-entity-name.cc-lefthandnavigation a {
+	padding-left: 10px;
+	width:185px;
+}
+
 .cc-lefthandnavigation .cc-lefthandnavigation-item-selected {
 	color: #ffffff;
 	background: #012955;
@@ -417,6 +423,10 @@ header h1 {
 	background: -o-linear-gradient(top, #3b5d86, #012955);
 	background: -ms-linear-gradient(top, #3b5d86, #012955);
 	background: linear-gradient(top, #3b5d86, #012955);
+}
+
+.cc-entity-name.cc-lefthandnavigation {
+	margin-left:-20px;
 }
 
 /* Error pages */

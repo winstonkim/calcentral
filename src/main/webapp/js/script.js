@@ -520,10 +520,11 @@ var calcentral = calcentral || {};
 	};
 
 	// Navigation hidden on all pages unless specifically referenced here - do we need this?
-	if ($('.cc-page-dashboard, .cc-page-profile, .cc-page-classpage, .cc-page-classlist').length){
+	if ($('.cc-page-dashboard, .cc-page-profile, .cc-page-classpage').length){
 		loadLeftHandNavigation();
 	}
 })();
+
 
 
 /**
@@ -766,7 +767,6 @@ var calcentral = calcentral || {};
 		}).promise();
 	};
 
-
 	var loadBuildingCoords = function() {
 		// Cross-reference campus building designators with our own lookup table to get coords.
 		// Takes a string arg like 'BANCROFT'
@@ -785,6 +785,8 @@ var calcentral = calcentral || {};
 /**
  * ClassList
  * Given a class list API endpoint, display all classes in that category
+ * Workflow here is: Get URL param for department shortcode. Look up corresponding
+ * shortcode in colleges-and-school.json to get meta data
  */
 (function() {
 	var $classList = $('.cc-page-classlist');
@@ -792,6 +794,7 @@ var calcentral = calcentral || {};
 	var $classListContainer = $('.cc-page-classlist-container', $classList);
 
 	var renderClassList = function(data) {
+
 		var partials = {
 			'courseInfo': $('#cc-page-classlist-courseinfo-template', $classList).html()
 		};
@@ -801,17 +804,33 @@ var calcentral = calcentral || {};
 			'partials': partials,
 			'template': $('#cc-page-classlist-template', $classList)
 		});
+
+		var renderLeftHandClassPageListNavigation = function(data) {
+			// Append department siblings to left-hand nav
+
+			data.pages = $.map(data.siblings, function(val, i) {
+				url = "/classlist.jsp?cat=" + i;
+				return {'title': val.title, 'url': url};
+			});
+
+			calcentral.Api.Util.renderTemplate({
+				'container': $('.cc-container-main-left'),
+				'data': data,
+				'template': $('#cc-container-main-left-template')
+			});
+		};
+
+		data.college_url = "/classlist.jsp?college=" + data.college_slug;
+		data.pathname = window.location.pathname + window.location.search;
+		renderLeftHandClassPageListNavigation(data);
+
 	};
 
-
 	var loadClassList = function() {
-		// Get class ID from URL
-		// var classid = calcentral.Api.GetURLParams().cid;
 		return $.ajax({
 			'url': '/dummy/classlist.json'
 		}).promise();
 	};
-
 
 	if($classList.length) {
 		$.when(loadClassList()).done(renderClassList);
