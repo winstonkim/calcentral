@@ -18,9 +18,13 @@
 
 package edu.berkeley.calcentral.services;
 
+import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 import edu.berkeley.calcentral.Urls;
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.codehaus.jackson.JsonNode;
+import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.node.ArrayNode;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -40,13 +44,13 @@ import javax.ws.rs.core.MediaType;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Properties;
+import java.util.Set;
 
 /**
  * Proxy for talking to Berkeley's Canvas servers. If you want to hit a Canvas URL of the form
  * http://ucberkeley.instructure.com/api/v1/foo/bar then you call http://{calcentral}/api/canvas/foo/bar and
  * the proxy will forward your request with form parameters intact.
- *
+ * <p/>
  * Canvas API documentation is here: {@link https://canvas.instructure.com/doc/api/index.html}
  */
 @SuppressWarnings("unchecked")
@@ -57,17 +61,23 @@ public class CanvasProxy {
 	private static final Logger LOGGER = Logger.getLogger(CanvasProxy.class);
 
 	private String canvasRoot;
+
 	public void setCanvasRoot(String canvasRoot) {
 		this.canvasRoot = canvasRoot;
 	}
+
 	private String accessToken;
+
 	public void setAccessToken(String accessToken) {
 		this.accessToken = accessToken;
 	}
+
 	private String accountId;
+
 	public String getAccountId() {
 		return accountId;
 	}
+
 	public void setAccountId(String accountId) {
 		this.accountId = accountId;
 	}
@@ -75,6 +85,8 @@ public class CanvasProxy {
 	private RestTemplate restTemplate;
 
 	private HttpHeaders headers;
+
+	private ObjectMapper mapper = new ObjectMapper();
 
 	@PostConstruct
 	public void init() {
@@ -88,6 +100,7 @@ public class CanvasProxy {
 
 	/**
 	 * Get an URL on the Canvas server.
+	 *
 	 * @param canvasPath The Canvas API path to get, not including the server name and /api/v1 part.
 	 * @return The Canvas server's response.
 	 */
@@ -99,7 +112,61 @@ public class CanvasProxy {
 	}
 
 	/**
+	 * Handling a user's request of "their current courses." This is likely to change once OAuth comes around to let canvas
+	 * know what user it's speaking to (so we don't have to fudge the functionality with two separate API calls).
+	 *
+	 * @return list of active courses for the current user, or null on errors.
+	 */
+	@GET
+	@Path("courses")
+	@Produces({MediaType.APPLICATION_JSON})
+	public Map<String, Object> getMyCourses(@Context HttpServletRequest request) {
+		String uid = request.getRemoteUser();
+		//sanity check.
+		if (uid == null) {
+			LOGGER.error("Not authenticated.");
+			return null;
+		}
+		String enrollment_url = "users/sis_user_id:" + uid + "/enrollments";
+		String courses_url = "accounts/" + accountId + "/courses";
+		String currentEnrollment = get(enrollment_url);
+		String allCourses = get(courses_url);
+		if (currentEnrollment == null || allCourses == null) {
+			LOGGER.error("Bad responses. currentEnrollment=" + currentEnrollment + ", allCourses=" + allCourses);
+			return null;
+		} else {
+			Map<String, Object> result = Maps.newHashMap();
+			result.put("canvasRoot", canvasRoot);
+			result.put("courses", intersectEnrollmentAndCourses(currentEnrollment, allCourses));
+			return result;
+		}
+	}
+
+	private ArrayNode intersectEnrollmentAndCourses(String enrollment, String courses) {
+		Set<String> myCourseIds = Sets.newHashSet();
+		ArrayNode returnNode = mapper.createArrayNode();
+		try {
+			JsonNode enrollmentArray = mapper.readTree(enrollment);
+			for (JsonNode enrollmentNode : enrollmentArray) {
+				myCourseIds.add(enrollmentNode.get("course_id").getValueAsText());
+			}
+			JsonNode coursesArray = mapper.readTree(courses);
+			for (JsonNode courseNode : coursesArray) {
+				String courseId = courseNode.get("id").getValueAsText();
+				if (myCourseIds.contains(courseId)) {
+					returnNode.add(courseNode);
+				}
+			}
+			return returnNode;
+		} catch (Exception e) {
+			LOGGER.error("Json parsing error: ", e);
+			return null;
+		}
+	}
+
+	/**
 	 * Do a PUT on the Canvas server.
+	 *
 	 * @param canvasPath The Canvas API path to PUT to, not including the server name and /api/v1 part.
 	 * @return The Canvas server's response.
 	 */
@@ -113,6 +180,7 @@ public class CanvasProxy {
 
 	/**
 	 * POST to an URL on the Canvas server.
+	 *
 	 * @param canvasPath The Canvas API path to POST to, not including the server name and /api/v1 part.
 	 * @return The Canvas server's response.
 	 */
@@ -126,6 +194,7 @@ public class CanvasProxy {
 
 	/**
 	 * Delete an URL on the Canvas server.
+	 *
 	 * @param canvasPath The Canvas API path to DELETE, not including the server name and /api/v1 part.
 	 * @return The Canvas server's response.
 	 */
