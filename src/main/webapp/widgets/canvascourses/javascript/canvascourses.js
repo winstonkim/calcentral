@@ -10,8 +10,6 @@ calcentral.Widgets.canvascourses = function(tuid) {
 	var $canvascoursesList = $('.cc-widget-canvascourses-list', $rootel);
 	// Used to control whether or not to load the dummy feed.
 	var dummy = false;
-	// Hardcoded for the time being. Will be refactored out soon enough.
-	var accountID = 90242;
 
 	////////////////////
 	// Event Handlers //
@@ -35,67 +33,57 @@ calcentral.Widgets.canvascourses = function(tuid) {
 	// Ajax Requests //
 	///////////////////
 
-	var getCanvasData = function(url) {
-		return $.ajax({
-			'url': url
-		});
-	}
-
 	/**
 	 * Will always load the list of dummy courses hardcoded for the widget.
 	 * @return {Object} Ajax object for fetching the dummy couress.
 	 */
-	var loadDummyCourses = function() {
-		return $.ajax({
-			'cache': false,
-			'url': '/widgets/canvascourses/dummy/canvascourses.json'
-		});
-	}
+	 var loadDummyCourses = function() {
+	 	return $.ajax({
+	 		'cache': false,
+	 		'url': '/widgets/canvascourses/dummy/canvascourses.json'
+	 	});
+	 }
 
-	/**
-	 * Merge the the array of courses a user is enrolled in, with the list of all avaiable
-	 * courses to extract information necessary for rendering the widget.
-	 *
-	 * @param  {Array} user_enrollment Array of JSONObjects of couress user is enrolled in.
-	 * @param  {Array} allCourses Array of all the courses avaiable on canvas for this account.
-	 * @return {Array} Array of JSONOjects, containing course name and course ID.
-	 */
-	var extractCourseNameAndId = function(user_enrollment, allCourses) {
-		var courseIds = $.map(user_enrollment[0], function(value, index) {
-			return value.course_id;
-		});
-		var renderData = $.map(allCourses[0], function(course, index) {
-			if ($.inArray(course.id, courseIds) > -1) {
-				return {
-					'name' : course.course_code + ": " + course.name,
-					'id': course.id
-				};
-			}
-		});
-		return renderData;
-	}
+	 /**
+	  * Get the current user's canvas courses. If success, do some filtering on the results
+	  * to only return the parts necesssary for rendering.
+	  * @return {Array} Array of JSON objects to pass off to the template renderer.
+	  */
+	 var getCanvasCourses = function() {
+	 	$ajaxWrapper = $.Deferred();
+	 	$.ajax({
+	 		'url': '/api/canvas/courses',
+	 		'success': function(data) {
+	 			//do some translation on the results. Expecting an array of course JSON object.
+	 			var result = $.map(data, function(value, index) {
+	 				return {
+	 					'id': value.id,
+	 					'name': value.course_code + ": " + value.name
+	 				};
+	 			});
+	 			$ajaxWrapper.resolve(result);
+	 		},
+	 		'error': $ajaxWrapper.reject
+	 	});
+
+	 	return $ajaxWrapper.promise();
+	 }
 
 	/**
 	 * Fetch users's course data from canvas.
-	 * @param  {Object} data Javascript Object containing uid and other urls to get data from.
 	 * @return {Object} Deferred promise object for a Deferrred chain, with a (data) param.
 	 */
-	var loadCourses = function(data) {
-		if (dummy) {
-			return loadDummyCourses();
-		} else {
-			var $loadCoursesDeferred = $.Deferred();
-			$.when(getCanvasData(data.enrollment_url), getCanvasData(data.courses_url)).done(function(user_enrollment, allCourses){
-				var renderData = extractCourseNameAndId(user_enrollment, allCourses);
-				$loadCoursesDeferred.resolve(renderData);
-			}).fail(function() {
-				loadDummyCourses().done(function(data) {
-					$loadCoursesDeferred.resolve(data);
-				});
-			});
-			return $loadCoursesDeferred.promise();
-		}
-	};
+	 var loadCourses = function() {
+	 	if (dummy) {
+	 		return loadDummyCourses();
+	 	} else {
+	 		var $loadCoursesDeferred = $.Deferred();
+	 		$.when(getCanvasCourses()).done($loadCoursesDeferred.resolve).fail(function() {
+	 			loadDummyCourses().done($loadCoursesDeferred.resolve);
+	 		});
+	 		return $loadCoursesDeferred.promise();
+	 	}
+	 };
 
 	////////////////////
 	// Initialisation //
@@ -103,14 +91,7 @@ calcentral.Widgets.canvascourses = function(tuid) {
 
 	 // Initialise the canvas classes widget
 	 var doInit = function(){
-	 	/** Data available already for the current user, on every page. */
-	 	var data = {
-	 		'uid': calcentral.Data.User.user.uid,
-	 		'enrollment_url': '/api/canvas/users/sis_user_id:' + calcentral.Data.User.user.uid + '/enrollments',
-	 		'courses_url': '/api/canvas/accounts/' + accountID + '/courses'
-	 	};
-
-	 	$.when(loadCourses(data)).done(renderCourses);
+	 	$.when(loadCourses()).done(renderCourses);
 	 };
 
 	// Start the request
