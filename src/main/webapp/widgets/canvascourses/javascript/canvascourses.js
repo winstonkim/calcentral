@@ -39,10 +39,16 @@ calcentral.Widgets.canvascourses = function(tuid) {
 	 * @return {Object} Ajax object for fetching the dummy couress.
 	 */
 	 var loadDummyCourses = function() {
-	 	return $.ajax({
+	 	$ajaxWrapper = $.Deferred();
+	 	$.ajax({
 	 		'cache': false,
-	 		'url': '/widgets/canvascourses/dummy/canvascourses.json'
+	 		'url': '/widgets/canvascourses/dummy/canvascourses.json',
+	 		'success': function(data) {
+	 			$ajaxWrapper.resolve({'host': 'http://localhost:3000/', 'courses' : data});
+	 		},
+	 		'error': $ajaxWrapper.reject
 	 	});
+	 	return $ajaxWrapper.promise();
 	 }
 
 	 /**
@@ -75,15 +81,16 @@ calcentral.Widgets.canvascourses = function(tuid) {
 	 * @return {Object} Deferred promise object for a Deferrred chain, with a (data) param.
 	 */
 	 var loadCourses = function() {
+	 	var $loadCoursesDeferred = $.Deferred();
 	 	if (dummy) {
-	 		return loadDummyCourses();
+	 		loadDummyCourses().done($loadCoursesDeferred.resolve);
 	 	} else {
 	 		var $loadCoursesDeferred = $.Deferred();
 	 		$.when(getCanvasCourses()).done($loadCoursesDeferred.resolve).fail(function() {
 	 			loadDummyCourses().done($loadCoursesDeferred.resolve);
 	 		});
-	 		return $loadCoursesDeferred.promise();
 	 	}
+	 	return $loadCoursesDeferred.promise();
 	 };
 
 	////////////////////
