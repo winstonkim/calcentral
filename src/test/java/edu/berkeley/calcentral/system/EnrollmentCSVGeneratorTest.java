@@ -22,6 +22,7 @@ import com.Ostermiller.util.CSVParser;
 import com.google.common.collect.ImmutableMap;
 import edu.berkeley.calcentral.DatabaseAwareTest;
 import org.apache.log4j.Logger;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -31,6 +32,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+@Ignore
 public class EnrollmentCSVGeneratorTest extends DatabaseAwareTest {
 
 	private static final Logger LOGGER = Logger.getLogger(EnrollmentCSVGeneratorTest.class);
