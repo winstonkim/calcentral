@@ -15,7 +15,7 @@
 
         <script id="cc-page-classlist-template" type="text/x-handlebars-template">
 
-        <h2>Class Page Listings in {{dept_title}}</h2>
+        <h2>{{dept_title}} classes</h2>
         <p style="color:green;">(Dummy data - menu and classes do not change during navigation)</p>
 
         {{#each classes}}
