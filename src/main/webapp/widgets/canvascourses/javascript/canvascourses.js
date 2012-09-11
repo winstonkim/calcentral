@@ -23,7 +23,8 @@ calcentral.Widgets.canvascourses = function(tuid) {
 		calcentral.Api.Util.renderTemplate({
 			'container': $canvascoursesList,
 			'data': {
-				'courses': data
+				'courses': data.courses,
+				'host': data.host
 			},
 			'template': $('#cc-widget-canvascourses-list-template', $rootel)
 		});
@@ -47,7 +48,7 @@ calcentral.Widgets.canvascourses = function(tuid) {
 	 /**
 	  * Get the current user's canvas courses. If success, do some filtering on the results
 	  * to only return the parts necesssary for rendering.
-	  * @return {Array} Array of JSON objects to pass off to the template renderer.
+	  * @return {Object} Pair of 1) canvasRoot host, and 2) Array of JSON objects to pass off to the template renderer.
 	  */
 	 var getCanvasCourses = function() {
 	 	$ajaxWrapper = $.Deferred();
@@ -55,13 +56,13 @@ calcentral.Widgets.canvascourses = function(tuid) {
 	 		'url': '/api/canvas/courses',
 	 		'success': function(data) {
 	 			//do some translation on the results. Expecting an array of course JSON object.
-	 			var result = $.map(data, function(value, index) {
+	 			var result = $.map(data.courses, function(value, index) {
 	 				return {
 	 					'id': value.id,
 	 					'name': value.course_code + ": " + value.name
 	 				};
 	 			});
-	 			$ajaxWrapper.resolve(result);
+	 			$ajaxWrapper.resolve({'host':data.canvasRoot, 'courses': result});
 	 		},
 	 		'error': $ajaxWrapper.reject
 	 	});

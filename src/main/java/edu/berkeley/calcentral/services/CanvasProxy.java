@@ -18,13 +18,13 @@
 
 package edu.berkeley.calcentral.services;
 
+import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import edu.berkeley.calcentral.Urls;
 import org.apache.log4j.Logger;
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.node.ArrayNode;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -41,7 +41,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
-import java.util.*;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Proxy for talking to Berkeley's Canvas servers. If you want to hit a Canvas URL of the form
@@ -58,17 +61,23 @@ public class CanvasProxy {
 	private static final Logger LOGGER = Logger.getLogger(CanvasProxy.class);
 
 	private String canvasRoot;
+
 	public void setCanvasRoot(String canvasRoot) {
 		this.canvasRoot = canvasRoot;
 	}
+
 	private String accessToken;
+
 	public void setAccessToken(String accessToken) {
 		this.accessToken = accessToken;
 	}
+
 	private String accountId;
+
 	public String getAccountId() {
 		return accountId;
 	}
+
 	public void setAccountId(String accountId) {
 		this.accountId = accountId;
 	}
@@ -111,7 +120,7 @@ public class CanvasProxy {
 	@GET
 	@Path("courses")
 	@Produces({MediaType.APPLICATION_JSON})
-	public ArrayNode getMyCourses(@Context HttpServletRequest request) {
+	public Map<String, Object> getMyCourses(@Context HttpServletRequest request) {
 		String uid = request.getRemoteUser();
 		//sanity check.
 		if (uid == null) {
@@ -126,7 +135,10 @@ public class CanvasProxy {
 			LOGGER.error("Bad responses. currentEnrollment=" + currentEnrollment + ", allCourses=" + allCourses);
 			return null;
 		} else {
-			return intersectEnrollmentAndCourses(currentEnrollment, allCourses);
+			Map<String, Object> result = Maps.newHashMap();
+			result.put("canvasRoot", canvasRoot);
+			result.put("courses", intersectEnrollmentAndCourses(currentEnrollment, allCourses));
+			return result;
 		}
 	}
 
