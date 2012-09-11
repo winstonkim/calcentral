@@ -18,29 +18,22 @@
 
 package edu.berkeley.calcentral.services;
 
-import java.util.List;
-import java.util.Map;
-
-import javax.ws.rs.DELETE;
-import javax.ws.rs.FormParam;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.jboss.resteasy.annotations.cache.Cache;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.google.common.base.Strings;
-
 import edu.berkeley.calcentral.Params;
 import edu.berkeley.calcentral.Urls;
 import edu.berkeley.calcentral.daos.WidgetDataDao;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.jboss.resteasy.annotations.cache.Cache;
+import org.jboss.resteasy.spi.InternalServerErrorException;
+import org.jboss.resteasy.spi.NotFoundException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
+import java.util.List;
+import java.util.Map;
 
 @Service
 @Path(Urls.WIDGET_DATA)
@@ -68,7 +61,7 @@ public class WidgetDataService {
 		//sanity check
 		if (Strings.nullToEmpty(userID).isEmpty() ||
 				Strings.nullToEmpty(widgetID).isEmpty()) {
-			return null;
+			throw new NotFoundException("User " + userID + " or widgetID " + widgetID + " were not found");
 		}
 		
 		Map<String, Object> response = null;
@@ -76,7 +69,7 @@ public class WidgetDataService {
 			response = widgetDataDao.saveWidgetData(userID, widgetID, jsonData);
 		} catch (Exception e) {
 			LOGGER.error("Error parsing JSON for saving", e);
-			return null;
+			throw new InternalServerErrorException("Error saving data: " + e.getMessage()) ;
 		}
 		return response;
 	}
