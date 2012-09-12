@@ -65,7 +65,7 @@ calcentral.Widgets.bspacefavourites = function(tuid) {
 		if (!filter) {
 			filter = "All sites";
 		}
-		var sites = $.map(data, function(value, index) {
+		var sites = $.map(data, function(value) {
 			if (filter === value.category) {
 				return value.sites;
 			}
@@ -73,7 +73,7 @@ calcentral.Widgets.bspacefavourites = function(tuid) {
 		$sitesDeferred.resolve({'sites' : sites});
 
 		return $sitesDeferred.promise();
-	}
+	};
 
 
 	////////////////////
@@ -89,8 +89,6 @@ calcentral.Widgets.bspacefavourites = function(tuid) {
 		}).done(renderFavouritesList);
 	};
 
-	// Expose a few functions through calcentral.WidgetHelper
-	
 
 
 	// Start the request
