@@ -1,0 +1,38 @@
+<div class="cc-container-widget" id="cc-widget-myclasses">
+	<div class="cc-widget-title">
+		<h2>My Classes</h2>
+	</div>
+	<!-- MAIN VIEW -->
+	<div class="cc-widget-myclasses-list">
+		<div class="cc-widget-text">Loading...</div>
+	</div>
+	<script id="cc-widget-myclasses-list-template" type="text/x-handlebars-template">
+		{{#if bSpace.sites}}
+			<ul class="cc-widget-list">
+			{{#each bSpace.sites}}
+				<li class='bspace'><a href="{{url}}">{{title}}</a></li>
+			{{/each}}
+			</ul>
+		{{else}}
+			<div class="cc-widget-text">
+				There are currently no bSpace sites available.
+			</div>
+		{{/if}}
+		{{#if canvas.courses}}
+			<ul class="cc-widget-list">
+			{{#each canvas.courses}}
+				<li class="canvas"><a href="{{../host}}/courses/{{id}}" target="blank">{{name}}</a></li>
+			{{/each}}
+			</ul>
+		{{else}}
+			<div class="cc-widget-canvascourses-no-results">
+				There are no canvas courses available
+			</div>
+		{{/if}}
+
+	</script>
+	<div class="cc-widget-footer" style="display:none;">
+		<button>Select sites</a>
+		<button>View all my sites</a>
+	</div>
+</div>

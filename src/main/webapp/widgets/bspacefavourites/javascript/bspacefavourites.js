@@ -89,6 +89,10 @@ calcentral.Widgets.bspacefavourites = function(tuid) {
 		}).done(renderFavouritesList);
 	};
 
+	// Expose a few functions through calcentral.WidgetHelper
+	
+
+
 	// Start the request
 	doInit();
 };

@@ -1,0 +1,66 @@
+[
+    {
+        "name": "Algebra 1a",
+        "end_at": null,
+        "account_id": 4,
+        "start_at": "2012-02-08T00:00:00-07:00",
+        "id": 4,
+        "enrollments": [
+            {
+                "type": "student"
+            }
+        ],
+        "course_code": "alg1a-9-12",
+        "calendar": {
+            "ics": "https://belgium.acme.instructure.com/feeds/calendars/course_euopNslAabYDqgXdhTZ6fqcpkVb0v5jgV5MXuG0y.ics"
+        }
+    },
+    {
+        "name": "Introduction to Oceanography",
+        "end_at": null,
+        "account_id": 8,
+        "start_at": "2011-12-22T00:00:00-07:00",
+        "id": 3,
+        "enrollments": [
+            {
+                "type": "student"
+            }
+        ],
+        "course_code": "Intro-Ocean",
+        "calendar": {
+            "ics": "https://belgium.acme.instructure.com/feeds/calendars/course_QmKJGEPay6iFilRlFTMGMdauNXGjjc4SR8fThuFP.ics"
+        }
+    },
+    {
+        "name": "Critical Thinking",
+        "end_at": null,
+        "account_id": 2,
+        "start_at": "2012-01-10T11:28:24-07:00",
+        "id": 1,
+        "enrollments": [
+            {
+                "type": "student"
+            }
+        ],
+        "course_code": "Critical Thinking",
+        "calendar": {
+            "ics": "https://belgium.acme.instructure.com/feeds/calendars/course_zM3BGXPzoB2w6W1tGZMq7gLPHq0wwCKiWUaL5RK1.ics"
+        }
+    },
+    {
+        "name": "Math Club",
+        "end_at": null,
+        "account_id": 4,
+        "start_at": "2012-02-08T15:51:41-07:00",
+        "id": 11,
+        "enrollments": [
+            {
+                "type": "student"
+            }
+        ],
+        "course_code": "mathclub",
+        "calendar": {
+            "ics": "https://belgium.acme.instructure.com/feeds/calendars/course_jh2pFXq7lXCrG15fCxNzmn571lj9qk50ZnWd5lrZ.ics"
+        }
+    }
+]
