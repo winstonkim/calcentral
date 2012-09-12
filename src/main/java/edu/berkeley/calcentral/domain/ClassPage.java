@@ -1,9 +1,9 @@
 package edu.berkeley.calcentral.domain;
 
+import javax.xml.bind.annotation.XmlRootElement;
 import java.util.List;
 
-import javax.xml.bind.annotation.XmlRootElement;
-
+@SuppressWarnings("UnusedDeclaration")
 @XmlRootElement
 public class ClassPage {
 	private String classid;
@@ -11,6 +11,7 @@ public class ClassPage {
 	private ClassPageCourseInfo courseinfo; 
 	private String classtitle;
 	private String department;
+	private String catalogid;
 	private String description;
 	private List<ClassPageInstructor> instructors;
 	private List<ClassPageSchedule> schedule; 
@@ -30,6 +31,9 @@ public class ClassPage {
 	}
 	public String getDepartment() {
 		return department;
+	}
+	public String getCatalogid() {
+		return catalogid;
 	}
 	public String getDescription() {
 		return description;
@@ -58,6 +62,9 @@ public class ClassPage {
 	public void setDepartment(String department) {
 		this.department = department;
 	}
+	public void setCatalogid(String catalogid) {
+		this.catalogid = catalogid;
+	}
 	public void setDescription(String description) {
 		this.description = description;
 	}
@@ -69,5 +76,20 @@ public class ClassPage {
 	}
 	public void setSections(List<ClassPageSection> sections) {
 		this.sections = sections;
+	}
+
+	@Override
+	public String toString() {
+		return "ClassPage{" +
+				"classid='" + classid + '\'' +
+				", classtitle='" + classtitle + '\'' +
+				", department='" + department + '\'' +
+				", catalogid='" + catalogid + '\'' +
+				", info_last_updated='" + info_last_updated + '\'' +
+				", courseinfo=" + courseinfo +
+				", instructors=" + instructors +
+				", schedule=" + schedule +
+				", sections=" + sections +
+				'}';
 	}
 }

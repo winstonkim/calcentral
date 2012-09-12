@@ -1,12 +1,12 @@
 package edu.berkeley.calcentral.domain;
 
-import java.util.List;
-
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+
+import java.util.List;
 
 @JsonIgnoreProperties({"misc_schedule"})
 public class ClassPageSection {
-	private String coursenum;
+	private String ccn;
 	private String enrolled_cur;
 	private String enrolled_max;
 	private String location;
@@ -142,11 +142,11 @@ public class ClassPageSection {
 	public void setSection_instructors(List<ClassPageInstructor> section_instructors) {
 		this.section_instructors = section_instructors;
 	}
-	public String getCoursenum() {
-		return coursenum;
+	public String getCcn() {
+		return ccn;
 	}
-	public void setCoursenum(String coursenum) {
-		this.coursenum = coursenum;
+	public void setCcn(String ccn) {
+		this.ccn = ccn;
 	}
 	public ClassPageSchedule getMisc_schedule() {
 		return misc_schedule;
@@ -163,6 +163,31 @@ public class ClassPageSection {
 	public void setWeekdays(String weekdays) {
 		this.weekdays = weekdays;
 	}
-	
-	
+
+	@Override
+	public String toString() {
+		return "ClassPageSection{" +
+				"ccn='" + ccn + '\'' +
+				", enrolled_cur='" + enrolled_cur + '\'' +
+				", enrolled_max='" + enrolled_max + '\'' +
+				", location='" + location + '\'' +
+				", coords='" + coords + '\'' +
+				", note='" + note + '\'' +
+				", section='" + section + '\'' +
+				", time='" + time + '\'' +
+				", weekdays='" + weekdays + '\'' +
+				", waitlist='" + waitlist + '\'' +
+				", midterm_datetime='" + midterm_datetime + '\'' +
+				", midterm_location='" + midterm_location + '\'' +
+				", midterm_coords='" + midterm_coords + '\'' +
+				", midterm_note='" + midterm_note + '\'' +
+				", final_datetime='" + final_datetime + '\'' +
+				", final_location='" + final_location + '\'' +
+				", final_coords='" + final_coords + '\'' +
+				", final_note='" + final_note + '\'' +
+				", restrictions='" + restrictions + '\'' +
+				", section_instructors=" + section_instructors +
+				", misc_schedule=" + misc_schedule +
+				'}';
+	}
 }

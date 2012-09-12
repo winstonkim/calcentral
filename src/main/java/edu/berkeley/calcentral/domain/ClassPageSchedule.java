@@ -139,4 +139,18 @@ public class ClassPageSchedule {
 	public void setMisc_weekdays(char[] misc_weekdays) {
 		this.misc_weekdays = misc_weekdays;
 	}
+
+	@Override
+	public String toString() {
+		return "ClassPageSchedule{" +
+				"coords='" + coords + '\'' +
+				", location='" + location + '\'' +
+				", time='" + time + '\'' +
+				", weekdays='" + weekdays + '\'' +
+				", current_sem='" + current_sem + '\'' +
+				", misc_room='" + misc_room + '\'' +
+				", misc_building_name='" + misc_building_name + '\'' +
+				", misc_weekdays=" + misc_weekdays +
+				'}';
+	}
 }
