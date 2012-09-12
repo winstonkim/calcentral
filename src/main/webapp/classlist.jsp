@@ -12,10 +12,12 @@
 
         <div class="cc-page-classlist-container"><!-- --></div>
 
-
         <script id="cc-page-classlist-template" type="text/x-handlebars-template">
+        <nav class="cc-page-classlist-breadcrumbs">
+            <a href="/colleges-and-schools.jsp">All Colleges &amp; Schools</a> :: {{#if department}}{{college_title}} ::{{/if}}
+        </nav>
 
-        <h2>{{dept_title}} classes</h2>
+        <h1 class="cc-page-classlist-title">{{dept_title}}</h1>
         <p style="color:green;">(Dummy data - menu and classes do not change during navigation)</p>
 
         {{#each classes}}

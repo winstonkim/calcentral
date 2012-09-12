@@ -795,6 +795,9 @@ var calcentral = calcentral || {};
 
 	var renderClassList = function(data) {
 
+		// Are we looking at a department listing?
+		data.department = calcentral.Api.GetURLParams().dept ? calcentral.Api.GetURLParams().dept : false;
+
 		var partials = {
 			'courseInfo': $('#cc-page-classlist-courseinfo-template', $classList).html()
 		};
@@ -809,7 +812,7 @@ var calcentral = calcentral || {};
 			// Append department siblings to left-hand nav
 
 			data.pages = $.map(data.siblings, function(val, i) {
-				url = "/classlist.jsp?cat=" + i;
+				url = "/classlist.jsp?dept=" + i;
 				return {'title': val.title, 'url': url};
 			});
 
