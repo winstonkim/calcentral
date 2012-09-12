@@ -66,14 +66,15 @@ public class ClassPagesDao extends BaseDao {
 				+ "   bpi.person_name name, " 
 				+ "   bpi.email_disclos_cd misc_email_disclosure,"
 				+ "   '' office, " 
-				+ "   '' phone, " 
+				+ "   bpi.telephone phone, "
 				+ "   '' img, " 
 				+ "   '' title, " 
 				+ "   '' url " 
 				+ " FROM BSPACE_COURSE_INSTRUCTOR_VW bci "
 				+ " JOIN BSPACE_PERSON_INFO_VW bpi on "
 				+ "   (bpi.ldap_uid = bci.instructor_ldap_uid) "
-				+ " WHERE bci.TERM_YR = :year AND bci.TERM_CD = :term AND bci.COURSE_CNTL_NUM = :courseID";
+				+ " WHERE bci.TERM_YR = :year AND bci.TERM_CD = :term AND bci.COURSE_CNTL_NUM = :courseID "
+				+ " ORDER BY bci.MULTI_ENTRY_CD";
 		return campusQueryRunner.query(instructors, params,
 				new BeanPropertyRowMapper<ClassPageInstructor>(ClassPageInstructor.class));
 	}
@@ -103,7 +104,7 @@ public class ClassPagesDao extends BaseDao {
 		params.put("deptName", deptName);
 		params.put("catalogId", catalogId);
 		String sections = " SELECT "
-				+ "   bci.COURSE_CNTL_NUM coursenum, "
+				+ "   bci.COURSE_CNTL_NUM ccn, "
 				+ "   '' enrolled_cur, " //TODO: going to have to do some aggregation on BSPACE_CLASS_ROSTER
 				+ "   bci.ENROLL_LIMIT enrolled_max, "
 				+ " trim(nvl(bcs.ROOM_NUMBER, '')) misc_room, "
@@ -130,7 +131,8 @@ public class ClassPagesDao extends BaseDao {
 				+ "   (bcs.TERM_YR = bci.TERM_YR AND bcs.TERM_CD = bci.TERM_CD AND bcs.COURSE_CNTL_NUM = bci.COURSE_CNTL_NUM "
 				+ "   AND (trim(bcs.MEETING_DAYS) != 'UNSCHED' AND trim(bcs.BUILDING_NAME) != 'NO FACILITY')) "
 				+ " WHERE bci.TERM_YR = :year AND bci.TERM_CD = :term "
-				+ "   AND bci.DEPT_NAME = :deptName AND bci.CATALOG_ID = :catalogId";
+				+ "   AND bci.DEPT_NAME = :deptName AND bci.CATALOG_ID = :catalogId "
+				+ " ORDER BY bci.PRIMARY_SECONDARY_CD, bci.SECTION_NUM ";
 		return campusQueryRunner.query(sections, params, sectionMapper);
 	}
 
@@ -142,14 +144,15 @@ public class ClassPagesDao extends BaseDao {
 				"   bpi.person_name name, " +
 				"   bpi.email_disclos_cd misc_email_disclosure," +
 				"   '' office, " +
-				"   '' phone, " +
+				"   bpi.telephone phone, " +
 				"   '' img, " +
 				"   '' title, " +
 				"   '' url " +
 				" FROM BSPACE_COURSE_INSTRUCTOR_VW bci " +
 				" JOIN BSPACE_PERSON_INFO_VW bpi on " +
 				"   (bpi.ldap_uid = bci.instructor_ldap_uid)" +
-				" WHERE bci.TERM_YR = :year AND bci.TERM_CD = :term AND bci.COURSE_CNTL_NUM = :courseID";
+				" WHERE bci.TERM_YR = :year AND bci.TERM_CD = :term AND bci.COURSE_CNTL_NUM = :courseID" +
+				" ORDER BY bci.MULTI_ENTRY_CD ";
 		return campusQueryRunner.query(sql, params,
 				new BeanPropertyRowMapper<ClassPageInstructor>(ClassPageInstructor.class));
 	}

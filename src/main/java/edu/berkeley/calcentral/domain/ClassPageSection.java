@@ -1,12 +1,12 @@
 package edu.berkeley.calcentral.domain;
 
-import java.util.List;
-
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+
+import java.util.List;
 
 @JsonIgnoreProperties({"misc_schedule"})
 public class ClassPageSection {
-	private String coursenum;
+	private String ccn;
 	private String enrolled_cur;
 	private String enrolled_max;
 	private String location;
@@ -142,11 +142,11 @@ public class ClassPageSection {
 	public void setSection_instructors(List<ClassPageInstructor> section_instructors) {
 		this.section_instructors = section_instructors;
 	}
-	public String getCoursenum() {
-		return coursenum;
+	public String getCcn() {
+		return ccn;
 	}
-	public void setCoursenum(String coursenum) {
-		this.coursenum = coursenum;
+	public void setCcn(String ccn) {
+		this.ccn = ccn;
 	}
 	public ClassPageSchedule getMisc_schedule() {
 		return misc_schedule;
@@ -167,7 +167,7 @@ public class ClassPageSection {
 	@Override
 	public String toString() {
 		return "ClassPageSection{" +
-				"coursenum='" + coursenum + '\'' +
+				"ccn='" + ccn + '\'' +
 				", enrolled_cur='" + enrolled_cur + '\'' +
 				", enrolled_max='" + enrolled_max + '\'' +
 				", location='" + location + '\'' +
