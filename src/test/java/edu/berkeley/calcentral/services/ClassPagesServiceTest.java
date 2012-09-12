@@ -18,11 +18,17 @@
 package edu.berkeley.calcentral.services;
 
 import edu.berkeley.calcentral.DatabaseAwareTest;
+import edu.berkeley.calcentral.daos.ClassPagesDaoTest;
 import edu.berkeley.calcentral.domain.ClassPage;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class ClassPagesServiceTest extends DatabaseAwareTest {
+
+	private static final Log LOGGER = LogFactory.getLog(ClassPagesDaoTest.class);
+
 	@Autowired
 	private ClassPagesService classPagesService;
 
@@ -31,5 +37,11 @@ public class ClassPagesServiceTest extends DatabaseAwareTest {
 		ClassPage classPage = classPagesService.getClassInfo("2012D7308");
 		assertNotNull(classPage);
 		assertEquals("BIOLOGY", classPage.getDepartment());
+		assertNotNull(classPage.getCourseinfo());
+		assertTrue(classPage.getInstructors().size() > 0);
+		assertTrue(classPage.getSections().size() > 0);
+		assertNotNull(classPage.getSections().get(0).getSection_instructors());
+		assertNotNull(classPage.getSchedule());
+		LOGGER.debug(classPage);
 	}
 }

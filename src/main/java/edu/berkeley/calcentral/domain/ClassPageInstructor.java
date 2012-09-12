@@ -77,5 +77,19 @@ public class ClassPageInstructor {
 	public void setMisc_email_disclosure(String misc_email_disclosure) {
 		this.misc_email_disclosure = misc_email_disclosure;
 	}
-	
+
+	@Override
+	public String toString() {
+		return "ClassPageInstructor{" +
+				"email='" + email + '\'' +
+				", id='" + id + '\'' +
+				", name='" + name + '\'' +
+				", office='" + office + '\'' +
+				", phone='" + phone + '\'' +
+				", img='" + img + '\'' +
+				", title='" + title + '\'' +
+				", url='" + url + '\'' +
+				", misc_email_disclosure='" + misc_email_disclosure + '\'' +
+				'}';
+	}
 }
