@@ -39,4 +39,9 @@ public class ClassListDaoTest extends DatabaseAwareTest {
 		assertTrue(classes.size() > 0);
 	}
 
+	@Test
+	public void getDepartment() throws Exception {
+		Department dept = dao.getDepartment("PHYS ED");
+		assertNotNull(dept);
+	}
 }

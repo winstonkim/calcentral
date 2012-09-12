@@ -1,5 +1,6 @@
 package edu.berkeley.calcentral.services;
 
+import com.google.common.collect.ImmutableList;
 import edu.berkeley.calcentral.Urls;
 import edu.berkeley.calcentral.daos.ClassListDao;
 import edu.berkeley.calcentral.domain.ClassPage;
@@ -30,9 +31,18 @@ public class ClassListService {
 	@Autowired
 	private ClassListDao dao;
 
-	/*
-	/api/classList/collegeoflettersscienceartshumanities => everything in L&S
-	/api/classList/collegeoflettersscienceartshumanities/Arabic => just Arabic
+	/**
+	 * Get all the courses in a college, with some extra college and departmental metadata.
+	 *
+	 * @param collegeSlug The college slug.
+	 * @return JSON data:
+	 *         <pre>
+	 *         	{
+	 *         		college : {@link edu.berkeley.calcentral.domain.User},
+	 *         		departments : array of {@link edu.berkeley.calcentral.domain.Department},
+	 *         	  classes : array of {@link edu.berkeley.calcentral.domain.ClassPage}
+	 *         	}
+	 *         	</pre>
 	 */
 	@GET
 	@Produces({MediaType.APPLICATION_JSON})
@@ -56,4 +66,41 @@ public class ClassListService {
 		return result;
 	}
 
+	/**
+	 * Get all the courses in a particular department, with some extra college and departmental metadata.
+	 *
+	 * @param collegeSlug The college slug.
+	 * @param department The department to fetch.
+	 * @return JSON data:
+	 *         <pre>
+	 *         	{
+	 *         		college : {@link edu.berkeley.calcentral.domain.User},
+	 *         		departments : array of {@link edu.berkeley.calcentral.domain.Department},
+	 *         	  classes : array of {@link edu.berkeley.calcentral.domain.ClassPage}
+	 *         	}
+	 *         	</pre>
+	 */
+	@GET
+	@Produces({MediaType.APPLICATION_JSON})
+	@Path("{collegeslug}/{department}")
+	public Map<String, Object> getDepartment(@PathParam(value = "collegeslug") String collegeSlug,
+	                                         @PathParam(value = "department") String department) {
+		Map<String, Object> result = new HashMap<String, Object>();
+		try {
+			College college = dao.getCollege(collegeSlug);
+			LOGGER.info("Got college: " + college);
+			result.put("college", college);
+
+			List<Department> allDepartments = dao.getDepartments(college.getId());
+			result.put("departments", allDepartments);
+
+			Department thisDepartment = dao.getDepartment(department);
+			List<ClassPage> classes = dao.getClasses(ImmutableList.of(thisDepartment));
+			result.put("classes", classes);
+
+		} catch (EmptyResultDataAccessException e) {
+			throw new NotFoundException("College " + collegeSlug + " not found");
+		}
+		return result;
+	}
 }
