@@ -8,7 +8,7 @@ import java.util.Map;
 
 @XmlRootElement
 @JsonIgnoreProperties({"misc_scheduleprintcd", "misc_lowerRangeUnit", "misc_upperRangeUnit", 
-	"misc_variableUnitCd", "misc_fixedunit", "misc_catalogid", "misc_deptname"})
+	"misc_variableUnitCd", "misc_fixedunit", "misc_deptname"})
 public class ClassPageCourseInfo {
 	private String title;
 	private String catalogid;
