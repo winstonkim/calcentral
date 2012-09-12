@@ -691,10 +691,11 @@ var calcentral = calcentral || {};
 
 	var singleToggle = function() {
 		// Toggle individual sections open/closed when clicked
-		$('div.classpages_sections_arrow').on('click',function() {
+		$('div.classpages_sections_arrow').on('click',function(event) {
 			// Each class section consists of two table rows - one shown on page load, the other hidden.
 			// Each section arrow lives in a td inside the first row of its set.
 			// When clicked, find its parent tr, then find that tr's next sibling and show/hide it.
+			event.preventDefault();
 			$(this).parents('tr.classpages_classrow').eq(0).next().toggle('slow');
 
 			// And turn the disclosure triangle by adding or removing an additional class
