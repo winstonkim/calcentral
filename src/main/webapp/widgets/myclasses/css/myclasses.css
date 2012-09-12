@@ -1,0 +1,7 @@
+.cc-widget-myclasses-list .cc-widget-list li.bspace a {
+	background: url(/widgets/myclasses/images/bspace_icon.png) no-repeat scroll 10px 7px transparent;
+}
+
+.cc-widget-myclasses-list .cc-widget-list li.canvas a {
+    background: url(/widgets/myclasses/images/canvascourses_icon.png) no-repeat scroll 10px 7px transparent;
+}
