@@ -1,12 +1,10 @@
 package edu.berkeley.calcentral.domain;
 
-import java.util.Map;
-
-import javax.xml.bind.annotation.XmlRootElement;
-
+import com.google.common.collect.Maps;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
-import com.google.common.collect.Maps;
+import javax.xml.bind.annotation.XmlRootElement;
+import java.util.Map;
 
 @XmlRootElement
 @JsonIgnoreProperties({"misc_scheduleprintcd", "misc_lowerRangeUnit", "misc_upperRangeUnit", 
@@ -213,5 +211,29 @@ public class ClassPageCourseInfo {
 
 	public void setMisc_deptname(String misc_deptname) {
 		this.misc_deptname = misc_deptname;
+	}
+
+	@Override
+	public String toString() {
+		return "ClassPageCourseInfo{" +
+				"title='" + title + '\'' +
+				", format='" + format + '\'' +
+				", grading='" + grading + '\'' +
+				", prereqs='" + prereqs + '\'' +
+				", requirements='" + requirements + '\'' +
+				", term='" + term + '\'' +
+				", semesters_offered='" + semesters_offered + '\'' +
+				", year='" + year + '\'' +
+				", department='" + department + '\'' +
+				", coursenum='" + coursenum + '\'' +
+				", units='" + units + '\'' +
+				", misc_scheduleprintcd='" + misc_scheduleprintcd + '\'' +
+				", misc_lowerRangeUnit='" + misc_lowerRangeUnit + '\'' +
+				", misc_upperRangeUnit='" + misc_upperRangeUnit + '\'' +
+				", misc_variableUnitCd='" + misc_variableUnitCd + '\'' +
+				", misc_fixedunit='" + misc_fixedunit + '\'' +
+				", misc_catalogid='" + misc_catalogid + '\'' +
+				", misc_deptname='" + misc_deptname + '\'' +
+				'}';
 	}
 }

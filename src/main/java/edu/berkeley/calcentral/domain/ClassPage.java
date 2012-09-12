@@ -1,8 +1,7 @@
 package edu.berkeley.calcentral.domain;
 
-import java.util.List;
-
 import javax.xml.bind.annotation.XmlRootElement;
+import java.util.List;
 
 @XmlRootElement
 public class ClassPage {
@@ -69,5 +68,19 @@ public class ClassPage {
 	}
 	public void setSections(List<ClassPageSection> sections) {
 		this.sections = sections;
+	}
+
+	@Override
+	public String toString() {
+		return "ClassPage{" +
+				"classid='" + classid + '\'' +
+				", classtitle='" + classtitle + '\'' +
+				", department='" + department + '\'' +
+				", info_last_updated='" + info_last_updated + '\'' +
+				", courseinfo=" + courseinfo +
+				", instructors=" + instructors +
+				", schedule=" + schedule +
+				", sections=" + sections +
+				'}';
 	}
 }

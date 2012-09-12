@@ -163,6 +163,31 @@ public class ClassPageSection {
 	public void setWeekdays(String weekdays) {
 		this.weekdays = weekdays;
 	}
-	
-	
+
+	@Override
+	public String toString() {
+		return "ClassPageSection{" +
+				"coursenum='" + coursenum + '\'' +
+				", enrolled_cur='" + enrolled_cur + '\'' +
+				", enrolled_max='" + enrolled_max + '\'' +
+				", location='" + location + '\'' +
+				", coords='" + coords + '\'' +
+				", note='" + note + '\'' +
+				", section='" + section + '\'' +
+				", time='" + time + '\'' +
+				", weekdays='" + weekdays + '\'' +
+				", waitlist='" + waitlist + '\'' +
+				", midterm_datetime='" + midterm_datetime + '\'' +
+				", midterm_location='" + midterm_location + '\'' +
+				", midterm_coords='" + midterm_coords + '\'' +
+				", midterm_note='" + midterm_note + '\'' +
+				", final_datetime='" + final_datetime + '\'' +
+				", final_location='" + final_location + '\'' +
+				", final_coords='" + final_coords + '\'' +
+				", final_note='" + final_note + '\'' +
+				", restrictions='" + restrictions + '\'' +
+				", section_instructors=" + section_instructors +
+				", misc_schedule=" + misc_schedule +
+				'}';
+	}
 }
