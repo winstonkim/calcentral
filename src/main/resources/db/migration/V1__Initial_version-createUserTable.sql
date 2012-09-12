@@ -26,25 +26,6 @@ CREATE TABLE calcentral_widgetdata (
 CREATE INDEX calcentral_widgetdata_index ON calcentral_widgetdata USING btree (id);
 
 /** Create and populate colleges metadata table **/
---
--- PostgreSQL database dump
---
-
-SET statement_timeout = 0;
-SET client_encoding = 'UTF8';
-SET standard_conforming_strings = on;
-SET check_function_bodies = false;
-SET client_min_messages = warning;
-
-SET search_path = public, pg_catalog;
-
-SET default_tablespace = '';
-
-SET default_with_oids = false;
-
---
--- Name: calcentral_classtree_colleges; Type: TABLE; Schema: public; Tablespace:
---
 
 CREATE TABLE calcentral_classtree_colleges (
     slug character varying(128) NOT NULL,
@@ -54,43 +35,12 @@ CREATE TABLE calcentral_classtree_colleges (
     id integer NOT NULL
 );
 
-
---
--- Name: calcentral_classtree_colleges_id_seq; Type: SEQUENCE; Schema: public
---
-
 CREATE SEQUENCE calcentral_classtree_colleges_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
     NO MAXVALUE
     CACHE 1;
-
-
---
--- Name: calcentral_classtree_colleges_id_seq; Type: SEQUENCE OWNED BY; Schema: public
---
-
-ALTER SEQUENCE calcentral_classtree_colleges_id_seq OWNED BY calcentral_classtree_colleges.id;
-
-
---
--- Name: calcentral_classtree_colleges_id_seq; Type: SEQUENCE SET; Schema: public
---
-
-SELECT pg_catalog.setval('calcentral_classtree_colleges_id_seq', 19, true);
-
-
---
--- Name: id; Type: DEFAULT; Schema: public
---
-
-ALTER TABLE ONLY calcentral_classtree_colleges ALTER COLUMN id SET DEFAULT nextval('calcentral_classtree_colleges_id_seq'::regclass);
-
-
---
--- Data for Name: calcentral_classtree_colleges; Type: TABLE DATA; Schema: public
---
 
 INSERT INTO calcentral_classtree_colleges VALUES ('collegeoflettersscienceartshumanities', 'College of Letters & Science', 'Arts & Humanities', 'letters-and-science', 1);
 INSERT INTO calcentral_classtree_colleges VALUES ('collegeofletterssciencebiologicalsciences', 'College of Letters & Science', 'Biological Sciences', 'letters-and-science', 2);
@@ -113,53 +63,15 @@ INSERT INTO calcentral_classtree_colleges VALUES ('schoolofsocialwelfare', 'Scho
 INSERT INTO calcentral_classtree_colleges VALUES ('undergraduateinterdisciplinarystudies', 'College of Letters & Science', 'Undergraduate & Interdisciplinary Studies', 'letters-and-science', 19);
 
 
---
--- Name: calcentral_classtree_colleges_pkey; Type: CONSTRAINT; Schema: public; Tablespace:
---
-
 ALTER TABLE ONLY calcentral_classtree_colleges
     ADD CONSTRAINT calcentral_classtree_colleges_pkey PRIMARY KEY (id);
 
-
---
--- Name: slug_id; Type: INDEX; Schema: public; Tablespace:
---
-
 CREATE INDEX slug_id ON calcentral_classtree_colleges USING btree (id);
-
-
---
--- Name: slug_index; Type: INDEX; Schema: public; Tablespace:
---
 
 CREATE INDEX slug_index ON calcentral_classtree_colleges USING btree (slug);
 
 
---
--- PostgreSQL database dump complete
---
-
-
 /** Create and populate departments metadata table **/
---
--- PostgreSQL database dump
---
-
-SET statement_timeout = 0;
-SET client_encoding = 'UTF8';
-SET standard_conforming_strings = on;
-SET check_function_bodies = false;
-SET client_min_messages = warning;
-
-SET search_path = public, pg_catalog;
-
-SET default_tablespace = '';
-
-SET default_with_oids = false;
-
---
--- Name: calcentral_classtree_departments; Type: TABLE; Schema: public; Tablespace:
---
 
 CREATE TABLE calcentral_classtree_departments (
     dept_key character varying(12) NOT NULL,
@@ -168,43 +80,12 @@ CREATE TABLE calcentral_classtree_departments (
     id integer NOT NULL
 );
 
-
---
--- Name: calcentral_classtree_departments_id_seq; Type: SEQUENCE; Schema: public
---
-
 CREATE SEQUENCE calcentral_classtree_departments_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
     NO MAXVALUE
     CACHE 1;
-
-
---
--- Name: calcentral_classtree_departments_id_seq; Type: SEQUENCE OWNED BY; Schema: public
---
-
-ALTER SEQUENCE calcentral_classtree_departments_id_seq OWNED BY calcentral_classtree_departments.id;
-
-
---
--- Name: calcentral_classtree_departments_id_seq; Type: SEQUENCE SET; Schema: public
---
-
-SELECT pg_catalog.setval('calcentral_classtree_departments_id_seq', 140, true);
-
-
---
--- Name: id; Type: DEFAULT; Schema: public
---
-
-ALTER TABLE ONLY calcentral_classtree_departments ALTER COLUMN id SET DEFAULT nextval('calcentral_classtree_departments_id_seq'::regclass);
-
-
---
--- Data for Name: calcentral_classtree_departments; Type: TABLE DATA; Schema: public
---
 
 INSERT INTO calcentral_classtree_departments VALUES ('AHMA', 'Ancient History & Mediterranean Archaeology', 1, 1);
 INSERT INTO calcentral_classtree_departments VALUES ('ARABIC', 'Arabic', 1, 2);
@@ -346,39 +227,11 @@ INSERT INTO calcentral_classtree_departments VALUES ('POLECON', 'Political Econo
 INSERT INTO calcentral_classtree_departments VALUES ('POL SCI', 'Political Science', 19, 139);
 INSERT INTO calcentral_classtree_departments VALUES ('RELIGST', 'Religious Studies', 19, 140);
 
-
---
--- Name: calcentral_classtree_departments_pkey; Type: CONSTRAINT; Schema: public; Tablespace:
---
-
 ALTER TABLE ONLY calcentral_classtree_departments
     ADD CONSTRAINT calcentral_classtree_departments_pkey PRIMARY KEY (id);
 
-
---
--- Name: colege_id_index; Type: INDEX; Schema: public; Tablespace:
---
-
 CREATE INDEX colege_id_index ON calcentral_classtree_departments USING btree (college_id);
-
-
---
--- Name: dep_key_index; Type: INDEX; Schema: public; Tablespace:
---
 
 CREATE INDEX dep_key_index ON calcentral_classtree_departments USING btree (dept_key);
 
-
---
--- Name: id_index; Type: INDEX; Schema: public; Tablespace:
---
-
 CREATE INDEX id_index ON calcentral_classtree_departments USING btree (id);
-
-
---
--- PostgreSQL database dump complete
---
-
-
-
