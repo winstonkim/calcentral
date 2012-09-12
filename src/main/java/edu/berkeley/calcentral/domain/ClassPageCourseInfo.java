@@ -11,6 +11,7 @@ import java.util.Map;
 	"misc_variableUnitCd", "misc_fixedunit", "misc_catalogid", "misc_deptname"})
 public class ClassPageCourseInfo {
 	private String title;
+	private String catalogid;
 	private String format;
 	private String grading;
 	private String prereqs;
@@ -28,7 +29,6 @@ public class ClassPageCourseInfo {
 	private String misc_upperRangeUnit;
 	private String misc_variableUnitCd;
 	private String misc_fixedunit;
-	private String misc_catalogid;
 	private String misc_deptname;
 	
 	public void decodeAll() {
@@ -197,12 +197,12 @@ public class ClassPageCourseInfo {
 		this.misc_fixedunit = misc_fixedunit;
 	}
 
-	public String getMisc_catalogid() {
-		return misc_catalogid;
+	public String getCatalogid() {
+		return catalogid;
 	}
 
-	public void setMisc_catalogid(String misc_catalogid) {
-		this.misc_catalogid = misc_catalogid;
+	public void setCatalogid(String catalogid) {
+		this.catalogid = catalogid;
 	}
 
 	public String getMisc_deptname() {
@@ -217,6 +217,7 @@ public class ClassPageCourseInfo {
 	public String toString() {
 		return "ClassPageCourseInfo{" +
 				"title='" + title + '\'' +
+				", catalogid='" + catalogid + '\'' +
 				", format='" + format + '\'' +
 				", grading='" + grading + '\'' +
 				", prereqs='" + prereqs + '\'' +
@@ -232,7 +233,6 @@ public class ClassPageCourseInfo {
 				", misc_upperRangeUnit='" + misc_upperRangeUnit + '\'' +
 				", misc_variableUnitCd='" + misc_variableUnitCd + '\'' +
 				", misc_fixedunit='" + misc_fixedunit + '\'' +
-				", misc_catalogid='" + misc_catalogid + '\'' +
 				", misc_deptname='" + misc_deptname + '\'' +
 				'}';
 	}

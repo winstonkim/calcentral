@@ -92,7 +92,7 @@ public class ClassPagesService {
 		classPageResult.setSchedule(classPageSchedules);
 		
 		String deptName = courseInfo.getMisc_deptname();
-		String catalogId = courseInfo.getMisc_catalogid();
+		String catalogId = courseInfo.getCatalogid();
 		List<ClassPageSection> classPageSections = classPagesDao.getCourseSections(yearInt, term, deptName, catalogId);
 		for ( ClassPageSection section : classPageSections ) {
 			List<ClassPageInstructor> instructors = classPagesDao.getSectionInstructors(yearInt, term, section.getCcn());
