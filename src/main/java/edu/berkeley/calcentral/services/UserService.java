@@ -13,6 +13,7 @@ import edu.berkeley.calcentral.domain.User;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.jboss.resteasy.spi.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.security.core.GrantedAuthority;
@@ -69,7 +70,7 @@ public class UserService implements UserDetailsService {
 			campusPersonDataService.mergeCampusData(user);
 			userData.put("user", user);
 		} catch (EmptyResultDataAccessException e) {
-			return null;
+			throw new NotFoundException("User " + userID + " could not be found");
 		}
 		List<Map<String, Object>> widgetData = widgetDataDao.getAllWidgetData(userID);
 		userData.put("widgetData", widgetData);

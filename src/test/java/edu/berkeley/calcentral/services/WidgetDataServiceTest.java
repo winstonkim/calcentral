@@ -23,6 +23,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.codehaus.jackson.node.ObjectNode;
 import org.codehaus.jettison.json.JSONException;
+import org.jboss.resteasy.spi.InternalServerErrorException;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,9 +70,9 @@ public class WidgetDataServiceTest extends DatabaseAwareTest {
 		assertEquals("bar", data.get("foo").getTextValue());
 	}
 
-	@Test
+	@Test(expected = InternalServerErrorException.class)
 	public void getMalformedJSONContent() throws IOException, JSONException {
-		assertNull(service.save(user, "bad", "bad JSON"));
+		service.save(user, "bad", "bad JSON");
 	}
 	
 	@Test
