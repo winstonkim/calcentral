@@ -38,6 +38,8 @@ public interface Urls {
 
 	String CLASS_PAGES = API + "/classPages";
 
+	String CLASS_LIST = API + "/classList";
+
 	String BSPACE_FAVORITES = API + "/bspacefavorites";
 
 	String BSPACE_FAVORITES_UNREAD = BSPACE_FAVORITES + "/unread";
