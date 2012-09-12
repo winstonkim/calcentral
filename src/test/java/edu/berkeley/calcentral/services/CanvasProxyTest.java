@@ -18,17 +18,19 @@
 
 package edu.berkeley.calcentral.services;
 
+import com.google.common.collect.ImmutableMap;
 import edu.berkeley.calcentral.DatabaseAwareTest;
+import edu.berkeley.calcentral.Urls;
 import org.apache.log4j.Logger;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONObject;
 import org.junit.Test;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestClientException;
 
-import javax.servlet.http.HttpServletRequest;
-import java.util.*;
+import java.util.Map;
 
 public class CanvasProxyTest extends DatabaseAwareTest {
 
@@ -51,7 +53,7 @@ public class CanvasProxyTest extends DatabaseAwareTest {
 	@Test
 	public void getSpecificCourse() throws Exception {
 		try {
-			String allCourses = proxy.get("courses");
+			String allCourses = proxy.get(Urls.CANVAS_ACCOUNT_PATH + "/courses");
 			JSONArray json = new JSONArray(allCourses);
 			LOGGER.info(json.toString(2));
 			JSONObject first = json.getJSONObject(0);
@@ -65,19 +67,42 @@ public class CanvasProxyTest extends DatabaseAwareTest {
 	}
 
 	@Test
-	public void put() throws Exception {
+	public void accountSavvy() throws Exception {
 		try {
-			String name = "Edited by test " + randomString();
-			HttpServletRequest request = Mockito.mock(HttpServletRequest.class);
-			Vector<String> paramNames = new Vector<String>();
-			paramNames.add("course[name]");
-			Mockito.when(request.getParameterNames()).thenReturn(paramNames.elements());
-			Mockito.when(request.getParameter("course[name]")).thenReturn(name);
-			String response = proxy.put("/courses/767330", request);
+			String response = proxy.get(Urls.CANVAS_ACCOUNT_PATH + "/users");
+			JSONArray json = new JSONArray(response);
+			assertNotNull(json);
+		} catch (RestClientException e) {
+			LOGGER.error("Got a RestClientException, is canvas server properly configured or unavailable?", e);
+		}
+	}
 
-			JSONObject json = new JSONObject(response);
-			LOGGER.info(json.toString(2));
-			assertEquals(name, json.getString("name"));
+	@Test
+	public void serverSideCRUD() throws Exception {
+		String groupName = "testgroup-" + randomString();
+		try {
+			Map<String, Object> params = ImmutableMap.<String, Object>of(
+					"name", groupName,
+					"is_public", "false"
+			);
+			// Create a temporary group.
+			JSONObject json = new JSONObject(proxy.post("groups", params));
+			final String groupPath = "groups/" + json.getString("id");
+			assertEquals(groupName, json.getString("name"));
+			// Edit it.
+			groupName = "revised " + groupName;
+			params = ImmutableMap.<String, Object>of("name", groupName);
+			proxy.put(groupPath, params);
+			json = new JSONObject(proxy.get(groupPath));
+			assertEquals(groupName, json.getString("name"));
+			// Delete it.
+			proxy.delete(groupPath);
+			try {
+				String response = proxy.get(groupPath);
+				fail("Should have received 404 instead of " + response);
+			} catch (HttpStatusCodeException e) {
+				assertEquals(HttpStatus.NOT_FOUND, e.getStatusCode());
+			}
 		} catch (RestClientException e) {
 			LOGGER.error("Got a RestClientException, is canvas server properly configured or unavailable?", e);
 		}

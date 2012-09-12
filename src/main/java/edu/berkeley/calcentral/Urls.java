@@ -26,7 +26,7 @@ public interface Urls {
 
 	String CURRENT_USER = API + "/currentUser";
 
-	String SPECIFIC_USER = USERS + "/{userID}";
+	String SPECIFIC_USER = USERS + "/{" + Params.USER_ID + "}";
 
 	String WIDGET_DATA = SPECIFIC_USER + "/widgetData";
 
@@ -45,5 +45,7 @@ public interface Urls {
 	String BSPACE_FAVORITES_UNREAD = BSPACE_FAVORITES + "/unread";
 
 	String CANVAS = API + "/canvas";
+
+	String CANVAS_ACCOUNT_PATH = "/accounts/{" + Params.CANVAS_ACCOUNT_ID + "}";
 
 }
