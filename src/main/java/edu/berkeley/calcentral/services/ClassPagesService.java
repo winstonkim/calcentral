@@ -1,29 +1,22 @@
 package edu.berkeley.calcentral.services;
 
-import java.util.List;
-import java.util.Map;
+import com.google.common.base.Strings;
+import com.google.common.collect.Maps;
+import edu.berkeley.calcentral.Urls;
+import edu.berkeley.calcentral.daos.ClassPagesDao;
+import edu.berkeley.calcentral.domain.*;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import com.google.common.base.Strings;
-import com.google.common.collect.Maps;
-
-import edu.berkeley.calcentral.Urls;
-import edu.berkeley.calcentral.daos.ClassPagesDao;
-import edu.berkeley.calcentral.domain.ClassPage;
-import edu.berkeley.calcentral.domain.ClassPageCourseInfo;
-import edu.berkeley.calcentral.domain.ClassPageInstructor;
-import edu.berkeley.calcentral.domain.ClassPageSchedule;
-import edu.berkeley.calcentral.domain.ClassPageSection;
+import java.util.List;
+import java.util.Map;
 
 @Service
 @Path(Urls.CLASS_PAGES)
@@ -101,8 +94,11 @@ public class ClassPagesService {
 		String deptName = courseInfo.getMisc_deptname();
 		String catalogId = courseInfo.getMisc_catalogid();
 		List<ClassPageSection> classPageSections = classPagesDao.getCourseSections(yearInt, term, deptName, catalogId);
+		for ( ClassPageSection section : classPageSections ) {
+			List<ClassPageInstructor> instructors = classPagesDao.getSectionInstructors(yearInt, term, courseID);
+			section.setSection_instructors(instructors);
+		}
 		//TODO: can probably use predicates here, to get a list of sections we want to keep.
-		//TODO: another query on all the applicable sections to figure out list of instructors.
 		classPageResult.setSections(classPageSections);
 		
 		return classPageResult;
