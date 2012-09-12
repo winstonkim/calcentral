@@ -134,6 +134,26 @@ public class ClassPagesDao extends BaseDao {
 		return campusQueryRunner.query(sections, params, sectionMapper);
 	}
 
+	public List<ClassPageInstructor> getSectionInstructors(int year, String term, String courseID) {
+		Map<String, Object> params = setupParams(year, term, courseID);
+		String sql = "SELECT " +
+				"   bpi.email_address email, " +
+				"   bpi.ldap_uid id, " +
+				"   bpi.person_name name, " +
+				"   bpi.email_disclos_cd misc_email_disclosure," +
+				"   '' office, " +
+				"   '' phone, " +
+				"   '' img, " +
+				"   '' title, " +
+				"   '' url " +
+				" FROM BSPACE_COURSE_INSTRUCTOR_VW bci " +
+				" JOIN BSPACE_PERSON_INFO_VW bpi on " +
+				"   (bpi.ldap_uid = bci.instructor_ldap_uid)" +
+				" WHERE bci.TERM_YR = :year AND bci.TERM_CD = :term AND bci.COURSE_CNTL_NUM = :courseID";
+		return campusQueryRunner.query(sql, params,
+				new BeanPropertyRowMapper<ClassPageInstructor>(ClassPageInstructor.class));
+	}
+
 	private RowMapper<ClassPageSection> sectionMapper = new RowMapper<ClassPageSection>() {
 		private BeanPropertyRowMapper<ClassPageSection> baseSectionMapper = new BeanPropertyRowMapper<ClassPageSection>(ClassPageSection.class);
 		private BeanPropertyRowMapper<ClassPageSchedule> scheduleMapper = new BeanPropertyRowMapper<ClassPageSchedule>(ClassPageSchedule.class);
