@@ -40,7 +40,6 @@ public class ClassPagesDaoTest extends DatabaseAwareTest {
 		List<ClassPageInstructor> instructors = dao.getCourseInstructors(YEAR, TERM, COURSE_ID);
 		assertEquals(1, instructors.size());
 		assertNotNull(instructors.get(0).getEmail());
-		assertTrue(instructors.get(0).getPhone().length() > 0);
 	}
 
 	@Test
@@ -60,7 +59,6 @@ public class ClassPagesDaoTest extends DatabaseAwareTest {
 	public void getSectionInstructors() throws Exception {
 		List<ClassPageInstructor> instructors = dao.getSectionInstructors(YEAR, TERM, "7303");
 		assertTrue(instructors.size() > 0);
-		assertTrue(instructors.get(0).getPhone().length() > 0);
 		LOGGER.info(instructors);
 	}
 }
