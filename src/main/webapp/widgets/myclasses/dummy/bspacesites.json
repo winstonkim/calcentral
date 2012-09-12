@@ -1,0 +1,115 @@
+{
+    "principal": "211159",
+    "display": 4,
+    "categories": [
+        {
+            "category": "All sites",
+            "sites": [
+                {
+                    "title": "My Workspace",
+                    "id": "~211159",
+                    "url": "https://sakai-qa.berkeley.edu/portal/site/~211159",
+                    "description": "MyWorkspace Site"
+                },
+                {
+                    "title": "Administration Workspace",
+                    "id": "!admin",
+                    "url": "https://sakai-qa.berkeley.edu/portal/site/!admin",
+                    "description": "<p>Administration Workspace</p>"
+                },
+                {
+                    "title": "ITMF",
+                    "id": "47449ea5-6826-4826-807d-af49a5d222fb",
+                    "url": "https://sakai-qa.berkeley.edu/portal/site/47449ea5-6826-4826-807d-af49a5d222fb",
+                    "description": "This site is a place for the Information Technology Manager's Forum (ITMF) to share documents and discussions.",
+                    "shortDescription": "The Information Technology Manager's Forum"
+                },
+                {
+                    "title": "OE IT Design Initiative",
+                    "id": "7ea7d89c-b87c-4221-a2ea-16aee252b967",
+                    "url": "https://sakai-qa.berkeley.edu/portal/site/7ea7d89c-b87c-4221-a2ea-16aee252b967",
+                    "description": "<h3><b>Welcome to&nbsp;the OE Information Technology Design Team's website</b>!</h3>\r\n<br/>\r\n<b>Review our <a href=\"https://bspace.berkeley.edu/portal/site/7ea7d89c-b87c-4221-a2ea-16aee252b967/page/abad55d6-4f98-447b-b1bf-8e537d759293\" target=\"_blank\" >completed FINAL case studies</a>.</b><br/>\r\n<br/>\r\nQuestions? <a href=\"https://bspace.berkeley.edu/portal/site/7ea7d89c-b87c-4221-a2ea-16aee252b967/page/3c863d17-8497-4448-947f-dffa92194379\" target=\"_blank\" >Check out the Q&A</a>.<br/>\r\n<br/>\r\nPlease visit often and feel free to contribute comments and feedback about the material, the format, and site. <br/>\r\n<br/>\r\nThe initial design phase of the OE IT initiative has completed. There will be a brief hiatus while the implementation teams and projects are assembled - stay tuned!<br/>\r\n<br/>\r\nWhat is the OE-IT Design Team?<br/>\r\nTeams have been appointed by the Chancellor on several topics to help with design solutions in those areas. The IT team has taken on the mission of improving the campus information technology infrastructure and services while cutting overall costs. The team will be making recommendations to the campus leadership for additions and changes to improve campus IT.<br/>\r\n<br/>\r\nWe will be accomplishing this by completing in-depth case studies in many different areas. We are counting on frank input from the campus community on these cases to help us formulate the best solutions for campus. Please get involved by reviewing the materials here,&nbsp;<a href=\"https://spreadsheets.google.com/viewform?formkey=dEc4RGp4Y1g4TlpZVWYzWFZud2JvY2c6MQ\" target=\"_blank\" >providing feedback</a>, and visiting the Forums at left.<br/>\r\n<br/>\r\nTo see when we are holding meetings and doing outreach, please visit <a href=\"https://bspace.berkeley.edu/portal/site/7ea7d89c-b87c-4221-a2ea-16aee252b967/page/3c863d17-8497-4448-947f-dffa92194379\" target=\"_blank\" >our schedule page in the wiki</a>.<br/>\r\n<br/>\r\nThanks.<br/>\r\nThe OE IT Design Team<br/>",
+                    "shortDescription": "OE Initiative -- IT Design Team's Site for the UC Berkeley community"
+                },
+                {
+                    "title": "RAYTEST 202",
+                    "id": "5787a902-ecc0-496a-804e-2ca59b2a2f5a",
+                    "url": "https://sakai-qa.berkeley.edu/portal/site/5787a902-ecc0-496a-804e-2ca59b2a2f5a"
+                },
+                {
+                    "title": "Ray's Test",
+                    "id": "0b4d6ef5-eb46-4ce7-8083-660e02f0f6e0",
+                    "url": "https://sakai-qa.berkeley.edu/portal/site/0b4d6ef5-eb46-4ce7-8083-660e02f0f6e0"
+                },
+                {
+                    "title": "TEST 101 001 Su07",
+                    "id": "1850072e-2c93-4234-80e8-ea2d3fe41ec6",
+                    "url": "https://sakai-qa.berkeley.edu/portal/site/1850072e-2c93-4234-80e8-ea2d3fe41ec6"
+                },
+                {
+                    "title": "UIE Seminars & UCD Group Resources",
+                    "id": "b1df3076-88c5-43cc-00d2-632b196f8497",
+                    "url": "https://sakai-qa.berkeley.edu/portal/site/b1df3076-88c5-43cc-00d2-632b196f8497",
+                    "description": "<p><font size=\"5\" ><strong>UIE Seminars for distribution ONLY to University of California students, faculty and staff. </strong></font></p>\r\n<p><font size=\"5\" ><strong>PLEASE DO NOT DISTRIBUTE THESE SEMINARS OUTSIDE OF the University of California, OR IT WILL VIOLATE OUR AGREEMENT WITH UIE. </strong></font></p>\r\n<p><font size=\"5\" >Links to the seminars and their notes can be found in the &quot;Resources&quot; section of the site.</font></p>"
+                }
+            ]
+        },
+        {
+            "category": "Spring 2008",
+            "sites": [
+                {
+                    "title": "RAYTEST 202",
+                    "id": "5787a902-ecc0-496a-804e-2ca59b2a2f5a",
+                    "url": "https://sakai-qa.berkeley.edu/portal/site/5787a902-ecc0-496a-804e-2ca59b2a2f5a"
+                }
+            ]
+        },
+        {
+            "category": "Projects",
+            "sites": [
+                {
+                    "title": "ITMF",
+                    "id": "47449ea5-6826-4826-807d-af49a5d222fb",
+                    "url": "https://sakai-qa.berkeley.edu/portal/site/47449ea5-6826-4826-807d-af49a5d222fb",
+                    "description": "This site is a place for the Information Technology Manager's Forum (ITMF) to share documents and discussions.",
+                    "shortDescription": "The Information Technology Manager's Forum"
+                },
+                {
+                    "title": "OE IT Design Initiative",
+                    "id": "7ea7d89c-b87c-4221-a2ea-16aee252b967",
+                    "url": "https://sakai-qa.berkeley.edu/portal/site/7ea7d89c-b87c-4221-a2ea-16aee252b967",
+                    "description": "<h3><b>Welcome to&nbsp;the OE Information Technology Design Team's website</b>!</h3>\r\n<br/>\r\n<b>Review our <a href=\"https://bspace.berkeley.edu/portal/site/7ea7d89c-b87c-4221-a2ea-16aee252b967/page/abad55d6-4f98-447b-b1bf-8e537d759293\" target=\"_blank\" >completed FINAL case studies</a>.</b><br/>\r\n<br/>\r\nQuestions? <a href=\"https://bspace.berkeley.edu/portal/site/7ea7d89c-b87c-4221-a2ea-16aee252b967/page/3c863d17-8497-4448-947f-dffa92194379\" target=\"_blank\" >Check out the Q&A</a>.<br/>\r\n<br/>\r\nPlease visit often and feel free to contribute comments and feedback about the material, the format, and site. <br/>\r\n<br/>\r\nThe initial design phase of the OE IT initiative has completed. There will be a brief hiatus while the implementation teams and projects are assembled - stay tuned!<br/>\r\n<br/>\r\nWhat is the OE-IT Design Team?<br/>\r\nTeams have been appointed by the Chancellor on several topics to help with design solutions in those areas. The IT team has taken on the mission of improving the campus information technology infrastructure and services while cutting overall costs. The team will be making recommendations to the campus leadership for additions and changes to improve campus IT.<br/>\r\n<br/>\r\nWe will be accomplishing this by completing in-depth case studies in many different areas. We are counting on frank input from the campus community on these cases to help us formulate the best solutions for campus. Please get involved by reviewing the materials here,&nbsp;<a href=\"https://spreadsheets.google.com/viewform?formkey=dEc4RGp4Y1g4TlpZVWYzWFZud2JvY2c6MQ\" target=\"_blank\" >providing feedback</a>, and visiting the Forums at left.<br/>\r\n<br/>\r\nTo see when we are holding meetings and doing outreach, please visit <a href=\"https://bspace.berkeley.edu/portal/site/7ea7d89c-b87c-4221-a2ea-16aee252b967/page/3c863d17-8497-4448-947f-dffa92194379\" target=\"_blank\" >our schedule page in the wiki</a>.<br/>\r\n<br/>\r\nThanks.<br/>\r\nThe OE IT Design Team<br/>",
+                    "shortDescription": "OE Initiative -- IT Design Team's Site for the UC Berkeley community"
+                },
+                {
+                    "title": "Ray's Test",
+                    "id": "0b4d6ef5-eb46-4ce7-8083-660e02f0f6e0",
+                    "url": "https://sakai-qa.berkeley.edu/portal/site/0b4d6ef5-eb46-4ce7-8083-660e02f0f6e0"
+                },
+                {
+                    "title": "UIE Seminars & UCD Group Resources",
+                    "id": "b1df3076-88c5-43cc-00d2-632b196f8497",
+                    "url": "https://sakai-qa.berkeley.edu/portal/site/b1df3076-88c5-43cc-00d2-632b196f8497",
+                    "description": "<p><font size=\"5\" ><strong>UIE Seminars for distribution ONLY to University of California students, faculty and staff. </strong></font></p>\r\n<p><font size=\"5\" ><strong>PLEASE DO NOT DISTRIBUTE THESE SEMINARS OUTSIDE OF the University of California, OR IT WILL VIOLATE OUR AGREEMENT WITH UIE. </strong></font></p>\r\n<p><font size=\"5\" >Links to the seminars and their notes can be found in the &quot;Resources&quot; section of the site.</font></p>"
+                }
+            ]
+        },
+        {
+            "category": "Other",
+            "sites": [
+                {
+                    "title": "My Workspace",
+                    "id": "~211159",
+                    "url": "https://sakai-qa.berkeley.edu/portal/site/~211159",
+                    "description": "MyWorkspace Site"
+                },
+                {
+                    "title": "Administration Workspace",
+                    "id": "!admin",
+                    "url": "https://sakai-qa.berkeley.edu/portal/site/!admin",
+                    "description": "<p>Administration Workspace</p>"
+                }
+            ]
+        }
+    ]
+}

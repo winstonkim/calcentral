@@ -23,6 +23,7 @@ import edu.berkeley.calcentral.domain.User;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.codehaus.jettison.json.JSONObject;
+import org.jboss.resteasy.spi.NotFoundException;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -42,8 +43,10 @@ public class UserServiceTest extends DatabaseAwareTest {
 
 	@Test
 	public void getUser() throws Exception {
-		Map<String, Object> userMap = userService.getUser("2040");
-		if (userMap == null) {
+		Map<String, Object> userMap = null;
+		try {
+			userMap = userService.getUser("2040");
+		} catch (NotFoundException e) {
 			userService.loadUserByUsername("2040");
 			userMap = userService.getUser("2040");
 		}
@@ -68,7 +71,7 @@ public class UserServiceTest extends DatabaseAwareTest {
 	public void saveUserData() throws Exception {
 		String uid = randomString();
 		userService.loadUserByUsername(uid);
-		User originalUser = (User)userService.getUser(uid).get("user");
+		User originalUser = (User) userService.getUser(uid).get("user");
 		LOGGER.info(originalUser);
 		assertNotNull(originalUser.getPreferredName());
 
@@ -77,7 +80,7 @@ public class UserServiceTest extends DatabaseAwareTest {
 		Map<String, Object> savedUserMap = userService.saveUserData(uid, json.toString());
 		LOGGER.info(savedUserMap);
 		assertNotNull(savedUserMap);
-		User savedUser = (User)savedUserMap.get("user");
+		User savedUser = (User) savedUserMap.get("user");
 		assertEquals("Joe Blow", savedUser.getPreferredName());
 	}
 
@@ -90,7 +93,13 @@ public class UserServiceTest extends DatabaseAwareTest {
 		assertEquals(1, widgetDataService.getAllForUser(uid).size());
 
 		userService.deleteUserAndWidgetData(uid);
-		assertNull(userService.getUser(uid));
+		boolean found = true;
+		try {
+			userService.getUser(uid);
+		} catch ( NotFoundException expected) {
+			found = false;
+		}
+		assertFalse(found);
 		assertNull(widgetDataService.getAllForUser(uid));
 		assertNull(widgetDataService.get(uid, "abc"));
 	}
