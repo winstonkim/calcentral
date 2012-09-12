@@ -40,10 +40,14 @@ import org.springframework.web.client.RestTemplate;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
-import javax.ws.rs.*;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
-import java.util.*;
+import java.util.Enumeration;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Proxy for talking to Berkeley's Canvas servers. If you want to hit a Canvas URL of the form
@@ -88,7 +92,6 @@ public class CanvasProxy {
 		LOGGER.info("canvasRoot = " + canvasRoot + "; canvas access token = " + accessToken +
 				"; account ID = " + accountId);
 		headers = new HttpHeaders();
-		headers.setContentType(org.springframework.http.MediaType.APPLICATION_FORM_URLENCODED);
 		headers.set("Authorization", "Bearer " + accessToken);
 		restTemplate = new RestTemplate();
 	}
@@ -162,7 +165,7 @@ public class CanvasProxy {
 	 * @return The Canvas server's response.
 	 */
 	public String put(String canvasPath, HttpServletRequest request) {
-		HttpEntity<MultiValueMap<String, String>> entity = convertToEntity(request);
+		HttpEntity<MultiValueMap<String, Object>> entity = convertToEntity(request);
 		return doMethod(HttpMethod.PUT, entity, canvasPath);
 	}
 
@@ -173,7 +176,7 @@ public class CanvasProxy {
 	 * @return The Canvas server's response.
 	 */
 	public String post(String canvasPath, HttpServletRequest request) {
-		HttpEntity<MultiValueMap<String, String>> entity = convertToEntity(request);
+		HttpEntity<MultiValueMap<String, Object>> entity = convertToEntity(request);
 		return doMethod(HttpMethod.POST, entity, canvasPath);
 	}
 
@@ -193,7 +196,7 @@ public class CanvasProxy {
 	 * @param canvasPath The Canvas API path to POST to, not including the server name and /api/v1 part.
 	 * @return The Canvas server's response.
 	 */
-	public String post(String canvasPath, Map<String, Object> data) {
+	public String post(String canvasPath, Map<String, ?> data) {
 		return doMethod(HttpMethod.POST, convertToEntity(data), canvasPath);
 	}
 
@@ -203,7 +206,7 @@ public class CanvasProxy {
 	 * @param canvasPath The Canvas API path to PUT to, not including the server name and /api/v1 part.
 	 * @return The Canvas server's response.
 	 */
-	public String put(String canvasPath, Map<String, Object> data) {
+	public String put(String canvasPath, Map<String, ?> data) {
 		return doMethod(HttpMethod.PUT, convertToEntity(data), canvasPath);
 	}
 
@@ -224,8 +227,8 @@ public class CanvasProxy {
 		return null;
 	}
 
-	private HttpEntity<MultiValueMap<String, String>> convertToEntity(HttpServletRequest request) {
-		MultiValueMap<String, String> params = new LinkedMultiValueMap<String, String>();
+	private HttpEntity<MultiValueMap<String, Object>> convertToEntity(HttpServletRequest request) {
+		MultiValueMap<String, Object> params = new LinkedMultiValueMap<String, Object>();
 		Enumeration<String> requestParams = request.getParameterNames();
 		while (requestParams.hasMoreElements()) {
 			String paramName = requestParams.nextElement();
@@ -234,15 +237,15 @@ public class CanvasProxy {
 		return convertToEntity(params);
 	}
 
-	private HttpEntity<MultiValueMap<String, String>> convertToEntity(Map data) {
-		MultiValueMap<String, String> params;
+	private HttpEntity<MultiValueMap<String, Object>> convertToEntity(Map data) {
+		MultiValueMap<String, Object> params;
 		if (data instanceof MultiValueMap) {
 			params = (MultiValueMap) data;
 		} else {
-			params = new LinkedMultiValueMap<String, String>();
+			params = new LinkedMultiValueMap<String, Object>();
 			params.setAll(data);
 		}
-		return new HttpEntity<MultiValueMap<String, String>>(params, headers);
+		return new HttpEntity<MultiValueMap<String, Object>>(params, headers);
 	}
 
 }

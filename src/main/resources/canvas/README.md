@@ -1,3 +1,14 @@
+# Loading campus data into Canvas
+
+```
+calcentral> mvn -e -P load-canvas exec:java
+```
+
+This can be combined with other Maven goals:
+```
+calcentral> mvn -e -P load-canvas clean install flyway:clean flyway:migrate  exec:java
+```
+
 # Enabling SIS import
 
 The Canvas REST API by itself does not provide any way to create terms or to distinguish manually-added data from campus-added data.
