@@ -25,6 +25,7 @@ public class ClassPagesDaoTest extends DatabaseAwareTest {
 		assertNotNull(page);
 		assertEquals("General Biology Lecture", page.getClasstitle());
 		assertEquals("BIOLOGY", page.getDepartment());
+		assertEquals("1A", page.getCatalogid());
 	}
 
 	@Test

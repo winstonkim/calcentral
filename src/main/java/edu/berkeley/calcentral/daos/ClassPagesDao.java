@@ -21,7 +21,8 @@ public class ClassPagesDao extends BaseDao {
 				+ " '' info_last_updated, "
 				+ " bci.COURSE_TITLE classtitle, "
 				+ " bci.DEPT_NAME department, "
-				+ " bci.CATALOG_DESCRIPTION description "
+				+ " bci.CATALOG_DESCRIPTION description, "
+				+ " bci.CATALOG_ID catalogid "
 				+ " FROM BSPACE_COURSE_INFO_VW bci "
 				+ " WHERE bci.TERM_YR = :year AND bci.TERM_CD = :term AND bci.COURSE_CNTL_NUM = :courseID";
 		return campusQueryRunner.queryForObject(rootInfo, params, new BeanPropertyRowMapper<ClassPage>(ClassPage.class));
