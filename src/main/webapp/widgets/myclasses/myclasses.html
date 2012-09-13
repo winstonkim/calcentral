@@ -7,29 +7,17 @@
 		<div class="cc-widget-text">Loading...</div>
 	</div>
 	<script id="cc-widget-myclasses-list-template" type="text/x-handlebars-template">
-		{{#if bSpace.sites}}
+		{{#if classes}}
 			<ul class="cc-widget-list">
-			{{#each bSpace.sites}}
-				<li class='bspace'><a href="{{url}}">{{title}}</a></li>
+			{{#each classes}}
+				<li class="{{site_type}}"><a href="{{url}}">{{title}}</a></li>
 			{{/each}}
 			</ul>
 		{{else}}
 			<div class="cc-widget-text">
-				There are currently no bSpace sites available.
+				There are currently no classes available.
 			</div>
 		{{/if}}
-		{{#if canvas.courses}}
-			<ul class="cc-widget-list">
-			{{#each canvas.courses}}
-				<li class="canvas"><a href="{{../host}}/courses/{{id}}" target="blank">{{name}}</a></li>
-			{{/each}}
-			</ul>
-		{{else}}
-			<div class="cc-widget-canvascourses-no-results">
-				There are no canvas courses available
-			</div>
-		{{/if}}
-
 	</script>
 	<div class="cc-widget-footer" style="display:none;">
 		<button>Select sites</a>
