@@ -1,21 +1,20 @@
 package edu.berkeley.calcentral.daos;
 
-import com.google.common.collect.Maps;
 import edu.berkeley.calcentral.domain.*;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.stereotype.Repository;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.Map;
 
 @Repository
 public class ClassPagesDao extends BaseDao {
 
 	public ClassPage getBaseClassPage(int year, String term, String courseID) {
-		Map<String, Object> params = setupParams(year, term, courseID);
+		MapSqlParameterSource params = setupParams(year, term, courseID);
 		String rootInfo = " SELECT " 
 				+ " bci.TERM_YR || bci.TERM_CD || bci.COURSE_CNTL_NUM classid, " //ignoring course control num permissions issues for now.
 				+ " '' info_last_updated, "
@@ -29,8 +28,7 @@ public class ClassPagesDao extends BaseDao {
 	}
 
 	public ClassPageCourseInfo getCourseInfo(int year, String term, String courseID) {
-		Map<String, Object> params = setupParams(year, term, courseID);
-		params.put("format", "LEC");
+		MapSqlParameterSource params = setupParams(year, term, courseID).addValue("format", "LEC");
 		String courseInfoSql = " SELECT "
 				+ " bci.COURSE_TITLE title, " 
 				+ " bci.INSTRUCTION_FORMAT format,"
@@ -59,7 +57,7 @@ public class ClassPagesDao extends BaseDao {
 	}
 
 	public List<ClassPageInstructor> getCourseInstructors(int year, String term, String courseID) {
-		Map<String, Object> params = setupParams(year, term, courseID);
+		MapSqlParameterSource params = setupParams(year, term, courseID);
 		String instructors = " SELECT "
 				+ "   bpi.email_address email, "
 				+ "   bpi.ldap_uid id, "
@@ -80,7 +78,7 @@ public class ClassPagesDao extends BaseDao {
 	}
 
 	public List<ClassPageSchedule> getCourseSchedules(int year, String term, String courseID) {
-		Map<String, Object> params = setupParams(year, term, courseID);
+		MapSqlParameterSource params = setupParams(year, term, courseID);
 		//There's some ambiguous logic related to this. Not worrying about edge cases for the time being.
 		//disregarding the online schedule of classes rules for now.
 		String schedule = " SELECT "
@@ -100,9 +98,9 @@ public class ClassPagesDao extends BaseDao {
 	}
 
 	public List<ClassPageSection> getCourseSections(int year, String term, String deptName, String catalogId) {
-		Map<String, Object> params = setupParams(year, term, "");
-		params.put("deptName", deptName);
-		params.put("catalogId", catalogId);
+		MapSqlParameterSource params = setupParams(year, term, "")
+			.addValue("deptName", deptName)
+			.addValue("catalogId", catalogId);
 		String sections = " SELECT "
 				+ "   bci.COURSE_CNTL_NUM ccn, "
 				+ "   '' enrolled_cur, " //TODO: going to have to do some aggregation on BSPACE_CLASS_ROSTER
@@ -137,7 +135,7 @@ public class ClassPagesDao extends BaseDao {
 	}
 
 	public List<ClassPageInstructor> getSectionInstructors(int year, String term, String courseID) {
-		Map<String, Object> params = setupParams(year, term, courseID);
+		MapSqlParameterSource params = setupParams(year, term, courseID);
 		String sql = "SELECT " +
 				"   bpi.email_address email, " +
 				"   bpi.ldap_uid id, " +
@@ -171,12 +169,10 @@ public class ClassPagesDao extends BaseDao {
 		}
 	};
 
-	private Map<String, Object> setupParams(int year, String term, String courseID) {
-		Map<String, Object> params = Maps.newHashMap();
-		params.put("year", year);
-		params.put("term", term);
-		params.put("courseID", courseID);
-		return params;
+	private MapSqlParameterSource setupParams(int year, String term, String courseID) {
+		return new MapSqlParameterSource("year", year)
+			.addValue("term", term)
+			.addValue("courseID", courseID);
 	}
 
 }

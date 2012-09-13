@@ -20,9 +20,9 @@ package edu.berkeley.calcentral.system;
 
 import com.Ostermiller.util.CSVParser;
 import com.Ostermiller.util.CSVPrinter;
-import com.google.common.collect.ImmutableMap;
 import edu.berkeley.calcentral.daos.BaseDao;
 import org.apache.log4j.Logger;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.stereotype.Component;
 
 import java.io.FileReader;
@@ -66,7 +66,7 @@ public class UserCSVGenerator extends BaseDao {
 				"SELECT LDAP_UID, FIRST_NAME, LAST_NAME " +
 						"FROM BSPACE_PERSON_INFO_VW " +
 						"WHERE LDAP_UID IN ( :userlist )",
-				ImmutableMap.of("userlist", users));
+				new MapSqlParameterSource("userlist", users));
 		for (Map<String, Object> result : results) {
 			LOGGER.debug("getUserData: " + result);
 		}
