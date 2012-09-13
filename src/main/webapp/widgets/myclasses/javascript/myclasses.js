@@ -20,8 +20,8 @@ calcentral.Widgets.myclasses = function(tuid) {
 	///////////////
 
 	var renderClassesList = function(data) {
-		if (!data.bSpace) {
-			data.bSpace.body = '{}';
+		if (!data.classes) {
+			data.body = '{}';
 		}
 		calcentral.Api.Util.renderTemplate({
 			'container': $myclassesList,
@@ -41,7 +41,28 @@ calcentral.Widgets.myclasses = function(tuid) {
 		$.when(fnMap.loadFavouritesList(), fnMap.loadCourses()).pipe(function(dataBSpace, dataCanvas) {
 			return fnMap.filterOnCategory(dataBSpace, categoryFilter).pipe(function(data) {
 				var $combineDataDef = $.Deferred();
-				$combineDataDef.resolve({'bSpace': data, 'canvas': dataCanvas});
+				// Harmonize the bSpace and canvas data for display.
+				var displayData = [];
+				if (data && data.sites) {
+					displayData = displayData.concat($.map(data.sites, function(value) {
+						return {
+							'site_type': 'bspace',
+							'title': value.title,
+							'url': value.url
+						};
+					}));
+				}
+				if (dataCanvas && dataCanvas.courses && dataCanvas.host) {
+					displayData = displayData.concat($.map(dataCanvas.courses, function(value) {
+						return {
+							'site_type': 'canvas',
+							'title' : value.name,
+							'url': dataCanvas.host + '/courses/' + value.id
+						};
+					}));
+				}
+				displayData = _.sortBy(displayData, function(value) { return value.title; });
+				$combineDataDef.resolve({'classes': displayData});
 				return $combineDataDef.promise();
 			});
 		}).done(renderClassesList);
