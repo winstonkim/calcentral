@@ -47,16 +47,16 @@ calcentral.Widgets.myclasses = function(tuid) {
 		}).done(renderClassesList);
 	};
 
-	var $bSpaceFavoritesDef = calcentral.WidgetStatus.bspacefavourites || $.Deferred();
-	var $canvasCoursesDef = calcentral.WidgetStatus.canvascourses || $.Deferred();
+	var $bSpaceFavoritesDeferred = calcentral.WidgetStatus.bspacefavourites || $.Deferred();
+	var $canvasCoursesDeferred = calcentral.WidgetStatus.canvascourses || $.Deferred();
 
-	$.when($bSpaceFavoritesDef, $canvasCoursesDef).done(function(favWidgetName, canvasWidgetName) {
-		var fnMap = {};
-		fnMap.filterOnCategory = calcentral.Widgets.bspacefavourites(favWidgetName).filterOnCategory;
-		fnMap.loadFavouritesList = calcentral.Widgets.bspacefavourites(favWidgetName).loadFavouritesList;
-		fnMap.loadCourses = calcentral.Widgets.canvascourses(canvasWidgetName).loadCourses;
-
+	$.when($bSpaceFavoritesDeferred, $canvasCoursesDeferred).done(function(favWidgetName, canvasWidgetName) {
+		var functionMap = {
+			'filterOnCategory': calcentral.Widgets.bspacefavourites(favWidgetName).filterOnCategory,
+			'loadFavouritesList': calcentral.Widgets.bspacefavourites(favWidgetName).loadFavouritesList,
+			'loadCourses': calcentral.Widgets.canvascourses(canvasWidgetName).loadCourses
+		};
 		// Start the request, with resolved functions.
-		delayedInit(fnMap);
+		delayedInit(functionMap);
 	});
 };

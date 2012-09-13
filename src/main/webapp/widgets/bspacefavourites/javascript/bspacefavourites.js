@@ -94,7 +94,7 @@ calcentral.Widgets.bspacefavourites = function(tuid) {
 	doInit();
 
 	return {
-		'filterOnCategory' : filterOnCategory,
-		'loadFavouritesList' : loadFavouritesList
+		'filterOnCategory': filterOnCategory,
+		'loadFavouritesList': loadFavouritesList
 	};
 };

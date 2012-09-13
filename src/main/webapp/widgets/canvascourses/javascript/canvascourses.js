@@ -105,6 +105,6 @@ calcentral.Widgets.canvascourses = function(tuid) {
 	doInit();
 
 	return {
-		'loadCourses' : loadCourses
+		'loadCourses': loadCourses
 	};
 };
