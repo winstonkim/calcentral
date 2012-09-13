@@ -78,24 +78,32 @@ var calcentral = calcentral || {};
 })();
 
 
-(function() {
-	calcentral.Api.GetURLParams = calcentral.Api.GetURLParams || {};
-
-	calcentral.Api.GetURLParams = function(url) {
-		var searchString = window.location.search.substring(1), params = searchString.split("&"), hash = {};
-
-		for (var i = 0; i < params.length; i++) {
-			var val = params[i].split("=");
-			hash[unescape(val[0])] = unescape(val[1]);
-		}
-		return hash;
-	};
-})();
-
-
+/**
+ * API Util
+ */
 (function() {
 	var templateCache = [];
 	calcentral.Api.Util = calcentral.Api.Util || {};
+
+	/**
+	 * Get the value for a URL parameter
+	 * Based on top of http://stackoverflow.com/a/1403909/117193
+	 * @param {String} param The param you want to get the value for
+	 * @return {Object} All the parameters for the current URL
+	 */
+	calcentral.Api.Util.getURLParameter = function(param) {
+		var searchString = window.location.search.substring(1);
+		var params = searchString.split('&');
+		var hash = {};
+
+		for (var i = 0; i < params.length; i++) {
+			var val = params[i].split('=');
+			if (val[0] === param) {
+				return unescape(val[1]);
+			}
+		}
+		return null;
+	};
 
 	calcentral.Api.Util.Forms = calcentral.Api.Util.Forms || {};
 
@@ -761,10 +769,9 @@ var calcentral = calcentral || {};
 	};
 
 	var loadClassPage = function() {
-		// Get class ID from URL
-		var classid = calcentral.Api.GetURLParams().cid;
 		return $.ajax({
-			'url': '/api/classPages/' + classid
+			// Get class ID from URL
+			'url': '/api/classPages/' + calcentral.Api.Util.getURLParameter('cid')
 		}).promise();
 	};
 
@@ -797,7 +804,7 @@ var calcentral = calcentral || {};
 	var renderClassList = function(data) {
 
 		// Are we looking at a department listing?
-		data.department = calcentral.Api.GetURLParams().dept ? calcentral.Api.GetURLParams().dept : false;
+		data.department = calcentral.Api.Util.getURLParameter('dept');
 
 		var partials = {
 			'courseInfo': $('#cc-page-classlist-courseinfo-template', $classList).html()
