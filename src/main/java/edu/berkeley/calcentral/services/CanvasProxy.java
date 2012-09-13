@@ -172,7 +172,7 @@ public class CanvasProxy {
 	/**
 	 * POST to an URL on the Canvas server from an HTTP client request.
 	 *
-	 * @param canvasPath The Canvas API path to PUT to, not including the server name and /api/v1 part.
+	 * @param canvasPath The Canvas API path to POST to, not including the server name and /api/v1 part.
 	 * @return The Canvas server's response.
 	 */
 	public String post(String canvasPath, HttpServletRequest request) {
