@@ -7,6 +7,7 @@ import edu.berkeley.calcentral.daos.ClassPagesDao;
 import edu.berkeley.calcentral.domain.*;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.jboss.resteasy.spi.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -52,7 +53,8 @@ public class ClassPagesService {
 			returnObject.put("sections", classPage.getSections());
 		} catch (Exception e) {
 			//TODO: Change this to use whatever final exception handling scheme, instead of swallowing the exception.
-			LOGGER.error(e.getMessage(), e);
+			LOGGER.error(e.getClass().getName() + ": " + e.getMessage());
+			throw new NotFoundException("Class page could not be found");
 		}
 		return returnObject;
 	}

@@ -777,6 +777,8 @@ var calcentral = calcentral || {};
 	};
 
 	if($classPage.length) {
+		// TODO: can redirect errors to some render failure page template.
+		// $.when(loadClassPage(), loadBuildingCoords()).done(renderClassPage).fail($.noop);
 		$.when(loadClassPage(), loadBuildingCoords()).done(renderClassPage);
 	}
 
