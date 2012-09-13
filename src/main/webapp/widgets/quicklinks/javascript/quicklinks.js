@@ -431,7 +431,7 @@ calcentral.Widgets.quicklinks = function(tuid) {
 			closePanes();
 			$pane.addClass('quicklinks_accordion_open');
 		}
-		$pane.children('.quicklinks_accordion_content').slideDown(300, function() {
+		$pane.children('.quicklinks_accordion_content').slideDown(0, function() {
 			$pane.children('.quicklinks_accordion_content').css('overflow', 'auto');
 		});
 
@@ -458,7 +458,7 @@ calcentral.Widgets.quicklinks = function(tuid) {
 	 */
 	var hidePane = function ($pane) {
 		$pane.removeClass('quicklinks_accordion_open');
-		$pane.children('.quicklinks_accordion_content').slideUp(300);
+		$pane.children('.quicklinks_accordion_content').slideUp(0);
 	};
 
 	/**
