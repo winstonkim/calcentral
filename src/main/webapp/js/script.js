@@ -431,6 +431,7 @@ var calcentral = calcentral || {};
 	});*/
 
 	calcentral.Widgets = calcentral.Widgets || {};
+	calcentral.WidgetStatus = calcentral.WidgetStatus || {};
 
 	var widgetLocation = '/widgets/';
 	var widgetPrefix = 'cc-widget-';
@@ -465,18 +466,26 @@ var calcentral = calcentral || {};
 	};
 
 	var loadWidget = function(widgetName){
+		calcentral.WidgetStatus[widgetName] = calcentral.WidgetStatus[widgetName] || $.Deferred();
 		loadCSS(widgetName);
 		loadJavaScript(widgetName, function() {
 			calcentral.Widgets[widgetName](widgetPrefix + widgetName);
+			calcentral.WidgetStatus[widgetName].resolve(widgetPrefix + widgetName);
 		});
+		return calcentral.WidgetStatus[widgetName].promise();
 	};
 
 	/**
 	 * Get all the widgets on the current page and load them
 	 */
 	var getWidgets = function() {
-		$('div[id^="cc-widget-"]').each(function(index, item) {
-			loadWidget(item.id.replace(widgetPrefix, ''));
+		var $pageWidgets = $('div[id^="cc-widget-"]');
+		$pageWidgets.each(function(index, item) {
+			$.when(loadWidget(item.id.replace(widgetPrefix, ''))).done(function() {
+				if ($pageWidgets.length === index+1) {
+					$('.cc-container-widgets').trigger('load.Widgets');
+				}
+			});
 		});
 	};
 
