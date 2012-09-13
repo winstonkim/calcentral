@@ -103,4 +103,8 @@ calcentral.Widgets.canvascourses = function(tuid) {
 
 	// Start the request
 	doInit();
+
+	return {
+		'loadCourses': loadCourses
+	};
 };
