@@ -497,7 +497,17 @@ var calcentral = calcentral || {};
 		});
 	};
 
+	/**
+	 * Set the isotope layout for each of the widgets
+	 */
+	var setWidgetLayout = function() {
+		$('.cc-container-widgets').isotope({
+			itemSelector: '.cc-container-widget'
+		});
+	};
+
 	getWidgets();
+	$(window).on('load', setWidgetLayout);
 
 })();
 
