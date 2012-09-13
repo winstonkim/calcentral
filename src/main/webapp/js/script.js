@@ -483,7 +483,7 @@ var calcentral = calcentral || {};
 		$pageWidgets.each(function(index, item) {
 			$.when(loadWidget(item.id.replace(widgetPrefix, ''))).done(function() {
 				if ($pageWidgets.length === index+1) {
-					$('.cc-container-widgets').trigger('load.Widgets');
+					$(window).trigger('loaded.widgets.calcentral');
 				}
 			});
 		});
