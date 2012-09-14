@@ -654,7 +654,7 @@ var calcentral = calcentral || {};
 (function() {
 	var $classPage = $('.cc-page-classpage');
 
-	var $classPageContainer = $('.cc-page-classpage-container', $classPage);
+	var $classPageContainer = $('.cc-container-main-right', $classPage);
 
 	var renderClassPage = function(data, buildingData) {
 		data = data[0];
@@ -827,6 +827,13 @@ var calcentral = calcentral || {};
 		// Are we looking at a department listing?
 		data.department = calcentral.Api.Util.getURLParameter('dept');
 
+		// Extract friendly department title from the key
+        $.each(data.departments, function(i, v){
+            if (v.key == data.department){
+                data.department_name = v.title;
+            }
+        });
+
 		var partials = {
 			'courseInfo': $('#cc-page-classlist-courseinfo-template', $classList).html()
 		};
@@ -840,8 +847,8 @@ var calcentral = calcentral || {};
 		var renderLeftHandClassPageListNavigation = function(data) {
 			// Append department siblings to left-hand nav
 
-			data.pages = $.map(data.siblings, function(val, i) {
-				url = "/classlist.jsp?dept=" + i;
+			data.pages = $.map(data.departments, function(val, i) {
+				url = "/classlist.jsp?college=" + data.college.slug + "&dept=" + val.key;
 				return {'title': val.title, 'url': url};
 			});
 
@@ -852,17 +859,26 @@ var calcentral = calcentral || {};
 			});
 		};
 
-		data.college_url = "/classlist.jsp?college=" + data.college_slug;
+		data.college_url = "/classlist.jsp?college=" + data.college.slug;
 		data.pathname = window.location.pathname + window.location.search;
 		renderLeftHandClassPageListNavigation(data);
 
 	};
 
 	var loadClassList = function() {
+		// Different API queries depending on whether this is a college or department listing
+		var dept = calcentral.Api.Util.getURLParameter('dept');
+		var college = calcentral.Api.Util.getURLParameter('college');
+
+		// We'll always have college= in the URL, plus dept= if this is a department listing
+		url = '/api/classList/' + college;
+		if (dept) { url += "/" + dept; }
+
 		return $.ajax({
-			'url': '/dummy/classlist.json'
-		}).promise();
+			'url': url
+		});
 	};
+
 
 	if($classList.length) {
 		$.when(loadClassList()).done(renderClassList);

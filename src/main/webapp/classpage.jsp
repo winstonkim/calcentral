@@ -10,7 +10,6 @@
 		<tags:lhclasspagenavigation/>
 		<div class="cc-container-main-right">
 
-
 		<script id="cc-page-classpage-template" type="text/x-handlebars-template">
 			<div class="cc-container-widget cc-page-classpage-header">
 				<div class="cc-widget-title">
