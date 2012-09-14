@@ -8,7 +8,7 @@
 	<div class="cc-container-main" role="main">
 		<!-- Page specific HTML -->
 		<tags:lhclasspagenavigation/>
-		<div class="cc-page-classpage-container cc-container-main-right">
+		<div class="cc-container-main-right">
 
 
 		<script id="cc-page-classpage-template" type="text/x-handlebars-template">
