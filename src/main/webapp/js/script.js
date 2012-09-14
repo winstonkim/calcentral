@@ -507,7 +507,7 @@ var calcentral = calcentral || {};
 	};
 
 	getWidgets();
-	$(window).on('load', setWidgetLayout);
+	$('.cc-container-widgets').on('ajaxStop', setWidgetLayout);
 
 })();
 
