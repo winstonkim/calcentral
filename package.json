@@ -5,7 +5,7 @@
 	"version": "0.0.1",
 	"repository": {
 		"type": "git",
-		"url": "git://github.com/christianv/calcentral.git"
+		"url": "git://github.com/ets-berkeley-edu/calcentral.git"
 	},
 	"engines": {
 		"node": ">=0.6"
