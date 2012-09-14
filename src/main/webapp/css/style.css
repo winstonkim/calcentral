@@ -235,22 +235,19 @@ a:hover, a:focus {
 	color: #2683BC;
 	text-decoration: underline;
 }
-header {
+
+body > header {
 	background: url("/img/myb/cc_branding_strip.png");
+	cursor: pointer;
 	margin: 0 auto;
 	height: 42px;
 	width: 960px;
 }
-
-header h1 {
-	cursor:pointer;
-}
-
 .cc-page-index header {
 	background: url("/img/myb/calcentral_masthead_landing.png");
 	height: 90px;
 }
-header h1 {
+body > header > h1 {
 	margin: 0;
 	text-indent: 100%;
 	overflow: hidden;
