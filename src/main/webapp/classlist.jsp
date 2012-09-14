@@ -30,7 +30,7 @@
                 </div>
             {{/each}}
         {{else}}
-            <p>No classes to show, sorry.</p>
+            <p>No classes found.</p>
         {{/if}}
         </script>
 
