@@ -114,8 +114,8 @@
 		<script id="cc-page-classpage-sections-template" type="text/x-handlebars-template">
 		{{#if sections}}
 		<span id="classpages_showhideall">
-			<button id="classpages_expandall" class="s3d-link-button">Expand all</button> |
-			<button id="classpages_collapseall" class="s3d-link-button">Collapse all</button>
+			<button id="classpages_expandall" class="cc-link-button">Expand all</button> |
+			<button id="classpages_collapseall" class="cc-link-button">Collapse all</button>
 		</span>
 		<table id="classpages_section_results">
 			<thead>
