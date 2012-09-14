@@ -45,6 +45,7 @@ public class ClassListDao extends BaseDao {
 			deptKeys.add(d.getKey());
 		}
 		String sql = " SELECT DISTINCT "
+				+ " bci.TERM_YR || bci.TERM_CD || bci.COURSE_CNTL_NUM classid, "
 				+ " bci.COURSE_TITLE classtitle, "
 				+ " bci.DEPT_NAME department, "
 				+ " bci.CATALOG_DESCRIPTION description, "
