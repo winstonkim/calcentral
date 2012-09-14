@@ -41,6 +41,7 @@ public class ClassPagesServiceTest extends DatabaseAwareTest {
 		assertTrue(classPage.getInstructors().size() > 0);
 		assertTrue(classPage.getSections().size() > 0);
 		assertNotNull(classPage.getSections().get(0).getSection_instructors());
+		assertTrue(classPage.getSections().get(0).getSection_instructors().size() > 0);
 		assertNotNull(classPage.getSchedule());
 		LOGGER.debug(classPage);
 	}

@@ -106,16 +106,9 @@ public class ClassPagesService {
 		
 		String deptName = courseInfo.getMisc_deptname();
 		String catalogId = courseInfo.getCatalogid();
-		telemetry = new Telemetry(this.getClass(), "classPagesDao.getCourseSections()");
-		List<ClassPageSection> classPageSections = classPagesDao.getCourseSections(yearInt, term, deptName, catalogId);
+		telemetry = new Telemetry(this.getClass(), "classPagesDao.getSectionsWithInstructors()");
+		List<ClassPageSection> classPageSections = classPagesDao.getSectionsWithInstructors(yearInt, term, deptName, catalogId);
 		telemetry.end();
-
-		for ( ClassPageSection section : classPageSections ) {
-			telemetry = new Telemetry(this.getClass(), "classPagesDao.getSectionInstructors()");
-			List<ClassPageInstructor> instructors = classPagesDao.getSectionInstructors(yearInt, term, section.getCcn());
-			telemetry.end();
-			section.setSection_instructors(instructors);
-		}
 
 		//TODO: can probably use predicates here, to get a list of sections we want to keep.
 		classPageResult.setSections(classPageSections);
