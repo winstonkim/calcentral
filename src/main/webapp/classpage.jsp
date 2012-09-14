@@ -114,8 +114,8 @@
 		<script id="cc-page-classpage-sections-template" type="text/x-handlebars-template">
 		{{#if sections}}
 		<span id="classpages_showhideall">
-			<button id="classpages_expandall" class="s3d-link-button">Expand all</button> |
-			<button id="classpages_collapseall" class="s3d-link-button">Collapse all</button>
+			<button id="classpages_expandall" class="cc-link-button">Expand all</button> |
+			<button id="classpages_collapseall" class="cc-link-button">Collapse all</button>
 		</span>
 		<table id="classpages_section_results">
 			<thead>
@@ -133,9 +133,12 @@
 				{{#each sections}}
 				<tr class="classpages_classrow">
 					<td>
-						<a href="#"><div class="classpages_sections_arrow" id="sectionarrow-{{coursenum}}"></div></a>
+						<button class="classpages_sections_arrow cc-link-button" id="sectionarrow-{{coursenum}}">
+							<span class="visuallyhidden">Open class meeting section {{section}}</span>
+							<span class="visuallyhidden">Close class meeting section {{section}}</span>
+						</button>
 						<span class="classpages_section_title_warrow">
-							<strong>{{section}}</strong></span>
+							<strong>{{section}}</strong>
 						</span>
 					</td>
 
@@ -255,9 +258,9 @@
 
 					<td colspan="2">
 						{{#if coords}}
-							<a href="http://maps.google.com/maps?daddr={{coords}}&l=en&dirflg=w&t=m&z=17" target="_blank"><img src="http://maps.googleapis.com/maps/api/staticmap?center={{coords}}&zoom=16&size=200x200&maptype=roadmap&markers=color:blue%7C{{coords}}&sensor=false" /></a>
+							<a href="http://maps.google.com/maps?daddr={{coords}}&l=en&dirflg=w&t=m&z=17" target="_blank"><img src="http://maps.googleapis.com/maps/api/staticmap?center={{coords}}&zoom=16&size=200x200&maptype=roadmap&markers=color:blue%7C{{coords}}&sensor=false" / alt="Map for {{location}}"></a>
 						{{else}}
-							<img src="/img/myb/classpages_map_not_available.png" />
+							<img src="/img/myb/classpages_map_not_available.png" alt="Map is not available" />
 						{{/if}}
 					</td>
 				</tr>
