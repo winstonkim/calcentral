@@ -844,6 +844,16 @@ span.classpages_section_title_warrow {
 .classpages_sections_arrow_opened {
 	background-position: -882px -22px;
 }
+/* Show & hide labels based on whether the section is open or not */
+.classpages_sections_arrow span:last-child {
+	display: none;
+}
+.classpages_sections_arrow_opened span:first-child{
+	display: none;
+}
+.classpages_sections_arrow_opened span:last-child{
+	display: block;
+}
 
 span#classpages_showhideall {
 	float: right;

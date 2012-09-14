@@ -133,7 +133,10 @@
 				{{#each sections}}
 				<tr class="classpages_classrow">
 					<td>
-						<button class="classpages_sections_arrow cc-link-button" id="sectionarrow-{{coursenum}}"><span class="visuallyhidden">Open or close class meeting {{section}}</span></button>
+						<button class="classpages_sections_arrow cc-link-button" id="sectionarrow-{{coursenum}}">
+							<span class="visuallyhidden">Open class meeting section {{section}}</span>
+							<span class="visuallyhidden">Close class meeting section {{section}}</span>
+						</button>
 						<span class="classpages_section_title_warrow">
 							<strong>{{section}}</strong>
 						</span>
