@@ -44,16 +44,18 @@ public class ClassListDao extends BaseDao {
 		for (Department d : departments) {
 			deptKeys.add(d.getKey());
 		}
-		String sql = " SELECT DISTINCT "
-				+ " bci.TERM_YR || bci.TERM_CD || bci.COURSE_CNTL_NUM classid, "
-				+ " bci.COURSE_TITLE classtitle, "
-				+ " bci.DEPT_NAME department, "
-				+ " bci.CATALOG_DESCRIPTION description, "
-				+ " bci.CATALOG_ID catalogid "
-				+ " FROM BSPACE_COURSE_INFO_VW bci "
-				+ " WHERE bci.DEPT_NAME IN ( :departments ) "
-				+ "   AND TERM_YR = 2012 AND TERM_CD = 'D'" // TODO parameterize year and term when UI presents that choice
-				+ " ORDER BY department, catalogid ";
+		String sql = " SELECT * FROM ( "
+				+ "   SELECT DISTINCT "
+				+ "   bci.TERM_YR || bci.TERM_CD || bci.COURSE_CNTL_NUM classid, "
+				+ "   bci.COURSE_TITLE classtitle, "
+				+ "   bci.DEPT_NAME department, "
+				+ "   bci.CATALOG_DESCRIPTION description, "
+				+ "   bci.CATALOG_ID catalogid "
+				+ "   FROM BSPACE_COURSE_INFO_VW bci "
+				+ "   WHERE bci.DEPT_NAME IN ( :departments ) "
+				+ "     AND TERM_YR = 2012 AND TERM_CD = 'D'" // TODO parameterize year and term when UI presents that choice
+				+ "   ORDER BY department, catalogid "
+				+ ") WHERE ROWNUM <= 30 "; // TODO parameterize pagination when UI needs it
 		SqlParameterSource params = new MapSqlParameterSource("departments", deptKeys);
 		return campusQueryRunner.query(sql, params, new BeanPropertyRowMapper<ClassPage>(ClassPage.class));
 	}
