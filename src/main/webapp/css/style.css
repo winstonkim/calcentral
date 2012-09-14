@@ -472,10 +472,6 @@ header h1 {
 }
 
 /* Classpage */
-.cc-page-classpage-container {
-	margin: 0 auto;
-	width: 760px;
-}
 .cc-page-classpage-courseinfo .cc-widget-main,
 .cc-page-classpage-description .cc-widget-main,
 .cc-page-classpage-instructor .cc-widget-main {

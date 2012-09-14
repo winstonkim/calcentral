@@ -21,10 +21,10 @@ package edu.berkeley.calcentral.system;
 import com.Ostermiller.util.CSVParser;
 import com.Ostermiller.util.CSVPrinter;
 import com.Ostermiller.util.LabeledCSVParser;
-import com.google.common.collect.ImmutableMap;
 import edu.berkeley.calcentral.daos.BaseDao;
 import org.apache.log4j.Logger;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.stereotype.Component;
 
 import java.io.FileWriter;
@@ -98,10 +98,10 @@ public class EnrollmentCSVGenerator extends BaseDao {
 	private List<Map<String, Object>> getEnrollments(String sql, String[] sectionIDParts) {
 		return campusQueryRunner.queryForList(
 				sql,
-				ImmutableMap.of(
-						"term_yr", sectionIDParts[0],
-						"term_cd", sectionIDParts[1],
-						"course_cntl_num", sectionIDParts[2]));
+				new MapSqlParameterSource()
+						.addValue("term_yr", sectionIDParts[0])
+						.addValue("term_cd", sectionIDParts[1])
+						.addValue("course_cntl_num", sectionIDParts[2]));
 	}
 
 	void writeEnrollmentCSV(String sectionID, List<Map<String, Object>> enrollments, String path) throws IOException {

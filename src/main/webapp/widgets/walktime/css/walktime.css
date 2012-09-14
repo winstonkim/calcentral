@@ -1,8 +1,3 @@
-#cc-widget-walktime #walktime_map_container {
-	width: 200px;
-	height: 200px;
-}
-
 #cc-widget-walktime #walktime_answer {
 	font-size: 1.2em;
 	color: #323D71;

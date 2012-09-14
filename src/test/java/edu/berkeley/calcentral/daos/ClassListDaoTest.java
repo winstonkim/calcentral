@@ -37,6 +37,7 @@ public class ClassListDaoTest extends DatabaseAwareTest {
 		List<ClassPage> classes = dao.getClasses(departments);
 		assertNotNull(classes);
 		assertTrue(classes.size() > 0);
+		assertTrue(classes.get(0).getClassId().length() > 0);
 	}
 
 	@Test
