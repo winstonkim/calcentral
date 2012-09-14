@@ -27,11 +27,11 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.stereotype.Component;
 
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 @Component
 public class EnrollmentCSVGenerator extends BaseDao {
@@ -55,6 +55,7 @@ public class EnrollmentCSVGenerator extends BaseDao {
 			enrollments.addAll(instructors);
 			writeEnrollmentCSV(section, enrollments, path);
 		}
+		stripQuotedNulls(path);
 	}
 
 	List<String> readSectionsFromCSV() throws IOException {
@@ -105,9 +106,11 @@ public class EnrollmentCSVGenerator extends BaseDao {
 	}
 
 	void writeEnrollmentCSV(String sectionID, List<Map<String, Object>> enrollments, String path) throws IOException {
+		File file = new File(path);
+		LOGGER.info("path = " + file.getAbsolutePath());
 		CSVPrinter printer = null;
 		try {
-			printer = new CSVPrinter(new FileWriter(path, true));
+			printer = new CSVPrinter(new FileWriter(file, true));
 			for (Map<String, Object> enrollment : enrollments) {
 				printer.writeln(new String[]{
 						null,
@@ -121,6 +124,37 @@ public class EnrollmentCSVGenerator extends BaseDao {
 				printer.close();
 			}
 		}
+	}
+
+	/**
+	 * Java CSV libraries pessimistically write null first columns as an empty string ("")
+	 * instead of just cutting straight to the comma. Canvas import will interpret that input
+	 * as a course ID rather than as nil. And we live to make Canvas happy.
+	 */
+	void stripQuotedNulls(String csvPath) throws IOException {
+		Pattern firstNull = Pattern.compile("^\"\",");
+		File csvFile = new File(csvPath);
+		File workingFile = new File(csvPath + ".tmp");
+		BufferedReader reader = null;
+		BufferedWriter writer = null;
+		try {
+			reader = new BufferedReader(new FileReader(new File(csvPath)));
+			writer = new BufferedWriter(new FileWriter(workingFile));
+			String line;
+			while ((line = reader.readLine()) != null) {
+				line = firstNull.matcher(line).replaceFirst(",");
+				writer.write(line);
+				writer.newLine();
+			}
+		} finally {
+			if (reader != null) {
+				reader.close();
+			}
+			if (writer != null) {
+				writer.close();
+			}
+		}
+		workingFile.renameTo(csvFile);
 	}
 
 	private String[] getSectionIDParts(String sectionID) {

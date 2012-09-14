@@ -37,7 +37,7 @@ public class UserCSVGeneratorTest extends DatabaseAwareTest {
 
 	@Test
 	public void readUsersFromEnrollmentsCSV() throws Exception {
-		Set<String> users = generator.readUsersFromEnrollmentCSV("src/main/resources/canvas/enrollments.csv");
+		Set<String> users = generator.readUsersFromEnrollmentCSV("src/test/resources/canvas/enrollments.csv");
 		assertNotNull(users);
 		assertTrue(users.size() > 0);
 	}
