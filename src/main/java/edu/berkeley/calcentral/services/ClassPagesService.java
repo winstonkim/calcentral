@@ -5,6 +5,7 @@ import com.google.common.collect.Maps;
 import edu.berkeley.calcentral.Urls;
 import edu.berkeley.calcentral.daos.ClassPagesDao;
 import edu.berkeley.calcentral.domain.*;
+import edu.berkeley.calcentral.system.Telemetry;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jboss.resteasy.spi.NotFoundException;
@@ -76,18 +77,28 @@ public class ClassPagesService {
 		}
 		
 		int yearInt = Integer.parseInt(year);
+		Telemetry telemetry = new Telemetry(this.getClass(), "classPagesDao.getBaseClassPage()");
 		ClassPage classPageResult = classPagesDao.getBaseClassPage(yearInt, term, courseID);
+		telemetry.end();
+
+		telemetry = new Telemetry(this.getClass(), "classPagesDao.getCourseInfo()");
 		ClassPageCourseInfo courseInfo = classPagesDao.getCourseInfo(yearInt, term, courseID);
+		telemetry.end();
+
 		courseInfo.decodeAll();
 		classPageResult.setCourseinfo(courseInfo);
 
+		telemetry = new Telemetry(this.getClass(), "classPagesDao.getCourseInstructors()");
 		List<ClassPageInstructor> classPageInstructors = classPagesDao.getCourseInstructors(yearInt, term, courseID);
+		telemetry.end();
 		for (ClassPageInstructor instructor : classPageInstructors) {
 			instructor.emailDisclosureDecode();
 		}
 		classPageResult.setInstructors(classPageInstructors);
-		
+
+		telemetry = new Telemetry(this.getClass(), "classPagesDao.getCourseSchedules()");
 		List<ClassPageSchedule> classPageSchedules = classPagesDao.getCourseSchedules(yearInt, term, courseID);
+		telemetry.end();
 		for (ClassPageSchedule schedule : classPageSchedules) {
 			schedule.decodeAll();
 		}
@@ -95,11 +106,17 @@ public class ClassPagesService {
 		
 		String deptName = courseInfo.getMisc_deptname();
 		String catalogId = courseInfo.getCatalogid();
+		telemetry = new Telemetry(this.getClass(), "classPagesDao.getCourseSections()");
 		List<ClassPageSection> classPageSections = classPagesDao.getCourseSections(yearInt, term, deptName, catalogId);
+		telemetry.end();
+
 		for ( ClassPageSection section : classPageSections ) {
+			telemetry = new Telemetry(this.getClass(), "classPagesDao.getSectionInstructors()");
 			List<ClassPageInstructor> instructors = classPagesDao.getSectionInstructors(yearInt, term, section.getCcn());
+			telemetry.end();
 			section.setSection_instructors(instructors);
 		}
+
 		//TODO: can probably use predicates here, to get a list of sections we want to keep.
 		classPageResult.setSections(classPageSections);
 		
