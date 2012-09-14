@@ -404,7 +404,7 @@ header h1 {
 /* Lefthandnavigation */
 .cc-lefthandnavigation a {
 	color: #707E8C;
-	display: block;
+	display: table-cell;
 	font-weight: bold;
 	padding: 8px 5px 8px 28px;
 }
@@ -446,7 +446,7 @@ header h1 {
 	list-style-type: none;
 }
 .cc-page-colleges-and-schools-container ul li a {
-	background: #194270 url('/img/myb/right-arrow-icon.png') 270px center no-repeat;
+	background: #194270 url('/img/myb/right-arrow-icon.png') 98% center no-repeat;
 	border-radius: 5px;
 	color: #fff;
 	display: block;
@@ -696,6 +696,9 @@ footer .cc-copyright {
 	}
 	.cc-page-colleges-and-schools-container ul li:nth-child(3n+3) a {
 		margin-right: 20px;
+	}
+	.cc-page-colleges-and-schools-container ul li a {
+		width: 100%;
 	}
 	.cc-page-index-welcome {
 		margin: 20px;
