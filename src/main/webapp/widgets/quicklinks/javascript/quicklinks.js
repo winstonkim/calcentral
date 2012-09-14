@@ -283,7 +283,7 @@ calcentral.Widgets.quicklinks = function(tuid) {
 		/**
 		 * Stores new links to db. This function should only be called after form fields have been validated.
 		 */
-		 var storeNewLink = function() {
+		var storeNewLink = function() {
 			$saveLinkClickClass.attr('disabled', true);
 
 			var index = $myLinksFormId.attr('data-eltindex');
@@ -495,11 +495,11 @@ calcentral.Widgets.quicklinks = function(tuid) {
 			'url': '/widgets/quicklinks/default-links.json',
 			'success': function(data) {
 				defaultLinks = $.extend(true, {}, data);
-				userLinkData = defaultLinks.sections[defaultLinks.userSectionIndex]
+				userLinkData = defaultLinks.sections[defaultLinks.userSectionIndex];
 				callback();
 			}
 		});
-	}
+	};
 
 	/**
 	 * Initialization Function.
