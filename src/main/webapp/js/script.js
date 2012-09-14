@@ -32,7 +32,7 @@ var calcentral = calcentral || {};
 	 * Get the current user
 	 * @param {Object} config Configuration object
 	 * {
-	 * 	"refresh": false // Refresh the data for the current user
+	 * "refresh": false // Refresh the data for the current user
 	 * }
 	 * @param {Function} callback Callback function
 	 * @return {Object} All the data for the current user
