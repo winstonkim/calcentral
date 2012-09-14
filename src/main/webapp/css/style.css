@@ -683,8 +683,23 @@ footer .cc-copyright {
 	 Modify as content requires.
 	 ========================================================================== */
 
-@media only screen and (min-width: 35em) {
+@media only screen and (max-width: 960px) {
 	/* Style adjustments for viewports that meet the condition */
+	body > header, body > footer, .cc-container-main, .cc-topnavigation > ul {
+		width: 100%;
+	}
+	.cc-container-main-left {
+		width: 25%;
+	}
+	.cc-container-main-right {
+		width: 75%;
+	}
+	.cc-page-colleges-and-schools-container ul li:nth-child(3n+3) a {
+		margin-right: 20px;
+	}
+	.cc-page-index-welcome {
+		margin: 20px;
+	}
 }
 
 
