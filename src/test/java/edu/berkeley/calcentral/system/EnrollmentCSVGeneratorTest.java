@@ -21,10 +21,12 @@ package edu.berkeley.calcentral.system;
 import com.Ostermiller.util.CSVParser;
 import com.google.common.collect.ImmutableMap;
 import edu.berkeley.calcentral.DatabaseAwareTest;
+import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -52,14 +54,14 @@ public class EnrollmentCSVGeneratorTest extends DatabaseAwareTest {
 
 	@Test
 	public void getStudentsForSection() throws Exception {
-		List<Map<String, Object>> enrollments = generator.getStudentsForSection("2012-D-32203");
+		List<Map<String, Object>> enrollments = generator.getStudentsForSection("2012-D-73974");
 		assertNotNull(enrollments);
 		assertTrue(enrollments.size() > 0);
 	}
 
 	@Test
 	public void getInstructorsForSection() throws Exception {
-		List<Map<String, Object>> enrollments = generator.getInstructorsForSection("2012-D-32203");
+		List<Map<String, Object>> enrollments = generator.getInstructorsForSection("2012-D-73974");
 		assertNotNull(enrollments);
 		assertTrue(enrollments.size() > 0);
 	}
@@ -67,6 +69,7 @@ public class EnrollmentCSVGeneratorTest extends DatabaseAwareTest {
 	@Test
 	public void writeEnrollmentCSV() throws Exception {
 		String csvPath = "target/enrollments-test-" + System.currentTimeMillis() + ".csv";
+		FileUtils.touch(new File(csvPath));
 
 		List<Map<String, Object>> enrollments = new ArrayList<Map<String, Object>>(1);
 		enrollments.add(ImmutableMap.<String, Object>of("LDAP_UID", "12345", "ENROLL_STATUS", "E", "ROLE", "student"));
@@ -81,6 +84,7 @@ public class EnrollmentCSVGeneratorTest extends DatabaseAwareTest {
 	@Test
 	public void generate() throws Exception {
 		String csvPath = "target/enrollments-fulltest-" + System.currentTimeMillis() + ".csv";
+		FileUtils.touch(new File(csvPath));
 		generator.generate(csvPath);
 
 		CSVParser parser = new CSVParser(new FileReader(csvPath));
