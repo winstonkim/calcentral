@@ -271,6 +271,16 @@
 		{{/if}}
 		</script>
 
+		<script id="cc-page-classpage-nodata-template" type="text/x-handlebars-template">
+			<div class="cc-container-widget cc-page-classpage-header">
+				<div class="cc-widget-title">
+					<h2>Data unavailable</h2>
+				</div>
+				<div class="cc-widget-main">
+					<p>Data for this class could not be found.</p>
+				</div>
+			</div>
+		</script>
 		</div>
 		<!-- END Page specific HTML -->
 		<br class="clearfix" />

@@ -788,10 +788,20 @@ var calcentral = calcentral || {};
 		}).promise();
 	};
 
+	var dataLoadFailure = function() {
+		/* When data is missing, render a separate template on the same page.
+		Satisfy required data and partials args even though missing. */
+		calcentral.Api.Util.renderTemplate({
+			'container': $classPageContainer,
+			'data': " ",
+			'partials': null,
+			'template': $('#cc-page-classpage-nodata-template', $classPage)
+		});
+	};
+
 	if($classPage.length) {
-		// TODO: can redirect errors to some render failure page template.
-		// $.when(loadClassPage(), loadBuildingCoords()).done(renderClassPage).fail($.noop);
-		$.when(loadClassPage(), loadBuildingCoords()).done(renderClassPage);
+		// Send all data to renderer, or set a "nodata" key the template can work with
+		$.when(loadClassPage(), loadBuildingCoords()).done(renderClassPage).fail(dataLoadFailure);
 	}
 
 })();
