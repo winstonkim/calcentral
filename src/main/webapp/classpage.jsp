@@ -133,7 +133,7 @@
 				{{#each sections}}
 				<tr class="classpages_classrow">
 					<td>
-						<a href="#"><div class="classpages_sections_arrow" id="sectionarrow-{{coursenum}}"></div></a>
+						<button class="classpages_sections_arrow cc-link-button" id="sectionarrow-{{coursenum}}"></button>
 						<span class="classpages_section_title_warrow">
 							<strong>{{section}}</strong></span>
 						</span>

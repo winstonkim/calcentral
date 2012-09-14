@@ -714,23 +714,20 @@ var calcentral = calcentral || {};
 		} else {
 			$classPageDescriptionContainer.height(infoHeight);
 		}
+		// On _page load_, check whether we need to link/delink the expand/collapse text.
+		expandTextToggle();
 	};
 
 	var singleToggle = function() {
 		// Toggle individual sections open/closed when clicked
-		$('div.classpages_sections_arrow').on('click',function(event) {
+		$('.classpages_sections_arrow').on('click', function() {
 			// Each class section consists of two table rows - one shown on page load, the other hidden.
 			// Each section arrow lives in a td inside the first row of its set.
 			// When clicked, find its parent tr, then find that tr's next sibling and show/hide it.
-			event.preventDefault();
-			$(this).parents('tr.classpages_classrow').eq(0).next().toggle('slow');
+			$(this).parents('tr.classpages_classrow').eq(0).next().stop(true, true).toggle('slow');
 
 			// And turn the disclosure triangle by adding or removing an additional class
-			if ($(this).hasClass('classpages_sections_arrow_opened')) {
-				$(this).removeClass('classpages_sections_arrow_opened');
-			} else {
-				$(this).addClass('classpages_sections_arrow_opened');
-			}
+			$(this).toggleClass('classpages_sections_arrow_opened');
 			// On _section click_, check whether we need to link/delink the expand/collapse text
 			expandTextToggle();
 		});
@@ -740,21 +737,12 @@ var calcentral = calcentral || {};
 		// If ALL sections are expanded, add a class to disable the Expand All link.
 		// Otherwise remove that class. Similar for Collapse All.
 
-		var totalSections = $('div.classpages_sections_arrow').length;
-		var curOpen = $('div.classpages_sections_arrow_opened').length;
+		var totalSections = $('.classpages_sections_arrow').length;
+		var curOpen = $('.classpages_sections_arrow_opened').length;
+		$('button#classpages_expandall').toggleClass('classpages_nolink', totalSections === curOpen);
 
-		if (totalSections === curOpen) {
-			$('button#classpages_expandall').addClass('classpages_nolink');
-		} else {
-			$('button#classpages_expandall').removeClass('classpages_nolink');
-		}
-
-		// Do same in reverse for the Collapse all link
-		if (curOpen !== 0) {
-			$('button#classpages_collapseall').removeClass('classpages_nolink');
-		} else {
-			$('button#classpages_collapseall').addClass('classpages_nolink');
-		}
+		// Do same in reverse for the Collapse all lin=
+		$('button#classpages_collapseall').toggleClass('classpages_nolink', curOpen === 0);
 	};
 
 	var showNotes = function() {
@@ -764,15 +752,13 @@ var calcentral = calcentral || {};
 		});
 	};
 
-	// On _page load_, check whether we need to link/delink the expand/collapse text.
 	// Also enable binding for midterm and final alert boxes.
-	expandTextToggle();
 	showNotes();
 
 	var showAllSections = function() {
 		// Expand all sections regardless their current state
 		$('button#classpages_expandall').on('click',function() {
-			$('div.classpages_sections_arrow').addClass('classpages_sections_arrow_opened');
+			$('.classpages_sections_arrow').addClass('classpages_sections_arrow_opened');
 			$('tr.classpages_metadata').show();
 			expandTextToggle();
 		});
@@ -781,7 +767,7 @@ var calcentral = calcentral || {};
 	var hideAllSections = function() {
 		// Collapse all sections regardless their current state
 		$('button#classpages_collapseall').on('click',function() {
-			$('div.classpages_sections_arrow').removeClass('classpages_sections_arrow_opened');
+			$('.classpages_sections_arrow').removeClass('classpages_sections_arrow_opened');
 			$('tr.classpages_metadata').hide();
 			expandTextToggle();
 		});

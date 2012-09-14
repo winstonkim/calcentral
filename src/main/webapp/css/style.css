@@ -832,20 +832,17 @@ span.classpages_section_title_warrow {
 }
 
 /* Expando arrows */
-div.classpages_sections_arrow {
-	background: url("/img/myb/icons_sprite.png") no-repeat scroll -863px -21px transparent !important;
+.classpages_sections_arrow, .classpages_sections_arrow_opened {
+	background: url("/img/myb/icons_sprite.png") no-repeat scroll -863px -21px transparent;
+}
+.classpages_sections_arrow {
 	height: 10px;
 	margin: 2px 3px 0 2px;
 	position: absolute;
 	width: 12px;
 }
-
-div.classpages_sections_arrow_opened {
-	background: url("/img/myb/icons_sprite.png") no-repeat scroll -882px -22px transparent !important;
-	height: 10px;
-	margin-top: 3px;
-	position: absolute;
-	width: 12px;
+.classpages_sections_arrow_opened {
+	background-position: -882px -22px;
 }
 
 span#classpages_showhideall {
