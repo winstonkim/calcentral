@@ -4,25 +4,23 @@
  */
 package edu.berkeley.calcentral.daos;
 
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Maps;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.codehaus.jackson.JsonNode;
+import org.codehaus.jackson.map.ObjectMapper;
+import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.jdbc.core.ColumnMapRowMapper;
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.stereotype.Repository;
+
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.codehaus.jackson.JsonNode;
-import org.codehaus.jackson.JsonParseException;
-import org.codehaus.jackson.map.JsonMappingException;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.jdbc.core.ColumnMapRowMapper;
-import org.springframework.jdbc.core.RowMapper;
-import org.springframework.stereotype.Repository;
-
-import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.Maps;
 
 @Repository
 public class WidgetDataDao extends BaseDao {
@@ -31,18 +29,17 @@ public class WidgetDataDao extends BaseDao {
 	
 	private static final Log LOGGER = LogFactory.getLog(WidgetDataDao.class);
 
-	public final Map<String, Object> saveWidgetData(String userId, String widgetId, String serializedData) throws JsonParseException, JsonMappingException, IOException {
+	public final Map<String, Object> saveWidgetData(String userId, String widgetId, String serializedData) throws IOException {
 		
 		//check to make sure jsonData is valid json before attempting to store.
 		JsonNode dataNode = null;
 		if (serializedData != null && !serializedData.isEmpty()) {
 			dataNode = mapper.readValue(serializedData, JsonNode.class);
 		}
-		
-		Map<String, String> params = Maps.newHashMap();
-		params.put("uid", userId);
-		params.put("widgetId", widgetId);
-		params.put("data", serializedData);
+
+		MapSqlParameterSource params = new MapSqlParameterSource("uid", userId)
+			.addValue("widgetId", widgetId)
+			.addValue("data", serializedData);
 		String saveWidgetData = "WITH upsert as "
 				+ " (UPDATE calcentral_widgetdata wd "
 				+ "  SET data = :data "
@@ -54,23 +51,21 @@ public class WidgetDataDao extends BaseDao {
 				+ " WHERE up.uid = entries.uid AND up.widgetId = entries.widgetId)";
 		queryRunner.update(saveWidgetData, params);
 		Map<String, Object> response = Maps.newHashMap();
-		response.putAll(params);
+		response.putAll(params.getValues());
 		response.put("data", dataNode);
 		return response;
 	}
 
 	public final void deleteWidgetData(String userId, String widgetId) {
-		Map<String, String> params = Maps.newHashMap();
-		params.put("uid", userId);
-		params.put("widgetId", widgetId);
+		MapSqlParameterSource params = new MapSqlParameterSource("uid", userId)
+			.addValue("widgetId", widgetId);
 		String delete = "DELETE FROM calcentral_widgetdata wd "
 				+ " WHERE wd.uid = :uid AND wd.widgetId = :widgetId";
 		queryRunner.update(delete, params);
 	}
 
 	public void deleteAllWidgetData(String userID) {
-		Map<String, String> params = Maps.newHashMap();
-		params.put("uid", userID);
+		MapSqlParameterSource params = new MapSqlParameterSource("uid", userID);
 		String deleteAll = "DELETE FROM calcentral_widgetdata wd "
 				+ " WHERE wd.uid = :uid";
 		queryRunner.update(deleteAll, params);
