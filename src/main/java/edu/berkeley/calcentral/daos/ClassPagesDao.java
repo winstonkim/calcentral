@@ -73,10 +73,9 @@ public class ClassPagesDao extends BaseDao {
 				+ "   '' img, "
 				+ "   '' title, "
 				+ "   '' url "
-				+ " FROM BSPACE_COURSE_INSTRUCTOR_VW bci "
-				+ " JOIN BSPACE_PERSON_INFO_VW bpi on "
-				+ "   (bpi.ldap_uid = bci.instructor_ldap_uid) "
+				+ " FROM BSPACE_PERSON_INFO_VW bpi, BSPACE_COURSE_INSTRUCTOR_VW bci "
 				+ " WHERE bci.TERM_YR = :year AND bci.TERM_CD = :term AND bci.COURSE_CNTL_NUM = :courseID "
+				+ "   AND bpi.ldap_uid = bci.instructor_ldap_uid"
 				+ " ORDER BY bci.MULTI_ENTRY_CD";
 		return campusQueryRunner.query(instructors, params,
 				new BeanPropertyRowMapper<ClassPageInstructor>(ClassPageInstructor.class));
