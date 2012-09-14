@@ -19,15 +19,17 @@
 
 	<!-- Local application storage -->
 	<bean id="runDataSource"
-		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+	      class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
 		<property name="driverClassName" value="org.postgresql.Driver" />
 		<property name="url" value="jdbc:postgresql://localhost:5432/calcentral" />
 		<property name="username" value="calcentral" />
 		<property name="password" value="secret" />
+		<property name="initialSize" value="2"/>
+		<property name="maxActive" value="20"/>
 	</bean>
 	<!-- Integration test storage -->
 	<bean id="itDataSource"
-				class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+	      class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
 		<property name="driverClassName" value="org.postgresql.Driver" />
 		<property name="url" value="jdbc:postgresql://localhost:5432/calcentraltest" />
 		<property name="username" value="calcentraltest" />
@@ -35,15 +37,17 @@
 	</bean>
 
 	<bean id="oracleDataSource"
-		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+	      class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
 		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" />
 		<property name="url" value="jdbc:oracle:thin:@ORACLE_URL:ORACLE_DB" />
 		<property name="username" value="ORACLE_USERNAME" />
 		<property name="password" value="ORACLE_PASSWORD" />
+		<property name="initialSize" value="2"/>
+		<property name="maxActive" value="20"/>
 	</bean>
 
 	<bean id="h2CampusDataSource"
-				class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+	      class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
 		<property name="driverClassName" value="org.h2.Driver"/>
 		<property name="url" value="jdbc:h2:mem:h2CampusDataSource;DB_CLOSE_DELAY=-1;MODE=Oracle"/>
 		<property name="username" value="sa"/>
