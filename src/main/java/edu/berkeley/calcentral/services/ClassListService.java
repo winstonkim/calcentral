@@ -8,6 +8,7 @@ import edu.berkeley.calcentral.domain.College;
 import edu.berkeley.calcentral.domain.Department;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.jboss.resteasy.annotations.cache.Cache;
 import org.jboss.resteasy.spi.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -44,6 +45,7 @@ public class ClassListService {
 	 *         	}
 	 *         	</pre>
 	 */
+	@Cache(maxAge = 24 * 60 * 60) // cache for 24 hrs
 	@GET
 	@Produces({MediaType.APPLICATION_JSON})
 	@Path("{collegeslug}")
@@ -80,6 +82,7 @@ public class ClassListService {
 	 *         	}
 	 *         	</pre>
 	 */
+	@Cache(maxAge = 24 * 60 * 60) // cache for 24 hrs
 	@GET
 	@Produces({MediaType.APPLICATION_JSON})
 	@Path("{collegeslug}/{department}")

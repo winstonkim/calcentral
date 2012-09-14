@@ -8,6 +8,7 @@ import edu.berkeley.calcentral.domain.*;
 import edu.berkeley.calcentral.system.Telemetry;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.jboss.resteasy.annotations.cache.Cache;
 import org.jboss.resteasy.spi.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -35,6 +36,7 @@ public class ClassPagesService {
 	 * @param ccc concatenated tuple of term_yr, term_cd, and course_catalogue_code
 	 * @return course info in an json object, or empty json object on errors
 	 */
+	@Cache(maxAge = 24 * 60 * 60) // cache for 24 hrs
 	@GET
 	@Produces({MediaType.APPLICATION_JSON})
 	@Path("{ccc}")
