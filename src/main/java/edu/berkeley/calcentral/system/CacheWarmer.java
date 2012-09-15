@@ -18,9 +18,11 @@ public class CacheWarmer extends BaseDao {
 
 	private static final Logger LOGGER = Logger.getLogger(CacheWarmer.class);
 
-	private static final String URL_CLASSLIST = "http://localhost:8080" + Urls.CLASS_LIST;
+	private static final String URL_LOCALHOST = "http://localhost:8080";
 
-	private static final String URL_CLASSPAGE = "http://localhost:8080" + Urls.CLASS_PAGES;
+	private static final String URL_CLASSLIST = URL_LOCALHOST + Urls.CLASS_LIST;
+
+	private static final String URL_CLASSPAGE = URL_LOCALHOST + Urls.CLASS_PAGES;
 
 	boolean enabled = true;
 
@@ -68,6 +70,9 @@ public class CacheWarmer extends BaseDao {
 
 	List<String> buildUrlList(int limit) {
 		List<String> urls = new ArrayList<String>(5000);
+		urls.add(URL_LOCALHOST + "/index.jsp");
+		urls.add(URL_LOCALHOST + "/colleges-and-schools.jsp");
+
 		MapSqlParameterSource params = new MapSqlParameterSource("limit", limit);
 
 		List<Map<String, Object>> collegeSlugs = queryRunner.queryForList(
