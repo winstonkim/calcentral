@@ -5,8 +5,10 @@ import com.google.common.collect.Maps;
 import edu.berkeley.calcentral.Urls;
 import edu.berkeley.calcentral.daos.ClassPagesDao;
 import edu.berkeley.calcentral.domain.*;
+import edu.berkeley.calcentral.system.Telemetry;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.jboss.resteasy.annotations.cache.Cache;
 import org.jboss.resteasy.spi.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -34,6 +36,7 @@ public class ClassPagesService {
 	 * @param ccc concatenated tuple of term_yr, term_cd, and course_catalogue_code
 	 * @return course info in an json object, or empty json object on errors
 	 */
+	@Cache(maxAge = 24 * 60 * 60) // cache for 24 hrs
 	@GET
 	@Produces({MediaType.APPLICATION_JSON})
 	@Path("{ccc}")
@@ -76,18 +79,28 @@ public class ClassPagesService {
 		}
 		
 		int yearInt = Integer.parseInt(year);
+		Telemetry telemetry = new Telemetry(this.getClass(), "classPagesDao.getBaseClassPage()");
 		ClassPage classPageResult = classPagesDao.getBaseClassPage(yearInt, term, courseID);
+		telemetry.end();
+
+		telemetry = new Telemetry(this.getClass(), "classPagesDao.getCourseInfo()");
 		ClassPageCourseInfo courseInfo = classPagesDao.getCourseInfo(yearInt, term, courseID);
+		telemetry.end();
+
 		courseInfo.decodeAll();
 		classPageResult.setCourseinfo(courseInfo);
 
+		telemetry = new Telemetry(this.getClass(), "classPagesDao.getCourseInstructors()");
 		List<ClassPageInstructor> classPageInstructors = classPagesDao.getCourseInstructors(yearInt, term, courseID);
+		telemetry.end();
 		for (ClassPageInstructor instructor : classPageInstructors) {
 			instructor.emailDisclosureDecode();
 		}
 		classPageResult.setInstructors(classPageInstructors);
-		
+
+		telemetry = new Telemetry(this.getClass(), "classPagesDao.getCourseSchedules()");
 		List<ClassPageSchedule> classPageSchedules = classPagesDao.getCourseSchedules(yearInt, term, courseID);
+		telemetry.end();
 		for (ClassPageSchedule schedule : classPageSchedules) {
 			schedule.decodeAll();
 		}
@@ -95,11 +108,10 @@ public class ClassPagesService {
 		
 		String deptName = courseInfo.getMisc_deptname();
 		String catalogId = courseInfo.getCatalogid();
-		List<ClassPageSection> classPageSections = classPagesDao.getCourseSections(yearInt, term, deptName, catalogId);
-		for ( ClassPageSection section : classPageSections ) {
-			List<ClassPageInstructor> instructors = classPagesDao.getSectionInstructors(yearInt, term, section.getCcn());
-			section.setSection_instructors(instructors);
-		}
+		telemetry = new Telemetry(this.getClass(), "classPagesDao.getSectionsWithInstructors()");
+		List<ClassPageSection> classPageSections = classPagesDao.getSectionsWithInstructors(yearInt, term, deptName, catalogId);
+		telemetry.end();
+
 		//TODO: can probably use predicates here, to get a list of sections we want to keep.
 		classPageResult.setSections(classPageSections);
 		

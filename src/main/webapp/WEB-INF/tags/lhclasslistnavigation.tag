@@ -3,7 +3,7 @@
 	<section class="cc-entity">
 
 		<div class="cc-entity-name cc-lefthandnavigation">
-			<strong><a href="/classlist.jsp?college={{college_slug}}" {{#compare college_url pathname}}class="cc-lefthandnavigation-item-selected"{{/compare}}>{{college_title}}</a></strong>
+			<strong><a href="/classlist.jsp?college={{college.slug}}" {{#compare college_url pathname}}class="cc-lefthandnavigation-item-selected"{{/compare}}>{{college.title}}</a></strong>
 		</div>
 
 	</section>

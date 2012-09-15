@@ -123,7 +123,7 @@ INSERT INTO calcentral_classtree_departments VALUES ('PERSIAN', 'Persian', 1, 33
 INSERT INTO calcentral_classtree_departments VALUES ('PHILOS', 'Philosophy', 1, 34);
 INSERT INTO calcentral_classtree_departments VALUES ('ART', 'Practice of Art', 1, 35);
 INSERT INTO calcentral_classtree_departments VALUES ('PUNJABI', 'Punjabi', 1, 37);
-INSERT INTO calcentral_classtree_departments VALUES ('RHETOR', 'RHETOR', 1, 38);
+INSERT INTO calcentral_classtree_departments VALUES ('RHETOR', 'Rhetoric', 1, 38);
 INSERT INTO calcentral_classtree_departments VALUES ('SANSKR', 'Sanskrit', 1, 39);
 INSERT INTO calcentral_classtree_departments VALUES ('SCANDIN', 'Scandinavian', 1, 40);
 INSERT INTO calcentral_classtree_departments VALUES ('SLAVIC', 'Slavic Languages and Literatures', 1, 41);

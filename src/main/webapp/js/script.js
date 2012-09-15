@@ -32,7 +32,7 @@ var calcentral = calcentral || {};
 	 * Get the current user
 	 * @param {Object} config Configuration object
 	 * {
-	 * 	"refresh": false // Refresh the data for the current user
+	 * "refresh": false // Refresh the data for the current user
 	 * }
 	 * @param {Function} callback Callback function
 	 * @return {Object} All the data for the current user
@@ -507,7 +507,7 @@ var calcentral = calcentral || {};
 	};
 
 	getWidgets();
-	$(window).on('load', setWidgetLayout);
+	$('.cc-container-widgets').on('ajaxStop', setWidgetLayout);
 
 })();
 
@@ -654,7 +654,7 @@ var calcentral = calcentral || {};
 (function() {
 	var $classPage = $('.cc-page-classpage');
 
-	var $classPageContainer = $('.cc-page-classpage-container', $classPage);
+	var $classPageContainer = $('.cc-container-main-right', $classPage);
 
 	var renderClassPage = function(data, buildingData) {
 		data = data[0];
@@ -714,23 +714,20 @@ var calcentral = calcentral || {};
 		} else {
 			$classPageDescriptionContainer.height(infoHeight);
 		}
+		// On _page load_, check whether we need to link/delink the expand/collapse text.
+		expandTextToggle();
 	};
 
 	var singleToggle = function() {
 		// Toggle individual sections open/closed when clicked
-		$('div.classpages_sections_arrow').on('click',function(event) {
+		$('.classpages_sections_arrow').on('click', function() {
 			// Each class section consists of two table rows - one shown on page load, the other hidden.
 			// Each section arrow lives in a td inside the first row of its set.
 			// When clicked, find its parent tr, then find that tr's next sibling and show/hide it.
-			event.preventDefault();
-			$(this).parents('tr.classpages_classrow').eq(0).next().toggle('slow');
+			$(this).parents('tr.classpages_classrow').eq(0).next().stop(true, true).toggle('slow');
 
 			// And turn the disclosure triangle by adding or removing an additional class
-			if ($(this).hasClass('classpages_sections_arrow_opened')) {
-				$(this).removeClass('classpages_sections_arrow_opened');
-			} else {
-				$(this).addClass('classpages_sections_arrow_opened');
-			}
+			$(this).toggleClass('classpages_sections_arrow_opened');
 			// On _section click_, check whether we need to link/delink the expand/collapse text
 			expandTextToggle();
 		});
@@ -740,21 +737,12 @@ var calcentral = calcentral || {};
 		// If ALL sections are expanded, add a class to disable the Expand All link.
 		// Otherwise remove that class. Similar for Collapse All.
 
-		var totalSections = $('div.classpages_sections_arrow').length;
-		var curOpen = $('div.classpages_sections_arrow_opened').length;
+		var totalSections = $('.classpages_sections_arrow').length;
+		var curOpen = $('.classpages_sections_arrow_opened').length;
+		$('button#classpages_expandall').toggleClass('classpages_nolink', totalSections === curOpen);
 
-		if (totalSections === curOpen) {
-			$('button#classpages_expandall').addClass('classpages_nolink');
-		} else {
-			$('button#classpages_expandall').removeClass('classpages_nolink');
-		}
-
-		// Do same in reverse for the Collapse all link
-		if (curOpen !== 0) {
-			$('button#classpages_collapseall').removeClass('classpages_nolink');
-		} else {
-			$('button#classpages_collapseall').addClass('classpages_nolink');
-		}
+		// Do same in reverse for the Collapse all lin=
+		$('button#classpages_collapseall').toggleClass('classpages_nolink', curOpen === 0);
 	};
 
 	var showNotes = function() {
@@ -764,15 +752,13 @@ var calcentral = calcentral || {};
 		});
 	};
 
-	// On _page load_, check whether we need to link/delink the expand/collapse text.
 	// Also enable binding for midterm and final alert boxes.
-	expandTextToggle();
 	showNotes();
 
 	var showAllSections = function() {
 		// Expand all sections regardless their current state
 		$('button#classpages_expandall').on('click',function() {
-			$('div.classpages_sections_arrow').addClass('classpages_sections_arrow_opened');
+			$('.classpages_sections_arrow').addClass('classpages_sections_arrow_opened');
 			$('tr.classpages_metadata').show();
 			expandTextToggle();
 		});
@@ -781,7 +767,7 @@ var calcentral = calcentral || {};
 	var hideAllSections = function() {
 		// Collapse all sections regardless their current state
 		$('button#classpages_collapseall').on('click',function() {
-			$('div.classpages_sections_arrow').removeClass('classpages_sections_arrow_opened');
+			$('.classpages_sections_arrow').removeClass('classpages_sections_arrow_opened');
 			$('tr.classpages_metadata').hide();
 			expandTextToggle();
 		});
@@ -802,10 +788,20 @@ var calcentral = calcentral || {};
 		}).promise();
 	};
 
+	var dataLoadFailure = function() {
+		/* When data is missing, render a separate template on the same page.
+		Satisfy required data and partials args even though missing. */
+		calcentral.Api.Util.renderTemplate({
+			'container': $classPageContainer,
+			'data': " ",
+			'partials': null,
+			'template': $('#cc-page-classpage-nodata-template', $classPage)
+		});
+	};
+
 	if($classPage.length) {
-		// TODO: can redirect errors to some render failure page template.
-		// $.when(loadClassPage(), loadBuildingCoords()).done(renderClassPage).fail($.noop);
-		$.when(loadClassPage(), loadBuildingCoords()).done(renderClassPage);
+		// Send all data to renderer, or set a "nodata" key the template can work with
+		$.when(loadClassPage(), loadBuildingCoords()).done(renderClassPage).fail(dataLoadFailure);
 	}
 
 })();
@@ -827,6 +823,13 @@ var calcentral = calcentral || {};
 		// Are we looking at a department listing?
 		data.department = calcentral.Api.Util.getURLParameter('dept');
 
+		// Extract friendly department title from the key
+        $.each(data.departments, function(i, v){
+            if (v.key == data.department){
+                data.department_name = v.title;
+            }
+        });
+
 		var partials = {
 			'courseInfo': $('#cc-page-classlist-courseinfo-template', $classList).html()
 		};
@@ -840,8 +843,8 @@ var calcentral = calcentral || {};
 		var renderLeftHandClassPageListNavigation = function(data) {
 			// Append department siblings to left-hand nav
 
-			data.pages = $.map(data.siblings, function(val, i) {
-				url = "/classlist.jsp?dept=" + i;
+			data.pages = $.map(data.departments, function(val, i) {
+				url = "/classlist.jsp?college=" + data.college.slug + "&dept=" + val.key;
 				return {'title': val.title, 'url': url};
 			});
 
@@ -852,17 +855,26 @@ var calcentral = calcentral || {};
 			});
 		};
 
-		data.college_url = "/classlist.jsp?college=" + data.college_slug;
+		data.college_url = "/classlist.jsp?college=" + data.college.slug;
 		data.pathname = window.location.pathname + window.location.search;
 		renderLeftHandClassPageListNavigation(data);
 
 	};
 
 	var loadClassList = function() {
+		// Different API queries depending on whether this is a college or department listing
+		var dept = calcentral.Api.Util.getURLParameter('dept');
+		var college = calcentral.Api.Util.getURLParameter('college');
+
+		// We'll always have college= in the URL, plus dept= if this is a department listing
+		url = '/api/classList/' + college;
+		if (dept) { url += "/" + dept; }
+
 		return $.ajax({
-			'url': '/dummy/classlist.json'
-		}).promise();
+			'url': url
+		});
 	};
+
 
 	if($classList.length) {
 		$.when(loadClassList()).done(renderClassList);

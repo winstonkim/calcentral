@@ -17,12 +17,12 @@
  */
 package edu.berkeley.calcentral.services;
 
-import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 import edu.berkeley.calcentral.daos.BaseDao;
 import edu.berkeley.calcentral.domain.User;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -49,7 +49,9 @@ public class CampusPersonDataService extends BaseDao {
 			return null;
 		}
 		Map<String, Object> personAttributes = Maps.newHashMap();
-		List<Map<String, Object>> sqlResults = campusQueryRunner.queryForList(SELECT_PERSON_SQL, ImmutableMap.of("ldap_uid", ldapUid));
+		List<Map<String, Object>> sqlResults = campusQueryRunner.queryForList(
+				SELECT_PERSON_SQL,
+				new MapSqlParameterSource("ldap_uid", ldapUid));
 		if (sqlResults.size() > 1) {
 			LOGGER.error("Multiple rows found for ldap_uid " + ldapUid);
 		} else if (sqlResults.size() == 1) {

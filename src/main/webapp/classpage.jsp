@@ -8,8 +8,7 @@
 	<div class="cc-container-main" role="main">
 		<!-- Page specific HTML -->
 		<tags:lhclasspagenavigation/>
-		<div class="cc-page-classpage-container cc-container-main-right">
-
+		<div class="cc-container-main-right">
 
 		<script id="cc-page-classpage-template" type="text/x-handlebars-template">
 			<div class="cc-container-widget cc-page-classpage-header">
@@ -81,23 +80,24 @@
 			{{#if instructors}}
 				{{#each instructors}}
 					<li>
-						{{#instrimg}}
-							<img class="cc-page-classpage-instructor-profile" src="{{img}}" />
-						{{/instrimg}}
-						{{^instrimg}}
-							<img class="cc-page-classpage-instructor-profile" src="/img/myb/default_User_icon_100x100.png" />
-						{{/instrimg}}
+                        {{#instrimg}}
+                            <img class="cc-page-classpage-instructor-profile" src="{{img}}" />
+                        {{/instrimg}}
+                        {{^instrimg}}
+                            <img class="cc-page-classpage-instructor-profile" src="/img/myb/default_User_icon_100x100.png" />
+                        {{/instrimg}}
 
 						<div class="cc-page-classpage-instructor-heading">
 						{{#if name}}
 							<a href="https://calnet.berkeley.edu/directory/details.pl?uid={{id}}">{{name}}</a>
 						{{else}}
-							<em>Instructor name is not available</em>
+							<em>Instructor name not available</em>
 						{{/if}}
 						{{#if title}}
 							<div>{{title}}</div>
 						{{/if}}
 						</div>
+
 						<ul class="cc-page-classpage-list">
 							{{#if url}}<li><span>Website:</span><span><a href="{{url}}">{{url}}</a></span></li>{{/if}}
 							{{#if phone}}<li><span>Phone #:</span><span>{{phone}}</span></li>{{/if}}
@@ -114,8 +114,8 @@
 		<script id="cc-page-classpage-sections-template" type="text/x-handlebars-template">
 		{{#if sections}}
 		<span id="classpages_showhideall">
-			<button id="classpages_expandall" class="s3d-link-button">Expand all</button> |
-			<button id="classpages_collapseall" class="s3d-link-button">Collapse all</button>
+			<button id="classpages_expandall" class="cc-link-button">Expand all</button> |
+			<button id="classpages_collapseall" class="cc-link-button">Collapse all</button>
 		</span>
 		<table id="classpages_section_results">
 			<thead>
@@ -133,9 +133,12 @@
 				{{#each sections}}
 				<tr class="classpages_classrow">
 					<td>
-						<a href="#"><div class="classpages_sections_arrow" id="sectionarrow-{{coursenum}}"></div></a>
+						<button class="classpages_sections_arrow cc-link-button" id="sectionarrow-{{coursenum}}">
+							<span class="visuallyhidden">Open class meeting section {{section}}</span>
+							<span class="visuallyhidden">Close class meeting section {{section}}</span>
+						</button>
 						<span class="classpages_section_title_warrow">
-							<strong>{{section}}</strong></span>
+							<strong>{{section}}</strong>
 						</span>
 					</td>
 
@@ -255,9 +258,9 @@
 
 					<td colspan="2">
 						{{#if coords}}
-							<a href="http://maps.google.com/maps?daddr={{coords}}&l=en&dirflg=w&t=m&z=17" target="_blank"><img src="http://maps.googleapis.com/maps/api/staticmap?center={{coords}}&zoom=16&size=200x200&maptype=roadmap&markers=color:blue%7C{{coords}}&sensor=false" /></a>
+							<a href="http://maps.google.com/maps?daddr={{coords}}&l=en&dirflg=w&t=m&z=17" target="_blank"><img src="http://maps.googleapis.com/maps/api/staticmap?center={{coords}}&zoom=16&size=200x200&maptype=roadmap&markers=color:blue%7C{{coords}}&sensor=false" / alt="Map for {{location}}"></a>
 						{{else}}
-							<img src="/img/myb/classpages_map_not_available.png" />
+							<img src="/img/myb/classpages_map_not_available.png" alt="Map is not available" />
 						{{/if}}
 					</td>
 				</tr>
@@ -269,6 +272,16 @@
 		{{/if}}
 		</script>
 
+		<script id="cc-page-classpage-nodata-template" type="text/x-handlebars-template">
+			<div class="cc-container-widget cc-page-classpage-header">
+				<div class="cc-widget-title">
+					<h2>Data unavailable</h2>
+				</div>
+				<div class="cc-widget-main">
+					<p>Data for this class could not be found.</p>
+				</div>
+			</div>
+		</script>
 		</div>
 		<!-- END Page specific HTML -->
 		<br class="clearfix" />

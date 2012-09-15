@@ -49,16 +49,10 @@ public class ClassPagesDaoTest extends DatabaseAwareTest {
 	}
 
 	@Test
-	public void getCourseSections() throws Exception {
-		List<ClassPageSection> sections = dao.getCourseSections(YEAR, TERM, "BIOLOGY", "1A");
+	public void getSectionsWithInstructors() throws Exception {
+		List<ClassPageSection> sections = dao.getSectionsWithInstructors(YEAR, TERM, "BIOLOGY", "1A");
 		assertTrue(sections.size() > 0);
-		LOGGER.info(sections);
-	}
-
-	@Test
-	public void getSectionInstructors() throws Exception {
-		List<ClassPageInstructor> instructors = dao.getSectionInstructors(YEAR, TERM, "7303");
-		assertTrue(instructors.size() > 0);
-		LOGGER.info(instructors);
+		ClassPageSection first = sections.get(0);
+		assertTrue(first.getSection_instructors().size() > 0);
 	}
 }
