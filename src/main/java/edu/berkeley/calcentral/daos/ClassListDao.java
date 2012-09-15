@@ -21,12 +21,13 @@ public class ClassListDao extends BaseDao {
 		return queryRunner.queryForObject(sql, params, new BeanPropertyRowMapper<College>(College.class));
 	}
 
-	public Department getDepartment(String departmentKey) {
+	public Department getDepartment(String departmentKey, int collegeID) {
 		String sql = "SELECT dept_key AS key, title, id " +
 				"FROM calcentral_classtree_departments " +
-				"WHERE dept_key = :departmentKey " +
+				"WHERE dept_key = :departmentKey AND college_id = :collegeID " +
 				"ORDER BY key";
-		SqlParameterSource params = new MapSqlParameterSource("departmentKey", departmentKey);
+		SqlParameterSource params = new MapSqlParameterSource("departmentKey", departmentKey)
+				.addValue("collegeID", collegeID);
 		return queryRunner.queryForObject(sql, params, new BeanPropertyRowMapper<Department>(Department.class));
 	}
 
