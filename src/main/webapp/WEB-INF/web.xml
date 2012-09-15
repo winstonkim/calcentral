@@ -106,7 +106,7 @@
 
 	<context-param>
 		<param-name>resteasy.server.cache.maxsize</param-name>
-		<param-value>1000</param-value>
+		<param-value>50000</param-value>
 	</context-param>
 
 	<context-param>
