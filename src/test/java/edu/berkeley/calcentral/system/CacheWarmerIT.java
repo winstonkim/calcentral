@@ -1,15 +1,12 @@
 package edu.berkeley.calcentral.system;
 
 import edu.berkeley.calcentral.DatabaseAwareTest;
-import org.apache.log4j.Logger;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
-public class CacheWarmerTest extends DatabaseAwareTest {
-
-	private static final Logger LOGGER = Logger.getLogger(CacheWarmerTest.class);
+public class CacheWarmerIT extends DatabaseAwareTest {
 
 	@Autowired
 	private CacheWarmer warmer;
@@ -17,7 +14,12 @@ public class CacheWarmerTest extends DatabaseAwareTest {
 	@Test
 	public void buildUrlList() throws Exception {
 		List<String> urls = warmer.buildUrlList(20);
-		LOGGER.info(urls);
+		assertTrue(urls.size() > 0);
+	}
+
+	@Test
+	public void warm() throws Exception {
+		warmer.warm(20);
 	}
 
 }

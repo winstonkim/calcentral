@@ -2,7 +2,6 @@ package edu.berkeley.calcentral.system;
 
 import edu.berkeley.calcentral.Urls;
 import edu.berkeley.calcentral.daos.BaseDao;
-import org.apache.commons.codec.EncoderException;
 import org.apache.log4j.Logger;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -23,12 +22,24 @@ public class CacheWarmer extends BaseDao {
 
 	private static final String URL_CLASSPAGE = "http://localhost:8080" + Urls.CLASS_PAGES;
 
-	@Scheduled(fixedDelay = 1000 * 60 * 60 * 24) // every 24hrs
-	public void warmup() throws InterruptedException, EncoderException {
-		warm(10000);
+	boolean enabled = true;
+
+	@SuppressWarnings("UnusedDeclaration")
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
 	}
 
-	void warm(int limit) throws InterruptedException, EncoderException {
+	@Scheduled(fixedRate = 1000 * 60 * 60 * 24) // every 24hrs
+	public void warmup() throws InterruptedException {
+		if (enabled) {
+			Thread.sleep(15000); // so rest of server can start
+			warm(10000);
+		} else {
+			LOGGER.warn("CacheWarmer is disabled");
+		}
+	}
+
+	void warm(int limit) throws InterruptedException {
 		RestTemplate restTemplate = new RestTemplate();
 		List<String> urls = buildUrlList(limit);
 		int current = 0;
@@ -51,10 +62,11 @@ public class CacheWarmer extends BaseDao {
 				LOGGER.info("Warmed " + current + " urls of " + urls.size() + " total");
 			}
 		}
-		LOGGER.warn("Finished warming " + urls.size() + " urls with " + errorCount + " errors");
+		LOGGER.warn("Finished warming " + current + " of " + urls.size() + " total urls with "
+				+ errorCount + " errors");
 	}
 
-	List<String> buildUrlList(int limit) throws EncoderException {
+	List<String> buildUrlList(int limit) {
 		List<String> urls = new ArrayList<String>(5000);
 		MapSqlParameterSource params = new MapSqlParameterSource("limit", limit);
 
