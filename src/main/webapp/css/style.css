@@ -518,14 +518,19 @@ body > header > h1 {
 .cc-page-classpage-instructor .cc-page-classpage-instructor-profile {
 	float: left;
 	margin-right: 20px;
+	padding-bottom:20px;
 }
 .cc-page-classpage-instructor-item li {
-	height: 100px;
+	/*height: 100px;*/
 	clear: both;
 	margin-bottom: 20px;
 }
 ul.cc-page-classpage-instructor-item li:last-child {
 	margin-bottom: 0;
+}
+
+.cc-page-classpage-instructor-item li ul.cc-page-classpage-list {
+	margin-left: 165px;
 }
 .cc-page-classpage-instructor-heading {
 	font-weight: bold;
@@ -537,6 +542,7 @@ ul.cc-page-classpage-instructor-item li:last-child {
 	list-style-type: none;
 	margin: 0;
 	padding: 0;
+	display:block;
 }
 .cc-page-classpage-list li {
 	display: block;

@@ -80,23 +80,24 @@
 			{{#if instructors}}
 				{{#each instructors}}
 					<li>
-						{{#instrimg}}
-							<img class="cc-page-classpage-instructor-profile" src="{{img}}" />
-						{{/instrimg}}
-						{{^instrimg}}
-							<img class="cc-page-classpage-instructor-profile" src="/img/myb/default_User_icon_100x100.png" />
-						{{/instrimg}}
+                        {{#instrimg}}
+                            <img class="cc-page-classpage-instructor-profile" src="{{img}}" />
+                        {{/instrimg}}
+                        {{^instrimg}}
+                            <img class="cc-page-classpage-instructor-profile" src="/img/myb/default_User_icon_100x100.png" />
+                        {{/instrimg}}
 
 						<div class="cc-page-classpage-instructor-heading">
 						{{#if name}}
 							<a href="https://calnet.berkeley.edu/directory/details.pl?uid={{id}}">{{name}}</a>
 						{{else}}
-							<em>Instructor name is not available</em>
+							<em>Instructor name not available</em>
 						{{/if}}
 						{{#if title}}
 							<div>{{title}}</div>
 						{{/if}}
 						</div>
+
 						<ul class="cc-page-classpage-list">
 							{{#if url}}<li><span>Website:</span><span><a href="{{url}}">{{url}}</a></span></li>{{/if}}
 							{{#if phone}}<li><span>Phone #:</span><span>{{phone}}</span></li>{{/if}}
