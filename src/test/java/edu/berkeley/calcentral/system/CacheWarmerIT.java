@@ -13,13 +13,13 @@ public class CacheWarmerIT extends DatabaseAwareTest {
 
 	@Test
 	public void buildUrlList() throws Exception {
-		List<String> urls = warmer.buildUrlList(20);
+		List<String> urls = warmer.buildUrlList(5);
 		assertTrue(urls.size() > 0);
 	}
 
 	@Test
 	public void warm() throws Exception {
-		warmer.warm(20);
+		warmer.warm(5);
 	}
 
 }

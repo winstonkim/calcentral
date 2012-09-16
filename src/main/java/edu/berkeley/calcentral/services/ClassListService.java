@@ -77,13 +77,13 @@ public class ClassListService {
 	 * @param collegeSlug The college slug.
 	 * @param department  The department to fetch.
 	 * @return JSON data:
-	 *         <pre>
-	 *                         	{
-	 *                         		college : {@link edu.berkeley.calcentral.domain.User},
-	 *                         		departments : array of {@link edu.berkeley.calcentral.domain.Department},
-	 *                         	  classes : array of {@link edu.berkeley.calcentral.domain.ClassPage}
-	 *                         	}
-	 *                         	</pre>
+	 *  <pre>
+   *  {
+   *    college : {@link edu.berkeley.calcentral.domain.User},
+   *    departments : array of {@link edu.berkeley.calcentral.domain.Department},
+   *    classes : array of {@link edu.berkeley.calcentral.domain.ClassPage}
+   *  }
+	 *  </pre>
 	 */
 	@Cache(maxAge = 24 * 60 * 60) // cache for 24 hrs
 	@GET

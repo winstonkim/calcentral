@@ -18,7 +18,7 @@ public class Telemetry {
 
 	public void end() {
 		long time = System.currentTimeMillis() - start;
-		LOGGER.info(caller + " took " + time + "ms");
+		LOGGER.trace(caller + " took " + time + "ms");
 	}
 
 }
