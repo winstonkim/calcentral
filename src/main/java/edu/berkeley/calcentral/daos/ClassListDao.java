@@ -55,9 +55,11 @@ public class ClassListDao extends BaseDao {
 				+ "   FROM BSPACE_COURSE_INFO_VW bci "
 				+ "   WHERE bci.DEPT_NAME IN ( :departments ) "
 				+ "     AND TERM_YR = 2012 AND TERM_CD = 'D'" // TODO parameterize year and term when UI presents that choice
+				+ "     AND bci.PRIMARY_SECONDARY_CD = :primary "
 				+ "   ORDER BY department, catalogid "
 				+ ") WHERE ROWNUM <= 30 "; // TODO parameterize pagination when UI needs it
-		SqlParameterSource params = new MapSqlParameterSource("departments", deptKeys);
+		SqlParameterSource params = new MapSqlParameterSource("departments", deptKeys)
+				.addValue("primary", "P");
 		return campusQueryRunner.query(sql, params, new BeanPropertyRowMapper<ClassPage>(ClassPage.class));
 	}
 }
