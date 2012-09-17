@@ -424,7 +424,6 @@ body > header > h1 {
 .cc-entity {
 	color: #666;
 	font-size: 14px;
-	padding: 20px;
 	word-wrap: break-word;
 }
 
@@ -437,8 +436,8 @@ body > header > h1 {
 }
 
 .cc-entity-name.cc-lefthandnavigation a {
-	padding-left: 10px;
-	width: 185px;
+	margin: 20px 0;
+	padding: 8px 5px 8px 10px;
 }
 
 .cc-lefthandnavigation .cc-lefthandnavigation-item-selected {
@@ -449,10 +448,6 @@ body > header > h1 {
 	background: -o-linear-gradient(top, #3b5d86, #012955);
 	background: -ms-linear-gradient(top, #3b5d86, #012955);
 	background: linear-gradient(top, #3b5d86, #012955);
-}
-
-.cc-entity-name.cc-lefthandnavigation {
-	margin-left:-20px;
 }
 
 /* Error pages */
@@ -473,7 +468,7 @@ body > header > h1 {
 	list-style-type: none;
 }
 .cc-page-colleges-and-schools-container ul li a {
-	background: #194270 url('/img/myb/right-arrow-icon.png') 270px center no-repeat;
+	background: #194270 url('/img/myb/right-arrow-icon.png') 98% center no-repeat;
 	border-radius: 5px;
 	color: #fff;
 	display: block;
@@ -712,8 +707,29 @@ footer .cc-copyright {
 	 Modify as content requires.
 	 ========================================================================== */
 
-@media only screen and (min-width: 35em) {
+@media only screen and (max-width: 960px) {
 	/* Style adjustments for viewports that meet the condition */
+	body > header, body > footer, .cc-container-main, .cc-topnavigation > ul {
+		width: 100%;
+	}
+	.cc-lefthandnavigation a {
+		padding-left: 10%;
+	}
+	.cc-container-main-left {
+		width: 25%;
+	}
+	.cc-container-main-right {
+		width: 75%;
+	}
+	.cc-page-colleges-and-schools-container ul li:nth-child(3n+3) a {
+		margin-right: 20px;
+	}
+	.cc-page-colleges-and-schools-container ul li a {
+		width: 100%;
+	}
+	.cc-page-index-welcome {
+		margin: 20px;
+	}
 }
 
 
