@@ -21,6 +21,7 @@ package edu.berkeley.calcentral.system;
 import edu.berkeley.calcentral.BaseTest;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
@@ -34,13 +35,13 @@ public class UserSecurityFilterTest extends BaseTest {
 
 	private UserSecurityFilter filter;
 
-	@MockitoAnnotations.Mock
+	@Mock
 	HttpServletRequest request;
 
-	@MockitoAnnotations.Mock
+	@Mock
 	HttpServletResponse response;
 
-	@MockitoAnnotations.Mock
+	@Mock
 	FilterChain filterChain;
 
 	@Before

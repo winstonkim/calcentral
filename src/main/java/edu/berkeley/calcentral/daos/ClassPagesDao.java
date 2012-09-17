@@ -33,7 +33,7 @@ public class ClassPagesDao extends BaseDao {
 
 	public ClassPageCourseInfo getCourseInfo(int year, String term, String courseID) {
 		Map<String, Object> params = setupParams(year, term, courseID);
-		params.put("format", "LEC");
+		params.put("primary", "P");
 		String courseInfoSql = " SELECT "
 				+ " bci.COURSE_TITLE title, "
 				+ " bci.INSTRUCTION_FORMAT format,"
@@ -57,7 +57,8 @@ public class ClassPagesDao extends BaseDao {
 				+ " bci.CATALOG_DESCRIPTION description, "
 				+ " bci.CATALOG_ID catalogid "
 				+ " FROM BSPACE_COURSE_INFO_VW bci "
-				+ " WHERE bci.TERM_YR = :year AND bci.TERM_CD = :term AND bci.COURSE_CNTL_NUM = :courseID and bci.INSTRUCTION_FORMAT = :format";
+				+ " WHERE bci.TERM_YR = :year AND bci.TERM_CD = :term AND bci.COURSE_CNTL_NUM = :courseID "
+				+ "   AND bci.PRIMARY_SECONDARY_CD = :primary";
 		return campusQueryRunner.queryForObject(courseInfoSql, params, new BeanPropertyRowMapper<ClassPageCourseInfo>(ClassPageCourseInfo.class));
 	}
 
