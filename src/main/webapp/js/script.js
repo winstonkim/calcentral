@@ -824,11 +824,11 @@ var calcentral = calcentral || {};
 		data.department = calcentral.Api.Util.getURLParameter('dept');
 
 		// Extract friendly department title from the key
-        $.each(data.departments, function(i, v){
-            if (v.key == data.department){
-                data.department_name = v.title;
-            }
-        });
+		$.each(data.departments, function(i, v){
+			if (v.key === data.department){
+				data.department_name = v.title;
+			}
+		});
 
 		var partials = {
 			'courseInfo': $('#cc-page-classlist-courseinfo-template', $classList).html()
@@ -868,7 +868,9 @@ var calcentral = calcentral || {};
 
 		// We'll always have college= in the URL, plus dept= if this is a department listing
 		url = '/api/classList/' + college;
-		if (dept) { url += "/" + dept; }
+		if (dept) {
+			url += '/' + dept;
+		}
 
 		return $.ajax({
 			'url': url
