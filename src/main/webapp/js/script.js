@@ -869,7 +869,7 @@ var calcentral = calcentral || {};
 		// We'll always have college= in the URL, plus dept= if this is a department listing
 		url = '/api/classList/' + college;
 		if (dept) {
-			url += "/" + dept;
+			url += '/' + dept;
 		}
 
 		return $.ajax({
