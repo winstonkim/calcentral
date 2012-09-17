@@ -1,0 +1,20 @@
+{
+	"name": "Calcentral",
+	"title": "Calcentral",
+	"description": "Collaboration and communication platform for students",
+	"version": "0.0.1",
+	"repository": {
+		"type": "git",
+		"url": "git://github.com/ets-berkeley-edu/calcentral.git"
+	},
+	"engines": {
+		"node": ">=0.6"
+	},
+	"scripts": {
+		"test": "grunt travis --verbose"
+	},
+	"devDependencies": {
+		"grunt": "~0.3.14"
+	},
+	"keywords": []
+}

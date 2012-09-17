@@ -28,12 +28,14 @@ calcentral.Widgets.profile = function(tuid) {
 		$preferredNameInput = $('#cc-widget-profile-preferredName', $rootel).on('blur', function() {
 			saveProfile({
 				'preferredName': $(this).val()
-			})});
+			});
+		});
 
 		$linkInput = $('#cc-widget-profile-link', $rootel).on('blur', function() {
 			saveProfile({
 				'link': $(this).val()
-			})});
+			});
+		});
 	};
 
 	///////////////////
