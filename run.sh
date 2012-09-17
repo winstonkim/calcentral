@@ -71,15 +71,15 @@ CONFIG_FILES=`pwd`/properties
 # this overwrites existing files!
 echo "runDataSource.password=$POSTGRES_PASSWORD" > $CONFIG_FILES/dataSource.properties
 echo "itDataSource.password=$POSTGRES_PASSWORD" >> $CONFIG_FILES/dataSource.properties
+if [ $ORACLE_DB ]; then
+  echo "campusDataSource.targetName=oracleDataSource" >> $CONFIG_FILES/dataSource.properties
+  echo "oracleDataSource.url=jdbc:oracle:thin:@$ORACLE_URL:$ORACLE_DB" >> $CONFIG_FILES/dataSource.properties
+  echo "oracleDataSource.username=$ORACLE_USERNAME" >> $CONFIG_FILES/dataSource.properties
+  echo "oracleDataSource.password=$ORACLE_PASSWORD" >> $CONFIG_FILES/dataSource.properties
+fi
 echo "casAuthenticationFilter.serverName=$APPLICATION_HOST" > $CONFIG_FILES/server.properties
 echo "casValidationFilter.serverName=$APPLICATION_HOST" >> $CONFIG_FILES/server.properties
 echo "logoutSuccessHandler.defaultTargetUrl=$CAS_LOGOUT_HOST?url=$CAS_LOGOUT_URL" >> $CONFIG_FILES/server.properties
-if [ $ORACLE_DB ]; then
-  echo "campusDataSource.targetName=oracleDataSource" >> $CONFIG_FILES/server.properties
-  echo "oracleDataSource.url=jdbc:oracle:thin:@$ORACLE_URL:$ORACLE_DB" >> $CONFIG_FILES/server.properties
-  echo "oracleDataSource.username=$ORACLE_USERNAME" >> $CONFIG_FILES/server.properties
-  echo "oracleDataSource.password=$ORACLE_PASSWORD" >> $CONFIG_FILES/server.properties
-fi
 # finicky calcentral.properties for the time being will require all the values to get written out
 echo "sakai2Proxy.sharedSecret=$SAKAI2_SECRET" > $CONFIG_FILES/calcentral.properties
 echo "sakai2Proxy.sakai2Host=$SAKAI2_HOST" >> $CONFIG_FILES/calcentral.properties
