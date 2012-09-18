@@ -435,7 +435,8 @@ body > header > h1 {
 	padding: 8px 5px 8px 28px;
 }
 
-.cc-entity-name.cc-lefthandnavigation a {
+.cc-entity-name.cc-lefthandnavigation a, .cc-entity-name-nolink {
+	display: block;
 	margin: 20px 0;
 	padding: 8px 5px 8px 10px;
 }
