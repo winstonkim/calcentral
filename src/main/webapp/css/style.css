@@ -554,7 +554,7 @@ ul.cc-page-classpage-instructor-item li:last-child {
 }
 
 /* Class listings per category */
-h1.cc-page-classlist-title {
+.cc-page-classlist-container .cc-page-classlist-title {
 	font-size: 2.0em;
 }
 
