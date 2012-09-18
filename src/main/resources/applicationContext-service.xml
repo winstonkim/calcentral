@@ -87,7 +87,8 @@
 
 	<context:property-override
 			location="classpath:/calcentral.properties"
-			ignore-resource-not-found="true" />
+			ignore-resource-not-found="true"
+			ignore-unresolvable="true"/>
 
 	<util:properties id="gitProperties" location="classpath:/git.properties"/>
 
