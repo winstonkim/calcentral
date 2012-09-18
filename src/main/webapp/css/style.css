@@ -428,6 +428,9 @@ body > header > h1 {
 }
 
 /* Lefthandnavigation */
+.cc-lefthandnavigation {
+	margin-top: 20px;
+}
 .cc-lefthandnavigation a {
 	color: #707E8C;
 	display: block;
@@ -437,7 +440,7 @@ body > header > h1 {
 
 .cc-entity-name.cc-lefthandnavigation a, .cc-entity-name-nolink {
 	display: block;
-	margin: 20px 0;
+	margin: 20px 0 0;
 	padding: 8px 5px 8px 10px;
 }
 
@@ -517,9 +520,8 @@ body > header > h1 {
 	padding-bottom:20px;
 }
 .cc-page-classpage-instructor-item li {
-	/*height: 100px;*/
-	clear: both;
 	margin-bottom: 20px;
+	overflow: hidden;
 }
 ul.cc-page-classpage-instructor-item li:last-child {
 	margin-bottom: 0;
@@ -538,7 +540,6 @@ ul.cc-page-classpage-instructor-item li:last-child {
 	list-style-type: none;
 	margin: 0;
 	padding: 0;
-	display:block;
 }
 .cc-page-classpage-list li {
 	display: block;
@@ -630,15 +631,13 @@ ul.cc-page-classpage-instructor-item li:last-child {
 table#classpages_section_results {
 	font-size: 0.9em;
 	margin-top: 20px;
-	max-width: 703px;
-	width: 703px;
+	width: 100%;
 }
 
 table#classpages_section_results,
 table#classpages_section_results td,
 table#classpages_section_results th {
 	border-collapse: collapse;
-	margin-left:-12px;
 	padding: 3px 5px 3px 2px;
 	vertical-align: top;
 }
@@ -703,6 +702,7 @@ span.classpages_section_title_warrow {
 
 span#classpages_showhideall {
 	float: right;
+	margin-right: 10px;
 }
 
 .classpages_nolink {
@@ -721,7 +721,7 @@ span#classpages_showhideall {
 	width: 348px;
 }
 .cc-widget-main {
-	padding: 0 12px;
+	padding: 0 17px;
 }
 
 /*Temporary pending design input*/
