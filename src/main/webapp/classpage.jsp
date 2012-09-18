@@ -147,13 +147,13 @@
 					</td>
 
 					<td class="classpages_sections_instrnames">
-						{{#each section_instructors}}
+						{{#each_with_index section_instructors}}
 							{{#if id}}
-								<a href="https://calnet.berkeley.edu/directory/details.pl?uid={{id}}">{{name}}</a>,
+								<a href="https://calnet.berkeley.edu/directory/details.pl?uid={{id}}">{{name}}</a>{{#compare index "!==" lastIndex}}, {{/compare}}
 							{{else}}
-								{{name}}
+								{{name}}{{#compare index "!==" lastIndex}}, {{/compare}}
 							{{/if}}
-						{{/each}}
+						{{/each_with_index}}
 					</td>
 
 					<%-- Mustache doesnt allow tests like 'if this AND that' so we double nest the tests --%>

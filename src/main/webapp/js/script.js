@@ -286,6 +286,8 @@ var calcentral = calcentral || {};
 				// stick an index property onto the item, starting with 1, may make configurable later
 				item.index = i;
 
+				item.lastIndex = array.length - 1;
+
 				// show the inside of the block
 				buffer += fn(item);
 			}
