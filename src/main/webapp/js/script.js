@@ -286,6 +286,9 @@ var calcentral = calcentral || {};
 				// stick an index property onto the item, starting with 1, may make configurable later
 				item.index = i;
 
+				// Add an extra property so we can see whether it is the last item or not
+				item.isLastIndex = (i === j-1);
+
 				// show the inside of the block
 				buffer += fn(item);
 			}
