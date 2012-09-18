@@ -3,7 +3,9 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
        xmlns:util="http://www.springframework.org/schema/util"
-       xmlns:jdbc="http://www.springframework.org/schema/jdbc" xmlns:task="http://www.springframework.org/schema/task"
+       xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xmlns:oauth="http://www.springframework.org/schema/security/oauth2"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
 			 http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
 			 http://www.springframework.org/schema/context
@@ -11,7 +13,8 @@
 			 http://www.springframework.org/schema/util
 			 http://www.springframework.org/schema/util/spring-util-3.1.xsd
 			 http://www.springframework.org/schema/jdbc
-			 http://www.springframework.org/schema/jdbc/spring-jdbc-3.1.xsd http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.0.xsd">
+			 http://www.springframework.org/schema/jdbc/spring-jdbc-3.1.xsd http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.0.xsd
+			 http://www.springframework.org/schema/security/oauth2   http://www.springframework.org/schema/security/spring-security-oauth2-1.0.xsd">
 
 	<context:annotation-config/>
 
@@ -77,6 +80,17 @@
 		<property name="params" ref="connectionParams"/>
 	</bean>
 
+	<oauth:resource id="canvasSecurity"
+		type="authorization_code"
+		client-id="set in calcentral.properties"
+		client-secret="set in calcentral.properties"
+		access-token-uri="http://localhost:8080/fake/oauth2/token"
+		user-authorization-uri="http://localhost:8080/fake/oauth2/auth"
+		client-authentication-scheme="form"
+		use-current-uri="true" />
+
+	<oauth:rest-template id="canvasRestTemplate" resource="canvasSecurity" />
+
 	<context:property-override
 			location="classpath:/dataSource.properties"
 			ignore-resource-not-found="true" />
@@ -108,5 +122,4 @@
 			<property name="dataSource" ref="dataSource"/>
 		</bean>
 	</beans>
-
 </beans>
