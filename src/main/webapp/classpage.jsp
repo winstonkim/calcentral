@@ -143,13 +143,13 @@
 					</td>
 
 					<td>
-						{{coursenum}}
+						{{ccn}}
 					</td>
 
 					<td class="classpages_sections_instrnames">
-						{{#each instructors}}
+						{{#each section_instructors}}
 							{{#if id}}
-								<a href="/~{{id}}">{{name}}</a>
+								<a href="https://calnet.berkeley.edu/directory/details.pl?uid={{id}}">{{name}}</a>,
 							{{else}}
 								{{name}}
 							{{/if}}
