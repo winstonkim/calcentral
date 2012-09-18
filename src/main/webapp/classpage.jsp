@@ -149,9 +149,9 @@
 					<td class="classpages_sections_instrnames">
 						{{#each_with_index section_instructors}}
 							{{#if id}}
-								<a href="https://calnet.berkeley.edu/directory/details.pl?uid={{id}}">{{name}}</a>{{#compare index "!==" lastIndex}}, {{/compare}}
+								<a href="https://calnet.berkeley.edu/directory/details.pl?uid={{id}}">{{name}}</a>{{#unless isLastIndex}}, {{/unless}}
 							{{else}}
-								{{name}}{{#compare index "!==" lastIndex}}, {{/compare}}
+								{{name}}{{#unless isLastIndex}}, {{/unless}}
 							{{/if}}
 						{{/each_with_index}}
 					</td>
