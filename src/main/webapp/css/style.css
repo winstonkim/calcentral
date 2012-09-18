@@ -698,7 +698,7 @@ span.classpages_section_title_warrow {
 
 span#classpages_showhideall {
 	float: right;
-	margin-right:10px;
+	margin-right: 10px;
 }
 
 .classpages_nolink {
@@ -721,8 +721,8 @@ span#classpages_showhideall {
 }
 
 /* Section results table within widget-main should have no padding */
-.cc-widget-main.nopad {
-	padding: 0px 0px;
+.nopad {
+	padding: 0;
 }
 
 /*Temporary pending design input*/
