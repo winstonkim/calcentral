@@ -100,15 +100,4 @@
 
 	<oauth:client id="oauth2ClientFilter" />
 
-	<oauth:resource id="canvasSecurity"
-		type="authorization_code"
-		client-id="set in calcentral.properties"
-		client-secret="set in calcentral.properties"
-		access-token-uri="http://localhost:8080/fake/oauth2/token"
-		user-authorization-uri="http://localhost:8080/fake/oauth2/auth"
-		client-authentication-scheme="form"
-		use-current-uri="true" />
-
-	<oauth:rest-template id="canvasRestTemplate" resource="canvasSecurity" />
-
 </beans>
