@@ -104,7 +104,6 @@
 							{{#if office}}<li><span>Office:</span><span>{{office}}</span></li>{{/if}}
 						</ul>
 					</li>
-					<div class="clearfix"></div>
 				{{/each}}
 			{{else}}
 				<em>Instructor names not found</em>

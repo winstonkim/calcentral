@@ -521,6 +521,7 @@ body > header > h1 {
 }
 .cc-page-classpage-instructor-item li {
 	margin-bottom: 20px;
+	overflow: hidden;
 }
 ul.cc-page-classpage-instructor-item li:last-child {
 	margin-bottom: 0;
