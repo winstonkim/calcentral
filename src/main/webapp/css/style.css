@@ -428,6 +428,9 @@ body > header > h1 {
 }
 
 /* Lefthandnavigation */
+.cc-lefthandnavigation {
+	margin-top: 20px;
+}
 .cc-lefthandnavigation a {
 	color: #707E8C;
 	display: block;
@@ -437,7 +440,7 @@ body > header > h1 {
 
 .cc-entity-name.cc-lefthandnavigation a, .cc-entity-name-nolink {
 	display: block;
-	margin: 20px 0;
+	margin: 20px 0 0;
 	padding: 8px 5px 8px 10px;
 }
 
@@ -718,11 +721,6 @@ span#classpages_showhideall {
 }
 .cc-widget-main {
 	padding: 0 17px;
-}
-
-/* Section results table within widget-main should have no padding */
-.nopad {
-	padding: 0;
 }
 
 /*Temporary pending design input*/

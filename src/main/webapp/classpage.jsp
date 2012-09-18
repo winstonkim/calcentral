@@ -48,7 +48,7 @@
 				<div class="cc-widget-title">
 					<h2>Lecture &amp; Section Details</h2>
 				</div>
-				<div class="cc-widget-main nopad">
+				<div>
 					{{>sections}}
 				</div>
 			</div>
