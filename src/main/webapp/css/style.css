@@ -517,8 +517,6 @@ body > header > h1 {
 	padding-bottom:20px;
 }
 .cc-page-classpage-instructor-item li {
-	/*height: 100px;*/
-	clear: both;
 	margin-bottom: 20px;
 }
 ul.cc-page-classpage-instructor-item li:last-child {
@@ -538,7 +536,6 @@ ul.cc-page-classpage-instructor-item li:last-child {
 	list-style-type: none;
 	margin: 0;
 	padding: 0;
-	display:block;
 }
 .cc-page-classpage-list li {
 	display: block;
@@ -630,15 +627,13 @@ h1.cc-page-classlist-title {
 table#classpages_section_results {
 	font-size: 0.9em;
 	margin-top: 20px;
-	max-width: 703px;
-	width: 703px;
+	width: 100%;
 }
 
 table#classpages_section_results,
 table#classpages_section_results td,
 table#classpages_section_results th {
 	border-collapse: collapse;
-	margin-left:-12px;
 	padding: 3px 5px 3px 2px;
 	vertical-align: top;
 }
@@ -703,6 +698,7 @@ span.classpages_section_title_warrow {
 
 span#classpages_showhideall {
 	float: right;
+	margin-right:10px;
 }
 
 .classpages_nolink {
@@ -721,7 +717,12 @@ span#classpages_showhideall {
 	width: 348px;
 }
 .cc-widget-main {
-	padding: 0 12px;
+	padding: 0 17px;
+}
+
+/* Section results table within widget-main should have no padding */
+.cc-widget-main.nopad {
+	padding: 0px 0px;
 }
 
 /*Temporary pending design input*/

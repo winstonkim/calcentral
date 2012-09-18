@@ -48,7 +48,7 @@
 				<div class="cc-widget-title">
 					<h2>Lecture &amp; Section Details</h2>
 				</div>
-				<div class="cc-widget-main">
+				<div class="cc-widget-main nopad">
 					{{>sections}}
 				</div>
 			</div>
@@ -80,12 +80,12 @@
 			{{#if instructors}}
 				{{#each instructors}}
 					<li>
-                        {{#instrimg}}
-                            <img class="cc-page-classpage-instructor-profile" src="{{img}}" />
-                        {{/instrimg}}
-                        {{^instrimg}}
-                            <img class="cc-page-classpage-instructor-profile" src="/img/myb/default_User_icon_100x100.png" />
-                        {{/instrimg}}
+					{{#instrimg}}
+						<img class="cc-page-classpage-instructor-profile" src="{{img}}" />
+					{{/instrimg}}
+					{{^instrimg}}
+						<img class="cc-page-classpage-instructor-profile" src="/img/myb/default_User_icon_100x100.png" />
+					{{/instrimg}}
 
 						<div class="cc-page-classpage-instructor-heading">
 						{{#if name}}
@@ -104,9 +104,10 @@
 							{{#if office}}<li><span>Office:</span><span>{{office}}</span></li>{{/if}}
 						</ul>
 					</li>
+					<div style="clear:both;"></div>
 				{{/each}}
 			{{else}}
-				Instructor names not found
+				<em>Instructor names not found</em>
 			{{/if}}
 			</ul>
 		</script>
@@ -268,7 +269,7 @@
 				{{/each}}
 			</tbody>
 		{{else}}
-			<em>Not available</em>
+			<p><em>Not available</em></p>
 		{{/if}}
 		</script>
 
