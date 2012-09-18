@@ -25,6 +25,20 @@ CREATE TABLE calcentral_widgetdata (
 
 CREATE INDEX calcentral_widgetdata_index ON calcentral_widgetdata USING btree (id);
 
+/** Creating user OAuth2 tokens table **/
+CREATE SEQUENCE calcentral_oauth2_seq;
+
+CREATE TABLE calcentral_oauth2 (
+    id INTEGER DEFAULT NEXTVAL('calcentral_oauth2_seq'),
+    uid VARCHAR(255) NOT NULL,
+    appId VARCHAR(255) NOT NULL,
+    token TEXT,
+    PRIMARY KEY (id)
+);
+
+CREATE INDEX calcentral_oauth2_index ON calcentral_oauth2 USING btree (id);
+CREATE UNIQUE INDEX calcentral_oauth2_user_app_index ON calcentral_oauth2 USING btree (uid, appId);
+
 /** Create and populate colleges metadata table **/
 
 CREATE TABLE calcentral_classtree_colleges (
@@ -61,7 +75,6 @@ INSERT INTO calcentral_classtree_colleges VALUES ('goldmanschoolofpublicpolicy',
 INSERT INTO calcentral_classtree_colleges VALUES ('collegeofletterssciencesocialsciences', 'College of Letters & Science', 'Social Sciences', 'letters-and-science', 17);
 INSERT INTO calcentral_classtree_colleges VALUES ('schoolofsocialwelfare', 'School of', 'Social Welfare', NULL, 18);
 INSERT INTO calcentral_classtree_colleges VALUES ('undergraduateinterdisciplinarystudies', 'College of Letters & Science', 'Undergraduate & Interdisciplinary Studies', 'letters-and-science', 19);
-
 
 ALTER TABLE ONLY calcentral_classtree_colleges
     ADD CONSTRAINT calcentral_classtree_colleges_pkey PRIMARY KEY (id);

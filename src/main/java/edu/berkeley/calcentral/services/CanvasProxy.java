@@ -23,14 +23,19 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import edu.berkeley.calcentral.Params;
 import edu.berkeley.calcentral.Urls;
+import edu.berkeley.calcentral.daos.OAuth2Dao;
 import org.apache.log4j.Logger;
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.node.ArrayNode;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.oauth2.client.OAuth2RestTemplate;
+import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -40,9 +45,7 @@ import org.springframework.web.client.RestTemplate;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import java.util.Enumeration;
@@ -60,17 +63,18 @@ import java.util.Set;
 @Service
 @Path(Urls.CANVAS)
 public class CanvasProxy {
-
 	private static final Logger LOGGER = Logger.getLogger(CanvasProxy.class);
+
+	public static final String CANVAS_APP_ID = "canvas";
 
 	private String canvasRoot;
 	public void setCanvasRoot(String canvasRoot) {
 		this.canvasRoot = canvasRoot;
 	}
 
-	private String accessToken;
-	public void setAccessToken(String accessToken) {
-		this.accessToken = accessToken;
+	private String adminAccessToken;
+	public void setAdminAccessToken(String adminAccessToken) {
+		this.adminAccessToken = adminAccessToken;
 	}
 
 	private String accountId;
@@ -81,29 +85,16 @@ public class CanvasProxy {
 		this.accountId = accountId;
 	}
 
-	private RestTemplate restTemplate;
+	@Autowired @Qualifier("canvasRestTemplate")
+	private OAuth2RestTemplate oauthRestTemplate;
 
-	private HttpHeaders headers;
-
-	private ObjectMapper mapper = new ObjectMapper();
+	@Autowired
+	private OAuth2Dao oAuth2Dao;
 
 	@PostConstruct
 	public void init() {
-		LOGGER.info("canvasRoot = " + canvasRoot + "; canvas access token = " + accessToken +
+		LOGGER.info("canvasRoot = " + canvasRoot + "; canvas access token = " + adminAccessToken +
 				"; account ID = " + accountId);
-		headers = new HttpHeaders();
-		headers.set("Authorization", "Bearer " + accessToken);
-		restTemplate = new RestTemplate();
-	}
-
-	/**
-	 * Get an URL on the Canvas server.
-	 *
-	 * @param canvasPath The Canvas API path to get, not including the server name and /api/v1 part.
-	 * @return The Canvas server's response.
-	 */
-	public String get(String canvasPath) {
-		return doMethod(HttpMethod.GET, new HttpEntity<String>(headers), canvasPath);
 	}
 
 	/**
@@ -123,8 +114,8 @@ public class CanvasProxy {
 			return null;
 		}
 		String enrollment_url = "users/sis_user_id:" + uid + "/enrollments";
-		String currentEnrollment = get(enrollment_url);
-		String allCourses = get(Urls.CANVAS_ACCOUNT_PATH + "/courses");
+		String currentEnrollment = doAdminMethod(HttpMethod.GET, enrollment_url);
+		String allCourses = doAdminMethod(HttpMethod.GET, Urls.CANVAS_ACCOUNT_PATH + "/courses");
 		if (currentEnrollment == null || allCourses == null) {
 			LOGGER.error("Bad responses. currentEnrollment=" + currentEnrollment + ", allCourses=" + allCourses);
 			return null;
@@ -138,15 +129,16 @@ public class CanvasProxy {
 
 	private ArrayNode intersectEnrollmentAndCourses(String enrollment, String courses) {
 		Set<String> myCourseIds = Sets.newHashSet();
+		ObjectMapper mapper = new ObjectMapper();
 		ArrayNode returnNode = mapper.createArrayNode();
 		try {
 			JsonNode enrollmentArray = mapper.readTree(enrollment);
 			for (JsonNode enrollmentNode : enrollmentArray) {
-				myCourseIds.add(enrollmentNode.get("course_id").getValueAsText());
+				myCourseIds.add(enrollmentNode.get("course_id").asText());
 			}
 			JsonNode coursesArray = mapper.readTree(courses);
 			for (JsonNode courseNode : coursesArray) {
-				String courseId = courseNode.get("id").getValueAsText();
+				String courseId = courseNode.get("id").asText();
 				if (myCourseIds.contains(courseId)) {
 					returnNode.add(courseNode);
 				}
@@ -158,56 +150,70 @@ public class CanvasProxy {
 		}
 	}
 
+	public String doAdminMethod(HttpMethod httpMethod, String canvasPath) {
+		return doAdminMethod(httpMethod, canvasPath, null);
+	}
+	public String doAdminMethod(HttpMethod httpMethod, String canvasPath, Map<String, ?> data) {
+		return doMethod(httpMethod, convertToEntity(data, adminAccessToken), canvasPath);
+	}
+
 	/**
-	 * Do a PUT on the Canvas server from an HTTP client request.
+	 * Get an URL on the Canvas server as the current user.
+	 *
+	 * @param canvasPath The Canvas API path to get, not including the server name and /api/v1 part.
+	 * @return The Canvas server's response.
+	 */
+	@GET
+	@Path("{canvaspath:.*}")
+	@Produces({MediaType.APPLICATION_JSON})
+	public String get(@PathParam(value = "canvaspath") String canvasPath, @Context HttpServletRequest request) {
+		String accessToken = getAccessToken(request);
+		return doMethod(HttpMethod.GET, convertToEntity(request, accessToken), canvasPath);
+	}
+	/**
+	 * Do a PUT on the Canvas server as the current user.
 	 *
 	 * @param canvasPath The Canvas API path to PUT to, not including the server name and /api/v1 part.
 	 * @return The Canvas server's response.
 	 */
-	public String put(String canvasPath, HttpServletRequest request) {
-		HttpEntity<MultiValueMap<String, Object>> entity = convertToEntity(request);
-		return doMethod(HttpMethod.PUT, entity, canvasPath);
+	@PUT
+	@Path("{canvaspath:.*}")
+	@Produces({MediaType.APPLICATION_JSON})
+	public String put(@PathParam(value = "canvaspath") String canvasPath, @Context HttpServletRequest request) {
+		String accessToken = getAccessToken(request);
+		return doMethod(HttpMethod.PUT, convertToEntity(request, accessToken), canvasPath);
 	}
 
 	/**
-	 * POST to an URL on the Canvas server from an HTTP client request.
+	 * POST to an URL on the Canvas server as the current user.
 	 *
 	 * @param canvasPath The Canvas API path to POST to, not including the server name and /api/v1 part.
 	 * @return The Canvas server's response.
 	 */
-	public String post(String canvasPath, HttpServletRequest request) {
-		HttpEntity<MultiValueMap<String, Object>> entity = convertToEntity(request);
-		return doMethod(HttpMethod.POST, entity, canvasPath);
+	@POST
+	@Path("{canvaspath:.*}")
+	@Produces({MediaType.APPLICATION_JSON})
+	public String post(@PathParam(value = "canvaspath") String canvasPath, @Context HttpServletRequest request) {
+		String accessToken = getAccessToken(request);
+		return doMethod(HttpMethod.POST, convertToEntity(request, accessToken), canvasPath);
 	}
 
 	/**
-	 * Delete an URL on the Canvas server.
+	 * Delete an URL on the Canvas server as the current user.
 	 *
 	 * @param canvasPath The Canvas API path to DELETE, not including the server name and /api/v1 part.
 	 * @return The Canvas server's response.
 	 */
-	public String delete(String canvasPath) {
-		return doMethod(HttpMethod.DELETE, new HttpEntity<String>(headers), canvasPath);
+	@DELETE
+	@Path("{canvaspath:.*}")
+	@Produces({MediaType.APPLICATION_JSON})
+	public String delete(@PathParam(value = "canvaspath") String canvasPath, @Context HttpServletRequest request) {
+		String accessToken = getAccessToken(request);
+		return doMethod(HttpMethod.DELETE, convertToEntity(request, accessToken), canvasPath);
 	}
 
-	/**
-	 * POST to an URL on the Canvas server from server-side code.
-	 *
-	 * @param canvasPath The Canvas API path to POST to, not including the server name and /api/v1 part.
-	 * @return The Canvas server's response.
-	 */
-	public String post(String canvasPath, Map<String, ?> data) {
-		return doMethod(HttpMethod.POST, convertToEntity(data), canvasPath);
-	}
-
-	/**
-	 * PUT to an URL on the Canvas server from server-side code.
-	 *
-	 * @param canvasPath The Canvas API path to PUT to, not including the server name and /api/v1 part.
-	 * @return The Canvas server's response.
-	 */
-	public String put(String canvasPath, Map<String, ?> data) {
-		return doMethod(HttpMethod.PUT, convertToEntity(data), canvasPath);
+	public boolean isOAuthGranted(String userId) {
+		return (oAuth2Dao.getToken(userId, CANVAS_APP_ID) != null);
 	}
 
 	private String doMethod(HttpMethod method, HttpEntity entity, String canvasPath) {
@@ -216,6 +222,7 @@ public class CanvasProxy {
 				Params.CANVAS_ACCOUNT_ID, accountId
 		);
 		LOGGER.info("Doing " + method.toString() + " on url " + url);
+		RestTemplate restTemplate = new RestTemplate();
 		try {
 			ResponseEntity<String> response = restTemplate.exchange(url, method, entity, String.class, params);
 			LOGGER.debug("Response: " + response.getStatusCode() + "; body = " + response.getBody());
@@ -227,25 +234,50 @@ public class CanvasProxy {
 		return null;
 	}
 
-	private HttpEntity<MultiValueMap<String, Object>> convertToEntity(HttpServletRequest request) {
+	private HttpEntity<MultiValueMap<String, Object>> convertToEntity(HttpServletRequest request, String accessToken) {
 		MultiValueMap<String, Object> params = new LinkedMultiValueMap<String, Object>();
 		Enumeration<String> requestParams = request.getParameterNames();
 		while (requestParams.hasMoreElements()) {
 			String paramName = requestParams.nextElement();
 			params.add(paramName, request.getParameter(paramName));
 		}
-		return convertToEntity(params);
+		return convertToEntity(params, accessToken);
 	}
 
-	private HttpEntity<MultiValueMap<String, Object>> convertToEntity(Map data) {
+	private HttpEntity<MultiValueMap<String, Object>> convertToEntity(Map data, String accessToken) {
 		MultiValueMap<String, Object> params;
 		if (data instanceof MultiValueMap) {
 			params = (MultiValueMap) data;
 		} else {
 			params = new LinkedMultiValueMap<String, Object>();
-			params.setAll(data);
+			if (data != null) {
+				params.setAll(data);
+			}
 		}
-		return new HttpEntity<MultiValueMap<String, Object>>(params, headers);
+		HttpHeaders httpHeaders = new HttpHeaders();
+		// If null, public access is assumed.
+		if (accessToken != null) {
+			httpHeaders.set("Authorization", "Bearer " + accessToken);
+		}
+		return new HttpEntity<MultiValueMap<String, Object>>(params, httpHeaders);
+	}
+
+	private String getAccessToken(@Context HttpServletRequest request) {
+		String oauthTokenId = null;
+		String userId = request.getRemoteUser();
+		if (userId != null) {
+			oauthTokenId = oAuth2Dao.getToken(userId, CANVAS_APP_ID);
+			if (oauthTokenId == null) {
+				OAuth2AccessToken accessToken = oauthRestTemplate.getAccessToken();
+				LOGGER.info("access token = " + accessToken);
+				if (accessToken != null) {
+					oauthTokenId = accessToken.getValue();
+					LOGGER.info("Adding access token for user " + userId);
+					oAuth2Dao.insert(userId, CANVAS_APP_ID, oauthTokenId);
+				}
+			}
+		}
+		return oauthTokenId;
 	}
 
 }

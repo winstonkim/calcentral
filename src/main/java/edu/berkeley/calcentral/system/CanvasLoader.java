@@ -28,6 +28,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
+import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -94,7 +95,7 @@ public class CanvasLoader {
 //			data.add("batch_mode_term_id", "sis_term_id:2012-D");
 		}
 		data.add("attachment", csvResource);
-		String response = canvasProxy.post(CANVAS_IMPORT_PATH, data);
+		String response = canvasProxy.doAdminMethod(HttpMethod.POST, CANVAS_IMPORT_PATH, data);
 		LOGGER.info("Imported " + csvResource + "; got " + response);
 		return response;
 	}

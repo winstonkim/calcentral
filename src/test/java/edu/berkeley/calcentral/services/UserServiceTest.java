@@ -19,6 +19,7 @@
 package edu.berkeley.calcentral.services;
 
 import edu.berkeley.calcentral.DatabaseAwareTest;
+import edu.berkeley.calcentral.daos.OAuth2Dao;
 import edu.berkeley.calcentral.domain.User;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -28,6 +29,7 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.List;
 import java.util.Map;
 
 @SuppressWarnings("unchecked")
@@ -40,6 +42,9 @@ public class UserServiceTest extends DatabaseAwareTest {
 
 	@Autowired
 	private WidgetDataService widgetDataService;
+
+	@Autowired
+	private OAuth2Dao oAuth2Dao;
 
 	@Test
 	public void getUser() throws Exception {
@@ -109,6 +114,22 @@ public class UserServiceTest extends DatabaseAwareTest {
 		UserDetails details = this.userService.loadUserByUsername(randomString());
 		assertNotNull(details);
 		assertNotNull(details.getUsername());
+	}
+
+	@Test
+	public void canvasOAuthData() throws Exception {
+		String uid = randomString();
+		userService.loadUserByUsername(uid);
+		Map<String, Object> userMap = userService.getUser(uid);
+		Map<String, Object> oAuthData = (Map<String, Object>) userMap.get("oauth");
+		assertFalse((Boolean) oAuthData.get(CanvasProxy.CANVAS_APP_ID));
+
+		oAuth2Dao.insert(uid, CanvasProxy.CANVAS_APP_ID, "frippery");
+		userMap = userService.getUser(uid);
+		oAuthData = (Map<String, Object>) userMap.get("oauth");
+		assertTrue((Boolean) oAuthData.get(CanvasProxy.CANVAS_APP_ID));
+		userService.deleteUserAndWidgetData(uid);
+		assertNull(oAuth2Dao.getToken(uid, CanvasProxy.CANVAS_APP_ID));
 	}
 
 }
