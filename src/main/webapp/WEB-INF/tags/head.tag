@@ -14,6 +14,9 @@
 	<title>CalCentral: Pilot Release</title>
 	<meta name="description" content="CalCentral is a new resource for the UC Berkeley community.">
 
+	<link rel="icon" href="/images/myb/favicon.png" type="image/png" />
+	<link rel="shortcut icon" href="/favicon.ico" />
+
 	<!-- Mobile viewport optimized: h5bp.com/viewport -->
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 	<link rel="stylesheet" href="/css/style.css">
