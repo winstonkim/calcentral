@@ -287,7 +287,7 @@ var calcentral = calcentral || {};
 				item.index = i;
 
 				// Add an extra property so we can see whether it is the last item or not
-				item.isLastIndex = (i === j-1) ? true : false;
+				item.isLastIndex = (i === j-1);
 
 				// show the inside of the block
 				buffer += fn(item);
