@@ -36,6 +36,10 @@ if [ -f $INPUT_FILE ]; then
   CANVAS_ROOT=`awk -F"=" '/^CANVAS_ROOT=/ {print $2}' $INPUT_FILE`
   CANVAS_SECRET=`awk -F"=" '/^CANVAS_SECRET=/ {print $2}' $INPUT_FILE`
   CANVAS_ACCOUNT_ID=`awk -F"=" '/^CANVAS_ACCOUNT_ID=/ {print $2}' $INPUT_FILE`
+  CANVAS_OAUTH_CLIENT=`awk -F"=" '/^CANVAS_OAUTH_CLIENT=/ {print $2}' $INPUT_FILE`
+  CANVAS_OAUTH_CLIENTSECRET=`awk -F"=" '/^CANVAS_OAUTH_CLIENTSECRET=/ {print $2}' $INPUT_FILE`
+  CANVAS_OAUTH_ACCESSTOKENURI=`awk -F"=" '/^CANVAS_OAUTH_ACCESSTOKENURI=/ {print $2}' $INPUT_FILE`
+  CANVAS_OAUTH_USERAUTHURI=`awk -F"=" '/^CANVAS_OAUTH_USERAUTHURI=/ {print $2}' $INPUT_FILE`
 else
   POSTGRES_PASSWORD='secret'
   APPLICATION_HOST='http://localhost:8080'
@@ -77,18 +81,22 @@ if [ $ORACLE_DB ]; then
   echo "oracleDataSource.username=$ORACLE_USERNAME" >> $CONFIG_FILES/dataSource.properties
   echo "oracleDataSource.password=$ORACLE_PASSWORD" >> $CONFIG_FILES/dataSource.properties
 fi
-echo "casAuthenticationFilter.serverName=$APPLICATION_HOST" > $CONFIG_FILES/server.properties
-echo "casValidationFilter.serverName=$APPLICATION_HOST" >> $CONFIG_FILES/server.properties
-echo "logoutSuccessHandler.defaultTargetUrl=$CAS_LOGOUT_HOST?url=$CAS_LOGOUT_URL" >> $CONFIG_FILES/server.properties
-# finicky calcentral.properties for the time being will require all the values to get written out
-echo "sakai2Proxy.sharedSecret=$SAKAI2_SECRET" > $CONFIG_FILES/calcentral.properties
+echo "casAuthenticationFilter.serverName=$APPLICATION_HOST" > $CONFIG_FILES/calcentral.properties
+echo "casValidationFilter.serverName=$APPLICATION_HOST" >> $CONFIG_FILES/calcentral.properties
+echo "logoutSuccessHandler.defaultTargetUrl=$CAS_LOGOUT_HOST?url=$CAS_LOGOUT_URL" >> $CONFIG_FILES/calcentral.properties
+echo "sakai2Proxy.sharedSecret=$SAKAI2_SECRET" >> $CONFIG_FILES/calcentral.properties
 echo "sakai2Proxy.sakai2Host=$SAKAI2_HOST" >> $CONFIG_FILES/calcentral.properties
 if [ $CANVAS_ROOT ]; then
   echo "canvasProxy.canvasRoot=$CANVAS_ROOT" >> $CONFIG_FILES/calcentral.properties
   echo "canvasProxy.accessToken=$CANVAS_SECRET" >> $CONFIG_FILES/calcentral.properties
   echo "canvasProxy.accountId=$CANVAS_ACCOUNT_ID" >> $CONFIG_FILES/calcentral.properties
 fi
-
+if [ $CANVAS_OAUTH_CLIENT ]; then
+  echo "canvasSecurity.clientId=$CANVAS_OAUTH_CLIENT" >> $CONFIG_FILES/calcentral.properties
+  echo "canvasSecurity.clientSecret=$CANVAS_OAUTH_CLIENTSECRET" >> $CONFIG_FILES/calcentral.properties
+  echo "canvasSecurity.accessTokenUri=$CANVAS_OAUTH_ACCESSTOKENURI" >> $CONFIG_FILES/calcentral.properties
+  echo "canvasSecurity.userAuthorizationUri=$CANVAS_OAUTH_USERAUTHURI" >> $CONFIG_FILES/calcentral.properties
+fi
 echo | $LOGIT
 echo "------------------------------------------" | $LOGIT
 echo "`date`: Stopping CalCentral..." | $LOGIT
