@@ -571,6 +571,54 @@ var calcentral = calcentral || {};
 	});
 })();
 
+/**
+ * Launcher
+ * The icon bar on the top of the page.
+ * Contains links to external services, login
+ */
+(function() {
+
+	var $launcher = $('.cc-launcher');
+
+	var addBinding = function() {
+
+		var $openMenu = false;
+		var $launcherItemsWithDropdown = $('a[aria-haspopup="true"]', $launcher);
+
+		var closeMenu = function(){
+			if ($openMenu.length) {
+				$openMenu.hide();
+			}
+		};
+
+		$launcherItemsWithDropdown.on('focus mouseenter', function() {
+			var $this = $(this);
+			$openMenu = $this.siblings('.cc-launcher-dropdown');
+			var selectedItemPosition = $this.position();
+			$openMenu.css({
+				'top': selectedItemPosition.top + $this.outerHeight() - 2,
+				'width': $this.outerWidth()
+			}).show();
+		});
+
+		$launcherItemsWithDropdown.parent().on('mouseleave', function(e) {
+			closeMenu();
+		});
+
+	};
+
+	if ($launcher.length) {
+		calcentral.Api.User.getCurrentUser('', function(success, data){
+			calcentral.Api.Util.renderTemplate({
+				'container': $launcher,
+				'data': data,
+				'template': $('#cc-launcher-template')
+			});
+			addBinding();
+		});
+	}
+
+})();
 
 /**
  * Top Navigation
