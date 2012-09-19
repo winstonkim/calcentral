@@ -14,19 +14,19 @@ import java.util.List;
 @Repository
 public class ClassListDao extends BaseDao {
 
-	public College getCollege(String slug) {
+	public College getCollege(int id) {
 		String sql = "SELECT id, slug, title_prefix, title, cssclass " +
-				"FROM calcentral_classtree_colleges WHERE slug = :slug";
-		SqlParameterSource params = new MapSqlParameterSource("slug", slug);
+				"FROM calcentral_classtree_colleges WHERE id = :id";
+		SqlParameterSource params = new MapSqlParameterSource("id", id);
 		return queryRunner.queryForObject(sql, params, new BeanPropertyRowMapper<College>(College.class));
 	}
 
-	public Department getDepartment(String departmentKey, int collegeID) {
+	public Department getDepartment(int departmentID, int collegeID) {
 		String sql = "SELECT dept_key AS key, title, id " +
 				"FROM calcentral_classtree_departments " +
-				"WHERE dept_key = :departmentKey AND college_id = :collegeID " +
+				"WHERE id = :departmentID AND college_id = :collegeID " +
 				"ORDER BY key";
-		SqlParameterSource params = new MapSqlParameterSource("departmentKey", departmentKey)
+		SqlParameterSource params = new MapSqlParameterSource("departmentID", departmentID)
 				.addValue("collegeID", collegeID);
 		return queryRunner.queryForObject(sql, params, new BeanPropertyRowMapper<Department>(Department.class));
 	}
