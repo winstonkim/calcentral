@@ -26,6 +26,7 @@ import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONObject;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestClientException;
@@ -42,7 +43,7 @@ public class CanvasProxyTest extends DatabaseAwareTest {
 	@Test
 	public void getCourses() throws Exception {
 		try {
-			String get = proxy.get("courses");
+			String get = proxy.doAdminMethod(HttpMethod.GET, "courses");
 			JSONArray json = new JSONArray(get);
 			LOGGER.info(json.toString(2));
 		} catch (RestClientException e) {
@@ -53,12 +54,12 @@ public class CanvasProxyTest extends DatabaseAwareTest {
 	@Test
 	public void getSpecificCourse() throws Exception {
 		try {
-			String allCourses = proxy.get(Urls.CANVAS_ACCOUNT_PATH + "/courses");
+			String allCourses = proxy.doAdminMethod(HttpMethod.GET, Urls.CANVAS_ACCOUNT_PATH + "/courses");
 			JSONArray json = new JSONArray(allCourses);
 			LOGGER.info(json.toString(2));
 			JSONObject first = json.getJSONObject(0);
 			int id = first.getInt("id");
-			String firstResponse = proxy.get("courses/" + id);
+			String firstResponse = proxy.doAdminMethod(HttpMethod.GET, "courses/" + id);
 			LOGGER.info(firstResponse);
 			assertNotNull(firstResponse);
 		} catch (RestClientException e) {
@@ -69,7 +70,7 @@ public class CanvasProxyTest extends DatabaseAwareTest {
 	@Test
 	public void accountSavvy() throws Exception {
 		try {
-			String response = proxy.get(Urls.CANVAS_ACCOUNT_PATH + "/users");
+			String response = proxy.doAdminMethod(HttpMethod.GET, Urls.CANVAS_ACCOUNT_PATH + "/users");
 			JSONArray json = new JSONArray(response);
 			assertNotNull(json);
 		} catch (RestClientException e) {
@@ -86,19 +87,19 @@ public class CanvasProxyTest extends DatabaseAwareTest {
 					"is_public", "false"
 			);
 			// Create a temporary group.
-			JSONObject json = new JSONObject(proxy.post("groups", params));
+			JSONObject json = new JSONObject(proxy.doAdminMethod(HttpMethod.POST, "groups", params));
 			final String groupPath = "groups/" + json.getString("id");
 			assertEquals(groupName, json.getString("name"));
 			// Edit it.
 			groupName = "revised " + groupName;
 			params = ImmutableMap.<String, Object>of("name", groupName);
-			proxy.put(groupPath, params);
-			json = new JSONObject(proxy.get(groupPath));
+			proxy.doAdminMethod(HttpMethod.PUT, groupPath, params);
+			json = new JSONObject(proxy.doAdminMethod(HttpMethod.GET, groupPath));
 			assertEquals(groupName, json.getString("name"));
 			// Delete it.
-			proxy.delete(groupPath);
+			proxy.doAdminMethod(HttpMethod.DELETE, groupPath);
 			try {
-				String response = proxy.get(groupPath);
+				String response = proxy.doAdminMethod(HttpMethod.GET, groupPath);
 				fail("Should have received 404 instead of " + response);
 			} catch (HttpStatusCodeException e) {
 				assertEquals(HttpStatus.NOT_FOUND, e.getStatusCode());

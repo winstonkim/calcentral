@@ -4,9 +4,12 @@
  */
 package edu.berkeley.calcentral.services;
 
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import edu.berkeley.calcentral.Params;
 import edu.berkeley.calcentral.Urls;
+import edu.berkeley.calcentral.daos.OAuth2Dao;
 import edu.berkeley.calcentral.daos.UserDao;
 import edu.berkeley.calcentral.daos.WidgetDataDao;
 import edu.berkeley.calcentral.domain.User;
@@ -37,6 +40,10 @@ public class UserService implements UserDetailsService {
 
 	private static final Log LOGGER = LogFactory.getLog(UserService.class);
 
+	public static final String[] OAUTH_APPS = {
+			CanvasProxy.CANVAS_APP_ID
+	};
+
 	private ObjectMapper jMapper = new ObjectMapper();
 
 	@Autowired
@@ -47,6 +54,9 @@ public class UserService implements UserDetailsService {
 
 	@Autowired
 	private CampusPersonDataService campusPersonDataService;
+
+	@Autowired
+	private OAuth2Dao oAuth2Dao;
 
 	/**
 	 * Get all the information about a user.
@@ -74,13 +84,18 @@ public class UserService implements UserDetailsService {
 		}
 		List<Map<String, Object>> widgetData = widgetDataDao.getAllWidgetData(userID);
 		userData.put("widgetData", widgetData);
+		Map<String, Object> oauthData = Maps.newHashMap();
+		for (String appId : OAUTH_APPS) {
+			oauthData.put(appId, oAuth2Dao.isOAuthGranted(userID, appId));
+		}
+		userData.put("oauth", oauthData);
 		return userData;
 	}
 
 	@POST
 	@Produces({MediaType.APPLICATION_JSON})
 	public Map<String, Object> saveUserData(@PathParam(Params.USER_ID) String userID,
-																					@FormParam(Params.DATA) String jsonData) throws IOException {
+	                                        @FormParam(Params.DATA) String jsonData) throws IOException {
 		User userToSave = jMapper.readValue(jsonData, User.class);
 		userToSave.setUid(userID);
 		LOGGER.info("Saving user: " + userToSave);
@@ -93,6 +108,7 @@ public class UserService implements UserDetailsService {
 		LOGGER.info("Deleting user: " + userID);
 		userDao.delete(userID);
 		widgetDataDao.deleteAllWidgetData(userID);
+		oAuth2Dao.deleteAllUserData(userID);
 	}
 
 	/**

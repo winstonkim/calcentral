@@ -88,7 +88,7 @@ echo "sakai2Proxy.sharedSecret=$SAKAI2_SECRET" >> $CONFIG_FILES/calcentral.prope
 echo "sakai2Proxy.sakai2Host=$SAKAI2_HOST" >> $CONFIG_FILES/calcentral.properties
 if [ $CANVAS_ROOT ]; then
   echo "canvasProxy.canvasRoot=$CANVAS_ROOT" >> $CONFIG_FILES/calcentral.properties
-  echo "canvasProxy.accessToken=$CANVAS_SECRET" >> $CONFIG_FILES/calcentral.properties
+  echo "canvasProxy.adminAccessToken=$CANVAS_SECRET" >> $CONFIG_FILES/calcentral.properties
   echo "canvasProxy.accountId=$CANVAS_ACCOUNT_ID" >> $CONFIG_FILES/calcentral.properties
 fi
 if [ $CANVAS_OAUTH_CLIENT ]; then
