@@ -31,7 +31,7 @@ public class ClassListService {
 	/**
 	 * Get all the courses in a college, with some extra college and departmental metadata.
 	 *
-	 * @param collegeSlug The college slug.
+	 * @param id The college id.
 	 * @return JSON data:
 	 *         <pre>
 	 *                         	{
@@ -44,17 +44,17 @@ public class ClassListService {
 	@Cache(maxAge = 24 * 60 * 60) // cache for 24 hrs
 	@GET
 	@Produces({MediaType.APPLICATION_JSON})
-	@Path("{collegeslug}")
-	public Map<String, Object> getCollege(@PathParam(value = "collegeslug") String collegeSlug) {
+	@Path("{id}")
+	public Map<String, Object> getCollege(@PathParam(value = "id") int id) {
 		Map<String, Object> result = new HashMap<String, Object>();
 		College college;
 		List<Department> departments;
 		List<ClassPage> classes;
 		try {
-			college = dao.getCollege(collegeSlug);
+			college = dao.getCollege(id);
 			result.put("college", college);
 		} catch (EmptyResultDataAccessException e) {
-			throw new NotFoundException("College " + collegeSlug + " not found");
+			throw new NotFoundException("College " + id + " not found");
 		}
 		try {
 			departments = dao.getDepartments(college.getId());
@@ -66,7 +66,7 @@ public class ClassListService {
 			classes = dao.getClasses(departments);
 			result.put("classes", classes);
 		} catch (EmptyResultDataAccessException e) {
-			throw new NotFoundException("Classes for " + collegeSlug + " could not be found");
+			throw new NotFoundException("Classes for " + id + " could not be found");
 		}
 		return result;
 	}
@@ -74,8 +74,8 @@ public class ClassListService {
 	/**
 	 * Get all the courses in a particular department, with some extra college and departmental metadata.
 	 *
-	 * @param collegeSlug The college slug.
-	 * @param department  The department to fetch.
+	 * @param collegeid The college ID.
+	 * @param departmentid  The department ID.
 	 * @return JSON data:
 	 *  <pre>
    *  {
@@ -88,36 +88,36 @@ public class ClassListService {
 	@Cache(maxAge = 24 * 60 * 60) // cache for 24 hrs
 	@GET
 	@Produces({MediaType.APPLICATION_JSON})
-	@Path("{collegeslug}/{department}")
-	public Map<String, Object> getDepartment(@PathParam(value = "collegeslug") String collegeSlug,
-	                                         @PathParam(value = "department") String department) {
+	@Path("{collegeid}/{departmentid}")
+	public Map<String, Object> getDepartment(@PathParam(value = "collegeid") int collegeid,
+	                                         @PathParam(value = "departmentid") int departmentid) {
 		Map<String, Object> result = new HashMap<String, Object>();
 		College college;
 		List<Department> allDepartments;
 		Department thisDepartment;
 		List<ClassPage> classes;
 		try {
-			college = dao.getCollege(collegeSlug);
+			college = dao.getCollege(collegeid);
 			result.put("college", college);
 		} catch (EmptyResultDataAccessException e) {
-			throw new NotFoundException("College " + collegeSlug + " not found");
+			throw new NotFoundException("College " + collegeid + " not found");
 		}
 		try {
 			allDepartments = dao.getDepartments(college.getId());
 			result.put("departments", allDepartments);
 		} catch (EmptyResultDataAccessException e) {
-			throw new NotFoundException("List of departments for " + collegeSlug + " not found");
+			throw new NotFoundException("List of departments for " + collegeid + " not found");
 		}
 		try {
-			thisDepartment = dao.getDepartment(department, college.getId());
+			thisDepartment = dao.getDepartment(departmentid, college.getId());
 		} catch (EmptyResultDataAccessException e) {
-			throw new NotFoundException("Department " + department + " not found");
+			throw new NotFoundException("Department " + departmentid + " not found");
 		}
 		try {
 			classes = dao.getClasses(ImmutableList.of(thisDepartment));
 			result.put("classes", classes);
 		} catch (EmptyResultDataAccessException e) {
-			throw new NotFoundException("Classes for " + collegeSlug + " in department " + department + " not found");
+			throw new NotFoundException("Classes for " + collegeid + " in department " + departmentid + " not found");
 		}
 		return result;
 	}

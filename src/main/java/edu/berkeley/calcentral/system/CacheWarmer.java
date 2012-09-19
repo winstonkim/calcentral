@@ -42,6 +42,7 @@ public class CacheWarmer extends BaseDao {
 	}
 
 	void warm(int limit) throws InterruptedException {
+		Telemetry telemetry = new Telemetry(CacheWarmer.class, "warm(" + limit + ")");
 		RestTemplate restTemplate = new RestTemplate();
 		List<String> urls = buildUrlList(limit);
 		int current = 0;
@@ -51,7 +52,7 @@ public class CacheWarmer extends BaseDao {
 			try {
 				restTemplate.getForObject(url, String.class);
 			} catch (RestClientException e) {
-				LOGGER.error(e);
+				LOGGER.error("Error getting " + url, e);
 				errorCount++;
 				if (errorCount > 10) {
 					LOGGER.error("Got more than 10 http errors, aborting cache warmup");
@@ -61,11 +62,12 @@ public class CacheWarmer extends BaseDao {
 			Thread.sleep(100L); // so we don't overload ourselves warming cache
 			current++;
 			if (current % 100 == 0) {
-				LOGGER.info("Warmed " + current + " urls of " + urls.size() + " total");
+				LOGGER.debug("Warmed " + current + " urls of " + urls.size() + " total");
 			}
 		}
+		telemetry.end();
 		LOGGER.warn("Finished warming " + current + " of " + urls.size() + " total urls with "
-				+ errorCount + " errors");
+				+ errorCount + " errors in " + telemetry.getTime() / 1000 + "s");
 	}
 
 	List<String> buildUrlList(int limit) {
@@ -76,24 +78,24 @@ public class CacheWarmer extends BaseDao {
 		MapSqlParameterSource params = new MapSqlParameterSource("limit", limit);
 
 		List<Map<String, Object>> collegeSlugs = queryRunner.queryForList(
-				"SELECT slug " +
+				"SELECT id " +
 						"FROM calcentral_classtree_colleges " +
 						"ORDER BY id " +
 						"LIMIT :limit ", params);
 		LOGGER.debug("Found " + collegeSlugs.size() + " colleges");
 		for (Map<String, Object> college : collegeSlugs) {
-			urls.add(URL_CLASSLIST + "/" + college.get("slug"));
+			urls.add(URL_CLASSLIST + "/" + college.get("id"));
 		}
 
 		List<Map<String, Object>> depts = queryRunner.queryForList(
-				"SELECT c.slug, d.dept_key " +
+				"SELECT c.id, d.id deptid " +
 						"FROM calcentral_classtree_colleges c, calcentral_classtree_departments d " +
 						"WHERE c.id = d.college_id " +
 						"ORDER BY d.college_id, d.dept_key " +
 						"LIMIT :limit", params);
 		LOGGER.debug("Found " + depts.size() + " departments");
 		for (Map<String, Object> dept : depts) {
-			urls.add(URL_CLASSLIST + "/" + dept.get("slug") + "/" + dept.get("dept_key").toString().replaceAll("/", "%2f"));
+			urls.add(URL_CLASSLIST + "/" + dept.get("id") + "/" + dept.get("deptid"));
 		}
 
 		List<Map<String, Object>> courses = campusQueryRunner.queryForList(

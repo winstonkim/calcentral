@@ -20,7 +20,7 @@ public class ClassListDaoTest extends DatabaseAwareTest {
 
 	@Test
 	public void getCollege() throws Exception {
-		College college = dao.getCollege("graduateschoolofeducation");
+		College college = dao.getCollege(1);
 		assertNotNull(college);
 	}
 
@@ -42,7 +42,7 @@ public class ClassListDaoTest extends DatabaseAwareTest {
 
 	@Test
 	public void getDepartment() throws Exception {
-		Department dept = dao.getDepartment("PHYS ED", 2);
+		Department dept = dao.getDepartment(57, 2);
 		assertNotNull(dept);
 	}
 }

@@ -14,7 +14,7 @@ public class ClassListServiceTest extends DatabaseAwareTest {
 
 	@Test
 	public void getCollege() throws Exception {
-		Map<String, Object> result = service.getCollege("collegeofletterssciencebiologicalsciences");
+		Map<String, Object> result = service.getCollege(1);
 		assertNotNull(result);
 		assertNotNull(result.get("college"));
 		assertNotNull(result.get("departments"));
@@ -23,7 +23,7 @@ public class ClassListServiceTest extends DatabaseAwareTest {
 
 	@Test
 	public void getDepartment() throws Exception {
-		Map<String, Object> result = service.getDepartment("collegeofletterssciencebiologicalsciences", "BIOLOGY");
+		Map<String, Object> result = service.getDepartment(2, 53);
 		assertNotNull(result);
 		assertNotNull(result.get("college"));
 		assertNotNull(result.get("departments"));
@@ -32,12 +32,12 @@ public class ClassListServiceTest extends DatabaseAwareTest {
 
 	@Test(expected = NotFoundException.class)
 	public void getNonexistentCollege() {
-		service.getCollege("non existe");
+		service.getCollege(972);
 	}
 
 	@Test(expected = NotFoundException.class)
 	public void getNonexistentDept() {
-		service.getDepartment("collegeofletterssciencebiologicalsciences", "AARDVARK ED");
+		service.getDepartment(2, 9723);
 	}
 
 }

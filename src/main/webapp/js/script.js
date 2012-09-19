@@ -847,7 +847,7 @@ var calcentral = calcentral || {};
 			// Append department siblings to left-hand nav
 
 			data.pages = $.map(data.departments, function(val, i) {
-				url = "/classlist.jsp?college=" + data.college.slug + "&dept=" + val.key;
+				url = "/classlist.jsp?college=" + data.college.id + "&dept=" + val.id;
 				return {'title': val.title, 'url': url};
 			});
 
@@ -858,7 +858,7 @@ var calcentral = calcentral || {};
 			});
 		};
 
-		data.college_url = "/classlist.jsp?college=" + data.college.slug;
+		data.college_url = "/classlist.jsp?college=" + data.college.id;
 		data.pathname = window.location.pathname + window.location.search;
 		renderLeftHandClassPageListNavigation(data);
 
