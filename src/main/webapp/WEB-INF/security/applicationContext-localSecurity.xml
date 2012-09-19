@@ -3,12 +3,14 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:sec="http://www.springframework.org/schema/security" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:oauth="http://www.springframework.org/schema/security/oauth2"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 	http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
 	http://www.springframework.org/schema/context
 	http://www.springframework.org/schema/context/spring-context-3.1.xsd
 	http://www.springframework.org/schema/security
-	http://www.springframework.org/schema/security/spring-security-3.1.xsd">
+	http://www.springframework.org/schema/security/spring-security-3.1.xsd
+	http://www.springframework.org/schema/security/oauth2   http://www.springframework.org/schema/security/spring-security-oauth2-1.0.xsd">
 
 	<bean id="springSecurityFilterChain" class="org.springframework.security.web.FilterChainProxy">
 		<sec:filter-chain-map path-type="ant">
@@ -20,6 +22,7 @@
 				wrappingFilter,
 				j2eePreAuthFilter,
 				logoutFilter,
+				oauth2ClientFilter,
 				pageLoggingFilter" />
 			<sec:filter-chain pattern="/**"
 												filters="
@@ -27,6 +30,7 @@
                 wrappingFilter,
                 j2eePreAuthFilter,
                 logoutFilter,
+                oauth2ClientFilter,
                 pageLoggingFilter" />
 		</sec:filter-chain-map>
 	</bean>
@@ -94,8 +98,6 @@
 
 	<bean id="pageLoggingFilter" class="edu.berkeley.calcentral.system.PageLoggerFilter" />
 
-	<context:property-override
-		location="classpath:/server.properties"
-		ignore-resource-not-found="true" />
+	<oauth:client id="oauth2ClientFilter" />
 
 </beans>

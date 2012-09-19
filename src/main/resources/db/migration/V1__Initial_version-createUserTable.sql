@@ -224,7 +224,6 @@ INSERT INTO calcentral_classtree_departments VALUES ('NAV SCI', 'Naval Science',
 INSERT INTO calcentral_classtree_departments VALUES ('NWMEDIA', 'New Media', 19, 136);
 INSERT INTO calcentral_classtree_departments VALUES ('PACS', 'Peace & Conflict Studies', 19, 137);
 INSERT INTO calcentral_classtree_departments VALUES ('POLECON', 'Political Economy of Industrial Societies', 19, 138);
-INSERT INTO calcentral_classtree_departments VALUES ('POL SCI', 'Political Science', 19, 139);
 INSERT INTO calcentral_classtree_departments VALUES ('RELIGST', 'Religious Studies', 19, 140);
 
 ALTER TABLE ONLY calcentral_classtree_departments

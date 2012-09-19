@@ -454,7 +454,9 @@ body > header > h1 {
 	background: -ms-linear-gradient(top, #f7f7f7 0%, #f7f7f7 5%, #ffffff 12%);
 	background: linear-gradient(top, #f7f7f7 0%, #f7f7f7 5%, #ffffff 12%);
 	float: left;
+	margin-bottom: -99979px;
 	min-height: 500px;
+	padding-bottom: 99999px;
 	width: 185px;
 }
 
@@ -466,7 +468,8 @@ body > header > h1 {
 	-webkit-box-shadow: 1px -2px 7px #888;
 	box-shadow: 1px -2px 7px #888;
 	float: left;
-	padding: 20px;
+	margin-bottom: -99979px;
+	padding: 20px 20px 99999px 20px;
 	width: 775px;
 }
 
@@ -482,16 +485,20 @@ body > header > h1 {
 }
 
 /* Lefthandnavigation */
+.cc-lefthandnavigation {
+	margin-top: 20px;
+}
 .cc-lefthandnavigation a {
 	color: #707E8C;
 	display: block;
 	font-weight: bold;
 	padding: 8px 5px 8px 28px;
+	word-wrap: break-word;
 }
 
 .cc-entity-name.cc-lefthandnavigation a, .cc-entity-name-nolink {
 	display: block;
-	margin: 20px 0;
+	margin: 20px 0 0;
 	padding: 8px 5px 8px 10px;
 }
 
@@ -571,9 +578,8 @@ body > header > h1 {
 	padding-bottom:20px;
 }
 .cc-page-classpage-instructor-item li {
-	/*height: 100px;*/
-	clear: both;
 	margin-bottom: 20px;
+	overflow: hidden;
 }
 ul.cc-page-classpage-instructor-item li:last-child {
 	margin-bottom: 0;
@@ -592,7 +598,6 @@ ul.cc-page-classpage-instructor-item li:last-child {
 	list-style-type: none;
 	margin: 0;
 	padding: 0;
-	display:block;
 }
 .cc-page-classpage-list li {
 	display: block;
@@ -608,7 +613,7 @@ ul.cc-page-classpage-instructor-item li:last-child {
 }
 
 /* Class listings per category */
-h1.cc-page-classlist-title {
+.cc-page-classlist-container .cc-page-classlist-title {
 	font-size: 2.0em;
 }
 
@@ -684,15 +689,13 @@ h1.cc-page-classlist-title {
 table#classpages_section_results {
 	font-size: 0.9em;
 	margin-top: 20px;
-	max-width: 703px;
-	width: 703px;
+	width: 100%;
 }
 
 table#classpages_section_results,
 table#classpages_section_results td,
 table#classpages_section_results th {
 	border-collapse: collapse;
-	margin-left:-12px;
 	padding: 3px 5px 3px 2px;
 	vertical-align: top;
 }
@@ -757,6 +760,7 @@ span.classpages_section_title_warrow {
 
 span#classpages_showhideall {
 	float: right;
+	margin-right: 10px;
 }
 
 .classpages_nolink {
@@ -775,7 +779,7 @@ span#classpages_showhideall {
 	width: 348px;
 }
 .cc-widget-main {
-	padding: 0 12px;
+	padding: 0 17px;
 }
 
 /*Temporary pending design input*/

@@ -1,7 +1,5 @@
 <div class="cc-container-main-left"><!-- --></div>
 <script id="cc-container-main-left-template" type="text/x-handlebars-template">
-	<section class="cc-entity">
-	</section>
 	<nav class="cc-lefthandnavigation">
 		<ul>
 			<li><a href="" class="cc-lefthandnavigation-item-selected">Overview</a></li>

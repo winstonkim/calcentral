@@ -1,6 +1,7 @@
 {
 	"collegesandschools": {
 		"collegeoflettersscienceartshumanities": {
+			"id" : 1,
 			"title_prefix": "College of Letters & Science",
 			"title": "Arts & Humanities",
 			"cssclass": "letters-and-science",
@@ -161,6 +162,7 @@
 			}
 		},
 		"collegeofletterssciencebiologicalsciences": {
+			"id" : 2,
 			"title_prefix": "College of Letters & Science",
 			"title": "Biological Sciences",
 			"cssclass": "letters-and-science",
@@ -183,6 +185,7 @@
 			}
 		},
 		"haasschoolofbusiness": {
+			"id" : 3,
 			"title_prefix": "Haas School of",
 			"title": "Business",
 			"children": {
@@ -207,6 +210,7 @@
 			}
 		},
 		"collegeofchemistry": {
+			"id" : 4,
 			"title_prefix": "College of",
 			"title": "Chemistry",
 			"children": {
@@ -225,6 +229,7 @@
 			}
 		},
 		"graduateschoolofeducation": {
+			"id" : 5,
 			"title_prefix": "Graduate School of",
 			"title": "Education",
 			"cssclass": "graduate",
@@ -238,6 +243,7 @@
 			}
 		},
 		"collegeofengineering": {
+			"id" : 6,
 			"title_prefix": "College of",
 			"title": "Engineering",
 			"children": {
@@ -271,6 +277,7 @@
 			}
 		},
 		"collegeofenvironmentaldesign": {
+			"id" : 7,
 			"title_prefix": "College of",
 			"title": "Environmental Design",
 			"children": {
@@ -292,6 +299,7 @@
 			}
 		},
 		"schoolofinformation": {
+			"id" : 8,
 			"title_prefix": "School of",
 			"title": "Information",
 			"children": {
@@ -301,6 +309,7 @@
 			}
 		},
 		"interdepartmentalgraduateprograms": {
+			"id" : 9,
 			"title": "Interdepartmental",
 			"title_prefix": "Graduate Programs",
 			"cssclass": "graduate",
@@ -314,6 +323,7 @@
 			}
 		},
 		"graduateschoolofjournalism": {
+			"id" : 10,
 			"title_prefix": "Graduate School of",
 			"title": "Journalism",
 			"cssclass": "graduate",
@@ -324,6 +334,7 @@
 			}
 		},
 		"schooloflaw": {
+			"id" : 11,
 			"title_prefix": "School of",
 			"title": "Law",
 			"children": {
@@ -336,6 +347,7 @@
 			}
 		},
 		"collegeofletterssciencemathematicalphysicalsciences": {
+			"id" : 12,
 			"title_prefix": "College of Letters & Science",
 			"title": "Mathematical & Physical Sciences",
 			"cssclass": "letters-and-science",
@@ -355,6 +367,7 @@
 			}
 		},
 		"collegeofnaturalresources": {
+			"id" : 13,
 			"title_prefix": "College of",
 			"title": "Natural Resources",
 			"children": {
@@ -379,6 +392,7 @@
 			}
 		},
 		"schoolofoptometry": {
+			"id" : 14,
 			"title_prefix": "School of",
 			"title": "Optometry",
 			"children": {
@@ -391,6 +405,7 @@
 			}
 		},
 		"schoolofpublichealth": {
+			"id" : 15,
 			"title_prefix": "School of",
 			"title": "Public Health",
 			"children": {
@@ -403,6 +418,7 @@
 			}
 		},
 		"goldmanschoolofpublicpolicy": {
+			"id" : 16,
 			"title_prefix": "Goldman School of",
 			"title": "Public Policy",
 			"children": {
@@ -412,6 +428,7 @@
 			}
 		},
 		"collegeofletterssciencesocialsciences": {
+			"id" : 17,
 			"title_prefix": "College of Letters & Science",
 			"title": "Social Sciences",
 			"cssclass": "letters-and-science",
@@ -461,6 +478,7 @@
 			}
 		},
 		"schoolofsocialwelfare": {
+			"id" : 18,
 			"title_prefix": "School of",
 			"title": "Social Welfare",
 			"children": {
@@ -470,6 +488,7 @@
 			}
 		},
 		"undergraduateinterdisciplinarystudies": {
+			"id" : 19,
 			"title_prefix": "College of Letters & Science",
 			"title": "Undergraduate & Interdisciplinary Studies",
 			"cssclass": "letters-and-science",
@@ -530,9 +549,6 @@
 				},
 				"POLECON": {
 					"title": "Political Economy of Industrial Societies"
-				},
-				"POL SCI": {
-					"title": "Political Science"
 				},
 				"RELIGST": {
 					"title": "Religious Studies"

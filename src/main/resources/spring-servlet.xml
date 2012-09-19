@@ -37,6 +37,7 @@
 	<!-- TODO Remove duplicate property override -->
 	<context:property-override
 			location="classpath:/calcentral.properties"
-			ignore-resource-not-found="true" />
+			ignore-resource-not-found="true"
+			ignore-unresolvable="true"/>
 
 </beans>
