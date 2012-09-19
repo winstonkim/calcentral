@@ -322,13 +322,13 @@ body > header > h1 {
 	width: 16px;
 }
 .cc-launcher .cc-launcher-icon-mail {
-	background-image: url(/img/myb/mail_icon_16x16.png);
+	background-image: url('/img/myb/mail_icon_16x16.png');
 }
 .cc-launcher .cc-launcher-icon-calendar {
-	background-image: url(/img/myb/calendar_icon_16x16.png);
+	background-image: url('/img/myb/calendar_icon_16x16.png');
 }
 .cc-launcher .cc-launcher-icon-drive {
-	background-image: url(/img/myb/drive_icon_16x16.png);
+	background-image: url('/img/myb/drive_icon_16x16.png');
 }
 .cc-launcher .cc-launcher-info {
 	border-left: 1px solid #9AB8CA;
@@ -339,6 +339,7 @@ body > header > h1 {
 	font-size: 8px;
 }
 .cc-launcher .cc-launcher-dropdown {
+	display: none;
 	position: absolute;
 	right: 0;
 	z-index: 4;

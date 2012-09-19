@@ -573,6 +573,8 @@ var calcentral = calcentral || {};
 
 /**
  * Launcher
+ * The icon bar on the top of the page.
+ * Contains links to external services, login
  */
 (function() {
 
@@ -583,19 +585,14 @@ var calcentral = calcentral || {};
 		var $openMenu = false;
 		var $launcherItemsWithDropdown = $('a[aria-haspopup="true"]', $launcher);
 
-		var removeSelected = function() {
-			$('.cc-launcher-selected').removeClass('cc-launcher-selected');
-		};
-
 		var closeMenu = function(){
 			if ($openMenu.length) {
 				$openMenu.hide();
-				removeSelected();
 			}
 		};
 
 		$launcherItemsWithDropdown.on('focus mouseenter', function() {
-			var $this = $(this).addClass('cc-launcher-selected');
+			var $this = $(this);
 			$openMenu = $this.siblings('.cc-launcher-dropdown');
 			var selectedItemPosition = $this.position();
 			$openMenu.css({
