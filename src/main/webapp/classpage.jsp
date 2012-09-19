@@ -55,7 +55,7 @@
 		</script>
 		<script id="cc-page-classpage-header-template" type="text/x-handlebars-template">
 			<h2>{{classtitle}}</h2>
-			<h3>{{courseinfo.department}} {{courseinfo.coursenum}} : {{courseinfo.term}} {{courseinfo.year}}</h3>
+			<h3>{{courseinfo.department}} {{courseinfo.catalogid}} : {{courseinfo.term}} {{courseinfo.year}}</h3>
 		</script>
 
 		<script id="cc-page-classpage-description-template" type="text/x-handlebars-template">
