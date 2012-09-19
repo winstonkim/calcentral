@@ -241,6 +241,7 @@ body > header {
 	cursor: pointer;
 	margin: 0 auto;
 	height: 42px;
+	position: relative;
 	width: 960px;
 }
 .cc-page-index header {
@@ -293,6 +294,59 @@ body > header > h1 {
 	border: 0;
 	margin: 0;
 	padding: 0;
+}
+
+/* Launcher */
+.cc-launcher {
+	padding: 1px 0 1px 5px;
+	position: absolute;
+	right: 0;
+	top: 0;
+}
+.cc-launcher, .cc-launcher .cc-launcher-dropdown {
+	background: #CDDDE2;
+	border: 1px solid #9AB8CA;
+	border-bottom-left-radius: 6px;
+	border-right: none;
+	border-top: none;
+}
+.cc-launcher a {
+	color: #15315C;
+	font-weight: bold;
+}
+.cc-launcher .cc-launcher-icon {
+	background: no-repeat;
+	float: left;
+	height: 16px;
+	margin-left: 5px;
+	width: 16px;
+}
+.cc-launcher .cc-launcher-icon-mail {
+	background-image: url(/img/myb/mail_icon_16x16.png);
+}
+.cc-launcher .cc-launcher-icon-calendar {
+	background-image: url(/img/myb/calendar_icon_16x16.png);
+}
+.cc-launcher .cc-launcher-icon-drive {
+	background-image: url(/img/myb/drive_icon_16x16.png);
+}
+.cc-launcher .cc-launcher-info {
+	border-left: 1px solid #9AB8CA;
+	margin-left: 10px;
+	padding: 5px 10px;
+}
+.cc-launcher .cc-launcher-icon-dropdown {
+	font-size: 8px;
+}
+.cc-launcher .cc-launcher-dropdown {
+	position: absolute;
+	right: 0;
+	z-index: 4;
+}
+.cc-launcher .cc-launcher-dropdown a {
+	display: block;
+	padding: 4px 10px;
+	text-align: right;
 }
 
 /* Navigation */

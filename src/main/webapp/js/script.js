@@ -571,6 +571,57 @@ var calcentral = calcentral || {};
 	});
 })();
 
+/**
+ * Launcher
+ */
+(function() {
+
+	var $launcher = $('.cc-launcher');
+
+	var addBinding = function() {
+
+		var $openMenu = false;
+		var $launcherItemsWithDropdown = $('a[aria-haspopup="true"]', $launcher);
+
+		var removeSelected = function() {
+			$('.cc-launcher-selected').removeClass('cc-launcher-selected');
+		};
+
+		var closeMenu = function(){
+			if ($openMenu.length) {
+				$openMenu.hide();
+				removeSelected();
+			}
+		};
+
+		$launcherItemsWithDropdown.on('focus mouseenter', function() {
+			var $this = $(this).addClass('cc-launcher-selected');
+			$openMenu = $this.siblings('.cc-launcher-dropdown');
+			var selectedItemPosition = $this.position();
+			$openMenu.css({
+				'top': selectedItemPosition.top + $this.outerHeight() - 2,
+				'width': $this.outerWidth()
+			}).show();
+		});
+
+		$launcherItemsWithDropdown.parent().on('mouseleave', function(e) {
+			closeMenu();
+		});
+
+	};
+
+	if ($launcher.length) {
+		calcentral.Api.User.getCurrentUser('', function(success, data){
+			calcentral.Api.Util.renderTemplate({
+				'container': $launcher,
+				'data': data,
+				'template': $('#cc-launcher-template')
+			});
+			addBinding();
+		});
+	}
+
+})();
 
 /**
  * Top Navigation
