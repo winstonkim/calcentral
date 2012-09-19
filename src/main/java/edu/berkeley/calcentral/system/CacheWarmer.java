@@ -42,6 +42,7 @@ public class CacheWarmer extends BaseDao {
 	}
 
 	void warm(int limit) throws InterruptedException {
+		Telemetry telemetry = new Telemetry(CacheWarmer.class, "warm(" + limit + ")");
 		RestTemplate restTemplate = new RestTemplate();
 		List<String> urls = buildUrlList(limit);
 		int current = 0;
@@ -51,7 +52,7 @@ public class CacheWarmer extends BaseDao {
 			try {
 				restTemplate.getForObject(url, String.class);
 			} catch (RestClientException e) {
-				LOGGER.error(e);
+				LOGGER.error("Error getting " + url, e);
 				errorCount++;
 				if (errorCount > 10) {
 					LOGGER.error("Got more than 10 http errors, aborting cache warmup");
@@ -61,11 +62,12 @@ public class CacheWarmer extends BaseDao {
 			Thread.sleep(100L); // so we don't overload ourselves warming cache
 			current++;
 			if (current % 100 == 0) {
-				LOGGER.info("Warmed " + current + " urls of " + urls.size() + " total");
+				LOGGER.debug("Warmed " + current + " urls of " + urls.size() + " total");
 			}
 		}
+		telemetry.end();
 		LOGGER.warn("Finished warming " + current + " of " + urls.size() + " total urls with "
-				+ errorCount + " errors");
+				+ errorCount + " errors in " + telemetry.getTime() / 1000 + "s");
 	}
 
 	List<String> buildUrlList(int limit) {

@@ -11,14 +11,19 @@ public class Telemetry {
 
 	private long start;
 
+	private long time;
+
 	public Telemetry(Class<?> caller, String method) {
 		this.caller = caller.getSimpleName() + "." + method;
 		this.start = System.currentTimeMillis();
 	}
 
 	public void end() {
-		long time = System.currentTimeMillis() - start;
+		time = System.currentTimeMillis() - start;
 		LOGGER.trace(caller + " took " + time + "ms");
 	}
 
+	public long getTime() {
+		return time;
+	}
 }
