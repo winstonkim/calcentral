@@ -35,7 +35,7 @@ public class CacheWarmer extends BaseDao {
 	public void warmup() throws InterruptedException {
 		if (enabled) {
 			Thread.sleep(15000); // so rest of server can start
-			warm(10000);
+			warm(50000);
 		} else {
 			LOGGER.warn("CacheWarmer is disabled");
 		}
@@ -54,12 +54,13 @@ public class CacheWarmer extends BaseDao {
 			} catch (RestClientException e) {
 				LOGGER.error("Error getting " + url, e);
 				errorCount++;
+				Thread.sleep(500L); // sleep a little longer after errors
 				if (errorCount > 10) {
 					LOGGER.error("Got more than 10 http errors, aborting cache warmup");
 					break;
 				}
 			}
-			Thread.sleep(100L); // so we don't overload ourselves warming cache
+			Thread.sleep(250L); // so we don't overload ourselves warming cache
 			current++;
 			if (current % 100 == 0) {
 				LOGGER.debug("Warmed " + current + " urls of " + urls.size() + " total");
