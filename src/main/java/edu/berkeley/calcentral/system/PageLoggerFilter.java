@@ -12,34 +12,23 @@ import org.springframework.web.filter.OncePerRequestFilter;
 /**
  * Page Logger filter logs access for pages. 
  */
-public class PageLoggerFilter extends OncePerRequestFilter  {
+public class PageLoggerFilter extends OncePerRequestFilter {
 
 	@Override
 	public void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
-			FilterChain chain) throws IOException, ServletException {
-		HttpServletRequest httpRequest = (HttpServletRequest) request;
-		String httpMethod = new StringBuffer()
-		.append("Request Type: ")
-		.append(httpRequest.getMethod()).toString();
-		String path = new StringBuffer()
-		.append("Path: ")
-		.append(httpRequest.getPathInfo()).toString();
-		String servletPath = new StringBuffer()
-		.append("Servlet: ")
-		.append(httpRequest.getContextPath()).toString();
+	                             FilterChain chain) throws IOException, ServletException {
 		String userUid = "<anonymous>";
 		if (request.getUserPrincipal() != null) {
 			userUid = request.getUserPrincipal().getName();
 		}
-		String uid = new StringBuffer()
-		.append("UID: ")
-		.append(userUid).toString();
-		StringBuffer logMessage = new StringBuffer()
-		.append("User Request - ")
-		.append(httpMethod).append("; ")
-		.append(uid).append("; ")
-		.append(servletPath).append("; ")
-		.append(path).append("; ");
+		String uid = "UID: " + userUid;
+		StringBuilder logMessage = new StringBuilder()
+				.append("User Request - ")
+				.append(request.getMethod())
+				.append(" ")
+				.append(request.getRequestURL())
+				.append("; ")
+				.append(uid);
 		logger.info(logMessage);
 		chain.doFilter(request, response);
 	}
