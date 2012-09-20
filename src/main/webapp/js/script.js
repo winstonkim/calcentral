@@ -256,41 +256,57 @@ var calcentral = calcentral || {};
 			}
 		}
 
-		// HELPER: #each_object
-		//
-		// Usage: {{#each_object obj}} Key: {{key}} // Value: {{value}} {{/each_object}}
-		//
-		// Iterate over an object, setting 'key' and 'value' for each property in
-		// the object.
-		Handlebars.registerHelper('each_object', function(obj, fn) {
-			var buffer = '',
-				key;
+		/**
+		 * Handlebar helper: #each_object
+		 *
+		 * Iterate over an object, setting 'key' and 'value' for each property in the object.
+		 *
+		 * Usage:
+		 *  {{#each_object object}}
+		 *    Key: {{key}} // Value: {{value}}
+		 *  {{/each_object}}
+		 *
+		 * Source: https://gist.github.com/1371586
+		 */
+		Handlebars.registerHelper('each_object', function(object, options) {
+			var buffer = '';
+			var key;
 
-			for (key in obj) {
-				if (obj.hasOwnProperty(key)) {
-					buffer += fn({key: key, value: obj[key]});
+			for (key in object) {
+				if (object.hasOwnProperty(key)) {
+					buffer += options.fn({key: key, value: object[key]});
 				}
 			}
 
 			return buffer;
 		});
 
-		// {{#each_with_index records}}
-		//	<li class="legend_item{{index}}"><span></span>{{Name}}</li>
-		// {{/each_with_index}}
-		Handlebars.registerHelper("each_with_index", function(array, fn) {
-			var buffer = "";
+		/**
+		 * Handlebar helper: #each_with_index
+		 *
+		 * An each with the ability to get the index
+		 * You can also check whether it's the last index or not with `isLastIndex`
+		 *
+		 * Usage:
+		 *  {{#each_with_index records}}
+		 *   <li class="legend_item{{index}}">{{Name}}{{#unless isLastIndex}}, {{/unless}}</li>
+		 *  {{/each_with_index}}
+		 *
+		 * Source: https://gist.github.com/1048968
+		 */
+		Handlebars.registerHelper('each_with_index', function(array, options) {
+			var buffer = '';
 			for (var i = 0, j = array.length; i < j; i++) {
 				var item = array[i];
 
-				// stick an index property onto the item, starting with 1, may make configurable later
+				// stick an index property onto the item, starting with 0, may make configurable later
 				item.index = i;
 
 				// Add an extra property so we can see whether it is the last item or not
 				item.isLastIndex = (i === j-1);
 
 				// show the inside of the block
-				buffer += fn(item);
+				buffer += options.fn(item);
 			}
 
 			// return the finished buffer
@@ -298,9 +314,23 @@ var calcentral = calcentral || {};
 
 		});
 
-		// {{#compare "Test" "Test"}}
-		// Default comparison of "==="
-		// {{/compare}}
+		/**
+		 * Handlebar helper: #compare
+		 *
+		 * Compare items with each other
+		 *
+		 * Usage:
+		 *  {{#compare "Test" "Test"}}
+		 *   Default comparison of "==="
+		 *  {{/compare}}
+		 *
+		 * Complex usage:
+		 *  {{#compare unicorns ponies operator="<"}}
+		 *   I knew it, unicorns are just low-quality ponies!
+		 *  {{/compare}}
+		 *
+		 * Source: http://doginthehat.com.au/2012/02/comparison-block-helper-for-handlebars-templates/
+		 */
 		Handlebars.registerHelper('compare', function (lvalue, operator, rvalue, options) {
 
 			var operators, result;
