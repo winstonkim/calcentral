@@ -633,7 +633,7 @@ var calcentral = calcentral || {};
 		var $topNavigationItemsWithDropdown = $('a[aria-haspopup="true"]', $topNavigation);
 
 		var removeSelected = function() {
-			$('.cc-topnavigation-selected').removeClass('cc-topnavigation-selected');
+			$('.cc-topnavigation-dropdown-selected').removeClass('cc-topnavigation-dropdown-selected');
 		};
 
 		var closeMenu = function(){
@@ -644,11 +644,11 @@ var calcentral = calcentral || {};
 		};
 
 		$topNavigationItemsWithDropdown.on('focus mouseenter', function() {
-			var $this = $(this).addClass('cc-topnavigation-selected');
+			var $this = $(this).addClass('cc-topnavigation-dropdown-selected');
 			$openMenu = $this.siblings('.cc-topnavigation-dropdown');
 			var selectedItemPosition = $this.position();
 			$openMenu.css({
-				'top': selectedItemPosition.top + $this.outerHeight() - 2
+				'top': selectedItemPosition.top + $this.outerHeight() - 4
 			}).show();
 		});
 
@@ -662,7 +662,10 @@ var calcentral = calcentral || {};
 		calcentral.Api.User.getCurrentUser('', function(success, data){
 			calcentral.Api.Util.renderTemplate({
 				'container': $topNavigation,
-				'data': data,
+				'data': {
+					'pathName': window.location.pathname,
+					'user': data
+				},
 				'template': $('#cc-topnavigation-template')
 			});
 			addBinding();
