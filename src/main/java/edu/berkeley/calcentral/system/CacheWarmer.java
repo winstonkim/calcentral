@@ -102,7 +102,7 @@ public class CacheWarmer extends BaseDao {
 		List<Map<String, Object>> courses = campusQueryRunner.queryForList(
 				"SELECT bci.TERM_YR || bci.TERM_CD || bci.COURSE_CNTL_NUM classid " +
 						"FROM BSPACE_COURSE_INFO_VW bci " +
-						"WHERE TERM_YR = 2012 AND TERM_CD = 'D' AND INSTRUCTION_FORMAT = 'LEC' " +
+						"WHERE TERM_YR = 2012 AND TERM_CD = 'D' AND PRIMARY_SECONDARY_CD = 'P' " +
 						"AND ROWNUM <= :limit " +
 						"ORDER BY bci.DEPT_NAME", params);
 		LOGGER.debug("Found " + courses.size() + " courses");
