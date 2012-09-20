@@ -14,6 +14,9 @@
 					<div class="cc-launcher-dropdown">
 						<ul>
 							<li>
+								<a href="#">Preferences</a>
+							</li>
+							<li>
 								<a href="/secure/profile">Profile</a>
 							</li>
 							<li>
