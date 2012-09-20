@@ -1,0 +1,45 @@
+<div class="cc-container-widget" id="cc-widget-tasks">
+	<div class="cc-widget-title">
+		<h2>Tasks and Assignments</h2>
+	</div>
+	<!-- MAIN VIEW -->
+	<div class="cc-tasks-list cc-widget-main">
+		<div class="cc-widget-text">Loading...</div>
+	</div>
+	<script id="cc-widget-tasks-template" type="text/x-handlebars-template">
+		<table class="cc-tasks-table">
+			<tr>
+				<td colspan="4"><div class="cc-widget-section-label">Due Today</div></td>
+			</tr>
+			{{#each today}}
+				{{>taskLoop}}
+			{{/each}}
+
+			<tr>
+				<td colspan="4"><div class="cc-widget-section-label">Due Tomorrow</div></td>
+			</tr>
+			{{#each tomorrow}}
+				{{>taskLoop}}
+			{{/each}}
+
+			<tr>
+				<td colspan="4"><div class="cc-widget-section-label">Upcoming</div></td>
+			</tr>
+			{{#each future}}
+				{{>taskLoop}}
+			{{/each}}
+		</table>
+	</script>
+
+	<script id="cc-taskloop-template" type="text/x-handlebars-template">
+		<tr>
+			<td>
+				{{#if completed}}<img src="/img/myb/checkmark_icon_16x16.png" alt="Checkmark" class="cc-tasks-mini-icon">{{/if}}
+				{{#if overdue}}<img src="/img/myb/exclamation_icon_16x16.png" alt="Warning" class="cc-tasks-mini-icon">{{/if}}
+			</td>
+			<td>{{#if sourceUrl}}<a href="{{sourceUrl}}">{{source}}</a>{{else}}<em>{{source}}</em>{{/if}}</td>
+			<td><div class="cc-tasks-short-title ellipsis"><a href="{{url}}">{{title}}</a></div></td>
+			<td>{{friendlyDate}}</td>
+		</tr>
+	</script>
+</div>

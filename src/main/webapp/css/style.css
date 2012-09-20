@@ -265,6 +265,11 @@ body > header > h1 {
 .cc-top-20 {
 	margin-top: 20px;
 }
+.ellipsis {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
 
 /* Link buttons */
 .cc-link-button {
@@ -802,6 +807,11 @@ span#classpages_showhideall {
 }
 .cc-widget-main {
 	padding: 0 17px;
+}
+.cc-widget-section-label {
+	color: #232323;
+	font-size: 1.2em;
+	margin-top: 10px;
 }
 
 /*Temporary pending design input*/
