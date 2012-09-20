@@ -42,7 +42,7 @@ public class OAuth2Dao extends BaseDao {
 	}
 
 	public void update(String uid, String appId, String token) {
-		String sql = "UPDATE calcentral_oauth2 SET (token) VALUES (:token) " +
+		String sql = "UPDATE calcentral_oauth2 SET (token) = (:token) " +
 				"WHERE uid = :uid AND appId = :appId";
 		MapSqlParameterSource params = new MapSqlParameterSource("uid", uid).
 				addValue("appId", appId).addValue("token", token);

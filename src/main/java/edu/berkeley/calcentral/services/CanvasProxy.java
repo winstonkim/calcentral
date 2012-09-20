@@ -36,6 +36,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.oauth2.client.OAuth2RestTemplate;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
+import org.springframework.security.oauth2.common.exceptions.UserDeniedAuthorizationException;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -48,6 +49,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import java.net.URI;
 import java.util.Enumeration;
 import java.util.Map;
 import java.util.Set;
@@ -267,17 +270,42 @@ public class CanvasProxy {
 		String userId = request.getRemoteUser();
 		if (userId != null) {
 			oauthTokenId = oAuth2Dao.getToken(userId, CANVAS_APP_ID);
-			if (oauthTokenId == null) {
+		}
+		return oauthTokenId;
+	}
+
+	@GET
+	@Path("oAuthToken")
+	public Response getOAuthResponse(@Context HttpServletRequest request) {
+		String userId = request.getRemoteUser();
+		if (userId != null) {
+			try {
+				// Either forward to Canvas to request a token, or interpret
+				// Canvas's redirect back to us afterward.
 				OAuth2AccessToken accessToken = oauthRestTemplate.getAccessToken();
 				LOGGER.info("access token = " + accessToken);
 				if (accessToken != null) {
-					oauthTokenId = accessToken.getValue();
-					LOGGER.info("Adding access token for user " + userId);
-					oAuth2Dao.insert(userId, CANVAS_APP_ID, oauthTokenId);
+					String oauthTokenId = accessToken.getValue();
+					LOGGER.info("access token = " + oauthTokenId);
+					if (oAuth2Dao.getToken(userId, CANVAS_APP_ID) == null) {
+						LOGGER.info("Adding access token for user " + userId);
+						oAuth2Dao.insert(userId, CANVAS_APP_ID, oauthTokenId);
+					} else {
+						LOGGER.info("Updating access token for user " + userId);
+						oAuth2Dao.update(userId, CANVAS_APP_ID, oauthTokenId);
+					}
 				}
+			} catch (UserDeniedAuthorizationException e) {
+				LOGGER.info("OAuth2 access refused for user " + userId);
+				oAuth2Dao.delete(userId, CANVAS_APP_ID);
 			}
 		}
-		return oauthTokenId;
+		String redirectPath = request.getParameter("redirectUri");
+		if (redirectPath == null) {
+			redirectPath = "/secure/dashboard";
+		}
+		URI redirectUri = URI.create(redirectPath);
+		return Response.seeOther(redirectUri).build();
 	}
 
 }
