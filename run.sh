@@ -108,7 +108,7 @@ if [ $GOOGLE_OAUTH_CLIENT ]; then
   echo "gappsSecurity.clientSecret=$GOOGLE_OAUTH_CLIENTSECRET" >> $CONFIG_FILES/calcentral.properties
   echo "gappsSecurity.accessTokenUri=$GOOGLE_OAUTH_ACCESSTOKENURI" >> $CONFIG_FILES/calcentral.properties
   echo "gappsSecurity.userAuthorizationUri=$GOOGLE_OAUTH_USERAUTHURI" >> $CONFIG_FILES/calcentral.properties
-  echo "gappsSecurity.pre-established-redirect-uri=$GOOGLE_OAUTH_REDIRECTURI" >> $CONFIG_FILES/calcentral.properties
+  echo "gappsSecurity.preEstablishedRedirectUri=$GOOGLE_OAUTH_REDIRECTURI" >> $CONFIG_FILES/calcentral.properties
 fi
 
 echo | $LOGIT
