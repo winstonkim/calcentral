@@ -41,6 +41,23 @@ calcentral.Widgets.tasks = function(tuid) {
 
 		// Convert timestamps to friendly dates and set overdue flags.
 		$.each(data.tasksAssignments, function(index, value){
+
+			// **** TODO: POC ONLY **** monkey-patch dates so we always have items for today, tomorrow, and future
+			// Ignore the stored timestamps and dynamically generate new ones at a variety of ranges.
+			var theDateEpoch = currentTime.getTime() / 1000;
+
+			if (index < 2) {
+				data.tasksAssignments[index].dueDate = theDateEpoch; // Today
+			} else if (index < 4) {
+				data.tasksAssignments[index].dueDate = theDateEpoch + 86400; // Tomorrow
+			} else if (index < 6) {
+				data.tasksAssignments[index].dueDate = theDateEpoch + 172800; // Upcoming
+			} else {
+				data.tasksAssignments[index].dueDate = theDateEpoch + 1672800; // Far future
+			}
+			// END POC TEMPORARY
+
+
 			var dueDate = new Date(value.dueDate * 1000);
 			var friendlyDate = dueDate.getMonth() + '/' + dueDate.getDate();
 			data.tasksAssignments[index].friendlyDate = friendlyDate;
