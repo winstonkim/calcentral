@@ -196,6 +196,22 @@ public class CanvasProxy {
 		return oauthTokenId;
 	}
 
+	/**
+	 * This end-point serves two functions.
+	 *
+	 * First, the browser uses it to initiate a request for a Canvas OAuth2 token
+	 * for the currently logged-in user. A "redirectUri" parameter can specify a
+	 * landing location after Canvas is done; the default landing page is
+	 * "/secure/dashboard".
+	 *
+	 * Second, Canvas will redirect to this end-point after it's done requesting
+	 * permission from the currently logged-in user. If the new token was granted,
+	 * CalCentral will store it locally; if the token was denied, CalCentral will
+	 * remove any existing Canvas token for the user.
+	 *
+	 * @param request
+	 * @return redirect to the post-Canvas landing location
+	 */
 	@GET
 	@Path("oAuthToken")
 	public Response getOAuthResponse(@Context HttpServletRequest request) {
