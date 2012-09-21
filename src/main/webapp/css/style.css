@@ -396,7 +396,7 @@ body > header > h1 {
 
 /* Top navigation search */
 .cc-topnavigation input[type='text'] {
-	background: white url('/img/myb/magnifying-glass_icon_16x16.png') 298px center no-repeat;
+	background: #fff url('/img/myb/magnifying-glass_icon_16x16.png') 298px center no-repeat;
 	border: 1px solid #373737;
 	border-radius: 4px;
 	margin: 6px 10px 0 0;
