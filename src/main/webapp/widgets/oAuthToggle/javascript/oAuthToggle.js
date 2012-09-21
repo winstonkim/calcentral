@@ -65,30 +65,12 @@ calcentral.Widgets.oAuthToggle = function(tuid) {
 	////////////////////
 	// Initialisation //
 	////////////////////
-
-	var checkGoogleToken = function() {
-		return $.ajax({
-			'url': '/api/google/gappsOAuthEnabled'
-		});
-	};
-
-	var checkCanvasToken = function() {
-		return $.ajax({
-			'url': '/api/canvas/canvasOAuthEnabled'
-		});
-	};
-
 	/**
 	 * Initialise the classes widget, after functions from other widgets are resolved.
 	 */
-
 	var init = function() {
-		$.when(checkGoogleToken(), checkCanvasToken()).done(function(googleData, canvasData) {
-			var mergeData = {};
-			$.extend(mergeData, googleData[0], canvasData[0]);
-			renderToggles(mergeData);
-			actionBindings();
-		});
+		renderToggles(calcentral.Data.User.oauth);
+		actionBindings();
 	};
 
 	init();
