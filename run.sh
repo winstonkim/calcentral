@@ -44,6 +44,8 @@ if [ -f $INPUT_FILE ]; then
   GOOGLE_OAUTH_CLIENTSECRET=`awk -F"=" '/^GOOGLE_OAUTH_CLIENTSECRET=/ {print $2}' $INPUT_FILE`
   GOOGLE_OAUTH_ACCESSTOKENURI=`awk -F"=" '/^GOOGLE_OAUTH_ACCESSTOKENURI=/ {print $2}' $INPUT_FILE`
   GOOGLE_OAUTH_USERAUTHURI=`awk -F"=" '/^GOOGLE_OAUTH_USERAUTHURI=/ {print $2}' $INPUT_FILE`
+  GOOGLE_OAUTH_REDIRECTURI=`awk -F"=" '/^GOOGLE_OAUTH_REDIRECTURI=/ {print $2}' $INPUT_FILE`
+
 else
   POSTGRES_PASSWORD='secret'
   APPLICATION_HOST='http://localhost:8080'
@@ -106,6 +108,7 @@ if [ $GOOGLE_OAUTH_CLIENT ]; then
   echo "gappsSecurity.clientSecret=$GOOGLE_OAUTH_CLIENTSECRET" >> $CONFIG_FILES/calcentral.properties
   echo "gappsSecurity.accessTokenUri=$GOOGLE_OAUTH_ACCESSTOKENURI" >> $CONFIG_FILES/calcentral.properties
   echo "gappsSecurity.userAuthorizationUri=$GOOGLE_OAUTH_USERAUTHURI" >> $CONFIG_FILES/calcentral.properties
+  echo "gappsSecurity.pre-established-redirect-uri=$GOOGLE_OAUTH_REDIRECTURI" >> $CONFIG_FILES/calcentral.properties
 fi
 
 echo | $LOGIT
