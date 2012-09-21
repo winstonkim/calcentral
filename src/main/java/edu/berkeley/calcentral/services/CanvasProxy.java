@@ -24,6 +24,7 @@ import com.google.common.collect.Sets;
 import edu.berkeley.calcentral.Params;
 import edu.berkeley.calcentral.Urls;
 import edu.berkeley.calcentral.daos.OAuth2Dao;
+import edu.berkeley.calcentral.system.RestUtils;
 import org.apache.log4j.Logger;
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -157,7 +158,7 @@ public class CanvasProxy {
 		return doAdminMethod(httpMethod, canvasPath, null);
 	}
 	public String doAdminMethod(HttpMethod httpMethod, String canvasPath, Map<String, ?> data) {
-		return doMethod(httpMethod, convertToEntity(data, adminAccessToken), canvasPath);
+		return doMethod(httpMethod, RestUtils.convertToEntity(data, adminAccessToken), canvasPath);
 	}
 
 	/**
@@ -171,7 +172,7 @@ public class CanvasProxy {
 	@Produces({MediaType.APPLICATION_JSON})
 	public String get(@PathParam(value = "canvaspath") String canvasPath, @Context HttpServletRequest request) {
 		String accessToken = getAccessToken(request);
-		return doMethod(HttpMethod.GET, convertToEntity(request, accessToken), canvasPath);
+		return doMethod(HttpMethod.GET, RestUtils.convertToEntity(request, accessToken), canvasPath);
 	}
 	/**
 	 * Do a PUT on the Canvas server as the current user.
@@ -184,7 +185,7 @@ public class CanvasProxy {
 	@Produces({MediaType.APPLICATION_JSON})
 	public String put(@PathParam(value = "canvaspath") String canvasPath, @Context HttpServletRequest request) {
 		String accessToken = getAccessToken(request);
-		return doMethod(HttpMethod.PUT, convertToEntity(request, accessToken), canvasPath);
+		return doMethod(HttpMethod.PUT, RestUtils.convertToEntity(request, accessToken), canvasPath);
 	}
 
 	/**
@@ -198,7 +199,7 @@ public class CanvasProxy {
 	@Produces({MediaType.APPLICATION_JSON})
 	public String post(@PathParam(value = "canvaspath") String canvasPath, @Context HttpServletRequest request) {
 		String accessToken = getAccessToken(request);
-		return doMethod(HttpMethod.POST, convertToEntity(request, accessToken), canvasPath);
+		return doMethod(HttpMethod.POST, RestUtils.convertToEntity(request, accessToken), canvasPath);
 	}
 
 	/**
@@ -212,11 +213,19 @@ public class CanvasProxy {
 	@Produces({MediaType.APPLICATION_JSON})
 	public String delete(@PathParam(value = "canvaspath") String canvasPath, @Context HttpServletRequest request) {
 		String accessToken = getAccessToken(request);
-		return doMethod(HttpMethod.DELETE, convertToEntity(request, accessToken), canvasPath);
+		return doMethod(HttpMethod.DELETE, RestUtils.convertToEntity(request, accessToken), canvasPath);
 	}
 
-	public boolean isOAuthGranted(String userId) {
-		return (oAuth2Dao.getToken(userId, CANVAS_APP_ID) != null);
+	/**
+	 * Remove the current user's stored API key for canvas.
+	 */
+	@POST
+	@Path("canvasOAuthEnabled")
+	public void disableOAuth(@Context HttpServletRequest request, @FormParam(Params.METHOD) String method) {
+		String uid = request.getRemoteUser();
+		if (uid != null && method != null && method.equalsIgnoreCase("delete")) {
+			oAuth2Dao.delete(uid, CANVAS_APP_ID);
+		}
 	}
 
 	private String doMethod(HttpMethod method, HttpEntity entity, String canvasPath) {
@@ -237,34 +246,6 @@ public class CanvasProxy {
 		return null;
 	}
 
-	private HttpEntity<MultiValueMap<String, Object>> convertToEntity(HttpServletRequest request, String accessToken) {
-		MultiValueMap<String, Object> params = new LinkedMultiValueMap<String, Object>();
-		Enumeration<String> requestParams = request.getParameterNames();
-		while (requestParams.hasMoreElements()) {
-			String paramName = requestParams.nextElement();
-			params.add(paramName, request.getParameter(paramName));
-		}
-		return convertToEntity(params, accessToken);
-	}
-
-	private HttpEntity<MultiValueMap<String, Object>> convertToEntity(Map data, String accessToken) {
-		MultiValueMap<String, Object> params;
-		if (data instanceof MultiValueMap) {
-			params = (MultiValueMap) data;
-		} else {
-			params = new LinkedMultiValueMap<String, Object>();
-			if (data != null) {
-				params.setAll(data);
-			}
-		}
-		HttpHeaders httpHeaders = new HttpHeaders();
-		// If null, public access is assumed.
-		if (accessToken != null) {
-			httpHeaders.set("Authorization", "Bearer " + accessToken);
-		}
-		return new HttpEntity<MultiValueMap<String, Object>>(params, httpHeaders);
-	}
-
 	private String getAccessToken(@Context HttpServletRequest request) {
 		String oauthTokenId = null;
 		String userId = request.getRemoteUser();
@@ -282,6 +263,7 @@ public class CanvasProxy {
 			try {
 				// Either forward to Canvas to request a token, or interpret
 				// Canvas's redirect back to us afterward.
+				oauthRestTemplate.getOAuth2ClientContext().setAccessToken(null);
 				OAuth2AccessToken accessToken = oauthRestTemplate.getAccessToken();
 				LOGGER.info("access token = " + accessToken);
 				if (accessToken != null) {
