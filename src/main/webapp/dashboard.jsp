@@ -17,6 +17,7 @@
 				<jsp:include page="widgets/bspacefavourites/bspacefavourites.html" />
 				<jsp:include page="widgets/canvascourses/canvascourses.html" />
 				<jsp:include page="widgets/myclasses/myclasses.html" />
+				<jsp:include page="widgets/oAuthToggle/oAuthToggle.html" />
 			</div>
 		</div>
 		<!-- END Page specific HTML -->
