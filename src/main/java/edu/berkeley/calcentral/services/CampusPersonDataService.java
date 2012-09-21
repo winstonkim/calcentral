@@ -17,6 +17,7 @@
  */
 package edu.berkeley.calcentral.services;
 
+import com.google.common.base.Strings;
 import com.google.common.collect.Maps;
 import edu.berkeley.calcentral.daos.BaseDao;
 import edu.berkeley.calcentral.domain.User;
@@ -76,6 +77,11 @@ public class CampusPersonDataService extends BaseDao {
 		if (!StringUtils.hasLength(user.getLink())) {
 			user.setLink("https://calnet.berkeley.edu/directory/details.pl?uid=" + user.getUid());
 		}
+
+		//Maybe support user preference emails later but for now, email must be the campus primary email
+		//to help deal with bCal calendarId issues (and probably for other gApps related references).
+		String primaryEmail = String.valueOf(campusPersonData.get("EMAIL_ADDRESS"));
+		user.setEmail(Strings.nullToEmpty(primaryEmail));
 	}
 
 }
