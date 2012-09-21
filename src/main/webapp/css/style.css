@@ -463,7 +463,7 @@ body > header > h1 {
 .cc-container-main h1 {
 	border-bottom: 2px solid #E4C495;
 	font-size: 15px;
-	margin: 0;
+	margin: 0 0 10px 0;
 }
 
 /* Full container */
