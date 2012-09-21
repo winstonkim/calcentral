@@ -7,18 +7,10 @@
 	<tags:topnavigation/>
 	<div class="cc-container-main" role="main">
 		<!-- Page specific HTML -->
-		<tags:lefthandnavigation/>
-		<div class="cc-container-main-right">
-			<h1>My dashboard</h1>
-			<div class="cc-container-widgets cc-top-20">
-				<jsp:include page="widgets/tasks/tasks.html" />
-				<jsp:include page="widgets/walktime/walktime.html" />
-				<jsp:include page="widgets/quicklinks/quicklinks.html" />
-				<jsp:include page="widgets/bspacefavourites/bspacefavourites.html" />
-				<jsp:include page="widgets/canvascourses/canvascourses.html" />
-				<jsp:include page="widgets/myclasses/myclasses.html" />
-				<jsp:include page="widgets/oAuthToggle/oAuthToggle.html" />
-			</div>
+		<div class="cc-container-widgets">
+			<jsp:include page="widgets/tasks/tasks.html" />
+			<jsp:include page="widgets/myclasses/myclasses.html" />
+			<jsp:include page="widgets/oAuthToggle/oAuthToggle.html" />
 		</div>
 		<!-- END Page specific HTML -->
 		<br class="clearfix" />

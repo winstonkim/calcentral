@@ -7,12 +7,9 @@
 <tags:topnavigation/>
 <div class="cc-container-main" role="main">
 	<!-- Page specific HTML -->
-	<tags:lefthandnavigation/>
-	<div class="cc-container-main-right">
-		<h1>My profile</h1>
-		<div class="cc-container-widgets cc-top-20">
-			<jsp:include page="widgets/profile/profile.html" />
-		</div>
+	<h1>My profile</h1>
+	<div class="cc-container-widgets">
+		<jsp:include page="widgets/profile/profile.html" />
 	</div>
 	<!-- END Page specific HTML -->
 	<br class="clearfix" />

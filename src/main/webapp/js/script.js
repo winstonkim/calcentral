@@ -86,6 +86,45 @@ var calcentral = calcentral || {};
 	calcentral.Api.Util = calcentral.Api.Util || {};
 
 	/**
+	 * Parse a URI
+	 * http://stevenlevithan.com/demo/parseuri/js/
+	 * http://blog.stevenlevithan.com/archives/parseuri
+	 * @param {Object} config Config parameter
+	 * {
+	 *  'url': 'http://denbuzze.com'
+	 *  'options': {}
+	 * }
+	 * @return {Object} Complete object which you can use to get the different properties from the URI
+	 */
+	calcentral.Api.Util.parseURI = function(config) {
+		var defaults = {
+			strictMode: false,
+			key: ['source', 'protocol', 'authority', 'userInfo', 'user', 'password', 'host', 'port', 'relative', 'path', 'directory', 'file', 'query', 'anchor'],
+			q: {
+				name:   'queryKey',
+				parser: /(?:^|&)([^&=]*)=?([^&]*)/g
+			},
+			parser: {
+				strict: /^(?:([^:\/?#]+):)?(?:\/\/((?:(([^:@]*)(?::([^:@]*))?)?@)?([^:\/?#]*)(?::(\d*))?))?((((?:[^?#\/]*\/)*)([^?#]*))(?:\?([^#]*))?(?:#(.*))?)/,
+				loose:  /^(?:(?![^:@]+:[^:@\/]*@)([^:\/?#.]+):)?(?:\/\/)?((?:(([^:@]*)(?::([^:@]*))?)?@)?([^:\/?#]*)(?::(\d*))?)(((\/(?:[^?#](?![^?#\/]*\.[^?#\/.]+(?:[?#]|$)))*\/?)?([^?#\/]*))(?:\?([^#]*))?(?:#(.*))?)/
+			}
+		};
+		var options = $.extend({}, defaults, config.options);
+		var m = options.parser[options.strictMode ? 'strict' : 'loose'].exec(config.url || window.location);
+		var uri = {};
+		var i = 14;
+
+		while (i--) uri[options.key[i]] = m[i] || '';
+
+		uri[options.q.name] = {};
+		uri[options.key[12]].replace(options.q.parser, function ($0, $1, $2) {
+			if ($1) uri[options.q.name][$1] = $2;
+		});
+
+		return uri;
+	};
+
+	/**
 	 * Get the value for a URL parameter
 	 * Based on top of http://stackoverflow.com/a/1403909/117193
 	 * @param {String} param The param you want to get the value for
@@ -530,27 +569,13 @@ var calcentral = calcentral || {};
 		});
 	};
 
-	/**
-	 * Set the isotope layout for each of the widgets
-	 */
-	var setWidgetLayout = function() {
-		$('.cc-container-widgets').isotope({
-			itemSelector: '.cc-container-widget'
-		});
-	};
-
 	getWidgets();
-	$('.cc-container-widgets').on('ajaxStop', setWidgetLayout);
 
 })();
 
 
 /**
  * Left hand navigation
- */
-
-/**
- * Dashboard
  */
 (function() {
 
@@ -580,7 +605,7 @@ var calcentral = calcentral || {};
 	};
 
 	// Navigation hidden on all pages unless specifically referenced here - do we need this?
-	if ($('.cc-page-dashboard, .cc-page-profile, .cc-page-classpage').length){
+	if ($('.cc-page-classpage').length){
 		loadLeftHandNavigation();
 	}
 })();

@@ -549,6 +549,21 @@ body > header > h1 {
 	margin-top: 0;
 }
 
+/* Dashboard page */
+.cc-page-dashboard .cc-container-widget {
+	height: 260px;
+}
+.cc-page-dashboard .cc-widget-list {
+	height: 184px;
+}
+.cc-page-dashboard #cc-widget-tasks {
+	width: 370px;
+}
+.cc-page-dashboard #cc-widget-myclasses {
+	clear: both;
+	width: 180px;
+}
+
 /* Colleges and schools */
 .cc-page-colleges-and-schools-container ul {
 	padding: 0;
@@ -797,6 +812,9 @@ span#classpages_showhideall {
 }
 
 /* Widgets */
+.cc-container-widgets {
+	margin: 10px;
+}
 .cc-container-widget {
 	border: solid 1px #DFDFDF;
 	border-top: none;
@@ -845,9 +863,8 @@ span#classpages_showhideall {
 	list-style-type: none;
 }
 .cc-container-widget .cc-widget-list li a {
-	border-bottom: 1px solid #ccc;
 	display: block;
-	padding: 6px 40px 4px;
+	padding: 6px 35px 0;
 }
 .cc-container-widget .cc-widget-list li:last-child a {
 	border-bottom: none;
@@ -866,6 +883,7 @@ span#classpages_showhideall {
 	margin-top: 7px;
 	min-height: 14px;
 	padding: 7px 12px;
+	text-align: right;
 }
 .cc-container-widget .cc-widget-text {
 	color: #666;

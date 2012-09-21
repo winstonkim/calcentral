@@ -1,6 +1,6 @@
 <div class="cc-container-widget" id="cc-widget-myclasses">
 	<div class="cc-widget-title">
-		<h2>My Classes</h2>
+		<h2>My Fall 2012 Classes</h2>
 	</div>
 	<!-- MAIN VIEW -->
 	<div class="cc-widget-myclasses-list">
@@ -10,7 +10,7 @@
 		{{#if classes}}
 			<ul class="cc-widget-list">
 			{{#each classes}}
-				<li class="{{site_type}}"><a href="{{url}}">{{title}}</a></li>
+				<li class="{{site_type}}"><a href="{{url}}" title="{{title}}">{{name}}</a></li>
 			{{/each}}
 			</ul>
 		{{else}}
@@ -19,8 +19,7 @@
 			</div>
 		{{/if}}
 	</script>
-	<div class="cc-widget-footer" style="display:none;">
-		<button>Select sites</a>
-		<button>View all my sites</a>
+	<div class="cc-widget-footer">
+		<button>Add a Class Link</button>
 	</div>
 </div>
