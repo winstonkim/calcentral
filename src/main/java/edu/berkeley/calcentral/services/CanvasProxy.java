@@ -19,15 +19,10 @@
 package edu.berkeley.calcentral.services;
 
 import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
 import edu.berkeley.calcentral.Params;
 import edu.berkeley.calcentral.Urls;
 import edu.berkeley.calcentral.daos.OAuth2Dao;
 import org.apache.log4j.Logger;
-import org.codehaus.jackson.JsonNode;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.node.ArrayNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpEntity;
@@ -53,7 +48,6 @@ import javax.ws.rs.core.Response;
 import java.net.URI;
 import java.util.Enumeration;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * Proxy for talking to Berkeley's Canvas servers. If you want to hit a Canvas URL of the form
@@ -98,59 +92,6 @@ public class CanvasProxy {
 	public void init() {
 		LOGGER.info("canvasRoot = " + canvasRoot + "; canvas access token = " + adminAccessToken +
 				"; account ID = " + accountId);
-	}
-
-	/**
-	 * Handling a user's request of "their current courses." This is likely to change once OAuth comes around to let canvas
-	 * know what user it's speaking to (so we don't have to fudge the functionality with two separate API calls).
-	 *
-	 * @return list of active courses for the current user, or null on errors.
-	 */
-	@GET
-	@Path("courses")
-	@Produces({MediaType.APPLICATION_JSON})
-	public Map<String, Object> getMyCourses(@Context HttpServletRequest request) {
-		String uid = request.getRemoteUser();
-		//sanity check.
-		if (uid == null) {
-			LOGGER.error("Not authenticated.");
-			return null;
-		}
-		String enrollment_url = "users/sis_user_id:" + uid + "/enrollments";
-		String currentEnrollment = doAdminMethod(HttpMethod.GET, enrollment_url);
-		String allCourses = doAdminMethod(HttpMethod.GET, Urls.CANVAS_ACCOUNT_PATH + "/courses");
-		if (currentEnrollment == null || allCourses == null) {
-			LOGGER.error("Bad responses. currentEnrollment=" + currentEnrollment + ", allCourses=" + allCourses);
-			return null;
-		} else {
-			Map<String, Object> result = Maps.newHashMap();
-			result.put("canvasRoot", canvasRoot);
-			result.put("courses", intersectEnrollmentAndCourses(currentEnrollment, allCourses));
-			return result;
-		}
-	}
-
-	private ArrayNode intersectEnrollmentAndCourses(String enrollment, String courses) {
-		Set<String> myCourseIds = Sets.newHashSet();
-		ObjectMapper mapper = new ObjectMapper();
-		ArrayNode returnNode = mapper.createArrayNode();
-		try {
-			JsonNode enrollmentArray = mapper.readTree(enrollment);
-			for (JsonNode enrollmentNode : enrollmentArray) {
-				myCourseIds.add(enrollmentNode.get("course_id").asText());
-			}
-			JsonNode coursesArray = mapper.readTree(courses);
-			for (JsonNode courseNode : coursesArray) {
-				String courseId = courseNode.get("id").asText();
-				if (myCourseIds.contains(courseId)) {
-					returnNode.add(courseNode);
-				}
-			}
-			return returnNode;
-		} catch (Exception e) {
-			LOGGER.error("Json parsing error: ", e);
-			return null;
-		}
 	}
 
 	public String doAdminMethod(HttpMethod httpMethod, String canvasPath) {
