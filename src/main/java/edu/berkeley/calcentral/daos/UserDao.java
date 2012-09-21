@@ -12,7 +12,7 @@ import java.sql.Timestamp;
 public class UserDao extends BaseDao {
 
 	public User get(String uid) {
-		String sql = "SELECT uid, preferredName, link, firstLogin " +
+		String sql = "SELECT uid, preferredName, link, firstLogin, '' email " +
 				"FROM calcentral_users " +
 				"WHERE uid = :uid";
 		MapSqlParameterSource params = new MapSqlParameterSource("uid", uid);
