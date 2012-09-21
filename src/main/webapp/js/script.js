@@ -678,7 +678,7 @@ var calcentral = calcentral || {};
 			$openMenu = $this.siblings('.cc-topnavigation-dropdown');
 			var selectedItemPosition = $this.position();
 			$openMenu.css({
-				'top': selectedItemPosition.top + $this.outerHeight() - 4
+				'top': selectedItemPosition.top + $this.outerHeight() - 12
 			}).show();
 		});
 
