@@ -48,4 +48,6 @@ public interface Urls {
 
 	String CANVAS_ACCOUNT_PATH = "/accounts/{" + Params.CANVAS_ACCOUNT_ID + "}";
 
+	String GOOGLE = API + "/google";
+
 }

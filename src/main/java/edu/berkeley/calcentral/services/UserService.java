@@ -41,7 +41,8 @@ public class UserService implements UserDetailsService {
 	private static final Log LOGGER = LogFactory.getLog(UserService.class);
 
 	public static final String[] OAUTH_APPS = {
-			CanvasProxy.CANVAS_APP_ID
+			CanvasProxy.CANVAS_APP_ID,
+			GoogleAppsProxy.GOOGLE_APP_ID
 	};
 
 	private ObjectMapper jMapper = new ObjectMapper();

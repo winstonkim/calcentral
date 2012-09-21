@@ -27,5 +27,7 @@ public interface Params {
 	String WIDGET_ID = "widgetID";
 
 	String CANVAS_ACCOUNT_ID = "accountID";
+
+	String METHOD = "method";
 	
 }
