@@ -1,6 +1,6 @@
 #CalCentral
 
-Home of CalCentral. ![Build status on Travis-ci.org](https://secure.travis-ci.org/ets-berkeley-edu/calcentral.png?branch=master)
+Home of CalCentral. [![Build status for calcentral](https://secure.travis-ci.org/ets-berkeley-edu/calcentral.png)](http://travis-ci.org/ets-berkeley-edu/calcentral)
 
 To run the server, you will first need PostgreSQL running on your machine.
 
