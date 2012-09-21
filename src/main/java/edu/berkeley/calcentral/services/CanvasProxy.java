@@ -217,20 +217,6 @@ public class CanvasProxy {
 	}
 
 	/**
-	 * Check whether or not the current user has enabled canvas OAuth access.
-	 *
-	 * @return json response of { 'canvas': boolean}, with boolean being whether or not user has enabled Canvas OAuth access.
-	 */
-	@GET
-	@Path("canvasOAuthEnabled")
-	@Produces({MediaType.APPLICATION_JSON})
-	public Map<String, Object> isOAuthGranted(@Context HttpServletRequest request) {
-		String userId = request.getRemoteUser();
-		boolean canvasAccess = oAuth2Dao.getToken(userId, CANVAS_APP_ID) != null;
-		return ImmutableMap.<String, Object>of("canvas", canvasAccess);
-	}
-
-	/**
 	 * Remove the current user's stored API key for canvas.
 	 */
 	@POST

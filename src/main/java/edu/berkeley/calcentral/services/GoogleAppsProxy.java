@@ -171,20 +171,6 @@ public class GoogleAppsProxy {
 	}
 
 	/**
-	 * Check whether or not the current user has enabled google OAuth access.
-	 *
-	 * @return json response of { 'google': boolean}, with boolean being whether or not user has enabled Google API access.
-	 */
-	@GET
-	@Path("gappsOAuthEnabled")
-	@Produces({MediaType.APPLICATION_JSON})
-	public Map<String, Object> isOAuthGranted(@Context HttpServletRequest request) {
-		String userId = request.getRemoteUser();
-		boolean googleAccess = oAuth2Dao.getToken(userId, GOOGLE_APP_ID) != null;
-		return ImmutableMap.<String, Object>of("google", googleAccess);
-	}
-
-	/**
 	 * Remove the current user's stored API key for google.
 	 */
 	@POST
