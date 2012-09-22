@@ -13,4 +13,9 @@
 		<tag-class>edu.berkeley.calcentral.system.UserJSONTag</tag-class>
 		<body-content>empty</body-content>
 	</tag>
+	<tag>
+		<name>envJSON</name>
+		<tag-class>edu.berkeley.calcentral.system.EnvJSONTag</tag-class>
+		<body-content>empty</body-content>
+	</tag>
 </taglib>
