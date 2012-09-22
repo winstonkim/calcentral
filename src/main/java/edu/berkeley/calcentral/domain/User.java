@@ -20,8 +20,6 @@ public class User {
 
 	private Timestamp firstLogin;
 
-	private String email;
-
 	public User() {
 	}
 
@@ -55,14 +53,6 @@ public class User {
 
 	public void setFirstLogin(Timestamp firstLogin) {
 		this.firstLogin = firstLogin;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
 	}
 
 	@Override
