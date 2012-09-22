@@ -104,7 +104,8 @@ public class GoogleAppsProxy {
 					  @Context HttpServletRequest request,
 					  @Context HttpServletResponse response) {
 		String accessToken = getAccessToken(request);
-		return doMethod(HttpMethod.GET, RestUtils.convertToEntity(request, accessToken),  googlePath);
+		String fullGetPath = googlePath + "?" + request.getQueryString();
+		return doMethod(HttpMethod.GET, RestUtils.convertToEntity(request, accessToken),  fullGetPath);
 	}
 
 	/**
