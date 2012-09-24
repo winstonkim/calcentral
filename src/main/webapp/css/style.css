@@ -569,8 +569,8 @@ body > header > h1 {
 }
 .cc-page-dashboard .cc-widget-body {
 	font-size: 0.9em;
-	overflow: auto;
 	height: 225px;
+	overflow: auto;
 }
 
 /* Colleges and schools */
