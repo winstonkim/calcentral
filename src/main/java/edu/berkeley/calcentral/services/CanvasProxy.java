@@ -69,6 +69,9 @@ public class CanvasProxy {
 	public void setCanvasRoot(String canvasRoot) {
 		this.canvasRoot = canvasRoot;
 	}
+	public String getCanvasRoot() {
+		return canvasRoot;
+	}
 
 	private String adminAccessToken;
 	public void setAdminAccessToken(String adminAccessToken) {

@@ -9,6 +9,7 @@
 	(function() {
 		calcentral.Data = calcentral.Data || {};
 		calcentral.Data.User = <cc:userJSON/>;
+		calcentral.Data.Env = <cc:envJSON/>;
 	})();
 </script>
 
