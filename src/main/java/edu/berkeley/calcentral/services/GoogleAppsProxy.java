@@ -96,7 +96,7 @@ public class GoogleAppsProxy {
 					  @Context HttpServletRequest request,
 					  @Context HttpServletResponse response) {
 		String accessToken = getAccessToken(request);
-		String fullGetPath = "";
+		String fullGetPath;
 		if (request.getQueryString() != null) {
 			try {
 				/*
@@ -110,6 +110,8 @@ public class GoogleAppsProxy {
 				LOGGER.error(errorString);
 				throw new WriterException(errorString);
 			}
+		} else {
+			fullGetPath = googlePath;
 		}
 		return doMethod(HttpMethod.GET, RestUtils.convertToEntity(request, accessToken),  fullGetPath);
 	}
