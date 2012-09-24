@@ -2,8 +2,11 @@ package edu.berkeley.calcentral.system;
 
 import edu.berkeley.calcentral.Urls;
 import edu.berkeley.calcentral.daos.BaseDao;
+import edu.berkeley.calcentral.daos.ClassListDao;
+import edu.berkeley.calcentral.domain.College;
+import edu.berkeley.calcentral.domain.Department;
 import org.apache.log4j.Logger;
-import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientException;
@@ -25,6 +28,9 @@ public class CacheWarmer extends BaseDao {
 	private static final String URL_CLASSPAGE = URL_LOCALHOST + Urls.CLASS_PAGES;
 
 	boolean enabled = true;
+
+	@Autowired
+	private ClassListDao classListDao;
 
 	@SuppressWarnings("UnusedDeclaration")
 	public void setEnabled(boolean enabled) {
@@ -76,35 +82,19 @@ public class CacheWarmer extends BaseDao {
 		urls.add(URL_LOCALHOST + "/index.jsp");
 		urls.add(URL_LOCALHOST + "/colleges-and-schools.jsp");
 
-		MapSqlParameterSource params = new MapSqlParameterSource("limit", limit);
-
-		List<Map<String, Object>> collegeSlugs = queryRunner.queryForList(
-				"SELECT id " +
-						"FROM calcentral_classtree_colleges " +
-						"ORDER BY id " +
-						"LIMIT :limit ", params);
-		LOGGER.debug("Found " + collegeSlugs.size() + " colleges");
-		for (Map<String, Object> college : collegeSlugs) {
-			urls.add(URL_CLASSLIST + "/" + college.get("id"));
+		List<College> colleges = classListDao.getAllColleges(limit);
+		LOGGER.debug("Found " + colleges.size() + " colleges");
+		for (College college : colleges) {
+			urls.add(URL_CLASSLIST + "/" + college.getId());
 		}
 
-		List<Map<String, Object>> depts = queryRunner.queryForList(
-				"SELECT c.id, d.id deptid " +
-						"FROM calcentral_classtree_colleges c, calcentral_classtree_departments d " +
-						"WHERE c.id = d.college_id " +
-						"ORDER BY d.college_id, d.dept_key " +
-						"LIMIT :limit", params);
+		List<Department> depts = classListDao.getAllDepartments(limit);
 		LOGGER.debug("Found " + depts.size() + " departments");
-		for (Map<String, Object> dept : depts) {
-			urls.add(URL_CLASSLIST + "/" + dept.get("id") + "/" + dept.get("deptid"));
+		for (Department dept : depts) {
+			urls.add(URL_CLASSLIST + "/" + dept.getCollegeID() + "/" + dept.getId());
 		}
 
-		List<Map<String, Object>> courses = campusQueryRunner.queryForList(
-				"SELECT bci.TERM_YR || bci.TERM_CD || bci.COURSE_CNTL_NUM classid " +
-						"FROM BSPACE_COURSE_INFO_VW bci " +
-						"WHERE TERM_YR = 2012 AND TERM_CD = 'D' AND PRIMARY_SECONDARY_CD = 'P' AND INSTRUCTION_FORMAT <> 'IND' " +
-						"AND ROWNUM <= :limit " +
-						"ORDER BY bci.DEPT_NAME", params);
+		List<Map<String, Object>> courses = classListDao.getAllClassIDs(limit);
 		LOGGER.debug("Found " + courses.size() + " courses");
 		for (Map<String, Object> course : courses) {
 			urls.add(URL_CLASSPAGE + "/" + course.get("classid"));

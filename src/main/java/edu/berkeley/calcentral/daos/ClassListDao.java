@@ -10,9 +10,18 @@ import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Repository
 public class ClassListDao extends BaseDao {
+
+	public List<College> getAllColleges(int limit) {
+		String sql = "SELECT id, slug, title_prefix, title, cssclass " +
+				"FROM calcentral_classtree_colleges " +
+				"LIMIT :limit";
+		SqlParameterSource params = new MapSqlParameterSource("limit", limit);
+		return queryRunner.query(sql, params, new BeanPropertyRowMapper<College>(College.class));
+	}
 
 	public College getCollege(int id) {
 		String sql = "SELECT id, slug, title_prefix, title, cssclass " +
@@ -21,8 +30,18 @@ public class ClassListDao extends BaseDao {
 		return queryRunner.queryForObject(sql, params, new BeanPropertyRowMapper<College>(College.class));
 	}
 
+	public List<Department> getAllDepartments(int limit) {
+		String sql = "SELECT d.dept_key AS key, d.title, d.id, d.college_id collegeID " +
+				"FROM calcentral_classtree_colleges c, calcentral_classtree_departments d " +
+				"WHERE c.id = d.college_id " +
+				"ORDER BY d.college_id, d.dept_key " +
+				"LIMIT :limit";
+		SqlParameterSource params = new MapSqlParameterSource("limit", limit);
+		return queryRunner.query(sql, params, new BeanPropertyRowMapper<Department>(Department.class));
+	}
+
 	public Department getDepartment(int departmentID, int collegeID) {
-		String sql = "SELECT dept_key AS key, title, id " +
+		String sql = "SELECT dept_key AS key, title, id, college_id collegeID " +
 				"FROM calcentral_classtree_departments " +
 				"WHERE id = :departmentID AND college_id = :collegeID " +
 				"ORDER BY key";
@@ -32,7 +51,7 @@ public class ClassListDao extends BaseDao {
 	}
 
 	public List<Department> getDepartments(int collegeID) {
-		String sql = "SELECT dept_key AS key, title, id " +
+		String sql = "SELECT dept_key AS key, title, id, college_id collegeID " +
 				"FROM calcentral_classtree_departments " +
 				"WHERE college_id = :college_id " +
 				"ORDER BY key";
@@ -64,4 +83,15 @@ public class ClassListDao extends BaseDao {
 				.addValue("format", "IND");
 		return campusQueryRunner.query(sql, params, new BeanPropertyRowMapper<ClassPage>(ClassPage.class));
 	}
+
+	public List<Map<String, Object>> getAllClassIDs(int limit) {
+		MapSqlParameterSource params = new MapSqlParameterSource("limit", limit);
+		return campusQueryRunner.queryForList(
+				"SELECT bci.TERM_YR || bci.TERM_CD || bci.COURSE_CNTL_NUM classid " +
+						"FROM BSPACE_COURSE_INFO_VW bci " +
+						"WHERE TERM_YR = 2012 AND TERM_CD = 'D' AND PRIMARY_SECONDARY_CD = 'P' AND INSTRUCTION_FORMAT <> 'IND' " +
+						"AND ROWNUM <= :limit " +
+						"ORDER BY bci.DEPT_NAME", params);
+	}
+
 }

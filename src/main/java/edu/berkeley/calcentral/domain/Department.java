@@ -11,6 +11,8 @@ public class Department {
 
 	private int id;
 
+	private int collegeID;
+
 	public String getKey() {
 		return key;
 	}
@@ -35,12 +37,21 @@ public class Department {
 		this.id = id;
 	}
 
+	public int getCollegeID() {
+		return collegeID;
+	}
+
+	public void setCollegeID(int collegeID) {
+		this.collegeID = collegeID;
+	}
+
 	@Override
 	public String toString() {
 		return "Department{" +
 				"key='" + key + '\'' +
 				", title='" + title + '\'' +
 				", id=" + id +
+				", collegeID=" + collegeID +
 				'}';
 	}
 }
