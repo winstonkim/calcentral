@@ -6,6 +6,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.stereotype.Repository;
 
 import java.sql.ResultSet;
@@ -18,23 +19,13 @@ import java.util.Map;
 public class ClassPagesDao extends BaseDao {
 
 	public ClassPage getBaseClassPage(int year, String term, String courseID) {
-		Map<String, Object> params = setupParams(year, term, courseID);
+		MapSqlParameterSource params = setupParams(year, term, courseID)
+				.addValue("primary", "P")
+				.addValue("format", "IND");
 		String rootInfo = " SELECT "
 				+ " bci.TERM_YR || bci.TERM_CD || bci.COURSE_CNTL_NUM classid, " //ignoring course control num permissions issues for now.
 				+ " '' info_last_updated, "
 				+ " bci.COURSE_TITLE classtitle, "
-				+ " bci.DEPT_NAME department, "
-				+ " bci.CATALOG_DESCRIPTION description, "
-				+ " bci.CATALOG_ID catalogid "
-				+ " FROM BSPACE_COURSE_INFO_VW bci "
-				+ " WHERE bci.TERM_YR = :year AND bci.TERM_CD = :term AND bci.COURSE_CNTL_NUM = :courseID";
-		return campusQueryRunner.queryForObject(rootInfo, params, new BeanPropertyRowMapper<ClassPage>(ClassPage.class));
-	}
-
-	public ClassPageCourseInfo getCourseInfo(int year, String term, String courseID) {
-		Map<String, Object> params = setupParams(year, term, courseID);
-		params.put("primary", "P");
-		String courseInfoSql = " SELECT "
 				+ " bci.COURSE_TITLE title, "
 				+ " bci.INSTRUCTION_FORMAT format,"
 				+ " bci.CRED_CD grading, "
@@ -58,12 +49,13 @@ public class ClassPagesDao extends BaseDao {
 				+ " bci.CATALOG_ID catalogid "
 				+ " FROM BSPACE_COURSE_INFO_VW bci "
 				+ " WHERE bci.TERM_YR = :year AND bci.TERM_CD = :term AND bci.COURSE_CNTL_NUM = :courseID "
-				+ "   AND bci.PRIMARY_SECONDARY_CD = :primary";
-		return campusQueryRunner.queryForObject(courseInfoSql, params, new BeanPropertyRowMapper<ClassPageCourseInfo>(ClassPageCourseInfo.class));
+				+ "   AND bci.PRIMARY_SECONDARY_CD = :primary"
+				+ "   AND bci.INSTRUCTION_FORMAT <> :format ";
+		return campusQueryRunner.queryForObject(rootInfo, params, classPageMapper);
 	}
 
 	public List<ClassPageInstructor> getCourseInstructors(int year, String term, String courseID) {
-		Map<String, Object> params = setupParams(year, term, courseID);
+		MapSqlParameterSource params = setupParams(year, term, courseID);
 		String instructors = " SELECT "
 				+ "   bpi.email_address email, "
 				+ "   bpi.ldap_uid id, "
@@ -83,7 +75,7 @@ public class ClassPagesDao extends BaseDao {
 	}
 
 	public List<ClassPageSchedule> getCourseSchedules(int year, String term, String courseID) {
-		Map<String, Object> params = setupParams(year, term, courseID);
+		MapSqlParameterSource params = setupParams(year, term, courseID);
 		//There's some ambiguous logic related to this. Not worrying about edge cases for the time being.
 		//disregarding the online schedule of classes rules for now.
 		String schedule = " SELECT "
@@ -103,9 +95,9 @@ public class ClassPagesDao extends BaseDao {
 	}
 
 	public List<ClassPageSection> getSectionsWithInstructors(int year, String term, String deptName, String catalogId) {
-		Map<String, Object> params = setupParams(year, term, "");
-		params.put("deptName", deptName);
-		params.put("catalogId", catalogId);
+		MapSqlParameterSource params = setupParams(year, term, "")
+				.addValue("deptName", deptName)
+				.addValue("catalogId", catalogId);
 		String sql = "SELECT" +
 				"  bci.COURSE_CNTL_NUM ccn," +
 				"  '' enrolled_cur," +
@@ -185,12 +177,24 @@ public class ClassPagesDao extends BaseDao {
 		}
 	};
 
-	private Map<String, Object> setupParams(int year, String term, String courseID) {
-		Map<String, Object> params = Maps.newHashMap();
-		params.put("year", year);
-		params.put("term", term);
-		params.put("courseID", courseID);
-		return params;
+	private RowMapper<ClassPage> classPageMapper = new RowMapper<ClassPage>() {
+
+		private BeanPropertyRowMapper<ClassPage> baseClassPageMapper = new BeanPropertyRowMapper<ClassPage>(ClassPage.class);
+		private BeanPropertyRowMapper<ClassPageCourseInfo> courseInfoMapper = new BeanPropertyRowMapper<ClassPageCourseInfo>(ClassPageCourseInfo.class);
+
+		public ClassPage mapRow(ResultSet rs, int rowNum) throws SQLException {
+			ClassPage classPage = baseClassPageMapper.mapRow(rs, rowNum);
+			ClassPageCourseInfo courseInfo = courseInfoMapper.mapRow(rs, rowNum);
+			classPage.setCourseinfo(courseInfo);
+			return classPage;
+		}
+	};
+
+	private MapSqlParameterSource setupParams(int year, String term, String courseID) {
+		return new MapSqlParameterSource()
+				.addValue("year", year)
+				.addValue("term", term)
+				.addValue("courseID", courseID);
 	}
 
 }
