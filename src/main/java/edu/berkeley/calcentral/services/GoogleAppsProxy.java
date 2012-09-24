@@ -96,7 +96,7 @@ public class GoogleAppsProxy {
 					  @Context HttpServletRequest request,
 					  @Context HttpServletResponse response) {
 		String accessToken = getAccessToken(request);
-		String fullGetPath = "";
+		String fullGetPath;
 		if (request.getQueryString() != null) {
 			try {
 				/*
