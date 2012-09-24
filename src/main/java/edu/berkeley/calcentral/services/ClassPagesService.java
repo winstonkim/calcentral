@@ -83,12 +83,7 @@ public class ClassPagesService {
 		ClassPage classPageResult = classPagesDao.getBaseClassPage(yearInt, term, courseID);
 		telemetry.end();
 
-		telemetry = new Telemetry(this.getClass(), "classPagesDao.getCourseInfo()");
-		ClassPageCourseInfo courseInfo = classPagesDao.getCourseInfo(yearInt, term, courseID);
-		telemetry.end();
-
-		courseInfo.decodeAll();
-		classPageResult.setCourseinfo(courseInfo);
+		classPageResult.getCourseinfo().decodeAll();
 
 		telemetry = new Telemetry(this.getClass(), "classPagesDao.getCourseInstructors()");
 		List<ClassPageInstructor> classPageInstructors = classPagesDao.getCourseInstructors(yearInt, term, courseID);
@@ -106,8 +101,8 @@ public class ClassPagesService {
 		}
 		classPageResult.setSchedule(classPageSchedules);
 		
-		String deptName = courseInfo.getMisc_deptname();
-		String catalogId = courseInfo.getCatalogid();
+		String deptName = classPageResult.getCourseinfo().getMisc_deptname();
+		String catalogId = classPageResult.getCourseinfo().getCatalogid();
 		telemetry = new Telemetry(this.getClass(), "classPagesDao.getSectionsWithInstructors()");
 		List<ClassPageSection> classPageSections = classPagesDao.getSectionsWithInstructors(yearInt, term, deptName, catalogId);
 		telemetry.end();

@@ -36,8 +36,9 @@ public class ClassPagesServiceTest extends DatabaseAwareTest {
 	public void getDepartment() throws Exception {
 		ClassPage classPage = classPagesService.getClassInfo("2012D7308");
 		assertNotNull(classPage);
-		assertEquals("BIOLOGY", classPage.getDepartment());
+		assertEquals("Biology", classPage.getDepartment());
 		assertNotNull(classPage.getCourseinfo());
+		assertEquals("BIOLOGY", classPage.getCourseinfo().getMisc_deptname());
 		assertTrue(classPage.getInstructors().size() > 0);
 		assertTrue(classPage.getSections().size() > 0);
 		assertNotNull(classPage.getSections().get(0).getSection_instructors());

@@ -24,15 +24,12 @@ public class ClassPagesDaoTest extends DatabaseAwareTest {
 		ClassPage page = dao.getBaseClassPage(YEAR, TERM, COURSE_ID);
 		assertNotNull(page);
 		assertEquals("General Biology Lecture", page.getClasstitle());
-		assertEquals("BIOLOGY", page.getDepartment());
+		assertEquals("Biology", page.getDepartment());
 		assertEquals("1A", page.getCatalogid());
-	}
-
-	@Test
-	public void getCourseInfo() throws Exception {
-		ClassPageCourseInfo info = dao.getCourseInfo(YEAR, TERM, COURSE_ID);
+		ClassPageCourseInfo info = dao.getBaseClassPage(YEAR, TERM, COURSE_ID).getCourseinfo();
 		assertNotNull(info);
 		assertEquals("LEC", info.getFormat());
+		assertEquals("BIOLOGY", info.getMisc_deptname());
 	}
 
 	@Test
