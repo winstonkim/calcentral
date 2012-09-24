@@ -1,7 +1,9 @@
 <%@ taglib prefix="cc" uri="http://calcentral.berkeley.edu"%>
 
 <footer>
-	<p class="cc-copyright">&copy; UC Regents 2012 All rights reserved</p>
+	<div class="cc-left">Copyright &copy; 2012 The Regents of the University of California</div>
+	<a href="#">Help</a>
+	<a href="http://ets.berkeley.edu/calcentral-feedback">Feedback</a>
 </footer>
 
 <script>
