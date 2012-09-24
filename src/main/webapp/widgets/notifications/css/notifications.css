@@ -1,0 +1,22 @@
+/* Notifications */
+
+.cc-widget-notifications-list {
+	list-style-type: none;
+	margin: 0;
+	padding: 0 0 10px 0;
+}
+.cc-widget-notifications-list li {
+	margin-top: 10px;
+}
+.cc-widget-notifications-list-source {
+	margin-left: 27px;
+}
+.cc-widget-notifications-short-title {
+	font-weight: bold;
+	margin-left: 10px;
+	width: 180px;
+}
+.cc-widget-notifications-summary {
+	margin-left: 27px;
+	width: 270px;
+}

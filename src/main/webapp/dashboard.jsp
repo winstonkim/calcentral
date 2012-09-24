@@ -10,6 +10,7 @@
 		<div class="cc-container-widgets">
 			<jsp:include page="widgets/tasks/tasks.html" />
 			<jsp:include page="widgets/mygroups/mygroups.html" />
+			<jsp:include page="widgets/notifications/notifications.html" />
 			<jsp:include page="widgets/myclasses/myclasses.html" />
 			<jsp:include page="widgets/oAuthToggle/oAuthToggle.html" />
 		</div>

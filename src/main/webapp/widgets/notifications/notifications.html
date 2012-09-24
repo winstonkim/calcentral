@@ -1,0 +1,75 @@
+<div class="cc-container-widget" id="cc-widget-notifications">
+	<div class="cc-widget-title">
+		<h2>Notifications</h2>
+	</div>
+	<!-- MAIN VIEW -->
+	<div class="cc-notifications-list cc-widget-main">
+		<div class="cc-widget-text">Loading...</div>
+	</div>
+	<script id="cc-widget-notifications-template" type="text/x-handlebars-template">
+	<div class="cc-widget-body">
+		<ul class="cc-widget-notifications-list cc-widget-section-list">
+			{{#each alerts}}
+				{{>alertsLoop}}
+			{{/each}}
+		</ul>
+
+		<div class="cc-widget-section-label">Today</div>
+
+		<ul class="cc-widget-notifications-list cc-widget-section-list">
+			{{#each today}}
+				{{>notificationsTodayLoop}}
+			{{/each}}
+		</ul>
+
+		<div class="cc-widget-section-label">Recent</div>
+
+		<ul class="cc-widget-notifications-list cc-widget-section-list">
+			{{#each recent}}
+				{{>notificationsRecentLoop}}
+			{{/each}}
+		</ul>
+	</div>
+	</script>
+
+	<script id="cc-widget-notifications-alerts-loop-template" type="text/x-handlebars-template">
+		<li>
+			{{#if type}}
+				<img src="/img/myb/icon_{{type}}_16x16.png" alt="{{type}} icon" class="cc-tasks-mini-icon">
+			{{else}}
+				<img src="/img/myb/icon_page_white_16x16.png" alt="" class="cc-tasks-mini-icon">
+			{{/if}}
+			<a href="{{url}}" class="cc-widget-notifications-short-title cc-standout cc-alert">{{title}}</a>
+			<div class="cc-right cc-alert">{{friendlyDate}}</div>
+			<div class="cc-widget-notifications-summary">{{summary}}</div>
+			<div class="cc-widget-notifications-list-source">{{#if sourceUrl}}<a href="{{sourceUrl}}">{{source}}</a>{{else}}{{source}}{{/if}}</div>
+		</li>
+	</script>
+
+	<script id="cc-widget-notifications-loop-today-template" type="text/x-handlebars-template">
+		<li>
+			{{#if type}}
+				<img src="/img/myb/icon_{{type}}_16x16.png" alt="{{type}} icon" class="cc-tasks-mini-icon">
+			{{else}}
+				<img src="/img/myb/icon_page_white_16x16.png" alt="" class="cc-tasks-mini-icon">
+			{{/if}}
+			<a href="{{url}}" class="cc-widget-notifications-short-title cc-standout">{{title}}</a>
+			<div class="cc-right">{{friendlyDate}}</div>
+			<div class="cc-widget-notifications-summary">{{summary}}</div>
+			<div class="cc-widget-notifications-list-source">{{#if sourceUrl}}<a href="{{sourceUrl}}">{{source}}</a>{{else}}{{source}}{{/if}}</div>
+		</li>
+	</script>
+
+	<script id="cc-widget-notifications-loop-recent-template" type="text/x-handlebars-template">
+		<li>
+			{{#if type}}
+				<img src="/img/myb/icon_{{type}}_16x16.png" alt="{{type}} icon" class="cc-tasks-mini-icon">
+			{{else}}
+				<img src="/img/myb/icon_page_white_16x16.png" alt="" class="cc-tasks-mini-icon">
+			{{/if}}
+			<a href="{{url}}" class="cc-widget-notifications-short-title">{{title}}</a>
+			<div class="cc-right">{{friendlyDate}}</div>
+			<div class="cc-widget-notifications-list-source">{{#if sourceUrl}}<a href="{{sourceUrl}}">{{source}}</a>{{else}}{{source}}{{/if}}</div>
+		</li>
+	</script>
+</div>

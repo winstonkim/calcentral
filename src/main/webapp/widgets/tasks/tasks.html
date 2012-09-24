@@ -7,7 +7,7 @@
 		<div class="cc-widget-text">Loading...</div>
 	</div>
 	<script id="cc-widget-tasks-template" type="text/x-handlebars-template">
-		<table class="cc-tasks-table">
+		<table class="cc-widget-tasks-table cc-widget-body">
 			<tr>
 				<td colspan="4"><div class="cc-widget-section-label">Due Today</div></td>
 			</tr>
@@ -34,11 +34,11 @@
 	<script id="cc-taskloop-template" type="text/x-handlebars-template">
 		<tr>
 			<td>
-				{{#if completed}}<img src="/img/myb/checkmark_icon_16x16.png" alt="Checkmark" class="cc-tasks-mini-icon">{{/if}}
-				{{#if overdue}}<img src="/img/myb/exclamation_icon_16x16.png" alt="Warning" class="cc-tasks-mini-icon">{{/if}}
+				{{#if completed}}<img src="/img/myb/checkmark_icon_16x16.png" alt="Checkmark" class="cc-widget-tasks-mini-icon">{{/if}}
+				{{#if overdue}}<img src="/img/myb/exclamation_icon_16x16.png" alt="Warning" class="cc-widget-tasks-mini-icon">{{/if}}
 			</td>
 			<td>{{#if sourceUrl}}<a href="{{sourceUrl}}">{{source}}</a>{{else}}<em>{{source}}</em>{{/if}}</td>
-			<td><div class="cc-tasks-short-title ellipsis"><a href="{{url}}">{{title}}</a></div></td>
+			<td><div class="cc-widget-tasks-short-title cc-ellipsis"><a href="{{url}}">{{title}}</a></div></td>
 			<td>{{friendlyDate}}</td>
 		</tr>
 	</script>

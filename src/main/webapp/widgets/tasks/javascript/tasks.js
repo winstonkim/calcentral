@@ -108,8 +108,6 @@ calcentral.Widgets.tasks = function(tuid) {
 		});
 	};
 
-	if($tasksContainer.length) {
-		$.when(loadTasksAssignments()).done(renderTasksAssignments);
-	}
+	$.when(loadTasksAssignments()).done(renderTasksAssignments);
 
 };
