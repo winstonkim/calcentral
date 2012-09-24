@@ -99,6 +99,11 @@ public class GoogleAppsProxy {
 		String fullGetPath = "";
 		if (request.getQueryString() != null) {
 			try {
+				/*
+				 * This should help support both the cases of encoded and non-encoded query strings.
+				 * If the query string is already decoded, then there should be no change, else the
+				 * query string will be decoded and then handled by restTemplate (so it doesn't encode twice).
+				 */
 				fullGetPath = googlePath + "?" + URLDecoder.decode(request.getQueryString(), "UTF-8");
 			} catch (UnsupportedEncodingException e) {
 				String errorString = "Could not decode query string: " + e.getMessage();
