@@ -49,13 +49,6 @@ CREATE TABLE calcentral_classtree_colleges (
     id integer NOT NULL
 );
 
-CREATE SEQUENCE calcentral_classtree_colleges_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
 INSERT INTO calcentral_classtree_colleges VALUES ('collegeoflettersscienceartshumanities', 'College of Letters & Science', 'Arts & Humanities', 'letters-and-science', 1);
 INSERT INTO calcentral_classtree_colleges VALUES ('collegeofletterssciencebiologicalsciences', 'College of Letters & Science', 'Biological Sciences', 'letters-and-science', 2);
 INSERT INTO calcentral_classtree_colleges VALUES ('haasschoolofbusiness', 'Haas School of', 'Business', NULL, 3);
@@ -79,10 +72,7 @@ INSERT INTO calcentral_classtree_colleges VALUES ('undergraduateinterdisciplinar
 ALTER TABLE ONLY calcentral_classtree_colleges
     ADD CONSTRAINT calcentral_classtree_colleges_pkey PRIMARY KEY (id);
 
-CREATE INDEX slug_id ON calcentral_classtree_colleges USING btree (id);
-
-CREATE INDEX slug_index ON calcentral_classtree_colleges USING btree (slug);
-
+CREATE UNIQUE INDEX calcentral_classtree_colleges_id ON calcentral_classtree_colleges USING btree (id);
 
 /** Create and populate departments metadata table **/
 
@@ -92,13 +82,6 @@ CREATE TABLE calcentral_classtree_departments (
     college_id integer NOT NULL,
     id integer NOT NULL
 );
-
-CREATE SEQUENCE calcentral_classtree_departments_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
 
 INSERT INTO calcentral_classtree_departments VALUES ('AHMA', 'Ancient History & Mediterranean Archaeology', 1, 1);
 INSERT INTO calcentral_classtree_departments VALUES ('ARABIC', 'Arabic', 1, 2);
@@ -142,7 +125,6 @@ INSERT INTO calcentral_classtree_departments VALUES ('SCANDIN', 'Scandinavian', 
 INSERT INTO calcentral_classtree_departments VALUES ('SLAVIC', 'Slavic Languages and Literatures', 1, 41);
 INSERT INTO calcentral_classtree_departments VALUES ('S,SEASN', 'South and Southeast Asian Studies', 1, 42);
 INSERT INTO calcentral_classtree_departments VALUES ('SPANISH', 'Spanish', 1, 43);
-INSERT INTO calcentral_classtree_departments VALUES ('STUDIES', 'Studies', 1, 44);
 INSERT INTO calcentral_classtree_departments VALUES ('TAMIL', 'Tamil', 1, 45);
 INSERT INTO calcentral_classtree_departments VALUES ('TELUGU', 'Telugu', 1, 46);
 INSERT INTO calcentral_classtree_departments VALUES ('THAI', 'Thai', 1, 47);
@@ -242,8 +224,6 @@ INSERT INTO calcentral_classtree_departments VALUES ('RELIGST', 'Religious Studi
 ALTER TABLE ONLY calcentral_classtree_departments
     ADD CONSTRAINT calcentral_classtree_departments_pkey PRIMARY KEY (id);
 
-CREATE INDEX colege_id_index ON calcentral_classtree_departments USING btree (college_id);
+CREATE INDEX calcentral_classtree_departments_college_id_index ON calcentral_classtree_departments USING btree (college_id);
 
-CREATE INDEX dep_key_index ON calcentral_classtree_departments USING btree (dept_key);
-
-CREATE INDEX id_index ON calcentral_classtree_departments USING btree (id);
+CREATE UNIQUE INDEX calcentral_classtree_departments_id_index ON calcentral_classtree_departments USING btree (id);
