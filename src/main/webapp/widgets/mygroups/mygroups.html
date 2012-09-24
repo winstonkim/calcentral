@@ -1,0 +1,22 @@
+<div class="cc-container-widget" id="cc-widget-mygroups">
+	<div class="cc-widget-title">
+		<h2>My Groups</h2>
+	</div>
+	<!-- MAIN VIEW -->
+	<div class="cc-widget-mygroups-list">
+		<div class="cc-widget-text">Loading...</div>
+	</div>
+	<script id="cc-widget-mygroups-list-template" type="text/x-handlebars-template">
+		{{#if groups}}
+			<ul class="cc-widget-list">
+			{{#each groups}}
+				<li class="cc-widget-list-icon cc-widget-list-icon-{{site_type}}"><a href="{{url}}" title="{{title}}">{{name}}</a></li>
+			{{/each}}
+			</ul>
+		{{else}}
+			<div class="cc-widget-text">
+				You have no bSpace or canvas groups available.
+			</div>
+		{{/if}}
+	</script>
+</div>

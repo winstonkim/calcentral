@@ -1,0 +1,11 @@
+.cc-widget-mygroups-list .cc-widget-list-icon {
+    background: no-repeat scroll 10px 7px transparent;
+}
+
+.cc-widget-mygroups-list .cc-widget-list-icon-bspace a {
+	background-image: url('/widgets/mygroups/images/bspace_icon.png');
+}
+
+.cc-widget-mygroups-list .cc-widget-list-icon-canvas a {
+    background-image: url('/widgets/mygroups/images/canvasgroups_icon.png');
+}
