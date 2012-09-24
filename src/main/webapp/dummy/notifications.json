@@ -1,0 +1,93 @@
+{
+	"notifications": [
+		{
+			"id": 1,
+			"userId": 177914,
+			"title": "Wurster Hall evacuation",
+			"summary": "All classes in Wurster Hall are canceled today until further investigation can be performed.",
+			"source": "UCPD",
+			"type": "alert",
+			"notificationDate": 1348185728,
+			"url": "http://example.com",
+			"sourceUrl": "http://foo.com"
+		},
+		{
+			"id": 2,
+			"userId": 177914,
+			"title": "Overdue library books",
+			"summary": "Please bring these back when you can",
+			"source": "Moffit Library",
+			"type": "alert",
+			"notificationDate": 1349049728,
+			"url": "http://example.com",
+			"sourceUrl": "http://foo.com"
+		},
+		{
+			"id": 3,
+			"userId": 177914,
+			"title": "Direct questions to lecturer",
+			"summary": "Lorem ipsum dolor sit amet, consectetur adipisicing",
+			"source": "BIO ENG 24",
+			"type": "flag",
+			"notificationDate": 1348185901,
+			"url": "http://example.com",
+			"sourceUrl": "http://foo.com"
+		},
+		{
+			"id": 4,
+			"userId": 177914,
+			"title": "Notes are published on Thursday",
+			"summary": "Lorem ipsum dolor sit amet, consectetur adipisicing",
+			"source": "CHEM 1A",
+			"type": "info",
+			"notificationDate": 1348185728,
+			"url": "http://example.com",
+			"sourceUrl": false
+		},
+		{
+			"id": 5,
+			"userId": 177914,
+			"title": "Meet in Unit 4 at 9am",
+			"summary": false,
+			"source": "Study buddies",
+			"type": "note",
+			"notificationDate": 1348268251,
+			"url": "http://example.com",
+			"sourceUrl": false
+		},
+		{
+			"id": 6,
+			"userId": 177914,
+			"title": "Service learning: Insulin device detection",
+			"summary": "Lorem ipsum dolor sit amet, consectetur adipisicing",
+			"source": "Business Incub.",
+			"type": "info",
+			"notificationDate": 1348268251,
+			"url": "http://example.com",
+			"sourceUrl": false
+		},
+		{
+			"id": 7,
+			"userId": 177914,
+			"title": "Management of listings to come with blah blah",
+			"summary": false,
+			"source": "BIO 1A",
+			"type": false,
+			"notificationDate": 1350000301,
+			"url": "http://example.com",
+			"sourceUrl": "http://foo.com"
+		},
+		{
+			"id": 8,
+			"userId": 177914,
+			"title": "Submit schema before Tuesday 9/12",
+			"summary": "All garbage must be put into waste bins",
+			"source": "UCB Data Exchange",
+			"type": "flag",
+			"notificationDate": 1349913901,
+			"url": "http://example.com",
+			"sourceUrl": false
+		}
+
+	]
+}

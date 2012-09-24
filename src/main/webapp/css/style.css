@@ -256,16 +256,22 @@ body > header > h1 {
 }
 
 /* Useful classes */
+.cc-alert {
+	color: #FB0007 !important;
+}
 .cc-right {
 	float: right;
 }
 .cc-left {
 	float: left;
 }
+.cc-standout {
+	font-weight: bold;
+}
 .cc-top-20 {
 	margin-top: 20px;
 }
-.ellipsis {
+.cc-ellipsis {
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
@@ -550,9 +556,7 @@ body > header > h1 {
 }
 
 /* Dashboard page */
-.cc-page-dashboard .cc-container-widget {
-	height: 260px;
-}
+
 .cc-page-dashboard .cc-widget-list {
 	height: 184px;
 }
@@ -562,6 +566,11 @@ body > header > h1 {
 .cc-page-dashboard #cc-widget-myclasses {
 	clear: both;
 	width: 180px;
+}
+.cc-page-dashboard .cc-widget-body {
+	font-size: 0.9em;
+	overflow: auto;
+	height: 225px;
 }
 
 /* Colleges and schools */
@@ -822,15 +831,19 @@ span#classpages_showhideall {
 	float: left;
 	margin-bottom: 10px;
 	margin-right: 10px;
-	width: 348px;
+	width: 368px;
 }
 .cc-widget-main {
 	padding: 0 17px;
 }
 .cc-widget-section-label {
+	clear: both;
 	color: #232323;
 	font-size: 1.2em;
-	margin-top: 10px;
+	margin-top: 5px;
+}
+.cc-widget-section-list {
+	border-bottom: 1px dotted #cacaca;
 }
 
 /*Temporary pending design input*/
