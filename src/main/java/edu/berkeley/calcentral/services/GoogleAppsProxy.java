@@ -110,6 +110,8 @@ public class GoogleAppsProxy {
 				LOGGER.error(errorString);
 				throw new WriterException(errorString);
 			}
+		} else {
+			fullGetPath = googlePath;
 		}
 		return doMethod(HttpMethod.GET, RestUtils.convertToEntity(request, accessToken),  fullGetPath);
 	}
