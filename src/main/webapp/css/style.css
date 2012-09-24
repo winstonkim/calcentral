@@ -891,17 +891,19 @@ span#classpages_showhideall {
 }
 
 /* Footer */
-footer {
-	background: url('/img/myb/ucb_footer_logo.png') no-repeat top left scroll;
+body > footer {
 	clear: both;
 	font-size: 0.85em;
 	margin: 0 auto;
-	padding: 0 0 40px 190px;
+	overflow: hidden;
+	padding: 10px 10px 15px;
 	width: 960px;
 }
 
-footer .cc-copyright {
-	padding-top: 26px;
+body > footer a {
+	float: right;
+	font-weight: bold;
+	padding-left: 21px;
 }
 
 
