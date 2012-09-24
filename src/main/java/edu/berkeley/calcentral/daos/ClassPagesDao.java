@@ -20,7 +20,8 @@ public class ClassPagesDao extends BaseDao {
 
 	public ClassPage getBaseClassPage(int year, String term, String courseID) {
 		MapSqlParameterSource params = setupParams(year, term, courseID)
-				.addValue("primary", "P");
+				.addValue("primary", "P")
+				.addValue("format", "IND");
 		String rootInfo = " SELECT "
 				+ " bci.TERM_YR || bci.TERM_CD || bci.COURSE_CNTL_NUM classid, " //ignoring course control num permissions issues for now.
 				+ " '' info_last_updated, "
@@ -48,7 +49,8 @@ public class ClassPagesDao extends BaseDao {
 				+ " bci.CATALOG_ID catalogid "
 				+ " FROM BSPACE_COURSE_INFO_VW bci "
 				+ " WHERE bci.TERM_YR = :year AND bci.TERM_CD = :term AND bci.COURSE_CNTL_NUM = :courseID "
-				+ "   AND bci.PRIMARY_SECONDARY_CD = :primary";
+				+ "   AND bci.PRIMARY_SECONDARY_CD = :primary"
+				+ "   AND bci.INSTRUCTION_FORMAT <> :format ";
 		return campusQueryRunner.queryForObject(rootInfo, params, classPageMapper);
 	}
 
