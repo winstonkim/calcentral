@@ -17,22 +17,16 @@
  */
 package edu.berkeley.calcentral.services;
 
-import com.google.common.collect.ImmutableMap;
 import edu.berkeley.calcentral.Params;
 import edu.berkeley.calcentral.Urls;
 import edu.berkeley.calcentral.daos.OAuth2Dao;
 import edu.berkeley.calcentral.system.RestUtils;
 import org.apache.log4j.Logger;
-import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.node.ObjectNode;
-import org.jboss.resteasy.spi.BadRequestException;
-import org.jboss.resteasy.spi.InternalServerErrorException;
-import org.jboss.resteasy.spi.UnauthorizedException;
+import org.jboss.resteasy.spi.WriterException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.oauth2.client.OAuth2RestTemplate;
 import org.springframework.security.oauth2.client.resource.OAuth2ProtectedResourceDetails;
@@ -40,9 +34,7 @@ import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.common.exceptions.UserDeniedAuthorizationException;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.client.HttpServerErrorException;
-import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import javax.annotation.PostConstruct;
@@ -52,9 +44,9 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.io.UnsupportedEncodingException;
 import java.net.URI;
-import java.util.HashMap;
-import java.util.Map;
+import java.net.URLDecoder;
 
 /**
  * Proxy for talking to Berkeley's Google Api endpoints. If you want to hit a Google API URL of the form
@@ -104,7 +96,21 @@ public class GoogleAppsProxy {
 					  @Context HttpServletRequest request,
 					  @Context HttpServletResponse response) {
 		String accessToken = getAccessToken(request);
-		String fullGetPath = googlePath + "?" + request.getQueryString();
+		String fullGetPath = "";
+		if (request.getQueryString() != null) {
+			try {
+				/*
+				 * This should help support both the cases of encoded and non-encoded query strings.
+				 * If the query string is already decoded, then there should be no change, else the
+				 * query string will be decoded and then handled by restTemplate (so it doesn't encode twice).
+				 */
+				fullGetPath = googlePath + "?" + URLDecoder.decode(request.getQueryString(), "UTF-8");
+			} catch (UnsupportedEncodingException e) {
+				String errorString = "Could not decode query string: " + e.getMessage();
+				LOGGER.error(errorString);
+				throw new WriterException(errorString);
+			}
+		}
 		return doMethod(HttpMethod.GET, RestUtils.convertToEntity(request, accessToken),  fullGetPath);
 	}
 
