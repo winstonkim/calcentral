@@ -91,6 +91,7 @@
 
 	<oauth:rest-template id="canvasRestTemplate" resource="canvasSecurity" />
 
+	<!--
 	<oauth:resource id="gappsSecurity"
 		type="authorization_code"
 		client-id="set in calcentral.properties"
@@ -103,6 +104,7 @@
 		use-current-uri="false" />
 
 	<oauth:rest-template id="gappsRestTemplate" resource="gappsSecurity" />
+	-->
 
 	<context:property-override
 			location="classpath:/dataSource.properties"

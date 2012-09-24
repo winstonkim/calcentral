@@ -17,21 +17,24 @@
  */
 package edu.berkeley.calcentral.services;
 
+import com.google.api.client.auth.oauth2.AuthorizationCodeFlow;
+import com.google.api.client.auth.oauth2.Credential;
+import com.google.api.client.auth.oauth2.MemoryCredentialStore;
+import com.google.api.client.googleapis.auth.oauth2.*;
+import com.google.api.client.http.javanet.NetHttpTransport;
+import com.google.api.client.json.jackson2.JacksonFactory;
+import com.google.api.services.calendar.CalendarScopes;
 import edu.berkeley.calcentral.Params;
 import edu.berkeley.calcentral.Urls;
 import edu.berkeley.calcentral.daos.OAuth2Dao;
 import edu.berkeley.calcentral.system.RestUtils;
 import org.apache.log4j.Logger;
-import org.codehaus.jackson.map.ObjectMapper;
+import org.jboss.resteasy.spi.InternalServerErrorException;
 import org.jboss.resteasy.spi.WriterException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.oauth2.client.OAuth2RestTemplate;
-import org.springframework.security.oauth2.client.resource.OAuth2ProtectedResourceDetails;
-import org.springframework.security.oauth2.common.OAuth2AccessToken;
-import org.springframework.security.oauth2.common.exceptions.UserDeniedAuthorizationException;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.client.HttpServerErrorException;
@@ -44,9 +47,12 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.io.IOError;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URLDecoder;
+import java.util.Collections;
 
 /**
  * Proxy for talking to Berkeley's Google Api endpoints. If you want to hit a Google API URL of the form
@@ -59,28 +65,30 @@ import java.net.URLDecoder;
 @Service
 @Path(Urls.GOOGLE)
 public class GoogleAppsProxy {
-	private static final Logger LOGGER = Logger.getLogger(CanvasProxy.class);
+	private static final Logger LOGGER = Logger.getLogger(GoogleAppsProxy.class);
 
 	public static final String GOOGLE_APP_ID = "google";
 
 	public static final String googleBaseUrl = "https://www.googleapis.com/";
 
 	@Autowired
-	private OAuth2RestTemplate gappsRestTemplate;
-
-	@Autowired
 	private OAuth2Dao oAuth2Dao;
 
-	private ObjectMapper mapper = new ObjectMapper();
+	private String clientId;
 
-	@Autowired
-	private OAuth2ProtectedResourceDetails gappsSecurity;
+	public void setClientId(String clientId) {
+		this.clientId = clientId;
+	}
 
+	private String clientSecret;
+
+	public void setClientSecret(String clientSecret) {
+		this.clientSecret = clientSecret;
+	}
 
 	@PostConstruct
 	public void init() {
-		LOGGER.info("Opening OAuth Proxy to GApps with: " + gappsSecurity.getClientId());
-		LOGGER.info("GApps Scopes: " + StringUtils.collectionToCommaDelimitedString(gappsSecurity.getScope()));
+
 	}
 
 	/**
@@ -93,8 +101,8 @@ public class GoogleAppsProxy {
 	@Path("/{googlepath:.*}")
 	@Produces({MediaType.APPLICATION_JSON})
 	public String get(@PathParam(value = "googlepath") String googlePath,
-					  @Context HttpServletRequest request,
-					  @Context HttpServletResponse response) {
+	                  @Context HttpServletRequest request,
+	                  @Context HttpServletResponse response) {
 		String accessToken = getAccessToken(request);
 		String fullGetPath;
 		if (request.getQueryString() != null) {
@@ -113,7 +121,7 @@ public class GoogleAppsProxy {
 		} else {
 			fullGetPath = googlePath;
 		}
-		return doMethod(HttpMethod.GET, RestUtils.convertToEntity(request, accessToken),  fullGetPath);
+		return doMethod(HttpMethod.GET, RestUtils.convertToEntity(request, accessToken), fullGetPath);
 	}
 
 	/**
@@ -126,10 +134,10 @@ public class GoogleAppsProxy {
 	@Path("/{googlepath:.*}")
 	@Produces({MediaType.APPLICATION_JSON})
 	public String put(@PathParam(value = "googlepath") String googlePath,
-					  @Context HttpServletRequest request,
-					  @Context HttpServletResponse response) {
+	                  @Context HttpServletRequest request,
+	                  @Context HttpServletResponse response) {
 		String accessToken = getAccessToken(request);
-		return doMethod(HttpMethod.PUT, RestUtils.convertToEntity(request, accessToken),  googlePath);
+		return doMethod(HttpMethod.PUT, RestUtils.convertToEntity(request, accessToken), googlePath);
 	}
 
 	/**
@@ -142,8 +150,8 @@ public class GoogleAppsProxy {
 	@Path("/{googlepath:.*}")
 	@Produces({MediaType.APPLICATION_JSON})
 	public String post(@PathParam(value = "googlepath") String googlePath,
-					   @Context HttpServletRequest request,
-					   @Context HttpServletResponse response) {
+	                   @Context HttpServletRequest request,
+	                   @Context HttpServletResponse response) {
 		String accessToken = getAccessToken(request);
 		return doMethod(HttpMethod.POST, RestUtils.convertToEntity(request, accessToken), googlePath);
 	}
@@ -158,8 +166,8 @@ public class GoogleAppsProxy {
 	@Path("/{googlepath:.*}")
 	@Produces({MediaType.APPLICATION_JSON})
 	public String delete(@PathParam(value = "googlepath") String googlePath,
-						 @Context HttpServletRequest request,
-						 @Context HttpServletResponse response) {
+	                     @Context HttpServletRequest request,
+	                     @Context HttpServletResponse response) {
 		String accessToken = getAccessToken(request);
 		return doMethod(HttpMethod.DELETE, RestUtils.convertToEntity(request, accessToken), googlePath);
 	}
@@ -208,29 +216,106 @@ public class GoogleAppsProxy {
 	 * @return will result in a redirect to refresh "/secure/dashboard" or redirectUri
 	 */
 	@GET
-	@Path("gappsOAuthResponse")
+	@Path("requestAuthorization")
 	public Response handleAuthRequest(@Context HttpServletRequest request, @FormParam("redirectUri") String redirectPath) {
 		String userId = request.getRemoteUser();
+		if (redirectPath == null) {
+			redirectPath = "/secure/dashboard";
+		}
+		URI redirectUri = URI.create("http://localhost:8080" + redirectPath); // TODO parameterize localhost
+
 		if (userId != null) {
 			try {
 				// Either forward to Google to request a token, or interpret
 				// Google's redirect back to us afterward.
-				gappsRestTemplate.getOAuth2ClientContext().setAccessToken(null);
-				OAuth2AccessToken accessToken = gappsRestTemplate.getAccessToken();
-				LOGGER.info("access token = " + accessToken);
-				if (accessToken != null) {
-					String oauthTokenId = accessToken.getValue();
-					LOGGER.info("access token = " + oauthTokenId);
+				MemoryCredentialStore credentialStore = new MemoryCredentialStore();
+				GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(
+						new NetHttpTransport(),
+						new JacksonFactory(),
+						clientId,
+						clientSecret,
+						Collections.singleton(CalendarScopes.CALENDAR)).
+						setCredentialStore(credentialStore).
+						build();
+				Credential credential = flow.loadCredential(userId);
+
+				if (credential != null) {
+					String accessToken = credential.getAccessToken();
+					LOGGER.info("access token = " + accessToken);
 					if (oAuth2Dao.getToken(userId, GOOGLE_APP_ID) == null) {
 						LOGGER.info("Adding access token for user " + userId);
-						oAuth2Dao.insert(userId, GOOGLE_APP_ID, oauthTokenId);
+						oAuth2Dao.insert(userId, GOOGLE_APP_ID, accessToken);
 					} else {
 						LOGGER.info("Updating access token for user " + userId);
-						oAuth2Dao.update(userId, GOOGLE_APP_ID, oauthTokenId);
+						oAuth2Dao.update(userId, GOOGLE_APP_ID, accessToken);
 					}
+				} else {
+					LOGGER.info("Credential is null");
+					GoogleAuthorizationCodeRequestUrl authUrl = flow.newAuthorizationUrl();
+					authUrl.setRedirectUri("http://localhost:8080/api/google/gappsOAuthResponse"); // TODO parameterize localhost
+					authUrl.build();
+					LOGGER.info("Auth URL = " + authUrl.toString());
+					return Response.seeOther(URI.create(authUrl.toString())).build();
 				}
-			} catch (UserDeniedAuthorizationException e) {
+			} catch (IOException e) {
+				LOGGER.error(e);
+				throw new InternalServerErrorException(e.getMessage());
+			}
+			// TODO catch exception and delete token
+			/*catch (UserDeniedAuthorizationException e) {
 				LOGGER.info("OAuth2 access refused for user " + userId);
+				oAuth2Dao.delete(userId, GOOGLE_APP_ID);
+			}*/
+		}
+
+
+		return Response.seeOther(redirectUri).build();
+	}
+
+	@GET
+	@Path("gappsOAuthResponse")
+	public Response handleGoogleAuthorizationCallback(@Context HttpServletRequest request, @FormParam("redirectUri") String redirectPath) {
+		String userId = request.getRemoteUser();
+		LOGGER.info("Got a Google auth callback for user " + userId + "; query string = " + request.getQueryString());
+		String code = request.getParameter("code");
+
+		if (userId != null) {
+			if (code != null) {
+				LOGGER.info("Google auth code = " + code);
+				MemoryCredentialStore credentialStore = new MemoryCredentialStore();
+				GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(
+						new NetHttpTransport(),
+						new JacksonFactory(),
+						clientId,
+						clientSecret,
+						Collections.singleton(CalendarScopes.CALENDAR)).
+						setCredentialStore(credentialStore).
+						build();
+
+				GoogleAuthorizationCodeTokenRequest tokenRequest = flow.newTokenRequest(code);
+				tokenRequest.setRedirectUri("http://localhost:8080/api/google/gappsOAuthResponse"); // TODO parameterize localhost
+
+				try {
+					GoogleTokenResponse tokenResponse = tokenRequest.execute();
+					Credential credential = flow.createAndStoreCredential(tokenResponse, userId);
+					LOGGER.info("We have a credential: " + credential);
+					String token = credential.getAccessToken();
+					LOGGER.info("We have a token: " + token);
+
+					if (oAuth2Dao.getToken(userId, GOOGLE_APP_ID) == null) {
+						LOGGER.info("Adding access token for user " + userId);
+						oAuth2Dao.insert(userId, GOOGLE_APP_ID, token);
+					} else {
+						LOGGER.info("Updating access token for user " + userId);
+						oAuth2Dao.update(userId, GOOGLE_APP_ID, token);
+					}
+
+				} catch (IOException e) {
+					LOGGER.error(e);
+					throw new InternalServerErrorException(e.getMessage());
+				}
+			} else {
+				LOGGER.warn("Could not get auth code from Google auth callback");
 				oAuth2Dao.delete(userId, GOOGLE_APP_ID);
 			}
 		}
@@ -238,8 +323,8 @@ public class GoogleAppsProxy {
 		if (redirectPath == null) {
 			redirectPath = "/secure/dashboard";
 		}
-		URI redirectUri = URI.create(redirectPath);
+		URI redirectUri = URI.create("http://localhost:8080" + redirectPath); // TODO parameterize localhost
 		return Response.seeOther(redirectUri).build();
-	}
 
+	}
 }
