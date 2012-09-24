@@ -142,7 +142,6 @@ INSERT INTO calcentral_classtree_departments VALUES ('SCANDIN', 'Scandinavian', 
 INSERT INTO calcentral_classtree_departments VALUES ('SLAVIC', 'Slavic Languages and Literatures', 1, 41);
 INSERT INTO calcentral_classtree_departments VALUES ('S,SEASN', 'South and Southeast Asian Studies', 1, 42);
 INSERT INTO calcentral_classtree_departments VALUES ('SPANISH', 'Spanish', 1, 43);
-INSERT INTO calcentral_classtree_departments VALUES ('STUDIES', 'Studies', 1, 44);
 INSERT INTO calcentral_classtree_departments VALUES ('TAMIL', 'Tamil', 1, 45);
 INSERT INTO calcentral_classtree_departments VALUES ('TELUGU', 'Telugu', 1, 46);
 INSERT INTO calcentral_classtree_departments VALUES ('THAI', 'Thai', 1, 47);
