@@ -28,9 +28,6 @@ calcentral.Widgets.mycalendar = function(tuid) {
 	var endToday = new Date();
 	endToday.setHours(23, 59, 59, 999);
 
-	////////////////////
-	// Event Handlers //
-	////////////////////
 
 	///////////////
 	// Rendering //
@@ -103,6 +100,7 @@ calcentral.Widgets.mycalendar = function(tuid) {
 		return data;
 	};
 
+
 	///////////////////
 	// Ajax Requests //
 	///////////////////
@@ -124,6 +122,7 @@ calcentral.Widgets.mycalendar = function(tuid) {
 			'url': '/api/google/calendar/v3/calendars/primary/events'
 		});
 	};
+
 
 	////////////////////
 	// Initialisation //
