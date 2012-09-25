@@ -99,15 +99,8 @@ calcentral.Widgets.myclasses = function(tuid) {
 						'title': value.name
 					};
 				});
-				var canvasHost;
-				if (data.length) {
-					var canvasURI = calcentral.Api.Util.parseURI({
-						'url': data[0].calendar.ics
-					});
-					canvasHost = canvasURI.protocol + '://' + canvasURI.host;
-				}
 				$ajaxWrapper.resolve({
-					'host': canvasHost,
+					'host': calcentral.Data.Env.canvasRoot,
 					'courses': result
 				});
 			},
