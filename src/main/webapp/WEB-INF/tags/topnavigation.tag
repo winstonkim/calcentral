@@ -3,9 +3,7 @@
 <script id="cc-topnavigation-template" type="text/x-handlebars-template">
 	<ul>
 		<li class="cc-left"><a href="/secure/dashboard" {{#compare pathName "/secure/dashboard"}} class="cc-topnavigation-selected"{{/compare}}>My Dashboard</a></li>
-		<li class="cc-left"><a href="#">Academics</a></li>
-		<li class="cc-left"><a href="#">Administrative</a></li>
-		<li class="cc-left"><a href="#">Campus Life</a></li>
+		<li class="cc-left"><a href="#">My Campus</a></li>
 		<ul>
 			<li class="cc-right">
 				<input type="text" placeholder="Search..." />
