@@ -8,6 +8,7 @@
 	<div class="cc-container-main" role="main">
 		<!-- Page specific HTML -->
 		<div class="cc-container-widgets">
+			<jsp:include page="widgets/mycalendar/mycalendar.html" />
 			<jsp:include page="widgets/tasks/tasks.html" />
 			<jsp:include page="widgets/notifications/notifications.html" />
 			<jsp:include page="widgets/myclasses/myclasses.html" />
