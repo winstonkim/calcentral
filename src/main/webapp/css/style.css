@@ -546,6 +546,89 @@ body > header > h1 {
 	background: linear-gradient(top, #3b5d86, #012955);
 }
 
+/* Widgets */
+.cc-container-widgets {
+	margin: 10px;
+}
+.cc-container-widget {
+	border: solid 1px #DFDFDF;
+	border-top: none;
+	border-radius: 0 0 5px 5px;
+	float: left;
+	margin-bottom: 10px;
+	margin-right: 10px;
+	width: 368px;
+}
+.cc-widget-main {
+	padding: 0 17px;
+}
+.cc-widget-section-label {
+	clear: both;
+	color: #232323;
+	font-size: 1.2em;
+	margin-top: 5px;
+}
+.cc-widget-section-list {
+	border-bottom: 1px dotted #cacaca;
+}
+
+/*Temporary pending design input*/
+.cc-widget-main h3 {
+	margin-top:-10px;
+}
+.cc-widget-title {
+	background: #ececec;
+	background: -moz-linear-gradient(top, #ececec 0%, #e2e2e2 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #ececec), color-stop(100%, #e2e2e2));
+	background: -webkit-linear-gradient(top, #ececec 0%, #e2e2e2 100%);
+	background: -o-linear-gradient(top, #ececec 0%, #e2e2e2 100%);
+	background: -ms-linear-gradient(top, #ececec 0%, #e2e2e2 100%);
+	background: linear-gradient(top, #ececec 0%, #e2e2e2 100%);
+}
+.cc-widget-title h2 {
+	color: #666;
+	margin: 0;
+	padding: 8px 12px;
+	font-size: 13px;
+}
+
+.cc-container-widget .cc-widget-list {
+	margin: 0;
+	max-height: 200px;
+	overflow: auto;
+	padding: 0;
+}
+.cc-container-widget .cc-widget-list li {
+	list-style-type: none;
+}
+.cc-container-widget .cc-widget-list li a {
+	display: block;
+	padding: 6px 35px 0;
+}
+.cc-container-widget .cc-widget-list li:last-child a {
+	border-bottom: none;
+}
+
+.cc-container-widget .cc-widget-footer {
+	background: #ececec;
+	background: -moz-linear-gradient(top, #ececec 0%, #e2e2e2 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #ececec), color-stop(100%, #e2e2e2));
+	background: -webkit-linear-gradient(top, #ececec 0%, #e2e2e2 100%);
+	background: -o-linear-gradient(top, #ececec 0%, #e2e2e2 100%);
+	background: -ms-linear-gradient(top, #ececec 0%, #e2e2e2 100%);
+	background: linear-gradient(top, #ececec 0%, #e2e2e2 100%);
+	border-radius: 0 0 5px 5px;
+	box-shadow: 0 1px 0 0 #bbb;
+	margin-top: 7px;
+	min-height: 14px;
+	padding: 7px 12px;
+	text-align: right;
+}
+.cc-container-widget .cc-widget-text {
+	color: #666;
+	padding: 20px;
+}
+
 /* Error pages */
 .cc-page-404 .cc-container-main img {
 	margin-right: 50px;
@@ -626,6 +709,13 @@ body > header > h1 {
 
 .cc-page-classpage-instructor, .cc-page-classpage-sections, .cc-page-classpage-header, .cc-classlist-section {
 	width: 100% !important;
+}
+
+.cc-page-classpage-description, .cc-page-classpage-courseinfo {
+	width: 362px;
+}
+.cc-page-classpage-courseinfo {
+	margin-right: 0;
 }
 
 .cc-page-classpage-instructor ul {
@@ -829,89 +919,6 @@ span#classpages_showhideall {
 	color: #666666 !important;
 }
 
-/* Widgets */
-.cc-container-widgets {
-	margin: 10px;
-}
-.cc-container-widget {
-	border: solid 1px #DFDFDF;
-	border-top: none;
-	border-radius: 0 0 5px 5px;
-	float: left;
-	margin-bottom: 10px;
-	margin-right: 10px;
-	width: 368px;
-}
-.cc-widget-main {
-	padding: 0 17px;
-}
-.cc-widget-section-label {
-	clear: both;
-	color: #232323;
-	font-size: 1.2em;
-	margin-top: 5px;
-}
-.cc-widget-section-list {
-	border-bottom: 1px dotted #cacaca;
-}
-
-/*Temporary pending design input*/
-.cc-widget-main h3 {
-	margin-top:-10px;
-}
-.cc-widget-title {
-	background: #ececec;
-	background: -moz-linear-gradient(top, #ececec 0%, #e2e2e2 100%);
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #ececec), color-stop(100%, #e2e2e2));
-	background: -webkit-linear-gradient(top, #ececec 0%, #e2e2e2 100%);
-	background: -o-linear-gradient(top, #ececec 0%, #e2e2e2 100%);
-	background: -ms-linear-gradient(top, #ececec 0%, #e2e2e2 100%);
-	background: linear-gradient(top, #ececec 0%, #e2e2e2 100%);
-}
-.cc-widget-title h2 {
-	color: #666;
-	margin: 0;
-	padding: 8px 12px;
-	font-size: 13px;
-}
-
-.cc-container-widget .cc-widget-list {
-	margin: 0;
-	max-height: 200px;
-	overflow: auto;
-	padding: 0;
-}
-.cc-container-widget .cc-widget-list li {
-	list-style-type: none;
-}
-.cc-container-widget .cc-widget-list li a {
-	display: block;
-	padding: 6px 35px 0;
-}
-.cc-container-widget .cc-widget-list li:last-child a {
-	border-bottom: none;
-}
-
-.cc-container-widget .cc-widget-footer {
-	background: #ececec;
-	background: -moz-linear-gradient(top, #ececec 0%, #e2e2e2 100%);
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #ececec), color-stop(100%, #e2e2e2));
-	background: -webkit-linear-gradient(top, #ececec 0%, #e2e2e2 100%);
-	background: -o-linear-gradient(top, #ececec 0%, #e2e2e2 100%);
-	background: -ms-linear-gradient(top, #ececec 0%, #e2e2e2 100%);
-	background: linear-gradient(top, #ececec 0%, #e2e2e2 100%);
-	border-radius: 0 0 5px 5px;
-	box-shadow: 0 1px 0 0 #bbb;
-	margin-top: 7px;
-	min-height: 14px;
-	padding: 7px 12px;
-	text-align: right;
-}
-.cc-container-widget .cc-widget-text {
-	color: #666;
-	padding: 20px;
-}
-
 /* Footer */
 body > footer {
 	clear: both;
@@ -957,6 +964,9 @@ body > footer a {
 	}
 	.cc-page-index-welcome {
 		margin: 20px;
+	}
+	.cc-page-classpage-description, .cc-page-classpage-courseinfo {
+		width: 100%;
 	}
 }
 
