@@ -560,8 +560,17 @@ body > header > h1 {
 .cc-page-dashboard .cc-widget-list {
 	height: 184px;
 }
+.cc-page-dashboard #cc-widget-mycalendar {
+	width: 180px;
+}
+.cc-page-dashboard .cc-widget-mycalendar-container {
+	height: 186px;
+}
 .cc-page-dashboard #cc-widget-tasks {
 	width: 370px;
+}
+.cc-page-dashboard #cc-widget-notifications {
+	margin-right: 0;
 }
 .cc-page-dashboard #cc-widget-myclasses {
 	clear: both;

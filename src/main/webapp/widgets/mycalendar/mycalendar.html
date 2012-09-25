@@ -1,0 +1,46 @@
+<div class="cc-container-widget" id="cc-widget-mycalendar">
+	<div class="cc-widget-title">
+		<h2>Up Next</h2>
+	</div>
+	<!-- MAIN VIEW -->
+	<div class="cc-widget-mycalendar-container">
+		<div class="cc-widget-text">Loading...</div>
+	</div>
+	<script class="cc-widget-mycalendar-overview-template" type="text/x-handlebars-template">
+		{{#if items}}
+			<ul class="cc-widget-mycalendar-datelist">
+			{{#each items}}
+				<li>
+					<div class="cc-widget-mycalendar-datelist-time cc-left">
+						{{#with start}}
+							{{#if amPm}}
+								<div class="cc-widget-mycalendar-datelist-time-hour cc-left">{{hour}}</div>
+								<div class="cc-widget-mycalendar-datelist-time-minutes cc-left">
+									{{minutes}}<br />
+									<span class="cc-widget-mycalendar-datelist-time-ampm">{{amPm}}</span>
+								</div>
+							{{else}}
+								<div class="cc-widget-mycalendar-datelist-time-allday cc-left">all-day</div>
+							{{/if}}
+						{{/with}}
+					</div>
+					<div class="cc-widget-mycalendar-datelist-summary cc-ellipsis">
+						{{summary}}
+						{{#if location}}
+							<br /><a href="#" class="cc-widget-mycalendar-datelist-location cc-ellipsis">{{location}}</a>
+						{{/if}}
+					</div>
+					<a href="{{url}}" title="{{title}}"></a>
+				</li>
+			{{/each}}
+			</ul>
+		{{else}}
+			<div class="cc-widget-text">
+				You don't have any have any events for this day.
+			</div>
+		{{/if}}
+	</script>
+	<div class="cc-widget-footer">
+		<a href="http://bcal.berkeley.edu/">&#187; View in full calendar</a>
+	</div>
+</div>
