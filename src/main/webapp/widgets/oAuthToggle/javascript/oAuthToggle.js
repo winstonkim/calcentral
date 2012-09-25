@@ -15,7 +15,7 @@ calcentral.Widgets.oAuthToggle = function(tuid) {
 
 	var actionBindings = function () {
 		$('a.acquireGoogleToken', $oAuthToggleList).on('click', function() {
-			window.location = "/api/google/gappsOAuthResponse";
+			window.location = "/api/google/requestAuthorization";
 		});
 
 		$('a.acquireCanvasToken', $oAuthToggleList).on('click', function() {

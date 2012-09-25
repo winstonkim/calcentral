@@ -91,19 +91,6 @@
 
 	<oauth:rest-template id="canvasRestTemplate" resource="canvasSecurity" />
 
-	<oauth:resource id="gappsSecurity"
-		type="authorization_code"
-		client-id="set in calcentral.properties"
-		client-secret="set in calcentral.properties"
-		access-token-uri="http://localhost:8080/fake/oauth2/token"
-		user-authorization-uri="http://localhost:8080/fake/oauth2/auth"
-		scope="https://www.googleapis.com/auth/calendar,https://www.googleapis.com/auth/analytics.readonly"
-		pre-established-redirect-uri="http://localhost:8080/api/google/gappsOAuthResponse"
-		client-authentication-scheme="form"
-		use-current-uri="false" />
-
-	<oauth:rest-template id="gappsRestTemplate" resource="gappsSecurity" />
-
 	<context:property-override
 			location="classpath:/dataSource.properties"
 			ignore-resource-not-found="true" />

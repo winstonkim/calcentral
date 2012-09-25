@@ -231,10 +231,10 @@ public class CanvasProxy {
 					LOGGER.info("access token = " + oauthTokenId);
 					if (oAuth2Dao.getToken(userId, CANVAS_APP_ID) == null) {
 						LOGGER.info("Adding access token for user " + userId);
-						oAuth2Dao.insert(userId, CANVAS_APP_ID, oauthTokenId);
+						oAuth2Dao.insert(userId, CANVAS_APP_ID, oauthTokenId, null, 0);
 					} else {
 						LOGGER.info("Updating access token for user " + userId);
-						oAuth2Dao.update(userId, CANVAS_APP_ID, oauthTokenId);
+						oAuth2Dao.update(userId, CANVAS_APP_ID, oauthTokenId, null, 0);
 					}
 				}
 			} catch (UserDeniedAuthorizationException e) {
