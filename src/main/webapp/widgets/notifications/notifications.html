@@ -35,41 +35,41 @@
 	<script id="cc-widget-notifications-alerts-loop-template" type="text/x-handlebars-template">
 		<li>
 			{{#if type}}
-				<img src="/img/myb/icon_{{type}}_16x16.png" alt="{{type}} icon" class="cc-tasks-mini-icon">
+				<img src="/img/myb/icon_{{type}}_16x16.png" alt="{{type}} icon" class="cc-widget-tasks-notifications-mini-icon">
 			{{else}}
 				<img src="/img/myb/icon_page_white_16x16.png" alt="" class="cc-tasks-mini-icon">
 			{{/if}}
-			<a href="{{url}}" class="cc-widget-notifications-short-title cc-standout cc-alert">{{title}}</a>
+			<a href="{{url}}" class="cc-widget-tasks-notifications-short-title cc-standout cc-alert">{{title}}</a>
 			<div class="cc-right cc-alert">{{friendlyDate}}</div>
 			<div class="cc-widget-notifications-summary">{{summary}}</div>
-			<div class="cc-widget-notifications-list-source">{{#if sourceUrl}}<a href="{{sourceUrl}}">{{source}}</a>{{else}}{{source}}{{/if}}</div>
+			<div class="cc-widget-task-notifications-list-source">{{#if sourceUrl}}<a href="{{sourceUrl}}">{{source}}</a>{{else}}{{source}}{{/if}}</div>
 		</li>
 	</script>
 
 	<script id="cc-widget-notifications-loop-today-template" type="text/x-handlebars-template">
 		<li>
 			{{#if type}}
-				<img src="/img/myb/icon_{{type}}_16x16.png" alt="{{type}} icon" class="cc-tasks-mini-icon">
+				<img src="/img/myb/icon_{{type}}_16x16.png" alt="{{type}} icon" class="cc-widget-tasks-notifications-mini-icon">
 			{{else}}
 				<img src="/img/myb/icon_page_white_16x16.png" alt="" class="cc-tasks-mini-icon">
 			{{/if}}
-			<a href="{{url}}" class="cc-widget-notifications-short-title cc-standout">{{title}}</a>
+			<a href="{{url}}" class="cc-widget-tasks-notifications-short-title cc-standout">{{title}}</a>
 			<div class="cc-right">{{friendlyDate}}</div>
 			<div class="cc-widget-notifications-summary">{{summary}}</div>
-			<div class="cc-widget-notifications-list-source">{{#if sourceUrl}}<a href="{{sourceUrl}}">{{source}}</a>{{else}}{{source}}{{/if}}</div>
+			<div class="cc-widget-task-notifications-list-source">{{#if sourceUrl}}<a href="{{sourceUrl}}">{{source}}</a>{{else}}{{source}}{{/if}}</div>
 		</li>
 	</script>
 
 	<script id="cc-widget-notifications-loop-recent-template" type="text/x-handlebars-template">
 		<li>
 			{{#if type}}
-				<img src="/img/myb/icon_{{type}}_16x16.png" alt="{{type}} icon" class="cc-tasks-mini-icon">
+				<img src="/img/myb/icon_{{type}}_16x16.png" alt="{{type}} icon" class="cc-widget-tasks-notifications-mini-icon">
 			{{else}}
 				<img src="/img/myb/icon_page_white_16x16.png" alt="" class="cc-tasks-mini-icon">
 			{{/if}}
-			<a href="{{url}}" class="cc-widget-notifications-short-title">{{title}}</a>
+			<a href="{{url}}" class="cc-widget-tasks-notifications-short-title">{{title}}</a>
 			<div class="cc-right">{{friendlyDate}}</div>
-			<div class="cc-widget-notifications-list-source">{{#if sourceUrl}}<a href="{{sourceUrl}}">{{source}}</a>{{else}}{{source}}{{/if}}</div>
+			<div class="cc-widget-task-notifications-list-source">{{#if sourceUrl}}<a href="{{sourceUrl}}">{{source}}</a>{{else}}{{source}}{{/if}}</div>
 		</li>
 	</script>
 </div>

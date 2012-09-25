@@ -5,9 +5,9 @@
 			"userId": 177914,
 			"title": "Rent graduation regalia",
 			"source": "Campus",
-			"completed": true,
+			"completed": false,
 			"type": "task",
-			"dueDate": 1348096268,
+			"dueDate": 1348594493,
 			"url": "http://example.com",
 			"sourceUrl": false
 		},

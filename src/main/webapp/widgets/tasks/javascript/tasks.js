@@ -46,11 +46,11 @@ calcentral.Widgets.tasks = function(tuid) {
 			// Ignore the stored timestamps and dynamically generate new ones at a variety of ranges.
 			var theDateEpoch = currentTime.getTime() / 1000;
 
-			if (index < 2) {
+			if (index < 3) {
 				data.tasksAssignments[index].dueDate = theDateEpoch; // Today
-			} else if (index < 4) {
+			} else if (index < 5) {
 				data.tasksAssignments[index].dueDate = theDateEpoch + 86400; // Tomorrow
-			} else if (index < 6) {
+			} else if (index < 7) {
 				data.tasksAssignments[index].dueDate = theDateEpoch + 172800; // Upcoming
 			} else {
 				data.tasksAssignments[index].dueDate = theDateEpoch + 1672800; // Far future
@@ -62,8 +62,8 @@ calcentral.Widgets.tasks = function(tuid) {
 			var friendlyDate = dueDate.getMonth() + '/' + dueDate.getDate();
 			data.tasksAssignments[index].friendlyDate = friendlyDate;
 
-			// Set overdue property
-			if (currentTime > dueDate && value.completed === false) {
+			// Set overdue property if due date is equal to or less than today and item is uncompleted
+			if (currentTime >= dueDate && value.completed === false) {
 				data.tasksAssignments[index].overdue = true;
 			}
 
@@ -77,6 +77,8 @@ calcentral.Widgets.tasks = function(tuid) {
 
 			} else if (dueDate > currentTime) {
 				newData.future.push(data.tasksAssignments[index]);
+				// Easier to set a "future" property here than to detect parent array in Handlebars (partials scoping problem)
+				data.tasksAssignments[index].future = true;
 			}
 		});
 

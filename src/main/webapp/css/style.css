@@ -699,6 +699,24 @@ body > header > h1 {
 	background-color: #B67325;
 }
 
+ /*Tasks and Notifications shared styles */
+ .cc-widget-tasks-notifications-short-title {
+	font-weight: bold;
+	margin-left: 10px;
+	width: 180px;
+}
+.cc-widget-tasks-notifications-mini-icon {
+	height: 14px;
+	margin-bottom: 2px;
+	width: 14px;
+}
+.cc-widget-task-notifications-list-source {
+	margin-left: 30px;
+}
+.cc-widget-tasks-no-icon {
+	margin-left: 30px;
+}
+
 /* Classpage */
 .cc-page-classpage-courseinfo .cc-widget-main,
 .cc-page-classpage-description .cc-widget-main,

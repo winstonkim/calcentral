@@ -1,45 +1,43 @@
 <div class="cc-container-widget" id="cc-widget-tasks">
 	<div class="cc-widget-title">
-		<h2>Tasks and Assignments</h2>
+		<h2>Assignments and Tasks</h2>
 	</div>
 	<!-- MAIN VIEW -->
 	<div class="cc-tasks-list cc-widget-main">
 		<div class="cc-widget-text">Loading...</div>
 	</div>
 	<script id="cc-widget-tasks-template" type="text/x-handlebars-template">
-		<table class="cc-widget-tasks-table cc-widget-body">
-			<tr>
-				<td colspan="4"><div class="cc-widget-section-label">Due Today</div></td>
-			</tr>
+		<div class="cc-widget-body">
+			<div class="cc-widget-section-label">Due Today</div>
+			<ul class="cc-widget-notifications-list cc-widget-section-list">
 			{{#each today}}
 				{{>taskLoop}}
 			{{/each}}
+			</ul>
 
-			<tr>
-				<td colspan="4"><div class="cc-widget-section-label">Due Tomorrow</div></td>
-			</tr>
+			<div class="cc-widget-section-label">Due Tomorrow</div>
+			<ul class="cc-widget-notifications-list cc-widget-section-list">
 			{{#each tomorrow}}
 				{{>taskLoop}}
 			{{/each}}
+			</ul>
 
-			<tr>
-				<td colspan="4"><div class="cc-widget-section-label">Upcoming</div></td>
-			</tr>
+			<div class="cc-widget-section-label">Upcoming</div>
+			<ul class="cc-widget-notifications-list cc-widget-section-list">
 			{{#each future}}
 				{{>taskLoop}}
 			{{/each}}
-		</table>
+			</ul>
+		</div>
 	</script>
 
 	<script id="cc-taskloop-template" type="text/x-handlebars-template">
-		<tr>
-			<td>
-				{{#if completed}}<img src="/img/myb/checkmark_icon_16x16.png" alt="Checkmark" class="cc-widget-tasks-mini-icon">{{/if}}
-				{{#if overdue}}<img src="/img/myb/exclamation_icon_16x16.png" alt="Warning" class="cc-widget-tasks-mini-icon">{{/if}}
-			</td>
-			<td>{{#if sourceUrl}}<a href="{{sourceUrl}}">{{source}}</a>{{else}}<em>{{source}}</em>{{/if}}</td>
-			<td><div class="cc-widget-tasks-short-title cc-ellipsis"><a href="{{url}}">{{title}}</a></div></td>
-			<td>{{friendlyDate}}</td>
-		</tr>
+		<li>
+			{{#if completed}}<img src="/img/myb/icon_checkmark_16x16.png" alt="Checkmark" class="cc-widget-tasks-mini-icon">{{/if}}
+			{{#if overdue}}<img src="/img/myb/icon_alert_16x16.png" alt="Alert" class="cc-widget-tasks-mini-icon">{{/if}}
+			<a href="{{url}}" class="cc-widget-tasks-notifications-short-title cc-ellipsis {{#unless completed}}{{#unless overdue}}cc-widget-tasks-no-icon{{/unless}}{{/unless}} {{#if overdue}}cc-alert{{/if}}">{{title}}</a>
+			{{#if future}}<div class="cc-right">{{friendlyDate}}</div>{{/if}}
+			<div class="cc-widget-task-notifications-list-source">{{#if sourceUrl}}<a href="{{sourceUrl}}">{{source}}</a>{{else}}<em>{{source}}</em>{{/if}}</div>
+		</li>
 	</script>
 </div>
