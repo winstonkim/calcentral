@@ -8,15 +8,7 @@
 .cc-widget-notifications-list li {
 	margin-top: 10px;
 }
-.cc-widget-notifications-list-source {
-	margin-left: 27px;
-}
-.cc-widget-notifications-short-title {
-	font-weight: bold;
-	margin-left: 10px;
-	width: 180px;
-}
 .cc-widget-notifications-summary {
-	margin-left: 27px;
+	margin-left: 29px;
 	width: 270px;
 }
