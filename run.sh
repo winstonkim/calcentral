@@ -42,8 +42,6 @@ if [ -f $INPUT_FILE ]; then
   CANVAS_OAUTH_USERAUTHURI=`awk -F"=" '/^CANVAS_OAUTH_USERAUTHURI=/ {print $2}' $INPUT_FILE`
   GOOGLE_OAUTH_CLIENT=`awk -F"=" '/^GOOGLE_OAUTH_CLIENT=/ {print $2}' $INPUT_FILE`
   GOOGLE_OAUTH_CLIENTSECRET=`awk -F"=" '/^GOOGLE_OAUTH_CLIENTSECRET=/ {print $2}' $INPUT_FILE`
-  GOOGLE_OAUTH_ACCESSTOKENURI=`awk -F"=" '/^GOOGLE_OAUTH_ACCESSTOKENURI=/ {print $2}' $INPUT_FILE`
-  GOOGLE_OAUTH_USERAUTHURI=`awk -F"=" '/^GOOGLE_OAUTH_USERAUTHURI=/ {print $2}' $INPUT_FILE`
   GOOGLE_OAUTH_REDIRECTURI=`awk -F"=" '/^GOOGLE_OAUTH_REDIRECTURI=/ {print $2}' $INPUT_FILE`
 
 else
@@ -104,11 +102,9 @@ if [ $CANVAS_OAUTH_CLIENT ]; then
   echo "canvasSecurity.userAuthorizationUri=$CANVAS_OAUTH_USERAUTHURI" >> $CONFIG_FILES/calcentral.properties
 fi
 if [ $GOOGLE_OAUTH_CLIENT ]; then
-  echo "gappsSecurity.clientId=$GOOGLE_OAUTH_CLIENT" >> $CONFIG_FILES/calcentral.properties
-  echo "gappsSecurity.clientSecret=$GOOGLE_OAUTH_CLIENTSECRET" >> $CONFIG_FILES/calcentral.properties
-  echo "gappsSecurity.accessTokenUri=$GOOGLE_OAUTH_ACCESSTOKENURI" >> $CONFIG_FILES/calcentral.properties
-  echo "gappsSecurity.userAuthorizationUri=$GOOGLE_OAUTH_USERAUTHURI" >> $CONFIG_FILES/calcentral.properties
-  echo "gappsSecurity.preEstablishedRedirectUri=$GOOGLE_OAUTH_REDIRECTURI" >> $CONFIG_FILES/calcentral.properties
+  echo "googleAppsProxy.clientId=$GOOGLE_OAUTH_CLIENT" >> $CONFIG_FILES/calcentral.properties
+  echo "googleAppsProxy.clientSecret=$GOOGLE_OAUTH_CLIENTSECRET" >> $CONFIG_FILES/calcentral.properties
+  echo "googleAppsProxy.authCallbackUrl=$GOOGLE_OAUTH_REDIRECTURI" >> $CONFIG_FILES/calcentral.properties
 fi
 
 echo | $LOGIT

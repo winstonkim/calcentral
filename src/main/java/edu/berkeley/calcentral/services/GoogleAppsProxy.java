@@ -34,6 +34,7 @@ import org.apache.log4j.Logger;
 import org.jboss.resteasy.core.ServerResponse;
 import org.jboss.resteasy.spi.InternalServerErrorException;
 import org.jboss.resteasy.spi.WriterException;
+import org.jboss.resteasy.util.HttpResponseCodes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
@@ -41,6 +42,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.oauth2.common.exceptions.UnauthorizedClientException;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
 
@@ -80,15 +82,24 @@ public class GoogleAppsProxy {
 	private GoogleAuthorizationCodeFlow flow;
 
 	private String clientId;
+
 	@SuppressWarnings("UnusedDeclaration")
 	public void setClientId(String clientId) {
 		this.clientId = clientId;
 	}
 
 	private String clientSecret;
+
 	@SuppressWarnings("UnusedDeclaration")
 	public void setClientSecret(String clientSecret) {
 		this.clientSecret = clientSecret;
+	}
+
+	private String authCallbackUrl = "http://localhost:8080/api/google/gappsOAuthResponse";
+
+	@SuppressWarnings("UnusedDeclaration")
+	public void setAuthCallbackUrl(String authCallbackUrl) {
+		this.authCallbackUrl = authCallbackUrl;
 	}
 
 	@PostConstruct
@@ -100,8 +111,8 @@ public class GoogleAppsProxy {
 				clientSecret,
 				Collections.singleton(CalendarScopes.CALENDAR)).
 				setCredentialStore(credentialStore).
-				setAccessType("offline").
-				setApprovalPrompt("force").
+				setAccessType("offline").             // "offline" and "force" so we get refresh token
+				setApprovalPrompt("force").           // on every auth request, not just the first.
 				build();
 	}
 
@@ -116,22 +127,26 @@ public class GoogleAppsProxy {
 	@Produces({MediaType.APPLICATION_JSON})
 	public Response get(@PathParam(value = "googlepath") String googlePath,
 	                    @Context HttpServletRequest request) {
+		String userID = request.getRemoteUser();
+		if (userID == null) {
+			throw new UnauthorizedClientException("Google proxy is not supported for anonymous users");
+		}
 		Credential credential = null;
 		String accessToken = null;
 		try {
-			credential = flow.loadCredential(request.getRemoteUser());
+			credential = flow.loadCredential(userID);
 		} catch (IOException e) {
 			LOGGER.error("Error looking up credential", e);
 		}
 		if (credential != null) {
-			logCredential(request.getRemoteUser(), credential);
+			logCredential(userID, credential);
 			if (credential.getExpiresInSeconds() != null && credential.getExpiresInSeconds() < 100) {
 				try {
 					boolean refreshed = credential.refreshToken();
 					LOGGER.info("Credential refreshed: " + refreshed);
 				} catch (IOException e) {
 					LOGGER.error("Error refreshing credential", e);
-					oAuth2Dao.delete(request.getRemoteUser(), GoogleCredentialStore.GOOGLE_APP_ID);
+					oAuth2Dao.delete(userID, GoogleCredentialStore.GOOGLE_APP_ID);
 					throw new UnauthorizedClientException("Could not refresh Google authorization");
 				}
 			}
@@ -156,7 +171,15 @@ public class GoogleAppsProxy {
 			fullGetPath = googlePath;
 		}
 
-		return doMethod(HttpMethod.GET, RestUtils.convertToEntity(request, accessToken), fullGetPath);
+		try {
+			return doMethod(HttpMethod.GET, RestUtils.convertToEntity(request, accessToken), fullGetPath);
+		} catch ( HttpClientErrorException e) {
+			if ( e.getStatusCode().value() == HttpResponseCodes.SC_UNAUTHORIZED ) {
+				oAuth2Dao.delete(userID, GoogleCredentialStore.GOOGLE_APP_ID);
+				throw e;
+			}
+		}
+		return null;
 	}
 
 	/**
@@ -182,23 +205,24 @@ public class GoogleAppsProxy {
 	@Path("requestAuthorization")
 	public Response requestAuthorization(@Context HttpServletRequest request, @QueryParam("afterAuthUrl") String afterAuthUrl) {
 		String userId = request.getRemoteUser();
-		if (userId != null) {
-			try {
-				GoogleAuthorizationCodeRequestUrl googleAuthUrl = flow.newAuthorizationUrl();
-				googleAuthUrl.setRedirectUri("http://localhost:8080/api/google/gappsOAuthResponse"); // TODO parameterize localhost and encode URL
-				if (afterAuthUrl != null) {
-					String state = Base64.encode(afterAuthUrl, "UTF-8");
-					googleAuthUrl.setState(state);
-				}
-				googleAuthUrl.build();
-				LOGGER.info("Redirecting to Google Authorization URL = " + googleAuthUrl.toString());
-				return Response.seeOther(URI.create(googleAuthUrl.toString())).build();
-			} catch (IOException e) {
-				LOGGER.error(e);
-				throw new InternalServerErrorException(e.getMessage());
-			}
+		if (userId == null) {
+			throw new UnauthorizedClientException("Google proxy is not supported for anonymous users");
 		}
-		throw new UnauthorizedClientException("User must be logged in to request Google authorization");
+
+		try {
+			GoogleAuthorizationCodeRequestUrl googleAuthUrl = flow.newAuthorizationUrl();
+			googleAuthUrl.setRedirectUri(authCallbackUrl);
+			if (afterAuthUrl != null) {
+				String state = Base64.encode(afterAuthUrl, "UTF-8");
+				googleAuthUrl.setState(state);
+			}
+			googleAuthUrl.build();
+			LOGGER.info("Redirecting to Google Authorization URL = " + googleAuthUrl.toString());
+			return Response.seeOther(URI.create(googleAuthUrl.toString())).build();
+		} catch (IOException e) {
+			LOGGER.error(e);
+			throw new InternalServerErrorException(e.getMessage());
+		}
 	}
 
 	/**
@@ -211,13 +235,16 @@ public class GoogleAppsProxy {
 	@Path("gappsOAuthResponse")
 	public Response handleGoogleAuthorizationCallback(@Context HttpServletRequest request, @QueryParam("state") String state) {
 		String userId = request.getRemoteUser();
+		if (userId == null) {
+			throw new UnauthorizedClientException("Google proxy is not supported for anonymous users");
+		}
 		LOGGER.info("Got a Google auth callback for user " + userId + "; query string = " + request.getQueryString());
 		String code = request.getParameter("code");
 
-		if (userId != null && code != null) {
+		if (code != null) {
 
 			GoogleAuthorizationCodeTokenRequest tokenRequest = flow.newTokenRequest(code);
-			tokenRequest.setRedirectUri("http://localhost:8080/api/google/gappsOAuthResponse"); // TODO parameterize localhost
+			tokenRequest.setRedirectUri(authCallbackUrl);
 
 			try {
 				GoogleTokenResponse tokenResponse = tokenRequest.execute();
