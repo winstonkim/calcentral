@@ -33,6 +33,8 @@ CREATE TABLE calcentral_oauth2 (
     uid VARCHAR(255) NOT NULL,
     appId VARCHAR(255) NOT NULL,
     token TEXT,
+    refreshToken TEXT,
+    expirationTime BIGINT,
     PRIMARY KEY (id)
 );
 

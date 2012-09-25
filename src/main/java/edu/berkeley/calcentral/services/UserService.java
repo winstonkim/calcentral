@@ -4,8 +4,6 @@
  */
 package edu.berkeley.calcentral.services;
 
-import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import edu.berkeley.calcentral.Params;
 import edu.berkeley.calcentral.Urls;
@@ -42,7 +40,7 @@ public class UserService implements UserDetailsService {
 
 	public static final String[] OAUTH_APPS = {
 			CanvasProxy.CANVAS_APP_ID,
-			GoogleAppsProxy.GOOGLE_APP_ID
+			GoogleCredentialStore.GOOGLE_APP_ID
 	};
 
 	private ObjectMapper jMapper = new ObjectMapper();

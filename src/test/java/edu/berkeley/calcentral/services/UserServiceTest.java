@@ -124,7 +124,7 @@ public class UserServiceTest extends DatabaseAwareTest {
 		Map<String, Object> oAuthData = (Map<String, Object>) userMap.get("oauth");
 		assertFalse((Boolean) oAuthData.get(CanvasProxy.CANVAS_APP_ID));
 
-		oAuth2Dao.insert(uid, CanvasProxy.CANVAS_APP_ID, "frippery");
+		oAuth2Dao.insert(uid, CanvasProxy.CANVAS_APP_ID, "frippery", null, 0);
 		userMap = userService.getUser(uid);
 		oAuthData = (Map<String, Object>) userMap.get("oauth");
 		assertTrue((Boolean) oAuthData.get(CanvasProxy.CANVAS_APP_ID));

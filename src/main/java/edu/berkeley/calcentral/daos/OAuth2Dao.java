@@ -23,6 +23,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public class OAuth2Dao extends BaseDao {
+
 	public String getToken(String uid, String appId) {
 		String sql = "SELECT token " +
 				"FROM calcentral_oauth2 " +
@@ -41,18 +42,27 @@ public class OAuth2Dao extends BaseDao {
 		return (getToken(uid, appId) != null);
 	}
 
-	public void update(String uid, String appId, String token) {
-		String sql = "UPDATE calcentral_oauth2 SET (token) = (:token) " +
+	public void update(String uid, String appId, String token, String refreshToken, long expirationTime) {
+		String sql = "UPDATE calcentral_oauth2 SET (token) = (:token), " +
+				"(refreshToken) = (:refreshToken), " +
+				"(expirationTime) = (:expirationTime) " +
 				"WHERE uid = :uid AND appId = :appId";
 		MapSqlParameterSource params = new MapSqlParameterSource("uid", uid).
-				addValue("appId", appId).addValue("token", token);
+				addValue("appId", appId).
+				addValue("token", token).
+				addValue("refreshToken", refreshToken).
+				addValue("expirationTime", expirationTime);
 		queryRunner.update(sql, params);
 	}
 
-	public void insert(String uid, String appId, String token) {
-		String sql = "INSERT INTO calcentral_oauth2 (uid, appId, token) VALUES (:uid, :appId, :token)";
+	public void insert(String uid, String appId, String token, String refreshToken, long expirationTime) {
+		String sql = "INSERT INTO calcentral_oauth2 (uid, appId, token, refreshToken, expirationTime) " +
+				"VALUES (:uid, :appId, :token, :refreshToken, :expirationTime)";
 		MapSqlParameterSource params = new MapSqlParameterSource("uid", uid).
-				addValue("appId", appId).addValue("token", token);
+				addValue("appId", appId).
+				addValue("token", token).
+				addValue("refreshToken", refreshToken).
+				addValue("expirationTime", expirationTime);
 		queryRunner.update(sql, params);
 	}
 
