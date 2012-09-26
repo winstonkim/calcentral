@@ -5,3 +5,9 @@
 .cc-widget-myclasses-list .cc-widget-list li.canvas a {
     background: url(/widgets/myclasses/images/canvascourses_icon.png) no-repeat scroll 10px 7px transparent;
 }
+
+.cc-widget-myclasses-list .cc-widget-list .cc-widget-list-subtitle {
+   margin-left: 35px;
+   font-size: smaller;
+   color: #9F9F9F;
+}
