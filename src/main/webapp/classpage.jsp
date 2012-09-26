@@ -8,7 +8,7 @@
 	<div class="cc-container-main" role="main">
 		<!-- Page specific HTML -->
 		<tags:lhclasspagenavigation/>
-		<div class="cc-container-main-right">
+		<div class="cc-container-main-right cc-container-main-active" id="cc-container-main-overview">
 
 		<script id="cc-page-classpage-template" type="text/x-handlebars-template">
 			<div class="cc-container-widget cc-page-classpage-header">
@@ -279,6 +279,12 @@
 			</div>
 		</script>
 		</div>
+
+		<div class="cc-container-main-right" id="cc-container-main-webcasts">
+			<div class="webcast"></div>
+			<div class="playlist"></div>
+		</div>
+
 		<!-- END Page specific HTML -->
 		<br class="clearfix" />
 	</div>

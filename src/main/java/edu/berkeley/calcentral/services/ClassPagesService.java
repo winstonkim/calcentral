@@ -57,6 +57,8 @@ public class ClassPagesService {
 			returnObject.put("instructors", classPage.getInstructors());
 			returnObject.put("schedule", classPage.getSchedule());
 			returnObject.put("sections", classPage.getSections());
+			// TODO make playlisturl dynamic
+			returnObject.put("playlistUrl", "http://gdata.youtube.com/feeds/api/playlists/ECF728FFDC99C630B1?v=2&alt=json&max-results=50");
 		} catch (Exception e) {
 			//TODO: Change this to use whatever final exception handling scheme, instead of swallowing the exception.
 			LOGGER.error(e.getClass().getName() + ": " + e.getMessage());

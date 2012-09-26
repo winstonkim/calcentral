@@ -577,6 +577,7 @@ var calcentral = calcentral || {};
 /**
  * Left hand navigation
  */
+// TODO chris we can probably delete this whole function since subpages handle their own leftnav
 (function() {
 
 	var renderLeftHandNavigation = function(data) {
@@ -606,7 +607,7 @@ var calcentral = calcentral || {};
 
 	// Navigation hidden on all pages unless specifically referenced here - do we need this?
 	if ($('.cc-page-classpage').length){
-		loadLeftHandNavigation();
+		// loadLeftHandNavigation();
 	}
 })();
 
@@ -763,7 +764,7 @@ var calcentral = calcentral || {};
 (function() {
 	var $classPage = $('.cc-page-classpage');
 
-	var $classPageContainer = $('.cc-container-main-right', $classPage);
+	var $classPageContainer = $('#cc-container-main-overview', $classPage);
 
 	var renderClassPage = function(data, buildingData) {
 		data = data[0];
@@ -825,6 +826,10 @@ var calcentral = calcentral || {};
 		}
 		// On _page load_, check whether we need to link/delink the expand/collapse text.
 		expandTextToggle();
+
+		renderWebcastTab(data);
+
+		renderLeftHandClassPageNavigation();
 	};
 
 	var singleToggle = function() {
@@ -906,6 +911,67 @@ var calcentral = calcentral || {};
 			'partials': null,
 			'template': $('#cc-page-classpage-nodata-template', $classPage)
 		});
+	};
+
+	var renderWebcastTab = function(data) {
+		console.log(data);
+		var videoURL = 'http://www.youtube.com/watch?v=';
+		$.getJSON(data.playlistUrl, function (data) {
+			var feedTitle = data.feed.title.$t;
+			var feedSubTitle = data.feed.subtitle.$t;
+			var feedThumb = data.feed.media$group.media$thumbnail[1].url;
+			var feedCount = data.feed.openSearch$totalResults.$t;
+
+			var feed_html = '<h2>' + feedTitle + '</h2>' + '<p>' + feedSubTitle + '</p><img alt="' + feedTitle  + '" src="' + feedThumb + '"><p>Videos: ' + feedCount + '</p>';
+			var count = -1;
+			var entry_html = "";
+			$.each(data.feed.entry, function (i, item) {
+				count = count + 1;
+				var entryTitle = item.title.$t;
+				var entrySubTitle = item.media$group.media$description.$t;
+				var feedURL = item.link[1].href;
+				var videoID = item.media$group.yt$videoid.$t;
+				var url = videoURL + videoID;
+				var thumb = "http://img.youtube.com/vi/" + videoID + "/mqdefault.jpg";
+				var viewCount = item.yt$statistics.viewCount;
+
+				entry_html += '<li><a href="' + url + '" rel="' + videoID + '" title="' + entryTitle + '"><div class="crop"><img height ="90" alt="' + entryTitle + '" src="' + thumb + '"></div><strong>' + entryTitle + '</strong></a><br /><small>' + entrySubTitle + '</small><p>' + viewCount + ' views</p></li>';
+
+			});
+
+			$(feed_html).appendTo(".webcast");
+			$(entry_html).appendTo(".playlist");
+		});
+
+	};
+
+	var renderLeftHandClassPageNavigation = function() {
+		var deactivateAllTabs = function() {
+			$('.cc-container-main-active').hide();
+			$('.cc-lefthandnavigation a.cc-lefthandnavigation-item-selected').removeClass('cc-lefthandnavigation-item-selected');
+		};
+
+		calcentral.Api.Util.renderTemplate({
+			'container': $('.cc-container-main-left'),
+			'data': {},
+			'template': $('#cc-container-main-left-template')
+		});
+
+		var $buttonOverview = $('#cc-lefthandnavigation-overview');
+		var $buttonWebcasts = $('#cc-lefthandnavigation-webcasts');
+
+		$buttonOverview.on('click', function() {
+			deactivateAllTabs();
+			$(this).addClass('cc-lefthandnavigation-item-selected');
+			$('#cc-container-main-overview').show();
+		});
+
+		$buttonWebcasts.on('click', function() {
+			deactivateAllTabs();
+			$(this).addClass('cc-lefthandnavigation-item-selected');
+			$('#cc-container-main-webcasts').show();
+		});
+
 	};
 
 	if($classPage.length) {
