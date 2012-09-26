@@ -6,8 +6,12 @@
     background: url(/widgets/myclasses/images/canvascourses_icon.png) no-repeat scroll 10px 7px transparent;
 }
 
+.cc-widget-myclasses-list .cc-widget-list .cc-myclasses-link-with-title {
+    padding-bottom: 0;
+}
+
 .cc-widget-myclasses-list .cc-widget-list .cc-widget-list-subtitle {
    margin-left: 35px;
    font-size: 10px;
-   color: #9F9F9F;
+   padding-bottom: 6px;
 }
