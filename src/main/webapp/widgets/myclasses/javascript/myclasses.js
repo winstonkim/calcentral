@@ -137,7 +137,7 @@ calcentral.Widgets.myclasses = function(tuid) {
 						return {
 							'name': value.title,
 							'site_type': 'bspace',
-							'title': value.title,
+							'title': value.shortDescription,
 							'url': value.url
 						};
 					}));

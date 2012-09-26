@@ -10,7 +10,10 @@
 		{{#if classes}}
 			<ul class="cc-widget-list">
 			{{#each classes}}
-				<li class="{{site_type}}"><a href="{{url}}" title="{{title}}">{{name}}</a></li>
+				<li class="{{site_type}}">
+					<a href="{{url}}" class="cc-ellipsis{{#if title}} cc-myclasses-link-with-title{{/if}}">{{name}}</a>
+					{{#if title}}<div class="cc-widget-list-subtitle cc-ellipsis">{{title}}</div>{{/if}}
+				</li>
 			{{/each}}
 			</ul>
 		{{else}}
