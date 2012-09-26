@@ -3,79 +3,79 @@
 		{
 			"id": 1,
 			"userId": 177914,
-			"title": "Wurster Hall evacuation",
-			"summary": "All classes in Wurster Hall are canceled today until further investigation can be performed.",
-			"source": "UCPD",
+			"title": "Your academic status has changed",
+			"summary": "Warning, your academic status has changed to Academic Probation, Action Required",
+			"source": "Bear Facts",
 			"type": "alert",
 			"notificationDate": 1348185728,
-			"url": "http://example.com",
-			"sourceUrl": "http://foo.com"
+			"url": "https://bearfacts.berkeley.edu/bearfacts/html/resource/main.html",
+			"sourceUrl": "https://bearfacts.berkeley.edu"
 		},
 		{
 			"id": 2,
 			"userId": 177914,
-			"title": "Overdue library books",
-			"summary": "Please bring these back when you can",
-			"source": "Moffit Library",
+			"title": "Evacuate Dwinelle Hall",
+			"summary": "Evacuate Dwinelle Hall immediately, gas leak",
+			"source": "WARN ME",
 			"type": "alert",
 			"notificationDate": 1349049728,
-			"url": "http://example.com",
-			"sourceUrl": "http://foo.com"
+			"url": "https://warnme.berkeley.edu/",
+			"sourceUrl": "https://warnme.berkeley.edu/"
 		},
 		{
 			"id": 3,
 			"userId": 177914,
-			"title": "Direct questions to lecturer",
-			"summary": "Lorem ipsum dolor sit amet, consectetur adipisicing",
-			"source": "BIO ENG 24",
+			"title": "CHEM 1A final grades",
+			"summary": "Final grade for CHEM 1A has been posted",
+			"source": "Bear Facts",
 			"type": "flag",
 			"notificationDate": 1348185901,
-			"url": "http://example.com",
-			"sourceUrl": "http://foo.com"
+			"url": "https://bearfacts.berkeley.edu",
+			"sourceUrl": "https://bearfacts.berkeley.edu"
 		},
 		{
 			"id": 4,
 			"userId": 177914,
-			"title": "Notes are published on Thursday",
-			"summary": "Lorem ipsum dolor sit amet, consectetur adipisicing",
-			"source": "CHEM 1A",
+			"title": "CARS bill",
+			"summary": "Your CARS bill has been posted, due 11/15/2012",
+			"source": "Billing Office",
 			"type": "info",
 			"notificationDate": 1348185728,
-			"url": "http://example.com",
-			"sourceUrl": false
+			"url": "http://studentbilling.berkeley.edu/",
+			"sourceUrl": "http://studentbilling.berkeley.edu/"
 		},
 		{
 			"id": 5,
 			"userId": 177914,
-			"title": "Meet in Unit 4 at 9am",
-			"summary": false,
-			"source": "Study buddies",
+			"title": "BIO 1A enrollment",
+			"summary": "Wait List for BIO 1A processed, your status = ENROLLED",
+			"source": "TeleBears",
 			"type": "note",
 			"notificationDate": 1348268251,
-			"url": "http://example.com",
-			"sourceUrl": false
+			"url": "https://telebears.berkeley.edu",
+			"sourceUrl": "https://telebears.berkeley.edu"
 		},
 		{
 			"id": 6,
 			"userId": 177914,
-			"title": "Service learning: Insulin device detection",
-			"summary": "Lorem ipsum dolor sit amet, consectetur adipisicing",
-			"source": "Business Incub.",
+			"title": "TeleBears appointment",
+			"summary": "TeleBears II appointment 10/19/2012 at 7:00am",
+			"source": "TeleBears",
 			"type": "info",
 			"notificationDate": 1348268251,
-			"url": "http://example.com",
-			"sourceUrl": false
+			"url": "https://telebears.berkeley.edu",
+			"sourceUrl": "https://telebears.berkeley.edu"
 		},
 		{
 			"id": 7,
 			"userId": 177914,
-			"title": "Management of listings to come with blah blah",
-			"summary": false,
-			"source": "BIO 1A",
+			"title": "Registration block in place",
+			"summary": "A registration block has been placed on your student record, pending payment of your CARS bill.",
+			"source": "Bear Facts",
 			"type": false,
 			"notificationDate": 1350000301,
-			"url": "http://example.com",
-			"sourceUrl": "http://foo.com"
+			"url": "https://bearfacts.berkeley.edu",
+			"sourceUrl": "https://bearfacts.berkeley.edu"
 		},
 		{
 			"id": 8,
