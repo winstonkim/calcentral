@@ -15,11 +15,11 @@ calcentral.Widgets.oAuthToggle = function(tuid) {
 
 	var actionBindings = function () {
 		$('a.acquireGoogleToken', $oAuthToggleList).on('click', function() {
-			window.location = "/api/google/requestAuthorization";
+			window.location = "/api/google/requestAuthorization?afterAuthUrl=/secure/preferences";
 		});
 
 		$('a.acquireCanvasToken', $oAuthToggleList).on('click', function() {
-			window.location = "/api/canvas/oAuthToken";
+			window.location = "/api/canvas/oAuthToken?redirectUri=/secure/preferences";
 		});
 
 		$('a.disableGoogleToken', $oAuthToggleList).on('click', function() {
@@ -30,7 +30,7 @@ calcentral.Widgets.oAuthToggle = function(tuid) {
 					'method': 'delete'
 				},
 				'success': function() {
-					window.location = "/secure/dashboard";
+					window.location = "/secure/preferences";
 				}
 			});
 		});
@@ -43,7 +43,7 @@ calcentral.Widgets.oAuthToggle = function(tuid) {
 					'method': 'delete'
 				},
 				'success': function() {
-					window.location = "/secure/dashboard";
+					window.location = "/secure/preferences";
 				}
 			});
 		});
