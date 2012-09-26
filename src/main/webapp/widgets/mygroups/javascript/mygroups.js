@@ -51,11 +51,14 @@ calcentral.Widgets.mygroups = function(tuid) {
 		if (!filter) {
 			filter = 'All sites';
 		}
-		var sites = $.map(data, function(value) {
-			if (filter === value.category) {
-				return value.sites;
-			}
-		});
+		var sites = [];
+		if ($.isArray(data)) {
+			sites = $.map(data, function(value) {
+				if (filter === value.category) {
+					return value.sites;
+				}
+			});
+		}
 		$sitesDeferred.resolve({
 			'sites': sites
 		});
@@ -76,7 +79,10 @@ calcentral.Widgets.mygroups = function(tuid) {
 				//only care about the categories.
 				return $ajaxWrapper.resolve(data.body.categories);
 			},
-			'error': $ajaxWrapper.reject
+			'error': function() {
+				//log the error later, somehow. but don't break the deferred chain.
+				return $ajaxWrapper.resolve();
+			}
 		});
 		return $ajaxWrapper.promise();
 	};
@@ -108,7 +114,10 @@ calcentral.Widgets.mygroups = function(tuid) {
 					'groups': result
 				});
 			},
-			'error': $ajaxWrapper.reject
+			'error': function() {
+				//log the error later, somehow. but don't break the deferred chain.
+				return $ajaxWrapper.resolve();
+			}
 		});
 
 		return $ajaxWrapper.promise();

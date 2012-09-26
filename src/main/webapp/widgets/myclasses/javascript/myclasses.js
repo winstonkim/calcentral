@@ -2,9 +2,13 @@ var calcentral = calcentral || {};
 calcentral.Widgets = calcentral.Widgets || {};
 calcentral.Widgets.myclasses = function(tuid) {
 
+	/*global $, _*/
+
 	/////////////////////////////
 	// Configuration variables //
 	/////////////////////////////
+
+	'use strict';
 
 	var $rootel = $('#' + tuid);
 	var $myclassesList = $('.cc-widget-myclasses-list', $rootel);
@@ -46,11 +50,14 @@ calcentral.Widgets.myclasses = function(tuid) {
 		if (!filter) {
 			filter = 'All sites';
 		}
-		var sites = $.map(data, function(value) {
-			if (filter === value.category) {
-				return value.sites;
-			}
-		});
+		var sites = [];
+		if ($.isArray(data)) {
+			sites = $.map(data, function(value) {
+				if (filter === value.category) {
+					return value.sites;
+				}
+			});
+		}
 		$sitesDeferred.resolve({
 			'sites': sites
 		});
@@ -71,7 +78,10 @@ calcentral.Widgets.myclasses = function(tuid) {
 				//only care about the categories.
 				return $ajaxWrapper.resolve(data.body.categories);
 			},
-			'error': $ajaxWrapper.reject
+			'error': function() {
+				//log the error later, somehow. but don't break the deferred chain.
+				return $ajaxWrapper.resolve();
+			}
 		});
 		return $ajaxWrapper.promise();
 	};
@@ -104,7 +114,10 @@ calcentral.Widgets.myclasses = function(tuid) {
 					'courses': result
 				});
 			},
-			'error': $ajaxWrapper.reject
+			'error': function() {
+				//log the error later, somehow. but don't break the deferred chain.
+				return $ajaxWrapper.resolve();
+			}
 		});
 
 		return $ajaxWrapper.promise();
@@ -119,6 +132,44 @@ calcentral.Widgets.myclasses = function(tuid) {
 	};
 
 
+	//////////////////
+	// Merging data //
+	//////////////////
+
+	/**
+	 * Merge courses data between canvas and bspace.
+	 * @param  {Object} data bspace data in json format. Should only contain course sites.
+	 * @param  {Object} dataCanvas JSON object containing canvas courses and host.
+	 * @return {Array} merged JSONArray of course objects for rendering.
+	 */
+	var mergeCourses = function(data, dataCanvas) {
+		// Harmonize the bSpace and canvas data for display.
+		var displayData = [];
+		if (data && data.sites) {
+			displayData = displayData.concat($.map(data.sites, function(value) {
+				return {
+					'name': value.title,
+					'site_type': 'bspace',
+					'title': value.shortDescription,
+					'url': value.url
+				};
+			}));
+		}
+		if (dataCanvas && dataCanvas.courses && dataCanvas.host) {
+			displayData = displayData.concat($.map(dataCanvas.courses, function(value) {
+				return {
+					'name': value.name,
+					'site_type': 'canvas',
+					'title': value.title,
+					'url': dataCanvas.host + '/courses/' + value.id
+				};
+			}));
+		}
+		displayData = _.sortBy(displayData, function(value) { return value.title; });
+		return displayData;
+	};
+
+
 	////////////////////
 	// Initialisation //
 	////////////////////
@@ -126,44 +177,16 @@ calcentral.Widgets.myclasses = function(tuid) {
 	/**
 	 * Initialise the classes widget, after functions from other widgets are resolved.
 	 */
-	var delayedInit = function(functionMap){
-		$.when(functionMap.loadFavouritesList(), functionMap.loadCourses()).pipe(function(dataBSpace, dataCanvas) {
-			return functionMap.filterOnCategory(dataBSpace, categoryFilter).pipe(function(data) {
-				var $combineDataDef = $.Deferred();
-				// Harmonize the bSpace and canvas data for display.
-				var displayData = [];
-				if (data && data.sites) {
-					displayData = displayData.concat($.map(data.sites, function(value) {
-						return {
-							'name': value.title,
-							'site_type': 'bspace',
-							'title': value.shortDescription,
-							'url': value.url
-						};
-					}));
-				}
-				if (dataCanvas && dataCanvas.courses && dataCanvas.host) {
-					displayData = displayData.concat($.map(dataCanvas.courses, function(value) {
-						return {
-							'name': value.name,
-							'site_type': 'canvas',
-							'title': value.title,
-							'url': dataCanvas.host + '/courses/' + value.id
-						};
-					}));
-				}
-				displayData = _.sortBy(displayData, function(value) { return value.title; });
-				$combineDataDef.resolve({'classes': displayData});
-				return $combineDataDef.promise();
+	var init = function() {
+		$.when(loadFavouritesList(), loadCourses()).pipe(function(dataBSpace, dataCanvas) {
+			return filterOnCategory(dataBSpace, categoryFilter).pipe(function(data) {
+				return {
+					'classes': mergeCourses(data, dataCanvas)
+				};
 			});
 		}).done(renderClassesList);
 	};
 
-	var functionMap = {
-		'filterOnCategory': filterOnCategory,
-		'loadFavouritesList': loadFavouritesList,
-		'loadCourses': loadCourses
-	};
-	// Start the request, with resolved functions.
-	delayedInit(functionMap);
+	// Start the request.
+	init();
 };
