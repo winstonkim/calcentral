@@ -959,6 +959,10 @@ span#classpages_showhideall {
 	margin-top: 10px;
 }
 
+.cc-widget-profile-list-item-description {
+	font-size: 10px;
+}
+
 /* Footer */
 body > footer {
 	clear: both;
