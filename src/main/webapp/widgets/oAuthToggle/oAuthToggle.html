@@ -1,6 +1,6 @@
 <div class="cc-container-widget" id="cc-widget-oAuthToggle">
 	<div class="cc-widget-title">
-		<h2>Toggles, MY TOGGLES...</h2>
+		<h2>My Integration Services</h2>
 	</div>
 	<!-- MAIN VIEW -->
 	<div class="cc-widget-oAuthToggle-list">
@@ -9,7 +9,7 @@
 	<script id="cc-widget-oAuthToggle-list-template" type="text/x-handlebars-template">
 	<ul>
 	{{#if google}}
-		<li>Google enabled (refresh once an hour)! <a class="disableGoogleToken">[remove]</a> <a class="acquireGoogleToken">[refresh]</a></li>
+		<li>Google enabled! <a class="disableGoogleToken">[remove]</a> <a class="acquireGoogleToken">[refresh]</a></li>
 	{{else}}
 		<li><a class="acquireGoogleToken" href="#">Acquire google token</a></li>
 	{{/if}}

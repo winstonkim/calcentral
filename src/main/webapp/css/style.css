@@ -945,6 +945,24 @@ span#classpages_showhideall {
 	color: #666666 !important;
 }
 
+/* Profile */
+.cc-widget-profile-list {
+	padding: 10px 0;
+}
+
+.cc-widget-profile-list ul {
+	list-style-type: none;
+	padding-left: 0;
+}
+
+.cc-widget-profile-list li {
+	margin-top: 10px;
+}
+
+.cc-widget-profile-list-item-description {
+	font-size: 10px;
+}
+
 /* Footer */
 body > footer {
 	clear: both;

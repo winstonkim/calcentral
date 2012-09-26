@@ -1,21 +1,25 @@
 <div class="cc-container-widget" id="cc-widget-profile">
 	<!-- MAIN VIEW -->
+	<div class="cc-widget-title">
+		<h2>My profile</h2>
+	</div>
 	<div class="cc-widget-profile-list">
 		<div class="cc-widget-text">Loading...</div>
 	</div>
 	<script id="cc-widget-profile-list-template" type="text/x-handlebars-template">
-		<div>
-			<label for="cc-widget-profile-preferredName"><strong>Preferred Name: </strong></label>
-			<input type="text" id="cc-widget-profile-preferredName" size="20" value="{{preferredName}}"/>
-		</div>
-		<div>
-			<label for="cc-widget-profile-link"><strong>Link: </strong></label>
-			<input type="text" id="cc-widget-profile-link" size="20" value="{{link}}"/>
+		<div class="cc-widget-main">
+			<ul class="cc-widget-section-list">
+				<li>
+					<label for="cc-widget-profile-preferredName"><strong>Preferred Name: </strong></label>
+					<input type="text" id="cc-widget-profile-preferredName" size="20" value="{{preferredName}}"/>
+				</li>
+				<li>
+					<label for="cc-widget-profile-link"><strong>Link: </strong></label>
+					<input type="text" id="cc-widget-profile-link" size="20" value="{{link}}"/>
+					<div class="cc-widget-profile-list-item-description">Any public URL associated with your profile, e.g. bio page, blog, profile.</div>
+				</li>
+			</ul>
 		</div>
 
 	</script>
-	<div class="cc-widget-footer" style="display:none;">
-		<button>Select sites</a>
-			<button>View all my sites</a>
-	</div>
 </div>

@@ -30,4 +30,9 @@ public class JSPController {
 		return new ModelAndView("profile");
 	}
 
+	@PreAuthorize("hasRole('ROLE_USER')")
+	@RequestMapping(value = {Urls.PREFERENCES}, method = RequestMethod.GET)
+	public ModelAndView getPreferences() {
+		return new ModelAndView("preferences");
+	}
 }
