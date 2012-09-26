@@ -1,5 +1,9 @@
+/* Icon */
+#cc-widget-mycalendar .cc-widget-title .cc-icon {
+	margin-top: 3px;
+}
+
 .cc-widget-mycalendar-datelist {
-	height: 193px;
 	list-style-type: none;
 	margin: 0;
 	overflow: auto;
@@ -8,7 +12,7 @@
 
 /* List items */
 .cc-widget-mycalendar-datelist li {
-	border-bottom: 1px dotted #999;
+	border-bottom: 1px dotted #CACACA;
 	color: #474747;
 	overflow: hidden;
 }

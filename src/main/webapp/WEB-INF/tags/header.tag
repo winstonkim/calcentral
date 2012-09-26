@@ -6,9 +6,9 @@
 	<script id="cc-launcher-template" type="text/x-handlebars-template">
 		<ul>
 			<li class="cc-right">
-				<a href="http://bmail.berkeley.edu" class="ir cc-launcher-icon cc-launcher-icon-mail" title="bMail">bMail</a>
-				<a href="http://bcal.berkeley.edu" class="ir cc-launcher-icon cc-launcher-icon-calendar" title="bCal">bCal</a>
-				<a href="http://bdrive.berkeley.edu" class="ir cc-launcher-icon cc-launcher-icon-drive" title="bDrive">bDrive</a>
+				<a href="http://bmail.berkeley.edu" class="ir cc-left cc-icon cc-icon-mail" title="bMail">bMail</a>
+				<a href="http://bcal.berkeley.edu" class="ir cc-left cc-icon cc-icon-calendar" title="bCal">bCal</a>
+				<a href="http://bdrive.berkeley.edu" class="ir cc-left cc-icon cc-icon-drive" title="bDrive">bDrive</a>
 				{{#if loggedIn}}
 					<a href="/" class="cc-launcher-info" aria-haspopup="true">{{preferredName}} <span class="cc-launcher-icon-dropdown">&#x25BC;<span></a>
 					<div class="cc-launcher-dropdown">
