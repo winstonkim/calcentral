@@ -571,6 +571,9 @@ body > header > h1 {
 .cc-widget-section-list {
 	border-bottom: 1px dotted #cacaca;
 }
+.cc-widget-section-list:last-child {
+	border-bottom: none;
+}
 
 /*Temporary pending design input*/
 .cc-widget-main h3 {
