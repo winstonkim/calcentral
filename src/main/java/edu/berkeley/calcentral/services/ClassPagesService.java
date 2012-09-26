@@ -4,6 +4,7 @@ import com.google.common.base.Strings;
 import com.google.common.collect.Maps;
 import edu.berkeley.calcentral.Urls;
 import edu.berkeley.calcentral.daos.ClassPagesDao;
+import edu.berkeley.calcentral.daos.WebcastDao;
 import edu.berkeley.calcentral.domain.*;
 import edu.berkeley.calcentral.system.Telemetry;
 import org.apache.commons.logging.Log;
@@ -11,6 +12,7 @@ import org.apache.commons.logging.LogFactory;
 import org.jboss.resteasy.annotations.cache.Cache;
 import org.jboss.resteasy.spi.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import javax.ws.rs.GET;
@@ -24,7 +26,7 @@ import java.util.Map;
 @Service
 @Path(Urls.CLASS_PAGES)
 public class ClassPagesService {
-	
+
 	private static final Log LOGGER = LogFactory.getLog(ClassPagesService.class);
 
 	@Autowired
@@ -32,10 +34,13 @@ public class ClassPagesService {
 
 	@Autowired
 	private UserService userService;
-	
+
+	@Autowired
+	private WebcastDao webcastDao;
+
 	/**
 	 * Exposed REST endpoint for fetching classes
-	 * 
+	 *
 	 * @param ccc concatenated tuple of term_yr, term_cd, and course_catalogue_code
 	 * @return course info in an json object, or empty json object on errors
 	 */
@@ -57,8 +62,6 @@ public class ClassPagesService {
 			returnObject.put("instructors", classPage.getInstructors());
 			returnObject.put("schedule", classPage.getSchedule());
 			returnObject.put("sections", classPage.getSections());
-			// TODO make playlisturl dynamic
-			returnObject.put("playlistUrl", "http://gdata.youtube.com/feeds/api/playlists/ECF728FFDC99C630B1?v=2&alt=json&max-results=50");
 		} catch (Exception e) {
 			//TODO: Change this to use whatever final exception handling scheme, instead of swallowing the exception.
 			LOGGER.error(e.getClass().getName() + ": " + e.getMessage());
@@ -66,7 +69,7 @@ public class ClassPagesService {
 		}
 		return returnObject;
 	}
-	
+
 	public ClassPage getClassInfo(String ccc) {
 		//break the crappy smashed up url.
 		String year = ccc.substring(0, 4);
@@ -82,13 +85,21 @@ public class ClassPagesService {
 				|| Strings.nullToEmpty(courseID).isEmpty()) {
 			return null;
 		}
-		
+
 		int yearInt = Integer.parseInt(year);
 		Telemetry telemetry = new Telemetry(this.getClass(), "classPagesDao.getBaseClassPage()");
 		ClassPage classPageResult = classPagesDao.getBaseClassPage(yearInt, term, courseID);
 		telemetry.end();
 
 		classPageResult.getCourseinfo().decodeAll();
+
+		try {
+			String webcastId = webcastDao.getWebcastId(classPageResult.getClassId());
+			classPageResult.getCourseinfo().setWebcastUrl(
+					"http://gdata.youtube.com/feeds/api/playlists/" + webcastId + "?v=2&alt=json&max-results=50");
+		} catch (EmptyResultDataAccessException ignored) {
+			// null webcastUrl
+		}
 
 		telemetry = new Telemetry(this.getClass(), "classPagesDao.getCourseInstructors()");
 		List<ClassPageInstructor> classPageInstructors = classPagesDao.getCourseInstructors(yearInt, term, courseID);
@@ -107,7 +118,7 @@ public class ClassPagesService {
 			schedule.decodeAll();
 		}
 		classPageResult.setSchedule(classPageSchedules);
-		
+
 		String deptName = classPageResult.getCourseinfo().getMisc_deptname();
 		String catalogId = classPageResult.getCourseinfo().getCatalogid();
 		telemetry = new Telemetry(this.getClass(), "classPagesDao.getSectionsWithInstructors()");
@@ -116,9 +127,9 @@ public class ClassPagesService {
 
 		//TODO: can probably use predicates here, to get a list of sections we want to keep.
 		classPageResult.setSections(classPageSections);
-		
+
 		return classPageResult;
 	}
 
-	
+
 }

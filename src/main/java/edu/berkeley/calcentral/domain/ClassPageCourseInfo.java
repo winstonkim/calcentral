@@ -22,7 +22,8 @@ public class ClassPageCourseInfo {
 	private String department;
 	private String coursenum;
 	private String units;
-	
+	private String webcastUrl;
+
 	//hidden values used for parsing
 	private String misc_scheduleprintcd;
 	private String misc_lowerRangeUnit;
@@ -133,6 +134,9 @@ public class ClassPageCourseInfo {
 	public String getUnits() {
 		return units;
 	}
+	public String getWebcastUrl() {
+		return webcastUrl;
+	}
 	public void setTitle(String title) {
 		this.title = title;
 	}
@@ -212,6 +216,9 @@ public class ClassPageCourseInfo {
 	public void setMisc_deptname(String misc_deptname) {
 		this.misc_deptname = misc_deptname;
 	}
+	public void setWebcastUrl(String webcastUrl) {
+		this.webcastUrl = webcastUrl;
+	}
 
 	@Override
 	public String toString() {
@@ -228,6 +235,7 @@ public class ClassPageCourseInfo {
 				", department='" + department + '\'' +
 				", coursenum='" + coursenum + '\'' +
 				", units='" + units + '\'' +
+				", webcastUrl=" + webcastUrl +
 				", misc_scheduleprintcd='" + misc_scheduleprintcd + '\'' +
 				", misc_lowerRangeUnit='" + misc_lowerRangeUnit + '\'' +
 				", misc_upperRangeUnit='" + misc_upperRangeUnit + '\'' +

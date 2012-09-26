@@ -914,9 +914,8 @@ var calcentral = calcentral || {};
 	};
 
 	var renderWebcastTab = function(data) {
-		console.log(data);
 		var videoURL = 'http://www.youtube.com/watch?v=';
-		$.getJSON(data.playlistUrl, function (data) {
+		$.getJSON(data.courseinfo.webcastUrl, function (data) {
 			var feedTitle = data.feed.title.$t;
 			var feedSubTitle = data.feed.subtitle.$t;
 			var feedThumb = data.feed.media$group.media$thumbnail[1].url;
@@ -942,7 +941,6 @@ var calcentral = calcentral || {};
 			$(feed_html).appendTo(".webcast");
 			$(entry_html).appendTo(".playlist");
 		});
-
 	};
 
 	var renderLeftHandClassPageNavigation = function() {
