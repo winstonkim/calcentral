@@ -19,7 +19,6 @@
 			<div class="cc-page-dashboard-column-wide cc-left">
 				<jsp:include page="widgets/notifications/notifications.html" />
 			</div>
-			<jsp:include page="widgets/oAuthToggle/oAuthToggle.html" />
 		</div>
 		<!-- END Page specific HTML -->
 		<br class="clearfix" />

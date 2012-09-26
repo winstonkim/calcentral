@@ -36,6 +36,8 @@ public interface Urls {
 
 	String PROFILE = "/profile";
 
+	String PREFERENCES = "/preferences";
+
 	String CLASS_PAGES = API + "/classPages";
 
 	String CLASS_LIST = API + "/classList";
