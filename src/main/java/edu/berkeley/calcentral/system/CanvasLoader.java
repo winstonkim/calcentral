@@ -95,7 +95,7 @@ public class CanvasLoader {
 //			data.add("batch_mode_term_id", "sis_term_id:2012-D");
 		}
 		data.add("attachment", csvResource);
-		String response = canvasProxy.doAdminMethod(HttpMethod.POST, CANVAS_IMPORT_PATH, data);
+		String response = canvasProxy.doAdminMethod(HttpMethod.POST, CANVAS_IMPORT_PATH, data).getEntity().toString();
 		LOGGER.info("Imported " + csvResource + "; got " + response);
 		return response;
 	}

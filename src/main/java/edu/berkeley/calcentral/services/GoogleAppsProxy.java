@@ -33,13 +33,13 @@ import edu.berkeley.calcentral.system.RestUtils;
 import org.apache.log4j.Logger;
 import org.jboss.resteasy.core.ServerResponse;
 import org.jboss.resteasy.spi.InternalServerErrorException;
+import org.jboss.resteasy.spi.UnauthorizedException;
 import org.jboss.resteasy.spi.WriterException;
 import org.jboss.resteasy.util.HttpResponseCodes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.oauth2.common.exceptions.UnauthorizedClientException;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.client.HttpClientErrorException;
@@ -129,29 +129,10 @@ public class GoogleAppsProxy {
 	                    @Context HttpServletRequest request) {
 		String userID = request.getRemoteUser();
 		if (userID == null) {
-			throw new UnauthorizedClientException("Google proxy is not supported for anonymous users");
+			throw new UnauthorizedException("Google proxy is not supported for anonymous users");
 		}
-		Credential credential = null;
-		String accessToken = null;
-		try {
-			credential = flow.loadCredential(userID);
-		} catch (IOException e) {
-			LOGGER.error("Error looking up credential", e);
-		}
-		if (credential != null) {
-			logCredential(userID, credential);
-			if (credential.getExpiresInSeconds() != null && credential.getExpiresInSeconds() < 100) {
-				try {
-					boolean refreshed = credential.refreshToken();
-					LOGGER.info("Credential refreshed: " + refreshed);
-				} catch (IOException e) {
-					LOGGER.error("Error refreshing credential", e);
-					oAuth2Dao.delete(userID, GoogleCredentialStore.GOOGLE_APP_ID);
-					throw new UnauthorizedClientException("Could not refresh Google authorization");
-				}
-			}
-			accessToken = credential.getAccessToken();
-		}
+
+		Credential credential = getCredential(userID);
 
 		String fullGetPath;
 		if (request.getQueryString() != null) {
@@ -172,14 +153,13 @@ public class GoogleAppsProxy {
 		}
 
 		try {
-			return doMethod(HttpMethod.GET, RestUtils.convertToEntity(request, accessToken), fullGetPath);
-		} catch ( HttpClientErrorException e) {
-			if ( e.getStatusCode().value() == HttpResponseCodes.SC_UNAUTHORIZED ) {
+			return doMethod(HttpMethod.GET, RestUtils.convertToEntity(request, credential.getAccessToken()), fullGetPath);
+		} catch (HttpClientErrorException error4xx) {
+			if (error4xx.getStatusCode().value() == HttpResponseCodes.SC_UNAUTHORIZED) {
 				oAuth2Dao.delete(userID, GoogleCredentialStore.GOOGLE_APP_ID);
-				throw e;
 			}
+			return ServerResponse.ok().status(error4xx.getStatusCode().value()).entity(error4xx.getMessage()).build();
 		}
-		return null;
 	}
 
 	/**
@@ -206,7 +186,7 @@ public class GoogleAppsProxy {
 	public Response requestAuthorization(@Context HttpServletRequest request, @QueryParam("afterAuthUrl") String afterAuthUrl) {
 		String userId = request.getRemoteUser();
 		if (userId == null) {
-			throw new UnauthorizedClientException("Google proxy is not supported for anonymous users");
+			throw new UnauthorizedException("Google proxy is not supported for anonymous users");
 		}
 
 		try {
@@ -236,7 +216,7 @@ public class GoogleAppsProxy {
 	public Response handleGoogleAuthorizationCallback(@Context HttpServletRequest request, @QueryParam("state") String state) {
 		String userId = request.getRemoteUser();
 		if (userId == null) {
-			throw new UnauthorizedClientException("Google proxy is not supported for anonymous users");
+			throw new UnauthorizedException("Google proxy is not supported for anonymous users");
 		}
 		LOGGER.info("Got a Google auth callback for user " + userId + "; query string = " + request.getQueryString());
 		String code = request.getParameter("code");
@@ -276,15 +256,48 @@ public class GoogleAppsProxy {
 		String url = googleBaseUrl + StringUtils.trimLeadingCharacter(googleUrl, '/');
 		LOGGER.info("Doing " + method.toString() + " on url " + url);
 		RestTemplate restTemplate = new RestTemplate();
+		ResponseEntity<String> response = null;
 		try {
-			ResponseEntity<String> response = restTemplate.exchange(url, method, entity, String.class);
+			response = restTemplate.exchange(url, method, entity, String.class);
 			LOGGER.debug("Response: " + response.getStatusCode() + "; body = " + response.getBody());
 			LOGGER.debug("Response headers: " + response.getHeaders().toSingleValueMap());
 			return ServerResponse.ok().status(response.getStatusCode().value()).entity(response.getBody()).build();
-		} catch (HttpServerErrorException e) {
-			LOGGER.error(e.getMessage(), e);
+		} catch (HttpServerErrorException error5xx) {
+			LOGGER.error(error5xx.getMessage(), error5xx);
+			if (response != null) {
+				return ServerResponse.serverError().status(response.getStatusCode().value()).entity(response.getBody()).build();
+			}
 		}
 		return null;
+	}
+
+	private Credential getCredential(String userID) {
+		Credential credential = null;
+
+		try {
+			credential = flow.loadCredential(userID);
+		} catch (IOException e) {
+			LOGGER.error("Error looking up credential for user " + userID, e);
+			oAuth2Dao.delete(userID, GoogleCredentialStore.GOOGLE_APP_ID);
+		}
+
+		if ( credential == null ) {
+			throw new InternalServerErrorException("Could not get Google credential for user " + userID);
+		}
+
+		logCredential(userID, credential);
+		if (credential.getExpiresInSeconds() == null || credential.getExpiresInSeconds() < 100) {
+			try {
+				boolean refreshed = credential.refreshToken();
+				LOGGER.info("Credential refreshed: " + refreshed);
+			} catch (IOException e) {
+				LOGGER.error("Error refreshing credential for user " + userID, e);
+				oAuth2Dao.delete(userID, GoogleCredentialStore.GOOGLE_APP_ID);
+				throw new InternalServerErrorException("Could not refresh Google authorization for user " + userID
+						+ " due to IOException: " + e.getMessage());
+			}
+		}
+		return credential;
 	}
 
 	private void logCredential(String userId, Credential credential) {
