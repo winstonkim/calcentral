@@ -280,7 +280,7 @@
 		</script>
 		</div>
 
-		<div class="cc-container-main-right" id="cc-container-main-webcasts">
+		<div class="cc-container-main-right" id="cc-container-main-webcasts" hidden>
 			<div class="webcast"></div>
 			<div class="playlist"></div>
 		</div>

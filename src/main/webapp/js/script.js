@@ -946,6 +946,7 @@ var calcentral = calcentral || {};
 	var renderLeftHandClassPageNavigation = function() {
 		var deactivateAllTabs = function() {
 			$('.cc-container-main-active').hide();
+			$('.cc-container-main-active').removeClass('cc-container-main-active')
 			$('.cc-lefthandnavigation a.cc-lefthandnavigation-item-selected').removeClass('cc-lefthandnavigation-item-selected');
 		};
 
@@ -962,12 +963,14 @@ var calcentral = calcentral || {};
 			deactivateAllTabs();
 			$(this).addClass('cc-lefthandnavigation-item-selected');
 			$('#cc-container-main-overview').show();
+			$('#cc-container-main-overview').addClass('cc-container-main-active');
 		});
 
 		$buttonWebcasts.on('click', function() {
 			deactivateAllTabs();
 			$(this).addClass('cc-lefthandnavigation-item-selected');
 			$('#cc-container-main-webcasts').show();
+			$('#cc-container-main-webcasts').addClass('cc-container-main-active');
 		});
 
 	};
