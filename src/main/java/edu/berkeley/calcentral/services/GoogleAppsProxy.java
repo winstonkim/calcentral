@@ -33,13 +33,13 @@ import edu.berkeley.calcentral.system.RestUtils;
 import org.apache.log4j.Logger;
 import org.jboss.resteasy.core.ServerResponse;
 import org.jboss.resteasy.spi.InternalServerErrorException;
+import org.jboss.resteasy.spi.UnauthorizedException;
 import org.jboss.resteasy.spi.WriterException;
 import org.jboss.resteasy.util.HttpResponseCodes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.oauth2.common.exceptions.UnauthorizedClientException;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.client.HttpClientErrorException;
@@ -129,7 +129,7 @@ public class GoogleAppsProxy {
 	                    @Context HttpServletRequest request) {
 		String userID = request.getRemoteUser();
 		if (userID == null) {
-			throw new UnauthorizedClientException("Google proxy is not supported for anonymous users");
+			throw new UnauthorizedException("Google proxy is not supported for anonymous users");
 		}
 		Credential credential = null;
 		String accessToken = null;
@@ -147,7 +147,7 @@ public class GoogleAppsProxy {
 				} catch (IOException e) {
 					LOGGER.error("Error refreshing credential", e);
 					oAuth2Dao.delete(userID, GoogleCredentialStore.GOOGLE_APP_ID);
-					throw new UnauthorizedClientException("Could not refresh Google authorization");
+					throw new UnauthorizedException("Could not refresh Google authorization");
 				}
 			}
 			accessToken = credential.getAccessToken();
@@ -206,7 +206,7 @@ public class GoogleAppsProxy {
 	public Response requestAuthorization(@Context HttpServletRequest request, @QueryParam("afterAuthUrl") String afterAuthUrl) {
 		String userId = request.getRemoteUser();
 		if (userId == null) {
-			throw new UnauthorizedClientException("Google proxy is not supported for anonymous users");
+			throw new UnauthorizedException("Google proxy is not supported for anonymous users");
 		}
 
 		try {
@@ -236,7 +236,7 @@ public class GoogleAppsProxy {
 	public Response handleGoogleAuthorizationCallback(@Context HttpServletRequest request, @QueryParam("state") String state) {
 		String userId = request.getRemoteUser();
 		if (userId == null) {
-			throw new UnauthorizedClientException("Google proxy is not supported for anonymous users");
+			throw new UnauthorizedException("Google proxy is not supported for anonymous users");
 		}
 		LOGGER.info("Got a Google auth callback for user " + userId + "; query string = " + request.getQueryString());
 		String code = request.getParameter("code");
