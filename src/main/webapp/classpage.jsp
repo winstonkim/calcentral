@@ -12,9 +12,6 @@
 
 		<script id="cc-page-classpage-template" type="text/x-handlebars-template">
 			<div class="cc-container-widget cc-page-classpage-header">
-				<div class="cc-widget-title">
-					<h2>UC Berkeley Course</h2>
-				</div>
 				<div class="cc-widget-main">
 					{{>header}}
 				</div>

@@ -10,7 +10,9 @@
 		{{#if groups}}
 			<ul class="cc-widget-list">
 			{{#each groups}}
-				<li class="cc-widget-list-icon cc-widget-list-icon-{{site_type}}"><a href="{{url}}" title="{{title}}">{{name}}</a></li>
+				<li class="cc-widget-list-icon cc-widget-list-icon-{{site_type}}">
+					<a class="cc-ellipsis" href="{{url}}" title="{{title}}">{{name}}</a>
+				</li>
 			{{/each}}
 			</ul>
 		{{else}}
