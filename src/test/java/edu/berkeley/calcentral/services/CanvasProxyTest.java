@@ -28,9 +28,9 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestClientException;
 
+import javax.ws.rs.core.Response;
 import java.util.Map;
 
 public class CanvasProxyTest extends DatabaseAwareTest {
@@ -43,8 +43,8 @@ public class CanvasProxyTest extends DatabaseAwareTest {
 	@Test
 	public void getCourses() throws Exception {
 		try {
-			String get = proxy.doAdminMethod(HttpMethod.GET, "courses");
-			JSONArray json = new JSONArray(get);
+			Response get = proxy.doAdminMethod(HttpMethod.GET, "courses");
+			JSONArray json = new JSONArray(get.getEntity().toString());
 			LOGGER.info(json.toString(2));
 		} catch (RestClientException e) {
 			LOGGER.error("Got a RestClientException, is canvas server properly configured or unavailable?", e);
@@ -54,12 +54,12 @@ public class CanvasProxyTest extends DatabaseAwareTest {
 	@Test
 	public void getSpecificCourse() throws Exception {
 		try {
-			String allCourses = proxy.doAdminMethod(HttpMethod.GET, Urls.CANVAS_ACCOUNT_PATH + "/courses");
-			JSONArray json = new JSONArray(allCourses);
+			Response allCourses = proxy.doAdminMethod(HttpMethod.GET, Urls.CANVAS_ACCOUNT_PATH + "/courses");
+			JSONArray json = new JSONArray(allCourses.getEntity().toString());
 			LOGGER.info(json.toString(2));
 			JSONObject first = json.getJSONObject(0);
 			int id = first.getInt("id");
-			String firstResponse = proxy.doAdminMethod(HttpMethod.GET, "courses/" + id);
+			Response firstResponse = proxy.doAdminMethod(HttpMethod.GET, "courses/" + id);
 			LOGGER.info(firstResponse);
 			assertNotNull(firstResponse);
 		} catch (RestClientException e) {
@@ -70,8 +70,8 @@ public class CanvasProxyTest extends DatabaseAwareTest {
 	@Test
 	public void accountSavvy() throws Exception {
 		try {
-			String response = proxy.doAdminMethod(HttpMethod.GET, Urls.CANVAS_ACCOUNT_PATH + "/users");
-			JSONArray json = new JSONArray(response);
+			Response response = proxy.doAdminMethod(HttpMethod.GET, Urls.CANVAS_ACCOUNT_PATH + "/users");
+			JSONArray json = new JSONArray(response.getEntity().toString());
 			assertNotNull(json);
 		} catch (RestClientException e) {
 			LOGGER.error("Got a RestClientException, is canvas server properly configured or unavailable?", e);
@@ -87,23 +87,21 @@ public class CanvasProxyTest extends DatabaseAwareTest {
 					"is_public", "false"
 			);
 			// Create a temporary group.
-			JSONObject json = new JSONObject(proxy.doAdminMethod(HttpMethod.POST, "groups", params));
+			JSONObject json = new JSONObject(proxy.doAdminMethod(HttpMethod.POST, "groups", params).getEntity().toString());
 			final String groupPath = "groups/" + json.getString("id");
 			assertEquals(groupName, json.getString("name"));
 			// Edit it.
 			groupName = "revised " + groupName;
 			params = ImmutableMap.<String, Object>of("name", groupName);
 			proxy.doAdminMethod(HttpMethod.PUT, groupPath, params);
-			json = new JSONObject(proxy.doAdminMethod(HttpMethod.GET, groupPath));
+			json = new JSONObject(proxy.doAdminMethod(HttpMethod.GET, groupPath).getEntity().toString());
 			assertEquals(groupName, json.getString("name"));
 			// Delete it.
 			proxy.doAdminMethod(HttpMethod.DELETE, groupPath);
-			try {
-				String response = proxy.doAdminMethod(HttpMethod.GET, groupPath);
-				fail("Should have received 404 instead of " + response);
-			} catch (HttpStatusCodeException e) {
-				assertEquals(HttpStatus.NOT_FOUND, e.getStatusCode());
-			}
+
+			Response response = proxy.doAdminMethod(HttpMethod.GET, groupPath);
+			assertEquals(HttpStatus.NOT_FOUND.value(), response.getStatus());
+
 		} catch (RestClientException e) {
 			LOGGER.error("Got a RestClientException, is canvas server properly configured or unavailable?", e);
 		}

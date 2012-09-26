@@ -24,19 +24,18 @@ import edu.berkeley.calcentral.Urls;
 import edu.berkeley.calcentral.daos.OAuth2Dao;
 import edu.berkeley.calcentral.system.RestUtils;
 import org.apache.log4j.Logger;
+import org.jboss.resteasy.core.ServerResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.oauth2.client.OAuth2RestTemplate;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.common.exceptions.UserDeniedAuthorizationException;
 import org.springframework.stereotype.Service;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 import org.springframework.util.StringUtils;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
 
@@ -47,7 +46,6 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.net.URI;
-import java.util.Enumeration;
 import java.util.Map;
 
 /**
@@ -98,10 +96,10 @@ public class CanvasProxy {
 				"; account ID = " + accountId);
 	}
 
-	public String doAdminMethod(HttpMethod httpMethod, String canvasPath) {
+	public Response doAdminMethod(HttpMethod httpMethod, String canvasPath) {
 		return doAdminMethod(httpMethod, canvasPath, null);
 	}
-	public String doAdminMethod(HttpMethod httpMethod, String canvasPath, Map<String, ?> data) {
+	public Response doAdminMethod(HttpMethod httpMethod, String canvasPath, Map<String, ?> data) {
 		return doMethod(httpMethod, RestUtils.convertToEntity(data, adminAccessToken), canvasPath);
 	}
 
@@ -114,7 +112,7 @@ public class CanvasProxy {
 	@GET
 	@Path("{canvaspath:.*}")
 	@Produces({MediaType.APPLICATION_JSON})
-	public String get(@PathParam(value = "canvaspath") String canvasPath, @Context HttpServletRequest request) {
+	public Response get(@PathParam(value = "canvaspath") String canvasPath, @Context HttpServletRequest request) {
 		String accessToken = getAccessToken(request);
 		return doMethod(HttpMethod.GET, RestUtils.convertToEntity(request, accessToken), canvasPath);
 	}
@@ -127,7 +125,7 @@ public class CanvasProxy {
 	@PUT
 	@Path("{canvaspath:.*}")
 	@Produces({MediaType.APPLICATION_JSON})
-	public String put(@PathParam(value = "canvaspath") String canvasPath, @Context HttpServletRequest request) {
+	public Response put(@PathParam(value = "canvaspath") String canvasPath, @Context HttpServletRequest request) {
 		String accessToken = getAccessToken(request);
 		return doMethod(HttpMethod.PUT, RestUtils.convertToEntity(request, accessToken), canvasPath);
 	}
@@ -141,7 +139,7 @@ public class CanvasProxy {
 	@POST
 	@Path("{canvaspath:.*}")
 	@Produces({MediaType.APPLICATION_JSON})
-	public String post(@PathParam(value = "canvaspath") String canvasPath, @Context HttpServletRequest request) {
+	public Response post(@PathParam(value = "canvaspath") String canvasPath, @Context HttpServletRequest request) {
 		String accessToken = getAccessToken(request);
 		return doMethod(HttpMethod.POST, RestUtils.convertToEntity(request, accessToken), canvasPath);
 	}
@@ -155,7 +153,7 @@ public class CanvasProxy {
 	@DELETE
 	@Path("{canvaspath:.*}")
 	@Produces({MediaType.APPLICATION_JSON})
-	public String delete(@PathParam(value = "canvaspath") String canvasPath, @Context HttpServletRequest request) {
+	public Response delete(@PathParam(value = "canvaspath") String canvasPath, @Context HttpServletRequest request) {
 		String accessToken = getAccessToken(request);
 		return doMethod(HttpMethod.DELETE, RestUtils.convertToEntity(request, accessToken), canvasPath);
 	}
@@ -172,7 +170,7 @@ public class CanvasProxy {
 		}
 	}
 
-	private String doMethod(HttpMethod method, HttpEntity entity, String canvasPath) {
+	private Response doMethod(HttpMethod method, HttpEntity entity, String canvasPath) {
 		String url = canvasRoot + "/api/v1/" + StringUtils.trimLeadingCharacter(canvasPath, '/');
 		Map<String, String> params = ImmutableMap.of(
 				Params.CANVAS_ACCOUNT_ID, accountId
@@ -183,11 +181,14 @@ public class CanvasProxy {
 			ResponseEntity<String> response = restTemplate.exchange(url, method, entity, String.class, params);
 			LOGGER.debug("Response: " + response.getStatusCode() + "; body = " + response.getBody());
 			LOGGER.debug("Response headers: " + response.getHeaders().toSingleValueMap());
-			return response.getBody();
-		} catch (HttpServerErrorException e) {
-			LOGGER.error(e.getMessage(), e);
+			return ServerResponse.ok().status(response.getStatusCode().value()).entity(response.getBody()).build();
+		} catch (HttpServerErrorException error5xx) {
+			LOGGER.error(error5xx.getMessage(), error5xx);
+			return ServerResponse.serverError().status(error5xx.getStatusCode().value()).entity(error5xx.getMessage()).build();
+		} catch (HttpClientErrorException error4xx) {
+			LOGGER.error(error4xx.getMessage(), error4xx);
+			return ServerResponse.serverError().status(error4xx.getStatusCode().value()).entity(error4xx.getMessage()).build();
 		}
-		return null;
 	}
 
 	private String getAccessToken(@Context HttpServletRequest request) {
