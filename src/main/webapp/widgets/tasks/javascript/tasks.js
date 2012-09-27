@@ -20,6 +20,8 @@ calcentral.Widgets.tasks = function(tuid) {
 	var $tasksListTemplate = $('#cc-widget-tasks-template', $tasksContainer);
 	var $taskLoopTemplate = $('#cc-taskloop-template', $tasksContainer);
 
+	var dummy = false;
+
 	/**
 	 * Given data for task/assignments, adds additional fields to each element,
 	 * and outputs new data structure organized into time sections (past/present/future)
@@ -40,45 +42,52 @@ calcentral.Widgets.tasks = function(tuid) {
 		};
 
 		// Convert timestamps to friendly dates and set overdue flags.
-		$.each(data.tasksAssignments, function(index, value){
+		$.each(data, function(index, value){
 
 			// **** TODO: POC ONLY **** monkey-patch dates so we always have items for today, tomorrow, and future
 			// Ignore the stored timestamps and dynamically generate new ones at a variety of ranges.
 			var theDateEpoch = currentTime.getTime() / 1000;
 
-			if (index < 3) {
-				data.tasksAssignments[index].dueDate = theDateEpoch; // Today
+			if (index < 1) {
+				data[index].overdue = true; // Set at least one item to overdue
+			} else if (index < 3) {
+				data[index].dueDate = theDateEpoch; // Today
 			} else if (index < 5) {
-				data.tasksAssignments[index].dueDate = theDateEpoch + 86400; // Tomorrow
+				data[index].dueDate = theDateEpoch + 86400; // Tomorrow
 			} else if (index < 7) {
-				data.tasksAssignments[index].dueDate = theDateEpoch + 172800; // Upcoming
+				data[index].dueDate = theDateEpoch + 172800; // Upcoming
 			} else {
-				data.tasksAssignments[index].dueDate = theDateEpoch + 1672800; // Far future
+				data[index].dueDate = theDateEpoch + 1672800; // Far future
+			}
+
+			if (index === 1) {
+				data[index].completed = true; // At least one item is completed
 			}
 			// END POC TEMPORARY
 
-
-			var dueDate = new Date(value.dueDate * 1000);
-			var friendlyDate = dueDate.getMonth() + '/' + dueDate.getDate();
-			data.tasksAssignments[index].friendlyDate = friendlyDate;
+			var dueDate = new Date(value.start_at);
+			// Javascript months are 0-based, while days and years are 1-based, so add 1 to month
+			var friendlyDate = dueDate.getMonth() + 1 + '/' + dueDate.getDate();
+			data[index].friendlyDate = friendlyDate;
 
 			// Set overdue property if due date is equal to or less than today and item is uncompleted
-			if (currentTime >= dueDate && value.completed === false) {
-				data.tasksAssignments[index].overdue = true;
+			// if (currentTime >= dueDate && value.completed === false) {
+			if (currentTime >= dueDate && completed === false) {
+				data[index].overdue = true;
 			}
 
 			// Set today/tomorrow/future properties. Using .toDateString() for compares because JS' getDate() reckoning is brain-dead.
 			// 8/20/2012 != 9/20/2012 Solved via http://stackoverflow.com/questions/6921606/javascript-today-function
 			if (currentTime.toDateString() === dueDate.toDateString()) { // Today
-				newData.today.push(data.tasksAssignments[index]);
+				newData.today.push(data[index]);
 
 			} else if (tomorrow.toDateString() === dueDate.toDateString()) { // Tomorrow
-				newData.tomorrow.push(data.tasksAssignments[index]);
+				newData.tomorrow.push(data[index]);
 
 			} else if (dueDate > currentTime) {
-				newData.future.push(data.tasksAssignments[index]);
+				newData.future.push(data[index]);
 				// Easier to set a "future" property here than to detect parent array in Handlebars (partials scoping problem)
-				data.tasksAssignments[index].future = true;
+				data[index].future = true;
 			}
 		});
 
@@ -104,12 +113,35 @@ calcentral.Widgets.tasks = function(tuid) {
 		});
 	};
 
-	var loadTasksAssignments = function() {
-		return $.ajax({
-			'url': '/dummy/tasks-assignments.json'
-		});
+	var getCanvasAssignments = function() {
+		var $ajaxWrapper = $.Deferred();
+		$.ajax({
+			'url': '/api/canvas/users/self/coming_up',
+			'success': function(data) {
+					$ajaxWrapper.resolve(data);
+				},
+				'error': $ajaxWrapper.reject
+			});
+		return $ajaxWrapper.promise();
 	};
 
-	$.when(loadTasksAssignments()).done(renderTasksAssignments);
+	/**
+	 * Fetch users's assignment data from canvas.
+	 * @return {Object} Deferred promise object for a Deferrred chain, with a (data) param.
+	 */
+	var loadAssignments = function() {
+		var $loadAssignmentsDeferred = $.Deferred();
+		if (dummy) {
+			loadDummyCourses().done($loadCoursesDeferred.resolve);
+		} else {
+			$.when(getCanvasAssignments()).done($loadAssignmentsDeferred.resolve).fail(function() {
+				// Todo: Re-enable dummy data option (requires reformatting json to match Canvas API output)
+				// loadDummyCourses().done($loadAssignmentsDeferred.resolve);
+			});
+		}
+		return $loadAssignmentsDeferred.promise();
+	};
+
+	$.when(loadAssignments()).done(renderTasksAssignments);
 
 };
