@@ -71,7 +71,7 @@ public class UserService implements UserDetailsService {
 	 */
 	@GET
 	@Produces({MediaType.APPLICATION_JSON})
-	public Map<String, Object> getUser(@PathParam(Params.USER_ID) String userID) {
+	public Map<String, Object> getUserRelatedData(@PathParam(Params.USER_ID) String userID) {
 		Map<String, Object> userData = Maps.newHashMap();
 		User user;
 		try {
@@ -99,7 +99,7 @@ public class UserService implements UserDetailsService {
 		userToSave.setUid(userID);
 		LOGGER.info("Saving user: " + userToSave);
 		userDao.update(userToSave);
-		return getUser(userID);
+		return getUserRelatedData(userID);
 	}
 
 	@DELETE
@@ -138,9 +138,9 @@ public class UserService implements UserDetailsService {
 	/**
 	 * Safe readonly retrieval of user data as available.
 	 * @param userId
-	 * @return locally stored user data if available; otherwise derived from campus data
+	 * @return locally stored user data if available; otherwise derived from campus data if available
 	 */
-	public User getUserData(String userId) {
+	public User getUser(String userId) {
 		User user;
 		try {
 			user = userDao.get(userId);

@@ -40,7 +40,7 @@ public class CurrentUserService {
 	public Map<String, Object> getCurrentUser(@Context HttpServletRequest request) {
 		if (request.getUserPrincipal() != null) {
 			String uid = request.getUserPrincipal().getName();
-			return userService.getUser(uid);
+			return userService.getUserRelatedData(uid);
 		} else {
 			return new HashMap<String, Object>(0);
 		}

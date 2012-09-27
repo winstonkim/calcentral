@@ -49,7 +49,7 @@ public class UserJSONTag extends RequestContextAwareTag {
 			}
 			try {
 				ObjectMapper mapper = new ObjectMapper();
-				String userJSON = mapper.writeValueAsString(userService.getUser(hrequest.getRemoteUser()));
+				String userJSON = mapper.writeValueAsString(userService.getUserRelatedData(hrequest.getRemoteUser()));
 				pageContext.getOut().write(userJSON);
 			} catch (Exception e) {
 				LOGGER.error("Exception while mapping user data to JSON", e);

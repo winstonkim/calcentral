@@ -52,10 +52,10 @@ public class UserServiceTest extends DatabaseAwareTest {
 	public void getUser() throws Exception {
 		Map<String, Object> userMap;
 		try {
-			userMap = userService.getUser("2040");
+			userMap = userService.getUserRelatedData("2040");
 		} catch (NotFoundException e) {
 			userService.loadUserByUsername("2040");
-			userMap = userService.getUser("2040");
+			userMap = userService.getUserRelatedData("2040");
 		}
 		LOGGER.info(userMap);
 
@@ -69,7 +69,7 @@ public class UserServiceTest extends DatabaseAwareTest {
 	public void getUserNotRepresentedInCampusData() throws Exception {
 		String uid = randomString();
 		userService.loadUserByUsername(uid);
-		Map<String, Object> userMap = userService.getUser(uid);
+		Map<String, Object> userMap = userService.getUserRelatedData(uid);
 		User user = (User) userMap.get("user");
 		assertEquals(uid, user.getPreferredName());
 	}
@@ -78,7 +78,7 @@ public class UserServiceTest extends DatabaseAwareTest {
 	public void saveUserData() throws Exception {
 		String uid = randomString();
 		userService.loadUserByUsername(uid);
-		User originalUser = (User) userService.getUser(uid).get("user");
+		User originalUser = (User) userService.getUserRelatedData(uid).get("user");
 		LOGGER.info(originalUser);
 		assertNotNull(originalUser.getPreferredName());
 
@@ -95,14 +95,14 @@ public class UserServiceTest extends DatabaseAwareTest {
 	public void deleteUserAndWidgetData() throws Exception {
 		String uid = randomString();
 		userService.loadUserByUsername(uid);
-		assertNotNull(userService.getUser(uid));
+		assertNotNull(userService.getUserRelatedData(uid));
 		widgetDataService.save(uid, "abc", "{\"data\":\"foo\"}");
 		assertEquals(1, widgetDataService.getAllForUser(uid).size());
 
 		userService.deleteUserAndWidgetData(uid);
 		boolean found = true;
 		try {
-			userService.getUser(uid);
+			userService.getUserRelatedData(uid);
 		} catch ( NotFoundException expected) {
 			found = false;
 		}
@@ -122,12 +122,12 @@ public class UserServiceTest extends DatabaseAwareTest {
 	public void canvasOAuthData() throws Exception {
 		String uid = randomString();
 		userService.loadUserByUsername(uid);
-		Map<String, Object> userMap = userService.getUser(uid);
+		Map<String, Object> userMap = userService.getUserRelatedData(uid);
 		Map<String, Object> oAuthData = (Map<String, Object>) userMap.get("oauth");
 		assertFalse((Boolean) oAuthData.get(CanvasProxy.CANVAS_APP_ID));
 
 		oAuth2Dao.insert(uid, CanvasProxy.CANVAS_APP_ID, "frippery", null, 0);
-		userMap = userService.getUser(uid);
+		userMap = userService.getUserRelatedData(uid);
 		oAuthData = (Map<String, Object>) userMap.get("oauth");
 		assertTrue((Boolean) oAuthData.get(CanvasProxy.CANVAS_APP_ID));
 		userService.deleteUserAndWidgetData(uid);
@@ -138,22 +138,22 @@ public class UserServiceTest extends DatabaseAwareTest {
 	public void passThroughUserData() throws Exception {
 		String uid = "300945";
 		try {
-			userService.getUser(uid);
+			userService.getUserRelatedData(uid);
 			fail("Expected not to find user " + uid);
 		} catch (NotFoundException expected) {
 		}
 		Map<String, Object> campusAttributes = campusPersonDataService.getPersonAttributes(uid);
 		assertNotNull(campusAttributes.get("PERSON_NAME"));
-		User user = userService.getUserData(uid);
+		User user = userService.getUser(uid);
 		assertEquals(uid, user.getUid());
 		assertEquals(campusAttributes.get("PERSON_NAME"), user.getPreferredName());
 		try {
-			userService.getUser(uid);
+			userService.getUserRelatedData(uid);
 			fail("Expected not to find user " + uid);
 		} catch (NotFoundException expected) {
 		}
 		uid = randomString();
-		user = userService.getUserData(uid);
+		user = userService.getUser(uid);
 		assertEquals(uid, user.getUid());
 	}
 
