@@ -11,23 +11,36 @@
 			<img src="/img/myb/task_slider.png" alt="Task slider placeholder" class="cc-widget-tasks-taskslider" />
 			<div class="cc-widget-section-label">Due Today</div>
 			<ul class="cc-widget-notifications-list cc-widget-section-list">
-			{{#each today}}
-				{{>taskLoop}}
-			{{/each}}
+				{{#if today}}
+					{{#each today}}
+						{{>taskLoop}}
+					{{/each}}
+				{{else}}
+					<li class="cc-widget-tasks-notifications-short-title">Nothing due today</li>
+				{{/if}}
 			</ul>
+
 
 			<div class="cc-widget-section-label">Due Tomorrow</div>
 			<ul class="cc-widget-notifications-list cc-widget-section-list">
-			{{#each tomorrow}}
-				{{>taskLoop}}
-			{{/each}}
+			{{#if tomorrow}}
+				{{#each tomorrow}}
+					{{>taskLoop}}
+				{{/each}}
+			{{else}}
+				<li class="cc-widget-tasks-notifications-short-title">Nothing due tomorrow</li>
+			{{/if}}
 			</ul>
 
 			<div class="cc-widget-section-label">Upcoming</div>
 			<ul class="cc-widget-notifications-list cc-widget-section-list">
-			{{#each future}}
-				{{>taskLoop}}
-			{{/each}}
+			{{#if future}}
+				{{#each future}}
+					{{>taskLoop}}
+				{{/each}}
+			{{else}}
+				<li class="cc-widget-tasks-notifications-short-title">No tasks or assignments</li>
+			{{/if}}
 			</ul>
 		</div>
 	</script>
@@ -36,7 +49,7 @@
 		<li>
 			{{#if completed}}<img src="/img/myb/icon_checkmark_16x16.png" alt="Checkmark" class="cc-widget-tasks-mini-icon">{{/if}}
 			{{#if overdue}}<img src="/img/myb/icon_alert_16x16.png" alt="Alert" class="cc-widget-tasks-mini-icon">{{/if}}
-			<a href="{{url}}" class="cc-widget-tasks-notifications-short-title cc-ellipsis {{#unless completed}}{{#unless overdue}}cc-widget-tasks-no-icon{{/unless}}{{/unless}} {{#if overdue}}cc-alert{{/if}}">{{title}}</a>
+			<a href="{{html_url}}" class="cc-widget-tasks-notifications-short-title cc-ellipsis {{#unless completed}}{{#unless overdue}}cc-widget-tasks-no-icon{{/unless}}{{/unless}} {{#if overdue}}cc-alert{{/if}}">{{title}}</a>
 			{{#if future}}<div class="cc-right">{{friendlyDate}}</div>{{/if}}
 			<div class="cc-widget-task-notifications-list-source">{{#if sourceUrl}}<a href="{{sourceUrl}}">{{source}}</a>{{else}}<em>{{source}}</em>{{/if}}</div>
 		</li>

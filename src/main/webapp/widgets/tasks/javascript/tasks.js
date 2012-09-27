@@ -1,3 +1,5 @@
+/*global $, console */
+
 var calcentral = calcentral || {};
 calcentral.Widgets = calcentral.Widgets || {};
 /**
@@ -13,6 +15,8 @@ calcentral.Widgets = calcentral.Widgets || {};
  */
 calcentral.Widgets.tasks = function(tuid) {
 
+	'use strict';
+
 	/** VARIABLES. **/
 
 	var $tasksContainer = $('#cc-widget-tasks');
@@ -22,11 +26,12 @@ calcentral.Widgets.tasks = function(tuid) {
 
 	/**
 	 * Given data for task/assignments, adds additional fields to each element,
-	 * and outputs new data structure organized into time sections (past/present/future)
-	 * @param {object} data JSON from Canvas and bSpace
+	 * and outputs new data structure organized into time sections (past/present/future).
+	 * Course IDs for assignments are keyed to course IDs from courseData (rather than looping).
+	 * @param {object} courseData Course list from canvas
+	 * @param {object} data Assignment list from Canvas
 	 */
-	var renderTasksAssignments = function(data) {
-
+	var renderTasksAssignments = function(courseData, data) {
 		var currentTime = new Date();
 		// "Tomorrow" is 1 second after midnight on the next calendar date, NOT 24 hours from now.
 		var tomorrow = new Date(currentTime.getFullYear(), currentTime.getMonth(), currentTime.getDate() + 1, 0, 0, 1);
@@ -40,45 +45,61 @@ calcentral.Widgets.tasks = function(tuid) {
 		};
 
 		// Convert timestamps to friendly dates and set overdue flags.
-		$.each(data.tasksAssignments, function(index, value){
+		$.each(data, function(index, value){
 
 			// **** TODO: POC ONLY **** monkey-patch dates so we always have items for today, tomorrow, and future
 			// Ignore the stored timestamps and dynamically generate new ones at a variety of ranges.
 			var theDateEpoch = currentTime.getTime() / 1000;
 
-			if (index < 3) {
-				data.tasksAssignments[index].dueDate = theDateEpoch; // Today
+			if (index < 1) {
+				data[index].overdue = true; // Set at least one item to overdue
+			} else if (index < 3) {
+				data[index].dueDate = theDateEpoch; // Today
 			} else if (index < 5) {
-				data.tasksAssignments[index].dueDate = theDateEpoch + 86400; // Tomorrow
+				data[index].dueDate = theDateEpoch + 86400; // Tomorrow
 			} else if (index < 7) {
-				data.tasksAssignments[index].dueDate = theDateEpoch + 172800; // Upcoming
+				data[index].dueDate = theDateEpoch + 172800; // Upcoming
 			} else {
-				data.tasksAssignments[index].dueDate = theDateEpoch + 1672800; // Far future
+				data[index].dueDate = theDateEpoch + 1672800; // Far future
+			}
+
+			if (index === 1) {
+				data[index].completed = true; // At least one item is completed for demo purposes
 			}
 			// END POC TEMPORARY
 
+			// Grep out this assignment's course ID and set course title properties for assignments.
+			var courseId = parseInt(data[index].html_url.match(/\d+/g)[0], 10);
+			$.each(courseData, function(i, v){
+				if (v.id === courseId) {
+					data[index].source = v.course_code;
+				}
+			});
 
-			var dueDate = new Date(value.dueDate * 1000);
-			var friendlyDate = dueDate.getMonth() + '/' + dueDate.getDate();
-			data.tasksAssignments[index].friendlyDate = friendlyDate;
+			var dueDate = new Date(value.start_at);
+			// Javascript months are 0-based, while days and years are 1-based, so add 1 to month
+			var friendlyDate = dueDate.getMonth() + 1 + '/' + dueDate.getDate();
+			data[index].friendlyDate = friendlyDate;
 
-			// Set overdue property if due date is equal to or less than today and item is uncompleted
-			if (currentTime >= dueDate && value.completed === false) {
-				data.tasksAssignments[index].overdue = true;
+			// Set overdue property if due date is equal to or less than today.
+			// If it's possible in future to obtain the completed status of assignments,
+			// this should also check for completed === false http://bit.ly/Pt2rVn
+			if (currentTime >= dueDate) {
+				data[index].overdue = true;
 			}
 
 			// Set today/tomorrow/future properties. Using .toDateString() for compares because JS' getDate() reckoning is brain-dead.
 			// 8/20/2012 != 9/20/2012 Solved via http://stackoverflow.com/questions/6921606/javascript-today-function
 			if (currentTime.toDateString() === dueDate.toDateString()) { // Today
-				newData.today.push(data.tasksAssignments[index]);
+				newData.today.push(data[index]);
 
 			} else if (tomorrow.toDateString() === dueDate.toDateString()) { // Tomorrow
-				newData.tomorrow.push(data.tasksAssignments[index]);
+				newData.tomorrow.push(data[index]);
 
 			} else if (dueDate > currentTime) {
-				newData.future.push(data.tasksAssignments[index]);
+				newData.future.push(data[index]);
 				// Easier to set a "future" property here than to detect parent array in Handlebars (partials scoping problem)
-				data.tasksAssignments[index].future = true;
+				data[index].future = true;
 			}
 		});
 
@@ -104,12 +125,40 @@ calcentral.Widgets.tasks = function(tuid) {
 		});
 	};
 
-	var loadTasksAssignments = function() {
-		return $.ajax({
-			'url': '/dummy/tasks-assignments.json'
+	/**
+	 * Fetch user's course list from Canvas. Course IDs will be keyed against assignment
+	 * course IDs to inject course titles (which missing from the Canvas upcoming API).
+	 * @return {Object} Deferred promise object for a Deferrred chain, with a (data) param.
+	 */
+	var getCanvasCourses = function() {
+		var $ajaxWrapper = $.Deferred();
+		$.ajax({
+			'url': '/api/canvas/courses',
+			'success': function(courseData) {
+				$ajaxWrapper.resolve(courseData);
+			},
+			'error': $ajaxWrapper.reject
 		});
+		return $ajaxWrapper;
 	};
 
-	$.when(loadTasksAssignments()).done(renderTasksAssignments);
+	/**
+	 * Fetch user's assignment data from Canvas.
+	 * @return {Object} Deferred promise object for a Deferrred chain, with a (data) param.
+	 */
+	var getCanvasAssignments = function() {
+		var $ajaxWrapper = $.Deferred();
+		$.ajax({
+			'url': '/api/canvas/users/self/coming_up',
+			'success': function(data) {
+				$ajaxWrapper.resolve(data);
+			},
+			'error': $ajaxWrapper.reject
+		});
+		return $ajaxWrapper;
+	};
 
+	$.when(getCanvasCourses(), getCanvasAssignments()).done(renderTasksAssignments).fail(function() {
+		console.log("tasks.js -> Could not load assignment or course data from Canvas");
+	});
 };
