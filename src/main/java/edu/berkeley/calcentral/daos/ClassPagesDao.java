@@ -12,8 +12,8 @@ import org.springframework.stereotype.Repository;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 @Repository
 public class ClassPagesDao extends BaseDao {
@@ -107,7 +107,7 @@ public class ClassPagesDao extends BaseDao {
 				"  '' location," +
 				"  '' coords," +
 				"  '' note," +
-				"  bci.SECTION_NUM section," +
+				"  bci.INSTRUCTION_FORMAT || ' ' || bci.SECTION_NUM section," +
 				"  bcs.meeting_start_time || bcs.meeting_start_time_ampm_flag || '-' || bcs.meeting_end_time || bcs.meeting_end_time_ampm_flag time," +
 				"  bcs.MEETING_DAYS misc_weekdays," +
 				"  '' weekdays," +
@@ -138,7 +138,7 @@ public class ClassPagesDao extends BaseDao {
 				"  JOIN BSPACE_PERSON_INFO_VW bpi on (bpi.ldap_uid = bcci.instructor_ldap_uid)" +
 				"  WHERE bci.TERM_YR = :year AND bci.TERM_CD = :term" +
 				"  AND bci.DEPT_NAME = :deptName AND bci.CATALOG_ID = :catalogId" +
-				"  ORDER BY bci.PRIMARY_SECONDARY_CD, bci.SECTION_NUM, bcci.MULTI_ENTRY_CD";
+				"  ORDER BY bci.PRIMARY_SECONDARY_CD, section, bcci.MULTI_ENTRY_CD";
 		return campusQueryRunner.query(sql, params, sectionExtractor);
 	}
 
@@ -161,7 +161,7 @@ public class ClassPagesDao extends BaseDao {
 		};
 
 		public List<ClassPageSection> extractData(ResultSet rs) throws SQLException, DataAccessException {
-			Map<String, ClassPageSection> sections = Maps.newHashMap();
+			LinkedHashMap<String, ClassPageSection> sections = Maps.newLinkedHashMap();
 			while (rs.next()) {
 				String ccn = rs.getString("ccn");
 				ClassPageSection section = sections.get(ccn);
