@@ -31,6 +31,8 @@ import org.springframework.dao.EmptyResultDataAccessException;
 
 import java.util.List;
 
+import java.util.Map;
+
 public class ClassPagesServiceTest extends DatabaseAwareTest {
 
 	private static final Log LOGGER = LogFactory.getLog(ClassPagesDaoTest.class);
@@ -43,10 +45,11 @@ public class ClassPagesServiceTest extends DatabaseAwareTest {
 
 	@Test
 	public void getDepartment() throws Exception {
-		ClassPage classPage = classPagesService.getClassInfo("2012D7308");
+		ClassPage classPage = classPagesService.getClassInfo("2012D7303");
 		assertNotNull(classPage);
 		assertEquals("Biology", classPage.getDepartment());
 		assertNotNull(classPage.getCourseinfo());
+		assertNotNull(classPage.getCourseinfo().getWebcastUrl());
 		assertEquals("BIOLOGY", classPage.getCourseinfo().getMisc_deptname());
 		assertTrue(classPage.getInstructors().size() > 0);
 		assertTrue(classPage.getSections().size() > 0);
@@ -82,5 +85,12 @@ public class ClassPagesServiceTest extends DatabaseAwareTest {
 		}
 		assertNotNull(instructor);
 		assertEquals(newUrl, instructor.getUrl());
+	}
+
+	@Test
+	public void getClassInfoMap() throws Exception {
+		Map<String, Object> map = classPagesService.getClassInfoMap("2012D7303");
+		assertNotNull(map.get("classid"));
+		assertNotNull(map.get("courseinfo"));
 	}
 }

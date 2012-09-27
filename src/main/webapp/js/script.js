@@ -573,45 +573,6 @@ var calcentral = calcentral || {};
 
 })();
 
-
-/**
- * Left hand navigation
- */
-(function() {
-
-	var renderLeftHandNavigation = function(data) {
-		calcentral.Api.Util.renderTemplate({
-			'container': $('.cc-container-main-left'),
-			'data': data,
-			'template': $('#cc-container-main-left-template')
-		});
-	};
-
-	var loadLeftHandNavigation = function() {
-		var data = {};
-		calcentral.Api.User.getCurrentUser('', function(success, userData) {
-			data.profile = userData;
-			data.pages = [{
-				'title': 'My dashboard',
-				'url': '/secure/dashboard'
-			},
-			{
-				'title': 'My profile',
-				'url': '/secure/profile'
-			}];
-			data.pathname = window.location.pathname;
-			renderLeftHandNavigation(data);
-		});
-	};
-
-	// Navigation hidden on all pages unless specifically referenced here - do we need this?
-	if ($('.cc-page-classpage').length){
-		loadLeftHandNavigation();
-	}
-})();
-
-
-
 /**
  * Clickable masthead - Logged in users go to dashboard, anon users go to "/"
  */
@@ -763,7 +724,93 @@ var calcentral = calcentral || {};
 (function() {
 	var $classPage = $('.cc-page-classpage');
 
-	var $classPageContainer = $('.cc-container-main-right', $classPage);
+	var $classPageContainer = $('#cc-page-classpage-overview', $classPage);
+
+	var renderLeftHandClassPageNavigation = function() {
+		var deactivatePage = function() {
+			$('.cc-container-main-active').removeClass('cc-container-main-active').hide();
+			$('.cc-lefthandnavigation-item-selected').removeClass('cc-lefthandnavigation-item-selected');
+		};
+
+		var showPage = function() {
+			deactivatePage();
+			var $this = $(this).addClass('cc-lefthandnavigation-item-selected');
+			var pageId = $this.attr('data-page-id');
+			$('#cc-page-classpage-' + pageId).addClass('cc-container-main-active').show();
+		};
+
+		calcentral.Api.Util.renderTemplate({
+			'container': $('.cc-container-main-left'),
+			'data': {},
+			'template': $('#cc-container-main-left-template')
+		});
+
+		$('.cc-lefthandnavigation li a[data-page-id]').on('click', showPage);
+
+	};
+
+	var renderWebcastIframe = function() {
+		var $this = $(this);
+
+		calcentral.Api.Util.renderTemplate({
+			'container': $this,
+			'data': {
+				'id': $this.attr('rel')
+			},
+			'template': $('#cc-page-classpage-webcasts-thumb-template', $classPage)
+		});
+
+		// Don't actually go to Youtube
+		return false;
+	};
+
+	var addWebcastBinding = function() {
+		$('.cc-page-classpage-webcasts-entrythumb').on('click', renderWebcastIframe);
+	};
+
+	var renderWebcastInfo = function(data) {
+		calcentral.Api.Util.renderTemplate({
+			'container': $('#cc-page-classpage-webcasts'),
+			'data': data,
+			'template': $('#cc-page-classpage-webcasts-template', $classPage)
+		});
+		addWebcastBinding();
+	};
+
+	var parseWebcastInfo = function(webcastData, classPageData) {
+		var parsedData = {
+			'classPageData': classPageData,
+			'entries': [],
+			'feedCount': webcastData.feed.openSearch$totalResults.$t,
+			'feedSubTitle': webcastData.feed.subtitle.$t,
+			'feedTitle': webcastData.feed.title.$t,
+			'feedThumb': webcastData.feed.media$group.media$thumbnail[1].url,
+			'videoURL': 'http://www.youtube.com/watch?v='
+		};
+
+		parsedData.entries = _.map(webcastData.feed.entry, function(item) {
+			return {
+				'entryTitle': item.title.$t,
+				'entrySubTitle': item.media$group.media$description.$t,
+				'feedURL': item.link[1].href,
+				'thumb': "http://img.youtube.com/vi/" + item.media$group.yt$videoid.$t + "/default.jpg",
+				'videoID': item.media$group.yt$videoid.$t,
+				'viewCount': item.yt$statistics.viewCount
+			};
+		});
+
+		renderWebcastInfo(parsedData);
+	};
+
+	var fetchWebcastInfo = function(classPageData) {
+		$.ajax({
+			'dataType': 'json',
+			'success': function(webcastData) {
+				parseWebcastInfo(webcastData, classPageData);
+			},
+			'url': classPageData.courseinfo.webcastUrl
+		});
+	};
 
 	var renderClassPage = function(data, buildingData) {
 		data = data[0];
@@ -829,6 +876,10 @@ var calcentral = calcentral || {};
 		}
 		// On _page load_, check whether we need to link/delink the expand/collapse text.
 		expandTextToggle();
+
+		fetchWebcastInfo(data);
+
+		renderLeftHandClassPageNavigation();
 	};
 
 	var singleToggle = function() {
@@ -886,21 +937,6 @@ var calcentral = calcentral || {};
 		});
 	};
 
-	var loadClassPage = function() {
-		return $.ajax({
-			// Get class ID from URL
-			'url': '/api/classPages/' + calcentral.Api.Util.getURLParameter('cid')
-		}).promise();
-	};
-
-	var loadBuildingCoords = function() {
-		// Cross-reference campus building designators with our own lookup table to get coords.
-		// Takes a string arg like 'BANCROFT'
-		return $.ajax({
-			url: '/data/building_coords.json'
-		}).promise();
-	};
-
 	var dataLoadFailure = function() {
 		/* When data is missing, render a separate template on the same page.
 		Satisfy required data and partials args even though missing. */
@@ -909,6 +945,21 @@ var calcentral = calcentral || {};
 			'data': " ",
 			'partials': null,
 			'template': $('#cc-page-classpage-nodata-template', $classPage)
+		});
+	};
+
+	var loadClassPage = function() {
+		return $.ajax({
+			// Get class ID from URL
+			'url': '/api/classPages/' + calcentral.Api.Util.getURLParameter('cid')
+		});
+	};
+
+	var loadBuildingCoords = function() {
+		// Cross-reference campus building designators with our own lookup table to get coords.
+		// Takes a string arg like 'BANCROFT'
+		return $.ajax({
+			url: '/data/building_coords.json'
 		});
 	};
 

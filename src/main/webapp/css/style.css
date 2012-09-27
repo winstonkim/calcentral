@@ -789,6 +789,34 @@ ul.cc-page-classpage-instructor-item li:last-child {
 	width: 120px;
 }
 
+/* Webcasts */
+.cc-page-classpage-webcasts-feedheader img {
+	margin: 0 15px 15px 0;
+}
+.cc-page-classpage-webcasts-entrylist {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+}
+.cc-page-classpage-webcasts-entrylist li {
+	border-bottom: 1px dotted #cacaca;
+	padding: 15px 0;
+}
+.cc-page-classpage-webcasts-entrylist li:last-child {
+	border-bottom: none;
+}
+
+.cc-page-classpage-webcasts-entrylist .cc-page-classpage-webcasts-entrythumb img {
+	border: 2px solid #000;
+	max-width: 130px;
+}
+.cc-page-classpage-webcasts-entrylist .cc-page-classpage-webcasts-entrythumb:hover {
+	text-decoration: none;
+}
+.cc-page-classpage-webcasts-entrylist .cc-page-classpage-webcasts-entrythumb-description {
+	margin-left: 15px;
+}
+
 /* Class listings per category */
 .cc-page-classlist-container .cc-page-classlist-title {
 	font-size: 2.0em;
