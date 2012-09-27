@@ -780,8 +780,12 @@ var calcentral = calcentral || {};
 			// Iterate through class sections data, converting building names to coords and replacing in the JSON
 			$.each(data.sections, function(i) {
 				var buildingName = data.sections[i].location;
-				// Strip address prefix and leading space, leaving just the bldg name
-				buildingName = buildingName.replace(/[0-9]/g, '').replace(/^\ /g, '');
+
+				if (buildingName) {
+					// Some classes have no location data. If location available,
+					// strip address prefix and leading space, leaving just the bldg name
+					buildingName = buildingName.replace(/[0-9]/g, '').replace(/^\ /g, '');
+				}
 
 				// Find matching building and set values
 				var building = buildingData[buildingName] ? buildingData[buildingName] : false;
