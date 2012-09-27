@@ -186,7 +186,7 @@ public class CanvasProxy {
 			LOGGER.error(error5xx.getMessage(), error5xx);
 			return ServerResponse.serverError().status(error5xx.getStatusCode().value()).entity(error5xx.getMessage()).build();
 		} catch (HttpClientErrorException error4xx) {
-			LOGGER.error(error4xx.getMessage(), error4xx);
+			LOGGER.info(error4xx.getMessage(), error4xx);
 			return ServerResponse.serverError().status(error4xx.getStatusCode().value()).entity(error4xx.getMessage()).build();
 		}
 	}
