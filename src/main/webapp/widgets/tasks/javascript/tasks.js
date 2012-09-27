@@ -1,4 +1,4 @@
-/*global $ */
+/*global $, console */
 
 var calcentral = calcentral || {};
 calcentral.Widgets = calcentral.Widgets || {};
@@ -161,5 +161,4 @@ calcentral.Widgets.tasks = function(tuid) {
 	$.when(getCanvasCourses(), getCanvasAssignments()).done(renderTasksAssignments).fail(function() {
 		console.log("tasks.js -> Could not load assignment or course data from Canvas");
 	});
-
 };
