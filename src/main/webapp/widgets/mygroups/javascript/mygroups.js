@@ -2,7 +2,7 @@ var calcentral = calcentral || {};
 calcentral.Widgets = calcentral.Widgets || {};
 calcentral.Widgets.mygroups = function(tuid) {
 
-	/*global $, _*/
+	/*global $, _, console*/
 
 
 	/////////////////////////////
@@ -79,8 +79,8 @@ calcentral.Widgets.mygroups = function(tuid) {
 				//only care about the categories.
 				return $ajaxWrapper.resolve(data.body.categories);
 			},
-			'error': function() {
-				//log the error later, somehow. but don't break the deferred chain.
+			'error': function(jqXHR, textStatus, errorThrown) {
+				console.log("loadFavouritesList(): " + errorThrown);
 				return $ajaxWrapper.resolve();
 			}
 		});
@@ -114,8 +114,8 @@ calcentral.Widgets.mygroups = function(tuid) {
 					'groups': result
 				});
 			},
-			'error': function() {
-				//log the error later, somehow. but don't break the deferred chain.
+			'error': function(jqXHR, textStatus, errorThrown) {
+				console.log("loadCanvasGroups(): " + errorThrown);
 				return $ajaxWrapper.resolve();
 			}
 		});

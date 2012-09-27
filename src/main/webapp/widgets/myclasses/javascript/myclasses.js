@@ -2,7 +2,7 @@ var calcentral = calcentral || {};
 calcentral.Widgets = calcentral.Widgets || {};
 calcentral.Widgets.myclasses = function(tuid) {
 
-	/*global $, _*/
+	/*global $, _, console*/
 
 	/////////////////////////////
 	// Configuration variables //
@@ -78,8 +78,8 @@ calcentral.Widgets.myclasses = function(tuid) {
 				//only care about the categories.
 				return $ajaxWrapper.resolve(data.body.categories);
 			},
-			'error': function() {
-				//log the error later, somehow. but don't break the deferred chain.
+			'error': function(jqXHR, textStatus, errorThrown) {
+				console.log("loadFavouritesList(): " + errorThrown);
 				return $ajaxWrapper.resolve();
 			}
 		});
@@ -114,8 +114,8 @@ calcentral.Widgets.myclasses = function(tuid) {
 					'courses': result
 				});
 			},
-			'error': function() {
-				//log the error later, somehow. but don't break the deferred chain.
+			'error': function(jqXHR, textStatus, errorThrown) {
+				console.log("getCanvasCourses(): " + errorThrown);
 				return $ajaxWrapper.resolve();
 			}
 		});
@@ -138,15 +138,15 @@ calcentral.Widgets.myclasses = function(tuid) {
 
 	/**
 	 * Merge courses data between canvas and bspace.
-	 * @param  {Object} data bspace data in json format. Should only contain course sites.
-	 * @param  {Object} dataCanvas JSON object containing canvas courses and host.
+	 * @param {Object} data bspace data in json format. Should only contain course sites.
+	 * @param {Object} dataCanvas JSON object containing canvas courses and host.
 	 * @return {Array} merged JSONArray of course objects for rendering.
 	 */
-	var mergeCourses = function(data, dataCanvas) {
+	var mergeCourses = function(dataBSpace, dataCanvas) {
 		// Harmonize the bSpace and canvas data for display.
 		var displayData = [];
-		if (data && data.sites) {
-			displayData = displayData.concat($.map(data.sites, function(value) {
+		if (dataBSpace && dataBSpace.sites) {
+			displayData = displayData.concat($.map(dataBSpace.sites, function(value) {
 				return {
 					'name': value.title,
 					'site_type': 'bspace',
@@ -165,7 +165,9 @@ calcentral.Widgets.myclasses = function(tuid) {
 				};
 			}));
 		}
-		displayData = _.sortBy(displayData, function(value) { return value.title; });
+		displayData = _.sortBy(displayData, function(value) {
+			return value.title;
+		});
 		return displayData;
 	};
 
