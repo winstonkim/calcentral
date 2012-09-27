@@ -93,7 +93,7 @@ public class ClassPagesService {
 		telemetry.end();
 		for (ClassPageInstructor instructor : classPageInstructors) {
 			instructor.emailDisclosureDecode();
-			String url = userService.getUserData(instructor.getId()).getLink();
+			String url = userService.getUser(instructor.getId()).getLink();
 			instructor.setUrl(url);
 		}
 		classPageResult.setInstructors(classPageInstructors);
