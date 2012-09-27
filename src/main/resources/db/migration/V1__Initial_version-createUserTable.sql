@@ -229,3 +229,6 @@ ALTER TABLE ONLY calcentral_classtree_departments
 CREATE INDEX calcentral_classtree_departments_college_id_index ON calcentral_classtree_departments USING btree (college_id);
 
 CREATE UNIQUE INDEX calcentral_classtree_departments_id_index ON calcentral_classtree_departments USING btree (id);
+
+-- Add profile URLs for selected instructors.
+INSERT INTO calcentral_users (uid, link) VALUES ('191779', 'http://birdhouse.org/blog/');

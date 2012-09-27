@@ -29,7 +29,6 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.List;
 import java.util.Map;
 
 @SuppressWarnings("unchecked")
@@ -46,9 +45,12 @@ public class UserServiceTest extends DatabaseAwareTest {
 	@Autowired
 	private OAuth2Dao oAuth2Dao;
 
+	@Autowired
+	private CampusPersonDataService campusPersonDataService;
+
 	@Test
 	public void getUser() throws Exception {
-		Map<String, Object> userMap = null;
+		Map<String, Object> userMap;
 		try {
 			userMap = userService.getUser("2040");
 		} catch (NotFoundException e) {
@@ -130,6 +132,29 @@ public class UserServiceTest extends DatabaseAwareTest {
 		assertTrue((Boolean) oAuthData.get(CanvasProxy.CANVAS_APP_ID));
 		userService.deleteUserAndWidgetData(uid);
 		assertNull(oAuth2Dao.getToken(uid, CanvasProxy.CANVAS_APP_ID));
+	}
+
+	@Test
+	public void passThroughUserData() throws Exception {
+		String uid = "300945";
+		try {
+			userService.getUser(uid);
+			fail("Expected not to find user " + uid);
+		} catch (NotFoundException expected) {
+		}
+		Map<String, Object> campusAttributes = campusPersonDataService.getPersonAttributes(uid);
+		assertNotNull(campusAttributes.get("PERSON_NAME"));
+		User user = userService.getUserData(uid);
+		assertEquals(uid, user.getUid());
+		assertEquals(campusAttributes.get("PERSON_NAME"), user.getPreferredName());
+		try {
+			userService.getUser(uid);
+			fail("Expected not to find user " + uid);
+		} catch (NotFoundException expected) {
+		}
+		uid = randomString();
+		user = userService.getUserData(uid);
+		assertEquals(uid, user.getUid());
 	}
 
 }

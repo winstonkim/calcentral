@@ -86,7 +86,7 @@
 
 						<div class="cc-page-classpage-instructor-heading">
 						{{#if name}}
-							<a href="https://calnet.berkeley.edu/directory/details.pl?uid={{id}}">{{name}}</a>
+							<a href="{{url}}">{{name}}</a>
 						{{else}}
 							<em>Instructor name not available</em>
 						{{/if}}
@@ -96,7 +96,6 @@
 						</div>
 
 						<ul class="cc-page-classpage-list">
-							{{#if url}}<li><span>Website:</span><span><a href="{{url}}">{{url}}</a></span></li>{{/if}}
 							{{#if phone}}<li><span>Phone #:</span><span>{{phone}}</span></li>{{/if}}
 							{{#if office}}<li><span>Office:</span><span>{{office}}</span></li>{{/if}}
 						</ul>
@@ -146,7 +145,7 @@
 					<td class="classpages_sections_instrnames">
 						{{#each_with_index section_instructors}}
 							{{#if id}}
-								<a href="https://calnet.berkeley.edu/directory/details.pl?uid={{id}}">{{name}}</a>{{#unless isLastIndex}}, {{/unless}}
+								<a href="{{url}}">{{name}}</a>{{#unless isLastIndex}}, {{/unless}}
 							{{else}}
 								{{name}}{{#unless isLastIndex}}, {{/unless}}
 							{{/if}}
