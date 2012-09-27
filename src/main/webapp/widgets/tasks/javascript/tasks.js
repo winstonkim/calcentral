@@ -28,7 +28,8 @@ calcentral.Widgets.tasks = function(tuid) {
 	 * Given data for task/assignments, adds additional fields to each element,
 	 * and outputs new data structure organized into time sections (past/present/future).
 	 * Course IDs for assignments are keyed to course IDs from courseData (rather than looping).
-	 * @param {object}, {object} Course list from Canvas, Assignment list from Canvas
+	 * @param {object} courseData Course list from canvas
+	 * @param {object} data Assignment list from Canvas
 	 */
 	var renderTasksAssignments = function(courseData, data) {
 		var currentTime = new Date();
@@ -158,7 +159,7 @@ calcentral.Widgets.tasks = function(tuid) {
 	};
 
 	$.when(getCanvasCourses(), getCanvasAssignments()).done(renderTasksAssignments).fail(function() {
-		console.log("Could not load assignments data from Canvas");
+		console.log("tasks.js -> Could not load assignment or course data from Canvas");
 	});
 
 };
