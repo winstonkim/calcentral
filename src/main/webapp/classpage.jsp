@@ -8,7 +8,7 @@
 	<div class="cc-container-main" role="main">
 		<!-- Page specific HTML -->
 		<tags:lhclasspagenavigation/>
-		<div class="cc-container-main-right cc-container-main-active" id="cc-container-main-overview">
+		<div class="cc-container-main-right cc-container-main-active" id="cc-page-classpage-overview">
 
 		<script id="cc-page-classpage-template" type="text/x-handlebars-template">
 			<div class="cc-container-widget cc-page-classpage-header">
@@ -280,10 +280,47 @@
 		</script>
 		</div>
 
-		<div class="cc-container-main-right" id="cc-container-main-webcasts" hidden>
-			<div class="webcast"></div>
-			<div class="playlist"></div>
-		</div>
+		<div class="cc-container-main-right" id="cc-page-classpage-webcasts" style="display: none;"><!--
+		--></div>
+
+		<script id="cc-page-classpage-webcasts-template" type="text/x-handlebars-template">
+			<div class="cc-container-widget cc-page-classpage-header">
+				<div class="cc-widget-main">
+					{{>header classPageData}}
+				</div>
+			</div>
+			<div class="cc-page-classpage-webcasts-feedheader">
+				<img alt="Image for {{feedTitle}}" class="cc-left" src="{{feedThumb}}">
+				<p>{{feedTitle}}</p>
+			</div>
+
+			<div class="cc-container-widget cc-page-classpage-header">
+				<div class="cc-widget-title">
+					<h2>Lectures in this course ({{feedCount}})</h2>
+				</div>
+				<div class="cc-widget-main">
+					<ul class="cc-page-classpage-webcasts-entrylist">
+						{{#each entries}}
+							<li class="clearfix">
+								<a class="cc-page-classpage-webcasts-entrythumb cc-left" href="{{../videoURL}}{{videoID}}" rel="{{videoID}}" title="{{entryTitle}}">
+									<img alt="{{entryTitle}}" src="{{thumb}}">
+								</a>
+								<div class="cc-page-classpage-webcasts-entrythumb-description cc-left">
+									<a href="{{../videoURL}}{{videoID}}" rel="{{videoID}}" title="{{entryTitle}}">
+										<strong>{{entryTitle}}</strong>
+									</a>
+									<p>{{viewCount}} views</p>
+								</div>
+							</li>
+						{{/each}}
+					</ul>
+				</div>
+			</div>
+		</script>
+
+		<script id="cc-page-classpage-webcasts-thumb-template" type="text/x-handlebars-template">
+			<iframe width='400' height='250' src='http://www.youtube.com/embed/{{id}}?autoplay=1' frameborder='0' allowfullscreen></iframe>
+		</script>
 
 		<!-- END Page specific HTML -->
 		<br class="clearfix" />

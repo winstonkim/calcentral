@@ -573,46 +573,6 @@ var calcentral = calcentral || {};
 
 })();
 
-
-/**
- * Left hand navigation
- */
-// TODO chris we can probably delete this whole function since subpages handle their own leftnav
-(function() {
-
-	var renderLeftHandNavigation = function(data) {
-		calcentral.Api.Util.renderTemplate({
-			'container': $('.cc-container-main-left'),
-			'data': data,
-			'template': $('#cc-container-main-left-template')
-		});
-	};
-
-	var loadLeftHandNavigation = function() {
-		var data = {};
-		calcentral.Api.User.getCurrentUser('', function(success, userData) {
-			data.profile = userData;
-			data.pages = [{
-				'title': 'My dashboard',
-				'url': '/secure/dashboard'
-			},
-			{
-				'title': 'My profile',
-				'url': '/secure/profile'
-			}];
-			data.pathname = window.location.pathname;
-			renderLeftHandNavigation(data);
-		});
-	};
-
-	// Navigation hidden on all pages unless specifically referenced here - do we need this?
-	if ($('.cc-page-classpage').length){
-		// loadLeftHandNavigation();
-	}
-})();
-
-
-
 /**
  * Clickable masthead - Logged in users go to dashboard, anon users go to "/"
  */
@@ -764,7 +724,93 @@ var calcentral = calcentral || {};
 (function() {
 	var $classPage = $('.cc-page-classpage');
 
-	var $classPageContainer = $('#cc-container-main-overview', $classPage);
+	var $classPageContainer = $('#cc-page-classpage-overview', $classPage);
+
+	var renderLeftHandClassPageNavigation = function() {
+		var deactivatePage = function() {
+			$('.cc-container-main-active').removeClass('cc-container-main-active').hide();
+			$('.cc-lefthandnavigation-item-selected').removeClass('cc-lefthandnavigation-item-selected');
+		};
+
+		var showPage = function() {
+			deactivatePage();
+			var $this = $(this).addClass('cc-lefthandnavigation-item-selected');
+			var pageId = $this.attr('data-page-id');
+			$('#cc-page-classpage-' + pageId).addClass('cc-container-main-active').show();
+		};
+
+		calcentral.Api.Util.renderTemplate({
+			'container': $('.cc-container-main-left'),
+			'data': {},
+			'template': $('#cc-container-main-left-template')
+		});
+
+		$('.cc-lefthandnavigation li a[data-page-id]').on('click', showPage);
+
+	};
+
+	var renderWebcastIframe = function() {
+		var $this = $(this);
+
+		calcentral.Api.Util.renderTemplate({
+			'container': $this,
+			'data': {
+				'id': $this.attr('rel')
+			},
+			'template': $('#cc-page-classpage-webcasts-thumb-template', $classPage)
+		});
+
+		// Don't actually go to Youtube
+		return false;
+	};
+
+	var addWebcastBinding = function() {
+		$('.cc-page-classpage-webcasts-entrythumb').on('click', renderWebcastIframe);
+	};
+
+	var renderWebcastInfo = function(data) {
+		calcentral.Api.Util.renderTemplate({
+			'container': $('#cc-page-classpage-webcasts'),
+			'data': data,
+			'template': $('#cc-page-classpage-webcasts-template', $classPage)
+		});
+		addWebcastBinding();
+	};
+
+	var parseWebcastInfo = function(webcastData, classPageData) {
+		var parsedData = {
+			'classPageData': classPageData,
+			'entries': [],
+			'feedCount': webcastData.feed.openSearch$totalResults.$t,
+			'feedSubTitle': webcastData.feed.subtitle.$t,
+			'feedTitle': webcastData.feed.title.$t,
+			'feedThumb': webcastData.feed.media$group.media$thumbnail[1].url,
+			'videoURL': 'http://www.youtube.com/watch?v='
+		};
+
+		parsedData.entries = _.map(webcastData.feed.entry, function(item) {
+			return {
+				'entryTitle': item.title.$t,
+				'entrySubTitle': item.media$group.media$description.$t,
+				'feedURL': item.link[1].href,
+				'thumb': "http://img.youtube.com/vi/" + item.media$group.yt$videoid.$t + "/default.jpg",
+				'videoID': item.media$group.yt$videoid.$t,
+				'viewCount': item.yt$statistics.viewCount
+			};
+		});
+
+		renderWebcastInfo(parsedData);
+	};
+
+	var fetchWebcastInfo = function(classPageData) {
+		$.ajax({
+			'dataType': 'json',
+			'success': function(webcastData) {
+				parseWebcastInfo(webcastData, classPageData);
+			},
+			'url': classPageData.courseinfo.webcastUrl
+		});
+	};
 
 	var renderClassPage = function(data, buildingData) {
 		data = data[0];
@@ -827,7 +873,7 @@ var calcentral = calcentral || {};
 		// On _page load_, check whether we need to link/delink the expand/collapse text.
 		expandTextToggle();
 
-		renderWebcastTab(data);
+		fetchWebcastInfo(data);
 
 		renderLeftHandClassPageNavigation();
 	};
@@ -887,21 +933,6 @@ var calcentral = calcentral || {};
 		});
 	};
 
-	var loadClassPage = function() {
-		return $.ajax({
-			// Get class ID from URL
-			'url': '/api/classPages/' + calcentral.Api.Util.getURLParameter('cid')
-		}).promise();
-	};
-
-	var loadBuildingCoords = function() {
-		// Cross-reference campus building designators with our own lookup table to get coords.
-		// Takes a string arg like 'BANCROFT'
-		return $.ajax({
-			url: '/data/building_coords.json'
-		}).promise();
-	};
-
 	var dataLoadFailure = function() {
 		/* When data is missing, render a separate template on the same page.
 		Satisfy required data and partials args even though missing. */
@@ -913,66 +944,19 @@ var calcentral = calcentral || {};
 		});
 	};
 
-	var renderWebcastTab = function(data) {
-		var videoURL = 'http://www.youtube.com/watch?v=';
-		$.getJSON(data.courseinfo.webcastUrl, function (data) {
-			var feedTitle = data.feed.title.$t;
-			var feedSubTitle = data.feed.subtitle.$t;
-			var feedThumb = data.feed.media$group.media$thumbnail[1].url;
-			var feedCount = data.feed.openSearch$totalResults.$t;
-
-			var feed_html = '<h2>' + feedTitle + '</h2>' + '<p>' + feedSubTitle + '</p><img alt="' + feedTitle  + '" src="' + feedThumb + '"><p>Videos: ' + feedCount + '</p>';
-			var count = -1;
-			var entry_html = "";
-			$.each(data.feed.entry, function (i, item) {
-				count = count + 1;
-				var entryTitle = item.title.$t;
-				var entrySubTitle = item.media$group.media$description.$t;
-				var feedURL = item.link[1].href;
-				var videoID = item.media$group.yt$videoid.$t;
-				var url = videoURL + videoID;
-				var thumb = "http://img.youtube.com/vi/" + videoID + "/mqdefault.jpg";
-				var viewCount = item.yt$statistics.viewCount;
-
-				entry_html += '<li><a href="' + url + '" rel="' + videoID + '" title="' + entryTitle + '"><div class="crop"><img height ="90" alt="' + entryTitle + '" src="' + thumb + '"></div><strong>' + entryTitle + '</strong></a><br /><small>' + entrySubTitle + '</small><p>' + viewCount + ' views</p></li>';
-
-			});
-
-			$(feed_html).appendTo(".webcast");
-			$(entry_html).appendTo(".playlist");
+	var loadClassPage = function() {
+		return $.ajax({
+			// Get class ID from URL
+			'url': '/api/classPages/' + calcentral.Api.Util.getURLParameter('cid')
 		});
 	};
 
-	var renderLeftHandClassPageNavigation = function() {
-		var deactivateAllTabs = function() {
-			$('.cc-container-main-active').hide();
-			$('.cc-container-main-active').removeClass('cc-container-main-active')
-			$('.cc-lefthandnavigation a.cc-lefthandnavigation-item-selected').removeClass('cc-lefthandnavigation-item-selected');
-		};
-
-		calcentral.Api.Util.renderTemplate({
-			'container': $('.cc-container-main-left'),
-			'data': {},
-			'template': $('#cc-container-main-left-template')
+	var loadBuildingCoords = function() {
+		// Cross-reference campus building designators with our own lookup table to get coords.
+		// Takes a string arg like 'BANCROFT'
+		return $.ajax({
+			url: '/data/building_coords.json'
 		});
-
-		var $buttonOverview = $('#cc-lefthandnavigation-overview');
-		var $buttonWebcasts = $('#cc-lefthandnavigation-webcasts');
-
-		$buttonOverview.on('click', function() {
-			deactivateAllTabs();
-			$(this).addClass('cc-lefthandnavigation-item-selected');
-			$('#cc-container-main-overview').show();
-			$('#cc-container-main-overview').addClass('cc-container-main-active');
-		});
-
-		$buttonWebcasts.on('click', function() {
-			deactivateAllTabs();
-			$(this).addClass('cc-lefthandnavigation-item-selected');
-			$('#cc-container-main-webcasts').show();
-			$('#cc-container-main-webcasts').addClass('cc-container-main-active');
-		});
-
 	};
 
 	if($classPage.length) {
