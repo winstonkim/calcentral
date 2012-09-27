@@ -80,7 +80,7 @@ calcentral.Widgets.mygroups = function(tuid) {
 				return $ajaxWrapper.resolve(data.body.categories);
 			},
 			'error': function(jqXHR, textStatus, errorThrown) {
-				console.log("loadFavouritesList(): " + errorThrown);
+				console.log('mygroups -> loadFavouritesList: ' + errorThrown);
 				return $ajaxWrapper.resolve();
 			}
 		});
@@ -115,7 +115,7 @@ calcentral.Widgets.mygroups = function(tuid) {
 				});
 			},
 			'error': function(jqXHR, textStatus, errorThrown) {
-				console.log("loadCanvasGroups(): " + errorThrown);
+				console.log('mygroups -> loadCanvasGroups: ' + errorThrown);
 				return $ajaxWrapper.resolve();
 			}
 		});

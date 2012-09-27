@@ -79,7 +79,7 @@ calcentral.Widgets.myclasses = function(tuid) {
 				return $ajaxWrapper.resolve(data.body.categories);
 			},
 			'error': function(jqXHR, textStatus, errorThrown) {
-				console.log("loadFavouritesList(): " + errorThrown);
+				console.log('myclasses -> loadFavouritesList(): ' + errorThrown);
 				return $ajaxWrapper.resolve();
 			}
 		});
@@ -115,7 +115,7 @@ calcentral.Widgets.myclasses = function(tuid) {
 				});
 			},
 			'error': function(jqXHR, textStatus, errorThrown) {
-				console.log("getCanvasCourses(): " + errorThrown);
+				console.log('myclasses -> getCanvasCourses: ' + errorThrown);
 				return $ajaxWrapper.resolve();
 			}
 		});
