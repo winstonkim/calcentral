@@ -2,7 +2,7 @@ var calcentral = calcentral || {};
 calcentral.Widgets = calcentral.Widgets || {};
 calcentral.Widgets.mygroups = function(tuid) {
 
-	/*global $, _*/
+	/*global $, _, console*/
 
 
 	/////////////////////////////
@@ -51,11 +51,14 @@ calcentral.Widgets.mygroups = function(tuid) {
 		if (!filter) {
 			filter = 'All sites';
 		}
-		var sites = $.map(data, function(value) {
-			if (filter === value.category) {
-				return value.sites;
-			}
-		});
+		var sites = [];
+		if ($.isArray(data)) {
+			sites = $.map(data, function(value) {
+				if (filter === value.category) {
+					return value.sites;
+				}
+			});
+		}
 		$sitesDeferred.resolve({
 			'sites': sites
 		});
@@ -76,7 +79,10 @@ calcentral.Widgets.mygroups = function(tuid) {
 				//only care about the categories.
 				return $ajaxWrapper.resolve(data.body.categories);
 			},
-			'error': $ajaxWrapper.reject
+			'error': function(jqXHR, textStatus, errorThrown) {
+				console.log('mygroups -> loadFavouritesList: ' + errorThrown);
+				return $ajaxWrapper.resolve();
+			}
 		});
 		return $ajaxWrapper.promise();
 	};
@@ -108,7 +114,10 @@ calcentral.Widgets.mygroups = function(tuid) {
 					'groups': result
 				});
 			},
-			'error': $ajaxWrapper.reject
+			'error': function(jqXHR, textStatus, errorThrown) {
+				console.log('mygroups -> loadCanvasGroups: ' + errorThrown);
+				return $ajaxWrapper.resolve();
+			}
 		});
 
 		return $ajaxWrapper.promise();
