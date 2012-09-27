@@ -1,3 +1,5 @@
+/*global $ */
+
 var calcentral = calcentral || {};
 calcentral.Widgets = calcentral.Widgets || {};
 /**
@@ -13,6 +15,8 @@ calcentral.Widgets = calcentral.Widgets || {};
  */
 calcentral.Widgets.tasks = function(tuid) {
 
+	'use strict';
+
 	/** VARIABLES. **/
 
 	var $tasksContainer = $('#cc-widget-tasks');
@@ -20,15 +24,13 @@ calcentral.Widgets.tasks = function(tuid) {
 	var $tasksListTemplate = $('#cc-widget-tasks-template', $tasksContainer);
 	var $taskLoopTemplate = $('#cc-taskloop-template', $tasksContainer);
 
-	var dummy = false;
-
 	/**
 	 * Given data for task/assignments, adds additional fields to each element,
-	 * and outputs new data structure organized into time sections (past/present/future)
-	 * @param {object} data JSON from Canvas and bSpace
+	 * and outputs new data structure organized into time sections (past/present/future).
+	 * Course IDs for assignments are keyed to course IDs from courseData (rather than looping).
+	 * @param {object}, {object} Course list from Canvas, Assignment list from Canvas
 	 */
-	var renderTasksAssignments = function(data) {
-
+	var renderTasksAssignments = function(courseData, data) {
 		var currentTime = new Date();
 		// "Tomorrow" is 1 second after midnight on the next calendar date, NOT 24 hours from now.
 		var tomorrow = new Date(currentTime.getFullYear(), currentTime.getMonth(), currentTime.getDate() + 1, 0, 0, 1);
@@ -61,18 +63,27 @@ calcentral.Widgets.tasks = function(tuid) {
 			}
 
 			if (index === 1) {
-				data[index].completed = true; // At least one item is completed
+				data[index].completed = true; // At least one item is completed for demo purposes
 			}
 			// END POC TEMPORARY
+
+			// Grep out this assignment's course ID and set course title properties for assignments.
+			var courseId = parseInt(data[index].html_url.match(/\d+/g)[0], 10);
+			$.each(courseData, function(i, v){
+				if (v.id === courseId) {
+					data[index].source = v.course_code;
+				}
+			});
 
 			var dueDate = new Date(value.start_at);
 			// Javascript months are 0-based, while days and years are 1-based, so add 1 to month
 			var friendlyDate = dueDate.getMonth() + 1 + '/' + dueDate.getDate();
 			data[index].friendlyDate = friendlyDate;
 
-			// Set overdue property if due date is equal to or less than today and item is uncompleted
-			// if (currentTime >= dueDate && value.completed === false) {
-			if (currentTime >= dueDate && completed === false) {
+			// Set overdue property if due date is equal to or less than today.
+			// If it's possible in future to obtain the completed status of assignments,
+			// this should also check for completed === false http://bit.ly/Pt2rVn
+			if (currentTime >= dueDate) {
 				data[index].overdue = true;
 			}
 
@@ -113,35 +124,41 @@ calcentral.Widgets.tasks = function(tuid) {
 		});
 	};
 
+	/**
+	 * Fetch user's course list from Canvas. Course IDs will be keyed against assignment
+	 * course IDs to inject course titles (which missing from the Canvas upcoming API).
+	 * @return {Object} Deferred promise object for a Deferrred chain, with a (data) param.
+	 */
+	var getCanvasCourses = function() {
+		var $ajaxWrapper = $.Deferred();
+		$.ajax({
+			'url': '/api/canvas/courses',
+			'success': function(courseData) {
+				$ajaxWrapper.resolve(courseData);
+			},
+			'error': $ajaxWrapper.reject
+		});
+		return $ajaxWrapper;
+	};
+
+	/**
+	 * Fetch user's assignment data from Canvas.
+	 * @return {Object} Deferred promise object for a Deferrred chain, with a (data) param.
+	 */
 	var getCanvasAssignments = function() {
 		var $ajaxWrapper = $.Deferred();
 		$.ajax({
 			'url': '/api/canvas/users/self/coming_up',
 			'success': function(data) {
-					$ajaxWrapper.resolve(data);
-				},
-				'error': $ajaxWrapper.reject
-			});
-		return $ajaxWrapper.promise();
+				$ajaxWrapper.resolve(data);
+			},
+			'error': $ajaxWrapper.reject
+		});
+		return $ajaxWrapper;
 	};
 
-	/**
-	 * Fetch users's assignment data from canvas.
-	 * @return {Object} Deferred promise object for a Deferrred chain, with a (data) param.
-	 */
-	var loadAssignments = function() {
-		var $loadAssignmentsDeferred = $.Deferred();
-		if (dummy) {
-			loadDummyCourses().done($loadCoursesDeferred.resolve);
-		} else {
-			$.when(getCanvasAssignments()).done($loadAssignmentsDeferred.resolve).fail(function() {
-				// Todo: Re-enable dummy data option (requires reformatting json to match Canvas API output)
-				// loadDummyCourses().done($loadAssignmentsDeferred.resolve);
-			});
-		}
-		return $loadAssignmentsDeferred.promise();
-	};
-
-	$.when(loadAssignments()).done(renderTasksAssignments);
+	$.when(getCanvasCourses(), getCanvasAssignments()).done(renderTasksAssignments).fail(function() {
+		console.log("Could not load assignments data from Canvas");
+	});
 
 };
