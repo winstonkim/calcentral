@@ -135,4 +135,21 @@ public class UserService implements UserDetailsService {
 				user.getUid(), "", true, true, true, true, roles);
 	}
 
+	/**
+	 * Safe readonly retrieval of user data as available.
+	 * @param userId
+	 * @return locally stored user data if available; otherwise derived from campus data
+	 */
+	public User getUserData(String userId) {
+		User user;
+		try {
+			user = userDao.get(userId);
+		} catch (EmptyResultDataAccessException e) {
+			user = new User();
+			user.setUid(userId);
+		}
+		campusPersonDataService.mergeCampusData(user);
+		return user;
+	}
+
 }
