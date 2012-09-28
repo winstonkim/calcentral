@@ -18,7 +18,6 @@
 
 package edu.berkeley.calcentral.services;
 
-import com.Ostermiller.util.Base64;
 import com.google.common.collect.ImmutableMap;
 import edu.berkeley.calcentral.Params;
 import edu.berkeley.calcentral.Urls;
@@ -48,6 +47,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
+import java.net.URLDecoder;
 import java.util.Map;
 
 /**
@@ -247,7 +247,7 @@ public class CanvasProxy {
 		}
 		String redirectPath = "/secure/dashboard";
 		try {
-			redirectPath = Base64.decode(request.getParameter("redirectUri"), "UTF-8");
+			redirectPath = URLDecoder.decode(request.getParameter("redirectUri"), "UTF-8");
 		} catch (UnsupportedEncodingException e) {
 			LOGGER.error("UTF-8 not supported?");
 		}
