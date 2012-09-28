@@ -30,10 +30,14 @@ calcentral.Widgets.profile = function(tuid) {
 				'preferredName': $(this).val()
 			});
 		});
-
 		$linkInput = $('#cc-widget-profile-link', $rootel).on('blur', function() {
 			saveProfile({
 				'link': $(this).val()
+			});
+		});
+		$profileImageLinkInput = $('#cc-widget-profile-profileImageLink', $rootel).on('blur', function() {
+			saveProfile({
+				'profileImageLink': $(this).val()
 			});
 		});
 	};
