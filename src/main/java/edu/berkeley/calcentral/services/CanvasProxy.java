@@ -18,6 +18,7 @@
 
 package edu.berkeley.calcentral.services;
 
+import com.Ostermiller.util.Base64;
 import com.google.common.collect.ImmutableMap;
 import edu.berkeley.calcentral.Params;
 import edu.berkeley.calcentral.Urls;
@@ -45,6 +46,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.util.Map;
 
@@ -243,10 +245,13 @@ public class CanvasProxy {
 				oAuth2Dao.delete(userId, CANVAS_APP_ID);
 			}
 		}
-		String redirectPath = request.getParameter("redirectUri");
-		if (redirectPath == null) {
-			redirectPath = "/secure/dashboard";
+		String redirectPath = "/secure/dashboard";
+		try {
+			redirectPath = Base64.decode(request.getParameter("redirectUri"), "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			LOGGER.error("UTF-8 not supported?");
 		}
+		LOGGER.error("redirectPath: " + redirectPath);
 		URI redirectUri = URI.create(redirectPath);
 		return Response.seeOther(redirectUri).build();
 	}
