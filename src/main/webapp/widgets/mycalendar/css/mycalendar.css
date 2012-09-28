@@ -18,6 +18,7 @@
 	overflow: hidden;
 }
 .cc-widget-mycalendar-datelist li:first-child {
+	background: #f2fef3;
 	color: #000;
 }
 .cc-widget-mycalendar-datelist li:last-child {
