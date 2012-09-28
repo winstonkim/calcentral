@@ -106,4 +106,21 @@ public class CanvasProxyTest extends DatabaseAwareTest {
 			LOGGER.error("Got a RestClientException, is canvas server properly configured or unavailable?", e);
 		}
 	}
+
+	@Test
+	public void getCourseWithQueryString() throws Exception {
+		try {
+			Response allCourses = proxy.doAdminMethod(HttpMethod.GET, Urls.CANVAS_ACCOUNT_PATH + "/courses");
+			JSONArray json = new JSONArray(allCourses.getEntity().toString());
+			JSONObject first = json.getJSONObject(0);
+			int id = first.getInt("id");
+			Response firstResponse = proxy.doAdminMethod(HttpMethod.GET, "courses/" + id + "?include=syllabus_body");
+			LOGGER.info(firstResponse);
+			assertNotNull(firstResponse);
+			assertTrue(firstResponse.getEntity().toString().contains("syllabus_body"));
+		} catch (RestClientException e) {
+			LOGGER.error("Got a RestClientException, is canvas server properly configured or unavailable?", e);
+		}
+	}
+
 }

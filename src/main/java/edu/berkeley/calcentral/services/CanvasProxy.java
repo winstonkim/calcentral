@@ -114,7 +114,7 @@ public class CanvasProxy {
 	@Produces({MediaType.APPLICATION_JSON})
 	public Response get(@PathParam(value = "canvaspath") String canvasPath, @Context HttpServletRequest request) {
 		String accessToken = getAccessToken(request);
-		return doMethod(HttpMethod.GET, RestUtils.convertToEntity(request, accessToken), canvasPath);
+		return doMethod(HttpMethod.GET, RestUtils.convertToEntity(request, accessToken), RestUtils.pathPlusQueryString(canvasPath, request));
 	}
 	/**
 	 * Do a PUT on the Canvas server as the current user.
@@ -127,7 +127,7 @@ public class CanvasProxy {
 	@Produces({MediaType.APPLICATION_JSON})
 	public Response put(@PathParam(value = "canvaspath") String canvasPath, @Context HttpServletRequest request) {
 		String accessToken = getAccessToken(request);
-		return doMethod(HttpMethod.PUT, RestUtils.convertToEntity(request, accessToken), canvasPath);
+		return doMethod(HttpMethod.PUT, RestUtils.convertToEntity(request, accessToken), RestUtils.pathPlusQueryString(canvasPath, request));
 	}
 
 	/**
@@ -141,7 +141,7 @@ public class CanvasProxy {
 	@Produces({MediaType.APPLICATION_JSON})
 	public Response post(@PathParam(value = "canvaspath") String canvasPath, @Context HttpServletRequest request) {
 		String accessToken = getAccessToken(request);
-		return doMethod(HttpMethod.POST, RestUtils.convertToEntity(request, accessToken), canvasPath);
+		return doMethod(HttpMethod.POST, RestUtils.convertToEntity(request, accessToken), RestUtils.pathPlusQueryString(canvasPath, request));
 	}
 
 	/**
@@ -155,7 +155,7 @@ public class CanvasProxy {
 	@Produces({MediaType.APPLICATION_JSON})
 	public Response delete(@PathParam(value = "canvaspath") String canvasPath, @Context HttpServletRequest request) {
 		String accessToken = getAccessToken(request);
-		return doMethod(HttpMethod.DELETE, RestUtils.convertToEntity(request, accessToken), canvasPath);
+		return doMethod(HttpMethod.DELETE, RestUtils.convertToEntity(request, accessToken), RestUtils.pathPlusQueryString(canvasPath, request));
 	}
 
 	/**
