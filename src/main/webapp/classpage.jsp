@@ -108,10 +108,10 @@
 
 		<script id="cc-page-classpage-sections-template" type="text/x-handlebars-template">
 		{{#if sections}}
-		<span id="classpages_showhideall">
+		<div id="classpages_showhideall" class="cc-right">
 			<button id="classpages_expandall" class="cc-link-button">Expand all</button> |
 			<button id="classpages_collapseall" class="cc-link-button">Collapse all</button>
-		</span>
+		</div>
 		<table id="classpages_section_results">
 			<thead>
 				<tr>

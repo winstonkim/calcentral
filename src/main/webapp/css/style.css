@@ -891,6 +891,7 @@ ul.cc-page-classpage-instructor-item li:last-child {
 }
 
 table#classpages_section_results {
+	clear: both;
 	font-size: 0.9em;
 	margin-top: 20px;
 	width: 100%;
@@ -962,8 +963,7 @@ span.classpages_section_title_warrow {
 	display: block;
 }
 
-span#classpages_showhideall {
-	float: right;
+#classpages_showhideall {
 	margin-right: 10px;
 }
 
