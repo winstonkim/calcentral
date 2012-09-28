@@ -68,8 +68,10 @@ calcentral.Widgets.tasks = function(tuid) {
 			}
 			// END POC TEMPORARY
 
-			// Grep out this assignment's course ID and set course title properties for assignments.
+			// Grep out this assignment's course ID and URL; set matching course properties for assignments.
 			var courseId = parseInt(data[index].html_url.match(/\d+/g)[0], 10);
+			var courseURL = data[index].html_url.match(/^.*\d+\//g);
+			data[index].sourceUrl = courseURL;
 			$.each(courseData, function(i, v){
 				if (v.id === courseId) {
 					data[index].source = v.course_code;
