@@ -6,6 +6,7 @@
 .cc-widget-mycalendar-datelist {
 	list-style-type: none;
 	margin: 0;
+	max-height: 160px;
 	overflow: auto;
 	padding: 0;
 }
