@@ -165,7 +165,6 @@ public class Sakai2Proxy {
 		String hmac;
 		final String message = username + TOKEN_SEPARATOR + System.currentTimeMillis();
 		try {
-			LOGGER.debug("Shared secret = " + sharedSecret);
 			hmac = Signature.calculateRFC2104HMAC(message, sharedSecret);
 		} catch (SignatureException e) {
 			LOGGER.error(e.getLocalizedMessage(), e);

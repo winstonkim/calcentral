@@ -94,8 +94,7 @@ public class CanvasProxy {
 
 	@PostConstruct
 	public void init() {
-		LOGGER.info("canvasRoot = " + canvasRoot + "; canvas access token = " + adminAccessToken +
-				"; account ID = " + accountId);
+		LOGGER.info("canvasRoot = " + canvasRoot);
 	}
 
 	public Response doAdminMethod(HttpMethod httpMethod, String canvasPath) {

@@ -104,6 +104,10 @@
 			ignore-resource-not-found="true"
 			ignore-unresolvable="true"/>
 
+	<context:property-override
+			location="file:///${customPropsDir}/calcentral.properties"
+			ignore-resource-not-found="true" />
+
 	<util:properties id="gitProperties" location="classpath:/git.properties"/>
 
 	<beans profile="default">
