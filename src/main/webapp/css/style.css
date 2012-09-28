@@ -238,6 +238,9 @@ a:hover, a:focus {
 
 body > header {
 	background: url("/img/myb/cc_branding_strip.png");
+	border: 1px solid #d3d8d8;
+	border-bottom: none;
+	border-top: none;
 	cursor: pointer;
 	margin: 0 auto;
 	height: 42px;
