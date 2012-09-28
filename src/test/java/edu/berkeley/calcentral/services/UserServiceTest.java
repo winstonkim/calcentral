@@ -62,6 +62,7 @@ public class UserServiceTest extends DatabaseAwareTest {
 		User user = (User) userMap.get("user");
 		assertNotNull(user);
 		assertEquals("Oliver Heyer", user.getPreferredName());
+		assertNotNull(user.getFirstLogin());
 		assertNull(userMap.get("widgetData"));
 	}
 

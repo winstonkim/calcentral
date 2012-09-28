@@ -106,8 +106,11 @@ public class ClassPagesService {
 		telemetry.end();
 		for (ClassPageInstructor instructor : classPageInstructors) {
 			instructor.emailDisclosureDecode();
-			String url = userService.getUser(instructor.getId()).getLink();
+			User customInstructorFields = userService.getUser(instructor.getId());
+			String url = customInstructorFields.getLink();
 			instructor.setUrl(url);
+			String profileImg = Strings.nullToEmpty(customInstructorFields.getProfileImageLink());
+			instructor.setImg(profileImg);
 		}
 		classPageResult.setInstructors(classPageInstructors);
 

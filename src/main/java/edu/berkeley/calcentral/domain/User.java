@@ -18,6 +18,8 @@ public class User {
 
 	private String link;
 
+	private String profileImageLink;
+
 	private Timestamp firstLogin;
 
 	public User() {
@@ -55,14 +57,22 @@ public class User {
 		this.firstLogin = firstLogin;
 	}
 
+	public String getProfileImageLink() {
+		return profileImageLink;
+	}
+
+	public void setProfileImageLink(String profileImageLink) {
+		this.profileImageLink = profileImageLink;
+	}
+
 	@Override
 	public String toString() {
 		return "User{" +
 				"uid='" + uid + '\'' +
 				", preferredName='" + preferredName + '\'' +
 				", link='" + link + '\'' +
+				", profileImageLink='" + profileImageLink + '\'' +
 				", firstLogin=" + firstLogin +
 				'}';
 	}
-
 }

@@ -12,7 +12,7 @@ import java.sql.Timestamp;
 public class UserDao extends BaseDao {
 
 	public User get(String uid) {
-		String sql = "SELECT uid, preferredName, link, firstLogin, '' email " +
+		String sql = "SELECT uid, preferredName, link, firstLogin, profileImageLink " +
 				"FROM calcentral_users " +
 				"WHERE uid = :uid";
 		MapSqlParameterSource params = new MapSqlParameterSource("uid", uid);
@@ -31,8 +31,21 @@ public class UserDao extends BaseDao {
 			sql.append(" ,link = :link");
 			params.addValue("link", user.getLink());
 		}
+		if (StringUtils.hasLength(user.getProfileImageLink())) {
+			sql.append(" ,profileImageLink = :profileImageLink");
+			params.addValue("profileImageLink", user.getProfileImageLink());
+		}
 		sql.append(" WHERE uid = :uid");
 		queryRunner.update(sql.toString(), params);
+	}
+
+	public void updateFirstAccessTimestamp(User user) {
+		String sql = "UPDATE calcentral_users "
+					+ " SET uid=uid, firstLogin = :firstLogin"
+					+ " WHERE uid = :uid";
+		MapSqlParameterSource params = new MapSqlParameterSource("uid", user.getUid())
+				.addValue("firstLogin", new Timestamp(System.currentTimeMillis()));
+		queryRunner.update(sql, params);
 	}
 
 	public void insert(String uid) {

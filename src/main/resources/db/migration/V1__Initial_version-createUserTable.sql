@@ -6,6 +6,7 @@ CREATE TABLE calcentral_users (
     uid VARCHAR(255) NOT NULL,
     preferredName VARCHAR(255),
     link VARCHAR(255),
+    profileImageLink TEXT,
     firstLogin TIMESTAMP,
     PRIMARY KEY (id)
 );
@@ -232,6 +233,7 @@ CREATE UNIQUE INDEX calcentral_classtree_departments_id_index ON calcentral_clas
 
 -- Add profile URLs for selected instructors.
 INSERT INTO calcentral_users (uid, link) VALUES ('191779', 'http://birdhouse.org/blog/');
+INSERT INTO calcentral_users (uid, profileimagelink) values ('300883', 'https://ucberkeley.instructure.com/images/thumbnails/21446477/rrV3CW9MapIJBpYMhRrWFth6tqW5xX2NG1EMatL5');
 
 -- Add webcasts table and initial data
 
