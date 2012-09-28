@@ -30,33 +30,35 @@ public class ClassPageSchedule {
 
 	private void weekdaysDecode() {
 		List<String> weekdaysList = Lists.newArrayList();
-		Map<Character, String> weekdayDict = Maps.newHashMap();
-		weekdayDict.put('M', "Mon");
-		weekdayDict.put('W', "Wed");
-		weekdayDict.put('F', "Fri");
-		
-		//because some genius decided not to differentiate between tues and thurs, sunday and saturdays...
-		int index = 0;
-		for (char possibleDay : misc_weekdays) {
-			String translatedDay = "";
-			if (possibleDay == 'S' && index == 0) {
-				translatedDay = "Sun";
-			} else if (possibleDay == 'S' && index == 6) {
-				translatedDay = "Sat";
-			} else if (possibleDay == 'T' && index == 2) {
-				translatedDay = "Tues";
-			} else if (possibleDay == 'T' && index == 4) {
-				translatedDay = "Thurs";
-			} else {
-				translatedDay = Strings.nullToEmpty(weekdayDict.get(possibleDay));
+		if (misc_weekdays != null) {
+			Map<Character, String> weekdayDict = Maps.newHashMap();
+			weekdayDict.put('M', "Mon");
+			weekdayDict.put('W', "Wed");
+			weekdayDict.put('F', "Fri");
+
+			//because some genius decided not to differentiate between tues and thurs, sunday and saturdays...
+			int index = 0;
+			for (char possibleDay : misc_weekdays) {
+				String translatedDay = "";
+				if (possibleDay == 'S' && index == 0) {
+					translatedDay = "Sun";
+				} else if (possibleDay == 'S' && index == 6) {
+					translatedDay = "Sat";
+				} else if (possibleDay == 'T' && index == 2) {
+					translatedDay = "Tues";
+				} else if (possibleDay == 'T' && index == 4) {
+					translatedDay = "Thurs";
+				} else {
+					translatedDay = Strings.nullToEmpty(weekdayDict.get(possibleDay));
+				}
+
+				if (!translatedDay.isEmpty()) {
+					weekdaysList.add(translatedDay);
+				}
+				index++;
 			}
-			
-			if (!translatedDay.isEmpty()) {
-				weekdaysList.add(translatedDay);
-			}
-			index++;
 		}
-		
+
 		StringBuilder sb = new StringBuilder();
 		for(int i = 0; i < weekdaysList.size(); i++) {
 			if (i == 0) {

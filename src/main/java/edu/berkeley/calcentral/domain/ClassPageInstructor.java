@@ -18,7 +18,7 @@ public class ClassPageInstructor {
 	private String misc_email_disclosure;
 	
 	public void emailDisclosureDecode() {
-		if (misc_email_disclosure.equalsIgnoreCase("N")) {
+		if ((misc_email_disclosure != null) && misc_email_disclosure.equalsIgnoreCase("N")) {
 			email = "";
 		}
 	}
