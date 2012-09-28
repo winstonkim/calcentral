@@ -131,13 +131,14 @@ public class ClassPagesDao extends BaseDao {
 				"  '' title," +
 				"  '' url" +
 				"  FROM BSPACE_COURSE_INFO_VW bci" +
-				"  JOIN BSPACE_CLASS_SCHEDULE_VW bcs on" +
+				"  LEFT JOIN BSPACE_CLASS_SCHEDULE_VW bcs on" +
 				"  (bcs.TERM_YR = bci.TERM_YR AND bcs.TERM_CD = bci.TERM_CD AND bcs.COURSE_CNTL_NUM = bci.COURSE_CNTL_NUM" +
 				"  AND (trim(bcs.MEETING_DAYS) != 'UNSCHED' AND trim(bcs.BUILDING_NAME) != 'NO FACILITY'))" +
-				"  JOIN BSPACE_COURSE_INSTRUCTOR_VW bcci on ( bcci.TERM_YR = bci.TERM_YR AND bcci.TERM_CD = bci.TERM_CD AND bcci.COURSE_CNTL_NUM = bci.COURSE_CNTL_NUM )" +
+				"  LEFT JOIN BSPACE_COURSE_INSTRUCTOR_VW bcci on ( bcci.TERM_YR = bci.TERM_YR AND bcci.TERM_CD = bci.TERM_CD AND bcci.COURSE_CNTL_NUM = bci.COURSE_CNTL_NUM )" +
 				"  JOIN BSPACE_PERSON_INFO_VW bpi on (bpi.ldap_uid = bcci.instructor_ldap_uid)" +
 				"  WHERE bci.TERM_YR = :year AND bci.TERM_CD = :term" +
 				"  AND bci.DEPT_NAME = :deptName AND bci.CATALOG_ID = :catalogId" +
+				"  AND NVL(bci.SECTION_CANCEL_FLAG, 'N') <> 'Y'" +
 				"  ORDER BY bci.PRIMARY_SECONDARY_CD, section, bcci.MULTI_ENTRY_CD";
 		return campusQueryRunner.query(sql, params, sectionExtractor);
 	}
