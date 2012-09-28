@@ -77,12 +77,11 @@
 			{{#if instructors}}
 				{{#each instructors}}
 					<li>
-					{{#instrimg}}
-						<img class="cc-page-classpage-instructor-profile" src="{{img}}" />
-					{{/instrimg}}
-					{{^instrimg}}
+					{{#if img}}
+						<img class="cc-page-classpage-instructor-profile" src="{{img}}" width="100" height="100"/>
+					{{else}}
 						<img class="cc-page-classpage-instructor-profile" src="/img/myb/default_User_icon_100x100.png" />
-					{{/instrimg}}
+					{{/if}}
 
 						<div class="cc-page-classpage-instructor-heading">
 						{{#if name}}

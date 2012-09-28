@@ -751,8 +751,7 @@ body > header > h1 {
 }
 .cc-page-classpage-instructor .cc-page-classpage-instructor-profile {
 	float: left;
-	margin-right: 20px;
-	padding-bottom:20px;
+	margin: 0 20px 20px 0;
 }
 .cc-page-classpage-instructor-item li {
 	margin-bottom: 20px;

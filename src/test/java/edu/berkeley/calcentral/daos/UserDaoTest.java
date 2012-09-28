@@ -103,4 +103,15 @@ public class UserDaoTest extends DatabaseAwareTest {
 		assertNotNull(user);
 	}
 
+	@Test
+	public void updateTimestamp() throws Exception {
+		String uid = randomString();
+		dao.insert(uid);
+		User user = dao.get(uid);
+		long oldTimestamp = user.getFirstLogin().getTime();
+		dao.updateFirstAccessTimestamp(user);
+		long newTimestamp = user.getFirstLogin().getTime();
+		assertNotSame(oldTimestamp, newTimestamp);
+	}
+
 }

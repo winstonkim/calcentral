@@ -122,6 +122,9 @@ public class UserService implements UserDetailsService {
 		User user;
 		try {
 			user = userDao.get(uid);
+			if (user.getFirstLogin() == null) {
+				userDao.updateFirstAccessTimestamp(user);
+			}
 		} catch (EmptyResultDataAccessException e) {
 			userDao.insert(uid);
 			user = userDao.get(uid);
