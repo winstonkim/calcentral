@@ -251,7 +251,7 @@ public class CanvasProxy {
 		} catch (UnsupportedEncodingException e) {
 			LOGGER.error("UTF-8 not supported?");
 		}
-		LOGGER.error("redirectPath: " + redirectPath);
+		LOGGER.info("redirectPath: " + redirectPath);
 		URI redirectUri = URI.create(redirectPath);
 		return Response.seeOther(redirectUri).build();
 	}
