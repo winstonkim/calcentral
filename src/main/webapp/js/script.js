@@ -785,7 +785,7 @@ var calcentral = calcentral || {};
 			'feedSubTitle': webcastData.feed.subtitle.$t,
 			'feedTitle': webcastData.feed.title.$t,
 			'feedThumb': webcastData.feed.media$group.media$thumbnail[1].url,
-			'videoURL': 'http://www.youtube.com/watch?v='
+			'videoURL': '//www.youtube.com/watch?v='
 		};
 
 		parsedData.entries = _.map(webcastData.feed.entry, function(item) {
@@ -793,7 +793,7 @@ var calcentral = calcentral || {};
 				'entryTitle': item.title.$t,
 				'entrySubTitle': item.media$group.media$description.$t,
 				'feedURL': item.link[1].href,
-				'thumb': "http://img.youtube.com/vi/" + item.media$group.yt$videoid.$t + "/default.jpg",
+				'thumb': "//img.youtube.com/vi/" + item.media$group.yt$videoid.$t + "/default.jpg",
 				'videoID': item.media$group.yt$videoid.$t,
 				'viewCount': item.yt$statistics.viewCount
 			};

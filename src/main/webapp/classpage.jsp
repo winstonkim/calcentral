@@ -202,7 +202,7 @@
 								<td>
 									{{#if final_datetime}}{{final_datetime}}
 										{{#if final_coords}}
-											<a href="http://maps.google.com/maps?daddr={{final_coords}}&l=en&dirflg=w&t=m&z=17" target="_blank">in {{final_location}}</a>
+											<a href="//maps.google.com/maps?daddr={{final_coords}}&l=en&dirflg=w&t=m&z=17" target="_blank">in {{final_location}}</a>
 										{{else}}
 											<em>Not available</em>
 										{{/if}}
@@ -225,7 +225,7 @@
 								<td>
 									{{#if midterm_datetime}}{{midterm_datetime}}
 										{{#if midterm_coords}}
-											<a href="http://maps.google.com/maps?daddr={{midterm_coords}}&l=en&dirflg=w&t=m&z=17" target="_blank">in {{midterm_location}}</a>
+											<a href="//maps.google.com/maps?daddr={{midterm_coords}}&l=en&dirflg=w&t=m&z=17" target="_blank">in {{midterm_location}}</a>
 										{{/if}}
 									{{else}}
 										<em>Not available</em>
@@ -254,7 +254,7 @@
 
 					<td colspan="2">
 						{{#if coords}}
-							<a href="http://maps.google.com/maps?daddr={{coords}}&l=en&dirflg=w&t=m&z=17" target="_blank"><img src="http://maps.googleapis.com/maps/api/staticmap?center={{coords}}&zoom=16&size=200x200&maptype=roadmap&markers=color:blue%7C{{coords}}&sensor=false" / alt="Map for {{location}}"></a>
+							<a href="//maps.google.com/maps?daddr={{coords}}&l=en&dirflg=w&t=m&z=17" target="_blank"><img src="//maps.googleapis.com/maps/api/staticmap?center={{coords}}&zoom=16&size=200x200&maptype=roadmap&markers=color:blue%7C{{coords}}&sensor=false" / alt="Map for {{location}}"></a>
 						{{else}}
 							<img src="/img/myb/classpages_map_not_available.png" alt="Map is not available" />
 						{{/if}}
@@ -319,7 +319,7 @@
 		</script>
 
 		<script id="cc-page-classpage-webcasts-thumb-template" type="text/x-handlebars-template">
-			<iframe width='400' height='250' src='http://www.youtube.com/embed/{{id}}?autoplay=1' frameborder='0' allowfullscreen></iframe>
+			<iframe width='400' height='250' src='//www.youtube.com/embed/{{id}}?autoplay=1' frameborder='0' allowfullscreen></iframe>
 		</script>
 
 		<!-- END Page specific HTML -->
