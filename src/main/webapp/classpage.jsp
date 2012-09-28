@@ -56,7 +56,7 @@
 		</script>
 
 		<script id="cc-page-classpage-description-template" type="text/x-handlebars-template">
-			{{description}}
+			{{#if description}}{{description}}{{else}}<em>Description not available</em>{{/if}}
 		</script>
 
 		<script id="cc-page-classpage-courseinfo-template" type="text/x-handlebars-template">
@@ -263,7 +263,7 @@
 				{{/each}}
 			</tbody>
 		{{else}}
-			<p><em>Not available</em></p>
+			<p class="cc-widget-main"><em>Details not available</em></p>
 		{{/if}}
 		</script>
 
