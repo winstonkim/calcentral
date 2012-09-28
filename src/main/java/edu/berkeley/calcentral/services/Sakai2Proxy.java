@@ -48,7 +48,6 @@ import java.io.IOException;
 import java.security.SignatureException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Properties;
 
 @Service
 @Path(Urls.BSPACE_FAVORITES)
@@ -157,7 +156,7 @@ public class Sakai2Proxy {
 			result.put("body", "");
 			result.put("statusCode", 503);
 			result.put("statusText", "Server unreachable");
-			LOGGER.error("Sakai2 Proxy server unreachable due to IOException. Message: " + ioe.getMessage());
+			LOGGER.error("Sakai2 server unreachable due to IOException. Message: " + ioe.getMessage());
 		}
 		return result;
 	}
