@@ -307,6 +307,7 @@
 					</systemProperties>
 					<webApp>
 						<contextPath>/</contextPath>
+						<defaultsDescriptor>src/main/webapp/WEB-INF/webdefault.xml</defaultsDescriptor>
 					</webApp>
 				</configuration>
 				<executions>
