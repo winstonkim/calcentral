@@ -324,14 +324,14 @@ body > header > h1 {
 
 /* Launcher */
 .cc-launcher {
-	padding: 1px 0 1px 5px;
+	padding: 1px 0 2px 5px;
 	position: absolute;
 	right: 0;
 	top: 0;
 }
 .cc-launcher, .cc-launcher .cc-launcher-dropdown {
-	background: #CDDDE2;
-	border: 1px solid #9AB8CA;
+	background: #fff;
+	border: 1px solid #114d80;
 	border-bottom-left-radius: 6px;
 	border-right: none;
 	border-top: none;
@@ -344,7 +344,7 @@ body > header > h1 {
 	margin-left: 5px;
 }
 .cc-launcher .cc-launcher-info {
-	border-left: 1px solid #9AB8CA;
+	border-left: 1px solid #114D80;
 	margin-left: 10px;
 	padding: 5px 10px;
 }
