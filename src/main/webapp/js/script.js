@@ -726,7 +726,11 @@ var calcentral = calcentral || {};
 
 	var $classPageContainer = $('#cc-page-classpage-overview', $classPage);
 
-	var renderLeftHandClassPageNavigation = function() {
+	/**
+	 * Render the left hand navigation for the classpage
+	 * @param {Object} data The classpage data
+	 */
+	var renderLeftHandClassPageNavigation = function(data) {
 		var deactivatePage = function() {
 			$('.cc-container-main-active').removeClass('cc-container-main-active').hide();
 			$('.cc-lefthandnavigation-item-selected').removeClass('cc-lefthandnavigation-item-selected');
@@ -741,7 +745,9 @@ var calcentral = calcentral || {};
 
 		calcentral.Api.Util.renderTemplate({
 			'container': $('.cc-container-main-left'),
-			'data': {},
+			'data': {
+				'hasWebCasts': data.courseinfo.webcastUrl
+			},
 			'template': $('#cc-container-main-left-template')
 		});
 
@@ -803,6 +809,10 @@ var calcentral = calcentral || {};
 	};
 
 	var fetchWebcastInfo = function(classPageData) {
+		// We don't need to fetch the webcast info if it doesn't exist
+		if (!classPageData.courseinfo.webcastUrl) {
+			return;
+		}
 		$.ajax({
 			'dataType': 'json',
 			'success': function(webcastData) {
@@ -879,7 +889,7 @@ var calcentral = calcentral || {};
 
 		fetchWebcastInfo(data);
 
-		renderLeftHandClassPageNavigation();
+		renderLeftHandClassPageNavigation(data);
 	};
 
 	var singleToggle = function() {
