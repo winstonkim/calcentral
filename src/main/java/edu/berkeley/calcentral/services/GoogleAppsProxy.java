@@ -34,7 +34,6 @@ import org.apache.log4j.Logger;
 import org.jboss.resteasy.core.ServerResponse;
 import org.jboss.resteasy.spi.InternalServerErrorException;
 import org.jboss.resteasy.spi.UnauthorizedException;
-import org.jboss.resteasy.spi.WriterException;
 import org.jboss.resteasy.util.HttpResponseCodes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
@@ -55,7 +54,6 @@ import javax.ws.rs.core.Response;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
-import java.net.URLDecoder;
 import java.util.Collections;
 
 /**
@@ -134,26 +132,9 @@ public class GoogleAppsProxy {
 
 		Credential credential = getCredential(userID);
 
-		String fullGetPath;
-		if (request.getQueryString() != null) {
-			try {
-				/*
-				 * This should help support both the cases of encoded and non-encoded query strings.
-				 * If the query string is already decoded, then there should be no change, else the
-				 * query string will be decoded and then handled by restTemplate (so it doesn't encode twice).
-				 */
-				fullGetPath = googlePath + "?" + URLDecoder.decode(request.getQueryString(), "UTF-8");
-			} catch (UnsupportedEncodingException e) {
-				String errorString = "Could not decode query string: " + e.getMessage();
-				LOGGER.error(errorString);
-				throw new WriterException(errorString);
-			}
-		} else {
-			fullGetPath = googlePath;
-		}
-
 		try {
-			return doMethod(HttpMethod.GET, RestUtils.convertToEntity(request, credential.getAccessToken()), fullGetPath);
+			return doMethod(HttpMethod.GET, RestUtils.convertToEntity(request, credential.getAccessToken()),
+					RestUtils.pathPlusQueryString(googlePath, request));
 		} catch (HttpClientErrorException error4xx) {
 			if (error4xx.getStatusCode().value() == HttpResponseCodes.SC_UNAUTHORIZED) {
 				oAuth2Dao.delete(userID, GoogleCredentialStore.GOOGLE_APP_ID);
