@@ -613,7 +613,7 @@ var calcentral = calcentral || {};
 			var selectedItemPosition = $this.position();
 			$openMenu.css({
 				'top': selectedItemPosition.top + $this.outerHeight() - 2,
-				'width': $this.outerWidth()
+				'width': $this.outerWidth() + 1
 			}).show();
 		});
 

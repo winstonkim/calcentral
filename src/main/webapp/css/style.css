@@ -329,14 +329,13 @@ body > header > h1 {
 .cc-launcher {
 	padding: 1px 0 2px 5px;
 	position: absolute;
-	right: 0;
+	right: -1px;
 	top: 0;
 }
 .cc-launcher, .cc-launcher .cc-launcher-dropdown {
 	background: #fff;
 	border: 1px solid #114d80;
 	border-bottom-left-radius: 6px;
-	border-right: none;
 	border-top: none;
 }
 .cc-launcher a {
@@ -357,7 +356,7 @@ body > header > h1 {
 .cc-launcher .cc-launcher-dropdown {
 	display: none;
 	position: absolute;
-	right: 0;
+	right: -1px;
 	z-index: 4;
 }
 .cc-launcher .cc-launcher-dropdown a {
