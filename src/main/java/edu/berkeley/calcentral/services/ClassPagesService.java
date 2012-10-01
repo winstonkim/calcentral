@@ -140,10 +140,8 @@ public class ClassPagesService {
 	private void mergeCampusData(ClassPageInstructor instructor) {
 		instructor.emailDisclosureDecode();
 		User customInstructorFields = userService.getUser(instructor.getId());
-		String url = customInstructorFields.getLink();
-		instructor.setUrl(url);
-		String profileImg = Strings.nullToEmpty(customInstructorFields.getProfileImageLink());
-		instructor.setImg(profileImg);
+		instructor.setUrl(Strings.nullToEmpty(customInstructorFields.getLink()));
+		instructor.setImg(Strings.nullToEmpty(customInstructorFields.getProfileImageLink()));
 	}
 
 }
