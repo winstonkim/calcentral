@@ -845,13 +845,12 @@ var calcentral = calcentral || {};
 				'include': 'syllabus_body'
 			},
 			'success': function(syllabusData) {
-				var hasSyllabus = true; // For LH nav
+				// We have syllabus data; enable LH nav for it.
+				$('.cc-lefthandnavigation li a[data-page-id="syllabus"]').show();
 				renderSyllabus(syllabusData, classPageData);
 			},
 			'error': function() {
 				console.log('script.js --> Could not load syllabus data from Canvas.');
-				// TODO Temporily hide for non-auth users until we have anon syllabus data
-				$('.cc-lefthandnavigation li a[data-page-id="syllabus"]').hide();
 			}
 		});
 	};
