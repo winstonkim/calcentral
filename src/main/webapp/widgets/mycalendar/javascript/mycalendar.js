@@ -71,6 +71,11 @@ calcentral.Widgets.mycalendar = function(tuid) {
 	 */
 	var parseEvents = function(data) {
 
+		// If we don't get any items, we just exit this function
+		if (!data.items) {
+			return data;
+		}
+
 		// Sort events
 		data.items.sort(sortEvents);
 
