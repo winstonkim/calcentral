@@ -931,7 +931,7 @@ var calcentral = calcentral || {};
 	var showNotes = function() {
 		// Throw alerts when "Notes" are present for midterms or finals
 		$('a.show_note').on('click',function() {
-			alert($(this).attr('data-note'));
+			window.alert($(this).attr('data-note'));
 		});
 	};
 
