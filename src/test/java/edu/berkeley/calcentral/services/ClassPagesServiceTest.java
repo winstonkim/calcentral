@@ -55,6 +55,10 @@ public class ClassPagesServiceTest extends DatabaseAwareTest {
 		assertTrue(classPage.getSections().size() > 0);
 		assertNotNull(classPage.getSections().get(0).getSection_instructors());
 		assertTrue(classPage.getSections().get(0).getSection_instructors().size() > 0);
+		ClassPageInstructor firstSectionsFirstInstructor = classPage.getSections().get(0).getSection_instructors().get(0);
+		assertNotNull(firstSectionsFirstInstructor.getEmail());
+		assertNotNull(firstSectionsFirstInstructor.getUrl());
+		assertNotNull(firstSectionsFirstInstructor.getImg());
 		assertNotNull(classPage.getSchedule());
 		LOGGER.debug(classPage);
 	}

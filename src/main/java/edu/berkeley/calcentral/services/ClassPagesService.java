@@ -105,12 +105,7 @@ public class ClassPagesService {
 		List<ClassPageInstructor> classPageInstructors = classPagesDao.getCourseInstructors(yearInt, term, courseID);
 		telemetry.end();
 		for (ClassPageInstructor instructor : classPageInstructors) {
-			instructor.emailDisclosureDecode();
-			User customInstructorFields = userService.getUser(instructor.getId());
-			String url = customInstructorFields.getLink();
-			instructor.setUrl(url);
-			String profileImg = Strings.nullToEmpty(customInstructorFields.getProfileImageLink());
-			instructor.setImg(profileImg);
+			mergeCampusData(instructor);
 		}
 		classPageResult.setInstructors(classPageInstructors);
 
@@ -128,11 +123,27 @@ public class ClassPagesService {
 		List<ClassPageSection> classPageSections = classPagesDao.getSectionsWithInstructors(yearInt, term, deptName, catalogId);
 		telemetry.end();
 
+		telemetry = new Telemetry(this.getClass(), "classPagesDao.merge Campus Data for all Instructors in all sections");
+		for ( ClassPageSection section : classPageSections ) {
+			for ( ClassPageInstructor instructor : section.getSection_instructors() ) {
+				mergeCampusData(instructor);
+			}
+		}
+		telemetry.end();
+
 		//TODO: can probably use predicates here, to get a list of sections we want to keep.
 		classPageResult.setSections(classPageSections);
 
 		return classPageResult;
 	}
 
+	private void mergeCampusData(ClassPageInstructor instructor) {
+		instructor.emailDisclosureDecode();
+		User customInstructorFields = userService.getUser(instructor.getId());
+		String url = customInstructorFields.getLink();
+		instructor.setUrl(url);
+		String profileImg = Strings.nullToEmpty(customInstructorFields.getProfileImageLink());
+		instructor.setImg(profileImg);
+	}
 
 }
