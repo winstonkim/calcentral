@@ -22,7 +22,9 @@ public class ClassPageCourseInfo {
 	private String department;
 	private String coursenum;
 	private String units;
+	private String webcastId;
 	private String webcastUrl;
+	private String canvasCourseId;
 
 	//hidden values used for parsing
 	private String misc_scheduleprintcd;
@@ -37,6 +39,7 @@ public class ClassPageCourseInfo {
 		termDecode();
 		courseNumDecode();
 		unitsDecode();
+		webcastUrlDecode();
 	}
 	
 	private void gradingDecode() {
@@ -84,7 +87,7 @@ public class ClassPageCourseInfo {
 	}
 
 	private void unitsDecode() {
-		if (!misc_fixedunit.equalsIgnoreCase("0.0")) {
+		if (misc_fixedunit != null && !misc_fixedunit.equalsIgnoreCase("0.0")) {
 			units = misc_fixedunit;
 			return;
 		}
@@ -100,7 +103,15 @@ public class ClassPageCourseInfo {
 		units = variableUnitValue;
 		return;
 	}
-	
+
+	private void webcastUrlDecode() {
+		if ( webcastId != null ) {
+			webcastUrl = "http://gdata.youtube.com/feeds/api/playlists/" + webcastId + "?v=2&alt=json&max-results=50";
+		} else {
+			webcastUrl = "";
+		}
+	}
+
 	public String getTitle() {
 		return title;
 	}
@@ -134,8 +145,14 @@ public class ClassPageCourseInfo {
 	public String getUnits() {
 		return units;
 	}
+	public String getWebcastId() {
+		return webcastId;
+	}
 	public String getWebcastUrl() {
 		return webcastUrl;
+	}
+	public String getCanvasCourseId() {
+		return canvasCourseId;
 	}
 	public void setTitle(String title) {
 		this.title = title;
@@ -216,8 +233,14 @@ public class ClassPageCourseInfo {
 	public void setMisc_deptname(String misc_deptname) {
 		this.misc_deptname = misc_deptname;
 	}
+	public void setWebcastId(String webcastId) {
+		this.webcastId = webcastId;
+	}
 	public void setWebcastUrl(String webcastUrl) {
 		this.webcastUrl = webcastUrl;
+	}
+	public void setCanvasCourseId(String canvasCourseId) {
+		this.canvasCourseId = canvasCourseId;
 	}
 
 	@Override
@@ -236,6 +259,7 @@ public class ClassPageCourseInfo {
 				", coursenum='" + coursenum + '\'' +
 				", units='" + units + '\'' +
 				", webcastUrl=" + webcastUrl +
+				", canvasCourseId=" + canvasCourseId +
 				", misc_scheduleprintcd='" + misc_scheduleprintcd + '\'' +
 				", misc_lowerRangeUnit='" + misc_lowerRangeUnit + '\'' +
 				", misc_upperRangeUnit='" + misc_upperRangeUnit + '\'' +

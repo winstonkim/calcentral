@@ -235,55 +235,56 @@ CREATE UNIQUE INDEX calcentral_classtree_departments_id_index ON calcentral_clas
 INSERT INTO calcentral_users (uid, link) VALUES ('191779', 'http://birdhouse.org/blog/');
 INSERT INTO calcentral_users (uid, profileimagelink) values ('300883', 'https://ucberkeley.instructure.com/images/thumbnails/21446477/rrV3CW9MapIJBpYMhRrWFth6tqW5xX2NG1EMatL5');
 
--- Add webcasts table and initial data
+-- Add classpages lookup table and initial data
 
-CREATE SEQUENCE calcentral_webcasts_seq;
+CREATE SEQUENCE calcentral_classpages_localdata_seq;
 
-CREATE TABLE calcentral_webcasts (
+CREATE TABLE calcentral_classpages_localdata (
 	classPageId VARCHAR(20) NOT NULL,
-	webcastId VARCHAR(255) NOT NULL,
-	id INTEGER DEFAULT NEXTVAL('calcentral_webcasts_seq'),
+	webcastId VARCHAR(255) DEFAULT NULL,
+	canvasCourseId VARCHAR(255) DEFAULT NULL, 
+	id INTEGER DEFAULT NEXTVAL('calcentral_classpages_localdata_seq'),
 	PRIMARY KEY (id)
 );
 
-CREATE UNIQUE INDEX calcentral_webcasts_index ON calcentral_webcasts USING btree(classPageId);
+CREATE UNIQUE INDEX calcentral_classpages_localdata_index ON calcentral_classpages_localdata USING btree(classPageId);
 
-INSERT INTO calcentral_webcasts VALUES ('2012D07058','PL-XXv-cvA_iBiOpo1VZM0IdEzZbMPkdze');
-INSERT INTO calcentral_webcasts VALUES ('2012D7303','EC4B95C1CB493BCC18');
-INSERT INTO calcentral_webcasts VALUES ('2012D7402','EC97B4BB33E4D16505');
-INSERT INTO calcentral_webcasts VALUES ('2012D7495','ECFBA8ADB24BCABACF');
-INSERT INTO calcentral_webcasts VALUES ('2012D11003','EC22261BB8885D7B73');
-INSERT INTO calcentral_webcasts VALUES ('2012D11306','ECB6993AFF1CEA7BF9');
-INSERT INTO calcentral_webcasts VALUES ('2012D26127','ECF15FD0984DACED4F');
-INSERT INTO calcentral_webcasts VALUES ('2012D26547','ECB3A2DB612736B98A');
-INSERT INTO calcentral_webcasts VALUES ('2012D26580','EC-XXv-cvA_iDTKE56ZRv92RJNnLmy2aZh');
-INSERT INTO calcentral_webcasts VALUES ('2012D26622','PL-XXv-cvA_iBifi0GQVF1R9M_QBWw3xgG');
-INSERT INTO calcentral_webcasts VALUES ('2012D26190','EC87898FD0A141069E');
-INSERT INTO calcentral_webcasts VALUES ('2012D26289','EC352C71372073F900');
-INSERT INTO calcentral_webcasts VALUES ('2012D26427','EC1A2EBAC4283FE3EA');
-INSERT INTO calcentral_webcasts VALUES ('2012D19030','ECE9D3A91B1948E289');
-INSERT INTO calcentral_webcasts VALUES ('2012D22378','EC7C1A46DC5C45F130');
-INSERT INTO calcentral_webcasts VALUES ('2012D23701','ECB713CC75E480C2A3');
-INSERT INTO calcentral_webcasts VALUES ('2012D25195','ECC9EE10FC67D122E1');
-INSERT INTO calcentral_webcasts VALUES ('2012D25303','ECA1050AE87B04B73A');
-INSERT INTO calcentral_webcasts VALUES ('2012D25099','EC24B1924B1524F340');
-INSERT INTO calcentral_webcasts VALUES ('2012D25705','EC8A24132C07C45F61');
-INSERT INTO calcentral_webcasts VALUES ('2012D01290','PL77B377278B1C86B6');
-INSERT INTO calcentral_webcasts VALUES ('2012D39546','EC-XXv-cvA_iCUZW065POKTT55Tjrx07Nq');
-INSERT INTO calcentral_webcasts VALUES ('2012D51560','PL-XXv-cvA_iCoBT2PF2n968Q6VjSb5EDt');
-INSERT INTO calcentral_webcasts VALUES ('2012D51956','EC8BA4F60A6065A8D4');
-INSERT INTO calcentral_webcasts VALUES ('2012D54247','EC5151EDC091F3F5F1');
-INSERT INTO calcentral_webcasts VALUES ('2012D56260','ECBE6EC9188D1E03A4');
-INSERT INTO calcentral_webcasts VALUES ('2012D64009','EC81A61335380A116C');
-INSERT INTO calcentral_webcasts VALUES ('2012D67298','EC-XXv-cvA_iBlaNwUBZmY286yPVQQtY6z');
-INSERT INTO calcentral_webcasts VALUES ('2012D67127','ECF728FFDC99C630B1');
-INSERT INTO calcentral_webcasts VALUES ('2012D69432','EC8BA4F60A6065A8D4');
-INSERT INTO calcentral_webcasts VALUES ('2012D69069','EC5A65D468FE52559C');
-INSERT INTO calcentral_webcasts VALUES ('2012D76205','EC8F3828AE57C83ACD');
-INSERT INTO calcentral_webcasts VALUES ('2012D76223','EC4BE1B382D122D539');
-INSERT INTO calcentral_webcasts VALUES ('2012D76304','EC8B42B94BE8BC93C6');
-INSERT INTO calcentral_webcasts VALUES ('2012D81603','EC2C26C949DB5332DB');
-INSERT INTO calcentral_webcasts VALUES ('2012D22639','EC962640B1DD22DDCE');
-INSERT INTO calcentral_webcasts VALUES ('2012D48037','EC28B5EDF74E734607');
-INSERT INTO calcentral_webcasts VALUES ('2012D51608','EC490D965CBF2D596A');
-INSERT INTO calcentral_webcasts VALUES ('2012D46448','EC4013AECFC90AFC13');
+INSERT INTO calcentral_classpages_localdata VALUES ('2012D07058','PL-XXv-cvA_iBiOpo1VZM0IdEzZbMPkdze');
+INSERT INTO calcentral_classpages_localdata VALUES ('2012D7303','EC4B95C1CB493BCC18');
+INSERT INTO calcentral_classpages_localdata VALUES ('2012D7402','EC97B4BB33E4D16505');
+INSERT INTO calcentral_classpages_localdata VALUES ('2012D7495','ECFBA8ADB24BCABACF');
+INSERT INTO calcentral_classpages_localdata VALUES ('2012D11003','EC22261BB8885D7B73');
+INSERT INTO calcentral_classpages_localdata VALUES ('2012D11306','ECB6993AFF1CEA7BF9');
+INSERT INTO calcentral_classpages_localdata VALUES ('2012D26127','ECF15FD0984DACED4F');
+INSERT INTO calcentral_classpages_localdata VALUES ('2012D26547','ECB3A2DB612736B98A');
+INSERT INTO calcentral_classpages_localdata VALUES ('2012D26580','EC-XXv-cvA_iDTKE56ZRv92RJNnLmy2aZh');
+INSERT INTO calcentral_classpages_localdata VALUES ('2012D26622','PL-XXv-cvA_iBifi0GQVF1R9M_QBWw3xgG');
+INSERT INTO calcentral_classpages_localdata VALUES ('2012D26190','EC87898FD0A141069E');
+INSERT INTO calcentral_classpages_localdata VALUES ('2012D26289','EC352C71372073F900');
+INSERT INTO calcentral_classpages_localdata VALUES ('2012D26427','EC1A2EBAC4283FE3EA');
+INSERT INTO calcentral_classpages_localdata VALUES ('2012D19030','ECE9D3A91B1948E289');
+INSERT INTO calcentral_classpages_localdata VALUES ('2012D22378','EC7C1A46DC5C45F130');
+INSERT INTO calcentral_classpages_localdata VALUES ('2012D23701','ECB713CC75E480C2A3');
+INSERT INTO calcentral_classpages_localdata VALUES ('2012D25195','ECC9EE10FC67D122E1');
+INSERT INTO calcentral_classpages_localdata VALUES ('2012D25303','ECA1050AE87B04B73A');
+INSERT INTO calcentral_classpages_localdata VALUES ('2012D25099','EC24B1924B1524F340');
+INSERT INTO calcentral_classpages_localdata VALUES ('2012D25705','EC8A24132C07C45F61');
+INSERT INTO calcentral_classpages_localdata VALUES ('2012D01290','PL77B377278B1C86B6');
+INSERT INTO calcentral_classpages_localdata VALUES ('2012D39546','EC-XXv-cvA_iCUZW065POKTT55Tjrx07Nq');
+INSERT INTO calcentral_classpages_localdata VALUES ('2012D51560','PL-XXv-cvA_iCoBT2PF2n968Q6VjSb5EDt');
+INSERT INTO calcentral_classpages_localdata VALUES ('2012D51956','EC8BA4F60A6065A8D4');
+INSERT INTO calcentral_classpages_localdata VALUES ('2012D54247','EC5151EDC091F3F5F1');
+INSERT INTO calcentral_classpages_localdata VALUES ('2012D56260','ECBE6EC9188D1E03A4');
+INSERT INTO calcentral_classpages_localdata VALUES ('2012D64009','EC81A61335380A116C');
+INSERT INTO calcentral_classpages_localdata VALUES ('2012D67298','EC-XXv-cvA_iBlaNwUBZmY286yPVQQtY6z');
+INSERT INTO calcentral_classpages_localdata VALUES ('2012D67127','ECF728FFDC99C630B1');
+INSERT INTO calcentral_classpages_localdata VALUES ('2012D69432','EC8BA4F60A6065A8D4');
+INSERT INTO calcentral_classpages_localdata VALUES ('2012D69069','EC5A65D468FE52559C');
+INSERT INTO calcentral_classpages_localdata VALUES ('2012D76205','EC8F3828AE57C83ACD');
+INSERT INTO calcentral_classpages_localdata VALUES ('2012D76223','EC4BE1B382D122D539');
+INSERT INTO calcentral_classpages_localdata VALUES ('2012D76304','EC8B42B94BE8BC93C6');
+INSERT INTO calcentral_classpages_localdata VALUES ('2012D81603','EC2C26C949DB5332DB');
+INSERT INTO calcentral_classpages_localdata VALUES ('2012D22639','EC962640B1DD22DDCE');
+INSERT INTO calcentral_classpages_localdata VALUES ('2012D48037','EC28B5EDF74E734607');
+INSERT INTO calcentral_classpages_localdata VALUES ('2012D51608','EC490D965CBF2D596A');
+INSERT INTO calcentral_classpages_localdata VALUES ('2012D46448','EC4013AECFC90AFC13');
