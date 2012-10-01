@@ -279,6 +279,29 @@
 		</script>
 		</div>
 
+
+		<div class="cc-container-main-right" id="cc-page-classpage-syllabus" style="display: none;"><!--
+		--></div>
+
+		<script id="cc-page-classpage-syllabus-template" type="text/x-handlebars-template">
+
+			<div class="cc-container-widget cc-page-classpage-header">
+				<div class="cc-widget-main">
+					{{>header classPageData}}
+				</div>
+			</div>
+			<div class="cc-container-widget cc-page-classpage-header">
+
+				<div class="cc-widget-title">
+					<h2>Course Syllabus</h2>
+				</div>
+				<div class="cc-widget-main">
+					{{{syllabus_body}}}
+				</div>
+			</div>
+		</script>
+
+
 		<div class="cc-container-main-right" id="cc-page-classpage-webcasts" style="display: none;"><!--
 		--></div>
 

@@ -743,10 +743,12 @@ var calcentral = calcentral || {};
 			$('#cc-page-classpage-' + pageId).addClass('cc-container-main-active').show();
 		};
 
+		// TODO: CLC-353 set hasSyllabus dynamically
 		calcentral.Api.Util.renderTemplate({
 			'container': $('.cc-container-main-left'),
 			'data': {
-				'hasWebCasts': data.courseinfo.webcastUrl
+				'hasWebCasts': data.courseinfo.webcastUrl,
+				'hasSyllabus': true
 			},
 			'template': $('#cc-container-main-left-template')
 		});
@@ -822,6 +824,34 @@ var calcentral = calcentral || {};
 		});
 	};
 
+
+	var renderSyllabus = function(syllabusData, classPageData) {
+		// Make the entire classPageData object a property of syllabusData for re-use in page header
+		syllabusData.classPageData = classPageData;
+
+		calcentral.Api.Util.renderTemplate({
+			'container': $('#cc-page-classpage-syllabus'),
+			'data': syllabusData,
+			'template': $('#cc-page-classpage-syllabus-template', $classPage)
+		});
+	};
+
+	var fetchSyllabus = function(classPageData) {
+		// Get syllabus data from canvas, if it exists
+		// TODO : API URL temporarily hard-coded pending CLC-351 and CLC-352
+		$.ajax({
+			'url': '/api/canvas/courses/767690?include=syllabus_body',
+			'success': function(syllabusData) {
+				renderSyllabus(syllabusData, classPageData);
+			},
+			'error': function() {
+				console.log('script.js --> Could not load syllabus data from Canvas.');
+			}
+		});
+	};
+
+
+
 	var renderClassPage = function(data, buildingData) {
 		data = data[0];
 		buildingData = buildingData[0];
@@ -888,6 +918,7 @@ var calcentral = calcentral || {};
 		expandTextToggle();
 
 		fetchWebcastInfo(data);
+		fetchSyllabus(data);
 
 		renderLeftHandClassPageNavigation(data);
 	};
