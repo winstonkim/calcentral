@@ -838,19 +838,23 @@ var calcentral = calcentral || {};
 
 	var fetchSyllabus = function(classPageData) {
 		// Get syllabus data from canvas, if it exists
-		// TODO : API URL temporarily hard-coded pending CLC-351 and CLC-352
+		// TODO : API URL temporarily hard-coded pending CLC-351
 		$.ajax({
-			'url': '/api/canvas/courses/767690?include=syllabus_body',
+			'url': '/api/canvas/courses/767690',
+			'data': {
+				'include': 'syllabus_body'
+			},
 			'success': function(syllabusData) {
+				var hasSyllabus = true; // For LH nav
 				renderSyllabus(syllabusData, classPageData);
 			},
 			'error': function() {
 				console.log('script.js --> Could not load syllabus data from Canvas.');
+				// TODO Temporily hide for non-auth users until we have anon syllabus data
+				$('.cc-lefthandnavigation li a[data-page-id="syllabus"]').hide();
 			}
 		});
 	};
-
-
 
 	var renderClassPage = function(data, buildingData) {
 		data = data[0];
