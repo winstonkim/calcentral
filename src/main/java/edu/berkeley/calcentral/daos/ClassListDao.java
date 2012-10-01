@@ -70,13 +70,14 @@ public class ClassListDao extends BaseDao {
 				+ "   bci.COURSE_TITLE classtitle, "
 				+ "   bci.DEPT_NAME department, "
 				+ "   bci.CATALOG_DESCRIPTION description, "
-				+ "   bci.CATALOG_ID catalogid "
+				+ "   bci.CATALOG_ID catalogid, "
+				+ "   bci.CATALOG_ROOT, bci.CATALOG_PREFIX, bci.CATALOG_SUFFIX_1, bci.CATALOG_SUFFIX_2 "
 				+ "   FROM BSPACE_COURSE_INFO_VW bci "
 				+ "   WHERE bci.DEPT_NAME IN ( :departments ) "
 				+ "     AND TERM_YR = 2012 AND TERM_CD = 'D'" // TODO parameterize year and term when UI presents that choice
 				+ "     AND bci.PRIMARY_SECONDARY_CD = :primary "
 				+ "     AND bci.INSTRUCTION_FORMAT = :format "
-				+ "   ORDER BY department, catalogid "
+				+ "   ORDER BY department, bci.CATALOG_ROOT, bci.CATALOG_PREFIX, bci.CATALOG_SUFFIX_1, bci.CATALOG_SUFFIX_2 "
 				+ ") WHERE ROWNUM <= 30 "; // TODO parameterize pagination when UI needs it
 		SqlParameterSource params = new MapSqlParameterSource("departments", deptKeys)
 				.addValue("primary", "P")
@@ -87,11 +88,13 @@ public class ClassListDao extends BaseDao {
 	public List<Map<String, Object>> getAllClassIDs(int limit) {
 		MapSqlParameterSource params = new MapSqlParameterSource("limit", limit);
 		return campusQueryRunner.queryForList(
-				"SELECT bci.TERM_YR || bci.TERM_CD || bci.COURSE_CNTL_NUM classid " +
+				"SELECT bci.TERM_YR || bci.TERM_CD || bci.COURSE_CNTL_NUM classid, " +
+						"bci.CATALOG_ROOT, bci.CATALOG_PREFIX, bci.CATALOG_SUFFIX_1, bci.CATALOG_SUFFIX_2 " +
 						"FROM BSPACE_COURSE_INFO_VW bci " +
 						"WHERE TERM_YR = 2012 AND TERM_CD = 'D' AND PRIMARY_SECONDARY_CD = 'P' AND INSTRUCTION_FORMAT = 'LEC' " +
 						"AND ROWNUM <= :limit " +
-						"ORDER BY bci.DEPT_NAME", params);
+						"ORDER BY bci.DEPT_NAME, bci.CATALOG_ROOT, bci.CATALOG_PREFIX, bci.CATALOG_SUFFIX_1, bci.CATALOG_SUFFIX_2 ",
+				params);
 	}
 
 }
