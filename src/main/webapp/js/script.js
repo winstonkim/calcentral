@@ -727,7 +727,7 @@ var calcentral = calcentral || {};
  * ClassPage
  */
 (function() {
-	/*global $, _ */
+	/*global $, _, console */
 
 	'use strict';
 
