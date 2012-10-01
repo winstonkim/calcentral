@@ -22,6 +22,7 @@ import com.Ostermiller.util.CSVParser;
 import com.Ostermiller.util.CSVPrinter;
 import com.Ostermiller.util.LabeledCSVParser;
 import edu.berkeley.calcentral.daos.BaseDao;
+import edu.berkeley.calcentral.daos.ClassPagesDao;
 import org.apache.log4j.Logger;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -75,7 +76,7 @@ public class EnrollmentCSVGenerator extends BaseDao {
 				"SELECT roster.STUDENT_LDAP_UID LDAP_UID, roster.ENROLL_STATUS, 'student' ROLE " +
 						"FROM BSPACE_CLASS_ROSTER_VW roster " +
 						"WHERE roster.TERM_YR = :term_yr and roster.TERM_CD = :term_cd and roster.COURSE_CNTL_NUM = :course_cntl_num",
-				getSectionIDParts(sectionID));
+				ClassPagesDao.getSectionIDParts(sectionID));
 		LOGGER.debug("Got " + sqlResults.size() + " student enrollments for section " + sectionID);
 		for (Map<String, Object> enrollment : sqlResults) {
 			LOGGER.info(enrollment);
@@ -88,7 +89,7 @@ public class EnrollmentCSVGenerator extends BaseDao {
 				"SELECT INSTRUCTOR_LDAP_UID LDAP_UID, 'teacher' ROLE " +
 						"FROM BSPACE_COURSE_INSTRUCTOR_VW " +
 						"WHERE TERM_YR = :term_yr and TERM_CD = :term_cd and COURSE_CNTL_NUM = :course_cntl_num",
-				getSectionIDParts(sectionID));
+				ClassPagesDao.getSectionIDParts(sectionID));
 		LOGGER.debug("Got " + sqlResults.size() + " instructor enrollments for section " + sectionID);
 		for (Map<String, Object> enrollment : sqlResults) {
 			LOGGER.info(enrollment);
@@ -155,14 +156,6 @@ public class EnrollmentCSVGenerator extends BaseDao {
 			}
 		}
 		workingFile.renameTo(csvFile);
-	}
-
-	private String[] getSectionIDParts(String sectionID) {
-		String[] sectionIDParts = sectionID.split("-");
-		if (sectionIDParts.length != 3) {
-			throw new IllegalArgumentException("Got a section ID that doesn't conform to format: " + sectionID);
-		}
-		return sectionIDParts;
 	}
 
 }

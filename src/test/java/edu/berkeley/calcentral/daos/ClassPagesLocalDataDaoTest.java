@@ -31,14 +31,9 @@ public class ClassPagesLocalDataDaoTest extends DatabaseAwareTest {
 	}
 
 	@Test
-	public void updateLocalData() throws Exception {
-		ClassPage page = new ClassPage();
-		page.setClassId("2012D07058");
-		page.setCourseinfo(new ClassPageCourseInfo());
-		page.getCourseinfo().setWebcastId("abcdef");
-		page.getCourseinfo().setCanvasCourseId("canvas12345");
-
-		dao.updateLocalData(page);
+	public void updateLocalDataExistingRecord() throws Exception {
+		dao.updateCanvasId("2012D07058", "canvas12345");
+		dao.updateWebcastId("2012D07058", "abcdef");
 
 		ClassPage updatedPage = new ClassPage();
 		updatedPage.setClassId("2012D07058");
@@ -55,4 +50,31 @@ public class ClassPagesLocalDataDaoTest extends DatabaseAwareTest {
 				updatedPage.getCourseinfo().getWebcastUrl());
 
 	}
+
+	@Test
+	public void updateCanvasIDWithNonexistingRecord() throws Exception {
+		String classPageID = ("class" + randomString()).substring(0, 18);
+		dao.updateCanvasId(classPageID, "12345");
+
+		ClassPage updatedPage = new ClassPage();
+		updatedPage.setClassId(classPageID);
+		updatedPage.setCourseinfo(new ClassPageCourseInfo());
+		dao.mergeLocalData(updatedPage);
+
+		assertEquals("12345", updatedPage.getCourseinfo().getCanvasCourseId());
+	}
+
+	@Test
+	public void updateWebcastIdWithNonexistingRecord() throws Exception {
+		String classPageID = ("class" + randomString()).substring(0, 18);
+		dao.updateWebcastId(classPageID, "webcast1");
+
+		ClassPage updatedPage = new ClassPage();
+		updatedPage.setClassId(classPageID);
+		updatedPage.setCourseinfo(new ClassPageCourseInfo());
+		dao.mergeLocalData(updatedPage);
+
+		assertEquals("webcast1", updatedPage.getCourseinfo().getWebcastId());
+	}
+
 }

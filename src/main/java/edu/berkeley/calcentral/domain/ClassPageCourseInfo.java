@@ -2,6 +2,7 @@ package edu.berkeley.calcentral.domain;
 
 import com.google.common.collect.Maps;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+import org.jboss.util.Strings;
 
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.Map;
@@ -105,7 +106,7 @@ public class ClassPageCourseInfo {
 	}
 
 	private void webcastUrlDecode() {
-		if ( webcastId != null ) {
+		if (Strings.hasLength(webcastId)) {
 			webcastUrl = "http://gdata.youtube.com/feeds/api/playlists/" + webcastId + "?v=2&alt=json&max-results=50";
 		} else {
 			webcastUrl = "";

@@ -26,15 +26,30 @@ public class ClassPagesLocalDataDao extends BaseDao {
 		});
 	}
 
-	public void updateLocalData(ClassPage page) {
+	public void updateWebcastId(String classPageId, String webcastId) {
 		String sql = "UPDATE calcentral_classpages_localdata " +
-				"SET webcastId = :webcastId,  " +
-				"canvasCourseId = :canvasCourseId " +
+				"SET webcastId = :webcastId " +
 				"WHERE classPageId = :classPageId ";
-		MapSqlParameterSource params = new MapSqlParameterSource("classPageId", page.getClassId()).
-				addValue("webcastId", page.getCourseinfo().getWebcastId()).
-				addValue("canvasCourseId", page.getCourseinfo().getCanvasCourseId());
-		queryRunner.update(sql, params);
+		MapSqlParameterSource params = new MapSqlParameterSource("classPageId", classPageId).
+				addValue("webcastId", webcastId);
+		if (queryRunner.update(sql, params) != 1) {
+			sql = "INSERT INTO calcentral_classpages_localdata ( classPageId, webcastId ) " +
+					"VALUES ( :classPageId, :webcastId ) ";
+			queryRunner.update(sql, params);
+		}
+	}
+
+	public void updateCanvasId(String classPageId, String canvasCourseId) {
+		String sql = "UPDATE calcentral_classpages_localdata " +
+				"SET canvasCourseId = :canvasCourseId " +
+				"WHERE classPageId = :classPageId ";
+		MapSqlParameterSource params = new MapSqlParameterSource("classPageId", classPageId).
+				addValue("canvasCourseId", canvasCourseId);
+		if (queryRunner.update(sql, params) != 1) {
+			sql = "INSERT INTO calcentral_classpages_localdata ( classPageId, canvasCourseId ) " +
+					"VALUES ( :classPageId, :canvasCourseId ) ";
+			queryRunner.update(sql, params);
+		}
 	}
 
 }

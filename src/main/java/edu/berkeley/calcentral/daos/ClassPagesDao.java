@@ -18,6 +18,14 @@ import java.util.List;
 @Repository
 public class ClassPagesDao extends BaseDao {
 
+	public static String[] getSectionIDParts(String sectionID) {
+		String[] sectionIDParts = sectionID.split("-");
+		if (sectionIDParts.length != 3) {
+			throw new IllegalArgumentException("Got a section ID that doesn't conform to format: " + sectionID);
+		}
+		return sectionIDParts;
+	}
+
 	public ClassPage getBaseClassPage(int year, String term, String courseID) {
 		MapSqlParameterSource params = setupParams(year, term, courseID)
 				.addValue("primary", "P")
