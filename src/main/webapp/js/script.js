@@ -282,6 +282,8 @@ var calcentral = calcentral || {};
 
 	calcentral.Api.Util.renderTemplate = function(config) {
 
+		/*global $, Handlebars */
+
 		if (!config || !config.template || !config.data || !config.container) {
 			throw 'Please supply a config parameter with a template, some data and a container';
 		}
@@ -694,6 +696,9 @@ var calcentral = calcentral || {};
  * Colleges and schools
  */
 (function() {
+
+	'use strict';
+
 	var $collegesAndSchools = $('.cc-page-colleges-and-schools');
 
 	var $collegesAndSchoolsContainer = $('.cc-page-colleges-and-schools-container', $collegesAndSchools);
@@ -722,6 +727,10 @@ var calcentral = calcentral || {};
  * ClassPage
  */
 (function() {
+	/*global $, _ */
+
+	'use strict';
+
 	var $classPage = $('.cc-page-classpage');
 
 	var $classPageContainer = $('#cc-page-classpage-overview', $classPage);
@@ -833,7 +842,7 @@ var calcentral = calcentral || {};
 			'sections': $('#cc-page-classpage-sections-template', $classPage).html()
 		};
 
-		var setBuildingCoords = function(callback) {
+		var setBuildingCoords = function() {
 			// Iterate through class sections data, converting building names to coords and replacing in the JSON
 			$.each(data.sections, function(i) {
 				var buildingName = data.sections[i].location;
@@ -988,6 +997,8 @@ var calcentral = calcentral || {};
  * shortcode in colleges-and-school.json to get meta data
  */
 (function() {
+	'use strict';
+
 	var $classList = $('.cc-page-classlist');
 
 	var $classListContainer = $('.cc-page-classlist-container', $classList);
@@ -1007,6 +1018,7 @@ var calcentral = calcentral || {};
 		var partials = {
 			'courseInfo': $('#cc-page-classlist-courseinfo-template', $classList).html()
 		};
+
 		calcentral.Api.Util.renderTemplate({
 			'container': $classListContainer,
 			'data': data,
@@ -1017,8 +1029,8 @@ var calcentral = calcentral || {};
 		var renderLeftHandClassPageListNavigation = function(data) {
 			// Append department siblings to left-hand nav
 
-			data.pages = $.map(data.departments, function(val, i) {
-				url = "/classlist.jsp?college=" + data.college.id + "&dept=" + val.id;
+			data.pages = $.map(data.departments, function(val) {
+				var url = "/classlist.jsp?college=" + data.college.id + "&dept=" + val.id;
 				return {'title': val.title, 'url': url};
 			});
 
@@ -1041,7 +1053,7 @@ var calcentral = calcentral || {};
 		var college = calcentral.Api.Util.getURLParameter('college');
 
 		// We'll always have college= in the URL, plus dept= if this is a department listing
-		url = '/api/classList/' + college;
+		var url = '/api/classList/' + college;
 		if (dept) {
 			url += '/' + dept;
 		}
