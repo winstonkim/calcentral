@@ -85,7 +85,7 @@ calcentral.Widgets.mycalendar = function(tuid) {
 				var hour = itemDate.getHours();
 				var minutes = itemDate.getMinutes();
 				if (hour >= 12) {
-					hour = hour - 12;
+					hour = (hour === 12) ? hour : hour - 12;
 					amPm = 'PM';
 				}
 
