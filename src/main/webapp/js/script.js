@@ -995,7 +995,7 @@ var calcentral = calcentral || {};
 	var renderClassList = function(data) {
 
 		// Are we looking at a department listing?
-		data.department = Number(calcentral.Api.Util.getURLParameter('dept'));
+		data.department = parseInt(calcentral.Api.Util.getURLParameter('dept'), 10);
 
 		// Extract friendly department title from the key
 		$.each(data.departments, function(i, v){
