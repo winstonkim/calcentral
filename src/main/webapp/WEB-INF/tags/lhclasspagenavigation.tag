@@ -4,7 +4,7 @@
 		<ul>
 			<li><a href="#" class="cc-lefthandnavigation-item-selected" data-page-id="overview">Overview</a></li>
 			<li><a href="">Home Page</a></li>
-			<li><a href="#syllabus" data-page-id="syllabus" style="display:none;">Syllabus</a></li>
+			{{#if hasSyllabus}}<li><a href="#syllabus" data-page-id="syllabus">Syllabus</a></li>{{/if}}
 			<li><a href="">Class Materials</a></li>
 			{{#if hasWebCasts}}<li><a href="#" data-page-id="webcasts">Webcasts</a></li>{{/if}}
 		</ul>
