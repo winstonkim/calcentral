@@ -542,13 +542,8 @@ body > header > h1 {
 }
 
 .cc-lefthandnavigation .cc-lefthandnavigation-item-selected {
-	color: #ffffff;
-	background: #012955;
-	background: -webkit-linear-gradient(top, #3b5d86, #012955);
-	background: -moz-linear-gradient(top, #3b5d86, #012955);
-	background: -o-linear-gradient(top, #3b5d86, #012955);
-	background: -ms-linear-gradient(top, #3b5d86, #012955);
-	background: linear-gradient(top, #3b5d86, #012955);
+	color: #012955;
+	background: transparent url('/img/myb/right-angle-blue.png') no-repeat 93% 7px;
 }
 
 /* Widgets */
