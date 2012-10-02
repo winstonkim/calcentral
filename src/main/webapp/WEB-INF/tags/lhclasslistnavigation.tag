@@ -7,7 +7,7 @@
 		</div>
 
 	</section>
-	<nav class="cc-lefthandnavigation">
+	<nav role="navigation" class="cc-lefthandnavigation">
 		<ul>
 			{{#each pages}}
 				<li><a href="{{url}}"{{#compare url ../pathname}} class="cc-lefthandnavigation-item-selected"{{/compare}}>{{title}}</a></li>

@@ -32,7 +32,7 @@ audio:not([controls]) { display: none; }
 
 html { font-size: 100%; -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; }
 
-html, button, input, select, textarea { font-family: sans-serif; color: #222; }
+html, button, input, select, textarea { font-family: Helvetica Neue, Arial, sans-serif; color: #222; }
 
 body { margin: 0; font-size: 1em; line-height: 1.4; }
 
@@ -294,7 +294,6 @@ body > header > h1 {
 	margin-top: 20px;
 }
 
-
 /* Link buttons */
 .cc-link-button {
 	background: none repeat scroll 0 0 transparent;
@@ -507,7 +506,7 @@ body > header > h1 {
 	box-shadow: 1px -2px 7px #888;
 	float: left;
 	margin-bottom: -99979px;
-	padding: 20px 20px 99999px 20px;
+	padding: 16px 20px 99999px 20px;
 	width: 775px;
 }
 
@@ -524,20 +523,25 @@ body > header > h1 {
 
 /* Lefthandnavigation */
 .cc-lefthandnavigation {
-	margin-top: 20px;
+	margin-top: 12px;
 }
+
+nav.cc-lefthandnavigation {
+	margin-top: 0;
+}
+
 .cc-lefthandnavigation a {
 	color: #707E8C;
 	display: block;
 	font-weight: bold;
-	padding: 8px 5px 8px 28px;
+	line-height: 130%;
+	padding: 8px 12px 8px 28px;
 	word-wrap: break-word;
 }
 
 .cc-entity-name.cc-lefthandnavigation a, .cc-entity-name-nolink {
 	display: block;
-	margin: 20px 0 0;
-	padding: 8px 5px 8px 10px;
+	padding: 8px 10px 8px 16px;
 }
 
 .cc-lefthandnavigation .cc-lefthandnavigation-item-selected {
@@ -693,6 +697,7 @@ body > header > h1 {
 	color: #fff;
 	display: block;
 	float: left;
+	font-size: 12px;
 	margin-bottom: 10px;
 	margin-right: 20px;
 	padding: 10px;
@@ -704,7 +709,8 @@ body > header > h1 {
 .cc-page-colleges-and-schools-title {
 	display: block;
 	font-size: 16px;
-	margin-left: 10px;
+	font-weight: 500;
+	line-height: 19px;
 }
 .cc-page-colleges-and-schools-container ul li .cc-page-colleges-and-schools-item-letters-and-science {
 	background-color: #3375A5;
@@ -733,10 +739,11 @@ body > header > h1 {
 
 /* Classpage */
 .cc-page-classpage .cc-widget-main h2 {
-	margin-bottom: 5px;
+	margin-bottom: 0;
 }
 .cc-page-classpage .cc-widget-main h3 {
-	margin-top: 0;
+	color: #666;
+	margin: 0 0 0.4em;
 }
 .cc-page-classpage-header .cc-widget-main {
 	padding-left: 0;
@@ -748,12 +755,13 @@ body > header > h1 {
 .cc-page-classpage-description .cc-widget-main,
 .cc-page-classpage-instructor .cc-widget-main {
 	overflow: hidden;
-	padding: 20px;
+	padding: 16px 0;
 }
 
 .cc-page-classpage-description, .cc-page-classpage-courseinfo {
 	width: 362px;
 }
+
 .cc-page-classpage-courseinfo {
 	margin-right: 0;
 }
@@ -768,38 +776,50 @@ body > header > h1 {
 	margin: 0 20px 20px 0;
 }
 .cc-page-classpage-instructor-item li {
-	margin-bottom: 20px;
+	float: left;
+	margin-bottom: 0;
 	overflow: hidden;
+	width: 50%;
 }
+
 ul.cc-page-classpage-instructor-item li:last-child {
 	margin-bottom: 0;
 }
 
-.cc-page-classpage-instructor-item li ul.cc-page-classpage-list {
-	margin-left: 165px;
-}
-.cc-page-classpage-instructor-heading {
+.cc-page-classpage-instructor-name {
 	font-weight: bold;
-	margin: 0 0 10px 295px;
-	padding-top: 20px;
+	padding-top: 6px;
 }
 
-.cc-page-classpage-list {
-	list-style-type: none;
+.cc-page-classpage-courseinfo-list,
+.cc-page-classpage-instructor-item-list {
 	margin: 0;
 	padding: 0;
 }
-.cc-page-classpage-list li {
+
+.cc-page-classpage-courseinfo-list dt,
+.cc-page-classpage-courseinfo-list dd,
+.cc-page-classpage-instructor-item-list dt,
+.cc-page-classpage-instructor-item-list dd {
 	display: block;
+	float: none;
 	overflow: hidden;
+	width: auto;
+	margin: 0;
 }
-.cc-page-classpage-list li span:first-child {
+
+.cc-page-classpage-courseinfo-list dt,
+.cc-page-classpage-instructor-item-list dt  {
 	color: #666;
 	float: left;
 	font-weight: bold;
 	margin-right: 10px;
 	text-align: right;
 	width: 120px;
+}
+
+.cc-page-classpage-instructor-item-list dt {
+	width: 60px;
 }
 
 /* Webcasts */
@@ -835,6 +855,23 @@ ul.cc-page-classpage-instructor-item li:last-child {
 	font-size: 2.0em;
 }
 
+.cc-page-classlist-container dt {
+	border-top: 1px solid #E4C495;
+	font-size: 16px;
+	font-weight: bolder;
+	margin-top: 1em;
+	padding-top: 0.6em;
+}
+
+.cc-page-classlist-container dt:first-child {
+	border: none;
+	margin-top: 0;
+	padding-top: 0;
+}
+
+.cc-page-classlist-container dd {
+	margin: 4px 0 0;
+}
 .cc-page-classlist-breadcrumbs {
 	margin-bottom: 10px;
 	font-weight: bold;
@@ -894,6 +931,14 @@ ul.cc-page-classpage-instructor-item li:last-child {
 }
 
 /* Classpages */
+.cc-page-classpage-sections .cc-widget-title {
+	height: 26px;
+}
+
+.cc-page-classpage-sections .cc-widget-title h2 {
+	float: left;
+}
+
 .classpages_table_label {
 	color: #999;
 	font-weight: bold;
@@ -907,7 +952,6 @@ ul.cc-page-classpage-instructor-item li:last-child {
 table#classpages_section_results {
 	clear: both;
 	font-size: 0.9em;
-	margin-top: 20px;
 	width: 100%;
 }
 
@@ -979,6 +1023,7 @@ span.classpages_section_title_warrow {
 
 #classpages_showhideall {
 	margin-right: 10px;
+	margin-top: 6px;
 }
 
 .classpages_nolink {
