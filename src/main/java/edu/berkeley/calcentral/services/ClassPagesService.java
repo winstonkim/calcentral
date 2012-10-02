@@ -4,7 +4,7 @@ import com.google.common.base.Strings;
 import com.google.common.collect.Maps;
 import edu.berkeley.calcentral.Urls;
 import edu.berkeley.calcentral.daos.ClassPagesDao;
-import edu.berkeley.calcentral.daos.WebcastDao;
+import edu.berkeley.calcentral.daos.ClassPagesLocalDataDao;
 import edu.berkeley.calcentral.domain.*;
 import edu.berkeley.calcentral.system.Telemetry;
 import org.apache.commons.logging.Log;
@@ -36,7 +36,7 @@ public class ClassPagesService {
 	private UserService userService;
 
 	@Autowired
-	private WebcastDao webcastDao;
+	private ClassPagesLocalDataDao classPagesLocalDataDao;
 
 	/**
 	 * Exposed REST endpoint for fetching classes
@@ -91,15 +91,15 @@ public class ClassPagesService {
 		ClassPage classPageResult = classPagesDao.getBaseClassPage(yearInt, term, courseID);
 		telemetry.end();
 
-		classPageResult.getCourseinfo().decodeAll();
-
+		telemetry = new Telemetry(this.getClass(), "classPagesLocalDataDao.mergeLocalData()");
 		try {
-			String webcastId = webcastDao.getWebcastId(classPageResult.getClassId());
-			classPageResult.getCourseinfo().setWebcastUrl(
-					"http://gdata.youtube.com/feeds/api/playlists/" + webcastId + "?v=2&alt=json&max-results=50");
+			classPagesLocalDataDao.mergeLocalData(classPageResult);
 		} catch (EmptyResultDataAccessException ignored) {
-			// null webcastUrl
+			// null local classpage data
 		}
+		telemetry.end();
+
+		classPageResult.getCourseinfo().decodeAll();
 
 		telemetry = new Telemetry(this.getClass(), "classPagesDao.getCourseInstructors()");
 		List<ClassPageInstructor> classPageInstructors = classPagesDao.getCourseInstructors(yearInt, term, courseID);

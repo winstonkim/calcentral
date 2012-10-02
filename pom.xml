@@ -550,6 +550,20 @@
 				</plugins>
 			</build>
 		</profile>
+		<profile>
+			<id>load-canvas-course-ids</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>exec-maven-plugin</artifactId>
+						<configuration>
+							<mainClass>edu.berkeley.calcentral.system.CanvasCourseIDFetcher</mainClass>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
 	</profiles>
 
 	<distributionManagement>

@@ -9,6 +9,13 @@ This can be combined with other Maven goals:
 calcentral> mvn -e -P load-canvas clean install flyway:clean flyway:migrate exec:java
 ```
 
+After loading data into Canvas, you'll want to load Canvas's course IDs into our local db so that our app knows
+where Canvas course pages are:
+
+```
+calcentral> mvn -e -P load-canvas-course-ids exec:java
+```
+
 One known gap remains in the load-canvas Java implementation. Our code uses Spring's RestTemplate to communicate with Canvas, but when it mixes file data with text parameters in a multipart form, Canvas/Rails is unable to parse the data correctly. While we sort this out, the only way to replace all official enrollment data for the current term is to resort to Curl:
 
 ```
