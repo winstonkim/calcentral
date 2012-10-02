@@ -43,7 +43,11 @@
 			</div>
 			<div class="cc-container-widget cc-page-classpage-sections">
 				<div class="cc-widget-title">
-					<h2>Lecture &amp; Section Details</h2>
+					<h2 class="cc-left">Sections</h2>
+					<div id="classpages_showhideall" class="cc-right">
+						<button id="classpages_expandall" class="cc-link-button">Expand all</button> |
+						<button id="classpages_collapseall" class="cc-link-button">Collapse all</button>
+					</div>
 				</div>
 				<div>
 					{{>sections}}
@@ -51,8 +55,8 @@
 			</div>
 		</script>
 		<script id="cc-page-classpage-header-template" type="text/x-handlebars-template">
-			<h2>{{classtitle}}</h2>
-			<h3>{{courseinfo.department}} {{courseinfo.catalogid}} : {{courseinfo.term}} {{courseinfo.year}}</h3>
+			<h2>{{courseinfo.department}} {{courseinfo.catalogid}} : {{courseinfo.term}} {{courseinfo.year}}</h2>
+			<h3>{{classtitle}}</h3>
 		</script>
 
 		<script id="cc-page-classpage-description-template" type="text/x-handlebars-template">
@@ -61,14 +65,14 @@
 
 		<script id="cc-page-classpage-courseinfo-template" type="text/x-handlebars-template">
 			{{#with courseinfo}}
-			<ul class="cc-page-classpage-list">
-				<li><span>Format:</span><span>{{#if format}}{{format}}{{else}}<em>Not available</em>{{/if}}</span></li>
-				<li><span>Units:</span><span>{{#if units}}{{units}}{{else}}<em>Not available</em>{{/if}}</span></li>
-				<li><span>Semesters offered:</span><span>{{#if semesters_offered}}{{semesters_offered}}{{else}}<em>Not available</em>{{/if}}</span></li>
-				<li><span>Requirements:</span><span>{{#if requirements}}{{requirements}}{{else}}<em>Not available</em>{{/if}}</span></li>
-				<li><span>Grading:</span><span>{{#if grading}}{{grading}}{{else}}<em>Not available</em>{{/if}}</span></li>
-				<li><span>Prerequisites:</span><span>{{#if prereqs}}{{prereqs}}{{else}}<em>Not available</em>{{/if}}</span></li>
-			</ul>
+			<dl class="cc-page-classpage-courseinfo-list">
+				<dt class="cc-left">Format:</dt><dd>{{#if format}}{{format}}{{else}}<em>Not available</em>{{/if}}</dd>
+				<dt class="cc-left">Units:</dt><dd>{{#if units}}{{units}}{{else}}<em>Not available</em>{{/if}}</dd>
+				<dt class="cc-left">Semesters offered:</dt><dd>{{#if semesters_offered}}{{semesters_offered}}{{else}}<em>Not available</em>{{/if}}</dd>
+				<dt class="cc-left">Requirements:</dt><dd>{{#if requirements}}{{requirements}}{{else}}<em>Not available</em>{{/if}}</dd>
+				<dt class="cc-left">Grading:</dt><dd>{{#if grading}}{{grading}}{{else}}<em>Not available</em>{{/if}}</dd>
+				<dt class="cc-left">Prerequisites:</dt><dd>{{#if prereqs}}{{prereqs}}{{else}}<em>Not available</em>{{/if}}</dd>
+			</dl>
 			{{/with}}
 		</script>
 
@@ -76,28 +80,26 @@
 			<ul class="cc-page-classpage-instructor-item">
 			{{#if instructors}}
 				{{#each instructors}}
-					<li>
+					<li class="cc-left">
 					{{#if img}}
 						<img class="cc-page-classpage-instructor-profile" src="{{img}}" width="100" height="100"/>
 					{{else}}
 						<img class="cc-page-classpage-instructor-profile" src="/img/myb/default_User_icon_100x100.png" />
 					{{/if}}
 
-						<div class="cc-page-classpage-instructor-heading">
-						{{#if name}}
-							<a href="{{url}}">{{name}}</a>
-						{{else}}
-							<em>Instructor name not available</em>
-						{{/if}}
-						{{#if title}}
-							<div>{{title}}</div>
-						{{/if}}
-						</div>
-
-						<ul class="cc-page-classpage-list">
-							{{#if phone}}<li><span>Phone #:</span><span>{{phone}}</span></li>{{/if}}
-							{{#if office}}<li><span>Office:</span><span>{{office}}</span></li>{{/if}}
-						</ul>
+						<dl class="cc-page-classpage-instructor-item-list">
+							<dt class='visuallyhidden cc-left'>Name</dt>
+							<dd class='cc-page-classpage-instructor-name'>
+							{{#if name}}
+								<a href="{{url}}">{{name}}</a>
+							{{else}}
+								<em>Instructor name not available</em>
+							{{/if}}
+							</dd>
+							{{#if title}}<dt class='visuallyhidden'>Title</dt><dd class='cc-page-classpage-instructor-title'>{{title}}{{/if}}</dd>
+							{{#if phone}}<dt class='visuallyhidden'>Phone Number:</dt><dd>{{phone}}</span></dd>{{/if}}
+							{{#if office}}<dt class='visuallyhidden'>Office:</dt><dd>{{office}}</span></dd>{{/if}}
+						</dl>
 					</li>
 				{{/each}}
 			{{else}}
@@ -108,18 +110,15 @@
 
 		<script id="cc-page-classpage-sections-template" type="text/x-handlebars-template">
 		{{#if sections}}
-		<div id="classpages_showhideall" class="cc-right">
-			<button id="classpages_expandall" class="cc-link-button">Expand all</button> |
-			<button id="classpages_collapseall" class="cc-link-button">Collapse all</button>
-		</div>
 		<table id="classpages_section_results">
 			<thead>
 				<tr>
 					<th class="classpages_sections_col1">Class Meeting</th>
 					<th>CCN</th>
 					<th>Instructor</th>
-					<th>Enrolled</th>
-					<th>Waitlist</th>
+					{{! commented out for a future day }}
+					{{! <th>Enrolled</th> }}
+					{{! <th>Waitlist</th> }}
 					<th class="classpages_sections_timecol">Time</th>
 					<th class="classpages_sections_loccol">Location</th>
 				</tr>
@@ -152,19 +151,18 @@
 					</td>
 
 					<%-- Mustache doesnt allow tests like 'if this AND that' so we double nest the tests --%>
-					<td>{{#if enrolled_cur}}
+					{{! commented out for a future day }}
+					<%-- <td>{{#if enrolled_cur}}
 							{{#if enrolled_max}}
 								{{enrolled_cur}}/{{enrolled_max}}
 							{{/if}}
 						{{/if}}
-					</td>
-
-					<td>
+					</td> --%>
+					<%-- <td>
 						{{#if waitlist}}
 							Y
 						{{/if}}
-					</td>
-
+					</td> --%>
 					<td class="classpages_sections_timecol">
 						{{#if time }}
 							{{time}}
