@@ -12,6 +12,9 @@ calcentral.Widgets = calcentral.Widgets || {};
  */
 calcentral.Widgets.quicklinks = function(tuid) {
 
+	/*global _*/
+	'use strict';
+
 	/** VARIABLES. **/
 
 	/** DOM elements. Configurable but be aware of validator dependencies. */

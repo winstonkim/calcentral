@@ -19,7 +19,7 @@ calcentral.Widgets.tasks = function(tuid) {
 
 	/** VARIABLES. **/
 
-	var $tasksContainer = $('#cc-widget-tasks');
+	var $tasksContainer = $('#' + tuid);
 	var $tasksList = $('.cc-tasks-list', $tasksContainer);
 	var $tasksListTemplate = $('#cc-widget-tasks-template', $tasksContainer);
 	var $taskLoopTemplate = $('#cc-taskloop-template', $tasksContainer);

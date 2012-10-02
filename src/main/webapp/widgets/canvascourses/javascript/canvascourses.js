@@ -2,18 +2,18 @@ var calcentral = calcentral || {};
 calcentral.Widgets = calcentral.Widgets || {};
 calcentral.Widgets.canvascourses = function(tuid) {
 
+
 	/////////////////////////////
 	// Configuration variables //
 	/////////////////////////////
+
+	'use strict';
 
 	var $rootel = $('#' + tuid);
 	var $canvascoursesList = $('.cc-widget-canvascourses-list', $rootel);
 	// Used to control whether or not to load the dummy feed.
 	var dummy = false;
 
-	////////////////////
-	// Event Handlers //
-	////////////////////
 
 	///////////////
 	// Rendering //
@@ -29,6 +29,7 @@ calcentral.Widgets.canvascourses = function(tuid) {
 			'template': $('#cc-widget-canvascourses-list-template', $rootel)
 		});
 	};
+
 
 	///////////////////
 	// Ajax Requests //
@@ -91,6 +92,7 @@ calcentral.Widgets.canvascourses = function(tuid) {
 		}
 		return $loadCoursesDeferred.promise();
 	};
+
 
 	////////////////////
 	// Initialisation //

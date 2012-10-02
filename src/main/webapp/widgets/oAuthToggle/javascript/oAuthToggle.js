@@ -2,54 +2,51 @@ var calcentral = calcentral || {};
 calcentral.Widgets = calcentral.Widgets || {};
 calcentral.Widgets.oAuthToggle = function(tuid) {
 
+
 	/////////////////////////////
 	// Configuration variables //
 	/////////////////////////////
 
+	'use strict';
+
 	var $rootel = $('#' + tuid);
 	var $oAuthToggleList = $('.cc-widget-oAuthToggle-list', $rootel);
+
+	var urlMap = {
+		'canvas': '/api/canvas/canvasOAuthEnabled',
+		'google': '/api/google/gappsOAuthEnabled'
+	};
+
 
 	////////////////////
 	// Event Handlers //
 	////////////////////
 
-	var actionBindings = function () {
-		$('a.acquireGoogleToken', $oAuthToggleList).on('click', function() {
-			window.location = "/api/google/requestAuthorization?afterAuthUrl=/secure/preferences";
-		});
+	/**
+	 * Disable the token for an oAuth service
+	 */
+	var disableToken = function() {
+		var service = $(this).attr('data-disable-service');
 
-		$('a.acquireCanvasToken', $oAuthToggleList).on('click', function() {
-			window.location = "/api/canvas/oAuthToken?redirectUri=/secure/preferences";
+		$.ajax({
+			'url': urlMap[service],
+			'type': 'POST',
+			'data': {
+				'method': 'delete'
+			},
+			'success': function() {
+				window.location = "/secure/preferences";
+			}
 		});
-
-		$('a.disableGoogleToken', $oAuthToggleList).on('click', function() {
-			$.ajax({
-				'url': '/api/google/gappsOAuthEnabled',
-				'type': 'POST',
-				'data': {
-					'method': 'delete'
-				},
-				'success': function() {
-					window.location = "/secure/preferences";
-				}
-			});
-		});
-
-		$('a.disableCanvasToken', $oAuthToggleList).on('click', function() {
-			$.ajax({
-				'url': '/api/canvas/canvasOAuthEnabled',
-				'type': 'POST',
-				'data': {
-					'method': 'delete'
-				},
-				'success': function() {
-					window.location = "/secure/preferences";
-				}
-			});
-		});
-
+		return false;
 
 	};
+
+	var addBinding = function () {
+		$('a[data-disable-service]', $oAuthToggleList).on('click', disableToken);
+	};
+
+
 	///////////////
 	// Rendering //
 	///////////////
@@ -62,15 +59,17 @@ calcentral.Widgets.oAuthToggle = function(tuid) {
 		});
 	};
 
+
 	////////////////////
 	// Initialisation //
 	////////////////////
+
 	/**
 	 * Initialise the classes widget, after functions from other widgets are resolved.
 	 */
 	var init = function() {
 		renderToggles(calcentral.Data.User.oauth);
-		actionBindings();
+		addBinding();
 	};
 
 	init();

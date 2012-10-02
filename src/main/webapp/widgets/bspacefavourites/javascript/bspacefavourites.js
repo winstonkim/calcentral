@@ -2,18 +2,20 @@ var calcentral = calcentral || {};
 calcentral.Widgets = calcentral.Widgets || {};
 calcentral.Widgets.bspacefavourites = function(tuid) {
 
+	/*global console*/
+
+
 	/////////////////////////////
 	// Configuration variables //
 	/////////////////////////////
+
+	'use strict';
 
 	var $rootel = $('#' + tuid);
 	var $bspacefavouritesList = $('.cc-widget-bspacefavourites-list', $rootel);
 	// Method to filter the bspaceFavorites feed based on categories. If the value is left empty or null, will assume "All sites"
 	var categoryFilter = "";
 
-	////////////////////
-	// Event Handlers //
-	////////////////////
 
 	///////////////
 	// Rendering //
@@ -30,6 +32,7 @@ calcentral.Widgets.bspacefavourites = function(tuid) {
 			'template': $('#cc-widget-bspacefavourites-list-template', $rootel)
 		});
 	};
+
 
 	///////////////////
 	// Ajax Requests //
