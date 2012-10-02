@@ -43,7 +43,7 @@
 			</div>
 			<div class="cc-container-widget cc-page-classpage-sections">
 				<div class="cc-widget-title">
-					<h2>Sections</h2>
+					<h2 class="cc-left">Sections</h2>
 					<div id="classpages_showhideall" class="cc-right">
 						<button id="classpages_expandall" class="cc-link-button">Expand all</button> |
 						<button id="classpages_collapseall" class="cc-link-button">Collapse all</button>
@@ -66,12 +66,12 @@
 		<script id="cc-page-classpage-courseinfo-template" type="text/x-handlebars-template">
 			{{#with courseinfo}}
 			<dl class="cc-page-classpage-courseinfo-list">
-				<dt>Format:</dt><dd>{{#if format}}{{format}}{{else}}<em>Not available</em>{{/if}}</dd>
-				<dt>Units:</dt><dd>{{#if units}}{{units}}{{else}}<em>Not available</em>{{/if}}</dd>
-				<dt>Semesters offered:</dt><dd>{{#if semesters_offered}}{{semesters_offered}}{{else}}<em>Not available</em>{{/if}}</dd>
-				<dt>Requirements:</dt><dd>{{#if requirements}}{{requirements}}{{else}}<em>Not available</em>{{/if}}</dd>
-				<dt>Grading:</dt><dd>{{#if grading}}{{grading}}{{else}}<em>Not available</em>{{/if}}</dd>
-				<dt>Prerequisites:</dt><dd>{{#if prereqs}}{{prereqs}}{{else}}<em>Not available</em>{{/if}}</dd>
+				<dt class="cc-left">Format:</dt><dd>{{#if format}}{{format}}{{else}}<em>Not available</em>{{/if}}</dd>
+				<dt class="cc-left">Units:</dt><dd>{{#if units}}{{units}}{{else}}<em>Not available</em>{{/if}}</dd>
+				<dt class="cc-left">Semesters offered:</dt><dd>{{#if semesters_offered}}{{semesters_offered}}{{else}}<em>Not available</em>{{/if}}</dd>
+				<dt class="cc-left">Requirements:</dt><dd>{{#if requirements}}{{requirements}}{{else}}<em>Not available</em>{{/if}}</dd>
+				<dt class="cc-left">Grading:</dt><dd>{{#if grading}}{{grading}}{{else}}<em>Not available</em>{{/if}}</dd>
+				<dt class="cc-left">Prerequisites:</dt><dd>{{#if prereqs}}{{prereqs}}{{else}}<em>Not available</em>{{/if}}</dd>
 			</dl>
 			{{/with}}
 		</script>
@@ -80,7 +80,7 @@
 			<ul class="cc-page-classpage-instructor-item">
 			{{#if instructors}}
 				{{#each instructors}}
-					<li>
+					<li class="cc-left">
 					{{#if img}}
 						<img class="cc-page-classpage-instructor-profile" src="{{img}}" width="100" height="100"/>
 					{{else}}
@@ -88,7 +88,7 @@
 					{{/if}}
 
 						<dl class="cc-page-classpage-instructor-item-list">
-							<dt class='visuallyhidden'>Name</dt>
+							<dt class='visuallyhidden cc-left'>Name</dt>
 							<dd class='cc-page-classpage-instructor-name'>
 							{{#if name}}
 								<a href="{{url}}">{{name}}</a>
@@ -97,7 +97,7 @@
 							{{/if}}
 							</dd>
 							{{#if title}}<dt class='visuallyhidden'>Title</dt><dd class='cc-page-classpage-instructor-title'>{{title}}{{/if}}</dd>
-							{{#if phone}}<dt class='visuallyhidden'>Phone #:</dt><dd>{{phone}}</span></dd>{{/if}}
+							{{#if phone}}<dt class='visuallyhidden'>Phone Number:</dt><dd>{{phone}}</span></dd>{{/if}}
 							{{#if office}}<dt class='visuallyhidden'>Office:</dt><dd>{{office}}</span></dd>{{/if}}
 						</dl>
 					</li>
@@ -116,8 +116,9 @@
 					<th class="classpages_sections_col1">Class Meeting</th>
 					<th>CCN</th>
 					<th>Instructor</th>
-					<!--// <th>Enrolled</th> -->
-					<!-- // <th>Waitlist</th> -->
+					{{! commented out for a future day }}
+					{{! <th>Enrolled</th> }}
+					{{! <th>Waitlist</th> }}
 					<th class="classpages_sections_timecol">Time</th>
 					<th class="classpages_sections_loccol">Location</th>
 				</tr>
@@ -150,19 +151,18 @@
 					</td>
 
 					<%-- Mustache doesnt allow tests like 'if this AND that' so we double nest the tests --%>
-					<!--<td>{{#if enrolled_cur}}
+					{{! commented out for a future day }}
+					<%-- <td>{{#if enrolled_cur}}
 							{{#if enrolled_max}}
 								{{enrolled_cur}}/{{enrolled_max}}
 							{{/if}}
 						{{/if}}
-					</td>-->
-
-					<!--<td>
+					</td> --%>
+					<%-- <td>
 						{{#if waitlist}}
 							Y
 						{{/if}}
-					</td>-->
-
+					</td> --%>
 					<td class="classpages_sections_timecol">
 						{{#if time }}
 							{{time}}

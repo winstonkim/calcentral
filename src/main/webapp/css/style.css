@@ -32,7 +32,7 @@ audio:not([controls]) { display: none; }
 
 html { font-size: 100%; -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; }
 
-html, button, input, select, textarea { font-family: Helvetica Neue, Arial, sans-serif; color: #222; }
+html, button, input, select, textarea { font-family: sans-serif; color: #222; }
 
 body { margin: 0; font-size: 1em; line-height: 1.4; }
 
@@ -225,6 +225,7 @@ td { vertical-align: top; }
 body {
 	background: #F2F2F2;
 	color: #444;
+	font-family: 'Helvetica Neue', Arial, Helvetica, sans-serif;
 	font-size: 13px;
 }
 a, a:visited, a:active {
@@ -526,10 +527,6 @@ body > header > h1 {
 	margin-top: 12px;
 }
 
-nav.cc-lefthandnavigation {
-	margin-top: 0;
-}
-
 .cc-lefthandnavigation a {
 	color: #707E8C;
 	display: block;
@@ -743,7 +740,7 @@ nav.cc-lefthandnavigation {
 }
 .cc-page-classpage .cc-widget-main h3 {
 	color: #666;
-	margin: 0 0 0.4em;
+	margin: 0 0 6px;
 }
 .cc-page-classpage-header .cc-widget-main {
 	padding-left: 0;
@@ -776,7 +773,6 @@ nav.cc-lefthandnavigation {
 	margin: 0 20px 20px 0;
 }
 .cc-page-classpage-instructor-item li {
-	float: left;
 	margin-bottom: 0;
 	overflow: hidden;
 	width: 50%;
@@ -802,16 +798,13 @@ ul.cc-page-classpage-instructor-item li:last-child {
 .cc-page-classpage-instructor-item-list dt,
 .cc-page-classpage-instructor-item-list dd {
 	display: block;
-	float: none;
 	overflow: hidden;
-	width: auto;
 	margin: 0;
 }
 
 .cc-page-classpage-courseinfo-list dt,
 .cc-page-classpage-instructor-item-list dt  {
 	color: #666;
-	float: left;
 	font-weight: bold;
 	margin-right: 10px;
 	text-align: right;
@@ -859,8 +852,8 @@ ul.cc-page-classpage-instructor-item li:last-child {
 	border-top: 1px solid #E4C495;
 	font-size: 16px;
 	font-weight: bolder;
-	margin-top: 1em;
-	padding-top: 0.6em;
+	margin-top: 16px;
+	padding-top: 9px;
 }
 
 .cc-page-classlist-container dt:first-child {
@@ -932,11 +925,7 @@ ul.cc-page-classpage-instructor-item li:last-child {
 
 /* Classpages */
 .cc-page-classpage-sections .cc-widget-title {
-	height: 26px;
-}
-
-.cc-page-classpage-sections .cc-widget-title h2 {
-	float: left;
+	overflow: hidden;
 }
 
 .classpages_table_label {
