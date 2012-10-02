@@ -291,7 +291,11 @@
 					<h2>Course Syllabus</h2>
 				</div>
 				<div class="cc-widget-main">
-					{{{syllabus_body}}}
+					{{#if syllabus_body}}
+						{{{syllabus_body}}}
+					{{else}}
+						<p>Syllabus is not available.</p>
+					{{/if}}
 				</div>
 			</div>
 		</script>
