@@ -56,7 +56,6 @@ import javax.ws.rs.core.Response;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
-import java.util.Collections;
 
 /**
  * Proxy for talking to Berkeley's Google Api endpoints. If you want to hit a Google API URL of the form
