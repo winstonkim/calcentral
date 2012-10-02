@@ -26,6 +26,8 @@ import com.google.api.client.googleapis.auth.oauth2.GoogleTokenResponse;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.services.calendar.CalendarScopes;
+import com.google.api.services.tasks.TasksScopes;
+import com.google.common.collect.Lists;
 import edu.berkeley.calcentral.Params;
 import edu.berkeley.calcentral.Urls;
 import edu.berkeley.calcentral.daos.OAuth2Dao;
@@ -54,7 +56,6 @@ import javax.ws.rs.core.Response;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
-import java.util.Collections;
 
 /**
  * Proxy for talking to Berkeley's Google Api endpoints. If you want to hit a Google API URL of the form
@@ -107,7 +108,7 @@ public class GoogleAppsProxy {
 				new JacksonFactory(),
 				clientId,
 				clientSecret,
-				Collections.singleton(CalendarScopes.CALENDAR)).
+				Lists.newArrayList(CalendarScopes.CALENDAR, TasksScopes.TASKS)).
 				setCredentialStore(credentialStore).
 				setAccessType("offline").             // "offline" and "force" so we get refresh token
 				setApprovalPrompt("force").           // on every auth request, not just the first.

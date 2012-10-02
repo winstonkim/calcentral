@@ -104,9 +104,9 @@
 			<version>${org.springframework.version}</version>
 		</dependency>
 		<dependency>
- 			<groupId>org.springframework.security.oauth</groupId>
- 			<artifactId>spring-security-oauth2</artifactId>
- 			<version>1.0.0.RC2</version>
+			<groupId>org.springframework.security.oauth</groupId>
+			<artifactId>spring-security-oauth2</artifactId>
+			<version>1.0.0.RC2</version>
 		</dependency>
 
 		<!-- Other dependencies -->
@@ -240,6 +240,12 @@
 			<artifactId>google-api-services-calendar</artifactId>
 			<version>v3-rev16-1.8.0-beta</version>
 		</dependency>
+		<dependency>
+			<groupId>com.google.apis</groupId>
+			<artifactId>google-api-services-tasks</artifactId>
+			<version>v1-rev3-1.8.0-beta</version>
+		</dependency>
+
 
 		<!-- test dependencies -->
 		<dependency>
