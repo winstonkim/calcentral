@@ -8,16 +8,30 @@
 	</div>
 	<script id="cc-widget-oAuthToggle-list-template" type="text/x-handlebars-template">
 	<ul>
-	{{#if google}}
-		<li>Google enabled! <a class="disableGoogleToken">[remove]</a> <a class="acquireGoogleToken">[refresh]</a></li>
-	{{else}}
-		<li><a class="acquireGoogleToken" href="#">Acquire google token</a></li>
-	{{/if}}
-	{{#if canvas}}
-		<li>Canvas enabled! <a class="disableCanvasToken">[remove]</a> <a class="acquireCanvasToken">[update]</a></li>
-	{{else}}
-		<li><a class="acquireCanvasToken" href="#">Acquire canvas token</a></li>
-	{{/if}}
+		<li>
+			{{#if google}}
+				Google enabled! <a href="/" data-disable-service="google">[remove]</a>
+			{{/if}}
+			<a href="/api/google/requestAuthorization?afterAuthUrl=/secure/preferences">
+				{{#if google}}
+					[update]
+				{{else}}
+					Acquire google token
+				{{/if}}
+			</a>
+		</li>
+		<li>
+			{{#if canvas}}
+				Canvas enabled! <a href="/" data-disable-service="canvas">[remove]</a>
+			{{/if}}
+			<a href="/api/canvas/oAuthToken?redirectUri=/secure/preferences">
+				{{#if canvas}}
+					[update]
+				{{else}}
+					Acquire canvas token
+				{{/if}}
+			</a>
+		</li>
 	</ul>
 	</script>
 </div>

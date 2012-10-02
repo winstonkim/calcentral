@@ -12,9 +12,12 @@ calcentral.Widgets = calcentral.Widgets || {};
  */
 calcentral.Widgets.notifications = function(tuid) {
 
+
 	///////////////
 	// Variables //
 	///////////////
+
+	'use strict';
 
 	var $notificationsContainer = $('#' + tuid);
 	var $notificationsList = $('.cc-notifications-list', $notificationsContainer);
@@ -104,4 +107,3 @@ calcentral.Widgets.notifications = function(tuid) {
 	$.when(loadNotifications()).done(renderNotifications);
 
 };
-

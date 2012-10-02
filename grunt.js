@@ -1,14 +1,19 @@
 module.exports = function(grunt) {
 
+	'use strict';
+
 	// Project configuration.
 	grunt.initConfig({
 		lint: {
-			all: ['src/main/webapp/widgets/**/*.js', 'src/main/webapp/js/script.js']
+			all: ['grunt.js', 'src/main/webapp/widgets/**/*.js', 'src/main/webapp/js/script.js']
 		},
 		jshint: {
 			options: {
 				browser: true,
-				smarttabs: true
+				jquery: true,
+				smarttabs: true,
+				strict: true,
+				unused: true
 			}
 		}
 	});

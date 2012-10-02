@@ -12,17 +12,17 @@ calcentral.Widgets = calcentral.Widgets || {};
  */
 calcentral.Widgets.mycalendar = function(tuid) {
 
-	'use strict';
 
 	/////////////////////////////
 	// Configuration variables //
 	/////////////////////////////
 
+	'use strict';
+
 	var $rootel = $('#' + tuid);
 	var $mycalendarContainer = $('.cc-widget-mycalendar-container', $rootel);
 	var $mycalendarOverviewTemplate = $('.cc-widget-mycalendar-overview-template', $rootel);
 
-	var today = new Date();
 	var startToday = new Date();
 	startToday.setHours(0, 0, 0, 0);
 	var endToday = new Date();
@@ -53,10 +53,9 @@ calcentral.Widgets.mycalendar = function(tuid) {
 	/**
 	 * Sort the events, we only want to move the full day events to the bottom
 	 * @param {Object} a an event item
-	 * @param {Object} b another event item
 	 * @return {Integer} We return an integer to know whether we need to move it or not.
 	 */
-	var sortEvents = function(a, b) {
+	var sortEvents = function(a) {
 
 		// Only full day events have a date here
 		if (a.end.date) {
@@ -107,9 +106,8 @@ calcentral.Widgets.mycalendar = function(tuid) {
 
 	/**
 	 * Load the events from the Google calendar API
-	 * @param {String} email The email for the current user
 	 */
-	var loadEvents = function(email) {
+	var loadEvents = function() {
 		return $.ajax({
 			'data': {
 				// TODO specify the fields we actually want to select
@@ -130,9 +128,7 @@ calcentral.Widgets.mycalendar = function(tuid) {
 
 	// Initialise the calendar widget
 	var doInit = function(){
-		calcentral.Api.User.getCurrentUser('', function(success, data) {
-			$.when(loadEvents(data.email)).pipe(parseEvents).done(renderCalendarOverview);
-		});
+		$.when(loadEvents()).pipe(parseEvents).done(renderCalendarOverview);
 	};
 
 	// Start the request

@@ -2,9 +2,12 @@ var calcentral = calcentral || {};
 calcentral.Widgets = calcentral.Widgets || {};
 calcentral.Widgets.walktime = function(tuid) {
 
+
 	/////////////////////////////
 	// Configuration variables //
 	/////////////////////////////
+
+	'use strict';
 
 	var $rootel = $('#' + tuid);  // unique container for each widget instance
 	var $mainContainer = $('#walktime_main', $rootel);
@@ -26,10 +29,10 @@ calcentral.Widgets.walktime = function(tuid) {
 
 		if (coords && coords.length === 4) {
 			// Get vals out of coords array and cast strings to floats
-			lat1 = parseFloat(coords[0]);
-			lon1 = parseFloat(coords[1]);
-			lat2 = parseFloat(coords[2]);
-			lon2 = parseFloat(coords[3]);
+			var lat1 = parseFloat(coords[0]);
+			var lon1 = parseFloat(coords[1]);
+			var lat2 = parseFloat(coords[2]);
+			var lon2 = parseFloat(coords[3]);
 
 			var R = 6371; // Radius of the earth in km
 			var dLat = setToRad(lat2-lat1);  // Javascript functions in radians

@@ -5,6 +5,7 @@ var calcentral = calcentral || {};
  * Data
  */
 (function() {
+	'use strict';
 	calcentral.Data = calcentral.Data || {};
 	calcentral.Data.User = calcentral.Data.User || {};
 })();
@@ -13,6 +14,7 @@ var calcentral = calcentral || {};
  * API
  */
 (function() {
+	'use strict';
 	calcentral.Api = calcentral.Api || {};
 })();
 
@@ -20,6 +22,7 @@ var calcentral = calcentral || {};
  * API Users
  */
 (function() {
+	'use strict';
 	calcentral.Api.User = calcentral.Api.User || {};
 
 	calcentral.Api.User.getUser = function(config, callback) {
@@ -82,7 +85,7 @@ var calcentral = calcentral || {};
  * API Util
  */
 (function() {
-	var templateCache = [];
+	'use strict';
 	calcentral.Api.Util = calcentral.Api.Util || {};
 
 	/**
@@ -133,12 +136,11 @@ var calcentral = calcentral || {};
 	calcentral.Api.Util.getURLParameter = function(param) {
 		var searchString = window.location.search.substring(1);
 		var params = searchString.split('&');
-		var hash = {};
 
 		for (var i = 0; i < params.length; i++) {
 			var val = params[i].split('=');
 			if (val[0] === param) {
-				return unescape(val[1]);
+				return window.unescape(val[1]);
 			}
 		}
 		return null;
@@ -164,7 +166,7 @@ var calcentral = calcentral || {};
 		// When you set onclick to true, you actually just don't set it
 		// to false, because onclick is a handler function, not a boolean
 		if (opts) {
-			$.each(options, function(key,val) {
+			$.each(options, function(key) {
 				if (opts.hasOwnProperty(key) && opts[key] === true) {
 					delete opts[key];
 					delete options[key];
@@ -423,7 +425,7 @@ var calcentral = calcentral || {};
  */
 
 (function() {
-
+	'use strict';
 	calcentral.Api.Widgets = calcentral.Api.Widgets || {};
 
 	var createWidgetDataUrl = function(widgetId) {
@@ -505,13 +507,7 @@ var calcentral = calcentral || {};
  * Dashboard
  */
 (function() {
-
-	/*$('.cc-container-widgets').masonry({
-		itemSelector: '.cc-container-widget',
-		columnWidth: 348,
-		gutterWidth: 20
-	});*/
-
+	'use strict';
 	calcentral.Widgets = calcentral.Widgets || {};
 	calcentral.WidgetStatus = calcentral.WidgetStatus || {};
 
@@ -579,8 +575,8 @@ var calcentral = calcentral || {};
  * Clickable masthead - Logged in users go to dashboard, anon users go to "/"
  */
 (function() {
-
-	var $bannerTop = $('header');
+	'use strict';
+	var $bannerTop = $('body > header');
 
 	calcentral.Api.User.getCurrentUser('', function(success, data) {
 		$bannerTop.on('click', function() {
@@ -595,7 +591,7 @@ var calcentral = calcentral || {};
  * Contains links to external services, login
  */
 (function() {
-
+	'use strict';
 	var $launcher = $('.cc-launcher');
 
 	var addBinding = function() {
@@ -619,7 +615,7 @@ var calcentral = calcentral || {};
 			}).show();
 		});
 
-		$launcherItemsWithDropdown.parent().on('mouseleave', function(e) {
+		$launcherItemsWithDropdown.parent().on('mouseleave', function() {
 			closeMenu();
 		});
 
@@ -642,7 +638,7 @@ var calcentral = calcentral || {};
  * Top Navigation
  */
 (function() {
-
+	'use strict';
 	var $topNavigation = $('.cc-topnavigation');
 
 	var addBinding = function() {
@@ -670,7 +666,7 @@ var calcentral = calcentral || {};
 			}).show();
 		});
 
-		$topNavigationItemsWithDropdown.parent().on('mouseleave', function(e) {
+		$topNavigationItemsWithDropdown.parent().on('mouseleave', function() {
 			closeMenu();
 		});
 

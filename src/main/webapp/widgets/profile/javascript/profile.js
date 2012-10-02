@@ -2,18 +2,20 @@ var calcentral = calcentral || {};
 calcentral.Widgets = calcentral.Widgets || {};
 calcentral.Widgets.profile = function(tuid) {
 
+	/*global console*/
+
+
 	/////////////////////////////
 	// Configuration variables //
 	/////////////////////////////
+
+	'use strict';
 
 	var $rootel = $('#' + tuid);
 	var $profileList = $('.cc-widget-profile-list', $rootel);
 	var $preferredNameInput;
 	var $linkInput;
 
-	////////////////////
-	// Event Handlers //
-	////////////////////
 
 	///////////////
 	// Rendering //
@@ -35,7 +37,7 @@ calcentral.Widgets.profile = function(tuid) {
 				'link': $(this).val()
 			});
 		});
-		$profileImageLinkInput = $('#cc-widget-profile-profileImageLink', $rootel).on('blur', function() {
+		$('#cc-widget-profile-imagelink', $rootel).on('blur', function() {
 			saveProfile({
 				'profileImageLink': $(this).val()
 			});
@@ -47,12 +49,12 @@ calcentral.Widgets.profile = function(tuid) {
 	///////////////////
 
 	var saveProfile = function(data) {
-		newUserData = {
+		var newUserData = {
 			'uid': calcentral.Data.User.user.uid
 		};
 		$.extend(newUserData, data);
 		console.log('Profile widget - Saving profile: ', newUserData);
-		calcentral.Api.User.saveUser(newUserData, function(success, data) {
+		calcentral.Api.User.saveUser(newUserData, function(success) {
 			console.log('Profile widget - Profile saved: ' + success);
 		});
 	};
