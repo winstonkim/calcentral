@@ -1,6 +1,9 @@
 #!/bin/bash
 # script to run when developing for Calcentral
 
+echo "Shutting down a previous jetty server if there is one"
+mvn -B -e jetty:stop
+
 pg_ctl -D /usr/local/var/postgres status > /dev/null 2>&1
 if [ "$?" -gt "0" ]; then
 	echo "PostgreSQL not running yet, we're starting it right now"
