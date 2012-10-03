@@ -56,7 +56,11 @@
 		</script>
 		<script id="cc-page-classpage-header-template" type="text/x-handlebars-template">
 			<h2>{{courseinfo.department}} {{courseinfo.catalogid}} : {{courseinfo.term}} {{courseinfo.year}}</h2>
-			<h3>{{classtitle}}</h3>
+			<h3 class="cc-left">{{classtitle}}</h3>
+			{{#if courseinfo.canvasCourseId}}
+				<a href="https://ucberkeley.instructure.com/courses/{{courseinfo.canvasCourseId}}" class="ir cc-icon cc-right cc-icon-canvas" title="See the course in canvas">Canvas</a>
+				</p>
+			{{/if}}
 		</script>
 
 		<script id="cc-page-classpage-description-template" type="text/x-handlebars-template">

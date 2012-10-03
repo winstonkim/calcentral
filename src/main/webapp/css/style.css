@@ -276,6 +276,9 @@ body > header > h1 {
 .cc-icon-calendar {
 	background-image: url('/img/myb/calendar_icon_16x16.png');
 }
+.cc-icon-canvas {
+	background-image: url('/widgets/mygroups/images/canvasgroups_icon.png');
+}
 .cc-icon-drive {
 	background-image: url('/img/myb/drive_icon_16x16.png');
 }
