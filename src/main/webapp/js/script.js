@@ -796,7 +796,7 @@ var calcentral = calcentral || {};
 			'feedCount': webcastData.feed.openSearch$totalResults.$t,
 			'feedSubTitle': webcastData.feed.subtitle.$t,
 			'feedTitle': webcastData.feed.title.$t,
-			'feedThumb': webcastData.feed.media$group.media$thumbnail[1].url,
+			'feedThumb': webcastData.feed.media$group.media$thumbnail[1].url.replace('http:', ''),
 			'videoURL': '//www.youtube.com/watch?v='
 		};
 
@@ -804,7 +804,7 @@ var calcentral = calcentral || {};
 			return {
 				'entryTitle': item.title.$t,
 				'entrySubTitle': item.media$group.media$description.$t,
-				'feedURL': item.link[1].href,
+				'feedURL': item.link[1].href.replace('http:', ''),
 				'thumb': "//img.youtube.com/vi/" + item.media$group.yt$videoid.$t + "/default.jpg",
 				'videoID': item.media$group.yt$videoid.$t,
 				'viewCount': item.yt$statistics.viewCount
@@ -824,7 +824,7 @@ var calcentral = calcentral || {};
 			'success': function(webcastData) {
 				parseWebcastInfo(webcastData, classPageData);
 			},
-			'url': classPageData.courseinfo.webcastUrl
+			'url': classPageData.courseinfo.webcastUrl.replace('http:', '')
 		});
 	};
 
