@@ -13,7 +13,7 @@ echo "Cleaning up the database and doing the migration"
 mvn flyway:clean flyway:migrate
 
 echo "Building Calcentral and adding the Canvas Course Ids"
-mvn clean install -P load-canvas-course-ids exec:java -Dspring.profiles.active=default
+mvn clean install -Dmaven.test.skip=true -P load-canvas-course-ids exec:java -Dspring.profiles.active=default
 
 echo "Starting the Jetty server"
-mvn jetty:run
+mvn clean package jetty:run
