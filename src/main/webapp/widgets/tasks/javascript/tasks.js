@@ -84,6 +84,29 @@ calcentral.Widgets.tasks = function(tuid) {
 				});
 			}
 
+			// **** TODO: POC ONLY **** monkey-patch dates so we always have items for today, tomorrow, and future
+			// Ignore the stored timestamps and dynamically generate new ones at a variety of ranges.
+			var theDateEpoch = currentTime.getTime() / 1000;
+
+			if (index < 1) {
+				data[index].overdue = true; // Set at least one item to overdue
+			} else if (index < 3) {
+				data[index].dueDate = theDateEpoch; // Today
+			} else if (index < 5) {
+				data[index].dueDate = theDateEpoch + 86400; // Tomorrow
+			} else if (index < 7) {
+				data[index].dueDate = theDateEpoch + 172800; // Upcoming
+			} else {
+				data[index].dueDate = theDateEpoch + 1672800; // Far future
+			}
+
+			if (index === 1) {
+				data[index].completed = true; // At least one item is completed for demo purposes
+				// data[index].overdue = false; // This same item should not be both overdue and completed
+			}
+			// END POC TEMPORARY
+
+
 			// Set due dates and overdue status for items that are dated.
 			if (value.start_at || value.due) {
 				var dueDate = new Date(value.start_at);
