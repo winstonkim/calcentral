@@ -30,20 +30,30 @@ calcentral.Widgets.tasks = function(tuid) {
 	 * Course IDs for assignments are keyed to course IDs from courseData (rather than looping).
 	 * @param {object} courseData Course list from canvas
 	 * @param {object} data Assignment list from Canvas
+	 * @param {object} gTaskData list from Google
 	 */
 	var renderTasksAssignments = function(courseData, data, gTaskData) {
+		// To account for differences between tasks emitted from various services, set an "emitter"
+		// property for the source. This will help in setting different icons, different date processing, etc.
+		$.each(data, function(index, value){
+			value.emitter = 'canvas-assignments';
+		});
+
 		// Merge Google tasks data into the main data object.
 		// Modify Google task properties to re-use Canvas assignment properties for compatibility.
-
 		$.each(gTaskData[0].items, function(index, value){
-			// Google "due" property maps to Canvas "start_at" property
-			if (value.due) {
-				value.start_at = value.due;
-			}
-			value.html_url = 'https://mail.google.com/tasks/canvas?pli=1'; // Minimal, but it's the only Tasks web UI available
+			// Discard "phantom" Google Tasks
+			if (value.title.match('^[a-zA-Z0-9]')) {
+				// Google "due" property maps to Canvas "start_at" property
+				if (value.due) {
+					value.start_at = value.due;
+				}
+				value.html_url = 'https://mail.google.com/tasks/canvas?pli=1'; // Minimal, but it's the only Tasks web UI available
+				value.emitter = 'google-tasks';
 
-			// Append modified entry to main data object
-			data.push(value);
+				// Append modified entry to main data object
+				data.push(value);
+			}
 		});
 
 		var currentTime = new Date();
@@ -61,28 +71,6 @@ calcentral.Widgets.tasks = function(tuid) {
 
 		// Convert timestamps to friendly dates and set overdue flags.
 		$.each(data, function(index, value){
-
-			// **** TODO: POC ONLY **** monkey-patch dates so we always have items for today, tomorrow, and future
-			// Ignore the stored timestamps and dynamically generate new ones at a variety of ranges.
-			var theDateEpoch = currentTime.getTime() / 1000;
-
-			if (index < 1) {
-				data[index].overdue = true; // Set at least one item to overdue
-			} else if (index < 3) {
-				data[index].dueDate = theDateEpoch; // Today
-			} else if (index < 5) {
-				data[index].dueDate = theDateEpoch + 86400; // Tomorrow
-			} else if (index < 7) {
-				data[index].dueDate = theDateEpoch + 172800; // Upcoming
-			} else {
-				data[index].dueDate = theDateEpoch + 1672800; // Far future
-			}
-
-			if (index === 1) {
-				data[index].completed = true; // At least one item is completed for demo purposes
-			}
-			// END POC TEMPORARY
-
 			// For Canvas items, set the html_url
 			if (data[index].html_url) {
 				// Grep out this assignment's course ID and URL; set matching course properties for assignments.
@@ -96,9 +84,17 @@ calcentral.Widgets.tasks = function(tuid) {
 				});
 			}
 
-			// Set due dates and overdue status for items that are dated
+			// Set due dates and overdue status for items that are dated.
 			if (value.start_at || value.due) {
 				var dueDate = new Date(value.start_at);
+
+				if (value.emitter === 'google-tasks') {
+					// Google timestamps are UTC = account for timezone offsets to render actual time entered
+					var offset = dueDate.getTimezoneOffset();
+					var hours = dueDate.getHours();
+					dueDate.setHours(hours + offset / 24);
+				}
+
 				// Javascript months are 0-based, while days and years are 1-based, so add 1 to month
 				var friendlyDate = dueDate.getMonth() + 1 + '/' + dueDate.getDate();
 				data[index].friendlyDate = friendlyDate;
@@ -120,7 +116,6 @@ calcentral.Widgets.tasks = function(tuid) {
 
 				} else if (dueDate > currentTime) {
 					newData.future.push(data[index]);
-					// Easier to set a "future" property here than to detect parent array in Handlebars (partials scoping problem)
 					data[index].future = true;
 				}
 			} else {

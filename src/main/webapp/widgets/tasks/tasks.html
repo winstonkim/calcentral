@@ -57,8 +57,6 @@
 	</script>
 
 	<script id="cc-taskloop-template" type="text/x-handlebars-template">
-	{{! Dont render items with missing titles }}
-	{{#if title}}
 		<li>
 			{{#if completed}}<img src="/img/myb/icon_checkmark_16x16.png" alt="Checkmark" class="cc-widget-tasks-mini-icon">{{/if}}
 			{{#if overdue}}<img src="/img/myb/icon_alert_16x16.png" alt="Alert" class="cc-widget-tasks-mini-icon">{{/if}}
@@ -72,6 +70,5 @@
 				{{/if}}
 			</div>
 		</li>
-	{{/if}}
 	</script>
 </div>
