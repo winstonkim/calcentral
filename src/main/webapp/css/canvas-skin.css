@@ -45,8 +45,23 @@
 	background: #21406F;
 }
 
-#header-inner {
+#header-inner, #header.no-user #header-inner {
 	padding-top: 19px;
+}
+
+#header.no-user #header-inner {
+	height: 32px;
+}
+
+#header-logo, #header.no-user #header-logo {
+	background: url('/img/canvas/clc-canvas-logo-wht.png') 0 0 no-repeat;
+	bottom: 8px;
+}
+
+#header.no-user #header-logo {
+	top: 16px;
+	left: 16px;
+	bottom: 0;
 }
 
 .menu-item .menu-item-title, .menu-item .menu-item-no-drop {
@@ -65,11 +80,6 @@
 
 .menu-item .menu-item-drop {
 	top: 31px;
-}
-
-#header-logo {
-	background-image: url('/img/canvas/clc-canvas-logo-wht.png') 0 0 no-repeat;
-	bottom: 11px;
 }
 
 #identity {
