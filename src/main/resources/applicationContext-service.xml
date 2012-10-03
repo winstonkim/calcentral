@@ -91,6 +91,17 @@
 
 	<oauth:rest-template id="canvasRestTemplate" resource="canvasSecurity" />
 
+	<bean id="ldapTemplate" class="org.springframework.ldap.core.LdapTemplate">
+		<property name="contextSource">
+			<bean class="org.springframework.ldap.core.support.LdapContextSource">
+				<property name="url" value="ldap://ldap.berkeley.edu" />
+				<property name="anonymousReadOnly" value="true" />
+				<property name="base" value="ou=people, dc=berkeley, dc=edu" />
+				<property name="pooled" value="true" />
+			</bean>
+		</property>
+	</bean>
+
 	<context:property-override
 			location="classpath:/dataSource.properties"
 			ignore-resource-not-found="true" />
