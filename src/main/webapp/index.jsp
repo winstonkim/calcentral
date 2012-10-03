@@ -13,14 +13,15 @@
 		</div>
 		<div class="cc-page-index-welcome cc-page-index-welcome2">
 			<h3>CalCentral: Pilot Release</h3>
-			<p>We are hard at work <strong>improving</strong> this pilot release of <strong>CalCentral</strong>. As we improve it, you may notice changes to some existing features, or new capabilities being added to the system. This is all part of the development process, so stay tuned.</p>
-			<p><strong>In this release, pilot students, staff and faculty can:</strong></p>
+			<p>Welome to the all-new pilot release of <strong>CalCentral</strong>. As we improve this site, you may notice changes to some existing features, or new capabilities being added. This is all part of the development process, so stay tuned.</p>
+			<p><strong>In this release, students, staff and faculty can:</strong></p>
 			<ul>
-				<li>Create project, course and other groups</li>
-				<li>Create, organize and share information and documents</li>
-				<li>Send and receive messages</li>
-				<li>Collaborate in a network of classmates and colleagues</li>
-				<li>Maintain a personal profile and portfolio to share with the campus and the world</li>
+				<li>Quickly access upcoming events in bCal</li>
+				<li>Find classes and groups in bSpace and Canvas</li>
+				<li>Keep tabs on classroom assignments</li>
+				<li>View your Google task list</li>
+				<li>Stay informed with campus announcements</li>
+				<li>Browse class listings in UC Berkeley departments</li>
 			</ul>
 			<p class="cc-page-index-welcome2-handshake"><span class="cc-page-index-welcome2-herefromyou">We want to hear from you!</span><br /><a href="http://ets.berkeley.edu/calcentral-feedback">Tell us what you think</a>.</p>
 		</div>
