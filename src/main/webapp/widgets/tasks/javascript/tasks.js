@@ -32,7 +32,7 @@ calcentral.Widgets.tasks = function(tuid) {
 	 * @param {object} data Assignment list from Canvas
 	 */
 	var renderTasksAssignments = function(courseData, data, gTaskData) {
-
+console.log(gTaskData);
 		// Merge Google tasks data into the main data object.
 		// Modify Google task properties to re-use Canvas assignment properties for compatibility.
 
@@ -156,18 +156,11 @@ calcentral.Widgets.tasks = function(tuid) {
 	};
 
 	var getGoogleTasks = function() {
-		// Fetch tasks from Google. Two-steps: Get list of task lists,
-		// then get actual tasks from the first (default) list.
-
+		// Fetch tasks from Google. The @default identifier allows us to do this
+		// with one API call rather than two (no need to get a list of lists first).
 		var getGoogleLists = $.ajax({
 				'dataType': 'json',
-				'url': '/api/google/tasks/v1/users/@me/lists'
-			}).pipe(function(googleData) {
-				var defaultListId = googleData.items[0].id; // Get list ID for first list returned
-				return $.ajax({
-					'dataType': 'json',
-					'url': '/api/google/tasks/v1/lists/' + defaultListId + '/tasks'
-				});
+				'url': '/api/google/tasks/v1/lists/@default/tasks'
 			});
 		return getGoogleLists;
 	};
