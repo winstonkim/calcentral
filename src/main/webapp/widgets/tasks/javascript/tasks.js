@@ -32,7 +32,6 @@ calcentral.Widgets.tasks = function(tuid) {
 	 * @param {object} data Assignment list from Canvas
 	 */
 	var renderTasksAssignments = function(courseData, data, gTaskData) {
-console.log(gTaskData);
 		// Merge Google tasks data into the main data object.
 		// Modify Google task properties to re-use Canvas assignment properties for compatibility.
 
