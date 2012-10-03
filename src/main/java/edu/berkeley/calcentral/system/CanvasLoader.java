@@ -101,13 +101,15 @@ public class CanvasLoader {
 	}
 
 	public static void main(String args[]) {
-		ApplicationContext applicationContext = new ClassPathXmlApplicationContext("/applicationContext-service.xml");
+		ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("/applicationContext-service.xml");
 		CanvasLoader canvasLoader = applicationContext.getBean(CanvasLoader.class);
 		canvasLoader.loadStaticData();
 		try {
 			canvasLoader.loadCampusData();
 		} catch (IOException e) {
 			LOGGER.error(e.getMessage(), e);
+		} finally {
+			applicationContext.close();
 		}
 	}
 }

@@ -8,7 +8,6 @@ import org.apache.log4j.Logger;
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
@@ -76,13 +75,15 @@ public class CanvasCourseIDFetcher {
 	}
 
 	public static void main(String args[]) {
-		ApplicationContext applicationContext = new ClassPathXmlApplicationContext("/applicationContext-service.xml");
+		ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("/applicationContext-service.xml");
 		CanvasCourseIDFetcher canvasLoader = applicationContext.getBean(CanvasCourseIDFetcher.class);
 
 		try {
 			canvasLoader.fetch();
 		} catch (IOException e) {
 			LOGGER.error(e.getMessage(), e);
+		} finally {
+			applicationContext.close();
 		}
 
 	}
