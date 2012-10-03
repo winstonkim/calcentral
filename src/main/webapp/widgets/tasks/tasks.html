@@ -42,16 +42,36 @@
 				<li class="cc-widget-tasks-notifications-short-title">No tasks or assignments</li>
 			{{/if}}
 			</ul>
+
+			<div class="cc-widget-section-label">To Do List</div>
+			<ul class="cc-widget-notifications-list cc-widget-section-list">
+			{{#if undated}}
+				{{#each undated}}
+					{{>taskLoop}}
+				{{/each}}
+			{{else}}
+				<li class="cc-widget-tasks-notifications-short-title">No Google tasks</li>
+			{{/if}}
+			</ul>
 		</div>
 	</script>
 
 	<script id="cc-taskloop-template" type="text/x-handlebars-template">
+	{{! Dont render items with missing titles }}
+	{{#if title}}
 		<li>
 			{{#if completed}}<img src="/img/myb/icon_checkmark_16x16.png" alt="Checkmark" class="cc-widget-tasks-mini-icon">{{/if}}
 			{{#if overdue}}<img src="/img/myb/icon_alert_16x16.png" alt="Alert" class="cc-widget-tasks-mini-icon">{{/if}}
 			<a href="{{html_url}}" class="cc-widget-tasks-notifications-short-title cc-ellipsis {{#unless completed}}{{#unless overdue}}cc-widget-tasks-no-icon{{/unless}}{{/unless}} {{#if overdue}}cc-alert{{/if}}">{{title}}</a>
 			{{#if future}}<div class="cc-right">{{friendlyDate}}</div>{{/if}}
-			<div class="cc-widget-task-notifications-list-source">{{#if sourceUrl}}<a href="{{sourceUrl}}">{{source}}</a>{{else}}<em>{{source}}</em>{{/if}}</div>
+			<div class="cc-widget-task-notifications-list-source">
+				{{#if sourceUrl}}
+					<a href="{{sourceUrl}}">{{source}}</a>
+				{{else}}
+					<em>Google Tasks</em>
+				{{/if}}
+			</div>
 		</li>
+	{{/if}}
 	</script>
 </div>

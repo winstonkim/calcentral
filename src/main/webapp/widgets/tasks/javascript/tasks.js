@@ -31,7 +31,21 @@ calcentral.Widgets.tasks = function(tuid) {
 	 * @param {object} courseData Course list from canvas
 	 * @param {object} data Assignment list from Canvas
 	 */
-	var renderTasksAssignments = function(courseData, data) {
+	var renderTasksAssignments = function(courseData, data, gTaskData) {
+		// Merge Google tasks data into the main data object.
+		// Modify Google task properties to re-use Canvas assignment properties for compatibility.
+
+		$.each(gTaskData[0].items, function(index, value){
+			// Google "due" property maps to Canvas "start_at" property
+			if (value.due) {
+				value.start_at = value.due;
+			}
+			value.html_url = 'https://mail.google.com/tasks/canvas?pli=1'; // Minimal, but it's the only Tasks web UI available
+
+			// Append modified entry to main data object
+			data.push(value);
+		});
+
 		var currentTime = new Date();
 		// "Tomorrow" is 1 second after midnight on the next calendar date, NOT 24 hours from now.
 		var tomorrow = new Date(currentTime.getFullYear(), currentTime.getMonth(), currentTime.getDate() + 1, 0, 0, 1);
@@ -41,7 +55,8 @@ calcentral.Widgets.tasks = function(tuid) {
 		var newData = {
 			'today': [],
 			'tomorrow': [],
-			'future': []
+			'future': [],
+			'undated': []
 		};
 
 		// Convert timestamps to friendly dates and set overdue flags.
@@ -68,45 +83,57 @@ calcentral.Widgets.tasks = function(tuid) {
 			}
 			// END POC TEMPORARY
 
-			// Grep out this assignment's course ID and URL; set matching course properties for assignments.
-			var courseId = parseInt(data[index].html_url.match(/\d+/g)[0], 10);
-			var courseURL = data[index].html_url.match(/^.*\d+\//g);
-			data[index].sourceUrl = courseURL;
-			$.each(courseData, function(i, v){
-				if (v.id === courseId) {
-					data[index].source = v.course_code;
-				}
-			});
-
-			var dueDate = new Date(value.start_at);
-			// Javascript months are 0-based, while days and years are 1-based, so add 1 to month
-			var friendlyDate = dueDate.getMonth() + 1 + '/' + dueDate.getDate();
-			data[index].friendlyDate = friendlyDate;
-
-			// Set overdue property if due date is equal to or less than today.
-			// If it's possible in future to obtain the completed status of assignments,
-			// this should also check for completed === false http://bit.ly/Pt2rVn
-			if (currentTime >= dueDate) {
-				data[index].overdue = true;
+			// For Canvas items, set the html_url
+			if (data[index].html_url) {
+				// Grep out this assignment's course ID and URL; set matching course properties for assignments.
+				var courseId = parseInt(data[index].html_url.match(/\d+/g)[0], 10);
+				var courseURL = data[index].html_url.match(/^.*\d+\//g);
+				data[index].sourceUrl = courseURL;
+				$.each(courseData, function(i, v){
+					if (v.id === courseId) {
+						data[index].source = v.course_code;
+					}
+				});
 			}
 
-			// Set today/tomorrow/future properties. Using .toDateString() for compares because JS' getDate() reckoning is brain-dead.
-			// 8/20/2012 != 9/20/2012 Solved via http://stackoverflow.com/questions/6921606/javascript-today-function
-			if (currentTime.toDateString() === dueDate.toDateString()) { // Today
-				newData.today.push(data[index]);
+			// Set due dates and overdue status for items that are dated
+			if (value.start_at || value.due) {
+				var dueDate = new Date(value.start_at);
+				// Javascript months are 0-based, while days and years are 1-based, so add 1 to month
+				var friendlyDate = dueDate.getMonth() + 1 + '/' + dueDate.getDate();
+				data[index].friendlyDate = friendlyDate;
 
-			} else if (tomorrow.toDateString() === dueDate.toDateString()) { // Tomorrow
-				newData.tomorrow.push(data[index]);
+				// Set overdue property if due date is equal to or less than today.
+				// If it's possible in future to obtain the completed status of assignments,
+				// this should also check for completed === false http://bit.ly/Pt2rVn
+				if (currentTime >= dueDate) {
+					data[index].overdue = true;
+				}
 
-			} else if (dueDate > currentTime) {
-				newData.future.push(data[index]);
-				// Easier to set a "future" property here than to detect parent array in Handlebars (partials scoping problem)
-				data[index].future = true;
+				// Set today/tomorrow/future/undated properties. Using .toDateString() for compares because JS' getDate() reckoning is brain-dead.
+				// 8/20/2012 != 9/20/2012 Solved via http://stackoverflow.com/questions/6921606/javascript-today-function
+				if (currentTime.toDateString() === dueDate.toDateString()) { // Today
+					newData.today.push(data[index]);
+
+				} else if (tomorrow.toDateString() === dueDate.toDateString()) { // Tomorrow
+					newData.tomorrow.push(data[index]);
+
+				} else if (dueDate > currentTime) {
+					newData.future.push(data[index]);
+					// Easier to set a "future" property here than to detect parent array in Handlebars (partials scoping problem)
+					data[index].future = true;
+				}
+			} else {
+				// Everything else is undated ... but don't display completed Google tasks
+				if (data[index].status !== 'completed') {
+					newData.undated.push(data[index]);
+				}
 			}
 		});
 
 		// Sort each sub-array by dueDate.
-		// In future, we may want to presort data rather than post (but if we have a lot of past tasks it'll be inefficient)
+		// In future, we may want to presort data rather than post (but if we have a lot of past tasks it'll be inefficient).
+		// Undated items go through unsorted (change in future?)
 		var sortDate = function(a, b) {
 			return parseFloat(a.dueDate - b.dueDate);
 		};
@@ -125,6 +152,16 @@ calcentral.Widgets.tasks = function(tuid) {
 			'partials': partials,
 			'template': $tasksListTemplate
 		});
+	};
+
+	var getGoogleTasks = function() {
+		// Fetch tasks from Google. The @default identifier allows us to do this
+		// with one API call rather than two (no need to get a list of lists first).
+		var getGoogleLists = $.ajax({
+				'dataType': 'json',
+				'url': '/api/google/tasks/v1/lists/@default/tasks'
+			});
+		return getGoogleLists;
 	};
 
 	/**
@@ -160,7 +197,7 @@ calcentral.Widgets.tasks = function(tuid) {
 		return $ajaxWrapper;
 	};
 
-	$.when(getCanvasCourses(), getCanvasAssignments()).done(renderTasksAssignments).fail(function() {
+	$.when(getCanvasCourses(), getCanvasAssignments(), getGoogleTasks()).done(renderTasksAssignments).fail(function() {
 		console.log("tasks.js -> Could not load assignment or course data from Canvas");
 	});
 };
