@@ -13,7 +13,7 @@
 		</div>
 		<div class="cc-page-index-welcome cc-page-index-welcome2">
 			<h3>CalCentral: Pilot Release</h3>
-			<p>Welome to the all-new pilot release of <strong>CalCentral</strong>. As we improve this site, you may notice changes to some existing features, or new capabilities being added. This is all part of the development process, so stay tuned.</p>
+			<p>Welcome to the all-new pilot release of <strong>CalCentral</strong>. As we improve this site, you may notice changes to some existing features, or new capabilities being added. This is all part of the development process, so stay tuned.</p>
 			<p><strong>In this release, students, staff and faculty can:</strong></p>
 			<ul>
 				<li>Quickly access upcoming events in bCal</li>
