@@ -181,7 +181,7 @@
 				</tr>
 
 				<tr class="classpages_metadata">
-					<td colspan="5">
+					<td colspan="3">
 						<table class="classpages_sections_table_inner">
 							{{#if note}}
 							<tr>
