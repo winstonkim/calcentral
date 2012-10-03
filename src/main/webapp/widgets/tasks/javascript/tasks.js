@@ -30,6 +30,7 @@ calcentral.Widgets.tasks = function(tuid) {
 	 * Course IDs for assignments are keyed to course IDs from courseData (rather than looping).
 	 * @param {object} courseData Course list from canvas
 	 * @param {object} data Assignment list from Canvas
+	 * @param {object} gTaskData list from Google
 	 */
 	var renderTasksAssignments = function(courseData, data, gTaskData) {
 		// To account for differences between tasks emitted from various services, set an "emitter"
@@ -42,7 +43,7 @@ calcentral.Widgets.tasks = function(tuid) {
 		// Modify Google task properties to re-use Canvas assignment properties for compatibility.
 		$.each(gTaskData[0].items, function(index, value){
 			// Discard "phantom" Google Tasks
-			if ((value.title).match('^[a-zA-Z0-9]')) {
+			if (value.title.match('^[a-zA-Z0-9]')) {
 				// Google "due" property maps to Canvas "start_at" property
 				if (value.due) {
 					value.start_at = value.due;
