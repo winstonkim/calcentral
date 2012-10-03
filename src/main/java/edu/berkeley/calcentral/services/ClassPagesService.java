@@ -142,6 +142,16 @@ public class ClassPagesService {
 		User customInstructorFields = userService.getUser(instructor.getId());
 		instructor.setUrl(Strings.nullToEmpty(customInstructorFields.getLink()));
 		instructor.setImg(Strings.nullToEmpty(customInstructorFields.getProfileImageLink()));
+		if (instructor.getEmail() == null || instructor.getEmail().isEmpty()) {
+			instructor.setEmail(customInstructorFields.getPublicEmail());
+		}
+		instructor.setTitle(customInstructorFields.getTitle());
+		if (instructor.getUrl() == null || instructor.getUrl().isEmpty()) {
+			instructor.setUrl(customInstructorFields.getWebsite());
+		}
+		//city and state are also available, but not putting those in just yet.
+		instructor.setOffice(customInstructorFields.getAddress());
+
 	}
 
 }

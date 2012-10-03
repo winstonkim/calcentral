@@ -57,6 +57,9 @@ public class UserService implements UserDetailsService {
 	@Autowired
 	private OAuth2Dao oAuth2Dao;
 
+	@Autowired
+	private LdapService ldapService;
+
 	/**
 	 * Get all the information about a user.
 	 *
@@ -152,6 +155,11 @@ public class UserService implements UserDetailsService {
 			user.setUid(userId);
 		}
 		campusPersonDataService.mergeCampusData(user);
+		try {
+			ldapService.mergeLdapData(user);
+		} catch (IOException e) {
+			//exception is already logged in the service, and it will leave the bean untouched, so do nothing.
+		}
 		return user;
 	}
 

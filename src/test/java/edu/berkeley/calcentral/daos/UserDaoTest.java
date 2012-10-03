@@ -69,10 +69,12 @@ public class UserDaoTest extends DatabaseAwareTest {
 		User user = new User();
 		user.setUid(uid);
 		user.setLink("foo.com");
+		user.setProfileImageLink("baz.com");
 		dao.update(user);
 		User updatedUser = dao.get(uid);
 		assertNull(updatedUser.getPreferredName());
 		assertEquals("foo.com", updatedUser.getLink());
+		assertEquals("baz.com", updatedUser.getProfileImageLink());
 		user.setLink(null);
 		user.setPreferredName("Joe Blow");
 		dao.update(user);
