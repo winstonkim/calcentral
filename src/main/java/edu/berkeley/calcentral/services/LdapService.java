@@ -23,6 +23,7 @@ import edu.berkeley.calcentral.domain.User;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ldap.CommunicationException;
 import org.springframework.ldap.core.AttributesMapper;
 import org.springframework.ldap.core.LdapTemplate;
 import org.springframework.stereotype.Service;
@@ -72,7 +73,7 @@ public final class LdapService {
 		List<EnumMap<LDAPFields, String>> results = null;
 		try {
 			results = ldapTemplate.search("", "uid=" + uid, ldapMapper);
-		} catch (RuntimeException e) {
+		} catch (CommunicationException e) {
 			//Frustrating non-documented custom "spring" NamingException that happens to be a runtimeException.
 			LOGGER.error("LDAP issues: ", e);
 			throw new IOException(e.getLocalizedMessage());

@@ -43,7 +43,6 @@ public class LdapServiceTest extends DatabaseAwareTest {
 			ldapService.mergeLdapData(user);
 			assertNotNull(user);
 			assertEquals("Jon Hays, MA", user.getPreferredName());
-			assertNotNull(user.getFirstLogin());
 			assertNotNull(user.getAddress());
 		} catch (IOException e) {
 			LOGGER.error("LDAP issues: " + e.getMessage());
@@ -59,7 +58,6 @@ public class LdapServiceTest extends DatabaseAwareTest {
 			ldapService.mergeLdapData(user);
 			assertNotNull(user);
 			assertEquals("Stu Test-300846", user.getPreferredName());
-			assertNotNull(user.getFirstLogin());
 			assertNull(user.getAddress());
 		} catch (IOException e) {
 			LOGGER.error("LDAP issues: " + e.getMessage());
