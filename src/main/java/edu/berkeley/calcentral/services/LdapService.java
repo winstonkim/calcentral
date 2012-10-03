@@ -20,6 +20,8 @@ package edu.berkeley.calcentral.services;
 import com.google.common.base.Strings;
 import com.google.common.collect.Maps;
 import edu.berkeley.calcentral.domain.User;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ldap.core.AttributesMapper;
 import org.springframework.ldap.core.LdapTemplate;
@@ -28,11 +30,14 @@ import org.springframework.stereotype.Service;
 import javax.naming.NamingException;
 import javax.naming.directory.Attribute;
 import javax.naming.directory.Attributes;
+import java.io.IOException;
 import java.util.EnumMap;
 import java.util.List;
 
 @Service
 public final class LdapService {
+
+	private static final Log LOGGER = LogFactory.getLog(LdapService.class);
 
 	@Autowired
 	private LdapTemplate ldapTemplate;
@@ -41,7 +46,7 @@ public final class LdapService {
 		title, labeledUri, roomNumber, street, mail, l, st;
 	}
 
-	public void mergeLdapData(User user) {
+	public void mergeLdapData(User user) throws IOException {
 		EnumMap<LDAPFields, String> searchResult = individualLdapInfo(user.getUid());
 		if (searchResult == null) {
 			return;
@@ -60,11 +65,18 @@ public final class LdapService {
 		}
 	}
 
-	private EnumMap<LDAPFields, String> individualLdapInfo(String uid) {
+	private EnumMap<LDAPFields, String> individualLdapInfo(String uid) throws IOException {
 		if (uid == null || uid.isEmpty()) {
 			return null;
 		}
-		List<EnumMap<LDAPFields, String>> results = ldapTemplate.search("", "uid=" + uid, ldapMapper);
+		List<EnumMap<LDAPFields, String>> results = null;
+		try {
+			results = ldapTemplate.search("", "uid=" + uid, ldapMapper);
+		} catch (RuntimeException e) {
+			//Frustrating non-documented custom "spring" NamingException that happens to be a runtimeException.
+			LOGGER.error("LDAP issues: ", e);
+			throw new IOException(e.getLocalizedMessage());
+		}
 		if (results != null && !results.isEmpty()) {
 			return results.get(0);
 		}

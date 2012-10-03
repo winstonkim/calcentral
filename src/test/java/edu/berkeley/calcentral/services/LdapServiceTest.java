@@ -21,66 +21,61 @@ import edu.berkeley.calcentral.DatabaseAwareTest;
 import edu.berkeley.calcentral.domain.User;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.jboss.resteasy.spi.NotFoundException;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.Map;
+import java.io.IOException;
 
 public class LdapServiceTest extends DatabaseAwareTest {
+
 	private static final Log LOGGER = LogFactory.getLog(LdapServiceTest.class);
 
 	@Autowired
 	private LdapService ldapService;
 
-	@Autowired
-	private UserService userService;
 
 	@Test
 	public void getUserWithLdapData() throws Exception {
-		Map<String, Object> userMap;
+		User user = new User();
+		user.setUid("323487");
+		user.setPreferredName("Jon Hays, MA");
 		try {
-			userMap = userService.getUserRelatedData("323487");
-		} catch (NotFoundException e) {
-			userService.loadUserByUsername("323487");
-			userMap = userService.getUserRelatedData("323487");
+			ldapService.mergeLdapData(user);
+			assertNotNull(user);
+			assertEquals("Jon Hays, MA", user.getPreferredName());
+			assertNotNull(user.getFirstLogin());
+			assertNotNull(user.getAddress());
+		} catch (IOException e) {
+			LOGGER.error("LDAP issues: " + e.getMessage());
 		}
-		LOGGER.info(userMap);
-
-		User user = (User) userMap.get("user");
-		ldapService.mergeLdapData(user);
-		assertNotNull(user);
-		assertEquals("Jon Hays, MA", user.getPreferredName());
-		assertNotNull(user.getFirstLogin());
-		assertNotNull(user.getAddress());
-		assertNull(userMap.get("widgetData"));
 	}
 
 	@Test
 	public void getTestUserWithoutLDAPData() throws Exception {
-		Map<String, Object> userMap;
+		User user = new User();
+		user.setUid("300846");
+		user.setPreferredName("Stu Test-300846");
 		try {
-			userMap = userService.getUserRelatedData("300846");
-		} catch (NotFoundException e) {
-			userService.loadUserByUsername("300846");
-			userMap = userService.getUserRelatedData("300846");
+			ldapService.mergeLdapData(user);
+			assertNotNull(user);
+			assertEquals("Stu Test-300846", user.getPreferredName());
+			assertNotNull(user.getFirstLogin());
+			assertNull(user.getAddress());
+		} catch (IOException e) {
+			LOGGER.error("LDAP issues: " + e.getMessage());
 		}
-		LOGGER.info(userMap);
-
-		User user = (User) userMap.get("user");
-		ldapService.mergeLdapData(user);
-		assertNotNull(user);
-		assertEquals("Stu Test-300846", user.getPreferredName());
-		assertNotNull(user.getFirstLogin());
-		assertNull(user.getAddress());
-		assertNull(userMap.get("widgetData"));
 	}
 
 	@Test
 	public void getBogusUser() throws Exception {
 		User user = new User();
-		ldapService.mergeLdapData(user);
-		assertNull(user.getUid());
-		assertNull(user.getAddress());
+		try {
+			ldapService.mergeLdapData(user);
+			assertNull(user.getUid());
+			assertNull(user.getAddress());
+		} catch (IOException e) {
+			LOGGER.error("LDAP issues: " + e.getMessage());
+			return;
+		}
 	}
 }

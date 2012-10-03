@@ -155,7 +155,11 @@ public class UserService implements UserDetailsService {
 			user.setUid(userId);
 		}
 		campusPersonDataService.mergeCampusData(user);
-		ldapService.mergeLdapData(user);
+		try {
+			ldapService.mergeLdapData(user);
+		} catch (IOException e) {
+			//exception is already logged in the service, and it will leave the bean untouched, so do nothing.
+		}
 		return user;
 	}
 
