@@ -1136,6 +1136,18 @@ body > footer a {
 	.cc-topnavigation .cc-right {
 		display: none;
 	}
+	/* Landing page */
+	.cc-page-index .cc-page-index-welcome {
+		width: 87%;
+	}
+	.cc-page-index .cc-page-index-welcome p {
+		background: none;
+		height: auto;
+	}
+	.cc-page-index .cc-page-index-welcome2 {
+		height: auto;
+		margin-top: 0;
+	}
 	/* Dashboard */
 	.cc-page-dashboard .cc-page-dashboard-column-narrow, .cc-page-dashboard .cc-page-dashboard-column-wide {
 		border: none;
