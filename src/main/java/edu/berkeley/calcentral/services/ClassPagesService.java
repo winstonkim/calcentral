@@ -57,6 +57,9 @@ public class ClassPagesService {
 			returnObject.put("info_last_updated", classPage.getInfo_last_updated());
 			returnObject.put("courseinfo", classPage.getCourseinfo());
 			returnObject.put("classtitle", classPage.getClasstitle());
+			returnObject.put("collegeId", classPage.getCollegeId());
+			returnObject.put("collegeName", classPage.getCollegeName());
+			returnObject.put("deptId", classPage.getDeptId());
 			returnObject.put("department", classPage.getDepartment());
 			returnObject.put("description", classPage.getDescription());
 			returnObject.put("instructors", classPage.getInstructors());
@@ -96,6 +99,12 @@ public class ClassPagesService {
 			classPagesLocalDataDao.mergeLocalData(classPageResult);
 		} catch (EmptyResultDataAccessException ignored) {
 			// null local classpage data
+		}
+
+		try {
+			classPagesLocalDataDao.mergeClassTreeData(classPageResult);
+		} catch (EmptyResultDataAccessException ignore) {
+			//ignoring malformed classtree data.
 		}
 		telemetry.end();
 

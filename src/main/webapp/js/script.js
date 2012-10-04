@@ -862,8 +862,6 @@ var calcentral = calcentral || {};
 	};
 
 	var renderClassPage = function(data, buildingData) {
-		data = data[0];
-		buildingData = buildingData[0];
 		var partials = {
 			'header': $('#cc-page-classpage-header-template', $classPage).html(),
 			'courseInfo': $('#cc-page-classpage-courseinfo-template', $classPage).html(),
@@ -1002,6 +1000,10 @@ var calcentral = calcentral || {};
 		return $.ajax({
 			// Get class ID from URL
 			'url': '/api/classPages/' + calcentral.Api.Util.getURLParameter('cid')
+		}).pipe(function(data) {
+			return data;
+		}, function() {
+			return {};
 		});
 	};
 
@@ -1010,6 +1012,10 @@ var calcentral = calcentral || {};
 		// Takes a string arg like 'BANCROFT'
 		return $.ajax({
 			url: '/data/building_coords.json'
+		}).pipe(function(data) {
+			return data;
+		}, function() {
+			return {};
 		});
 	};
 
@@ -1035,7 +1041,6 @@ var calcentral = calcentral || {};
 	var $classListContainer = $('.cc-page-classlist-container', $classList);
 
 	var renderClassList = function(data) {
-
 		// Are we looking at a department listing?
 		data.department = parseInt(calcentral.Api.Util.getURLParameter('dept'), 10);
 

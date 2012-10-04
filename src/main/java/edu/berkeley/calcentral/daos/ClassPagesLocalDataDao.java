@@ -26,6 +26,23 @@ public class ClassPagesLocalDataDao extends BaseDao {
 		});
 	}
 
+	public void mergeClassTreeData(final ClassPage page) {
+		String sql = " SELECT ccd.id deptId, ccd.college_id collegeId, ccc.title collegeName "
+				+ " FROM calcentral_classtree_departments ccd "
+				+ " JOIN calcentral_classtree_colleges ccc on (ccd.college_id = ccc.id) "
+				+ " WHERE ccd.dept_key = :dept_key ";
+		MapSqlParameterSource params = new MapSqlParameterSource("dept_key", page.getMisc_deptname());
+		queryRunner.queryForObject(sql, params, new RowMapper<Object>() {
+			@Override
+			public Object mapRow(ResultSet rs, int rowNum) throws SQLException {
+				page.setCollegeName(Strings.nullToEmpty(rs.getString("collegeName")));
+				page.setCollegeId(Strings.nullToEmpty(rs.getString("collegeId")));
+				page.setDeptId(Strings.nullToEmpty(rs.getString("deptId")));
+				return "1";
+			}
+		});
+	}
+
 	public void updateWebcastId(String classPageId, String webcastId) {
 		String sql = "UPDATE calcentral_classpages_localdata " +
 				"SET webcastId = :webcastId " +
