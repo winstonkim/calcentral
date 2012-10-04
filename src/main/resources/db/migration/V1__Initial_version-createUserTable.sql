@@ -223,6 +223,7 @@ INSERT INTO calcentral_classtree_departments VALUES ('NWMEDIA', 'New Media', 19,
 INSERT INTO calcentral_classtree_departments VALUES ('PACS', 'Peace & Conflict Studies', 19, 137);
 INSERT INTO calcentral_classtree_departments VALUES ('POLECON', 'Political Economy of Industrial Societies', 19, 138);
 INSERT INTO calcentral_classtree_departments VALUES ('RELIGST', 'Religious Studies', 19, 140);
+INSERT INTO calcentral_classtree_departments VALUES ('MATH', 'Mathematics', 12, 141);
 
 ALTER TABLE ONLY calcentral_classtree_departments
     ADD CONSTRAINT calcentral_classtree_departments_pkey PRIMARY KEY (id);
