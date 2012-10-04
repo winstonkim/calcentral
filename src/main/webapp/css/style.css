@@ -370,7 +370,12 @@ body > header > h1 {
 
 /* Top navigation */
 .cc-topnavigation {
-	background: #14315C;
+	background: #012955;
+	background: -webkit-linear-gradient(top, #012955, #3b5d86);
+	background: -moz-linear-gradient(top, #012955, #3b5d86);
+	background: -o-linear-gradient(top, #012955, #3b5d86);
+	background: -ms-linear-gradient(top, #012955, #3b5d86);
+	background: linear-gradient(top, #012955, #3b5d86);
 	position: absolute;
 	width: 100%;
 }
