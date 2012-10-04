@@ -14,7 +14,7 @@
 
         <script id="cc-page-classlist-template" type="text/x-handlebars-template">
         <nav role="navigation" class="cc-page-classlist-breadcrumbs">
-            <a href="/colleges-and-schools.jsp">All Colleges &amp; Schools</a> :: {{#if college}}<a href="/classlist.jsp?college={{college.id}}">{{college.title}}</a> ::{{/if}}
+            <a href="/colleges-and-schools.jsp">All Colleges &amp; Schools</a> :: {{#if department}}<a href="/classlist.jsp?college={{college.id}}">{{college.title}}</a> ::{{/if}}
         </nav>
 
         <h1 class="cc-page-classlist-title">{{#if department_name}}{{department_name}}{{else}}{{college.title}}{{/if}}</h1>
