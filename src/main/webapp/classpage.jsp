@@ -96,6 +96,9 @@
 							<dd class='cc-page-classpage-instructor-name'>
 							{{#if name}}
 								<a href="{{url}}">{{name}}</a>
+								{{#if email}}
+									<a href="mailto:{{email}}" class="ir cc-left cc-icon cc-icon-email">Email instructor</a>
+								{{/if}}
 							{{else}}
 								<em>Instructor name not available</em>
 							{{/if}}
