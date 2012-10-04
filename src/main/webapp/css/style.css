@@ -273,17 +273,47 @@ body > header > h1 {
 	height: 16px;
 	width: 16px;
 }
+.cc-icon-big-academics {
+	background-image: url('/img/myb/icon_academics_24x24.png');
+}
+.cc-icon-big-alert {
+	background-image: url('/img/myb/icon_alert_24x24.png');
+}
+.cc-icon-big-block {
+	background-image: url('/img/myb/icon_block_24x24.png');
+}
+.cc-icon-big-classes {
+	background-image: url('/img/myb/icon_academics_24x24.png');
+}
+.cc-icon-big-completed {
+	background-image: url('/img/myb/icon_completed_24x24.png');
+}
+.cc-icon-big-enrollment {
+	background-image: url('/img/myb/icon_enrollment_24x24.png');
+}
+.cc-icon-big-finances {
+	background-image: url('/img/myb/icon_finances_24x24.png');
+}
+.cc-icon-big-inprogress {
+	background-image: url('/img/myb/icon_inprogress_24x24.png');
+}
+.cc-icon-big-overdue {
+	background-image: url('/img/myb/icon_overdue_24x24.png');
+}
+.cc-icon-bspace {
+	background-image: url('/img/myb/icon_bspace_16x16.png');
+}
 .cc-icon-calendar {
-	background-image: url('/img/myb/calendar_icon_16x16.png');
+	background-image: url('/img/myb/icon_calendar_16x16.png');
 }
 .cc-icon-canvas {
-	background-image: url('/widgets/mygroups/images/canvasgroups_icon.png');
+	background-image: url('/img/myb/icon_canvas_16x16.png');
 }
 .cc-icon-drive {
-	background-image: url('/img/myb/drive_icon_16x16.png');
+	background-image: url('/img/myb/icon_drive_16x16.png');
 }
 .cc-icon-mail {
-	background-image: url('/img/myb/mail_icon_16x16.png');
+	background-image: url('/img/myb/icon_mail_16x16.png');
 }
 .cc-left {
 	float: left;
@@ -346,7 +376,7 @@ body > header > h1 {
 	font-weight: bold;
 }
 .cc-launcher .cc-icon {
-	margin-left: 5px;
+	margin: 2px 0 0 5px;
 }
 .cc-launcher .cc-launcher-info {
 	border-left: 1px solid #114d80;
@@ -474,6 +504,7 @@ body > header > h1 {
 /* Main container */
 .cc-container-main {
 	background: #fff;
+	box-shadow: 0 2px 8px 0 #ccc;
 	margin: 34px auto 0;
 	overflow: hidden;
 	width: 960px;
@@ -556,7 +587,7 @@ body > header > h1 {
 
 /* Widgets */
 .cc-container-widgets {
-	margin: 15px;
+	margin: 0 15px;
 	overflow: hidden;
 }
 .cc-container-widget {
@@ -612,17 +643,18 @@ body > header > h1 {
 	display: block;
 	padding: 4px 0 3px 21px;
 }
-.cc-container-widget .cc-widget-list li:last-child a {
+.cc-container-widget .cc-widget-list li:last-child {
 	border-bottom: none;
 }
-.cc-container-widget .cc-widget-list .cc-widget-list-icon a {
-	background: no-repeat scroll 0 4px transparent;
+.cc-container-widget .cc-widget-list-icon {
+	background-color: transparent;
+	background-position: 0 4px;
+	background-repeat: no-repeat;
 }
-.cc-container-widget .cc-widget-list .cc-widget-list-icon-bspace a {
-	background-image: url('/widgets/mygroups/images/bspace_icon.png');
-}
-.cc-container-widget .cc-widget-list .cc-widget-list-icon-canvas a {
-	background-image: url('/widgets/mygroups/images/canvasgroups_icon.png');
+.cc-container-widget .cc-widget-list-icon-big {
+	background-color: transparent;
+	background-position: 0 4px;
+	background-repeat: no-repeat;
 }
 
 .cc-container-widget .cc-widget-footer {
@@ -656,6 +688,7 @@ body > header > h1 {
 
 /* Dashboard page */
 .cc-page-dashboard .cc-page-dashboard-column-narrow, .cc-page-dashboard .cc-page-dashboard-column-wide {
+	padding-top: 15px;
 	margin-bottom: -99999px;
 	padding-bottom: 99999px;
 }
@@ -663,10 +696,15 @@ body > header > h1 {
 	width: 180px;
 }
 .cc-page-dashboard .cc-page-dashboard-column-wide {
-	border-left: 1px solid #999;
+	border-left: 1px solid #838383;
 	margin-left: 10px;
 	padding-left: 10px;
 	width: 365px;
+}
+
+.cc-page-dashboard .cc-page-dashboard-column-shadow {
+	border-left: none;
+	box-shadow: -3px 0 4px 0 #ccc;
 }
 
 .cc-page-dashboard .cc-widget-list {
@@ -721,20 +759,15 @@ body > header > h1 {
 
  /*Tasks and Notifications shared styles */
  .cc-widget-tasks-notifications-short-title {
-	font-weight: bold;
-	margin-left: 10px;
+ 	font-size: 14px;
+	padding-left: 30px;
 	width: 180px;
 }
-.cc-widget-tasks-notifications-mini-icon {
-	height: 14px;
-	margin-bottom: 2px;
-	width: 14px;
-}
 .cc-widget-task-notifications-list-source {
-	margin-left: 30px;
+	padding-left: 30px;
 }
 .cc-widget-tasks-no-icon {
-	margin-left: 30px;
+	padding-left: 30px;
 }
 
 /* Classpage */
@@ -1102,6 +1135,9 @@ body > footer a {
 		margin: 0;
 		padding: 0;
 		width: 100%;
+	}
+	.cc-page-dashboard .cc-page-dashboard-column-shadow {
+		box-shadow: none;
 	}
 }
 

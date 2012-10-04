@@ -13,7 +13,7 @@
 				<jsp:include page="widgets/myclasses/myclasses.html" />
 				<jsp:include page="widgets/mygroups/mygroups.html" />
 			</div>
-			<div class="cc-page-dashboard-column-wide cc-left">
+			<div class="cc-page-dashboard-column-wide cc-page-dashboard-column-shadow cc-left">
 				<jsp:include page="widgets/tasks/tasks.html" />
 			</div>
 			<div class="cc-page-dashboard-column-wide cc-left">
