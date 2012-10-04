@@ -409,10 +409,8 @@ body > header > h1 {
 	background: -o-linear-gradient(top, #012955, #3b5d86);
 	background: -ms-linear-gradient(top, #012955, #3b5d86);
 	background: linear-gradient(top, #012955, #3b5d86);
-	position: absolute;
-	width: 100%;
-}
-.cc-topnavigation > ul {
+	box-shadow: 0 2px 8px 0 #ccc;
+	height: 34px;
 	margin: 0 auto;
 	width: 960px;
 }
@@ -508,7 +506,7 @@ body > header > h1 {
 .cc-container-main {
 	background: #fff;
 	box-shadow: 0 2px 8px 0 #ccc;
-	margin: 34px auto 0;
+	margin: 0 auto;
 	overflow: hidden;
 	width: 960px;
 }
@@ -656,7 +654,7 @@ body > header > h1 {
 }
 .cc-container-widget .cc-widget-list-icon-big {
 	background-color: transparent;
-	background-position: 0 4px;
+	background-position: 0 2px;
 	background-repeat: no-repeat;
 }
 
