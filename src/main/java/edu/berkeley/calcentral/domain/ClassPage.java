@@ -1,10 +1,14 @@
 package edu.berkeley.calcentral.domain;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.List;
 
 @SuppressWarnings("UnusedDeclaration")
 @XmlRootElement
+@JsonIgnoreProperties({"misc_deptname"})
 public class ClassPage {
 	private String classid;
 	private String info_last_updated;
@@ -16,6 +20,12 @@ public class ClassPage {
 	private List<ClassPageInstructor> instructors;
 	private List<ClassPageSchedule> schedule; 
 	private List<ClassPageSection> sections;
+	private String deptId;
+	private String collegeId;
+	private String collegeName;
+
+	@JsonIgnore
+	private String misc_deptname;
 
 	public String getClassId() {
 		return classid;
@@ -78,18 +88,55 @@ public class ClassPage {
 		this.sections = sections;
 	}
 
+	public String getMisc_deptname() {
+		return misc_deptname;
+	}
+
+	public void setMisc_deptname(String misc_deptname) {
+		this.misc_deptname = misc_deptname;
+	}
+
+	public String getDeptId() {
+		return deptId;
+	}
+
+	public void setDeptId(String deptId) {
+		this.deptId = deptId;
+	}
+
+	public String getCollegeId() {
+		return collegeId;
+	}
+
+	public void setCollegeId(String collegeId) {
+		this.collegeId = collegeId;
+	}
+
+	public String getCollegeName() {
+		return collegeName;
+	}
+
+	public void setCollegeName(String collegeName) {
+		this.collegeName = collegeName;
+	}
+
 	@Override
 	public String toString() {
 		return "ClassPage{" +
 				"classid='" + classid + '\'' +
+				", info_last_updated='" + info_last_updated + '\'' +
+				", courseinfo=" + courseinfo +
 				", classtitle='" + classtitle + '\'' +
 				", department='" + department + '\'' +
 				", catalogid='" + catalogid + '\'' +
-				", info_last_updated='" + info_last_updated + '\'' +
-				", courseinfo=" + courseinfo +
+				", description='" + description + '\'' +
 				", instructors=" + instructors +
 				", schedule=" + schedule +
 				", sections=" + sections +
+				", deptId=" + deptId +
+				", collegeId=" + collegeId +
+				", collegeName='" + collegeName + '\'' +
+				", misc_deptname='" + misc_deptname + '\'' +
 				'}';
 	}
 }
