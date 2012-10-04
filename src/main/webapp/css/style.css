@@ -757,11 +757,12 @@ body > header > h1 {
 	background-color: #B67325;
 }
 
- /*Tasks and Notifications shared styles */
- .cc-widget-tasks-notifications-short-title {
+/*Tasks and Notifications shared styles */
+.cc-widget-tasks-notifications-short-title {
+	display: block;
  	font-size: 14px;
 	padding-left: 30px;
-	width: 180px;
+	width: 280px;
 }
 .cc-widget-task-notifications-list-source {
 	padding-left: 30px;
