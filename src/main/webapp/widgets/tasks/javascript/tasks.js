@@ -84,12 +84,18 @@ calcentral.Widgets.tasks = function(tuid) {
 				});
 			}
 
+			// Set the default status to 'inprogress'
+			// Google sends us the needsAction status
+			if (!data[index].status || data[index].status === 'needsAction') {
+				data[index].status = 'inprogress';
+			}
+
 			// **** TODO: POC ONLY **** monkey-patch dates so we always have items for today, tomorrow, and future
 			// Ignore the stored timestamps and dynamically generate new ones at a variety of ranges.
 			var theDateEpoch = currentTime.getTime() / 1000;
 
 			if (index < 1) {
-				data[index].overdue = true; // Set at least one item to overdue
+				data[index].status = 'overdue'; // Set at least one item to overdue
 			} else if (index < 3) {
 				data[index].dueDate = theDateEpoch; // Today
 			} else if (index < 5) {
@@ -101,7 +107,7 @@ calcentral.Widgets.tasks = function(tuid) {
 			}
 
 			if (index === 1) {
-				data[index].completed = true; // At least one item is completed for demo purposes
+				data[index].status = 'completed'; // At least one item is completed for demo purposes
 				// data[index].overdue = false; // This same item should not be both overdue and completed
 			}
 			// END POC TEMPORARY
@@ -126,17 +132,15 @@ calcentral.Widgets.tasks = function(tuid) {
 				// If it's possible in future to obtain the completed status of assignments,
 				// this should also check for completed === false http://bit.ly/Pt2rVn
 				if (currentTime >= dueDate) {
-					data[index].overdue = true;
+					data[index].status = 'overdue';
 				}
 
 				// Set today/tomorrow/future/undated properties. Using .toDateString() for compares because JS' getDate() reckoning is brain-dead.
 				// 8/20/2012 != 9/20/2012 Solved via http://stackoverflow.com/questions/6921606/javascript-today-function
 				if (currentTime.toDateString() === dueDate.toDateString()) { // Today
 					newData.today.push(data[index]);
-
 				} else if (tomorrow.toDateString() === dueDate.toDateString()) { // Tomorrow
 					newData.tomorrow.push(data[index]);
-
 				} else if (dueDate > currentTime) {
 					newData.future.push(data[index]);
 					data[index].future = true;

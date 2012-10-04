@@ -3,7 +3,7 @@
 		<h2>Assignments and Tasks</h2>
 	</div>
 	<!-- MAIN VIEW -->
-	<div class="cc-tasks-list cc-widget-main">
+	<div class="cc-tasks-list">
 		<div class="cc-widget-text">Loading...</div>
 	</div>
 	<script id="cc-widget-tasks-template" type="text/x-handlebars-template">
@@ -57,10 +57,8 @@
 	</script>
 
 	<script id="cc-taskloop-template" type="text/x-handlebars-template">
-		<li>
-			{{#if completed}}<img src="/img/myb/icon_checkmark_16x16.png" alt="Checkmark" class="cc-widget-tasks-mini-icon">{{/if}}
-			{{#if overdue}}<img src="/img/myb/icon_alert_16x16.png" alt="Alert" class="cc-widget-tasks-mini-icon">{{/if}}
-			<a href="{{html_url}}" class="cc-widget-tasks-notifications-short-title cc-ellipsis {{#unless completed}}{{#unless overdue}}cc-widget-tasks-no-icon{{/unless}}{{/unless}} {{#if overdue}}cc-alert{{/if}}">{{title}}</a>
+		<li class="cc-widget-list-icon-big cc-icon-big-{{status}}">
+			<a href="{{html_url}}" class="cc-widget-tasks-notifications-short-title cc-ellipsis {{#compare status "overdue"}}cc-alert{{/compare}}">{{title}}</a>
 			{{#if future}}<div class="cc-right">{{friendlyDate}}</div>{{/if}}
 			<div class="cc-widget-task-notifications-list-source">
 				{{#if sourceUrl}}

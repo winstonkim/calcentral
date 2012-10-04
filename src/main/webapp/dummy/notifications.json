@@ -28,7 +28,7 @@
 			"title": "CHEM 1A final grades",
 			"summary": "Final grade for CHEM 1A has been posted",
 			"source": "Bear Facts",
-			"type": "flag",
+			"type": "academics",
 			"notificationDate": 1348185901,
 			"url": "https://bearfacts.berkeley.edu",
 			"sourceUrl": "https://bearfacts.berkeley.edu"
@@ -39,7 +39,7 @@
 			"title": "CARS bill",
 			"summary": "Your CARS bill has been posted, due 11/15/2012",
 			"source": "Billing Office",
-			"type": "info",
+			"type": "block",
 			"notificationDate": 1348185728,
 			"url": "http://studentbilling.berkeley.edu/",
 			"sourceUrl": "http://studentbilling.berkeley.edu/"
@@ -50,7 +50,7 @@
 			"title": "BIO 1A enrollment",
 			"summary": "Wait List for BIO 1A processed, your status = ENROLLED",
 			"source": "TeleBears",
-			"type": "note",
+			"type": "finances",
 			"notificationDate": 1348268251,
 			"url": "https://telebears.berkeley.edu",
 			"sourceUrl": "https://telebears.berkeley.edu"
@@ -61,7 +61,7 @@
 			"title": "TeleBears appointment",
 			"summary": "TeleBears II appointment 10/19/2012 at 7:00am",
 			"source": "TeleBears",
-			"type": "info",
+			"type": "academics",
 			"notificationDate": 1348268251,
 			"url": "https://telebears.berkeley.edu",
 			"sourceUrl": "https://telebears.berkeley.edu"
@@ -72,7 +72,7 @@
 			"title": "Registration block in place",
 			"summary": "A registration block has been placed on your student record, pending payment of your CARS bill.",
 			"source": "Bear Facts",
-			"type": false,
+			"type": "classes",
 			"notificationDate": 1350000301,
 			"url": "https://bearfacts.berkeley.edu",
 			"sourceUrl": "https://bearfacts.berkeley.edu"
@@ -83,7 +83,7 @@
 			"title": "Submit schema before Tuesday 9/12",
 			"summary": "All garbage must be put into waste bins",
 			"source": "UCB Data Exchange",
-			"type": "flag",
+			"type": "enrollment",
 			"notificationDate": 1349913901,
 			"url": "http://example.com",
 			"sourceUrl": false

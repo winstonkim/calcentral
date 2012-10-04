@@ -64,9 +64,15 @@ calcentral.Widgets.notifications = function(tuid) {
 
 			// Set alert/today/recent properties.
 			if (data.notifications[index].type === 'alert') { // Alert
+
+				if (currentTime.toDateString() === notificationDate.toDateString()) {
+					data.notifications[index].friendlyDate = 'today';
+				}
+
 				newData.alerts.push(data.notifications[index]);
 
 			} else if (currentTime.toDateString() === notificationDate.toDateString()) {
+				data.notifications[index].friendlyDate = '';
 				newData.today.push(data.notifications[index]);
 
 			} else { // Recent
