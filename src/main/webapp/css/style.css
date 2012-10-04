@@ -721,9 +721,10 @@ body > header > h1 {
 
  /*Tasks and Notifications shared styles */
  .cc-widget-tasks-notifications-short-title {
+ 	display: block;
 	font-weight: bold;
 	margin-left: 10px;
-	width: 180px;
+	width: 280px;
 }
 .cc-widget-tasks-notifications-mini-icon {
 	height: 14px;
