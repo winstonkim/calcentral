@@ -312,6 +312,9 @@ body > header > h1 {
 .cc-icon-drive {
 	background-image: url('/img/myb/icon_drive_16x16.png');
 }
+.cc-icon-email {
+	background-image: url('/img/myb/icon_message_16x16.png');
+}
 .cc-icon-mail {
 	background-image: url('/img/myb/icon_mail_16x16.png');
 }
@@ -822,6 +825,11 @@ ul.cc-page-classpage-instructor-item li:last-child {
 .cc-page-classpage-instructor-name {
 	font-weight: bold;
 	padding-top: 6px;
+}
+
+.cc-page-classpage-instructor-name .cc-icon-email {
+	margin-right: 5px;
+	margin-top: 2px;
 }
 
 .cc-page-classpage-courseinfo-list,
