@@ -768,7 +768,7 @@ body > header > h1 {
 	width: 240px;
 }
 .cc-page-campus-container-left .cc-input-search {
-	border: 1px solid #A0B8C8;
+	border: 1px solid #a0b8c8;
 	width: 100%;
 }
 .cc-page-campus-container-left form {
@@ -793,9 +793,10 @@ body > header > h1 {
 	text-indent: -15px;
 }
 .cc-page-campus-container-left .cc-widget-campusnews ul li {
-	color: #2683BC;
+	color: #2683bc;
 }
 .cc-page-campus-container-left .cc-widget-campusnews ul li:before {
+	/* Unicode triangles */
 	content: '\25BA \0020';
 }
 .cc-page-campus-container-left .cc-page-campus-icon-needhelp {
