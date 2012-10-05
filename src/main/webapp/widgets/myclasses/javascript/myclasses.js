@@ -166,7 +166,8 @@ calcentral.Widgets.myclasses = function(tuid) {
 			}));
 		}
 		displayData = _.sortBy(displayData, function(value) {
-			return value.title;
+			//doing a sort primarily on name, then title.
+			return value.name + value.title;
 		});
 		return displayData;
 	};
