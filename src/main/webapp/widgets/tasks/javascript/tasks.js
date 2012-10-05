@@ -75,13 +75,13 @@ calcentral.Widgets.tasks = function(tuid) {
 			'today': [],
 			'tomorrow': [],
 			'future': [],
-			'undated': []
+			'other': []
 		};
 
 		// Convert timestamps to friendly dates and set overdue flags.
 		$.each(data, function(index, value){
 			// For Canvas items, set the html_url
-			if (data[index].html_url) {
+			if (data[index].emitter === 'canvas-assignments') {
 				// Grep out this assignment's course ID and URL; set matching course properties for assignments.
 				var courseId = parseInt(data[index].html_url.match(/\d+/g)[0], 10);
 				var courseURL = data[index].html_url.match(/^.*\d+\//g);
@@ -99,72 +99,45 @@ calcentral.Widgets.tasks = function(tuid) {
 				data[index].status = 'inprogress';
 			}
 
-			// **** TODO: POC ONLY **** monkey-patch dates so we always have items for today, tomorrow, and future
-			// Ignore the stored timestamps and dynamically generate new ones at a variety of ranges.
-			var theDateEpoch = currentTime.getTime() / 1000;
-
-			if (index < 1) {
-				data[index].status = 'overdue'; // Set at least one item to overdue
-			} else if (index < 3) {
-				data[index].dueDate = theDateEpoch; // Today
-			} else if (index < 5) {
-				data[index].dueDate = theDateEpoch + 86400; // Tomorrow
-			} else if (index < 7) {
-				data[index].dueDate = theDateEpoch + 172800; // Upcoming
-			} else {
-				data[index].dueDate = theDateEpoch + 1672800; // Far future
-			}
-
-			if (index === 1) {
-				data[index].status = 'completed'; // At least one item is completed for demo purposes
-				// data[index].overdue = false; // This same item should not be both overdue and completed
-			}
-			// END POC TEMPORARY
-
-
 			// Set due dates and overdue status for items that are dated.
-			if (value.start_at || value.due) {
-				var dueDate = new Date(value.start_at);
+			var dueDate = new Date(value.start_at);
 
-				if (value.emitter === 'google-tasks') {
-					// Google timestamps are UTC = account for timezone offsets to render actual time entered
-					var offset = dueDate.getTimezoneOffset();
-					var hours = dueDate.getHours();
-					dueDate.setHours(hours + offset / 24);
-				}
-
-				// Javascript months are 0-based, while days and years are 1-based, so add 1 to month
-				var friendlyDate = dueDate.getMonth() + 1 + '/' + dueDate.getDate();
-				data[index].friendlyDate = friendlyDate;
-
-				// Set overdue property if due date is equal to or less than today.
-				// If it's possible in future to obtain the completed status of assignments,
-				// this should also check for completed === false http://bit.ly/Pt2rVn
-				if (currentTime >= dueDate) {
-					data[index].status = 'overdue';
-				}
-
-				// Set today/tomorrow/future/undated properties. Using .toDateString() for compares because JS' getDate() reckoning is brain-dead.
-				// 8/20/2012 != 9/20/2012 Solved via http://stackoverflow.com/questions/6921606/javascript-today-function
-				if (currentTime.toDateString() === dueDate.toDateString()) { // Today
-					newData.today.push(data[index]);
-				} else if (tomorrow.toDateString() === dueDate.toDateString()) { // Tomorrow
-					newData.tomorrow.push(data[index]);
-				} else if (dueDate > currentTime) {
-					newData.future.push(data[index]);
-					data[index].future = true;
-				}
-			} else {
-				// Everything else is undated ... but don't display completed Google tasks
-				if (data[index].status !== 'completed') {
-					newData.undated.push(data[index]);
-				}
+			if (value.emitter === 'google-tasks') {
+				// Google timestamps are UTC = account for timezone offsets to render actual time entered
+				var offset = dueDate.getTimezoneOffset();
+				var hours = dueDate.getHours();
+				dueDate.setHours(hours + offset / 24);
 			}
+
+			// Javascript months are 0-based, while days and years are 1-based, so add 1 to month
+			var friendlyDate = dueDate.getMonth() + 1 + '/' + dueDate.getDate();
+			data[index].friendlyDate = friendlyDate;
+
+			// Set overdue property if due date is equal to or less than today.
+			// If it's possible in future to obtain the completed status of assignments,
+			// this should also check for completed === false http://bit.ly/Pt2rVn
+			if (currentTime >= dueDate) {
+				data[index].status = 'overdue';
+			}
+
+			// Set today/tomorrow/future/other properties. Using .toDateString() for compares because JS' getDate() reckoning is brain-dead.
+			// 8/20/2012 != 9/20/2012 Solved via http://stackoverflow.com/questions/6921606/javascript-today-function
+			if (currentTime.toDateString() === dueDate.toDateString()) { // Today
+				newData.today.push(data[index]);
+			} else if (tomorrow.toDateString() === dueDate.toDateString()) { // Tomorrow
+				newData.tomorrow.push(data[index]);
+			} else if (dueDate > currentTime) {
+				newData.future.push(data[index]);
+				data[index].future = true;
+			} else {
+				newData.other.push(data[index]);
+			}
+
 		});
 
 		// Sort each sub-array by dueDate.
 		// In future, we may want to presort data rather than post (but if we have a lot of past tasks it'll be inefficient).
-		// Undated items go through unsorted (change in future?)
+		// Other items go through unsorted (change in future?)
 		var sortDate = function(a, b) {
 			return parseFloat(a.dueDate - b.dueDate);
 		};
