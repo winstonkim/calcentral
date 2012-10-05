@@ -53,7 +53,7 @@
 			"type": "finances",
 			"notificationDate": 1349956800,
 			"url": "http://studentbilling.berkeley.edu/",
-			"sourceUrl": "http://studentbilling.berkeley.edu/"
+			"sourceUrl": false
 		},
 		{
 			"id": 6,
