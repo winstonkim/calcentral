@@ -32,6 +32,8 @@ public interface Urls {
 
 	String GIT_INFO = API + "/gitInfo";
 
+	String CAMPUS = "/campus";
+
 	String DASHBOARD = "/dashboard";
 
 	String PROFILE = "/profile";

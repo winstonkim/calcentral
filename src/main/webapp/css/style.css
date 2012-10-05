@@ -318,14 +318,55 @@ body > header > h1 {
 .cc-icon-mail {
 	background-image: url('/img/myb/icon_mail_16x16.png');
 }
+
+/* 150x150 icons */
+.cc-icon-advising {
+	background-image: url('/img/myb/icon_campus_advising_150x150.png');
+}
+.cc-icon-academicplan {
+	background-image: url('/img/myb/icon_campus_academicplan_150x150.png');
+}
+.cc-icon-campusdepartments {
+	background-image: url('/img/myb/icon_campus_campusdepartments_150x150.png');
+}
+.cc-icon-career {
+	background-image: url('/img/myb/icon_campus_career_150x150.png');
+}
+.cc-icon-finances {
+	background-image: url('/img/myb/icon_campus_finances_150x150.png');
+}
+.cc-icon-gettingaround {
+	background-image: url('/img/myb/icon_campus_gettingaround_150x150.png');
+}
+.cc-icon-foodhousing {
+	background-image: url('/img/myb/icon_campus_foodhousing_150x150.png');
+}
+.cc-icon-healthsafety {
+	background-image: url('/img/myb/icon_campus_healthsafety_150x150.png');
+}
+.cc-icon-newtocampus {
+	background-image: url('/img/myb/icon_campus_newtocampus_150x150.png');
+}
+.cc-icon-researchstudying {
+	background-image: url('/img/myb/icon_campus_researchstudying_150x150.png');
+}
+.cc-icon-studentgroups {
+	background-image: url('/img/myb/icon_campus_studentgroups_150x150.png');
+}
+.cc-icon-socialrecreation {
+	background-image: url('/img/myb/icon_campus_socialrecreation_150x150.png');
+}
+
 .cc-left {
 	float: left;
 }
 .cc-right {
 	float: right;
 }
-.cc-standout {
-	font-weight: bold;
+.cc-input-search {
+	background: #fff url('/img/myb/magnifying-glass_icon_16x16.png') 98% center no-repeat;
+	border-radius: 4px;
+	padding: 2px 20px 2px 4px;
 }
 .cc-top-20 {
 	margin-top: 20px;
@@ -444,12 +485,9 @@ body > header > h1 {
 }
 
 /* Top navigation search */
-.cc-topnavigation input[type='text'] {
-	background: #fff url('/img/myb/magnifying-glass_icon_16x16.png') 298px center no-repeat;
+.cc-topnavigation .cc-input-search {
 	border: 1px solid #373737;
-	border-radius: 4px;
 	margin: 6px 10px 0 0;
-	padding: 2px 20px 2px 4px;
 	width: 320px;
 }
 
@@ -533,7 +571,6 @@ body > header > h1 {
 	background: linear-gradient(top, #f7f7f7 0%, #f7f7f7 5%, #ffffff 12%);
 	float: left;
 	margin-bottom: -99979px;
-	min-height: 500px;
 	padding-bottom: 99999px;
 	width: 185px;
 }
@@ -720,6 +757,80 @@ body > header > h1 {
 }
 .cc-page-dashboard .cc-widget-body {
 	font-size: 0.9em;
+}
+
+/* Campus page */
+.cc-page-campus-container-left {
+	background: #f5f8fe;
+	font-size: 12px;
+	margin-bottom: -99979px;
+	padding: 10px 10px 99999px 10px;
+	width: 240px;
+}
+.cc-page-campus-container-left .cc-input-search {
+	border: 1px solid #a0b8c8;
+	width: 100%;
+}
+.cc-page-campus-container-left form {
+	border-bottom: 1px dotted #cacaca;
+	margin-bottom: 15px;
+	padding-bottom: 15px;
+}
+.cc-page-campus-container-left .cc-container-widget {
+	padding: 0 15px;
+}
+.cc-page-campus-container-left ul {
+	margin: 0;
+	padding: 0;
+}
+.cc-page-campus-container-left ul li {
+	list-style-type: none;
+	margin-top: 5px;
+}
+.cc-page-campus-container-left .cc-widget-campusnews ul {
+	margin-left: 5px;
+	padding-left: 11px;
+	text-indent: -15px;
+}
+.cc-page-campus-container-left .cc-widget-campusnews ul li {
+	color: #2683bc;
+}
+.cc-page-campus-container-left .cc-widget-campusnews ul li:before {
+	/* Unicode triangles */
+	content: '\25BA \0020';
+}
+.cc-page-campus-container-left .cc-page-campus-icon-needhelp {
+	margin-bottom: 5px;
+}
+.cc-page-campus-container-right {
+	background: #e7eef3;
+	margin-bottom: -99979px;
+	padding-bottom: 99999px;
+	width: 720px;
+}
+.cc-page-campus-container-right .cc-page-campus-overview {
+	margin: 0;
+	padding: 15px;
+}
+.cc-page-campus-container-right .cc-page-campus-overview li {
+	list-style-type: none;
+}
+.cc-page-campus-container-right .cc-page-campus-overview li a {
+	background-color: #fff;
+	background-repeat: no-repeat;
+	background-position: center center;
+	border-radius: 10px;
+	float: left;
+	font-weight: bold;
+	height: 150px;
+	margin: 15px 11px 10px;
+	padding: 120px 15px 5px 15px;
+	text-align: center;
+	width: 150px;
+}
+.cc-page-campus-container-right .cc-page-campus-overview li .cc-page-campus-overview-multiline {
+	line-height: 15px;
+	padding-top: 115px;
 }
 
 /* Colleges and schools */
