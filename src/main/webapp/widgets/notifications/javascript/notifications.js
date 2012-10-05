@@ -53,9 +53,9 @@ calcentral.Widgets.notifications = function(tuid) {
 			if (index < 4) {
 				data.notifications[index].notificationDate = theDateEpoch; // Today
 			} else if (index < 6) {
-				data.notifications[index].notificationDate = theDateEpoch - 86400; // Tomorrow
+				data.notifications[index].notificationDate = theDateEpoch - 86400; // Yesterday
 			} else {
-				data.notifications[index].notificationDate = theDateEpoch - 1672800; // Far future
+				data.notifications[index].notificationDate = theDateEpoch - 1672800; // Far past
 			}
 			// END POC TEMPORARY
 
