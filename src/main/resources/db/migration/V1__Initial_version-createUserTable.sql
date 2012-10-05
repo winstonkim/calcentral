@@ -233,8 +233,10 @@ CREATE INDEX calcentral_classtree_departments_college_id_index ON calcentral_cla
 CREATE UNIQUE INDEX calcentral_classtree_departments_id_index ON calcentral_classtree_departments USING btree (id);
 
 -- Add profile URLs for selected instructors.
-INSERT INTO calcentral_users (uid, link) VALUES ('191779', 'http://birdhouse.org/blog/');
-INSERT INTO calcentral_users (uid, profileimagelink) values ('300883', 'https://ucberkeley.instructure.com/images/thumbnails/21446477/rrV3CW9MapIJBpYMhRrWFth6tqW5xX2NG1EMatL5');
+INSERT INTO calcentral_users (uid, profileimagelink) values ('251941', '//berkeley.box.com/shared/static/cz1ub3cewqa3fd44o4d1.jpg');
+INSERT INTO calcentral_users (uid, profileimagelink) values ('739055', '//berkeley.box.com/shared/static/ri8m9qhicofmk9a9ipbz.jpg');
+INSERT INTO calcentral_users (uid, profileimagelink) values ('855357', '//berkeley.box.com/shared/static/j5xkjgy6zx3t39f70qnf.jpg');
+INSERT INTO calcentral_users (uid, profileimagelink) values ('892848', '//berkeley.box.com/shared/static/v13t4n31lcomgkgvk7mg.jpg');
 
 -- Add classpages lookup table and initial data
 
