@@ -19,6 +19,12 @@ import org.springframework.web.servlet.ModelAndView;
 public class JSPController {
 
 	@PreAuthorize("hasRole('ROLE_USER')")
+	@RequestMapping(value = {Urls.CAMPUS}, method = RequestMethod.GET)
+	public ModelAndView getCampus() {
+		return new ModelAndView("campus");
+	}
+
+	@PreAuthorize("hasRole('ROLE_USER')")
 	@RequestMapping(value = {Urls.DASHBOARD}, method = RequestMethod.GET)
 	public ModelAndView getDashboard() {
 		return new ModelAndView("dashboard");
