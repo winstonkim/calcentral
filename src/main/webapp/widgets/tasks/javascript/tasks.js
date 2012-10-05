@@ -29,32 +29,41 @@ calcentral.Widgets.tasks = function(tuid) {
 	 * and outputs new data structure organized into time sections (past/present/future).
 	 * Course IDs for assignments are keyed to course IDs from courseData (rather than looping).
 	 * @param {object} courseData Course list from canvas
-	 * @param {object} data Assignment list from Canvas
+	 * @param {object} assignmentData Assignment list from Canvas
 	 * @param {object} gTaskData list from Google
 	 */
-	var renderTasksAssignments = function(courseData, data, gTaskData) {
+	var renderTasksAssignments = function(courseData, assignmentData, gTaskData) {
+		var data = [];
+		courseData = courseData[0] || [];
+		assignmentData = assignmentData[0] || [];
+		gTaskData = gTaskData[0];
+
 		// To account for differences between tasks emitted from various services, set an "emitter"
 		// property for the source. This will help in setting different icons, different date processing, etc.
-		$.each(data, function(index, value){
+		$.each(assignmentData, function(index, value){
 			value.emitter = 'canvas-assignments';
 		});
 
 		// Merge Google tasks data into the main data object.
 		// Modify Google task properties to re-use Canvas assignment properties for compatibility.
-		$.each(gTaskData[0].items, function(index, value){
-			// Discard "phantom" Google Tasks
-			if (value.title.match('^[a-zA-Z0-9]')) {
-				// Google "due" property maps to Canvas "start_at" property
-				if (value.due) {
-					value.start_at = value.due;
-				}
-				value.html_url = 'https://mail.google.com/tasks/canvas?pli=1'; // Minimal, but it's the only Tasks web UI available
-				value.emitter = 'google-tasks';
+		if (gTaskData && gTaskData.items) {
+			$.each(gTaskData.items, function(index, value){
+				// Discard "phantom" Google Tasks
+				if (value.title.match('^[a-zA-Z0-9]')) {
+					// Google "due" property maps to Canvas "start_at" property
+					if (value.due) {
+						value.start_at = value.due;
+					}
+					value.html_url = 'https://mail.google.com/tasks/canvas?pli=1'; // Minimal, but it's the only Tasks web UI available
+					value.emitter = 'google-tasks';
 
-				// Append modified entry to main data object
-				data.push(value);
-			}
-		});
+					// Append modified entry to main data object
+					data.push(value);
+				}
+			});
+		}
+
+		data = data.concat(assignmentData);
 
 		var currentTime = new Date();
 		// "Tomorrow" is 1 second after midnight on the next calendar date, NOT 24 hours from now.
@@ -179,11 +188,17 @@ calcentral.Widgets.tasks = function(tuid) {
 	var getGoogleTasks = function() {
 		// Fetch tasks from Google. The @default identifier allows us to do this
 		// with one API call rather than two (no need to get a list of lists first).
-		var getGoogleLists = $.ajax({
-				'dataType': 'json',
-				'url': '/api/google/tasks/v1/lists/@default/tasks'
-			});
-		return getGoogleLists;
+		// Unlike Canvas, Google returns data for anon requests - just not usable data.
+		var googleTasks = $.Deferred();
+		$.ajax({
+			'dataType': 'json',
+			'url': '/api/google/tasks/v1/lists/@default/tasks',
+			'success': googleTasks.resolve,
+			'error': function() {
+				googleTasks.resolve({});
+			}
+		});
+		return googleTasks;
 	};
 
 	/**
@@ -192,15 +207,15 @@ calcentral.Widgets.tasks = function(tuid) {
 	 * @return {Object} Deferred promise object for a Deferrred chain, with a (data) param.
 	 */
 	var getCanvasCourses = function() {
-		var $ajaxWrapper = $.Deferred();
+		var canvasCourses = $.Deferred();
 		$.ajax({
 			'url': '/api/canvas/courses',
-			'success': function(courseData) {
-				$ajaxWrapper.resolve(courseData);
-			},
-			'error': $ajaxWrapper.reject
+			'success': canvasCourses.resolve,
+			'error': function() {
+				canvasCourses.resolve({});
+			}
 		});
-		return $ajaxWrapper;
+		return canvasCourses;
 	};
 
 	/**
@@ -208,18 +223,16 @@ calcentral.Widgets.tasks = function(tuid) {
 	 * @return {Object} Deferred promise object for a Deferrred chain, with a (data) param.
 	 */
 	var getCanvasAssignments = function() {
-		var $ajaxWrapper = $.Deferred();
+		var canvasAssignments = $.Deferred();
 		$.ajax({
 			'url': '/api/canvas/users/self/coming_up',
-			'success': function(data) {
-				$ajaxWrapper.resolve(data);
-			},
-			'error': $ajaxWrapper.reject
+			'success': canvasAssignments.resolve,
+			'error': function() {
+				canvasAssignments.resolve({});
+			}
 		});
-		return $ajaxWrapper;
+		return canvasAssignments;
 	};
 
-	$.when(getCanvasCourses(), getCanvasAssignments(), getGoogleTasks()).done(renderTasksAssignments).fail(function() {
-		console.log("tasks.js -> Could not load assignment or course data from Canvas");
-	});
+	$.when(getCanvasCourses(), getCanvasAssignments(), getGoogleTasks()).done(renderTasksAssignments);
 };
