@@ -53,14 +53,14 @@ calcentral.Widgets.notifications = function(tuid) {
 			if (index < 4) {
 				data.notifications[index].notificationDate = theDateEpoch; // Today
 			} else if (index < 6) {
-				data.notifications[index].notificationDate = theDateEpoch + 86400; // Tomorrow
+				data.notifications[index].notificationDate = theDateEpoch - 86400; // Tomorrow
 			} else {
-				data.notifications[index].notificationDate = theDateEpoch + 1672800; // Far future
+				data.notifications[index].notificationDate = theDateEpoch - 1672800; // Far future
 			}
 			// END POC TEMPORARY
 
 			var notificationDate = new Date(value.notificationDate * 1000);
-			data.notifications[index].friendlyDate = notificationDate.getMonth() + '/' + notificationDate.getDate();
+			data.notifications[index].friendlyDate = notificationDate.getMonth() + 1 + '/' + notificationDate.getDate();
 
 			// Set alert/today/recent properties.
 			if (data.notifications[index].type === 'alert') { // Alert
@@ -86,9 +86,13 @@ calcentral.Widgets.notifications = function(tuid) {
 			return parseFloat(a.notificationDate - b.notificationDate);
 		};
 
+		var sortDateReverse = function(a, b) {
+			return parseFloat(b.notificationDate - a.notificationDate);
+		};
+
 		newData.alerts = newData.alerts.sort(sortDate);
 		newData.today = newData.today.sort(sortDate);
-		newData.recent = newData.recent.sort(sortDate);
+		newData.recent = newData.recent.sort(sortDateReverse);
 
 		var partials = {
 			'alertsLoop': $alertsLoopTemplate.html(),
