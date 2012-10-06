@@ -25,20 +25,9 @@
 					<p class="cc-page-campus-more cc-right"><a href="#">More events &#9658;</a>
 				</div>
 			</div>
-			<div class="cc-container-widget cc-widget-campusnews">
-				<div class="cc-widget-title">
-					<h2>Campus News</h2>
-				</div>
-				<div>
-					<ul>
-						<li><a href="#">Fungus expert celebrates rare 10,000th citation</a></li>
-						<li><a href="#">UC releases final report on protests</a></li>
-						<li><a href="#">Biophysicist Carlos Bustamente awarded 2012 Sackler Prize</a></li>
-						<li><a href="#">UC Berkeley again tops public university rankings</a>
-					</ul>
-					<p class="cc-page-campus-more cc-right"><a href="#">More news &#9658;</a>
-				</div>
-			</div>
+
+			<jsp:include page="widgets/campusnews/campusnews.html" />
+
 		</div>
 		<div class="cc-page-campus-container-right cc-left">
 			<ul class="cc-page-campus-overview">

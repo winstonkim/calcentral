@@ -1,0 +1,18 @@
+<div class="cc-container-widget" id="cc-widget-campusnews">
+	<script id="cc-widget-campusnews-template" type="text/x-handlebars-template">
+		<div class="cc-widget-title">
+			<h2>Campus News</h2>
+		</div>
+		<div>
+			<ul>
+				{{! Silly Yahoo calls this iterable "item" rather than "items". }}
+				{{#if item}}
+					{{#each item}}
+						<li><strong>{{friendlyDate}}</strong> <a href="{{link}}">{{title}}</a></li>
+					{{/each}}
+				{{/if}}
+			</ul>
+			<p class="cc-page-campus-more cc-right"><a href="#">More news &#9658;</a>
+		</div>
+	</script>
+</div>
