@@ -55,7 +55,7 @@
 					<a class="cc-icon-career" href="#">Career</a>
 				</li>
 				<li>
-					<a class="cc-icon-finances" href="#">Finances</a>
+					<a class="cc-icon-finances" href="/secure/finances">Finances</a>
 				</li>
 				<li>
 					<a class="cc-icon-gettingaround" href="#">Getting Around</a>

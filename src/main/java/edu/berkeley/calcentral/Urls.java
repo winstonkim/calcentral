@@ -36,6 +36,8 @@ public interface Urls {
 
 	String DASHBOARD = "/dashboard";
 
+	String FINANCES = "/finances";
+
 	String PROFILE = "/profile";
 
 	String PREFERENCES = "/preferences";

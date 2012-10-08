@@ -31,6 +31,12 @@ public class JSPController {
 	}
 
 	@PreAuthorize("hasRole('ROLE_USER')")
+	@RequestMapping(value = {Urls.FINANCES}, method = RequestMethod.GET)
+	public ModelAndView getFinances() {
+		return new ModelAndView("finances");
+	}
+
+	@PreAuthorize("hasRole('ROLE_USER')")
 	@RequestMapping(value = {Urls.PROFILE}, method = RequestMethod.GET)
 	public ModelAndView getProfile() {
 		return new ModelAndView("profile");
