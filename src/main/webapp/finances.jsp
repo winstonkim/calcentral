@@ -14,22 +14,22 @@
 				</div>
 				<div class="cc-financial-background-alert cc-widget-body">
 					<ul>
-						<li><a href="#" class="cc-alert"><div class="cc-icon-big cc-icon-big-alert cc-right"></div><h3>Registration block</h3>Unpaid CARS bill</a></li>
+						<li><a href="https://myfinaid.berkeley.edu" class="cc-alert"><div class="cc-icon-big cc-icon-big-alert cc-right"></div><h3>Registration block</h3>Unpaid CARS bill</a></li>
 					</ul>
 					<h3 class="cc-left">Financial Notifications:</h3>
 					<ul>
-						<li><a href="#" class="cc-alert">FAFSA Application Deadline</a><span class="cc-right cc-alert">Today</a></li>
+						<li><a href="https://myfinaid.berkeley.edu" class="cc-alert">FAFSA Application Deadline</a><span class="cc-right cc-alert">Today</a></li>
 					</ul>
 				</div>
 				<h3>MyFinAid Notifications:</h3>
 				<ul>
-					<li><a href="#">You have 1 missing document</a></li>
-					<li><a href="#">You have 1 new message</a></li>
+					<li><a href="https://myfinaid.berkeley.edu">You have 1 missing document</a></li>
+					<li><a href="https://myfinaid.berkeley.edu">You have 1 new message</a></li>
 				</ul>
-				<h3>Expected Graduation:</h3> <a href="#">Spring 2013</a>
+				<h3>Expected Graduation:</h3> <a href="https://myfinaid.berkeley.edu">Spring 2013</a>
 				<ul class="cc-page-finances-logins">
-					<li><a href="#" class="cc-icon-arrow-right">Log in to MyFinAid</a></li>
-					<li><a href="#" class="cc-icon-arrow-right">Log in to BearFacts</a></li>
+					<li><a href="https://myfinaid.berkeley.edu" class="cc-icon-arrow-right">Log in to MyFinAid</a></li>
+					<li><a href="https://bearfacts.berkeley.edu" class="cc-icon-arrow-right">Log in to BearFacts</a></li>
 				</ul>
 			</div>
 			<div class="cc-container-widget">
@@ -38,13 +38,14 @@
 				</div>
 				<div>
 					<ul class="cc-widget-list-triangle">
-						<li><a href="#">UC Berkeley Financial Aid &amp; Scholarships</a></li>
-						<li><a href="#">Cal One Card</a></li>
-						<li><a href="#">Student Billing Services</a></li>
-						<li><a href="#">FAFSA</a></li>
-						<li><a href="#">StudentLoans.gov</a></li>
-						<li><a href="#">UCB Scholarship Connection</a></li>
-						<li><a href="#">2012-2013 Reg Fees</a></li>
+						<li><a href="http://students.berkeley.edu/finaid">UC Berkeley Financial Aid &amp; Scholarships</a></li>
+						<li><a href="http://cal1card.berkeley.edu">Cal One Card</a></li>
+						<li><a href="http://studentbilling.berkeley.edu">Student Billing Services</a></li>
+						<li><a href="http://www.fafsa.ed.gov">FAFSA</a></li>
+						<li><a href="https://studentloans.gov">StudentLoans.gov</a></li>
+						<li><a href="http://scholarships.berkeley.edu">UCB Scholarship Connection</a></li>
+						<li><a href="http://students.berkeley.edu/finaid/undergraduates/types_loans.htm">UCB Undergraduate Loan Programs</a></li>
+						<li><a href="http://registrar.berkeley.edu/feesched.html">2012-2013 Reg Fees</a></li>
 					</ul>
 				</div>
 			</div>
@@ -62,7 +63,7 @@
 						<dd>&#36;1492.75</dd>
 					</dl>
 					<p class="cc-left cc-widget-quickstatement-paybill">
-						<a href="#" class="cc-icon-alert">
+						<a href="https://bearfacts.berkeley.edu/" class="cc-icon-alert">
 							<span class="cc-icon-arrow-right-brown"></span>
 							Pay My Bill<br />
 							<em>Due 12/1/12</em>
@@ -113,20 +114,24 @@
 					<li><a href="#">Cal1Card site</a></li>
 				</ul>
 			</div>
-			<img src="/img/myb/cal1card.png" />
-			<img src="/img/myb/planning_budget.png" />
+			<a href="http://cal1card.berkeley.edu">
+				<img src="/img/myb/cal1card.png" />
+			</a>
+			<a href="http://www.cashcourse.org/ucberkeley">
+				<img src="/img/myb/planning_budget.png" />
+			</a>
 			<div class="cc-container-widget cc-widget-scholarshipideas">
 				<div class="cc-widget-title">
 					<h2>Scholarship Opportunities</h2>
 				</div>
 				<div>
 					<ul>
-						<li><a href="#">10 Degrees Scholarships</a></li>
-						<li><a href="#">Academy of Motion Picture Arts &amp; Sciences Student Film Awards</a></li>
-						<li><a href="#">Asian American Journalists Association Scholarships</a></li>
-						<li><a href="#">Bibliographical Society of America Fellowship Program</a></li>
-						<li><a href="#">Boren Scholarships for International Study</a></li>
-						<li><a href="#">Bowman Travel Grants</a></li>
+						<li><a href="http://scholarships.berkeley.edu">10 Degrees Scholarships</a></li>
+						<li><a href="http://scholarships.berkeley.edu">Academy of Motion Picture Arts &amp; Sciences Student Film Awards</a></li>
+						<li><a href="http://scholarships.berkeley.edu">Asian American Journalists Association Scholarships</a></li>
+						<li><a href="http://scholarships.berkeley.edu">Bibliographical Society of America Fellowship Program</a></li>
+						<li><a href="http://scholarships.berkeley.edu">Boren Scholarships for International Study</a></li>
+						<li><a href="http://scholarships.berkeley.edu">Bowman Travel Grants</a></li>
 					</ul>
 				</div>
 				<p class="cc-page-campus-more cc-right"><a href="#">More scholarships &#9658;</a></p>
