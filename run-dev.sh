@@ -10,7 +10,7 @@ else
 fi
 
 echo "Cleaning up the database and doing the migration"
-mvn flyway:clean flyway:migrate
+mvn flyway:clean
 
 echo "Building Calcentral and adding the Canvas Course Ids"
 mvn clean install -Dmaven.test.skip=true -P load-canvas-course-ids exec:java -Dspring.profiles.active=default

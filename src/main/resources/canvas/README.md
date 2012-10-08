@@ -6,7 +6,7 @@ calcentral> mvn -e -P load-canvas exec:java
 
 This can be combined with other Maven goals:
 ```
-calcentral> mvn -e -P load-canvas clean install flyway:clean flyway:migrate exec:java
+calcentral> mvn -e -P load-canvas clean install exec:java
 ```
 
 After loading data into Canvas, you'll want to load Canvas's course IDs into our local db so that our app knows
