@@ -28,7 +28,7 @@ calcentral.Widgets.campusevents = function(tuid) {
 
 		$.each(data.item, function(index, value){
 			// Campus events feed does not include a date property; appends date as URL param instead
-			var urldate = String(value.link.match(/date=.*$/g)).replace('date=','');
+			var urldate = calcentral.Api.Util.parseURI({'url':value.link}).queryKey.date;
 			var eventDate = new Date(urldate);
 
 			// #todo Another reason we need a good JS date lib
