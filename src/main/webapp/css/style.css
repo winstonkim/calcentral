@@ -735,6 +735,20 @@ body > header > h1 {
 	background-position: 0 2px;
 	background-repeat: no-repeat;
 }
+.cc-container-widget .cc-widget-list-triangle {
+	margin: 5px 0 0 0;
+	padding: 0 0 0 16px;
+	text-indent: -15px;
+}
+.cc-container-widget .cc-widget-list-triangle li {
+	color: #2683bc;
+	list-style-type: none;
+	margin-top: 5px;
+}
+.cc-container-widget .cc-widget-list-triangle li:before {
+	/* Unicode triangles */
+	content: '\25BA \0020';
+}
 
 .cc-container-widget .cc-widget-footer {
 	background: #ececec;
@@ -827,20 +841,6 @@ body > header > h1 {
 .cc-page-campus-container-left ul li {
 	list-style-type: none;
 	margin-top: 5px;
-}
-.cc-widget-campusnews ul {
-	margin: 5px 0 0 0;
-	padding: 0 0 0 16px;
-	text-indent: -15px;
-}
-.cc-widget-campusnews ul li {
-	color: #2683bc;
-	list-style-type: none;
-	margin-top: 5px;
-}
-.cc-widget-campusnews ul li:before {
-	/* Unicode triangles */
-	content: '\25BA \0020';
 }
 .cc-page-campus-container-left .cc-page-campus-icon-needhelp {
 	margin-bottom: 5px;

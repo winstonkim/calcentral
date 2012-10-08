@@ -15,27 +15,12 @@ calcentral.Widgets.campusnews = function(tuid) {
 
 	'use strict';
 
-	// VARIABLES
+	///////////////
+	// Selectors //
+	///////////////
+
 	var $campusNewsContainer = $('#' + tuid);
 	var $campusNewsTemplate = $('#cc-widget-campusnews-template', $campusNewsContainer);
-
-	/**
-	 * Given a YQL RSS feed, parses dates to friendly format and appends properties
-	 * @param {object} data RSS feed filtered fetched by YQL
-	 */
-	var parseCampusNews = function(data) {
-		data = data.query.results;
-
-		$.each(data.item, function(index, value){
-			var pubDate = new Date(value.pubDate);
-			// #todo Another reason we need a good JS date lib
-			var weekdays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-			var shortDay = weekdays[pubDate.getDay()];
-			var theMonth = pubDate.getMonth() + 1;
-			data.item[index].friendlyDate = shortDay + ' ' + theMonth + '/' + pubDate.getDate();
-		});
-		return data;
-	};
 
 	/**
 	 * Given RSS data pre-processed by parseCampusNews, renders to template
@@ -44,7 +29,7 @@ calcentral.Widgets.campusnews = function(tuid) {
 	var renderCampusNews = function(data) {
 		calcentral.Api.Util.renderTemplate({
 			'container': $campusNewsContainer,
-			'data': data,
+			'data': data.query.results,
 			'template': $campusNewsTemplate
 		});
 	};
@@ -65,5 +50,5 @@ calcentral.Widgets.campusnews = function(tuid) {
 		return getFeed;
 	};
 
-	$.when(getNewsCenterFeed()).pipe(parseCampusNews).done(renderCampusNews);
+	$.when(getNewsCenterFeed()).done(renderCampusNews);
 };
