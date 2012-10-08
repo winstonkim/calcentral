@@ -22,4 +22,8 @@ INSERT INTO calcentral_users ( uid, link )
 SELECT '260296', 'http://www.denero.org/'
 WHERE NOT EXISTS ( SELECT uid FROM calcentral_users WHERE uid = '260296' );
 
-INSERT INTO calcentral_users (uid, profileimagelink, link) values ('214421', '//berkeley.box.com/shared/static/d0ttw1j6vdfrfrbs5p39.jpg', 'http://journalism.berkeley.edu/faculty/pollan/');
+UPDATE calcentral_users
+SET link = 'http://journalism.berkeley.edu/faculty/pollan/', profileimagelink = '//berkeley.box.com/shared/static/d0ttw1j6vdfrfrbs5p39.jpg' WHERE uid = '214421';
+INSERT INTO calcentral_users (uid, profileimagelink, link)
+SELECT '214421', '//berkeley.box.com/shared/static/d0ttw1j6vdfrfrbs5p39.jpg', 'http://journalism.berkeley.edu/faculty/pollan/'
+WHERE NOT EXISTS ( SELECT uid FROM calcentral_users WHERE uid = '214421' );
