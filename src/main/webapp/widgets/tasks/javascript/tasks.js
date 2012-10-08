@@ -40,12 +40,15 @@ calcentral.Widgets.tasks = function(tuid) {
 
 		// To account for differences between tasks emitted from various services, set an "emitter"
 		// property for the source. This will help in setting different icons, different date processing, etc.
+		// Add real JS date object property for later sorting
 		$.each(assignmentData, function(index, value){
 			value.emitter = 'canvas-assignments';
+			value.real_date = new Date(value.start_at);
 		});
 
 		// Merge Google tasks data into the main data object.
 		// Modify Google task properties to re-use Canvas assignment properties for compatibility.
+		// Add real JS date object property for later sorting.
 		if (gTaskData && gTaskData.items) {
 			$.each(gTaskData.items, function(index, value){
 				// Discard "phantom" Google Tasks
@@ -53,6 +56,7 @@ calcentral.Widgets.tasks = function(tuid) {
 					// Google "due" property maps to Canvas "start_at" property
 					if (value.due) {
 						value.start_at = value.due;
+						value.real_date = new Date(value.start_at);
 					}
 					value.html_url = 'https://mail.google.com/tasks/canvas?pli=1'; // Minimal, but it's the only Tasks web UI available
 					value.emitter = 'google-tasks';
@@ -75,7 +79,7 @@ calcentral.Widgets.tasks = function(tuid) {
 			'today': [],
 			'tomorrow': [],
 			'future': [],
-			'other': []
+			'unscheduled': []
 		};
 
 		// Convert timestamps to friendly dates and set overdue flags.
@@ -120,31 +124,44 @@ calcentral.Widgets.tasks = function(tuid) {
 				data[index].status = 'overdue';
 			}
 
-			// Set today/tomorrow/future/other properties. Using .toDateString() for compares because JS' getDate() reckoning is brain-dead.
-			// 8/20/2012 != 9/20/2012 Solved via http://stackoverflow.com/questions/6921606/javascript-today-function
-			if (currentTime.toDateString() === dueDate.toDateString()) { // Today
+			// Set today/tomorrow/future/unscheduled properties.
+			// Overdue items are always placed in the "today" bucket (because they're due *now*, regardless of timestamp)
+			if (currentTime.toDateString() === dueDate.toDateString() || data[index].status === 'overdue') { // Today
 				newData.today.push(data[index]);
 			} else if (tomorrow.toDateString() === dueDate.toDateString()) { // Tomorrow
 				newData.tomorrow.push(data[index]);
-			} else if (dueDate > currentTime) {
+			} else if (dueDate > currentTime) { // Future
 				newData.future.push(data[index]);
 				data[index].future = true;
-			} else {
-				newData.other.push(data[index]);
+			} else { // Unscheduled
+				newData.unscheduled.push(data[index]);
 			}
 
 		});
 
 		// Sort each sub-array by dueDate.
 		// In future, we may want to presort data rather than post (but if we have a lot of past tasks it'll be inefficient).
-		// Other items go through unsorted (change in future?)
+		// Unscheduled items get sorted by title rather than date
 		var sortDate = function(a, b) {
-			return parseFloat(a.dueDate - b.dueDate);
+			return parseFloat(a.real_date - b.real_date);
+		};
+
+		var sortTitle = function(a, b) {
+			var alpha_a = a.title.toLowerCase();
+			var alpha_b = b.title.toLowerCase();
+			if (alpha_a < alpha_b){
+				return -1;
+			} else if (alpha_a > alpha_b) {
+				return  1;
+			} else {
+				return 0;
+			}
 		};
 
 		newData.today = newData.today.sort(sortDate);
 		newData.tomorrow = newData.tomorrow.sort(sortDate);
 		newData.future = newData.future.sort(sortDate);
+		newData.unscheduled = newData.unscheduled.sort(sortTitle);
 
 		var partials = {
 			'taskLoop': $taskLoopTemplate.html()

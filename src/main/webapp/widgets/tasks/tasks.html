@@ -9,7 +9,7 @@
 	<script id="cc-widget-tasks-template" type="text/x-handlebars-template">
 		<div class="cc-widget-body">
 			<img src="/img/myb/task_slider.png" alt="Task slider placeholder" class="cc-widget-tasks-taskslider" />
-			<div class="cc-widget-section-label">Due Today</div>
+			<div class="cc-widget-section-label">Due</div>
 			<ul class="cc-widget-notifications-list cc-widget-section-list">
 				{{#if today}}
 					{{#each today}}
@@ -43,10 +43,10 @@
 			{{/if}}
 			</ul>
 
-			<div class="cc-widget-section-label">To Do List</div>
+			<div class="cc-widget-section-label">Unscheduled</div>
 			<ul class="cc-widget-notifications-list cc-widget-section-list">
-			{{#if other}}
-				{{#each other}}
+			{{#if unscheduled}}
+				{{#each unscheduled}}
 					{{>taskLoop}}
 				{{/each}}
 			{{else}}
