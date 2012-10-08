@@ -1,0 +1,19 @@
+<div class="cc-container-widget" id="cc-widget-campusnews">
+	<script id="cc-widget-campusnews-template" type="text/x-handlebars-template">
+		<div class="cc-widget-title">
+			<h2>Campus News</h2>
+		</div>
+		<div>
+			<ul>
+				{{#if item}}
+					{{#each item}}
+						<li><strong>{{friendlyDate}}</strong> <a href="{{link}}">{{title}}</a></li>
+					{{/each}}
+				{{else}}
+					<li>News feed not available</li>
+				{{/if}}
+			</ul>
+			<p class="cc-page-campus-more cc-right"><a href="http://newscenter.berkeley.edu/category/news/">More news &#9658;</a>
+		</div>
+	</script>
+</div>
