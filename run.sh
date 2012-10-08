@@ -117,18 +117,12 @@ echo "------------------------------------------" | $LOGIT
 echo "`date`: Building code..." | $LOGIT
 mvn -B -e clean install -Dmaven.test.skip=true | $LOGIT
 
-# initialize the db
-echo | $LOGIT
-echo "------------------------------------------" | $LOGIT
-echo "Migrating the database..." | $LOGIT
-mvn -e flyway:migrate -Dmaven.test.skip=true -Dflyway.password=$POSTGRES_PASSWORD | $LOGIT
-
 echo | $LOGIT
 echo "------------------------------------------" | $LOGIT
 echo "`date`: Starting CalCentral..." | $LOGIT
 
 # actually run the server (in the background)
-nohup mvn -e jetty:run -Dmaven.test.skip=true >> logs/jetty.`date +\%Y_\%m_\%d`.log 2>&1 &
+nohup mvn -e jetty:run -Dmaven.test.skip=true -Dflyway.password=$POSTGRES_PASSWORD >> logs/jetty.`date +\%Y_\%m_\%d`.log 2>&1 &
 
 # wait 60s for server to get started
 sleep 60;

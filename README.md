@@ -34,9 +34,9 @@ Stopping postgres:
 pg_ctl -D /usr/local/var/postgres stop -s -m fast
 ```
 
-Initializing the database:
+Initializing the database (destroys existing data):
 ```
-mvn flyway:clean flyway:migrate
+mvn flyway:clean
 ```
 More information can be found here: <http://code.google.com/p/flyway/wiki/MavenPlugin>
 
