@@ -32,12 +32,12 @@
 					<li><a href="#" class="cc-icon-arrow-right">Log in to BearFacts</a></li>
 				</ul>
 			</div>
-			<div class="cc-container-widget cc-widget-campusnews">
+			<div class="cc-container-widget">
 				<div class="cc-widget-title">
 					<h2>Financial Resources</h2>
 				</div>
 				<div>
-					<ul>
+					<ul class="cc-widget-list-triangle">
 						<li><a href="#">UC Berkeley Financial Aid &amp; Scholarships</a></li>
 						<li><a href="#">Cal One Card</a></li>
 						<li><a href="#">Student Billing Services</a></li>
