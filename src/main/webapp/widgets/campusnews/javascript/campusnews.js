@@ -15,37 +15,33 @@ calcentral.Widgets.campusnews = function(tuid) {
 
 	'use strict';
 
-	/** VARIABLES. **/
-
-	var $campusNewsContainer = $('#cc-widget-campusnews');
+	// VARIABLES
+	var $campusNewsContainer = $('#' + tuid);
 	var $campusNewsTemplate = $('#cc-widget-campusnews-template', $campusNewsContainer);
 
 	/**
-	 * Given a parsed RSS feed, renders simple list of linked stories.
-	 * @param {object} data RSS feed filtered through YQL to generate JSON
+	 * Given a YQL RSS feed, parses dates to friendly format and appends properties
+	 * @param {object} data RSS feed filtered fetched by YQL
 	 */
-	var renderCampusNews = function(data) {
+	var parseCampusNews = function(data) {
 		data = data.query.results;
 
 		$.each(data.item, function(index, value){
 			var pubDate = new Date(value.pubDate);
-
 			// #todo Another reason we need a good JS date lib
-			var weekday=new Array(7);
-			weekday[0]="Sun";
-			weekday[1]="Mon";
-			weekday[2]="Tues";
-			weekday[3]="Wed";
-			weekday[4]="Thur";
-			weekday[5]="Fri";
-			weekday[6]="Sat";
-
-			var shortDay = weekday[pubDate.getDay()];
+			var weekdays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+			var shortDay = weekdays[pubDate.getDay()];
 			var theMonth = pubDate.getMonth() + 1;
 			data.item[index].friendlyDate = shortDay + ' ' + theMonth + '/' + pubDate.getDate();
-
 		});
+		return data;
+	};
 
+	/**
+	 * Given RSS data pre-processed by parseCampusNews, renders to template
+	 * @param {object} pre-processed data
+	 */
+	var renderCampusNews = function(data) {
 		calcentral.Api.Util.renderTemplate({
 			'container': $campusNewsContainer,
 			'data': data,
@@ -53,8 +49,10 @@ calcentral.Widgets.campusnews = function(tuid) {
 		});
 	};
 
+	/**
+	 * Use YQL to fetch RSS from newscenter.berkeley.edu/category/news/feed/
+	 */
 	var getNewsCenterFeed = function() {
-		// Use YQL to fetch RSS from newscenter.berkeley.edu/category/news/feed/
 		var getFeed = $.Deferred();
 		$.ajax({
 			'dataType': 'json',
@@ -67,5 +65,5 @@ calcentral.Widgets.campusnews = function(tuid) {
 		return getFeed;
 	};
 
-	$.when(getNewsCenterFeed()).done(renderCampusNews);
+	$.when(getNewsCenterFeed()).pipe(parseCampusNews).done(renderCampusNews);
 };

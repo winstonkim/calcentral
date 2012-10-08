@@ -1,0 +1,19 @@
+<div class="cc-container-widget" id="cc-widget-campusevents">
+	<script id="cc-widget-campusevents-template" type="text/x-handlebars-template">
+		<div class="cc-widget-title">
+			<h2>Campus Events</h2>
+		</div>
+		<div>
+			<ul>
+				{{#if item}}
+					{{#each item}}
+						<li><strong>{{friendlyDate}}</strong> <a href="{{link}}">{{title}}</a></li>
+					{{/each}}
+				{{else}}
+					<li>Events feed not available</li>
+				{{/if}}
+			</ul>
+			<p class="cc-page-campus-more cc-right"><a href="http://events.berkeley.edu/">More events &#9658;</a>
+		</div>
+	</script>
+</div>
