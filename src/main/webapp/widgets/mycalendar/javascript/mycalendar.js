@@ -40,7 +40,11 @@ calcentral.Widgets.mycalendar = function(tuid) {
 	var scrollToUpcoming = function() {
 		var $mycalendarDateList = $('.cc-widget-mycalendar-datelist', $rootel);
 		var $upcoming = $('.cc-widget-mycalendar-isupcoming', $mycalendarDateList);
-		$mycalendarDateList.scrollTop($mycalendarDateList.scrollTop() + $upcoming.position().top);
+		// If there is no upcoming highlight, we shouldn't do the scrolling
+		if (!$upcoming.length) {
+			return;
+		}
+		$mycalendarDateList.scrollTop($upcoming.position().top - $mycalendarDateList.position().top);
 	};
 
 	/**
@@ -117,16 +121,17 @@ calcentral.Widgets.mycalendar = function(tuid) {
 
 			// Add the hours, minutes and am/pm to every event
 			if (item.start.dateTime) {
-				var itemDate = new Date(item.start.dateTime);
+				var itemStartTime = new Date(item.start.dateTime);
+				var itemEndTime = new Date(item.end.dateTime);
 
-				if (itemDate > currentTime && !hasUpcomingSet) {
+				if (((currentTime < itemEndTime && currentTime > itemStartTime)) || ((currentTime < itemStartTime) && !hasUpcomingSet)) {
 					item.isUpcoming = true;
 					hasUpcomingSet = true;
 				}
 
 				var amPm = 'AM';
-				var hour = itemDate.getHours();
-				var minutes = itemDate.getMinutes();
+				var hour = itemStartTime.getHours();
+				var minutes = itemStartTime.getMinutes();
 				if (hour >= 12) {
 					hour = (hour === 12) ? hour : hour - 12;
 					amPm = 'PM';
@@ -138,10 +143,6 @@ calcentral.Widgets.mycalendar = function(tuid) {
 					// The length should always be 2
 					'minutes': ('0' + minutes).slice(-2)
 				}, item.start);
-			}
-			if (i === data.items.length - 1 && !hasUpcomingSet) {
-				item.isUpcoming = true;
-				hasUpcomingSet = true;
 			}
 		}
 		return data;
