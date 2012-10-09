@@ -10,7 +10,7 @@
 		{{#if items}}
 			<ul class="cc-widget-mycalendar-datelist">
 			{{#each items}}
-				<li>
+				<li {{#if isUpcoming}}class="cc-widget-mycalendar-isupcoming"{{/if}}>
 					<div class="cc-widget-mycalendar-datelist-time cc-left">
 						{{#with start}}
 							{{#if amPm}}

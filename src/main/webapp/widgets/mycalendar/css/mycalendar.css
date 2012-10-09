@@ -17,7 +17,7 @@
 	color: #474747;
 	overflow: hidden;
 }
-.cc-widget-mycalendar-datelist li:first-child {
+.cc-widget-mycalendar-datelist .cc-widget-mycalendar-isupcoming {
 	background: #f2fef3;
 	color: #000;
 }
@@ -45,7 +45,6 @@
 }
 .cc-widget-mycalendar-datelist-time-allday {
 	line-height: 27px;
-	margin-bottom: 15px;
 	text-align: right;
 	width: 44px;
 }
