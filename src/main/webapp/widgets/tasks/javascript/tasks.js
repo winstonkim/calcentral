@@ -89,8 +89,8 @@ calcentral.Widgets.tasks = function(tuid) {
 				// Grep out this assignment's course ID and URL; set matching course properties for assignments.
 				// match() returns an array object, so we need its 0th element before using replace().
 				// regex technique is slightly verbose to prevent tripping on port assigment in local instances.
-				var courseId = parseInt(data[index].html_url.match(/courses\/\d+/g)[0].replace('courses/',''), 10);
-				var courseURL = data[index].html_url.match(/^.*\/assignments/g)[0].replace('/assignments','');
+				var courseId = parseInt(data[index].html_url.match(/courses\/\d+/)[0].replace('courses/',''), 10);
+				var courseURL = data[index].html_url.match(/^.*\/assignments/)[0].replace('/assignments','');
 				data[index].sourceUrl = courseURL;
 				$.each(courseData, function(i, v){
 					if (v.id === courseId) {
