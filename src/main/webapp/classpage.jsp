@@ -107,7 +107,7 @@
 							{{/if}}
 							</dd>
 							{{#if title}}<dt class='visuallyhidden'>Title</dt><dd class='cc-page-classpage-instructor-title'>{{title}}{{/if}}</dd>
-							{{#if phone}}<dt class='visuallyhidden'>Phone Number:</dt><dd>{{phone}}</span></dd>{{/if}}
+							<%-- {{#if phone}}<dt class='visuallyhidden'>Phone Number:</dt><dd>{{phone}}</span></dd>{{/if}} --%>
 							{{#if office}}<dt class='visuallyhidden'>Office:</dt><dd>{{office}}</span></dd>{{/if}}
 						</dl>
 					</li>
