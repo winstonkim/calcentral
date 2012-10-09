@@ -1,4 +1,4 @@
-/*global $ */
+/*global $, _ */
 var calcentral = calcentral || {};
 calcentral.Widgets = calcentral.Widgets || {};
 
@@ -62,18 +62,29 @@ calcentral.Widgets.mycalendar = function(tuid) {
 	/////////////
 
 	/**
-	 * Sort the events, we only want to move the full day events to the bottom
-	 * @param {Object} a an event item
-	 * @return {Integer} We return an integer to know whether we need to move it or not.
+	 * Sort the events based on the date
+	 * @param {Object} item an event item
+	 * @return {Boolean} We return an integer to know whether we need to move it or not.
 	 */
-	var sortEvents = function(a) {
+	var sortEventsDated = function(item) {
+		return new Date(item.end.date);
+	};
 
-		// Only full day events have a date here
-		if (a.end.date) {
-			return 1;
-		} else {
+	/**
+	 * Sort events alphabetically, we need to do this for full day events
+	 * @param {Object} a The first event item
+	 * @param {Object} b The second event item
+	 */
+	var sortEventsAlphabetically = function(a, b) {
+		var summaryA = a.summary.toLowerCase();
+		var summaryB = b.summary.toLowerCase();
+		if (summaryA < summaryB) {
 			return -1;
 		}
+		if (summaryA > summaryB) {
+			return 1;
+		}
+		return 0;
 	};
 
 	/**
@@ -90,8 +101,16 @@ calcentral.Widgets.mycalendar = function(tuid) {
 
 		var hasUpcomingSet = false;
 
+		var fullDayEvents = _.filter(data.items, function(item) {
+			return !!item.end.date;
+		});
+
+		var datedEvents = _.difference(data.items, fullDayEvents);
+
 		// Sort events
-		data.items.sort(sortEvents);
+		_.sortBy(datedEvents, sortEventsDated);
+		fullDayEvents.sort(sortEventsAlphabetically);
+		data.items = datedEvents.concat(fullDayEvents);
 
 		for (var i = 0; i < data.items.length; i++) {
 			var item = data.items[i];
