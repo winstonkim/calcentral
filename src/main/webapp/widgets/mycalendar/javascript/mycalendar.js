@@ -23,6 +23,7 @@ calcentral.Widgets.mycalendar = function(tuid) {
 	var $mycalendarContainer = $('.cc-widget-mycalendar-container', $rootel);
 	var $mycalendarOverviewTemplate = $('.cc-widget-mycalendar-overview-template', $rootel);
 
+	var currentTime = new Date();
 	var startToday = new Date();
 	startToday.setHours(0, 0, 0, 0);
 	var endToday = new Date();
@@ -34,6 +35,15 @@ calcentral.Widgets.mycalendar = function(tuid) {
 	///////////////
 
 	/**
+	 * Scroll to the upcoming event
+	 */
+	var scrollToUpcoming = function() {
+		var $mycalendarDateList = $('.cc-widget-mycalendar-datelist', $rootel);
+		var $upcoming = $('.cc-widget-mycalendar-isupcoming', $mycalendarDateList);
+		$mycalendarDateList.scrollTop($mycalendarDateList.scrollTop() + $upcoming.position().top);
+	};
+
+	/**
 	 * Render the calendar overview
 	 * @param {Object} data The data we want to pass through
 	 */
@@ -43,6 +53,7 @@ calcentral.Widgets.mycalendar = function(tuid) {
 			'data': data,
 			'template': $mycalendarOverviewTemplate
 		});
+		scrollToUpcoming();
 	};
 
 
@@ -60,6 +71,8 @@ calcentral.Widgets.mycalendar = function(tuid) {
 		// Only full day events have a date here
 		if (a.end.date) {
 			return 1;
+		} else {
+			return -1;
 		}
 	};
 
@@ -75,6 +88,8 @@ calcentral.Widgets.mycalendar = function(tuid) {
 			return data;
 		}
 
+		var hasUpcomingSet = false;
+
 		// Sort events
 		data.items.sort(sortEvents);
 
@@ -84,6 +99,11 @@ calcentral.Widgets.mycalendar = function(tuid) {
 			// Add the hours, minutes and am/pm to every event
 			if (item.start.dateTime) {
 				var itemDate = new Date(item.start.dateTime);
+
+				if (itemDate > currentTime && !hasUpcomingSet) {
+					item.isUpcoming = true;
+					hasUpcomingSet = true;
+				}
 
 				var amPm = 'AM';
 				var hour = itemDate.getHours();
@@ -96,9 +116,13 @@ calcentral.Widgets.mycalendar = function(tuid) {
 				item.start = $.extend({
 					'amPm': amPm,
 					'hour': hour,
-					// The lenght should always be 2
+					// The length should always be 2
 					'minutes': ('0' + minutes).slice(-2)
 				}, item.start);
+			}
+			if (i === data.items.length - 1 && !hasUpcomingSet) {
+				item.isUpcoming = true;
+				hasUpcomingSet = true;
 			}
 		}
 		return data;
@@ -115,10 +139,9 @@ calcentral.Widgets.mycalendar = function(tuid) {
 	var loadEvents = function() {
 		return $.ajax({
 			'data': {
-				// TODO specify the fields we actually want to select
-				//'fields'
+				// TODO specify the fields we actually want to select 'fields'
 				'orderBy': 'startTime', // Order by the start time, default is unspecified
-				'singleEvents': true, // We want multiple of the same events into one (e.g. 5 OOO events)
+				'singleEvents': true, // We want multiple of the same events into one (e.g. 5000 events)
 				'timeMin': startToday.toISOString(),
 				'timeMax': endToday.toISOString()
 			},
