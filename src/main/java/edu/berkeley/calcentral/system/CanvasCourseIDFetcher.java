@@ -8,8 +8,8 @@ import org.apache.log4j.Logger;
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.http.HttpMethod;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -25,6 +25,13 @@ public class CanvasCourseIDFetcher {
 
 	private static final Logger LOGGER = Logger.getLogger(CanvasCourseIDFetcher.class);
 
+	boolean enabled = true;
+
+	@SuppressWarnings("UnusedDeclaration")
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
+	}
+
 	@Autowired
 	CanvasProxy proxy;
 
@@ -33,7 +40,19 @@ public class CanvasCourseIDFetcher {
 
 	private ObjectMapper mapper = new ObjectMapper();
 
+	@Scheduled(fixedRate = 1000 * 60 * 60 * 48) // every 48hrs
+	public void scheduleFetch() throws InterruptedException, IOException {
+		if (!enabled) {
+			LOGGER.info("CanvasCourseIDFetcher is not enabled, skipping fetch");
+			return;
+		}
+		Thread.sleep(30000); // so rest of server can start
+		fetch();
+	}
+
 	public void fetch() throws IOException {
+		LOGGER.info("Starting to fetch canvas course IDs");
+		Telemetry telemetry = new Telemetry(this.getClass(), "fetch()");
 		String response = proxy.doAdminMethod(HttpMethod.GET, CANVAS_COURSE_PATH).getEntity().toString();
 
 		// TODO process link headers in response to handle more than 100 courses
@@ -71,21 +90,8 @@ public class CanvasCourseIDFetcher {
 			}
 		}
 
-		LOGGER.info("Done fetching canvas course IDs");
-	}
-
-	public static void main(String args[]) {
-		ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("/applicationContext-service.xml");
-		CanvasCourseIDFetcher canvasLoader = applicationContext.getBean(CanvasCourseIDFetcher.class);
-
-		try {
-			canvasLoader.fetch();
-		} catch (IOException e) {
-			LOGGER.error(e.getMessage(), e);
-		} finally {
-			applicationContext.close();
-		}
-
+		telemetry.end();
+		LOGGER.info("Fetched canvas course IDs in " + telemetry.getTime() / 1000 + "s");
 	}
 
 }
