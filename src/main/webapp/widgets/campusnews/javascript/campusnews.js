@@ -40,8 +40,8 @@ calcentral.Widgets.campusnews = function(tuid) {
 	var getNewsCenterFeed = function() {
 		var getFeed = $.Deferred();
 		$.ajax({
-			'dataType': 'json',
-			'url': '//query.yahooapis.com/v1/public/yql?q=select%20pubDate%2C%20title%2C%20link%20from%20rss%20where%20url%3D%22http%3A%2F%2Fnewscenter.berkeley.edu%2Fcategory%2Fnews%2Ffeed%2F%22%20limit%204&format=json&callback=',
+			'dataType': 'jsonp',
+			'url': '//query.yahooapis.com/v1/public/yql?q=select%20pubDate%2C%20title%2C%20link%20from%20rss%20where%20url%3D%22http%3A%2F%2Fnewscenter.berkeley.edu%2Fcategory%2Fnews%2Ffeed%2F%22%20limit%204&format=json',
 			'success': getFeed.resolve,
 			'error': function() {
 				getFeed.resolve({});
