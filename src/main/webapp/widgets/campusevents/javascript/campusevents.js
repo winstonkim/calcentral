@@ -62,8 +62,8 @@ calcentral.Widgets.campusevents = function(tuid) {
 	var getEventsFeed = function() {
 		var getFeed = $.Deferred();
 		$.ajax({
-			'dataType': 'json',
-			'url': '//query.yahooapis.com/v1/public/yql?q=select%20title%2C%20link%20from%20rss%20where%20url%3D%22http%3A%2F%2Fevents.berkeley.edu%2Findex.php%2Frss%2Fsn%2Fpubaff%2Ftype%2Fday%2Ftab%2Fall_events.html%22%20limit%204&format=json&callback=',
+			'dataType': 'jsonp',
+			'url': '//query.yahooapis.com/v1/public/yql?q=select%20title%2C%20link%20from%20rss%20where%20url%3D%22http%3A%2F%2Fevents.berkeley.edu%2Findex.php%2Frss%2Fsn%2Fpubaff%2Ftype%2Fday%2Ftab%2Fall_events.html%22%20limit%204&format=json',
 			'success': getFeed.resolve,
 			'error': function() {
 				getFeed.resolve({});
