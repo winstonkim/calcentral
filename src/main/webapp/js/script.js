@@ -820,7 +820,7 @@ var calcentral = calcentral || {};
 			return;
 		}
 		$.ajax({
-			'dataType': 'json',
+			'dataType': 'jsonp',
 			'success': function(webcastData) {
 				parseWebcastInfo(webcastData, classPageData);
 			},
