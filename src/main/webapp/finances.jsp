@@ -14,19 +14,19 @@
 				</div>
 				<div class="cc-financial-background-alert cc-widget-body">
 					<ul>
-						<li><a href="https://myfinaid.berkeley.edu" class="cc-alert"><div class="cc-icon-big cc-icon-big-alert cc-right"></div><h3>Registration block</h3>Unpaid CARS bill</a></li>
+						<li><a href="#" class="cc-alert" data-notreal="standard"><div class="cc-icon-big cc-icon-big-alert cc-right"></div><h3>Registration block</h3>Unpaid CARS bill</a></li>
 					</ul>
 					<h3 class="cc-left">Financial Notifications:</h3>
 					<ul>
-						<li><a href="https://myfinaid.berkeley.edu" class="cc-alert">FAFSA Application Deadline</a><span class="cc-right cc-alert">Today</a></li>
+						<li><a href="#" class="cc-alert" data-notreal="standard">FAFSA Application Deadline</a><span class="cc-right cc-alert">Today</a></li>
 					</ul>
 				</div>
 				<h3>MyFinAid Notifications:</h3>
 				<ul>
-					<li><a href="https://myfinaid.berkeley.edu">You have 1 missing document</a></li>
-					<li><a href="https://myfinaid.berkeley.edu">You have 1 new message</a></li>
+					<li><a href="#" data-notreal="finaidcheck">You have 1 missing document</a></li>
+					<li><a href="#" data-notreal="finaidcheck">You have 1 new message</a></li>
 				</ul>
-				<h3>Expected Graduation:</h3> <a href="https://myfinaid.berkeley.edu">Spring 2013</a>
+				<h3>Expected Graduation:</h3> <a href="#" data-notreal="finaidchange">Spring 2013</a>
 				<ul class="cc-page-finances-logins">
 					<li><a href="https://myfinaid.berkeley.edu" class="cc-icon-arrow-right">Log in to MyFinAid</a></li>
 					<li><a href="https://bearfacts.berkeley.edu" class="cc-icon-arrow-right">Log in to BearFacts</a></li>
@@ -63,7 +63,7 @@
 						<dd>&#36;1492.75</dd>
 					</dl>
 					<p class="cc-left cc-widget-quickstatement-paybill">
-						<a href="https://bearfacts.berkeley.edu/" class="cc-icon-alert">
+						<a href="#" data-notreal="standard" class="cc-icon-alert">
 							<span class="cc-icon-arrow-right-brown"></span>
 							Pay My Bill<br />
 							<em>Due 12/1/12</em>
@@ -78,8 +78,8 @@
 				<div>
 					<ul class="clearfix">
 						<li><a class="cc-selected" href="#">Fall 2012</a></li>
-						<li><a href="#">Spring 2013</a></li>
-						<li><a href="#">Total</a></li>
+						<li><a href="#" data-notreal="standard">Spring 2013</a></li>
+						<li><a href="#" data-notreal="standard">Total</a></li>
 					</ul>
 					<dl class="cc-left">
 						<dt>Awards Offered:</dt>
@@ -91,7 +91,9 @@
 						<dt class="cc-widget-awardsandbill-last">UC Berkeley Bill:</dt>
 						<dd class="cc-widget-awardsandbill-last">&#36;7492.75</dd>
 					</dl>
-					<img class="cc-right" src="/img/myb/graph_awards_and_bill.png" />
+					<a href="#" data-notreal="standard">
+						<img class="cc-right" src="/img/myb/graph_awards_and_bill.png" />
+					</a>
 				</div>
 			</div>
 			<div class="cc-container-widget cc-widget-awardsandbillhistory">
@@ -99,7 +101,9 @@
 					<h2>Award &amp; Bill History</h2>
 				</div>
 				<div>
-					<img class="cc-right" src="/img/myb/graph_awards_and_bill_history.png" />
+					<a href="#" data-notreal="standard">
+						<img class="cc-right" src="/img/myb/graph_awards_and_bill_history.png" />
+					</a>
 				</div>
 			</div>
 		</div>

@@ -6,6 +6,21 @@
 	<a href="http://ets.berkeley.edu/calcentral-feedback">Feedback</a>
 </footer>
 
+<div id="cc-notreallink-container" style="display:none;"><!-- --></div>
+<script id="cc-notreallink-template" type="text/x-handlebars-template">
+	<a class="cc-icon cc-icon-close cc-right avgrund-close" href="#"><!-- --></a>
+	<h3 class="cc-icon-info">Oops! You've found a link that isn't quite working yet.</h3>
+	{{#compare messageId "standard"}}
+		<p>This section displays potential future functionality for CalCentral.</p>
+	{{/compare}}
+	{{#compare messageId "finaidcheck"}}
+		<p>This link would take you to the place to check this item in MyFinAid.</p>
+	{{/compare}}
+	{{#compare messageId "finaidchange"}}
+		<p>This link would take you to the place to change this item in MyFinAid.</p>
+	{{/compare}}
+</script>
+
 <script>
 	var calcentral = calcentral || {};
 	(function() {

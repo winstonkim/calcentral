@@ -1105,3 +1105,53 @@ var calcentral = calcentral || {};
 	}
 
 })();
+
+/**
+ * Functionality for not real data
+ */
+(function() {
+	'use strict';
+
+	var $notRealLinkContainer = $('#cc-notreallink-container');
+	var $notRealLinkTemplate = $('#cc-notreallink-template');
+
+	/**
+	 * Show the pop up
+	 * @param {String} template HTML for the template
+	 */
+	var showPopUp = function(template) {
+		$(document).avgrund({
+			'height': 100,
+			'holderClass': 'cc-notreallink-popup',
+			'openOnEvent': false,
+			'template': template,
+			'width': '470'
+		});
+	};
+
+	/**
+	 * Render the pop up
+	 * @param {Object} element The element you've just clicked
+	 */
+	var renderPopUp = function(e) {
+		// We use e.target for forms
+		var $this = this.length ? $(this) : $(e.target);
+		// For image links
+		$this = $this[0].src ? $this.parent() : $this;
+		var data = {
+			'messageId': $this.attr('data-notreal')
+		};
+		calcentral.Api.Util.renderTemplate({
+			'container': $notRealLinkContainer,
+			'data': data,
+			'template': $notRealLinkTemplate
+		});
+		showPopUp($notRealLinkContainer.html());
+		$('.cc-notreallink-popup .cc-icon-close').focus();
+		return false;
+	};
+
+	$(document).on('click', 'a[data-notreal]', renderPopUp);
+	$(document).on('submit', renderPopUp);
+
+})();

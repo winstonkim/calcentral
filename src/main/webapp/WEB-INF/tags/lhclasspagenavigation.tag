@@ -3,9 +3,9 @@
 	<nav class="cc-lefthandnavigation">
 		<ul>
 			<li><a href="#" class="cc-lefthandnavigation-item-selected" data-page-id="overview">Overview</a></li>
-			<li><a href="">Home Page</a></li>
+			<li><a href="#" data-notreal="standard">Home Page</a></li>
 			{{#if hasSyllabus}}<li><a href="#syllabus" data-page-id="syllabus">Syllabus</a></li>{{/if}}
-			<li><a href="">Class Materials</a></li>
+			<li><a href="#" data-notreal="standard">Class Materials</a></li>
 			{{#if hasWebCasts}}<li><a href="#" data-page-id="webcasts">Webcasts</a></li>{{/if}}
 		</ul>
 	</nav>
