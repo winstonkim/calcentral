@@ -8,7 +8,7 @@
 			<div class="cc-left cc-launcher-icons">
 				<a href="http://bmail.berkeley.edu" class="ir cc-left cc-icon cc-icon-mail" title="bMail">bMail</a>
 				<a href="http://bcal.berkeley.edu" class="ir cc-left cc-icon cc-icon-calendar" title="bCal">bCal</a>
-				<a href="http://bdrive.berkeley.edu" class="ir cc-left cc-icon cc-icon-drive" title="bDrive">bDrive</a>
+				<a href="https://drive.google.com/a/berkeley.edu/" class="ir cc-left cc-icon cc-icon-drive" title="bDrive">bDrive</a>
 			</div>
 			<a href="/secure/dashboard" class="cc-launcher-info cc-right" aria-haspopup="true">{{preferredName}} <span class="cc-launcher-icon-dropdown">&#x25BC;<span></a>
 			<div class="cc-launcher-dropdown">
