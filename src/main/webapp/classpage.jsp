@@ -12,7 +12,7 @@
 
 		<script id="cc-page-classpage-template" type="text/x-handlebars-template">
 		<nav role="navigation" class="cc-page-classlist-breadcrumbs">
-			<a href="/colleges-and-schools.jsp">All Colleges &amp; Schools</a> :: {{#if deptId}}<a href="/classlist.jsp?college={{collegeId}}">{{collegeName}}</a> ::{{/if}}
+			<a href="/colleges-and-schools.jsp">All Fall 2012 Classes</a> :: {{#if deptId}}<a href="/classlist.jsp?college={{collegeId}}">{{collegeName}}</a> ::{{/if}}
 		</nav>
 			<div class="cc-container-widget cc-page-classpage-header">
 				<div class="cc-widget-main">

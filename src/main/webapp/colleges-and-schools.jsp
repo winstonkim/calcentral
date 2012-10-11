@@ -7,7 +7,7 @@
 	<tags:topnavigation/>
 	<div class="cc-container-main cc-container-main-full" role="main">
 		<!-- Page specific HTML -->
-		<h1>Colleges and Schools</h1>
+		<h1>Fall 2012 Classes</h1>
 		<div class="cc-page-colleges-and-schools-container"><!-- --></div>
 
 		<script id="cc-page-colleges-and-schools-template" type="text/x-handlebars-template">
