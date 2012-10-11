@@ -11,7 +11,7 @@
 				</form>
 			</li>
 			<li class="cc-right">
-				<a href="/" aria-haspopup="true">Discover...</a>
+				<a href="#" aria-haspopup="true">Discover...</a>
 				<div class="cc-topnavigation-dropdown" style="display:none">
 					<div>
 						<h3>Classes</h3>
