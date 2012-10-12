@@ -37,7 +37,13 @@ public class CacheWarmer extends BaseDao {
 		this.enabled = enabled;
 	}
 
-	@Scheduled(fixedRate = 1000 * 60 * 60 * 24) // every 24hrs
+	private RequestCache cache;
+
+	public void setCache(RequestCache cache) {
+		this.cache = cache;
+	}
+
+	@Scheduled(fixedRate = 1000 * 60 * 60 * 23) // every 23hrs
 	public void warmup() throws InterruptedException {
 		if (enabled) {
 			Thread.sleep(15000); // so rest of server can start
@@ -55,6 +61,9 @@ public class CacheWarmer extends BaseDao {
 		int errorCount = 0;
 		LOGGER.warn("Starting to warm " + urls.size() + " urls");
 		for (String url : urls) {
+			if (cache != null) {
+				cache.remove(url);
+			}
 			try {
 				restTemplate.getForObject(url, String.class);
 			} catch (RestClientException e) {
