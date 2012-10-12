@@ -1494,6 +1494,44 @@ span.classpages_section_title_warrow {
 	padding-left: 35px;
 }
 
+/* Splash container */
+.cc-splash-container {
+	border: 3px solid #19426b;
+	border-radius: 6px;
+	padding: 20px 20px 20px 10px;
+}
+.cc-splash-container img {
+	margin: 0 0 10px 35px;
+}
+.cc-splash-container p {
+	padding: 5px 50px 5px 37px;
+}
+.cc-splash-button {
+	background-color: #fff;
+	-webkit-background-clip: padding;
+	-moz-background-clip: padding;
+	-o-background-clip: padding-box;
+	border-radius: 5px;
+	border: 1px solid #19426b;
+	box-shadow: 2px 2px 0px 0 #404040;
+	color: #14628f;
+	cursor: pointer;
+	display: inline-block;
+	margin: 0 40px 0 0;
+	overflow: visible;
+	position: relative;
+	padding: 5px 10px;
+	text-decoration: none;
+	font-size: 12px;
+	white-space: nowrap;
+	/* IE hacks */
+	*display: inline;
+	zoom: 1;
+}
+.cc-splash-button:hover, .cc-splash-button:focus {
+	text-decoration: underline;
+}
+
 /* Footer */
 body > footer {
 	clear: both;

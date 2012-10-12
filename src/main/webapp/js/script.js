@@ -449,6 +449,9 @@ var calcentral = calcentral || {};
 		// This should be removed after the widgetData response has been refactored in CLC-141
 		// We should be able to replace it by calcentral.Data.User.widgetData[config.id]
 		var getWidgetData = function(widgetId) {
+			if (!calcentral.Data.User.widgetData) {
+				return false;
+			}
 			return _.find(calcentral.Data.User.widgetData, function(item) {
 				return item.widgetData.widgetID === widgetId;
 			});
@@ -1125,7 +1128,7 @@ var calcentral = calcentral || {};
 			'holderClass': 'cc-notreallink-popup',
 			'openOnEvent': false,
 			'template': template,
-			'width': '470'
+			'width': 470
 		});
 	};
 
@@ -1154,4 +1157,54 @@ var calcentral = calcentral || {};
 	$(document).on('click', 'a[data-notreal]', renderPopUp);
 	$(document).on('submit', renderPopUp);
 
+})();
+
+/**
+ * Splash container
+ */
+(function() {
+	'use strict';
+
+	var widgetId = 'splash';
+	var $splashContainer = $('#cc-splash-container');
+
+	var showPopUp = function() {
+		$(document).avgrund({
+			'height': 360,
+			'holderClass': 'cc-splash-container',
+			'openOnEvent': false,
+			'template': $splashContainer.html(),
+			'width': 630
+		});
+	};
+
+
+	var addBinding = function() {
+		$('.avgrund-overlay, .avgrund-close').on('click', function(){
+			calcentral.Api.Widgets.saveWidgetData({
+				'data': {
+					'seenSplash': true
+				},
+				'id': widgetId
+			});
+		});
+	};
+
+	var init = function() {
+		calcentral.Api.User.getCurrentUser('', function(success, data){
+			// Only do this when the user is logged in.
+			if (!data.loggedIn) {
+				return;
+			}
+			calcentral.Api.Widgets.loadWidgetData({
+				'id': widgetId
+			}, function (success, data) {
+				if (!data || !data.seenSplash) {
+					showPopUp();
+					addBinding();
+				}
+			});
+		});
+	};
+	init();
 })();

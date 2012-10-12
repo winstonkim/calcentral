@@ -10,16 +10,31 @@
 <script id="cc-notreallink-template" type="text/x-handlebars-template">
 	<a class="cc-icon cc-icon-close cc-right avgrund-close" href="#"><!-- --></a>
 	<h3 class="cc-icon-info">Oops! You've found a link that isn't quite working yet.</h3>
-	{{#compare messageId "standard"}}
-		<p>This section displays potential future functionality for CalCentral.</p>
-	{{/compare}}
-	{{#compare messageId "finaidcheck"}}
-		<p>This link would take you to the place to check this item in MyFinAid.</p>
+	{{#compare messageId "details"}}
+		<p>In the future this link will go to a Detail view for this item.</p>
 	{{/compare}}
 	{{#compare messageId "finaidchange"}}
 		<p>This link would take you to the place to change this item in MyFinAid.</p>
 	{{/compare}}
+	{{#compare messageId "finaidcheck"}}
+		<p>This link would take you to the place to check this item in MyFinAid.</p>
+	{{/compare}}
+	{{#compare messageId "standard"}}
+		<p>This section displays potential future functionality for CalCentral.</p>
+	{{/compare}}
 </script>
+
+<div id="cc-splash-container" style="display:none;">
+	<img alt="Welcome to the CalCentral Pilot" src="/img/myb/calcentral_logo_big.png" />
+	<p>This system is a work-in-progress proof of concept created by Educational Technology Services.
+It is constantly evolving, so while not all functionality pictured here works yet, it expresses future ideas and planned directions.</p>
+
+	<p>To make it clear what functionality isn't yet working we've provided messages about where these links will eventually go.</p>
+
+	<p>Keep checking back for new functionality, as we are improving the system all the time!</p>
+
+	<button class="cc-right cc-splash-button avgrund-close">Take me to CalCentral</button>
+</div>
 
 <script>
 	var calcentral = calcentral || {};
