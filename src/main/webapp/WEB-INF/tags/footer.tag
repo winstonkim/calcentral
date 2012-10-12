@@ -24,6 +24,18 @@
 	{{/compare}}
 </script>
 
+<div id="cc-splash-container" style="display:none;">
+	<img alt="Welcome to the CalCentral Pilot" src="/img/myb/calcentral_logo_big.png" />
+	<p>This system is a work-in-progress proof of concept created by Educational Technology Services.
+It is constantly evolving, so while not all functionality pictured here works yet, it expresses future ideas and planned directions.</p>
+
+	<p>To make it clear what functionality isn't yet working we've provided messages about where these links will eventually go.</p>
+
+	<p>Keep checking back for new functionality, as we are improving the system all the time!</p>
+
+	<button class="cc-right cc-splash-button avgrund-close">Take me to CalCentral</button>
+</div>
+
 <script>
 	var calcentral = calcentral || {};
 	(function() {
