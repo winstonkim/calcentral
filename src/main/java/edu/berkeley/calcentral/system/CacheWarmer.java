@@ -21,13 +21,14 @@ public class CacheWarmer extends BaseDao {
 
 	private static final Logger LOGGER = Logger.getLogger(CacheWarmer.class);
 
-	private static final String URL_LOCALHOST = "http://localhost:8080";
-
-	private static final String URL_CLASSLIST = URL_LOCALHOST + Urls.CLASS_LIST;
-
-	private static final String URL_CLASSPAGE = URL_LOCALHOST + Urls.CLASS_PAGES;
-
 	boolean enabled = true;
+
+	String rootUrl = "http://localhost:8080";
+
+	@SuppressWarnings("UnusedDeclaration")
+	public void setRootUrl(String rootUrl) {
+		this.rootUrl = rootUrl;
+	}
 
 	@Autowired
 	private ClassListDao classListDao;
@@ -88,25 +89,25 @@ public class CacheWarmer extends BaseDao {
 
 	List<String> buildUrlList(int limit) {
 		List<String> urls = new ArrayList<String>(5000);
-		urls.add(URL_LOCALHOST + "/index.jsp");
-		urls.add(URL_LOCALHOST + "/colleges-and-schools.jsp");
+		urls.add(rootUrl + "/index.jsp");
+		urls.add(rootUrl + "/colleges-and-schools.jsp");
 
 		List<College> colleges = classListDao.getAllColleges(limit);
 		LOGGER.debug("Found " + colleges.size() + " colleges");
 		for (College college : colleges) {
-			urls.add(URL_CLASSLIST + "/" + college.getId());
+			urls.add(rootUrl + Urls.CLASS_LIST + "/" + college.getId());
 		}
 
 		List<Department> depts = classListDao.getAllDepartments(limit);
 		LOGGER.debug("Found " + depts.size() + " departments");
 		for (Department dept : depts) {
-			urls.add(URL_CLASSLIST + "/" + dept.getCollegeID() + "/" + dept.getId());
+			urls.add(rootUrl + Urls.CLASS_LIST + "/" + dept.getCollegeID() + "/" + dept.getId());
 		}
 
 		List<Map<String, Object>> courses = classListDao.getAllClassIDs(limit);
 		LOGGER.debug("Found " + courses.size() + " courses");
 		for (Map<String, Object> course : courses) {
-			urls.add(URL_CLASSPAGE + "/" + course.get("classid"));
+			urls.add(rootUrl + Urls.CLASS_PAGES + "/" + course.get("classid"));
 		}
 
 		return urls;
