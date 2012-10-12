@@ -43,7 +43,7 @@ public class CacheWarmer extends BaseDao {
 		this.cache = cache;
 	}
 
-	@Scheduled(fixedRate = 1000 * 60 * 60 * 23) // every 23hrs
+	@Scheduled(fixedRate = 1000 * 60 * 60 * 8) // every 8 hrs
 	public void warmup() throws InterruptedException {
 		if (enabled) {
 			Thread.sleep(15000); // so rest of server can start
