@@ -87,6 +87,7 @@ if [ $ORACLE_DB ]; then
 fi
 echo "casAuthenticationFilter.serverName=$APPLICATION_HOST" > $CONFIG_FILES/calcentral.properties
 echo "casValidationFilter.serverName=$APPLICATION_HOST" >> $CONFIG_FILES/calcentral.properties
+echo "cacheWarmer.rootUrl=$APPLICATION_HOST" >> $CONFIG_FILES/calcentral.properties
 echo "logoutSuccessHandler.defaultTargetUrl=$CAS_LOGOUT_HOST?url=$CAS_LOGOUT_URL" >> $CONFIG_FILES/calcentral.properties
 echo "sakai2Proxy.sharedSecret=$SAKAI2_SECRET" >> $CONFIG_FILES/calcentral.properties
 echo "sakai2Proxy.sakai2Host=$SAKAI2_HOST" >> $CONFIG_FILES/calcentral.properties
