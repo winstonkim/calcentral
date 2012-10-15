@@ -1,4 +1,4 @@
-/*global $, _ */
+/*global $, _, console */
 var calcentral = calcentral || {};
 calcentral.Widgets = calcentral.Widgets || {};
 
@@ -105,16 +105,39 @@ calcentral.Widgets.mycalendar = function(tuid) {
 
 		var hasUpcomingSet = false;
 
-		var fullDayEvents = _.filter(data.items, function(item) {
-			return !!item.end.date;
+		// Prevent conversion of UTC+TZ date
+		var convertUTCDate = function(datestring) {
+			var tempStartDate = new Date(datestring);
+			var offset = tempStartDate.getTimezoneOffset();
+			var hours = tempStartDate.getHours();
+			return tempStartDate.setHours(hours + offset / 24);
+		};
+
+		// Need two arrays for all day events - one for today's, which we'll use,
+		// and another for NOT today - each NOT today will be removed from data.items
+
+		var fullDayEventsToday = _.filter(data.items, function(item) {
+			var tempStartDate = new Date(convertUTCDate(item.start.date));
+			if (startToday.getDate() === tempStartDate.getDate()) {
+				return !!item.end.date;
+			}
 		});
 
-		var datedEvents = _.difference(data.items, fullDayEvents);
+		var fullDayEventsNotToday = _.filter(data.items, function(item) {
+			var tempStartDate = new Date(convertUTCDate(item.start.date));
+			if (startToday.getDate() != tempStartDate.getDate()) {
+				return !!item.end.date;
+			}
+		});
+
+		// If one of the fullDayEventsNotToday is also in data.items, remove it from data.items.
+		// Otherwise full day events that are not scheduled today will still appear.
+		var datedEvents = _.difference(data.items, fullDayEventsNotToday);
 
 		// Sort events
 		_.sortBy(datedEvents, sortEventsDated);
-		fullDayEvents.sort(sortEventsAlphabetically);
-		data.items = datedEvents.concat(fullDayEvents);
+		fullDayEventsToday.sort(sortEventsAlphabetically);
+		data.items = datedEvents.concat(fullDayEventsToday);
 
 		for (var i = 0; i < data.items.length; i++) {
 			var item = data.items[i];
