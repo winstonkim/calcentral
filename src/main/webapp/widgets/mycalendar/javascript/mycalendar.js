@@ -1,4 +1,4 @@
-/*global $, _, console */
+/*global $, _ */
 var calcentral = calcentral || {};
 calcentral.Widgets = calcentral.Widgets || {};
 
