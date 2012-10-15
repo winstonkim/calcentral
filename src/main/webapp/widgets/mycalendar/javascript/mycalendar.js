@@ -29,6 +29,9 @@ calcentral.Widgets.mycalendar = function(tuid) {
 	var endToday = new Date();
 	endToday.setHours(23, 59, 59, 999);
 
+	// Need two arrays for events - one for events that are both all-day and
+	// happening today, and another for timestamped events (NOT all-day)
+	var fullDayEventsToday = [], datedEvents = [];
 
 	///////////////
 	// Rendering //
@@ -113,26 +116,22 @@ calcentral.Widgets.mycalendar = function(tuid) {
 			return tempStartDate.setHours(hours + offset / 24);
 		};
 
-		// Need two arrays for all day events - one for today's, which we'll use,
-		// and another for NOT today - each NOT today will be removed from data.items
-
-		var fullDayEventsToday = _.filter(data.items, function(item) {
-			var tempStartDate = new Date(convertUTCDate(item.start.date));
-			if (startToday.getDate() === tempStartDate.getDate()) {
-				return !!item.end.date;
-			}
-		});
-
-		var fullDayEventsNotToday = _.filter(data.items, function(item) {
-			var tempStartDate = new Date(convertUTCDate(item.start.date));
-			if (startToday.getDate() != tempStartDate.getDate()) {
-				return !!item.end.date;
-			}
-		});
-
-		// If one of the fullDayEventsNotToday is also in data.items, remove it from data.items.
-		// Otherwise full day events that are not scheduled today will still appear.
-		var datedEvents = _.difference(data.items, fullDayEventsNotToday);
+		var storeEventTypes = function() {
+			$.each(data.items, function(index, value){
+				// All-day events have start.date; other events have start.dateTime
+				if (value.start.date) {
+					// We know it's an all-day event, but is it happening today?
+					var tempStartDate = new Date(convertUTCDate(value.start.date));
+					if (startToday.getDate() === tempStartDate.getDate()) {
+						fullDayEventsToday.push(value);
+					}
+				} else {
+					// Item has a start.dateTime field, so it's a timestamped event
+					datedEvents.push(value);
+				}
+			});
+		};
+		storeEventTypes();
 
 		// Sort events
 		_.sortBy(datedEvents, sortEventsDated);
