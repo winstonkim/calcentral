@@ -1,3 +1,5 @@
+/*global $ */
+
 var calcentral = calcentral || {};
 calcentral.Widgets = calcentral.Widgets || {};
 /**
