@@ -31,7 +31,8 @@ calcentral.Widgets.mycalendar = function(tuid) {
 
 	// Need two arrays for events - one for events that are both all-day and
 	// happening today, and another for timestamped events (NOT all-day)
-	var fullDayEventsToday = [], datedEvents = [];
+	var fullDayEventsToday = [];
+	var datedEvents = [];
 
 	///////////////
 	// Rendering //
