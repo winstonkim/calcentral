@@ -34,7 +34,7 @@
 
 	<script id="cc-widget-notifications-alerts-loop-template" type="text/x-handlebars-template">
 		<li class="cc-widget-list-icon-big cc-icon-big-{{type}}">
-			<a href="{{url}}" class="cc-widget-tasks-notifications-short-title cc-alert cc-ellipsis">{{title}}</a>
+			<a href="{{url}}" class="cc-widget-tasks-notifications-short-title cc-alert cc-ellipsis" data-notreal="details">{{title}}</a>
 			<div class="cc-right cc-alert">
 				{{#compare friendlyDate "today"}}
 					Today
@@ -49,7 +49,7 @@
 
 	<script id="cc-widget-notifications-loop-today-template" type="text/x-handlebars-template">
 		<li class="cc-widget-list-icon-big cc-icon-big-{{type}}">
-			<a href="{{url}}" class="cc-widget-tasks-notifications-short-title cc-ellipsis">{{title}}</a>
+			<a href="{{url}}" class="cc-widget-tasks-notifications-short-title cc-ellipsis" data-notreal="details">{{title}}</a>
 			<div class="cc-right">{{friendlyDate}}</div>
 			<div class="cc-widget-notifications-summary">{{summary}}</div>
 			<div class="cc-widget-task-notifications-list-source">{{#if sourceUrl}}<a href="{{sourceUrl}}">{{source}}</a>{{else}}{{source}}{{/if}}</div>
