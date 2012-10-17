@@ -553,11 +553,11 @@
 									<goal>exec</goal>
 								</goals>
 								<configuration>
-									<!-- ssh myberkeley@calcentral-dev.berkeley.edu "/home/myberkeley/calcentral/run.sh ~/" -->
+									<!-- ssh myberkeley@calcentral-dev.berkeley.edu "/home/myberkeley/calcentral/update-restart.sh ~/" -->
 									<executable>ssh</executable>
 									<arguments>
 										<argument>myberkeley@calcentral-dev.berkeley.edu</argument>
-										<argument>/home/myberkeley/calcentral/run.sh ~/</argument>
+										<argument>/home/myberkeley/calcentral/update-restart.sh ~/</argument>
 									</arguments>
 								</configuration>
 							</execution>
