@@ -62,13 +62,6 @@ LOGIT="tee -a $LOG"
 echo "=========================================" | $LOGIT
 echo "`date`: CalCentral run started" | $LOGIT
 
-echo | $LOGIT\
-
-echo "`date`: Fetching new sources for CalCentral..." | $LOGIT
-git pull >>$LOG 2>&1
-echo "Last commit:" | $LOGIT
-git log -1 | $LOGIT
-
 echo | $LOGIT
 echo "------------------------------------------" | $LOGIT
 echo "Updating local configuration files..." | $LOGIT
