@@ -24,7 +24,7 @@ echo | $LOGIT
 echo "------------------------------------------" | $LOGIT
 echo "`date`: About to run the refresh script..." | $LOGIT
 
-if [ ! -d deploy ]; then
+if [ -d deploy ]; then
   cd deploy
 fi
 
