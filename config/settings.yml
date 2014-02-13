@@ -271,6 +271,7 @@ features:
   research: false
   textbooks: false
   videos: false
+  delayed_cache_cleaner: true
 
 oec:
   export_directory: 'tmp/oec'
