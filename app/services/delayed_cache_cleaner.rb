@@ -3,6 +3,7 @@ class DelayedCacheCleaner < TorqueBox::Messaging::MessageProcessor
   include ClassLogger
 
   def on_message(body)
+    return unless Settings.features.delayed_cache_cleaner
     cache_key = body["cache_key"]
     if cache_key.present?
       Thread.new {
@@ -19,6 +20,7 @@ class DelayedCacheCleaner < TorqueBox::Messaging::MessageProcessor
   end
 
   def self.queue(cache_key, delay_seconds = 2)
+    return unless Settings.features.delayed_cache_cleaner
     if cache_key.present?
       logger.debug "Queueing up cache deletion for key: #{cache_key}"
       Calcentral::Messaging.publish('/queues/delayed_cache_cleaner', {
