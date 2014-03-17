@@ -29,7 +29,7 @@ class ResearchUserProxy < BaseProxy
         emitter: "researchhub",
         name: group_site["title"],
         short_description: group_site["description"],
-        site_url: "https://hub-qa.berkeley.edu/page/site/#{group_site["shortName"]}/dashboard"
+        site_url: "#{@settings.site_url}/#{group_site["shortName"]}/dashboard"
       }
     end
     sites
