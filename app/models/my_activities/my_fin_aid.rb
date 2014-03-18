@@ -19,11 +19,14 @@ class MyActivities::MyFinAid
 
   def self.append_activities!(uid, activities)
     finaid_proxy_current  = MyfinaidProxy.new({ user_id: uid, term_year: current_term_year })
-    finaid_proxy_next     = MyfinaidProxy.new({ user_id: uid, term_year: next_term_year })
 
     return unless finaid_proxy_current.lookup_student_id.present?
 
-    [finaid_proxy_current, finaid_proxy_next].each do |proxy|
+    proxies = [finaid_proxy_current]
+    if Settings.myfinaid_proxy.include_next_year
+      proxies << MyfinaidProxy.new({user_id: uid, term_year: next_term_year})
+    end
+    proxies.each do |proxy|
       next unless feed = proxy.get.try(:[], :body)
       begin
         content = Nokogiri::XML(feed, &:strict)
