@@ -17,10 +17,10 @@ module Canvas
     }
     CANVAS_SIS_ROLE_TO_CANVAS_API_ROLE = CANVAS_API_ROLE_TO_CANVAS_SIS_ROLE.invert
 
-    def self.process(sis_course_id, sis_section_ids, enrollments_csv_output, users_csv_output, known_users, batch_mode = false)
+    def self.process(sis_course_id, sis_section_ids, enrollments_csv_output, users_csv_output, known_users, batch_mode = false, cached_enrollments_provider = nil)
       logger.info("Processing refresh of enrollments for SIS Course ID '#{sis_course_id}'")
       worker = Canvas::SiteMembershipsMaintainer.new(sis_course_id, sis_section_ids,
-        enrollments_csv_output, users_csv_output, known_users, batch_mode)
+        enrollments_csv_output, users_csv_output, known_users, :batch_mode => batch_mode, :cached_enrollments_provider => cached_enrollments_provider)
       worker.refresh_sections_in_course
     end
 
@@ -29,7 +29,7 @@ module Canvas
       enrollments_rows = []
       users_rows = []
       known_users = []
-      worker = Canvas::SiteMembershipsMaintainer.new(sis_course_id, sis_section_ids, enrollments_rows, users_rows, known_users, true)
+      worker = Canvas::SiteMembershipsMaintainer.new(sis_course_id, sis_section_ids, enrollments_rows, users_rows, known_users, :batch_mode => true)
       worker.refresh_sections_in_course
       logger.warn("Importing #{enrollments_rows.size} memberships for #{known_users.size} users to course site #{sis_course_id}")
       enrollments_csv = worker.make_enrollments_csv(enrollments_csv_filename, enrollments_rows)
@@ -41,14 +41,18 @@ module Canvas
       end
     end
 
-    def initialize(sis_course_id, sis_section_ids, enrollments_csv_output, users_csv_output, known_users, batch_mode = false)
+    def initialize(sis_course_id, sis_section_ids, enrollments_csv_output, users_csv_output, known_users, options = {})
+      default_options = { :batch_mode => false, :cached_enrollments_provider => nil }
+      options.reverse_merge!(default_options)
+
       super()
       @sis_course_id = sis_course_id
       @sis_sections = filter_sections(sis_section_ids)
       @enrollments_csv_output = enrollments_csv_output
       @users_csv_output = users_csv_output
       @known_users = known_users
-      @batch_mode = batch_mode
+      @batch_mode = options[:batch_mode]
+      @term_enrollments_csv_worker = options[:cached_enrollments_provider]
     end
 
     def filter_sections(sis_section_ids)
@@ -70,20 +74,28 @@ module Canvas
       @sis_sections.each do |sis_section|
         sis_section_id = sis_section['sis_section_id']
         if (campus_section = safe_sis_section_id_to_ccn_and_term(sis_section_id))
+          logger.debug("Refreshing section: #{sis_section_id}")
           instructor_role = section_to_instructor_role[campus_section]
+          logger.debug("Instructor role detected for section: #{instructor_role}")
           canvas_section_id = "sis_section_id:#{sis_section_id}"
           refresh_enrollments_in_section(campus_section, sis_section_id, instructor_role, canvas_section_id)
         end
       end
     end
 
-    def canvas_section_enrollments(canvas_section_id)
+    def canvas_section_enrollments(canvas_sis_section_id)
       # So far as CSV generation is concerned, ignoring current memberships is equivalent to not having any current
       # memberships.
       if @batch_mode
         {}
       else
-        canvas_section_enrollments = Canvas::SectionEnrollments.new(section_id: canvas_section_id).list_enrollments
+        if @term_enrollments_csv_worker
+          canvas_sis_section_id.gsub!(/sis_section_id:/, '')
+          logger.warn("Obtaining cached enrollments for #{canvas_sis_section_id}")
+          canvas_section_enrollments = @term_enrollments_csv_worker.cached_canvas_section_enrollments(canvas_sis_section_id)
+        else
+          canvas_section_enrollments = Canvas::SectionEnrollments.new(section_id: canvas_sis_section_id).list_enrollments
+        end
         canvas_section_enrollments.group_by {|e| e['user']['login_id']}
       end
     end
@@ -93,11 +105,14 @@ module Canvas
       refresh_students_in_section(campus_section, section_id, canvas_enrollments)
       refresh_teachers_in_section(campus_section, section_id, teacher_role, canvas_enrollments)
       # Handle enrollments remaining in Canvas enrollment list
+      logger.debug("Deleting remaining enrollments for Section ID #{section_id} - count: #{canvas_enrollments.count}")
       canvas_enrollments.each { |uid, remaining_enrollments| handle_missing_enrollments(uid, section_id, remaining_enrollments) }
     end
 
     def refresh_students_in_section(campus_section, section_id, canvas_section_enrollments)
+      logger.debug("Refreshing students in section: #{section_id}")
       campus_data_rows = CampusOracle::Queries.get_enrolled_students(campus_section[:ccn], campus_section[:term_yr], campus_section[:term_cd])
+      logger.debug("#{campus_data_rows.count} student enrollments found for #{section_id}")
       campus_data_rows.each do |campus_data_row|
         next unless (canvas_api_role = ENROLL_STATUS_TO_CANVAS_API_ROLE[campus_data_row['enroll_status']])
         update_section_enrollment_from_campus(canvas_api_role, section_id, campus_data_row, canvas_section_enrollments)
@@ -105,8 +120,10 @@ module Canvas
     end
 
     def refresh_teachers_in_section(campus_section, section_id, teacher_role, canvas_section_enrollments)
+      logger.debug("Refreshing teachers in section: #{section_id}")
       canvas_api_role = CANVAS_SIS_ROLE_TO_CANVAS_API_ROLE[teacher_role]
       campus_data_rows = CampusOracle::Queries.get_section_instructors(campus_section[:term_yr], campus_section[:term_cd], campus_section[:ccn])
+      logger.debug("#{campus_data_rows.count} instructor enrollments found for #{section_id}")
       campus_data_rows.each do |campus_data_row|
         update_section_enrollment_from_campus(canvas_api_role, section_id, campus_data_row, canvas_section_enrollments)
       end
@@ -114,9 +131,13 @@ module Canvas
 
     def update_section_enrollment_from_campus(canvas_api_role, sis_section_id, campus_data_row, old_canvas_enrollments)
       login_uid = campus_data_row['ldap_uid'].to_s
+      # Note: old_canvas_enrollments may originate from Canvas::TermEnrollmentsCsv
+      # Make sure to update this class to include fields this logic depends on from the Canvas Enrollments API
       if (user_enrollments = old_canvas_enrollments[login_uid])
+        logger.debug("#{user_enrollments.count} Enrollments found for UID #{login_uid}")
         # If the user already has the same role, remove the old enrollment from the cleanup list.
         if (matching_enrollment = user_enrollments.select{|e| e['role'] == canvas_api_role}.first)
+          logger.debug("Matching enrollment found for UID #{login_uid} in role #{canvas_api_role}")
           sis_imported = matching_enrollment['sis_import_id'].present?
           user_enrollments.delete(matching_enrollment)
           # If the user's membership was due to an earlier SIS import, no action is needed.
@@ -125,8 +146,10 @@ module Canvas
           # membership stickiness from manual to SIS import.
         end
       else
+        logger.debug("Adding UID #{login_uid} as new user")
         add_user_if_new(campus_data_row)
       end
+      logger.debug("Adding UID #{login_uid} to SIS Section: #{sis_section_id} as role: #{canvas_api_role}")
       @enrollments_csv_output << {
         'course_id' => @sis_course_id,
         'user_id' => derive_sis_user_id(campus_data_row),
@@ -140,7 +163,7 @@ module Canvas
       remaining_enrollments.each do |enrollment|
         # Only look at enrollments which are active and were due to an SIS import.
         if enrollment['sis_import_id'].present? && enrollment['enrollment_state'] == 'active'
-          logger.info "No campus record for Canvas enrollment in #{enrollment['course_id']} #{enrollment['section_id']} for user #{uid} with role #{enrollment['role']}"
+          logger.info "No campus record for Canvas enrollment in Course ID: #{enrollment['course_id']}, Section ID: #{enrollment['course_section_id']} for user #{uid} with role #{enrollment['role']}"
           append_enrollment_deletion(section_id, api_role_to_csv_role(enrollment['role']), enrollment['user']['sis_user_id'])
         end
       end
