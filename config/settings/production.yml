@@ -7,14 +7,17 @@ application:
   layer: "production"
   fake_proxies_enabled: false
   serve_static_assets: true
-campusdb:
-  adapter: jdbc
-  driver: oracle.jdbc.OracleDriver
-  url: jdbc:oracle:thin:@<yer_host>:<yer_port>:<yer_sid>
-  username: <yer_username>
-  password: <yer_password>
-  pool: 95
-  timeout: 5000
+
+# Oracle adapter commented out for SIS-PIP demo project.
+#campusdb:
+#  adapter: jdbc
+#  driver: oracle.jdbc.OracleDriver
+#  url: jdbc:oracle:thin:@<yer_host>:<yer_port>:<yer_sid>
+#  username: <yer_username>
+#  password: <yer_password>
+#  pool: 95
+#  timeout: 5000
+
 canvas_proxy:
   export_directory: '/home/app_calcentral/calcentral/tmp/canvas'
 sakai_proxy:
