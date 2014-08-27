@@ -145,7 +145,8 @@ gem 'angular-rails-templates', '~> 0.1.3'
 # Oracle adapter
 # Purposely excluding this for test environments since folks have to install ojdbc6
 group :development, :testext, :production do
-  gem 'activerecord-oracle_enhanced-adapter', '1.5.5'
+  # Oracle adapter commented out for SIS-PIP demo project.
+  #gem 'activerecord-oracle_enhanced-adapter', '1.5.5'
   gem 'rvm-capistrano', '~> 1.3.1'
   gem 'capistrano', '~> 2.15.4'
 end

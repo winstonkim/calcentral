@@ -13,14 +13,16 @@ postgres:
   password: secret
   host: localhost
   port: 5432
-campusdb:
-  adapter: jdbc
-  driver: oracle.jdbc.OracleDriver
-  url: jdbc:oracle:thin:@<yer_host>:<yer_port>:<yer_sid>
-  username: <yer_username>
-  password: <yer_password>
-  pool: 5
-  timeout: 5000
+
+# Oracle adapter commented out for SIS-PIP demo project.
+#campusdb:
+#  adapter: jdbc
+#  driver: oracle.jdbc.OracleDriver
+#  url: jdbc:oracle:thin:@<yer_host>:<yer_port>:<yer_sid>
+#  username: <yer_username>
+#  password: <yer_password>
+#  pool: 5
+#  timeout: 5000
 
 features:
   act_as: true
