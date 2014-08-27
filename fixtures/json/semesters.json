@@ -1,0 +1,524 @@
+{
+  "semesters": [
+    {
+      "name": "Fall 2014",
+      "slug": "fall-2014",
+      "termCode": "D",
+      "termYear": "2014",
+      "timeBucket": "current",
+      "gradingInProgress": false,
+      "classes": [
+        {
+          "course_code": "EL ENG 40",
+          "dept": "EL ENG",
+          "courseCatalog": "40",
+          "dept_desc": "Electrical Engineering",
+          "slug": "el_eng-40",
+          "title": "Introduction to Microelectronic Circuits",
+          "sections": [
+            {
+              "ccn": "24569",
+              "instruction_format": "LEC",
+              "is_primary_section": true,
+              "section_label": "LEC 001",
+              "section_number": "001",
+              "unit": "4.0",
+              "pnp_flag": "N",
+              "cred_cd": null,
+              "schedules": [
+                {
+                  "buildingName": "WHEELER AUD",
+                  "roomNumber": null,
+                  "schedule": "MWF 10:00A-11:00A"
+                }
+              ],
+              "instructors": [],
+              "gradeOption": "Letter",
+              "units": "4.0"
+            },
+            {
+              "ccn": "24596",
+              "instruction_format": "DIS",
+              "is_primary_section": false,
+              "section_label": "DIS 108",
+              "section_number": "108",
+              "schedules": [
+                {
+                  "buildingName": "CORY",
+                  "roomNumber": "289",
+                  "schedule": "M 2:00P-3:00P"
+                }
+              ],
+              "instructors": []
+            },
+            {
+              "ccn": "24631",
+              "instruction_format": "LAB",
+              "is_primary_section": false,
+              "section_label": "LAB 021",
+              "section_number": "021",
+              "schedules": [
+                {
+                  "buildingName": "CORY",
+                  "roomNumber": "140",
+                  "schedule": "W 5:00P-8:00P"
+                }
+              ],
+              "instructors": []
+            }
+          ],
+          "course_id": "el_eng-40-2014-D",
+          "url": "/academics/semester/fall-2014/class/el_eng-40",
+          "transcript": null,
+          "class_sites": [
+            {
+              "emitter": "bCourses",
+              "id": "1247612",
+              "name": "EL ENG 40 - LEC 001",
+              "shortDescription": "Introduction to Microelectronic Circuits",
+              "siteType": "course",
+              "site_url": "https://bcourses.berkeley.edu/courses/1247612"
+            }
+          ]
+        },
+        {
+          "course_code": "ENGIN 120",
+          "dept": "ENGIN",
+          "courseCatalog": "120",
+          "dept_desc": "Engineering",
+          "slug": "engin-120",
+          "title": "Principles of Engineering Economics",
+          "sections": [
+            {
+              "ccn": "27568",
+              "instruction_format": "LEC",
+              "is_primary_section": true,
+              "section_label": "LEC 001",
+              "section_number": "001",
+              "unit": "3.0",
+              "pnp_flag": "N",
+              "cred_cd": null,
+              "schedules": [
+                {
+                  "buildingName": "BIRGE",
+                  "roomNumber": "50",
+                  "schedule": "MW 1:00P-2:00P"
+                }
+              ],
+              "instructors": [
+                {
+                  "name": "Ilan ADLER",
+                  "uid": "25"
+                }
+              ],
+              "gradeOption": "Letter",
+              "units": "3.0"
+            },
+            {
+              "ccn": "27571",
+              "instruction_format": "DIS",
+              "is_primary_section": false,
+              "section_label": "DIS 101",
+              "section_number": "101",
+              "schedules": [
+                {
+                  "buildingName": "DONNER LAB",
+                  "roomNumber": "155",
+                  "schedule": "F 1:00P-2:00P"
+                }
+              ],
+              "instructors": []
+            }
+          ],
+          "course_id": "engin-120-2014-D",
+          "url": "/academics/semester/fall-2014/class/engin-120",
+          "transcript": null
+        },
+        {
+          "course_code": "HISTORY 103E",
+          "dept": "HISTORY",
+          "courseCatalog": "103E",
+          "dept_desc": "History",
+          "slug": "history-103e",
+          "title": "Latin America",
+          "sections": [
+            {
+              "ccn": "39429",
+              "instruction_format": "SEM",
+              "is_primary_section": true,
+              "section_label": "SEM 002",
+              "section_number": "002",
+              "unit": "4.0",
+              "pnp_flag": "N",
+              "cred_cd": null,
+              "schedules": [
+                {
+                  "buildingName": "DWINELLE",
+                  "roomNumber": "2303",
+                  "schedule": "Tu 12:00P-2:00P"
+                }
+              ],
+              "instructors": [
+                {
+                  "name": "Elena A. Schneider",
+                  "uid": "1045102"
+                }
+              ],
+              "gradeOption": "Letter",
+              "units": "4.0"
+            }
+          ],
+          "course_id": "history-103e-2014-D",
+          "url": "/academics/semester/fall-2014/class/history-103e",
+          "transcript": null
+        }
+      ]
+    },
+    {
+      "name": "Summer 2014",
+      "slug": "summer-2014",
+      "termCode": "C",
+      "termYear": "2014",
+      "timeBucket": "past",
+      "gradingInProgress": true,
+      "classes": [
+        {
+          "course_code": "AFRICAM 4B",
+          "dept": "AFRICAM",
+          "courseCatalog": "4B",
+          "dept_desc": "African American Studies",
+          "slug": "africam-4b",
+          "title": "Africa: History and Culture",
+          "sections": [
+            {
+              "ccn": "10140",
+              "instruction_format": "LEC",
+              "is_primary_section": true,
+              "section_label": "LEC 001",
+              "section_number": "001",
+              "unit": "4.0",
+              "pnp_flag": "N",
+              "cred_cd": null,
+              "schedules": [
+                {
+                  "buildingName": "WHEELER",
+                  "roomNumber": "20",
+                  "schedule": "MTuW 10:30A-1:00P"
+                }
+              ],
+              "instructors": [
+                {
+                  "name": "Arif Gamal",
+                  "uid": "53942"
+                }
+              ],
+              "gradeOption": "Letter",
+              "units": "4.0"
+            },
+            {
+              "ccn": "10145",
+              "instruction_format": "DIS",
+              "is_primary_section": false,
+              "section_label": "DIS 101",
+              "section_number": "101",
+              "schedules": [
+                {
+                  "buildingName": "WHEELER",
+                  "roomNumber": "20",
+                  "schedule": "Th 10:30A-1:00P"
+                }
+              ],
+              "instructors": [
+                {
+                  "name": "Arif Gamal",
+                  "uid": "53942"
+                }
+              ]
+            }
+          ],
+          "course_id": "africam-4b-2014-C",
+          "url": "/academics/semester/summer-2014/class/africam-4b",
+          "transcript": null,
+          "class_sites": [
+            {
+              "emitter": "bSpace",
+              "id": "99ee9e76-eb11-4ed5-8d9f-2036eb9d76ba",
+              "name": "AFRICAM 4B LEC 001 Su14",
+              "shortDescription": "",
+              "siteType": "course",
+              "site_url": "https://bspace.berkeley.edu/portal/site/99ee9e76-eb11-4ed5-8d9f-2036eb9d76ba"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Summer 2013",
+      "slug": "summer-2013",
+      "termCode": "C",
+      "termYear": "2013",
+      "timeBucket": "past",
+      "gradingInProgress": false,
+      "classes": [
+        {
+          "course_code": "AMERSTD 181B",
+          "dept": "AMERSTD",
+          "courseCatalog": "181B",
+          "dept_desc": "American Studies",
+          "slug": "amerstd-181b",
+          "title": "Visual Culture in American Society: Photography and Art",
+          "sections": [
+            {
+              "ccn": "11510",
+              "instruction_format": "LEC",
+              "is_primary_section": true,
+              "section_label": "LEC 001",
+              "section_number": "001",
+              "unit": "1.0",
+              "pnp_flag": "N",
+              "cred_cd": null,
+              "schedules": [
+                {
+                  "buildingName": "BARROWS",
+                  "roomNumber": "110",
+                  "schedule": "TuTh 12:00P-2:30P"
+                }
+              ],
+              "instructors": [
+                {
+                  "name": "Leigh RAIFORD, PhD",
+                  "uid": "81139"
+                }
+              ],
+              "gradeOption": "Letter",
+              "units": "1.0"
+            }
+          ],
+          "course_id": "amerstd-181b-2013-C",
+          "url": "/academics/semester/summer-2013/class/amerstd-181b",
+          "transcript": null,
+          "class_sites": [
+            {
+              "emitter": "bSpace",
+              "id": "a04105cc-e80d-48ee-8b24-b56df2f44d5a",
+              "name": "AMERSTD 181B LEC 001 Su13",
+              "shortDescription": "Visual Culture in American Society: Photography and Art",
+              "siteType": "course",
+              "site_url": "https://bspace.berkeley.edu/portal/site/a04105cc-e80d-48ee-8b24-b56df2f44d5a"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Spring 2010",
+      "slug": "spring-2010",
+      "termCode": "B",
+      "termYear": "2010",
+      "timeBucket": "past",
+      "gradingInProgress": false,
+      "classes": [
+        {
+          "course_code": "EL ENG 100",
+          "dept": "EL ENG",
+          "courseCatalog": "100",
+          "dept_desc": "Electrical Engineering",
+          "slug": "el_eng-100",
+          "title": "Electronic Techniques for Engineering",
+          "sections": [
+            {
+              "ccn": "25329",
+              "instruction_format": "LEC",
+              "is_primary_section": true,
+              "section_label": "LEC 001",
+              "section_number": "001",
+              "unit": "4.0",
+              "pnp_flag": "N",
+              "cred_cd": null,
+              "schedules": [
+                {
+                  "buildingName": "HAAS",
+                  "roomNumber": " F0295",
+                  "schedule": "TuTh 9:30A-11:00A"
+                }
+              ],
+              "instructors": [
+                {
+                  "name": "Ali M NIKNEJAD",
+                  "uid": "20155"
+                }
+              ],
+              "gradeOption": "Letter",
+              "units": "4.0"
+            },
+            {
+              "ccn": "25370",
+              "instruction_format": "DIS",
+              "is_primary_section": false,
+              "section_label": "DIS 105",
+              "section_number": "105",
+              "schedules": [
+                {
+                  "buildingName": "BARROWS",
+                  "roomNumber": "56",
+                  "schedule": "F 11:00A-12:00P"
+                }
+              ],
+              "instructors": [
+                {
+                  "name": "Dr. Feng Pan, PhD",
+                  "uid": "727889"
+                }
+              ]
+            },
+            {
+              "ccn": "25341",
+              "instruction_format": "LAB",
+              "is_primary_section": false,
+              "section_label": "LAB 013",
+              "section_number": "013",
+              "schedules": [
+                {
+                  "buildingName": "CORY",
+                  "roomNumber": "140",
+                  "schedule": "W 8:00A-11:00A"
+                }
+              ],
+              "instructors": [
+                {
+                  "name": "EMINE YEGAN ERDEM",
+                  "uid": "728141"
+                }
+              ]
+            }
+          ],
+          "course_id": "el_eng-100-2010-B",
+          "url": "/academics/semester/spring-2010/class/el_eng-100",
+          "transcript": null
+        },
+        {
+          "course_code": "PHYSICS 111",
+          "dept": "PHYSICS",
+          "courseCatalog": "111",
+          "dept_desc": "Physics",
+          "slug": "physics-111",
+          "title": "Modern Physics and Advanced Electrical Laboratory",
+          "sections": [
+            {
+              "ccn": "69483",
+              "instruction_format": "LAB",
+              "is_primary_section": true,
+              "section_label": "LAB 001",
+              "section_number": "001",
+              "unit": "3.0",
+              "pnp_flag": "N",
+              "cred_cd": null,
+              "schedules": [
+                {
+                  "buildingName": "LECONTE",
+                  "roomNumber": "286",
+                  "schedule": "MTuWThF 1:00P-5:00P"
+                }
+              ],
+              "instructors": [
+                {
+                  "name": "Yury G KOLOMENSKY",
+                  "uid": "174056"
+                },
+                {
+                  "name": "Byung Kyu Park, BA",
+                  "uid": "216772"
+                },
+                {
+                  "name": "Mathew C. Leonard",
+                  "uid": "282986"
+                },
+                {
+                  "name": "Nicholas Lee Harrington, MA",
+                  "uid": "750382"
+                },
+                {
+                  "name": "Steven Weber",
+                  "uid": "753942"
+                }
+              ],
+              "gradeOption": "Letter",
+              "units": "3.0"
+            },
+            {
+              "ccn": "69486",
+              "instruction_format": "LEC",
+              "is_primary_section": false,
+              "section_label": "LEC 101",
+              "section_number": "101",
+              "schedules": [
+                {
+                  "buildingName": "LECONTE",
+                  "roomNumber": "3",
+                  "schedule": "TuTh 5:00P-6:30P"
+                }
+              ],
+              "instructors": [
+                {
+                  "name": "Yury G KOLOMENSKY",
+                  "uid": "174056"
+                }
+              ]
+            }
+          ],
+          "course_id": "physics-111-2010-B",
+          "url": "/academics/semester/spring-2010/class/physics-111",
+          "transcript": null,
+          "class_sites": [
+            {
+              "emitter": "bSpace",
+              "id": "8ab6d9bd-175c-453e-81a8-b2818fe4f867",
+              "name": "Physics111-BSC Sp10",
+              "shortDescription": "",
+              "siteType": "course",
+              "site_url": "https://bspace.berkeley.edu/portal/site/8ab6d9bd-175c-453e-81a8-b2818fe4f867"
+            }
+          ]
+        },
+        {
+          "course_code": "POL SCI 109W",
+          "dept": "POL SCI",
+          "courseCatalog": "109W",
+          "dept_desc": "Political Science",
+          "slug": "pol_sci-109w",
+          "title": "Selected Topics in American Politics-UCDC",
+          "sections": [
+            {
+              "ccn": "72452",
+              "instruction_format": "SEM",
+              "is_primary_section": true,
+              "section_label": "SEM 002",
+              "section_number": "002",
+              "unit": "4.0",
+              "pnp_flag": "N",
+              "cred_cd": null,
+              "schedules": [
+                {
+                  "buildingName": "OFF CAMPUS",
+                  "roomNumber": null,
+                  "schedule": "Tu 4:00P-5:30P"
+                }
+              ],
+              "instructors": [
+                {
+                  "name": "Prof. Bruce E. CAIN",
+                  "uid": "7617"
+                }
+              ],
+              "gradeOption": "Letter",
+              "units": "4.0"
+            }
+          ],
+          "course_id": "pol_sci-109w-2010-B",
+          "url": "/academics/semester/spring-2010/class/pol_sci-109w",
+          "transcript": null
+        }
+      ]
+    }
+  ]
+}
