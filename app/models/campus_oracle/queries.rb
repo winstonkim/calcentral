@@ -325,10 +325,11 @@ module CampusOracle
 
     def self.get_section_instructors(term_yr, term_cd, ccn)
       result = []
+      # TODO Trim first_name and last_name once the CLC-4156 performance regression is fixed on the Oracle side.
       use_pooled_connection {
         sql = <<-SQL
         select p.person_name, p.ldap_uid, bci.instructor_func,
-          trim(p.first_name) as first_name, trim(p.last_name) as last_name, p.email_address, p.student_id, p.affiliations
+          p.first_name, p.last_name, p.email_address, p.student_id, p.affiliations
         from calcentral_course_instr_vw bci
         join calcentral_person_info_vw p on p.ldap_uid = bci.instructor_ldap_uid
         where bci.instructor_ldap_uid = p.ldap_uid
