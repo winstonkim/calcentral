@@ -11,7 +11,7 @@ module MyAcademics
       # fake semester data feed for SIS PIP demo.
       # we'll gradually replace this with API calls to Tamer's Peoplesoft APIs.
       json = safe_json(File.read(Rails.root.join('fixtures', 'json', 'semesters.json').to_s))
-      data[:semesters] = json['semesters']
+      data[:semesters] = HashConverter.symbolize json['semesters']
     end
 
     def merge_real(data)
