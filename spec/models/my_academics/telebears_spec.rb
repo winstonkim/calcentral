@@ -56,13 +56,13 @@ describe MyAcademics::Telebears do
       its([:foo]) { should eq('baz') }
       its([:telebears]) { should_not be_blank }
       it { subject[:telebears][:term].should eq("Fall") }
-      it { subject[:telebears][:year].should eq(2013) }
-      it { subject[:telebears][:slug].should eq("fall-2013") }
+      it { subject[:telebears][:year].should eq(2014) }
+      it { subject[:telebears][:slug].should eq("fall-2014") }
       it { subject[:telebears][:adviserCodeRequired][:required].should be_true }
       it { subject[:telebears][:adviserCodeRequired][:message].should_not be_include("CalSO") }
       it { subject[:telebears][:phases].length.should eq(2)}
       it { subject[:semesters].length.should eq(1) }
-      it { subject[:semesters][0][:slug].should eq("fall-2013") }
+      it { subject[:semesters][0][:slug].should eq("fall-2014") }
     end
 
     context "fake oski feed, timezone & server specifice setting tests", testext: true do

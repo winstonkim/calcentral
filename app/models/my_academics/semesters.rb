@@ -1,12 +1,20 @@
 module MyAcademics
   class Semesters
     include AcademicsModule
+    include SafeJsonParser
 
     def initialize(uid)
       super(uid)
     end
 
     def merge(data)
+      # fake semester data feed for SIS PIP demo.
+      # we'll gradually replace this with API calls to Tamer's Peoplesoft APIs.
+      json = safe_json(File.read(Rails.root.join('fixtures', 'json', 'semesters.json').to_s))
+      data[:semesters] = HashConverter.symbolize json['semesters']
+    end
+
+    def merge_real(data)
       proxy = CampusOracle::UserCourses::All.new({:user_id => @uid})
       feed = proxy.get_all_campus_courses
       transcripts = CampusOracle::UserCourses::Transcripts.new({:user_id => @uid}).get_all_transcripts

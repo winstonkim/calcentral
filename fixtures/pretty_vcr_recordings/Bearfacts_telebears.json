@@ -100,11 +100,11 @@
         "body": {
           "encoding": "US-ASCII",
           "string": "",
-          "debug_xml": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<telebearsAppointment asOfDate=\"September 18, 2013 12:00 AM\" termName=\"Fall\" termYear=\"2013\" xmlns=\"urn:berkeley.edu/babl\">\n  <telebearsAppointmentPhase>\n    <period>I</period>\n    <startDate>Monday    04/08/13 09:30 AM</startDate>\n    <endDate>Tuesday   04/09/13 09:30 AM</endDate>\n  </telebearsAppointmentPhase>\n  <telebearsAppointmentPhase>\n    <period>II</period>\n    <startDate>Tuesday   07/09/13 09:00 AM</startDate>\n    <endDate>Wednesday 07/10/13 09:00 AM</endDate>\n  </telebearsAppointmentPhase>\n  <eligRegStatusCode>C</eligRegStatusCode>\n  <ugGradFlag>U</ugGradFlag>\n  <authReleaseCode>A</authReleaseCode>\n  <collegeCdPrimary>16</collegeCdPrimary>\n  <majorCdPrimary>300</majorCdPrimary>\n</telebearsAppointment>\n"
+          "debug_xml": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<telebearsAppointment asOfDate=\"September 18, 2013 12:00 AM\" termName=\"Fall\" termYear=\"2014\" xmlns=\"urn:berkeley.edu/babl\">\n  <telebearsAppointmentPhase>\n    <period>I</period>\n    <startDate>Monday    10/08/14 09:30 AM</startDate>\n    <endDate>Tuesday   10/09/14 09:30 AM</endDate>\n  </telebearsAppointmentPhase>\n  <telebearsAppointmentPhase>\n    <period>II</period>\n    <startDate>Tuesday   10/09/14 09:00 AM</startDate>\n    <endDate>Wednesday 10/10/14 09:00 AM</endDate>\n  </telebearsAppointmentPhase>\n  <eligRegStatusCode>C</eligRegStatusCode>\n  <ugGradFlag>U</ugGradFlag>\n  <authReleaseCode>A</authReleaseCode>\n  <collegeCdPrimary>16</collegeCdPrimary>\n  <majorCdPrimary>300</majorCdPrimary>\n</telebearsAppointment>\n"
         },
         "http_version": null
       },
-      "recorded_at": "Wed, 18 Sep 2013 20:20:27 GMT"
+      "recorded_at": "Wed, 27 Aug 2014 20:20:27 GMT"
     },
     {
       "request": {
