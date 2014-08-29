@@ -7,20 +7,20 @@
   </div>
 
   <div class="cc-academics-semesters">
-    <div class="cc-table cc-academics-semester cc-academics-semester-{{semester.timeBucket}}" data-ng-repeat="semester in semesters">
+    <div class="cc-table cc-academics-semester cc-academics-semester-{{semester.timeBucket}}" data-ng-repeat="semester in semesters | limitTo:pastSemestersLimit">
       <div>
         <h3><a class="cc-left" data-ng-href="/academics/semester/{{semester.slug}}" data-ng-bind="semester.name"></a></h3>
         <a class="cc-right cc-academics-semester-title-link" data-ng-href="/academics/booklist/{{semester.slug}}" data-ng-if="semester.timeBucket === 'current' || semester.timeBucket === 'future'">Book List</a>
         <table data-ng-if="semester.classes">
           <thead>
             <tr>
-              <th width="25%" scope="col">Class</th>
+              <th width="30%" scope="col">Class</th>
               <th width="60%" scope="col">Title</th>
               <th width="20%" scope="col" class="cc-table-right" data-ng-class="{'cc-table-right-spacing':(semester.timeBucket === 'past')}">
                 <span data-ng-if="semester.timeBucket !== 'past'">Units</span>
                 <span data-ng-if="semester.timeBucket === 'past'" title="Units">Un.</span>
               </th>
-              <th width="25%" scope="col" data-ng-if="semester.timeBucket === 'past'" title="Grades">Gr.</th>
+              <th width="10%" scope="col" data-ng-if="semester.timeBucket === 'past'" title="Grades">Gr.</th>
             </tr>
           </thead>
           <tbody data-ng-if="semester.timeBucket !== 'past'" data-ng-repeat="class in semester.classes">
@@ -46,6 +46,11 @@
           </tbody>
         </table>
       </div>
+    </div>
+    <div data-ng-show="pastSemestersCount > 1 && pastSemestersLimit !== 100">
+      <button class="cc-button cc-widget-show-more" data-ng-click="pastSemestersLimit = 100">
+        Show Previous Semesters
+      </button>
     </div>
   </div>
 </div>
