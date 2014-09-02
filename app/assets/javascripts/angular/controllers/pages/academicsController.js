@@ -275,15 +275,52 @@
       return classes;
     };
 
+    var pastSemestersCount = function(semesters) {
+      var count = 0;
+
+      if (semesters && semesters.length) {
+        for (var i = 0; i < semesters.length; i++) {
+          if (semesters[i].timeBucket === 'past') {
+            count++;
+          }
+        }
+      }
+
+      return count;
+    };
+
+    var isLSStudent = function(collegeAndLevel) {
+
+      if (!collegeAndLevel || !collegeAndLevel.colleges) {
+        return false;
+      }
+
+      for (var i = 0; i < collegeAndLevel.colleges.length; i++) {
+        if (collegeAndLevel.colleges[i].college === 'College of Letters & Science') {
+          return true;
+        }
+      }
+    };
+
     var parseAcademics = function(data) {
       angular.extend($scope, data);
 
       $scope.semesters = data.semesters;
 
+      if (data.semesters) {
+        $scope.pastSemestersCount = pastSemestersCount(data.semesters);
+        $scope.pastSemestersLimit = data.semesters.length - $scope.pastSemestersCount + 1;
+      }
+
+      $scope.isLSStudent = isLSStudent($scope.collegeAndLevel);
       $scope.isUndergraduate = ($scope.collegeAndLevel && $scope.collegeAndLevel.standing === 'Undergraduate');
 
       $scope.teaching = parseTeaching(data.teachingSemesters);
       $scope.teachingLength = Object.keys($scope.teaching).length;
+      if (data.teachingSemesters) {
+        $scope.pastSemestersTeachingCount = pastSemestersCount(data.teachingSemesters);
+        $scope.pastSemestersTeachingLimit = data.teachingSemesters.length - $scope.pastSemestersTeachingCount + 1;
+      }
 
       // Get selected semester from URL params and extract data from semesters array
       var semesterSlug = ($routeParams.semesterSlug || $routeParams.teachingSemesterSlug);
