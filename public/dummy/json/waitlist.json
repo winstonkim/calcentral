@@ -1,0 +1,27 @@
+{
+  "waitlist": {
+    "courses": [
+      {
+        "courseName": "CHEMISTRY 1A P 001 LEC",
+        "courseTitle": "General Chemistry - Lecture",
+        "schedule": "MWF 9-10A",
+        "location": "1 PIMENTEL",
+        "positionOnWaitlist": 7,
+        "totalOnWaitlist": 31,
+        "waitlistAvailable": 20,
+        "waitlistEnrolled": 106,
+        "extraInfo": "Midterm exams are Tuesday, September 23, October 21 and November 18, 2014 from 7:00 to 9:00 p.m. Students must take Chem 1A either concurrently, or prior to Chem 1AL. If taken concurrently, students may not drop Chem 1A and remain in Chem 1AL. If taken separately, students may not take Chem 1AL before passing Chem 1A with a grade of C- or better."
+      },
+      {
+        "courseName": "CHEMISTRY 1A S 102 DIS",
+        "courseTitle": "General Chemistry - Discussion",
+        "schedule": "MWF 10-11A",
+        "location": "1 PIMENTEL",
+        "positionOnWaitlist": 2,
+        "totalOnWaitlist": 4,
+        "waitlistAvailable": 3,
+        "waitlistEnrolled": 27
+      }
+    ]
+  }
+}
