@@ -109,6 +109,10 @@ bearfacts_proxy:
   app_key: ''
   base_url: "https://apis-dev.berkeley.edu/bearfacts-apis"
 
+peoplesoft_proxy:
+  fake: false
+  base_url: 'http://ps92-xa02.is.berkeley.edu/PSIGW/RESTListeningConnector/PSFT_HR/Student.v1/SR12201'
+
 research_user_proxy:
   fake: false
   base_url: "https://hub-qa.berkeley.edu/alfresco/service/api/ucb/person"
