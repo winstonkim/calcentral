@@ -11,10 +11,15 @@
           <div>
             <strong data-ng-bind="course.courseName"></strong>
           </div>
-          <div class="cc-text-light cc-widget-waitlist-place">
-            You are <strong data-ng-bind="course.positionOnWaitlist | ordinal"></strong> on a waitlist of <span data-ng-bind="course.totalOnWaitlist"></span>
+          <div data-ng-if="!course.enrolled">
+            <div class="cc-text-light cc-widget-waitlist-place">
+              You are <strong data-ng-bind="course.positionOnWaitlist | ordinal"></strong> on a waitlist of <span data-ng-bind="course.totalOnWaitlist"></span>
+            </div>
+            <div data-cc-bar-directive data-cc-bar-enrolled="{{course.waitlistEnrolled}}" data-cc-bar-available="{{course.waitlistAvailable}}"></div>
           </div>
-          <div data-cc-bar-directive data-cc-bar-enrolled="{{course.waitlistEnrolled}}" data-cc-bar-available="{{course.waitlistAvailable}}"></div>
+          <div data-ng-if="course.enrolled">
+            A seat has opened and <strong>you have been successfully added</strong> to <span data-ng-bind="course.courseTitle"></span> as of <span data-ng-bind="course.enrolledDateTime | date:'MMM d'"></span>
+          </div>
         </li>
       </ul>
     </div>
