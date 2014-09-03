@@ -1,0 +1,22 @@
+<div class="cc-widget cc-widget-waitlist" data-ng-controller="WaitlistController">
+  <div class="cc-widget-title">
+    <h2>
+      Waitlist
+    </h2>
+  </div>
+  <div data-cc-spinner-directive>
+    <div class="cc-widget-padding" data-cc-spinner-directive>
+      <ul>
+        <li data-ng-repeat="course in waitlist.courses">
+          <div>
+            <strong data-ng-bind="course.courseName"></strong>
+          </div>
+          <div class="cc-text-light cc-widget-waitlist-place">
+            You are <strong data-ng-bind="course.positionOnWaitlist | ordinal"></strong> on a waitlist of <span data-ng-bind="course.totalOnWaitlist"></span>
+          </div>
+          <div data-cc-bar-directive data-cc-bar-enrolled="{{course.waitlistEnrolled}}" data-cc-bar-available="{{course.waitlistAvailable}}"></div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

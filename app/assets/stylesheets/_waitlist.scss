@@ -1,0 +1,31 @@
+.cc-widget-waitlist {
+  .cc-widget-waitlist-place {
+    font-size: 12px;
+    strong {
+      color: $body-font-color;
+    }
+  }
+  .cc-bar-container {
+    display: flex;
+    margin: 5px 0 20px;
+  }
+  .cc-bar-container-background {
+    color: #fff;
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+  }
+  .cc-bar-container-enrolled {
+    float: left;
+    padding: 5px;
+  }
+  .cc-bar-container-available {
+    float: right;
+    padding: 5px;
+  }
+  .cc-bar-container-available-text {
+    min-width: 95px;
+    padding: 5px;
+    white-space: nowrap;
+  }
+}
