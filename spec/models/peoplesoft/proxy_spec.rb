@@ -5,14 +5,14 @@ describe Peoplesoft::Proxy do
   let (:real_oski_proxy) { Peoplesoft::Proxy.new({user_id: '61889', fake: false}) }
   let (:peoplesoft_uri) { URI.parse(Settings.peoplesoft_proxy.base_url) }
 
-  context 'proper caching behaviors' do
+  context 'proper caching behaviors', testext: true do
     include_context 'it writes to the cache'
     it 'should write to cache' do
       real_oski_proxy.get
     end
   end
 
-  context 'getting real data feed' do
+  context 'getting real data feed', testext: true do
     subject { real_oski_proxy.get }
     it 'should have some expected data' do
       expect(subject).to be
