@@ -3,7 +3,7 @@
     "courses": [
       {
         "courseName": "CHEMISTRY 1A P 001 LEC",
-        "courseTitle": "General Chemistry - Lecture",
+        "courseTitle": "General Chemistry",
         "schedule": "MWF 9-10A",
         "location": "1 PIMENTEL",
         "positionOnWaitlist": 7,
@@ -14,13 +14,19 @@
       },
       {
         "courseName": "CHEMISTRY 1A S 102 DIS",
-        "courseTitle": "General Chemistry - Discussion",
+        "courseTitle": "General Chemistry",
         "schedule": "MWF 10-11A",
         "location": "1 PIMENTEL",
         "positionOnWaitlist": 2,
         "totalOnWaitlist": 4,
         "waitlistAvailable": 3,
         "waitlistEnrolled": 27
+      },
+      {
+        "courseName": "HISTORY OF ART 88 P 001 LEC",
+        "courseTitle": "History of Art",
+        "enrolled": true,
+        "enrolledDateTime": "1409681406243"
       }
     ]
   }
