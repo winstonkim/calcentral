@@ -9,26 +9,6 @@
 
     apiService.util.setTitle('My Academics');
 
-    /**
-     * We're putting the exams in buckets per date
-     */
-    var parseExamSchedule = function(examSchedule) {
-
-      if (!examSchedule) {
-        return;
-      }
-
-      var response = {};
-      angular.forEach(examSchedule, function(element) {
-        if (!response[element.date.epoch]) {
-          response[element.date.epoch] = [];
-        }
-        response[element.date.epoch].push(element);
-      });
-      $scope.examSchedule = response;
-      $scope.examScheduleLength = Object.keys(response).length;
-    };
-
     var checkPageExists = function(page) {
       if (!page) {
         apiService.util.redirect('404');
@@ -243,6 +223,21 @@
       }
     };
 
+    var isLawStudent = function(collegeAndLevel) {
+      if (!collegeAndLevel || !collegeAndLevel.colleges ||
+          collegeAndLevel.standing === 'Undergraduate') {
+        return false;
+      }
+
+      return collegeAndLevel.colleges[0].college === 'School of Law';
+    };
+
+    if (isLawStudent($scope.collegeAndLevel)) {
+      $scope.transcriptLink = 'http://www.law.berkeley.edu/php-programs/registrar/forms/transcriptrequestform.php';
+    } else {
+      $scope.transcriptLink = 'https://telebears.berkeley.edu/tranreq/';
+    }
+
     var parseAcademics = function(data) {
       angular.extend($scope, data);
 
@@ -314,10 +309,7 @@
         }
       }
 
-      parseExamSchedule(data.examSchedule);
-
       $scope.telebears = data.telebears;
-
     };
 
     $scope.currentSelection = 'Class Info';

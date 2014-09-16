@@ -11,8 +11,29 @@
       isAuthenticatedAndHasGoogle: false,
       profile: false
     };
+    var statusUrl = '/api/my/status';
 
     // Private methods that are only exposed for testing but shouldn't be used within the views
+
+    /**
+     * Opt in for a student to see the course schedule on the calendar
+     */
+    var calendarOptIn = function() {
+      $http.post('/api/my/calendar/opt_in').success(function() {
+        analyticsService.sendEvent('Calendar Courses', 'Enable');
+        fetch();
+      });
+    };
+
+    /**
+     * Opt out for a student to see the course schedule on the calendar
+     */
+    var calendarOptOut = function() {
+      $http.post('/api/my/calendar/opt_out').success(function() {
+        analyticsService.sendEvent('Calendar Courses', 'Remove');
+        fetch();
+      });
+    };
 
     /**
      * Redirect user to the dashboard when you're on the splash page
@@ -72,9 +93,15 @@
 
     /**
      * Get the actual user information
+     * @param {Object} options Options that need to be passed through
      */
-    var fetch = function() {
-      return $http.get('/api/my/status').then(function(xhr) {
+    var fetch = function(options) {
+
+      utilService.clearCache(options, statusUrl);
+
+      return $http.get(statusUrl, {
+        cache: true
+      }).then(function(xhr) {
         return handleUserLoaded(xhr.data);
       });
     };
@@ -142,6 +169,8 @@
 
     // Expose methods
     return {
+      calendarOptIn: calendarOptIn,
+      calendarOptOut: calendarOptOut,
       enableOAuth: enableOAuth,
       events: events,
       fetch: fetch,
