@@ -1,31 +1,30 @@
 <div class="medium-12 columns cc-settings">
   <h1>Settings for {{api.user.profile.fullName}}</h1>
 
-  <section data-ng-show='connectedServices.length' class="cc-settings-section">
+  <section data-ng-if='connectedServices.length' class="cc-settings-section row collapse">
     <div class="medium-10 medium-centered columns">
 
       <h2>Connected Services</h2>
       <div data-ng-repeat="service in connectedServices">
-        <div class="row cc-settings-service-row" data-ng-init="loopname='connected'" data-ng-include src="'settings_service_loop.html'"></div>
+        <div class="row collapse cc-settings-service-row" data-ng-init="loopname='connected'" data-ng-include src="'settings_service_loop.html'"></div>
       </div>
 
     </div>
   </section>
 
-  <section data-ng-show='nonConnectedServices.length' class="cc-settings-section">
+  <section data-ng-if='disConnectedServices.length' class="cc-settings-section row collapse">
     <div class="medium-10 medium-centered columns">
 
       <h2>Services to Connect</h2>
 
-      <div data-ng-repeat="service in nonConnectedServices">
-        <div class="row cc-settings-service-row" data-ng-init="loopname='unconnected'" data-ng-include src="'settings_service_loop.html'"></div>
+      <div data-ng-repeat="service in disConnectedServices">
+        <div class="row collapse cc-settings-service-row" data-ng-init="loopname='disconnected'" data-ng-include src="'settings_service_loop.html'"></div>
       </div>
 
     </div>
   </section>
 
-  <a class="cc-settings-dashboard-link" href="/dashboard">&laquo; Take me to my Dashboard
-  </a>
+  <a class="cc-settings-dashboard-link" href="/dashboard">&laquo; Take me to my Dashboard</a>
 
   <div data-ng-show="api.user.profile.isViewer || api.user.profile.actingAsUid" data-ng-controller="AdminController">
     <h2>Admin</h2>
@@ -36,7 +35,7 @@
           <label for="cc-settings-act-as-uid">UID</label>
         </div>
         <div class="small-9 columns">
-          <input id="cc-settings-act-as-uid" data-ng-model="admin.actAs.uid" type="number" data-cc-select-on-click-directive />
+          <input id="cc-settings-act-as-uid" data-ng-model="admin.actAs.uid" data-ng-pattern="api.util.uidPattern" type="number" data-cc-select-on-click-directive />
         </div>
       </div>
       <div class="row">
@@ -70,7 +69,7 @@
     <form data-ng-submit="admin.uidToSidLookup()">
       <div class="row">
         <div class="small-9 small-offset-3 columns">
-          <input id="cc-settings-id" placeholder="Enter UID or SID here" data-ng-model="admin.id" type="number"/>
+          <input id="cc-settings-id" data-ng-pattern="api.util.uidPattern" placeholder="Enter UID or SID here" data-ng-model="admin.id" type="number"/>
         </div>
       </div>
       <div class="row">

@@ -5,7 +5,7 @@ gem 'bundler', '~> 1.7.0'
 
 # The core framework
 # https://github.com/rails/rails
-gem 'rails', '4.1.5'
+gem 'rails', '4.1.6'
 
 gem 'actionpack-action_caching', '~>1.1.1'
 gem 'actionpack-page_caching', '~>1.0.2'
@@ -34,7 +34,7 @@ gem 'json', '~> 1.8.0'
 gem 'omniauth-cas', '~> 1.0.1'
 
 # LDAP
-gem 'net-ldap', '~> 0.7.0'
+gem 'net-ldap', '~> 0.8.0'
 
 # secure_headers provides x-frame, csp and other http headers
 gem 'secure_headers', '~> 1.3.3'
@@ -94,14 +94,14 @@ gem 'pundit', '~> 0.3.0'
 
 gem 'cancan', '~> 1.6.10'
 
-gem 'icalendar', '~> 2.1.1'
+gem 'icalendar', '~> 2.1.2'
 
 ##################
 # Front-end Gems #
 ##################
 
 # Our very own library for angular dependency!
-gem 'angular-gem', '1.2.23'
+gem 'angular-gem', '1.2.24'
 
 # Datepicker
 gem 'pikaday-gem', '~> 1.2.0'
@@ -111,7 +111,7 @@ gem 'pikaday-gem', '~> 1.2.0'
 gem 'sass-rails', '~> 4.0.3'
 gem 'coffee-rails', '~> 4.0.1'
 gem 'compass-rails', '~> 2.0.0'
-gem 'foundation-rails', '~> 5.4.3.0'
+gem 'foundation-rails', '~> 5.4.3.1'
 
 # Closure Compiler Gem for JS compression
 # https://github.com/documentcloud/closure-compiler
@@ -126,7 +126,7 @@ gem 'font-awesome-rails', '~> 4.2.0.0'
 
 # Moment.js
 # https://github.com/derekprior/momentjs-rails
-gem 'momentjs-rails', '~> 2.8.1'
+gem 'momentjs-rails', '~> 2.8.3'
 
 # Raven.js - library for JS error logging
 gem 'ravenjs-gem', '~> 1.1.16'
@@ -157,7 +157,7 @@ group :development, :test , :testext do
   gem 'minitest-reporters', '~> 1.0.5'
 
   # We need to specify the latest webdriver here, to support the latest firefox
-  gem 'selenium-webdriver', '~> 2.42.0'
+  gem 'selenium-webdriver', '~> 2.43.0'
 
   # Code coverage for Ruby 1.9 with a powerful configuration library and automatic merging of coverage across test suites
   # https://rubygems.org/gems/simplecov
