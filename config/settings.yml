@@ -111,7 +111,7 @@ bearfacts_proxy:
 
 peoplesoft_proxy:
   fake: false
-  base_url: 'http://ps92-xa02.is.berkeley.edu/PSIGW/RESTListeningConnector/PSFT_HR/Student.v1/SR12201'
+  base_url: 'http://ps92-xa02.is.berkeley.edu/PSIGW/RESTListeningConnector/PSFT_HR/Student_Term.v1/Study/SR12201/Term/0390'
 
 research_user_proxy:
   fake: false

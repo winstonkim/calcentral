@@ -2,22 +2,25 @@ require 'spec_helper'
 
 describe Peoplesoft::Proxy do
 
+  include SafeJsonParser
+
   let (:real_oski_proxy) { Peoplesoft::Proxy.new({user_id: '61889', fake: false}) }
   let (:peoplesoft_uri) { URI.parse(Settings.peoplesoft_proxy.base_url) }
 
-  context 'proper caching behaviors', testext: true do
+  context 'proper caching behaviors' do # , testext: true do
     include_context 'it writes to the cache'
     it 'should write to cache' do
       real_oski_proxy.get
     end
   end
 
-  context 'getting real data feed', testext: true do
+  context 'getting real data feed' do # , testext: true do
     subject { real_oski_proxy.get }
     it 'should have some expected data' do
       expect(subject).to be
       expect(subject[:statusCode]).to eq 200
-      expect(subject['STDYLST']['TITLE']).to eq 'Perspectives on the Present'
+      json = safe_json subject[:body]
+      expect(json['STUDENT_STUDY_TERM']['STUDENTID']).to eq 'SR12201'
     end
   end
 

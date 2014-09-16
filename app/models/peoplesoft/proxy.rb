@@ -1,6 +1,7 @@
 module Peoplesoft
   class Proxy < BaseProxy
 
+    include SafeJsonParser
     include ClassLogger
     include Cache::UserCacheExpiry
 
@@ -27,16 +28,11 @@ module Peoplesoft
           statusCode: response.code
         })
       else
-        xml = response.body
-        convert_xml(xml).merge(
-          {
-            statusCode: 200
-          })
+        {
+          body: response.body,
+          statusCode: 200
+        }
       end
-    end
-
-    def convert_xml(xml)
-      Hash.from_xml(xml)
     end
 
   end
