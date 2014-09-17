@@ -1,4 +1,4 @@
-require "spec_helper"
+require 'spec_helper'
 
 describe MyAcademics::Semesters do
 
@@ -7,17 +7,19 @@ describe MyAcademics::Semesters do
 
     it 'should have some expected data' do
       expect(subject).to be
-      expect(subject[0][:name]).to eq 'Spring 2000'
-      expect(subject[0][:termCode]).to eq 'B'
-      expect(subject[0][:termYear]).to eq '2000'
+      expect(subject[0][:name]).to eq 'Fall 2014'
+      expect(subject[0][:termCode]).to eq 'D'
+      expect(subject[0][:termYear]).to eq '2014'
       expect(subject[0][:timeBucket]).to eq 'current'
-      expect(subject[0][:slug]).to eq 'spring-2000'
+      expect(subject[0][:slug]).to eq 'fall-2014'
       expect(subject[0][:classes].length).to eq 3
-      expect(subject[0][:classes][0][:course_code]).to eq 'PHILO  372'
+      expect(subject[0][:classes][0][:course_code]).to eq 'PHILO 372'
       expect(subject[0][:classes][0][:dept]).to eq 'PHILO'
-      expect(subject[0][:classes][0][:courseCatalog]).to eq ' 372'
+      expect(subject[0][:classes][0][:courseCatalog]).to eq '372'
       expect(subject[0][:classes][0][:dept_desc]).to eq 'Philosophy'
       expect(subject[0][:classes][0][:slug]).to eq 'philo-372'
+      expect(subject[0][:classes][0][:course_id]).to eq 'philo-372-2014-D'
+      expect(subject[0][:classes][0][:url]).to eq '/academics/semester/fall-2014/class/philo-372'
       expect(subject[0][:classes][0][:title]).to eq 'Contemporary Moral Issues'
       expect(subject[0][:classes][0][:sections].length).to eq 1
       expect(subject[0][:classes][0][:sections][0][:ccn]).to eq 1571
@@ -25,9 +27,9 @@ describe MyAcademics::Semesters do
       expect(subject[0][:classes][0][:sections][0][:is_primary_section]).to eq 'F'
       expect(subject[0][:classes][0][:sections][0][:section_label]).to eq 'LAB 1L'
       expect(subject[0][:classes][0][:sections][0][:pnp_flag]).to eq 'N'
-      expect(subject[0][:classes][0][:sections][0][:gradeOption]).to eq 'Non-Graded Component'
+      expect(subject[0][:classes][0][:sections][0][:gradeOption]).to eq 'Letter'
       expect(subject[0][:classes][0][:sections][0][:section_number]).to eq '1L'
-      expect(subject[0][:classes][0][:sections][0][:unit]).to eq 0
+      expect(subject[0][:classes][0][:sections][0][:units]).to eq 4
       expect(subject[0][:classes][0][:sections][0][:cred_cd]).to eq ''
       expect(subject[0][:classes][0][:sections][0][:schedules].length).to eq 3
 

@@ -23,6 +23,7 @@ module MyAcademics
 
       # now convert some Peoplesoft representations of data into our native form.
       term = json[:STUDENT_STUDY_TERM][:TERM]
+      term[:name] = 'Fall 2014' # TODO remove this hardcoding if/when Peoplesoft data is updated to Fall 2014.
       term_code = Berkeley::TermCodes.from_english(term[:name])
       term[:termCode] = term_code[:term_cd]
       term[:termYear] = term_code[:term_yr]
@@ -36,6 +37,9 @@ module MyAcademics
         this_class[:dept_desc] = this_class.delete :deptDescr
         this_class[:slug] = this_class[:dept].downcase.gsub(/[^a-z0-9-]+/, '_') +
           '-' + this_class[:courseCatalog].strip.downcase.gsub(/[^a-z0-9-]+/, '_')
+        this_class[:course_id] = this_class[:slug] + '-' + term[:termYear] + '-' + term[:termCode]
+        this_class[:url] = "/academics/semester/#{term[:slug]}/class/#{this_class[:slug]}"
+
         sections = []
 
         sections << this_class[:SECTION]
@@ -58,6 +62,13 @@ module MyAcademics
         sections[0][:instructors][0].keys.each { |k|
           sections[0][:instructors][0][k.downcase] = sections[0][:instructors][0].delete k
         }
+
+        # hokey hardcoding of grade option & units.
+        if sections[0][:is_primary_section]
+          sections[0][:gradeOption] = 'Letter'
+          sections[0][:units] = 4
+        end
+
         this_class[:sections] = sections
       }
       semesters << term
