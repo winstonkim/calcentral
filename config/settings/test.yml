@@ -15,6 +15,8 @@ financials_proxy:
   fake: true
 textbooks_proxy:
   fake: true
+peoplesoft_proxy:
+  fake: true
 terms:
   # Keyed to H2 test data
   fake_now: 2013-10-11 04:20:00
