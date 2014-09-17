@@ -30,7 +30,13 @@ module MyAcademics
       term[:slug] = Berkeley::TermCodes.to_slug(term_code[:term_yr], term_code[:term_cd])
       term[:timeBucket] = 'current'
       term[:gradingInProgress] = false
-      term[:classes] = term.delete :CLASS
+
+      if term[:CLASS].is_a?(Array)
+        term[:classes] = term.delete :CLASS
+      else
+        term[:classes] = []
+        term[:classes][0] = term.delete :CLASS
+      end
 
       term[:classes].each { |this_class|
         this_class[:course_code] = this_class.delete :courseCode
