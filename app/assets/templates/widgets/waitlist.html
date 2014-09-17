@@ -5,7 +5,10 @@
     </h2>
   </div>
   <div data-cc-spinner-directive>
-    <div class="cc-widget-padding" data-cc-spinner-directive>
+    <div class="cc-widget-text" data-ng-show="!waitlist.courses.length">
+      You are currently not on any waitlists.
+    </div>
+    <div class="cc-widget-padding" data-ng-show="waitlist.courses.length">
       <ul>
         <li data-ng-repeat="course in waitlist.courses">
           <div>
