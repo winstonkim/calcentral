@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe MyAcademics::Semesters do
 
-  context 'when using Peoplesoft demo API' do
+  context 'when using Peoplesoft demo API', testext: true do
     subject { MyAcademics::Semesters.new("300939").merge(@feed ||= {}); @feed[:semesters] }
 
     it 'should have some expected data' do
