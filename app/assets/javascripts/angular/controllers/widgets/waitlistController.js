@@ -4,12 +4,16 @@
   /**
    * Waitlist controller
    */
-  angular.module('calcentral.controllers').controller('WaitlistController', function(waitlistFactory, $scope) {
+  angular.module('calcentral.controllers').controller('WaitlistController', function(waitlistFactory, $interval, $scope) {
 
-    waitlistFactory.getWaitlist().then(function(xhr) {
-      angular.extend($scope, xhr.data);
-    });
+    var getWaitlist = function() {
+      waitlistFactory.getWaitlist().then(function(xhr) {
+        angular.extend($scope, xhr.data);
+      });
+    };
 
+    $interval(getWaitlist, 2000);
+    getWaitlist();
   });
 
 })(window.angular);

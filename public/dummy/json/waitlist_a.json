@@ -1,0 +1,26 @@
+{
+  "waitlist": {
+    "courses": [
+      {
+        "courseName": "COMP SCI 1",
+        "courseTitle": "Intro to Comp Sci",
+        "schedule": "TuTh 20:00:00-21:20:00",
+        "location": "TBA",
+        "positionOnWaitlist": 1,
+        "totalOnWaitlist": 4,
+        "waitlistAvailable": 3,
+        "waitlistEnrolled": 9,
+        "extraInfo": ""
+      }
+    ]
+  },
+  "lastModified": {
+    "hash": "d13ad7f51a931d6ccdd335c3a11b79054e388a4c",
+    "timestamp": {
+      "epoch": 1411593479,
+      "dateTime": "2014-09-24T14:17:59-07:00",
+      "dateString": "9/24"
+    }
+  },
+  "feedName": "MyAcademics::Waitlist"
+}
