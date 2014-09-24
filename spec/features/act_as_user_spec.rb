@@ -2,12 +2,10 @@ require "spec_helper"
 
 feature "act_as_user" do
   before do
-    @random_id = Time.now.to_f.to_s.gsub(".", "")
+    @target_uid = "978966"
     @fake_events_list = GoogleApps::EventsList.new(fake: true)
     User::Auth.new_or_update_superuser! "238382"
     User::Auth.new_or_update_superuser! "2040"
-    User::Auth.new_or_update_test_user! "1234"
-    User::Auth.new_or_update_test_user! "9876"
     Settings.features.stub(:reauthentication).and_return(false)
   end
 
@@ -37,7 +35,7 @@ feature "act_as_user" do
   scenario "make sure admin users can act as a user who has never signed in before" do
     Cache::UserCacheWarmer.stub(:warm).and_return(nil)
     super_user_uid = "238382"
-    act_as_uid = @random_id
+    act_as_uid = @target_uid
     # act_as user has never logged in
     User::Data.where(:uid=>act_as_uid).first.should be_nil
     # log into CAS with the super user
@@ -109,16 +107,16 @@ feature "act_as_user" do
   end
 
   scenario "check the footer message for a user that has never logged in" do
-    random_id = Time.now.to_f.to_s.gsub(".", "")
+    target_uid = "211159"
     login_with_cas "238382"
-    act_as_user random_id
+    act_as_user target_uid
 
     page.driver.post '/api/my/record_first_login'
     page.status_code.should == 204
 
     visit "/api/my/status"
     response = JSON.parse(page.body)
-    response['uid'].should == random_id
+    response['uid'].should == target_uid
     response['firstLoginAt'].should be_nil
 
     # visit "/settings"
@@ -139,24 +137,24 @@ feature "act_as_user" do
     response["isLoggedIn"].should be_true
     response["uid"].should == "2040"
 
-    act_as_user "1234"
+    act_as_user "978966"
     visit "/api/my/status"
     response = JSON.parse(page.body)
     response["isLoggedIn"].should be_true
-    response["uid"].should == "1234"
+    response["uid"].should == "978966"
 
-    act_as_user "9876"
+    act_as_user "211159"
     visit "/api/my/status"
     response = JSON.parse(page.body)
     response["isLoggedIn"].should be_true
-    response["uid"].should == "9876"
+    response["uid"].should == "211159"
 
     # make sure you can act-as someone with no user_auth record
-    act_as_user "54321"
+    act_as_user "904715"
     visit "/api/my/status"
     response = JSON.parse(page.body)
     response["isLoggedIn"].should be_true
-    response["uid"].should == "54321"
+    response["uid"].should == "904715"
 
     stop_act_as_user
     visit "/api/my/status"
@@ -177,7 +175,7 @@ feature "act_as_user" do
     response["uid"].should == "238382"
   end
 
-  scenario "making sure act_as doesn't expose google data for non-fake users", :testext => true do
+  scenario "making sure act_as doesn't expose google data", :testext => true do
     Cache::UserCacheWarmer.stub(:warm).and_return(nil)
     GoogleApps::Proxy.stub(:access_granted?).and_return(true)
     GoogleApps::EventsList.stub(:new).and_return(@fake_events_list)
@@ -195,12 +193,18 @@ feature "act_as_user" do
     visit "/api/my/up_next"
     response = JSON.parse(page.body)
     response["items"].empty?.should be_true
-    User::Data.stub(:where, :uid => '11002820').and_return("tricking the first login check")
-    act_as_user "11002820"
-    User::Auth.new_or_update_test_user! "11002820"
-    User::Data.unstub(:where)
-    visit "/api/my/up_next"
+  end
+
+  scenario "make sure you cannot act as an invalid user" do
+    Cache::UserCacheWarmer.stub(:warm).and_return(nil)
+    invalid_uid = "89923458987947"
+    login_with_cas "238382"
+    suppress_rails_logging {
+      act_as_user invalid_uid
+    }
+    visit "/api/my/status"
     response = JSON.parse(page.body)
-    response["items"].empty?.should be_false
+    response["isLoggedIn"].should be_true
+    response["uid"].should == "238382"
   end
 end

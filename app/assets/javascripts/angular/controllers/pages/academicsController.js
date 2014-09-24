@@ -249,6 +249,7 @@
       }
 
       $scope.isLSStudent = isLSStudent($scope.collegeAndLevel);
+      $scope.isLawStudent = isLawStudent($scope.collegeAndLevel);
       $scope.isUndergraduate = ($scope.collegeAndLevel && $scope.collegeAndLevel.standing === 'Undergraduate');
 
       $scope.teaching = parseTeaching(data.teachingSemesters);
