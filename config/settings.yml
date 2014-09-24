@@ -187,7 +187,9 @@ cache:
     Cache::FeedUpdateWhiteboard: <%= 5.minutes %>
     LiveUpdatesWarmer: <%= 2.minutes %>
     BackgroundJobsCheck: <%= 29.days %>
-    MyAcademics::Merged: NEXT_08_00
+    MyAcademics::Merged: <%= 1.seconds %>
+    MyAcademics::Waitlist: <%= 1.seconds %>
+    Peoplesoft::Proxy: <%= 1.seconds %>
     MyActivities::Merged: <%= 8.hours %>
     MyBadges::Merged: NEXT_00_00
     MyCampusLinksController: NEXT_08_00
