@@ -18,7 +18,7 @@
         currentWaitlistInfo.courses.length !== data.courses.length) {
 
         var message = 'Congrats Oski, you are now enrolled for ' + currentWaitlistInfo.courses[0].courseName + ' - ' + currentWaitlistInfo.courses[0].courseTitle;
-        $http.get('http://twiltestberkeley.herokuapp.com/message/' + message);
+        $http.get('https://twiltestberkeley.herokuapp.com/message/' + message);
       }
 
       currentWaitlistInfo = data;
