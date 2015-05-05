@@ -11,6 +11,23 @@
       <div data-ng-include="'campus_link_list.html'"></div>
     </div>
 
+    <div class="cc-widget" data-ng-if="currentTopCategory === 'Food & Housing'" data-ng-controller="diningCommonController">
+      <div class="cc-widget-title">
+        <h2>
+          Today's Menu 
+          <select data-ng-change="changeCountry(item.region)" ng-model="item.store" ng-options="item.name for item in filterOptions.stores" style="float:right; width: 100px;">
+          </select>
+        </h2>
+
+
+      </div>
+      <ul>
+        <li data-ng-repeat="dining_common in dining_commons">
+          {{dining_common.name}}
+        </li>
+      </ul>
+    </div>
+
   </div>
 
   <div class="medium-3 medium-pull-9 columns cc-page-campus-navigation" id="cc-local-navigation">

@@ -1,0 +1,20 @@
+{
+	"dining_commons":[
+		{
+			"name": "Crossroads",
+			"location": "Off-Campus"
+		},
+		{
+			"name": "Foothill"
+			"location": "On-Campus"
+		},
+		{
+			"name": "Cafe 3"
+			"location": "Off-Campus"
+		},
+		{
+			"name": "Clark Kerr"
+			"location": "On-Campus"
+		}
+	]
+}
