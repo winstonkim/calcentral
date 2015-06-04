@@ -6,7 +6,7 @@ describe Webcast::Recordings do
     context 'data organized by ccn' do
       let(:recordings) { Webcast::Recordings.new({:fake => true}).get }
       it 'should return a lot of playlists' do
-        expect(recordings[:courses].keys.length).to eq 19
+        expect(recordings[:courses].keys.length).to eq 21
         law_2723 = recordings[:courses]['2008-D-49688']
         expect(law_2723).to_not be_nil
         expect(law_2723[:recordings]).to have(12).items
@@ -20,7 +20,9 @@ describe Webcast::Recordings do
     context 'normal return of real data', :testext => true do
       it 'should return a bunch of playlists' do
         result = subject.get
-        expect(result[:courses].keys.length).to be >= 0
+        courses = result[:courses]
+        expect(courses).to_not be_nil
+        expect(courses.keys.length).to be >= 0
       end
     end
 
@@ -58,5 +60,18 @@ describe Webcast::Recordings do
         expect(result).to be_empty
       end
     end
+
+    context 'course with zero recordings is different than course not scheduled for recordings', :testext => true do
+      it 'returns nil recordings attribute when course is scheduled for recordings' do
+        result = subject.get
+        non_existent = result[:courses]['2015-B-1']
+        recordings_planned = result[:courses]['2015-B-58301']
+        recordings_exist = result[:courses]['2015-B-56745']
+        expect(non_existent).to be_nil
+        expect(recordings_planned[:recordings]).to be_nil
+        expect(recordings_exist[:recordings]).to have_at_least(10).items
+      end
+    end
   end
+
 end

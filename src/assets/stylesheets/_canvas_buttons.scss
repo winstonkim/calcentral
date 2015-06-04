@@ -12,7 +12,9 @@ $bc-canvas-button-selected-border: #525252;
 $bc-canvas-button-selected-color: #fff;
 
 // Canvas Button Styles
-.bc-canvas-button, .bc-main .cc-widget-webcast .cc-button {
+.bc-canvas-button,
+.bc-main .cc-widget-webcast .cc-button,
+.bc-canvas-embedded .cc-page-roster .cc-roster-search .cc-button {
   background: $bc-color-feature-icon-box-background;
   border: 1px solid $bc-canvas-button-border;
   border-radius: 3px;
@@ -27,24 +29,23 @@ $bc-canvas-button-selected-color: #fff;
   &:hover, &:active, &:focus {
     background: $bc-canvas-button-hover-background;
     border-color: $bc-canvas-button-hover-border;
-    color: $bc-color-grey-text;
+    color: $bc-color-off-black;
     text-decoration: none;
   }
   &[disabled] {
-    color: $bc-color-grey-text;
+    color: $bc-color-off-black;
     cursor: not-allowed;
     opacity: .5;
     pointer-events: none;
   }
 }
 
-.bc-canvas-button-selected, .bc-main .cc-widget-webcast .cc-button-selected {
-  background: $bc-canvas-button-selected-background;
-  border-color: $bc-canvas-button-selected-border;
-  color: $bc-canvas-button-selected-color;
+a.bc-canvas-button {
+  padding: 10px 14px;
 }
 
-.bc-canvas-button-primary {
+.bc-canvas-button-primary,
+.bc-canvas-embedded .cc-page-roster .cc-roster-search .cc-button-blue {
   background: $bc-canvas-button-primary-background;
   border: 1px solid $bc-canvas-button-primary-border;
   color: $bc-color-white;
@@ -59,12 +60,23 @@ $bc-canvas-button-selected-color: #fff;
   }
 }
 
+.bc-canvas-button-small {
+  font-size: 12px;
+  padding: 2px 8px;
+}
+
+.bc-canvas-button-selected, .bc-main .cc-widget-webcast .cc-button-selected {
+  background: $bc-canvas-button-selected-background;
+  border-color: $bc-canvas-button-selected-border;
+  color: $bc-canvas-button-selected-color;
+}
+
 .bc-canvas-form {
   label {
     padding: 9px 0;
   }
   input[type="text"] {
-    border: 1px solid #ccc;
+    border: 1px solid $bc-color-grey;
     border-radius: 3px;
     color: $bc-canvas-off-black;
     display: inline-block;

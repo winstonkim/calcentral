@@ -3,6 +3,12 @@ module Canvas
     require 'csv'
     include ClassLogger, SafeJsonParser
 
+    def initialize(options = {})
+      super options
+      @account_id = options.delete(:account_id) || settings.account_id
+      @options = options
+    end
+
     def get_sis_export_csv(object_type, term_id = nil)
       get_account_csv('sis_export', object_type, term_id)
     end
@@ -15,7 +21,7 @@ module Canvas
       term_param = term_id.blank? ? '' : "&parameters[enrollment_term]=sis_term_id:#{term_id}"
       response = ActiveSupport::Notifications.instrument('proxy', { class: self.class, method: __method__ }) do
         request_uncached(
-          "accounts/#{settings.account_id}/reports/#{report_type}_csv?parameters[#{object_type}]=1#{term_param}",
+          "accounts/#{@account_id}/reports/#{report_type}_csv?parameters[#{object_type}]=1#{term_param}",
           "_start_#{report_type}_report_#{object_type}",
           {method: :post}
         )
@@ -49,7 +55,7 @@ module Canvas
       if @fake
         csv = CSV.read("fixtures/pretty_vcr_recordings/Canvas_#{report_type}_report_#{object_type}_csv.csv", {headers: true})
       else
-        conn = Faraday.new(file_info["url"]) do |c|
+        conn = Faraday.new(file_info['url'], @options) do |c|
           c.use FaradayMiddleware::FollowRedirects
           c.use Faraday::Adapter::NetHttp
         end
@@ -73,7 +79,7 @@ module Canvas
     end
 
     def check_report_status(report_type, object_type, report_id)
-      url = "accounts/#{settings.account_id}/reports/#{report_type}_csv/#{report_id}"
+      url = "accounts/#{@account_id}/reports/#{report_type}_csv/#{report_id}"
       status = nil
       sleep 5
       tries = report_retrieval_attempts

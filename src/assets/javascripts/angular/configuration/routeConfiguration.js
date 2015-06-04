@@ -81,6 +81,12 @@
       isBcourses: true,
       isEmbedded: true
     }).
+    when('/canvas/embedded/site_mailing_lists', {
+      templateUrl: 'canvas_embedded/site_mailing_list.html',
+      controller: 'CanvasSiteMailingListController',
+      isBcourses: true,
+      isEmbedded: true
+    }).
     when('/canvas/embedded/create_course_site', {
       templateUrl: 'canvas_embedded/create_course_site.html',
       controller: 'CanvasCreateCourseSiteController',
@@ -151,6 +157,11 @@
       controller: 'CanvasCourseGradeExportController',
       isBcourses: true
     }).
+    when('/canvas/site_mailing_list', {
+      templateUrl: 'canvas_embedded/site_mailing_list.html',
+      controller: 'CanvasSiteMailingListController',
+      isBcourses: true
+    }).
     when('/canvas/user_provision', {
       templateUrl: 'canvas_embedded/user_provision.html',
       controller: 'CanvasUserProvisionController',
@@ -163,10 +174,6 @@
     }).
     when('/canvas/course_mediacasts/:canvasCourseId', {
       templateUrl: 'canvas_embedded/course_mediacasts.html',
-      isBcourses: true
-    }).
-    when('/canvas/webcast_sign_up/:canvasCourseId', {
-      templateUrl: 'canvas_embedded/course_webcast_sign_up.html',
       isBcourses: true
     }).
     // Redirect to a 404 page

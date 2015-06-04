@@ -73,6 +73,10 @@ class CanvasLtiController < ApplicationController
     lti_xml_configuration
   end
 
+  def lti_site_mailing_lists
+    lti_xml_configuration
+  end
+
   def lti_user_provision
     lti_xml_configuration
   end
@@ -82,10 +86,6 @@ class CanvasLtiController < ApplicationController
   end
 
   def lti_course_mediacasts
-    lti_xml_configuration
-  end
-
-  def lti_course_webcast_sign_up
     lti_xml_configuration
   end
 

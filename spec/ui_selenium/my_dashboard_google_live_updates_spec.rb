@@ -21,11 +21,11 @@ describe 'My Dashboard bConnected live updates', :testui => true do
     id = today.to_i.to_s
 
     before(:all) do
-      @driver = WebDriverUtils.driver
+      @driver = WebDriverUtils.launch_browser
     end
 
     after(:all) do
-      @driver.quit
+      WebDriverUtils.quit_browser(@driver)
     end
 
     before(:context) do
@@ -36,7 +36,7 @@ describe 'My Dashboard bConnected live updates', :testui => true do
       cal_net_auth_page.login(UserUtils.qa_username, UserUtils.qa_password)
       settings_page = CalCentralPages::SettingsPage.new(@driver)
       settings_page.load_page(@driver)
-      settings_page.disconnect_bconnected(@driver)
+      settings_page.disconnect_bconnected
 
       @google = GooglePage.new(@driver)
       @google.connect_calcentral_to_google(@driver, UserUtils.qa_gmail_username, UserUtils.qa_gmail_password)
@@ -58,7 +58,7 @@ describe 'My Dashboard bConnected live updates', :testui => true do
       @google.load_gmail(@driver)
       @email_subject = "Test email #{id}"
       @email_summary = "This is the subject of test email #{id}"
-      @google.send_email(@driver, UserUtils.qa_gmail_username, @email_subject, @email_summary)
+      @google.send_email(UserUtils.qa_gmail_username, @email_subject, @email_summary)
       @task_title = "Test task #{id}"
       @google.load_calendar(@driver)
       @google.create_unsched_task(@driver, @task_title)

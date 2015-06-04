@@ -65,6 +65,21 @@ module Canvas
       })
     end
 
+    def find_canvas_course_tab(tool_id)
+      response = request_uncached("#{@api_root}/tabs", '_find_canvas_course_tab', { method: :get })
+      all_tabs = response && safe_json(response.body)
+      matching_tab = all_tabs && all_tabs.select { |tab| tab['id'].ends_with? "_#{tool_id}" }
+      matching_tab ? matching_tab.first : nil
+    end
+
+    def hide_course_site_tab(tab_id)
+      update_course_site_tab_hidden(tab_id, true)
+    end
+
+    def show_course_site_tab(tab_id)
+      update_course_site_tab_hidden(tab_id, false)
+    end
+
     def create_external_tool_by_xml(tool_name, xml_string)
       parameters = {
           'name' => tool_name,
@@ -105,6 +120,28 @@ module Canvas
           body: parameters
         })
       response ? safe_json(response.body) : nil
+    end
+
+    private
+
+    def update_course_site_tab_hidden(tab_id, set_to_hidden)
+      begin
+        options = {
+          :method => :put,
+          :body => { 'hidden' => set_to_hidden },
+        }
+        url = "#{@api_root}/tabs/#{tab_id}"
+        response = request_uncached(url, '_update_course_site_tab_hidden', options)
+        tab = response && safe_json(response.body)
+        is_tab_now_showing = tab && !tab['hidden']
+        if is_tab_now_showing == set_to_hidden
+          raise Errors::ProxyError.new("Failed to set hidden=#{set_to_hidden} on tab #{tab_id} of Canvas:#{@api_root}", response: response, url: url, uid: @uid)
+        end
+        tab
+      rescue => exception
+        logger.error "#{self.class.name} Problem updating hidden=#{set_to_hidden} on tab #{tab_id} of Canvas:#{@api_root}. Abort!"
+        raise exception
+      end
     end
 
   end

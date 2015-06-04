@@ -21,11 +21,11 @@ describe 'My Dashboard Up Next card', :testui => true do
     id = today.to_i.to_s
 
     before(:all) do
-      @driver = WebDriverUtils.driver
+      @driver = WebDriverUtils.launch_browser
     end
 
     after(:all) do
-      @driver.quit
+      WebDriverUtils.quit_browser(@driver)
     end
 
     before(:context) do
@@ -36,7 +36,7 @@ describe 'My Dashboard Up Next card', :testui => true do
       cal_net_auth_page.login(UserUtils.qa_username, UserUtils.qa_password)
       settings_page = CalCentralPages::SettingsPage.new(@driver)
       settings_page.load_page(@driver)
-      settings_page.disconnect_bconnected(@driver)
+      settings_page.disconnect_bconnected
 
       @google = GooglePage.new(@driver)
       @google.connect_calcentral_to_google(@driver, UserUtils.qa_gmail_username, UserUtils.qa_gmail_password)
@@ -129,6 +129,7 @@ describe 'My Dashboard Up Next card', :testui => true do
 
       before(:example) do
         @up_next_card.click_bcal_link(@driver, id)
+        @up_next_card.wait_until(timeout=WebDriverUtils.page_event_timeout) { @driver.window_handles.length > 1 }
         @driver.switch_to.window(@driver.window_handles.last)
         @google.event_title_displayed_element.when_visible(timeout=WebDriverUtils.page_load_timeout)
       end

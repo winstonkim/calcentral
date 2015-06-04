@@ -14,17 +14,24 @@ module Calmail
 
     def request(path, options = {})
       url = "#{@settings.base_url}/#{path}"
+      logger.info "Fake = #{@fake}; Making request to #{url}"
+
       body_options = options.delete(:body) || {}
       body_options.reverse_merge!(
         apikey: @settings.api_key,
         domain: @settings.domain
       )
       request_options = {
+        # For the moment, these requests set an explicit user-agent as a workaround for CLC-5346.
+        headers: {'User-Agent' => 'Ruby'},
         method: :post,
         body: body_options,
         parser: LegacyJsonParser
       }.merge(options)
-      get_response(url, request_options)
+
+      response = get_response(url, request_options)
+      logger.debug "Remote server status #{response.code}, Body = #{response.body}"
+      response
     end
 
     def mock_request
