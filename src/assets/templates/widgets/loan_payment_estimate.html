@@ -1,0 +1,24 @@
+<div class="cc-widget" data-ng-controller="LoanEstimateController">
+  <div class="cc-widget-title">
+    <h2 class="cc-left">Loan Payment Estimate</h2>
+  </div>
+  <ul class="cc-widget-list">
+    <li class="cc-clearfix-container">
+      <div class="cc-left">
+        <h1>{{estimated_balance | currency:undefined:0}}</h1>
+        <h5 class="cc-page-myfinances-lighter">ESTIMATED BALANCE</h5>
+      </div>
+      <div class="cc-right">
+        <h1>{{estimated_monthly_payments | currency:undefined:0}}/MO</h1>
+        <h5 class="cc-page-myfinances-lighter">ESTIMATED MONTHLY PAYMENTS</h5>
+      </div>
+    </li>
+    <li class="">
+      <canvas id="line" class="chart chart-line" data="data" labels="labels" options="options">
+      </canvas>
+    </li>
+    <li class="">
+        It's estimated that you'll pay <strong>{{pay_rate | currency:undefined:0}}</strong> (including loan interest) over <strong>{{years}}</strong> years.
+    </li>
+  </ul>
+</div>

@@ -24,6 +24,7 @@
     'ngRoute',
     'ngSanitize',
     'ngTouch',
+    'chart.js',
     'templates'
   ]);
 

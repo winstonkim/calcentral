@@ -1,0 +1,9 @@
+{
+  "estimated_balance": 38772,
+  "estimated_monthly_payments": 114,
+  "labels": ["2015", "2020", "2025", "2035"],
+  "series": ["Series A"],
+  "data": [[40000, 32000, 20000, 0]],
+  "pay_rate": 500,
+  "years": 15
+}

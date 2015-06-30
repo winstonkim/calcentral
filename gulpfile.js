@@ -56,7 +56,9 @@
         // Font Awesome
         'node_modules/font-awesome/css/font-awesome.css',
         // Datepicker
-        'node_modules/pikaday/css/pikaday.css'
+        'node_modules/pikaday/css/pikaday.css',
+        // Angular Chart
+        'node_modules/angular-chart.js/dist/angular-chart.css'
       ],
       cssWatch: [
         'src/assets/stylesheets/**/*.*'
