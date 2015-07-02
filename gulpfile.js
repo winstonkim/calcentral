@@ -29,11 +29,16 @@
   var uglify = require('gulp-uglify');
   var util = require('gulp-util');
 
+  // Initialize BrowserSync
+  var browserSync = require('browser-sync').create();
+
   // Base options for the command line
   var baseOptions = {
     string: 'env',
+    boolean: 'bs',
     default: {
-      env: process.env.RAILS_ENV || 'development'
+      env: process.env.RAILS_ENV || 'development',
+      bs: true
     }
   };
 
@@ -42,6 +47,14 @@
 
   // Are we in production mode?
   var isProduction = options.env === 'production';
+
+  // Is BrowserSync on?
+  var useBrowserSync = options.bs;
+
+  // Turn off BrowserSync if production mode
+  if (isProduction){
+    useBrowserSync = false;
+  }
 
   // List all the used paths
   var paths = {
@@ -111,6 +124,14 @@
     }
   };
 
+  gulp.task('browser-sync', ['css', 'browserify'], function() {
+    if (useBrowserSync){
+      browserSync.init({
+          proxy: '0.0.0.0:3000'
+      });
+    }
+  });
+
   /**
    * Images task
    *   Copy files
@@ -164,7 +185,8 @@
       // Combine the files
       .pipe(concat('application.css'))
       // Output to the correct directory
-      .pipe(gulp.dest(paths.dist.css));
+      .pipe(gulp.dest(paths.dist.css))
+      .pipe(gulpif(useBrowserSync, browserSync.reload({stream: true})));
   });
 
   /**
@@ -221,7 +243,12 @@
       .pipe(addStream.obj(prepareTemplates()))
       .pipe(streamify(concat('application.js')))
       .pipe(streamify(gulpif(isProduction, uglify())))
-      .pipe(gulp.dest(paths.dist.js));
+      .pipe(gulp.dest(paths.dist.js))
+      .on('end', function(){
+        if (useBrowserSync){
+          browserSync.reload();
+        }
+      });
   };
 
   /**
@@ -409,6 +436,7 @@
     runSequence(
       'build-clean',
       [
+        'browser-sync',
         'images',
         'browserify',
         'css',
