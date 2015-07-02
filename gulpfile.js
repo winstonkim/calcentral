@@ -127,7 +127,7 @@
   gulp.task('browser-sync', ['css', 'browserify'], function() {
     if (useBrowserSync){
       browserSync.init({
-          proxy: '0.0.0.0:3000'
+          proxy: 'localhost:3000'
       });
     }
   });
