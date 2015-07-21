@@ -1,0 +1,35 @@
+<div class="cc-widget" data-ng-controller="CarsController">
+  <div class="cc-widget-title">
+    <h2 class="cc-left">Withdrawal Estimator</h2>
+    <a data-ng-if="!carsDetails && myfinances.activity && !myfinancesError" class="cc-right cc-widget-title-link" href="/finances/details">
+      <strong>Details</strong>
+    </a>
+  </div>
+
+  <div data-cc-spinner-directive>
+      <ul class="cc-widget-text">
+        <li>
+          • To learn more about withdrawing, click a link in the Resources column.
+        </li>
+        <li>
+           • To see an estimate of the effect of withdrawing on your financial aid, enter an estimated Last Date of Attendance or withdrawal and click Show Estimate.
+        </li>
+      </ul>
+      <div class="flex-container cc-widget-text">
+        <div class="flex-item">
+          <h3>Estimated Last Date of Attendance or Withdrawal</h3>
+          <div class="medium-3 small-3 columns"> <label for="cc-widget-tasks-addtask-date-90">Date:</label> </div>
+          <div class="medium-7 small-7 columns cc-widget-tasks-date-input"> <input type="text" data-ng-model="selectedDate" name="add_task_due_date" id="cc-widget-tasks-addtask-date-90" placeholder="mm/dd/yyyy" data-cc-date-validator-directive="" class="ng-pristine ng-valid ng-valid-cc-date-validator ng-touched"> <p class="cc-alert cc-alert-text ng-hide" role="alert" data-ng-show="cc_widget_tasks_form.add_task_due_date.$error.ccDateValidator"> Please use mm/dd/yyyy date format </p> </div>
+          <div class="medium-2 small-2 columns"> <button class="cc-button-transparent cc-widget-tasks-addtask-calendar-icon" data-ng-click="api.util.preventBubble($event)" tabindex="-1" data-cc-datepicker-directive="cc-widget-tasks-addtask-date-90" type="button"> <i class="fa fa-calendar"></i> </button> </div>
+          <button class="cc-button" type="reset" data-ng-show="!editorEnabled" data-ng-click="addEditTask.title='';toggleAddTask()">Show Estimate</button>
+        </div>
+        <div class="flex-item">
+          <h3>Resources</h3>
+          • Two types of Withdrawal: <a href="https://uhs.berkeley.edu/students/counseling/medicalwithdrawals.shtml">Medical</a> and <a href="http://registrar.berkeley.edu/canwd.html#withdraw">Personal</a><br>
+          • <a href="http://registrar.berkeley.edu/canwd.html">Cancellation / Withdrawal & Readmission</a><br>
+          • <a href="http://financialaid.berkeley.edu/withdrawing-classes-orschool">Financial Aid & Scholarships: Withdrawal</a><br>
+          • <a href="#">SAP</a> (Satisfactory Academic Progress)<br>
+        </div>
+      </ul>
+  </div>
+</div>

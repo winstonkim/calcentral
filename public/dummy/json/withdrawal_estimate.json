@@ -1,0 +1,88 @@
+{
+  "fees": [
+    {
+      "name": "Tuition",
+      "current": 6096,
+      "remaining_invoice": 3096,
+      "refund": -3000
+    },
+    {
+      "name": "Campus Fees",
+      "current": 350,
+      "remaining_invoice": 150,
+      "refund": -200
+    },
+     {
+      "name": "SHIP",
+      "current": "",
+      "remaining_invoice": "",
+      "refund": ""
+    },
+     {
+      "name": "NRT",
+      "current": "",
+      "remaining_invoice": "",
+      "refund": ""
+    },
+     {
+      "name": "On-Campus Housing",
+      "current": "",
+      "remaining_invoice": "",
+      "refund": ""
+    },
+     {
+      "name": "Etc.",
+      "current": "",
+      "remaining_invoice": "",
+      "refund": ""
+    }
+  ],
+  "total_fees":[
+    {
+      "name": "Total Tuition and Fees and Charges",
+      "current": 6446,
+      "remaining_invoice": 3246,
+      "refund": 4200
+    }
+  ],
+  "aid": [
+    {
+      "name": "Sub Loan",
+      "current": 3500,
+      "keep": 0,
+      "reduction": -3500
+    },
+    {
+      "name": "Unsub Loan",
+      "current": 2500,
+      "keep": 0,
+      "reduction": -2000
+    },
+     {
+      "name": "Pell Grant",
+      "current": 4500,
+      "keep": 4500,
+      "reduction": 0
+    },
+     {
+      "name": "Univ Grant",
+      "current": "",
+      "keep": "",
+      "reduction": ""
+    },
+     {
+      "name": "Etc.",
+      "current": "",
+      "keep": "",
+      "reduction": ""
+    }
+  ],
+  "aid":[
+    {
+      "name": "Total Financial Aid and Scholarships",
+      "current": 4500,
+      "keep": 3246,
+      "refund": 4200
+    }
+  ]
+}
