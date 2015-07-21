@@ -61,6 +61,10 @@
       templateUrl: 'profile.html',
       controller: 'ProfileController'
     }).
+    when('/finances/withdrawal_estimator', {
+      templateUrl: 'withdrawal_estimator.html',
+      controller: 'MyFinancesController'
+    }).
     when('/settings', {
       templateUrl: 'settings.html',
       controller: 'SettingsController'
