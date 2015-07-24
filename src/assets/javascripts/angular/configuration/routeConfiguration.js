@@ -57,6 +57,10 @@ angular.module('calcentral.config').config(function($routeProvider) {
     templateUrl: 'finaid.html',
     controller: 'MyFinancesController'
   }).
+  when('/finances/withdrawal_estimator', {
+    templateUrl: 'withdrawal_estimator.html',
+    controller: 'WithdrawalEstimatorController'
+  }).
   when('/profile/:category?', {
     templateUrl: 'profile.html',
     controller: 'ProfileController'

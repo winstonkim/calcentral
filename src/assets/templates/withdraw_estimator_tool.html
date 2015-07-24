@@ -1,0 +1,106 @@
+<div class="cc-widget cc-widget-withdraw" data-ng-controller="WithdrawalEstimatorController">
+  <div class="cc-widget-title">
+    <h2 class="cc-left">Withdrawal Estimator</h2>
+  </div>
+
+  <div class="cc-widget-text cc-clearfix-container">
+    <ul class="cc-list-bullets">
+      <li>
+        To learn more about withdrawing, click a link in the Resources column.
+      </li>
+      <li>
+        To see an estimate of the effect of withdrawing on your financial aid, enter an estimated Last Date of Attendance or withdrawal and click Show Estimate.
+      </li>
+    </ul>
+    <div class="cc-widget-withdraw-margin-top">
+      <div class="cc-widget-withdraw-container-split">
+        <div>
+          <h3 class="cc-widget-withdraw-header-inline">Estimated Last Date of Attendance or Withdrawal</h3>
+          <button class="cc-button-link" data-ng-click="toggle =! toggle">
+            Show <span data-ng-if="toggle">Less</span><span data-ng-if="!toggle">More</span>
+          </button>
+        </div>
+        <div class="cc-widget-withdraw-toggle-text" data-ng-if="toggle">
+          Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+        </div>
+        <form class="cc-widget-withdraw-form" name="cc_widget_withdraw_form" data-ng-submit="showEstimate(withdrawalEstimator.selectedDate)">
+          <div class="cc-widget-withdraw-date-picker">
+            <div class="cc-left">
+              <label for="cc-widget-withdraw-date"><strong>Date:</strong></label>
+            </div>
+            <div class="cc-left">
+              <div class="cc-left">
+                <input class="cc-widget-withdraw-date-picker-input" type="text" data-ng-model="withdrawalEstimator.selectedDate" name="pick_date" id="cc-widget-withdraw-date" placeholder="mm/dd/yyyy" data-cc-date-validator-directive>
+                <button class="cc-button-transparent cc-widget-withdraw-calendar-icon" data-ng-click="api.util.preventBubble($event)" tabindex="-1" data-cc-datepicker-directive="cc-widget-withdraw-date" type="button">
+                  <i class="fa fa-calendar"></i>
+                </button>
+                <p class="cc-widget-withdraw-alert cc-alert cc-alert-text" role="alert" data-ng-if="cc_widget_withdraw_form.pick_date.$error.ccDateValidator"> Please use mm/dd/yyyy date format
+                </p>
+              </div>
+              <div class="cc-clearfix">
+                <button class="cc-button cc-widget-withdraw-button" type="submit" ng-disabled="!withdrawalEstimator.selectedDate">Show Estimate</button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="cc-widget-withdraw-container-split">
+        <h3>Resources</h3>
+        <ul class="cc-list-bullets">
+          <li>Two types of Withdrawal: <a href="https://uhs.berkeley.edu/students/counseling/medicalwithdrawals.shtml">Medical</a> and <a href="http://registrar.berkeley.edu/canwd.html#withdraw">Personal</a></li>
+          <li><a href="http://registrar.berkeley.edu/canwd.html">Cancellation / Withdrawal &amp; Readmission</a></li>
+          <li><a href="http://financialaid.berkeley.edu/withdrawing-classes-orschool">Financial Aid &amp; Scholarships: Withdrawal</a></li>
+          <li><a href="#">SAP</a> (Satisfactory Academic Progress)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div data-ng-if="withdrawalEstimate && displayDate">
+    <div class="cc-widget-withdraw-heading-bar">
+      <strong>Estimated Effects of Withdrawal:</strong>&nbsp;<span data-ng-bind="displayDate"></span>
+    </div>
+    <div class="cc-table cc-widget-withdraw-table cc-widget-text">
+      <table>
+        <colgroup>
+          <col class="cc-widget-withdraw-col-lg">
+          <col class="cc-widget-withdraw-col-sm">
+          <col class="cc-widget-withdraw-col-sm">
+        </colgroup>
+      <tbody data-ng-repeat="data in withdrawalEstimate">
+        <tr class="cc-widget-withdraw-categories">
+          <th data-ng-repeat="category in data.categories track by $index" data-ng-bind="category"></th>
+        </tr>
+        <tr class="cc-widget-withdraw-categories-mobile">
+          <th data-ng-repeat="category in data.categoriesMobile track by $index" data-ng-bind="category"></th>
+        </tr>
+        <tr data-ng-repeat="item in data.items">
+          <td data-ng-bind="item.title"></td>
+          <td class="cc-table-right" data-ng-repeat="amount in item.amounts track by $index" data-cc-amount-directive="amount" data-cc-amount-directive-color="false"></td>
+        </tr>
+        <tr class="cc-widget-withdraw-total-row">
+          <td data-ng-bind="data.total.title"></td>
+          <td class="cc-table-right" data-ng-repeat="amount in data.total.amounts track by $index" data-cc-amount-directive="amount" data-cc-amount-directive-color="false"></td>
+        </tr>
+      </tbody>
+      <tr class="cc-widget-withdraw-total-row">
+        <td data-ng-bind="finalTotal.name"></td>
+        <td></td>
+        <td></td>
+        <td class="cc-table-right" data-cc-amount-directive="finalTotal.amount" data-cc-amount-directive-color="false"></td>
+      </tr>
+    </table>
+    <div class="cc-widget-withdraw-categories-mobile">
+      <div>[1] Current Amount</div>
+      <div>[2] Estimated Post-Withdrawal Amount (Remaining Invoice)</div>
+      <div>[3] Amount of Tuition and Fees Refunded</div>
+      <div>[4] Estimated Post-Withdrawal Amount (What you would keep)</div>
+      <div>[5] Estimated Adjustment Amount (Reduction in aid)</div>
+    </div>
+    <div class="cc-widget-withdraw-table-description">
+      If the effect is negative, you will receive an invoice from UC Berkeley shortly after your withdrawal. You are encouraged to plan accordingly for any invoices you may owe the University.
+    </div>
+    <div>
+      The estimate above does not take into consideration any expenses you may incur for transportation home, off-campus housing, or other charges. You should consider your situation carefully. The above is only an estimate and actual amounts may vary depending on your circumstances.
+    </div class="cc-widget-withdraw-table-description">
+  </div>
+</div>

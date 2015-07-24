@@ -1,0 +1,101 @@
+.cc-widget-withdraw {
+  .cc-widget-withdraw-button {
+    margin: 10px 0 20px;
+  }
+
+  .cc-widget-withdraw-header-inline {
+    display: inline;
+  }
+
+  .cc-widget-withdraw-container-split {
+    float: left;
+    width: 50%;
+    @media #{$small-only} {
+      width: 100%;
+    }
+  }
+
+  .cc-widget-withdraw-form {
+    background: initial;
+    border: initial;
+    padding: 0;
+    .cc-widget-withdraw-calendar-icon {
+      margin: 2px;
+    }
+  }
+
+  .cc-widget-withdraw-toggle-text {
+    margin: 5px 0 15px;
+  }
+
+  .cc-widget-withdraw-date-picker {
+    margin: 15px 0;
+    .cc-widget-withdraw-date-picker-input {
+      width: 80px;
+    }
+
+    .cc-widget-withdraw-alert {
+      margin-bottom: 0;
+    }
+  }
+
+  .cc-widget-withdraw-margin-top {
+    margin-top: 10px;
+  }
+
+  .cc-widget-withdraw-heading-bar {
+    background-color: $cc-color-dark-blue;
+    color: $cc-color-white;
+    padding: 5px 10px;
+  }
+
+  .cc-widget-withdraw-table {
+    margin-bottom: 15px;
+    .cc-widget-withdraw-table-description {
+      margin: 15px 0;
+    }
+
+    .cc-widget-withdraw-col-lg {
+      width: 40%;
+    }
+
+    .cc-widget-withdraw-col-sm {
+      width: 20%;
+    }
+
+    .cc-widget-withdraw-categories {
+      @media #{$small-only} {
+        display: none;
+      }
+    }
+
+    .cc-widget-withdraw-categories-mobile {
+      display: none;
+      @media #{$small-only} {
+        display: table-row;
+      }
+    }
+
+    .cc-widget-withdraw-total-row td {
+      border-top: 1px solid $cc-color-shadow-color;
+      font-weight: 700;
+      padding: 5px 0;
+    }
+
+    td {
+      font-size: 11px;
+      padding: 0;
+    }
+
+    th {
+      font-size: 12px;
+      padding: 0 0 0 5px;
+      text-align: right;
+      vertical-align: bottom;
+      &:first-child {
+        padding: 0;
+        text-align: left;
+      }
+    }
+  }
+}

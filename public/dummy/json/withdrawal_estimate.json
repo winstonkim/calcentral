@@ -1,0 +1,72 @@
+{
+  "withdrawalEstimate":[
+    {
+      "categories": ["Tuition/Fees and Charges", "Current Amount", "Estimated Post-Withdrawal Amount (Remaining Invoice)", "Amount of Tuition and Fees Refunded"],
+      "categoriesMobile": ["Tuition/Fees and Charges", "Current [1]", "Estimated [2]", "Refunded [3]"],
+      "items": [
+        {
+          "title": "Tuition",
+          "amounts": [6096, 3096, -3000]
+        },
+        {
+          "title": "Campus Fees",
+          "amounts": [350, 150, -200]
+        },
+        {
+          "title": "SHIP",
+          "amounts": [null, null, 0]
+        },
+        {
+          "title": "NRT",
+          "amounts": [null, null, 0]
+        },
+        {
+          "title": "On-Campus Housing",
+          "amounts": [null, null, null]
+        },
+        {
+          "title": "Etc.",
+          "amounts": [null, null, null]
+        }
+      ],
+      "total": {
+        "title": "Total Tuition and Fees and Charges",
+        "amounts": [6446, 3246, 4200]
+      }
+    },
+    {
+      "categories": ["Financial Aid and Scholarships", "Current Amount", "Estimated Post-Withdrawal Amount (What you would keep)", "Estimated Adjustment Amount (Reduction in aid)"],
+      "categoriesMobile": ["Financial Aid and Scholarships", "Current [1]", "Estimated [4]", "Adjusted [5]"],
+      "items": [
+        {
+          "title": "Sub Loan",
+          "amounts": [3500, 0, -3500]
+        },
+        {
+          "title": "Unsub Loan",
+          "amounts": [2000, 0, -2000]
+        },
+        {
+          "title": "Pell Grant",
+          "amounts": [4500, 4500, 0]
+        },
+        {
+          "title": "Univ Grant",
+          "amounts": [null, null, 0]
+        },
+        {
+          "title": "Etc.",
+          "amounts": [null, null, 0]
+        }
+      ],
+      "total": {
+        "title": "Total Financial Aid and Scholarships",
+        "amounts": [10000, 4500, -5500]
+      }
+    }
+  ],
+  "finalTotal": {
+    "name": "Final Estimated Financial Effect of Withdrawal",
+    "amount": -2300
+  }
+}
