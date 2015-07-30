@@ -4,6 +4,7 @@
 
   // Load gulp
   var gulp = require('gulp');
+  var spawn = require('child_process').spawn;
 
   // Allows for conditional statements in gulp
   var gulpif = require('gulp-if');
@@ -122,6 +123,15 @@
       js: 'public/assets/javascripts'
     }
   };
+
+  /**
+   * Gulp reload task
+   *   Spawns new gulp task
+   */
+  gulp.task('gulp-reload', function() {
+    spawn('gulp', ['build'], {stdio: 'inherit'});
+    process.exit();
+  });
 
   /**
    * BrowserSync task
@@ -431,6 +441,7 @@
     gulp.watch(paths.src.fonts, ['fonts']);
     gulp.watch(paths.src.templates, ['browserify']);
     gulp.watch(paths.src.img, ['images']);
+    gulp.watch('gulpfile.js', ['gulp-reload']);
   });
 
   /**
