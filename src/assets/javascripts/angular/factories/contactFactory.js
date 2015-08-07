@@ -9,6 +9,7 @@ angular.module('calcentral.factories').factory('contactFactory', function(apiSer
   var urlAddress = '/api/campus_solutions/address';
   var urlCountries = '/api/campus_solutions/country';
   var urlStates = '/api/campus_solutions/state';
+  var urlContact = '/dummy/json/contact.json';
 
   var getAddress = function(options) {
     return apiService.http.request(options, urlAddress);
@@ -22,9 +23,14 @@ angular.module('calcentral.factories').factory('contactFactory', function(apiSer
     return apiService.http.request(options, urlStates);
   };
 
+  var getContact = function(options) {
+    return apiService.http.request(options, urlContact);
+  };
+
   return {
     getAddress: getAddress,
     getCountries: getCountries,
-    getStates: getStates
+    getStates: getStates,
+    getContact: getContact
   };
 });

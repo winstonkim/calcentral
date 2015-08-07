@@ -1,33 +1,51 @@
-<div class="cc-widget-text" data-ng-controller="ContactController">
+<div id="cc-widget-profile-contact" class="cc-widget-text" data-ng-controller="ContactController">
 
-  <div class="cc-table cc-table-top-border" data-ng-if="api.user.profile.googleEmail">
+  <div class="cc-table cc-widget-profile-table-top-border" data-ng-repeat="category in contactCategories" data-ng-if="contactCategories">
     <table>
       <tr>
-        <th scope="row" width="30%" class="cc-table-right-spacing cc-nowrap">Email</th>
-        <td data-ng-bind="api.user.profile.googleEmail"></td>
-      </tr>
-    </table>
-  </div>
-
-  <div class="cc-table cc-table-top-border">
-    <table>
-      <tr>
-        <th scope="row" width="30%" class="cc-table-right-spacing cc-nowrap">Mailing Address</th>
-        <td>
-          <div data-ng-repeat="address in addresses">
+        <th scope="row" width="30%" class="cc-widget-profile-table-cell-padding cc-table-right-spacing cc-nowrap" data-ng-bind="category.title"></th>
+        <td class="cc-widget-profile-table-cell-padding">
+          <form data-ng-if="newForm.open" class="cc-widget-profile-form cc-widget-profile-form-border-bottom cc-widget-profile-form-margin-bottom">
+              <div data-ng-repeat="field in category.newInfo">
+                <input data-ng-if="field.input === 'checkbox'" type="checkbox" data-ng-checked="field.value">
+                <label style="text-align: left; display: initial;" data-ng-bind="field.name"></label>
+                <span data-ng-if="field.required">(REQUIRED)</span>
+                <select data-ng-if="field.input === 'select'" data-ng-model="field.value" data-ng-options="type for type in category.types"></select>
+                <input data-ng-if="field.input === 'text'" type="text" data-ng-value="field.value">
+              </div>
             <div>
-              <strong data-ng-bind="address.addressTypeDescr"></strong>
+              <button type="submit" class="cc-button">Save</button>
+              <button class="cc-button" data-ng-click="newForm.open = false; addButton.hide = false;">Cancel</button>
             </div>
-            <div data-ng-if="address.address1" data-ng-bind="address.address1"></div>
-            <div data-ng-if="address.address2" data-ng-bind="address.address2"></div>
-            <div data-ng-if="address.address3" data-ng-bind="address.address3"></div>
-            <div data-ng-if="address.address4" data-ng-bind="address.address4"></div>
-            <div data-ng-if="address.city" data-ng-bind-template="{{address.city}}, {{address.state}} {{address.postal}}"></div>
-            <div data-ng-if="address.country" data-ng-bind="address.country"></div>
-          <div>
+          </form>
+          <div data-ng-repeat="info in category.info">
+            <form data-ng-if="info.show" class="cc-widget-profile-form" ng-class="{'cc-widget-profile-form-border-bottom': $first, 'cc-widget-profile-form-border-top': $last, 'cc-widget-profile-form-border-top-bottom': !$first && !$last}">
+                <div data-ng-repeat="data in info.data">
+                  <input data-ng-if="data.input === 'checkbox'" type="checkbox" data-ng-checked="data.value">
+                  <label style="text-align: left; display: initial;" data-ng-bind="data.name"></label>
+                  <span data-ng-if="data.required">(REQUIRED)</span>
+                  <select data-ng-if="data.input === 'select'" data-ng-model="data.value" data-ng-options="type for type in category.types"></select>
+                  <input data-ng-if="data.input === 'text'" type="text" data-ng-value="data.value">
+                </div>
+              <div>
+                <button type="submit" class="cc-button">Save</button>
+                <button class="cc-button" data-ng-click="info.show =! info.show; addButton.hide = false;">Cancel</button>
+              </div>
+              <div>
+                (<button class="cc-button-link">Delete phone number</button>)
+              </div>
+            </form>
+            <div data-ng-if="!info.show" data-ng-repeat="data in info.data">
+              <div data-ng-if="data.input != 'checkbox'" data-ng-bind="data.value"></div>
+            </div>
+            <button data-ng-if="!info.show" class="cc-button-link" data-ng-click="newForm.open = false; addButton.hide = true; api.widget.toggleShow($event, category.info, info, 'Edit');">Edit</button>
+            <div ng-class="{'cc-widget-profile-vertical-space': !$last}"></div>
+          </div>
         </td>
-        <td class="cc-table-right">
-          <button class="cc-button-link">Edit</button>
+        <td data-ng-if="!addButton.hide" class="cc-table-right cc-widget-profile-table-cell-padding">
+          <button class="cc-button-link" data-ng-click="newForm.open = true; addButton.hide = true;">
+            <i class="fa fa-plus"></i>&nbsp;Add
+          </button>
         </td>
       </tr>
     </table>

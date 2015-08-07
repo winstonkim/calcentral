@@ -1,0 +1,356 @@
+{
+  "statusCode": 200,
+  "feed": {
+    "contactCategories": [
+      {
+        "title": "Phone Number",
+        "types": ["Mobile", "Home", "Business"],
+        "newInfo": [
+          {
+            "name": "Phone Type",
+            "value": null,
+            "input": "select",
+            "required": true
+          },
+          {
+            "name": "Phone Number",
+            "value": null,
+            "input": "text",
+            "required": true
+          },
+          {
+            "name": "Phone Extension",
+            "value": null,
+            "input": "text"
+          },
+          {
+            "name": "Country Code",
+            "value": null,
+            "input": "text"
+          },
+          {
+            "name": "Preferred phone number",
+            "value": null,
+            "input": "checkbox"
+          }
+        ],
+        "info": [
+          {
+            "data": [
+              {
+                "name": "Phone Type",
+                "value": "Mobile",
+                "input": "select",
+                "required": true
+              },
+              {
+                "name": "Phone Number",
+                "value": "(510) 123-4567",
+                "input": "text",
+                "required": true
+              },
+              {
+                "name": "Phone Extension",
+                "value": null,
+                "input": "text"
+              },
+              {
+                "name": "Country Code",
+                "value": null,
+                "input": "text"
+              },
+              {
+                "name": "Preferred phone number",
+                "value": true,
+                "input": "checkbox"
+              }
+            ]
+          },
+          {
+            "data": [
+              {
+                "name": "Phone Type",
+                "value": "Business",
+                "input": "select",
+                "required": true
+              },
+              {
+                "name": "Phone Number",
+                "value": "(510) 987-6543",
+                "input": "text",
+                "required": true
+              },
+              {
+                "name": "Phone Extension",
+                "value": null,
+                "input": "text"
+              },
+              {
+                "name": "Country Code",
+                "value": null,
+                "input": "text"
+              },
+              {
+                "name": "Preferred phone number",
+                "value": false,
+                "input": "checkbox"
+              }
+            ]
+          },
+          {
+            "data": [
+              {
+                "name": "Phone Type",
+                "value": "Home",
+                "input": "select",
+                "required": true
+              },
+              {
+                "name": "Phone Number",
+                "value": "(510) 532-6543",
+                "input": "text",
+                "required": true
+              },
+              {
+                "name": "Phone Extension",
+                "value": null,
+                "input": "text"
+              },
+              {
+                "name": "Country Code",
+                "value": null,
+                "input": "text"
+              },
+              {
+                "name": "Preferred phone number",
+                "value": false,
+                "input": "checkbox"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Email",
+        "types": ["Campus", "Personal"],
+        "newInfo": [
+          {
+            "name": "Email Type",
+            "value": null,
+            "input": "select"
+          },
+          {
+            "name": "Email Address",
+            "value": null,
+            "input": "text"
+          },
+          {
+            "name": "Preferred email address",
+            "value": null,
+            "input": "checkbox"
+          }
+        ],
+        "info": [
+          {
+            "data": [
+              {
+                "name": "Email Type",
+                "value": "Campus",
+                "input": "select"
+              },
+              {
+                "name": "Email Address",
+                "value": "winston@berkeley.edu",
+                "input": "text"
+              },
+              {
+                "name": "Preferred email address",
+                "value": true,
+                "input": "checkbox"
+              }
+            ]
+          },
+          {
+            "data": [
+              {
+                "name": "Email Type",
+                "value": "Personal",
+                "input": "select"
+              },
+              {
+                "name": "Email Address",
+                "value": "winston@gmail.com",
+                "input": "text"
+              },
+              {
+                "name": "Preferred email address",
+                "value": false,
+                "input": "checkbox"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Address",
+        "types": ["Local", "Home"],
+        "newInfo": [
+          {
+            "name": "Address Type",
+            "value": null,
+            "input": "select"
+          },
+          {
+            "name": "Country",
+            "value": null,
+            "input": "text"
+          },
+          {
+            "name": "Address 1",
+            "value": null,
+            "input": "text"
+          },
+          {
+            "name": "Address 2",
+            "value": null,
+            "input": "text"
+          },
+          {
+            "name": "Address 3",
+            "value": null,
+            "input": "text"
+          },
+          {
+            "name": "City",
+            "value": null,
+            "input": "text"
+          },
+          {
+            "name": "State",
+            "value": null,
+            "input": "text"
+          },
+          {
+            "name": "County",
+            "value": null,
+            "input": "text"
+          },
+          {
+            "name": "Zip Code",
+            "value": null,
+            "input": "text"
+          }
+        ],
+        "info": [
+          {
+            "data": [
+              {
+                "name": "Address Type",
+                "value": "Home",
+                "input": "select"
+              },
+              {
+                "name": "Country",
+                "value": "United States",
+                "input": "text"
+              },
+              {
+                "name": "Address 1",
+                "value": "1114 Cambridge Drive",
+                "input": "text"
+              },
+              {
+                "name": "Address 2",
+                "value": null,
+                "input": "text"
+              },
+              {
+                "name": "Address 3",
+                "value": null,
+                "input": "text"
+              },
+              {
+                "name": "City",
+                "value": "Glendale Heights",
+                "input": "text"
+              },
+              {
+                "name": "State",
+                "value": "IL",
+                "input": "text"
+              },
+              {
+                "name": "County",
+                "value": null,
+                "input": "text"
+              },
+              {
+                "name": "Zip Code",
+                "value": "60139",
+                "input": "text"
+              }
+            ]
+          },
+          {
+            "data": [
+              {
+                "name": "Address Type",
+                "value": "Local",
+                "input": "select"
+              },
+              {
+                "name": "Country",
+                "value": "United States",
+                "input": "text"
+              },
+              {
+                "name": "Address 1",
+                "value": "Unit 1 Housing",
+                "input": "text"
+              },
+              {
+                "name": "Address 2",
+                "value": "2650 Durant Ave. DE-207",
+                "input": "text"
+              },
+              {
+                "name": "Address 3",
+                "value": null,
+                "input": "text"
+              },
+              {
+                "name": "City",
+                "value": "Berkeley",
+                "input": "text"
+              },
+              {
+                "name": "State",
+                "value": "CA",
+                "input": "text"
+              },
+              {
+                "name": "County",
+                "value": null,
+                "input": "text"
+              },
+              {
+                "name": "Zip Code",
+                "value": "94720-2274",
+                "input": "text"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "lastModified": {
+      "hash": "69c511e47ccda2d5071217e3f056295127c11762",
+      "timestamp": {
+        "epoch": 1438709754,
+        "dateTime": "2015-08-04T10:35:54-07:00",
+        "dateString": "8/04"
+      }
+    },
+    "feedName": "CampusSolutions::ContactData"
+  }
+}

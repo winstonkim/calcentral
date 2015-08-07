@@ -1,0 +1,28 @@
+#cc-widget-profile-contact {
+  .cc-widget-profile-form {
+    border: initial;
+    background: $cc-color-blue-hover;
+  }
+  .cc-widget-profile-table-top-border{
+    border-top: 1px solid $bc-color-table-cell-border-grey;
+  }
+  .cc-widget-profile-table-cell-padding{
+    padding: 5px 0;
+  }
+  .cc-widget-profile-form-margin-bottom{
+    margin-bottom: 5px;
+  }
+  .cc-widget-profile-form-border-top {
+    border-top: 1px solid $bc-color-table-cell-border-grey;
+  }
+  .cc-widget-profile-form-border-bottom {
+    border-bottom: 1px solid $bc-color-table-cell-border-grey;
+  }
+  .cc-widget-profile-form-border-top-bottom {
+    border-bottom: 1px solid $bc-color-table-cell-border-grey;
+    border-top: 1px solid $bc-color-table-cell-border-grey;
+  }
+  .cc-widget-profile-vertical-space{
+    height: 15px;
+  }
+}
