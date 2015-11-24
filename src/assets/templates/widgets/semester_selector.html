@@ -1,0 +1,16 @@
+<div class="cc-widget" data-ng-controller="CarsController">
+  <div class="cc-widget-title">
+    <h2 class="cc-left">Semester Selector</h2>
+  </div>
+
+  <div data-cc-spinner-directive class="cc-widget-text">
+    <p>
+      This budget tool helps you calculate figures on a semester basis.
+    </p>
+    <strong>Planning for:</strong>
+    <div class="cc-select">
+      <select id="cc-page-myfinances-account-choices" data-ng-model="choice" data-ng-options="c.value as c.label for c in choices" data-ng-change="choiceChange()">
+      </select>
+    </div>
+  </div>
+</div>
