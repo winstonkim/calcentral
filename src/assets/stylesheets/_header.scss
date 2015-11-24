@@ -144,10 +144,10 @@ body {
       border-bottom: 1px solid $cc-color-popover-border;
       color: $body-font-color;
       display: block;
-      line-height: 1.3;
+      line-height: 1.1;
       margin: 0;
       overflow: hidden;
-      padding: 5px 10px;
+      padding: 10px;
       &:hover, &:focus {
         background: $cc-color-popover-hover;
         text-decoration: none;
@@ -159,6 +159,10 @@ body {
     .cc-popover-link {
       color: $primary-color !important;
     }
+  }
+
+  .cc-popover-link-top-border {
+    border-top: 1px solid $cc-color-popover-border;
   }
 
   .cc-badgepopover {
@@ -248,27 +252,27 @@ body {
     background: $cc-color-red-dark;
     border-radius: 50%;
     cursor: pointer;
-    font-size: 9px;
-    height: 16px;
-    left: 21px;
-    line-height: 11px;
+    font-size: 8px;
+    height: 15px;
+    left: 20px;
+    line-height: 10px;
+    min-width: 15px;
     padding: 3px;
     position: absolute;
-    top: 2px;
-    width: 16px;
+    top: -2px;
     z-index: 1;
   }
   .cc-popover-gear {
     .cc-header-icon {
       &.cc-header-icon-selected {
-        background: $cc-color-popover-background;
         border-bottom-left-radius: 0;
         border-bottom-right-radius: 0;
-        color: $cc-color-popover-text;
+        padding-bottom: 8px;
       }
     }
   }
   .cc-launcher-dropdown-menu {
+    border-top-left-radius: 0;
     border-top-right-radius: 0;
     right: 5px;
     &:before {
@@ -346,3 +350,33 @@ body {
 
 }
 
+.cc-round-profile {
+  border: solid 2px $cc-color-white;
+  border-radius: 25px;
+  display: inline-block;
+  height: 25px;
+  margin-right: 6px;
+  width: 25px;
+
+  &.cc-has-photo {
+    background: url('/api/my/photo') center center/cover no-repeat;
+  }
+
+  &.cc-no-photo {
+    background: $cc-color-lighter-medium-grey;
+  }
+}
+
+.cc-first-name {
+  font-size: 12px;
+  font-weight: 300;
+
+  &.cc-has-alerts {
+    margin-left: 2px;
+  }
+}
+
+.cc-flex-vertical-center {
+  align-items: center;
+  display: flex;
+}
