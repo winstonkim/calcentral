@@ -25,6 +25,7 @@ angular.module('calcentral', [
   'ngRoute',
   'ngSanitize',
   'ngTouch',
+  'chart.js',
   'templates'
 ]);
 

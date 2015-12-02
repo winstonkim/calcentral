@@ -1,12 +1,30 @@
-<div class="cc-widget" data-ng-controller="CarsController">
+<div class="cc-widget" data-ng-controller="BudgetingToolController">
   <div class="cc-widget-title">
-    <h2 class="cc-left">Estimated Cash Flow</h2>
+    <h2 class="cc-left">Estimated Money Available</h2>
   </div>
 
-  <div data-cc-spinner-directive class="cc-widget-text">
-    <p>
+  <ul data-cc-spinner-directive class="cc-widget-list cc-budgeting-tool-list">
+    <li class="cc-clearfix-container">
       Based on the data you provided, this is an estimate of your cash flow (how your expenses draw down from the money available from either income, savings, or financial aid).
-    </p>
-    <strong>Planning for:</strong>
+      <canvas id="line" class="chart chart-line" chart-data="[[getSum(), 32000, 20000, 0, 5]]" chart-labels="labels" options="options"></canvas>
+      <div class="small-8 columns cc-budgeting-tool-amount">
+        <strong>End of Semester Amount:</strong>
+      </div>
+      <div class="small-4 columns cc-budgeting-tool-right-align cc-budgeting-tool-amount">
+        <strong>$2,100</strong>
+      </div>
+    </li>
+    <li class="cc-clearfix-container">
+      <div class="small-8 columns cc-budgeting-tool-amount">
+        <strong>Est. Date You Run Out of Money:</strong>
+      </div>
+      <div class="small-4 columns cc-budgeting-tool-right-align cc-budgeting-tool-amount">
+        <strong>Feb 2016</strong>
+      </div>
+      Assuming no additional income and unchanged expenses. Disbursements for next semester may reset your window.
+    </li>
+    <li>
+      <a href="">Export data to Google Drive</a>
+    </li>
   </div>
 </div>

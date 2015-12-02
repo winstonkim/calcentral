@@ -1,0 +1,92 @@
+{
+  "startingAmount": 12000,
+  "workIncome": [
+    {
+      "type": "Part-Time Job",
+      "hours": 10,
+      "wages": 15,
+      "months": ["August", "September", "October", "November", "December"]
+    },
+    {
+      "type": "Work-Study",
+      "hours": 6,
+      "wages": 12,
+      "months": ["August", "September", "October", "November", "December"]
+    }
+  ],
+  "financialAid": [
+    {
+      "type": "Federal Pell Grant",
+      "amount": 3000,
+      "months": ["August"]
+    },
+    {
+      "type": "Undergrad Scholarship",
+      "amount": 3000,
+      "months": ["August"]
+    },
+    {
+      "type": "Federal Direct Unsubsidized Loan",
+      "amount": 3000,
+      "months": ["August"]
+    }
+  ],
+  "oneTimeIncome": [
+    {
+      "type": "Parental Contribution",
+      "amount": 5000,
+      "months": ["September"]
+    }
+  ],
+  "monthlyExpenses": [
+    {
+      "type": "Rent",
+      "amount": 900,
+      "months": ["August", "September", "October", "November", "December"]
+    },
+    {
+      "type": "Food/Groceries",
+      "amount": 700,
+      "months": ["August", "September", "October", "November", "December"]
+    },
+    {
+      "type": "Health Insurance",
+      "amount": 230,
+      "months": ["August", "September", "October", "November", "December"]
+    },
+    {
+      "type": "Personal Expenses",
+      "amount": 800,
+      "months": ["August", "September", "October", "November", "December"]
+    }
+  ],
+  "semesterExpenses": [
+    {
+      "type": "Tuition and Fees",
+      "amount": 9000,
+      "months": ["August"]
+    },
+    {
+      "type": "Transportation",
+      "amount": 700,
+      "months": ["August"]
+    },
+    {
+      "type": "Loan Fees",
+      "amount": 400,
+      "months": ["August"]
+    },
+    {
+      "type": "Books",
+      "amount": 700,
+      "months": ["August"]
+    }
+  ],
+  "oneTimeExpenses": [
+    {
+      "type": "Car Insurance",
+      "amount": 1200,
+      "months": ["November"]
+    }
+  ]
+}

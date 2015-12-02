@@ -1,0 +1,37 @@
+.cc-page-budgeting-tool {
+  .cc-budgeting-tool-list li {
+    padding: 10px 0;
+  }
+
+  .cc-budgeting-tool-right-align {
+    text-align: right;
+  }
+
+  .cc-budgeting-tool-amount {
+    font-size: 14px;
+  }
+
+  input[type=text] {
+    width: 75px;
+  }
+
+  input[type=range] {
+    width: 100%;
+    -webkit-appearance: none;
+    background-color: silver;
+    height: 1px;
+    margin-bottom: 12px;
+  }
+
+  .delete {
+    width: 4.5% !important;
+  }
+
+  .small-4 {
+    width: 33.3333333333% !important;
+  }
+
+  canvas {
+    margin: 10px 0;
+  }
+}
