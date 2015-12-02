@@ -1,15 +1,15 @@
-<div class="cc-popover-container cc-popover-gear" data-ng-controller="StatusController">
+<div class="cc-popover-container cc-popover-gear cc-popover-status" data-ng-controller="StatusController">
   <button class="cc-header-icon"
   data-ng-click="api.util.preventBubble($event);api.popover.toggle('cc-popover-menu')"
   data-ng-class="{true:'cc-header-icon-selected'}[api.popover.status('cc-popover-menu')]"
   title="Settings">
-    <div class="cc-flex-vertical-center">
-      <span data-ng-if="api.user.profile.hasPhoto" class="cc-round-profile cc-has-photo">
+    <div class="cc-flex cc-flex-align-vertical-center">
+      <span data-ng-if="api.user.profile.hasPhoto" class="cc-popover-gear-round-profile cc-popover-gear-round-profile-has-photo">
       </span>
-      <span data-ng-if="!api.user.profile.hasPhoto" class="cc-round-profile cc-no-photo">
+      <span data-ng-if="!api.user.profile.hasPhoto" class="cc-popover-gear-round-profile cc-popover-gear-round-profile-no-photo">
         <i class="fa fa-user"></i>
       </span>
-      <span data-ng-bind="api.user.profile.first_name" class="cc-first-name" data-ng-class="{'cc-has-alerts': hasAlerts}"></span>
+      <span data-ng-bind="api.user.profile.first_name" class="cc-popover-gear-first-name" data-ng-class="{'cc-popover-gear-has-alerts': hasAlerts}"></span>
       <span data-ng-if="hasAlerts" class="cc-icon-status-person-layover">
         <span data-ng-bind="count"></span><span class="cc-visuallyhidden"> active alerts</span>
       </span>
@@ -30,71 +30,8 @@
         <i class="cc-left fa fa-check-circle cc-icon-green"></i>
         <strong>No Active Alerts</strong>
       </div>
-      <ul class="cc-popover-items" data-ng-click="api.popover.clickThrough('Status')">
-        <li class="cc-popover-item" data-ng-show="statusLoading">
-          <div
-            class="cc-launcher-status-loading"
-            data-cc-loading-directive="statusLoading"
-            data-cc-loading-process="Loading...">
-          </div>
-        </li>
-        <li class="cc-popover-item" data-ng-if="studentInfo.regStatus.needsAction && api.user.profile.features.regstatus">
-          <a href="/academics">
-            <div class="cc-launcher-status-description">
-              <i class="cc-left fa fa-exclamation-circle cc-icon-red"></i>
-              <strong>Registration Status:</strong> <span data-ng-bind="studentInfo.regStatus.summary"><br />
-              <span data-ng-bind-html="studentInfo.regStatus.explanation"></span>
-            </div>
-          </a>
-        </li>
-        <li class="cc-popover-item" data-ng-if="studentInfo.regBlock.needsAction || studentInfo.regBlock.errored">
-          <a href="/academics">
-            <div class="cc-launcher-status-description">
-              <i class="cc-left fa"
-                 data-ng-class="{'fa-exclamation-circle cc-icon-red': studentInfo.regBlock.needsAction,
-                 'fa-exclamation-triangle cc-icon-gold': studentInfo.regBlock.errored}"></i>
-              <strong>Blocks:</strong> <span data-ng-if="!studentInfo.regBlock.errored" data-ng-bind="studentInfo.regBlock.activeBlocks"></span>
-              <span data-ng-if="studentInfo.regBlock.errored">Currently Unavailable</span>
-            </div>
-          </a>
-        </li>
-        <li class="cc-popover-item" data-ng-if="minimumAmountDue && minimumAmountDue > 0">
-          <a href="/finances">
-            <div class="cc-launcher-status-description">
-              <i class="cc-left fa"
-                 data-ng-class="{'fa-exclamation-circle cc-icon-red': totalPastDueAmount > 0,
-                 'fa-exclamation-triangle cc-icon-red': minimumAmountDue > 0 && totalPastDueAmount <= 0}"></i>
-              <strong>Amount Due Now:</strong> <span data-ng-bind="minimumAmountDue | currency">
-            </div>
-          </a>
-        </li>
-        <li class="cc-popover-item" data-ng-if="countUndatedFinaid > 0">
-          <a href="/finances">
-            <div class="cc-launcher-status-description">
-              <i class="cc-left fa fa-exclamation-circle cc-icon-red"></i>
-              <strong>Financial Aid Alerts:</strong> <span data-ng-bind="countUndatedFinaid"><br />
-              <span data-ng-bind-html="studentInfo.californiaResidency.explanation"></span>
-            </div>
-          </a>
-        </li>
-      </ul>
-      <ul class="cc-popover-items">
-        <li class="cc-popover-item" data-ng-if="api.user.profile.features.csProfile">
-          <button class="cc-button-link cc-popover-link  cc-popover-link-top-border"
-            data-ng-click="api.popover.clickThrough('Gear - Profile');api.util.redirect('profile')">Profile
-          </button>
-        </li>
-        <li class="cc-popover-item">
-          <button class="cc-button-link cc-popover-link"
-            data-ng-click="api.popover.clickThrough('Gear - Settings');api.util.redirect('settings')">Settings
-          </button>
-        </li>
-        <li class="cc-popover-item">
-          <button class="cc-button-link cc-popover-link"
-            data-ng-click="api.popover.clickThrough('Gear - Logout');api.user.signOut()">Log out
-          </button>
-        </li>
-      </ul>
+      <div data-ng-include="'widgets/status_popover.html'"></div>
+      <div data-ng-include="'widgets/profile_popover.html'"></div>
     </div>
   </div>
 </div>

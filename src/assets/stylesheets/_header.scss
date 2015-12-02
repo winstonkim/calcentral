@@ -269,6 +269,31 @@ body {
         border-bottom-right-radius: 0;
         padding-bottom: 8px;
       }
+      .cc-popover-gear-round-profile {
+        border: solid 2px $cc-color-white;
+        border-radius: 25px;
+        display: inline-block;
+        height: 25px;
+        margin-right: 6px;
+        width: 25px;
+      }
+      .cc-popover-gear-round-profile-has-photo {
+        background: url('/api/my/photo') center center/cover no-repeat;
+      }
+      .cc-popover-gear-round-profile-no-photo {
+        background: $cc-color-lighter-medium-grey;
+      }
+      .cc-popover-gear-first-name {
+        font-size: 12px;
+        font-weight: 300;
+        margin-right: 3px;
+      }
+      .cc-popover-gear-has-alerts {
+        margin-left: 2px;
+      }
+      .cc-profile-popover-links:first-child {
+        border-top: 1px solid $cc-color-popover-border;
+      }
     }
   }
   .cc-launcher-dropdown-menu {
@@ -347,36 +372,4 @@ body {
   .cc-badge-hasacademic .cc-popover-status {
     @include cc-badges-small-screen(44);
   }
-
-}
-
-.cc-round-profile {
-  border: solid 2px $cc-color-white;
-  border-radius: 25px;
-  display: inline-block;
-  height: 25px;
-  margin-right: 6px;
-  width: 25px;
-
-  &.cc-has-photo {
-    background: url('/api/my/photo') center center/cover no-repeat;
-  }
-
-  &.cc-no-photo {
-    background: $cc-color-lighter-medium-grey;
-  }
-}
-
-.cc-first-name {
-  font-size: 12px;
-  font-weight: 300;
-
-  &.cc-has-alerts {
-    margin-left: 2px;
-  }
-}
-
-.cc-flex-vertical-center {
-  align-items: center;
-  display: flex;
 }

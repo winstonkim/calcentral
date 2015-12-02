@@ -1,0 +1,14 @@
+<ul class="cc-popover-items cc-profile-popover-links">
+  <li class="cc-popover-item" data-ng-if="api.user.profile.features.csProfile">
+    <button class="cc-button-link cc-popover-link"
+    data-ng-click="api.popover.clickThrough('Gear - Profile');api.util.redirect('profile')">Profile</button>
+  </li>
+  <li class="cc-popover-item">
+    <button class="cc-button-link cc-popover-link"
+    data-ng-click="api.popover.clickThrough('Gear - Settings');api.util.redirect('settings')">Settings</button>
+  </li>
+  <li class="cc-popover-item">
+    <button class="cc-button-link cc-popover-link"
+    data-ng-click="api.popover.clickThrough('Gear - Logout');api.user.signOut()">Log out</button>
+  </li>
+</ul>
