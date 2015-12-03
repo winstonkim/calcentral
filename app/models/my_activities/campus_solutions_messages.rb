@@ -28,7 +28,7 @@ module MyActivities
               cs: {}
             }
 
-            if message[:adminFunction] && message[:adminFunction][:varSeqData] && (['FINA', 'FINT', 'ISIR', 'LOAN'].include? message[:adminFunction][:adminFunction])
+            if message[:adminFunction] && message[:adminFunction][:varSeqData] && (Finaid::Shared::ADMIN_FUNCTION.include? message[:adminFunction][:adminFunction])
               formatted_entry[:cs].merge!({
                 isFinaid: true,
                 finaidYearId: message[:adminFunction][:varSeqData][:aidYear]

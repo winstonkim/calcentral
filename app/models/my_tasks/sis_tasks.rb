@@ -54,7 +54,7 @@ module MyTasks
           showStatus: result[:itemStatus]
         }
       }
-      if result[:checkListMgmtFina] && (['FINA', 'FINT', 'ISIR', 'LOAN'].include? result[:adminFunc])
+      if result[:checkListMgmtFina] && (Finaid::Shared::ADMIN_FUNCTION.include? result[:adminFunc])
         formatted_entry[:cs].merge!({
           isFinaid: true,
           finaidYearId: result[:checkListMgmtFina][:aidYear]
