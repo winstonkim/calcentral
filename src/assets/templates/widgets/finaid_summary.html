@@ -13,7 +13,7 @@
       <div data-ng-if="canSeeFinaidData">
         <div data-ng-include="'widgets/finaid_summary_semester.html'"></div>
         <div data-cc-spinner-directive="finaidSummaryInfo.isLoadingData" data-ng-if="finaidSummaryInfo.isLoadedOnMainDashboard">
-          <div data-ng-include="'widgets/finaid_summary_netcost.html'" data-onload="netcostInfo.card = 'summary'"></div>
+          <div data-ng-include="'widgets/finaid_summary_netcost.html'" data-onload="netCostInfo.card = 'summary'"></div>
           <hr data-ng-if="!finaidSummaryData.netCost && finaidSummaryData.fundingOffered" />
           <div data-ng-include="'widgets/finaid_summary_fundingoffered.html'"></div>
         </div>
