@@ -10,13 +10,13 @@
     <li class="cc-clearfix-container">
       Calculations for Aug 1 - Dec 31:
       <div class="small-8 columns cc-budgeting-tool-amount">
-        <strong>Semester Total:</strong>
+        <strong>October Income:</strong>
       </div>
       <div class="small-4 columns cc-budgeting-tool-right-align cc-budgeting-tool-amount">
-        <strong data-ng-bind="getSum() | currency:undefined:0"></strong>
+        <strong data-ng-bind="octoberTotal() | currency:undefined:0"></strong>
       </div>
       <div class="small-8 columns cc-budgeting-tool-amount">
-        <strong>Monthly Average:</strong>
+        Monthly Average:
       </div>
       <div class="small-4 columns cc-budgeting-tool-right-align cc-budgeting-tool-amount">
         <strong data-ng-bind="getSum()/5 | currency:undefined:0"></strong>
@@ -166,7 +166,7 @@
     </div>
   </li>
   <li>
-    <button class="cc-button-link" data-ng-click="getData(); income.startingIncome=12000">
+    <button class="cc-button-link" data-ng-click="getData(); income.startingIncome=0">
       Reset to UC Berkeley provided amounts
     </button>
   </li>

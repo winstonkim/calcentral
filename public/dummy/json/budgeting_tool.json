@@ -1,52 +1,46 @@
 {
-  "startingAmount": 12000,
+  "startingAmount": 0,
   "workIncome": [
     {
       "type": "Part-Time Job",
       "hours": 10,
-      "wages": 15,
-      "months": ["August", "September", "October", "November", "December"]
-    },
-    {
-      "type": "Work-Study",
-      "hours": 6,
       "wages": 12,
       "months": ["August", "September", "October", "November", "December"]
     }
   ],
   "financialAid": [
     {
-      "type": "Federal Pell Grant",
-      "amount": 3000,
+      "type": "Federal Loan",
+      "amount": 6780,
       "months": ["August"]
     },
     {
-      "type": "Undergrad Scholarship",
-      "amount": 3000,
+      "type": "Scholarship",
+      "amount": 0,
       "months": ["August"]
     },
     {
-      "type": "Federal Direct Unsubsidized Loan",
-      "amount": 3000,
+      "type": "Grant",
+      "amount": 2200,
       "months": ["August"]
     }
   ],
   "oneTimeIncome": [
     {
       "type": "Parental Contribution",
-      "amount": 5000,
+      "amount": 0,
       "months": ["September"]
     }
   ],
   "monthlyExpenses": [
     {
       "type": "Rent",
-      "amount": 900,
+      "amount": 1000,
       "months": ["August", "September", "October", "November", "December"]
     },
     {
       "type": "Food/Groceries",
-      "amount": 700,
+      "amount": 0,
       "months": ["August", "September", "October", "November", "December"]
     },
     {
@@ -56,7 +50,7 @@
     },
     {
       "type": "Personal Expenses",
-      "amount": 800,
+      "amount": 0,
       "months": ["August", "September", "October", "November", "December"]
     }
   ],
@@ -68,24 +62,24 @@
     },
     {
       "type": "Transportation",
-      "amount": 700,
-      "months": ["August"]
-    },
-    {
-      "type": "Loan Fees",
-      "amount": 400,
+      "amount": 0,
       "months": ["August"]
     },
     {
       "type": "Books",
-      "amount": 700,
+      "amount": 1000,
+      "months": ["August"]
+    },
+    {
+      "type": "Loan Fees",
+      "amount": 0,
       "months": ["August"]
     }
   ],
   "oneTimeExpenses": [
     {
       "type": "Car Insurance",
-      "amount": 1200,
+      "amount": 0,
       "months": ["November"]
     }
   ]

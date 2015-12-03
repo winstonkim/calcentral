@@ -1,3 +1,4 @@
+
 'use strict';
 
 var angular = require('angular');
@@ -24,7 +25,7 @@ var angular = require('angular');
   };
 
   $scope.income = {
-    startingIncome: 12000
+    startingIncome: 0
   };
 
   $scope.getData();
@@ -50,6 +51,20 @@ var angular = require('angular');
     }
     return sum;
   };
+
+  $scope.octoberTotal = function(){
+    var sum = 0;
+    sum += $scope.income.startingIncome * 1;
+    for(var i=0; i<$scope.workIncome.length; i++) {
+      sum += $scope.workIncome[i].wages * $scope.workIncome[i].hours * 4;
+    }
+    for(var i=0; i<$scope.oneTimeIncome.length; i++) {
+      if ($scope.oneTimeIncome[i].month[0] == "October") {
+        sum += $scope.oneTimeIncome[i].amount * 1;
+      }
+    }
+    return sum;
+  }
 
   $scope.getTotalExpenses = function(){
     var sum = 0;
