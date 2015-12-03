@@ -12,11 +12,14 @@ angular.module('calcentral.factories').factory('activityFactory', function(apiSe
   var finaidOldUrl = '/api/my/finaid';
 
   /**
-   * Filter out only the finaid activities
+   * Filter out only the finaid activities with a specific aid year
    */
-  var filterFinaidOnly = function(activities) {
+  var filterFinaid = function(activities, finaidYearId) {
     return _.filter(activities, {
-      isFinaidActivity: true
+      cs: {
+        isFinaid: true,
+        finaidYearId: finaidYearId
+      }
     });
   };
 
@@ -29,8 +32,9 @@ angular.module('calcentral.factories').factory('activityFactory', function(apiSe
       return;
     }
 
-    if (_.get(options, 'finaidOnly')) {
-      activityResponse.data.activities = filterFinaidOnly(activityResponse.data.activities);
+    var finaidYearId = _.get(options, 'finaidYearId');
+    if (finaidYearId) {
+      activityResponse.data.activities = filterFinaid(activityResponse.data.activities, finaidYearId);
     }
 
     var data = activityResponse.data;
@@ -238,12 +242,10 @@ angular.module('calcentral.factories').factory('activityFactory', function(apiSe
 
   /**
    * Get Finaid activity / messages from 2016 onwards
+   * options.finaidYearId should contain the aid year ID
+   * that way, we'll be filtering messages only with that aid year
    */
   var getFinaidActivity = function(options) {
-    options = options || {};
-    options = _.merge(options, {
-      finaidOnly: true
-    });
     return getActivityAll(options, activityUrl);
   };
 

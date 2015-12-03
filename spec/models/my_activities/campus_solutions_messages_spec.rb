@@ -10,8 +10,10 @@ describe MyActivities::CampusSolutionsMessages do
     it 'should be able to process activities from a fake pending messages feed' do
       expect(subject[0][:emitter]).to eq 'Campus Solutions'
       expect(subject[0][:linkText]).to eq 'Read more'
-      expect(subject[0][:date][:epoch]).to eq 1440632189
-      expect(subject[0][:date][:dateString]).to eq '8/26'
+      expect(subject[0][:date][:epoch]).to eq 1449007744
+      expect(subject[0][:date][:dateString]).to eq '12/01'
+      expect(subject[0][:cs][:isFinaid]).to be_truthy
+      expect(subject[0][:cs][:finaidYearId]).to eq '2016'
     end
   end
 

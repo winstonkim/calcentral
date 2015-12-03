@@ -3,10 +3,10 @@
     <h2>Awards</h2>
   </div>
   <div data-cc-spinner-directive="finaidAwardsInfo.isLoading">
-    <div data-ng-if="errored" class="cc-widget-text">
+    <div data-ng-if="finaidAwardsInfo.errored || finaidSummaryInfo.errored" class="cc-widget-text">
       An error occurred while trying to retrieve your data.
     </div>
-    <div data-ng-if="!errored">
+    <div data-ng-if="!finaidAwardsInfo.errored && !finaidSummaryInfo.errored">
       <div data-ng-if="finaidAwards.hasAwards">
         <div class="cc-widget-text cc-widget-finaid-awards-message">
           <div data-ng-bind="finaidAwards.message"></div>
@@ -15,6 +15,14 @@
             <a data-ng-href="/finances/finaid/awards/{{finaidYear.id}}">
               Term View
             </a>
+          </div>
+        </div>
+
+        <div class="cc-widget-finaid-summary">
+          <div class="cc-widget-text" data-cc-spinner-directive="finaidSummaryInfo.isLoadingData">
+            <div data-ng-if="finaidSummary.finaidYears.length && canSeeFinaidData">
+              <div data-ng-include="'widgets/finaid_summary_netcost.html'" data-onload="netCostInfo.card = 'awards'"></div>
+            </div>
           </div>
         </div>
 
