@@ -31,9 +31,11 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def reauthenticate
+  def reauthenticate(opts = {})
     delete_reauth_cookie
-    redirect_to url_for_path("/auth/cas?renew=true")
+    url = '/auth/cas?renew=true'
+    url << "&url=#{opts[:redirect_path]}" if opts[:redirect_path]
+    redirect_to url_for_path url
   end
 
   # This method does not handle the reauthentication check for "ccadmin" authoring. That is
@@ -44,7 +46,7 @@ class ApplicationController < ActionController::Base
       return
     end
     return unless Settings.features.reauthentication
-    reauthenticate if current_user.viewing_as? && !cookies[:reauthenticated]
+    reauthenticate(redirect_path: '/') if current_user.viewing_as? && !cookies[:reauthenticated]
   end
 
   def delete_reauth_cookie
