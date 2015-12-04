@@ -47,7 +47,7 @@ module MyTasks
         notes: result[:itemComment],
         type: 'task',
         subTitle: result[:responsibleCntctName],
-        showStatus: result[:itemStatus],
+        showStatus: result[:itemStatus] != 'Completed' ? result[:itemStatus] : '',
         responsibleContactEmail: result[:responsibleCntctEmail],
         organization: result[:associationIdName]
       }
