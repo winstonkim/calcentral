@@ -52,15 +52,68 @@ var angular = require('angular');
     return sum;
   };
 
-  $scope.octoberTotal = function(){
+  $scope.semesterEnd = function(){
+    return $scope.income.startingIncome * 1;
+  };
+
+  $scope.octoberIncome = function(){
     var sum = 0;
-    sum += $scope.income.startingIncome * 1;
     for(var i=0; i<$scope.workIncome.length; i++) {
       sum += $scope.workIncome[i].wages * $scope.workIncome[i].hours * 4;
     }
     for(var i=0; i<$scope.oneTimeIncome.length; i++) {
-      if ($scope.oneTimeIncome[i].month[0] == "October") {
+      if ($scope.oneTimeIncome[i].months[0] == "October") {
         sum += $scope.oneTimeIncome[i].amount * 1;
+      }
+    }
+    return sum;
+  }
+
+  $scope.monthIncome = function(month){
+    var sum = 0;
+    for(var i=0; i<$scope.workIncome.length; i++) {
+      sum += $scope.workIncome[i].wages * $scope.workIncome[i].hours * 4;
+    }
+    if (month == 'August'){
+      sum += $scope.income.startingIncome * 1;
+      for(var i=0; i<$scope.financialAid.length; i++) {
+        sum += $scope.financialAid[i].amount * 1;
+      }
+    }
+    for(var i=0; i<$scope.oneTimeIncome.length; i++) {
+      if ($scope.oneTimeIncome[i].months[0] == month) {
+        sum += $scope.oneTimeIncome[i].amount * 1;
+      }
+    }
+    return sum;
+  }
+
+  $scope.octoberExpense = function(){
+    var sum = 0;
+    for(var i=0; i<$scope.monthlyExpenses.length; i++) {
+      sum += $scope.monthlyExpenses[i].amount * 1;
+    }
+    for(var i=0; i<$scope.oneTimeExpenses.length; i++) {
+      if ($scope.oneTimeExpenses[i].months[0] == 'October') {
+        sum += $scope.oneTimeExpenses[i].amount * 1;
+      }
+    }
+    return sum;
+  }
+
+  $scope.monthExpense = function(month){
+    var sum = 0;
+    for(var i=0; i<$scope.monthlyExpenses.length; i++) {
+      sum += $scope.monthlyExpenses[i].amount * 1;
+    }
+    if (month=='August') {
+      for(var i=0; i<$scope.semesterExpenses.length; i++) {
+        sum += $scope.semesterExpenses[i].amount * 1;
+      }
+    }
+    for(var i=0; i<$scope.oneTimeExpenses.length; i++) {
+      if ($scope.oneTimeExpenses[i].months[0] == month) {
+        sum += $scope.oneTimeExpenses[i].amount * 1;
       }
     }
     return sum;
@@ -79,6 +132,30 @@ var angular = require('angular');
     }
     return sum;
   };
+
+  $scope.date = function(){
+    if ($scope.monthIncome('August')-$scope.monthExpense('August') < 0){
+      return 'Aug 2015';
+    }
+    else if ($scope.monthIncome('August')-$scope.monthExpense('August')+$scope.monthIncome('September')-$scope.monthExpense('September') < 0){
+      return 'Sep 2015';
+    }
+    else if ($scope.monthIncome('August')-$scope.monthExpense('August')+$scope.monthIncome('September')-$scope.monthExpense('September')+$scope.monthIncome('October')-$scope.monthExpense('October') < 0){
+      return 'Oct 2015';
+    }
+    else if ($scope.monthIncome('August')-$scope.monthExpense('August')+$scope.monthIncome('September')-$scope.monthExpense('September')+$scope.monthIncome('October')-$scope.monthExpense('October')+$scope.monthIncome('November')-$scope.monthExpense('November') < 0){
+      return 'Nov 2015';
+    }
+    else if ($scope.monthIncome('August')-$scope.monthExpense('August')+$scope.monthIncome('September')-$scope.monthExpense('September')+$scope.monthIncome('October')-$scope.monthExpense('October')+$scope.monthIncome('November')-$scope.monthExpense('November')+$scope.monthIncome('December')-$scope.monthExpense('December') < 0){
+      return 'Dec 2015';
+    }
+    else if ($scope.monthIncome('August')-$scope.monthExpense('August')+$scope.monthIncome('September')-$scope.monthExpense('September')+$scope.monthIncome('October')-$scope.monthExpense('October')+$scope.monthIncome('November')-$scope.monthExpense('November')+$scope.monthIncome('December')-$scope.monthExpense('December')+$scope.monthIncome('October')-$scope.monthExpense('September') < 0){
+      return 'Jan 2016';
+    }
+    else{
+      return 'Feb 2016';
+    }
+  }
 
   $scope.add = function(){
     console.log($scope.newHours)

@@ -1,4 +1,4 @@
-<div class="cc-page-myfinances cc-page-budgeting-tool">
+<div class="cc-page-myfinances cc-page-budgeting-tool" data-ng-controller="BudgetingToolController">
   <div class="row collapse">
 
     <div class="column">
@@ -10,17 +10,386 @@
     <div class="medium-4 columns">
       <div data-ng-include="'widgets/semester_selector.html'"></div>
 
-      <div data-ng-include="'widgets/cash_flow.html'"></div>
+      <div class="cc-widget">
+        <div class="cc-widget-title">
+          <h2 class="cc-left">Estimated Money Available</h2>
+        </div>
+        <!-- CASH FLOW -->
+        <ul data-cc-spinner-directive class="cc-widget-list cc-budgeting-tool-list">
+          <li class="cc-clearfix-container">
+            Based on the data you provided, this is an estimate of your cash flow (how your expenses draw down from the money available from either income, savings, or financial aid).
+            <canvas id="line" class="chart chart-line" chart-data="[[
+            monthIncome('August')-monthExpense('August'),
+
+            monthIncome('August')-monthExpense('August')+monthIncome('September')-monthExpense('September'),
+
+            monthIncome('August')-monthExpense('August')+monthIncome('September')-monthExpense('September')+monthIncome('October')-monthExpense('October'),
+
+            monthIncome('August')-monthExpense('August')+monthIncome('September')-monthExpense('September')+monthIncome('October')-monthExpense('October')+monthIncome('November')-monthExpense('November'),
+
+            monthIncome('August')-monthExpense('August')+monthIncome('September')-monthExpense('September')+monthIncome('October')-monthExpense('October')+monthIncome('November')-monthExpense('November')+monthIncome('December')-monthExpense('December')]]"
+            chart-labels="labels" options="options"></canvas>
+            <div class="small-8 columns cc-budgeting-tool-amount">
+              <strong>End of Semester Amount:</strong>
+            </div>
+            <div class="small-4 columns cc-budgeting-tool-right-align cc-budgeting-tool-amount">
+              <strong data-cc-amount-directive="monthIncome('August')-monthExpense('August')+monthIncome('September')-monthExpense('September')+monthIncome('October')-monthExpense('October')+monthIncome('November')-monthExpense('November')+monthIncome('December')-monthExpense('December')" data-cc-amount-directive-color="false"></strong>
+            </div>
+          </li>
+          <li class="cc-clearfix-container">
+            <div class="small-8 columns cc-budgeting-tool-amount">
+              <strong>Est. Date You Run Out of Money:</strong>
+            </div>
+            <div class="small-4 columns cc-budgeting-tool-right-align cc-budgeting-tool-amount">
+              <strong data-ng-bind="date()"></strong>
+            </div>
+            Assuming no additional income and unchanged expenses. Disbursements for next semester may reset your window.
+          </li>
+          <li>
+            <a href="">Export data to Google Drive</a>
+          </li>
+        </ul>
+      </div>
+
 
       <div data-ng-include="'widgets/future_goals.html'"></div>
     </div>
-
+    <!-- ESTIMATED INCOME -->
     <div class="medium-4 columns">
-      <div data-ng-include="'widgets/money_you_have.html'"></div>
-    </div>
+      <div class="cc-widget">
+        <div class="cc-widget-title">
+          <h2 class="cc-left">Estimated Income</h2>
+          <button class="cc-button-link cc-right cc-widget-title-link" data-ng-click="toggle =! toggle">
+            <span data-ng-if="toggle">Hide</span><span data-ng-if="!toggle">More</span> Details
+          </button>
+        </div>
 
+        <ul data-cc-spinner-directive class="cc-widget-list cc-budgeting-tool-list">
+          <li class="cc-clearfix-container">
+            <div class="small-8 columns cc-budgeting-tool-amount">
+              <strong>October Income:</strong>
+            </div>
+            <div class="small-4 columns cc-budgeting-tool-right-align cc-budgeting-tool-amount">
+              <strong data-cc-amount-directive="monthIncome('October')" data-cc-amount-directive-color="false"></strong>
+            </div>
+            <div class="small-8 columns cc-budgeting-tool-amount">
+              Monthly Average:
+            </div>
+            <div class="small-4 columns cc-budgeting-tool-right-align cc-budgeting-tool-amount">
+              <strong data-cc-amount-directive="getSum()/5" data-cc-amount-directive-color="false"></strong>
+            </div>
+          </li>
+          <div data-ng-if="toggle">
+            <li>
+              <div>
+                Enter the amount you have available in your accounts as of the beginning of the selected semester.
+              </div>
+              <div class="cc-right">
+                <strong>Starting Amount</strong>&nbsp;&nbsp;$&nbsp;<input type="text" placeholder="" data-ng-model="income.startingIncome">
+              </div>
+            </li>
+            <li>
+              <div>
+                <button data-ng-click="addForm.open_1 =! addForm.open_1" class="cc-button-link">
+                  <i class="fa fa-plus-circle"></i>
+                </button>&nbsp;
+                <strong>Work Income</strong>
+              </div>
+              <div data-ng-if="addForm.open_1">
+                <div class="column small-7">
+                  <i class="fa fa-minus-circle"></i>&nbsp;<input type="text" data-ng-model="newType">
+                </div>
+                <div class="column small-5 cc-budgeting-tool-right-align">
+                  Hrs/Wk&nbsp;&nbsp;<input type="text" data-ng-model="newHours">
+                </div>
+                <div class="cc-budgeting-tool-right-align">
+                  <div>
+                    $/Hr&nbsp;&nbsp;<input type="text" data-ng-model="newWages">
+                  </div>
+                </div>
+                <div class="cc-budgeting-tool-right-align">
+                  <button class="cc-button cc-button-blue" data-ng-click="addForm.open_1 = false; workIncome.unshift({hours:newHours, type:newType, wages:newWages, months:['August', 'September', 'October', 'November', 'December']});">Add</button><button class="cc-button" data-ng-click="addForm.open_1 = false; newHours=null; newType=null; newWages=null;">Cancel</button>
+                </div>
+              </div>
+              <div data-ng-repeat="job in workIncome">
+                <div>
+                  <button data-ng-click="delete(workIncome.indexOf(job),'workIncome')" class="cc-button-link">
+                    <i class="fa fa-minus-circle"></i>&nbsp;
+                  </button>
+                  <span data-ng-bind="job.type"></span>
+                </div>
+                <div class="cc-budgeting-tool-right-align">
+                  <div>
+                    Hrs/Wk&nbsp;&nbsp;<input type="text" data-ng-model="job.hours">
+                  </div>
+                  <div>
+                    <input type="range" data-ng-model="job.hours" min="0" max="20">
+                  </div>
+                  <div>
+                    $/Hr&nbsp;&nbsp;<input type="text" data-ng-model="job.wages">
+                  </div>
+                  <div>
+                    <input type="range" data-ng-model="job.wages" min="0" max ="30">
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div>
+                <button data-ng-click="addForm.open_2 =! addForm.open_2" class="cc-button-link">
+                  <i class="fa fa-plus-circle"></i>
+                </button>&nbsp;
+                <strong>Financial Aid &amp; Semester Income</strong>
+              </div>
+              <div data-ng-if="addForm.open_2">
+                <div class="column small-7">
+                  <i class="fa fa-minus-circle"></i>&nbsp;<input type="text" data-ng-model="newType">
+                </div>
+                <div class="column small-5 cc-budgeting-tool-right-align">
+                  $&nbsp;<input type="text" data-ng-model="newAmount">
+                </div>
+                <div class="cc-budgeting-tool-right-align">
+                  <button class="cc-button cc-button-blue" data-ng-click="addForm.open_2 = false; financialAid.unshift({amount:newAmount, type:newType, months: ['August']});">Add</button><button class="cc-button" data-ng-click="addForm.open_2 = false; newAmount=null; newType=null;">Cancel</button>
+                </div>
+              </div>
+              <div data-ng-repeat="source in financialAid" class="cc-clearfix-container">
+                <div class="small-8 columns">
+                  <button data-ng-click="delete(financialAid.indexOf(source),'financialAid')" class="cc-button-link">
+                    <i class="fa fa-minus-circle"></i>&nbsp;
+                  </button>
+                  <span data-ng-bind="source.type"></span>
+                </div>
+                <div class="small-4 columns cc-budgeting-tool-right-align">
+                  <div>
+                    $&nbsp;<input type="text" data-ng-model="source.amount">
+                  </div>
+                </div>
+                <div>
+                  <input type="range" data-ng-model="source.amount" min="0" max="10000" step="100">
+                </div>
+              </div>
+            </li>
+            <li>
+              <div>
+                <button data-ng-click="addForm.open_3 =! addForm.open_3" class="cc-button-link">
+                  <i class="fa fa-plus-circle"></i>
+                </button>&nbsp;
+                <strong>One-Time Income</strong>
+              </div>
+              <div data-ng-if="addForm.open_3">
+                <div class="column small-5">
+                  <i class="fa fa-minus-circle"></i>&nbsp;<input type="text" data-ng-model="newType">
+                </div>
+                <div class="small-4 columns cc-select">
+                  <select data-ng-model="newMonth">
+                    <option>August</option>
+                    <option>September</option>
+                    <option>October</option>
+                    <option>November</option>
+                    <option>December</option>
+                  </select>
+                </div>
+                <div class="column small-3 cc-budgeting-tool-right-align">
+                  $&nbsp;<input type="text" data-ng-model="newAmount">
+                </div>
+                <div class="cc-clearfix cc-budgeting-tool-right-align">
+                  <button class="cc-button cc-button-blue" data-ng-click="addForm.open_3 = false; oneTimeIncome.unshift({amount:newAmount, type:newType, months:[newMonth]});">Add</button><button class="cc-button" data-ng-click="addForm.open_3 = false; newAmount=null; newType=null;">Cancel</button>
+                </div>
+              </div>
+              <div data-ng-repeat="income in oneTimeIncome" class="cc-clearfix-container">
+                <div class="small-5 columns">
+                  <button data-ng-click="delete(oneTimeIncome.indexOf(income),'oneTimeIncome')" class="cc-button-link">
+                    <i class="fa fa-minus-circle"></i>&nbsp;
+                  </button>
+                  <span data-ng-bind="income.type"></span>
+                </div>
+                <div class="small-4 columns cc-select">
+                  <select data-ng-model="income.months[0]">
+                    <option>August</option>
+                    <option>September</option>
+                    <option>October</option>
+                    <option>November</option>
+                    <option>December</option>
+                  </select>
+                </div>
+                <div class="small-3 columns cc-budgeting-tool-right-align">
+                  <div>
+                    $&nbsp;<input type="text" data-ng-model="income.amount">
+                  </div>
+                </div>
+                <div>
+                  <input type="range" data-ng-model="income.amount" min="0" max="10000" step="100">
+                </div>
+              </div>
+            </li>
+            <li>
+              <button class="cc-button-link" data-ng-click="getData(); income.startingIncome=0">
+                Reset to UC Berkeley provided amounts
+              </button>
+            </li>
+          </div>
+        </ul>
+      </div>
+
+    </div>
+    <!-- ESTIMATED EXPENSES -->
     <div class="medium-4 columns cc-column-last">
-      <div data-ng-include="'widgets/money_you_spend.html'"></div>
+      <div class="cc-widget">
+        <div class="cc-widget-title">
+          <h2 class="cc-left">Estimated Expenses</h2>
+          <button class="cc-button-link cc-right cc-widget-title-link" data-ng-click="toggle2 =! toggle2">
+            <span data-ng-if="toggle2">Hide</span><span data-ng-if="!toggle2">More</span> Details
+          </button>
+        </div>
+
+        <ul data-cc-spinner-directive class="cc-widget-list cc-budgeting-tool-list">
+          <li class="cc-clearfix-container">
+            <div class="small-8 columns cc-budgeting-tool-amount">
+              <strong>October Expense:</strong>
+            </div>
+            <div class="small-4 columns cc-budgeting-tool-right-align cc-budgeting-tool-amount">
+              <strong data-cc-amount-directive="monthExpense('October')" data-cc-amount-directive-color="false"></strong>
+            </div>
+            <div class="small-8 columns cc-budgeting-tool-amount">
+              Monthly Average:
+            </div>
+            <div class="small-4 columns cc-budgeting-tool-right-align cc-budgeting-tool-amount">
+              <strong data-cc-amount-directive="getTotalExpenses()/5" data-cc-amount-directive-color="false"></strong>
+            </div>
+          </li>
+          <div data-ng-if="toggle2">
+            <li>
+              <div>
+                <button data-ng-click="addForm.open_4 =! addForm.open_4" class="cc-button-link">
+                  <i class="fa fa-plus-circle"></i>
+                </button>&nbsp;
+                <strong>Monthly Expenses</strong>
+              </div>
+              <div data-ng-if="addForm.open_4">
+                <div class="column small-7">
+                  <i class="fa fa-minus-circle"></i>&nbsp;<input type="text" data-ng-model="newType">
+                </div>
+                <div class="column small-5 cc-budgeting-tool-right-align">
+                  $&nbsp;<input type="text" data-ng-model="newAmount">
+                </div>
+                <div class="cc-budgeting-tool-right-align">
+                  <button class="cc-button cc-button-blue" data-ng-click="addForm.open_4 = false; monthlyExpenses.unshift({amount:newAmount, type:newType});">Add</button><button class="cc-button" data-ng-click="addForm.open_4 = false; newAmount=null; newType=null;">Cancel</button>
+                </div>
+              </div>
+              <div data-ng-repeat="monthlyExpense in monthlyExpenses" class="cc-clearfix-container">
+                <div class="small-8 columns">
+                  <button data-ng-click="delete(monthlyExpenses.indexOf(monthlyExpense),'monthlyExpenses')" class="cc-button-link">
+                    <i class="fa fa-minus-circle"></i>&nbsp;
+                  </button>
+                  <span data-ng-bind="monthlyExpense.type"></span>
+                </div>
+                <div class="small-4 columns cc-budgeting-tool-right-align">
+                  <div>
+                    $&nbsp;<input type="text" data-ng-model="monthlyExpense.amount">
+                  </div>
+                </div>
+                <div>
+                  <input type="range" data-ng-model="monthlyExpense.amount" min="0" max="1500" step="100">
+                </div>
+              </div>
+            </li>
+            <li>
+              <div>
+                <button data-ng-click="addForm.open_5 =! addForm.open_5" class="cc-button-link">
+                  <i class="fa fa-plus-circle"></i>
+                </button>&nbsp;
+                <strong>Semester Expenses</strong>
+              </div>
+              <div data-ng-if="addForm.open_5">
+                <div class="column small-7">
+                  <i class="fa fa-minus-circle"></i>&nbsp;<input type="text" data-ng-model="newType">
+                </div>
+                <div class="column small-5 cc-budgeting-tool-right-align">
+                  $&nbsp;<input type="text" data-ng-model="newAmount">
+                </div>
+                <div class="cc-budgeting-tool-right-align">
+                  <button class="cc-button cc-button-blue" data-ng-click="addForm.open_5 = false; monthlyExpenses.unshift({amount:newAmount, type:newType});">Add</button><button class="cc-button" data-ng-click="addForm.open_5 = false; newAmount=null; newType=null;">Cancel</button>
+                </div>
+              </div>
+              <div data-ng-repeat="semesterExpense in semesterExpenses" class="cc-clearfix-container">
+                <div class="small-8 columns">
+                  <button data-ng-click="delete(semesterExpenses.indexOf(semesterExpense),'semesterExpenses')" class="cc-button-link">
+                    <i class="fa fa-minus-circle"></i>&nbsp;
+                  </button>
+                  <span data-ng-bind="semesterExpense.type"></span>
+                </div>
+                <div class="small-4 columns cc-budgeting-tool-right-align">
+                  <div>
+                    $&nbsp;<input type="text" data-ng-model="semesterExpense.amount">
+                  </div>
+                </div>
+                <div>
+                  <input type="range" data-ng-model="semesterExpense.amount" min="0" max="10000" step="100">
+                </div>
+              </div>
+            </li>
+            <li>
+              <div>
+                <button data-ng-click="addForm.open_6 =! addForm.open_6" class="cc-button-link">
+                  <i class="fa fa-plus-circle"></i>
+                </button>&nbsp;
+                <strong>One-Time Expenses</strong>
+              </div>
+              <div data-ng-if="addForm.open_6">
+                <div class="column small-5">
+                  <i class="fa fa-minus-circle"></i>&nbsp;<input type="text" data-ng-model="newType">
+                </div>
+                <div class="small-4 columns cc-select">
+                  <select data-ng-model="newMonth">
+                    <option>August</option>
+                    <option>September</option>
+                    <option>October</option>
+                    <option>November</option>
+                    <option>December</option>
+                  </select>
+                </div>
+                <div class="column small-3 cc-budgeting-tool-right-align">
+                  $&nbsp;<input type="text" data-ng-model="newAmount">
+                </div>
+                <div class="cc-clearfix cc-budgeting-tool-right-align">
+                  <button class="cc-button cc-button-blue" data-ng-click="addForm.open_6 = false; oneTimeExpenses.unshift({amount:newAmount, type:newType, months:[newMonth]});">Add</button><button class="cc-button" data-ng-click="addForm.open_6 = false; newAmount=null; newType=null;">Cancel</button>
+                </div>
+              </div>
+              <div data-ng-repeat="oneTimeExpense in oneTimeExpenses" class="cc-clearfix-container">
+                <div class="small-5 columns">
+                  <button data-ng-click="delete(oneTimeExpenses.indexOf(oneTimeExpense),'oneTimeExpenses')" class="cc-button-link">
+                    <i class="fa fa-minus-circle"></i>&nbsp;
+                  </button>
+                  <span data-ng-bind="oneTimeExpense.type"></span>
+                </div>
+                <div class="small-4 columns cc-select">
+                  <select data-ng-model="oneTimeExpense.months[0]">
+                    <option>August</option>
+                    <option>September</option>
+                    <option>October</option>
+                    <option>November</option>
+                    <option>December</option>
+                  </select>
+                </div>
+                <div class="small-3 columns cc-budgeting-tool-right-align">
+                  <div>
+                    $&nbsp;<input type="text" data-ng-model="oneTimeExpense.amount">
+                  </div>
+                </div>
+                <div>
+                  <input type="range" data-ng-model="oneTimeExpense.amount" min="0" max="2000" step="100">
+                </div>
+              </div>
+            </li>
+            <li>
+              <button class="cc-button-link" data-ng-click="getData()">
+                Reset to UC Berkeley average amounts
+              </button>
+            </li>
+          </div>
+        </ul>
+      </div>
+
     </div>
 
   </div>

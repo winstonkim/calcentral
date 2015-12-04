@@ -1,4 +1,4 @@
-<div class="cc-widget" data-ng-controller="BudgetingToolController">
+<div class="cc-widget">
   <div class="cc-widget-title">
     <h2 class="cc-left">Estimated Expenses</h2>
     <button class="cc-button-link cc-right cc-widget-title-link" data-ng-click="toggle =! toggle">
@@ -8,12 +8,11 @@
 
   <ul data-cc-spinner-directive class="cc-widget-list cc-budgeting-tool-list">
     <li class="cc-clearfix-container">
-      Calculations for Aug 1 - Dec 31:
       <div class="small-8 columns cc-budgeting-tool-amount">
-        <strong>October Income:</strong>
+        <strong>October Expense:</strong>
       </div>
       <div class="small-4 columns cc-budgeting-tool-right-align cc-budgeting-tool-amount">
-        <strong data-ng-bind="getTotalExpenses() | currency:undefined:0"></strong>
+        <strong data-ng-bind="monthExpense('October') | currency:undefined:0"></strong>
       </div>
       <div class="small-8 columns cc-budgeting-tool-amount">
         Monthly Average:
