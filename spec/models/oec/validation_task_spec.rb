@@ -1,6 +1,6 @@
 describe Oec::ValidationTask do
   let(:term_code) { '2015-B' }
-  let(:task) { Oec::ValidationTask.new(term_code: term_code, local_write: 'Y') }
+  let(:task) { Oec::ValidationTask.new(term_code: term_code, local_write: 'Y', allow_past_term: true) }
 
   include_context 'OEC enrollment data merge'
 

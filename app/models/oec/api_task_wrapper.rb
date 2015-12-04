@@ -69,7 +69,7 @@ module Oec
     end
 
     def run(task_id)
-      task = @task_class.new @params.merge(api_task_id: task_id, log_to_cache: true)
+      task = @task_class.new @params.merge(api_task_id: task_id, log_to_cache: true, allow_past_term: true)
       task.run
     end
 

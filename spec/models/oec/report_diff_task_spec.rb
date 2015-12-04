@@ -3,7 +3,7 @@ describe Oec::ReportDiffTask do
   let(:now) { DateTime.now }
 
   context 'Report diff on fake data' do
-    let(:term_code) { '2015-D' }
+    let(:term_code) { '2014-B' }
     # Map dept_code to test-data filenames under fixtures/oec
     let(:dept_code_mappings) {
       {
@@ -14,7 +14,15 @@ describe Oec::ReportDiffTask do
       }
     }
     let (:fake_remote_drive) { double }
-    subject { Oec::ReportDiffTask.new(term_code: term_code, dept_codes: dept_code_mappings.keys, date_time: now, local_write: true) }
+    subject do
+      Oec::ReportDiffTask.new({
+        term_code: term_code,
+        dept_codes: dept_code_mappings.keys,
+        date_time: now,
+        local_write: true,
+        allow_past_term: true
+      })
+    end
 
     before {
       allow(Oec::CourseCode).to receive(:by_dept_code).and_return dept_code_mappings
@@ -31,7 +39,7 @@ describe Oec::ReportDiffTask do
       end
       # Behave as if there is no previous diff report on remote drive
       expect(fake_remote_drive).to receive(:find_nested).with([term_code, Oec::Folder.confirmations]).and_return (departments_folder = double)
-      expect(fake_remote_drive).to receive(:find_first_matching_item).with('2015-D diff report', departments_folder).and_return nil
+      expect(fake_remote_drive).to receive(:find_first_matching_item).with('2014-B diff report', departments_folder).and_return nil
       dept_code_mappings.each do |dept_code, dept_name|
         friendly_name = Berkeley::Departments.get(dept_code, concise: true)
         imports_path = [term_code, Oec::Folder.sis_imports, now.strftime('%F %H:%M:%S'), friendly_name]

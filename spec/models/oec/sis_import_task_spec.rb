@@ -1,6 +1,6 @@
 describe Oec::SisImportTask do
   let(:term_code) { '2015-B' }
-  let(:task) { Oec::SisImportTask.new(term_code: term_code, local_write: local_write) }
+  let(:task) { Oec::SisImportTask.new(term_code: term_code, local_write: local_write, allow_past_term: true) }
 
   let(:fake_remote_drive) { double() }
   let(:course_overrides_row) { Oec::Courses.new.headers.join(',') }
@@ -270,8 +270,6 @@ describe Oec::SisImportTask do
     describe 'expected network operations' do
       subject { Oec::SisImportTask.new(term_code: term_code) }
 
-      include_context 'follow-up diff and no local-write mode'
-
       let(:today) { '2015-04-01' }
       let(:now) { '09:22:22' }
       let(:sis_import_logfile) { "#{now} sis import task.log" }
@@ -281,6 +279,8 @@ describe Oec::SisImportTask do
 
       let(:imports_today_folder) { mock_google_drive_item today }
       let(:logs_today_folder) { mock_google_drive_item today }
+
+      include_context 'follow-up diff and no local-write mode'
 
       before do
         allow(DateTime).to receive(:now).and_return DateTime.strptime("#{today} #{now}", '%F %H:%M:%S')
@@ -383,18 +383,27 @@ describe Oec::SisImportTask do
   context 'department-specific filters' do
     let(:null_sheets_manager) { double.as_null_object }
     before(:each) { allow(Oec::RemoteDrive).to receive(:new).and_return null_sheets_manager }
+    let(:default_opts) { {term_code: term_code, local_write: true, allow_past_term: true} }
 
     include_context 'local-write mode and no follow-up diff'
 
     it 'filters by course-code department names' do
       expect(Oec::CourseCode).to receive(:by_dept_code).with(dept_name: %w(BIOLOGY MCELLBI)).and_return({})
-      Oec::SisImportTask.new(term_code: term_code, dept_names: 'BIOLOGY MCELLBI', local_write: true).run
+      Oec::SisImportTask.new(default_opts.merge(dept_names: 'BIOLOGY MCELLBI')).run
     end
 
     it 'filters by department codes' do
       expect(Oec::CourseCode).to receive(:by_dept_code).with(dept_code: %w(IBIBI IMMCB)).and_return({})
-      Oec::SisImportTask.new(term_code: term_code, dept_codes: 'IBIBI IMMCB', local_write: true).run
+      Oec::SisImportTask.new(default_opts.merge(dept_codes: 'IBIBI IMMCB')).run
     end
   end
 
+  context 'task not told to allow past terms' do
+    let(:task) { Oec::SisImportTask.new(term_code: term_code, local_write: true) }
+
+    it 'refuses to run' do
+      expect(Rails.logger).to receive(:error).with /Past ending date/
+      task.run
+    end
+  end
 end
