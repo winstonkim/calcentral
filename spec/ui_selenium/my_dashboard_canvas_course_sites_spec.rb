@@ -2,11 +2,10 @@ describe 'My Dashboard', :testui => true, :order => :defined do
 
   if ENV["UI_TEST"]
 
+    # Don't run Canvas test when weekend refresh is happening in Beta environment
     unless Settings.ui_selenium.layer == 'production' || Date.today.strftime("%A") == 'Sunday'
 
       include ClassLogger
-
-      logger.info "Today is #{Date.today.strftime("%A")}"
 
       test_id = Time.now.to_i.to_s
       timeout = WebDriverUtils.page_load_timeout
@@ -110,7 +109,7 @@ describe 'My Dashboard', :testui => true, :order => :defined do
             expect(@my_classes_card.other_course_site_descrips).to include(site_descrip)
           end
           it 'show a link to the course site in My Classes' do
-            WebDriverUtils.verify_external_link(@driver, @my_classes_card.other_course_site_link_elements[0], site_descrip)
+            expect(WebDriverUtils.verify_external_link(@driver, @my_classes_card.other_course_site_link_elements[0], site_descrip)).to be true
           end
 
           # Notifications - announcement, discussion
@@ -199,7 +198,7 @@ describe 'My Dashboard', :testui => true, :order => :defined do
             expect(@my_classes_card.other_course_site_descrips).to include(site_descrip)
           end
           it 'show a link to the course site in My Classes' do
-            WebDriverUtils.verify_external_link(@driver, @my_classes_card.other_course_site_link_elements[0], site_descrip)
+            expect(WebDriverUtils.verify_external_link(@driver, @my_classes_card.other_course_site_link_elements[0], site_descrip)).to be true
           end
 
           # Notifications - assignments, announcement, discussion

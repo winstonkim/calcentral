@@ -70,9 +70,13 @@ class CanvasPage
   end
 
   def log_in(cal_net_page, username, password)
+    # Retry due to SSO issue in test environment
+    tries ||= 2
     load_homepage
     cal_net_page.login(username, password)
     recent_activity_heading_element.when_visible timeout=WebDriverUtils.page_load_timeout
+  rescue
+    retry unless (tries -= 1).zero?
   end
 
   def accept_login_messages(course_id)
@@ -99,6 +103,8 @@ class CanvasPage
       WebDriverUtils.wait_for_page_and_click logout_confirm_element
       cal_net_page.logout_conf_heading_element.when_visible timeout=WebDriverUtils.page_load_timeout
     end
+    # Add a hard logout from CalNet due to SSO issue in test environment
+    cal_net_page.logout
   end
 
   def load_sub_account
@@ -106,8 +112,12 @@ class CanvasPage
   end
 
   def load_course_site(course_id)
+    # Retry due to SSO issue in test environment
+    tries ||= 2
     navigate_to "#{WebDriverUtils.canvas_base_url}/courses/#{course_id}"
     accept_login_messages course_id
+  rescue
+    retry unless (tries -= 1).zero?
   end
 
   def load_users_page(course_id)
