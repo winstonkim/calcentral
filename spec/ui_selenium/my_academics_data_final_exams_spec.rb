@@ -1,6 +1,6 @@
 describe 'My Academics Final Exams card', :testui => true do
 
-  if ENV["UI_TEST"]
+  if ENV["UI_TEST"] && Settings.ui_selenium.layer != 'production'
 
     include ClassLogger
 
@@ -66,13 +66,11 @@ describe 'My Academics Final Exams card', :testui => true do
                   expect(acad_exam_locations).to eql(api_exam_locations)
                 end
 
-                # IF LINKED LOCATIONS EXIST, VERIFY LINKS OPEN GOOGLE MAPS IN NEW WINDOW
-                acad_exam_location_links = my_academics_page.exam_location_links_elements
-                acad_exam_location_links.each do |link|
-                  link_works = WebDriverUtils.verify_external_link(driver, link, 'Google Maps')
-                  it "offers a Google Maps link on My Academics for UID #{uid}" do
-                    expect(link_works).to be true
-                  end
+                # IF LINKED LOCATIONS EXIST, VERIFY THAT ONE OF LINKS OPENS GOOGLE MAPS IN NEW WINDOW
+                exam_location_link = my_academics_page.exam_location_links_elements.first
+                link_works = WebDriverUtils.verify_external_link(driver, exam_location_link, 'Google Maps')
+                it "offers a Google Maps link on My Academics for UID #{uid}" do
+                  expect(link_works).to be true
                 end
 
                 # EXAM SCHEDULES ON SEMESTER PAGE
