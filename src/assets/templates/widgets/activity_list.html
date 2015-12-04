@@ -9,7 +9,7 @@
           <div class="cc-widget-activities-text-column">
             <i class="fa fa-{{typeToIcon[activity.type]}} cc-left"></i>
             <div class="cc-widget-activities-text-margin">
-              <strong>{{activity.title}}</strong>
+              <strong class="cc-widget-activities-title">{{activity.title}}</strong>
               <div>
                 <span data-ng-bind="activity.source"></span><span data-ng-if="activity.source && activity.date">, </span>
                 <span data-ng-if="activity.date">{{activity.date.epoch * 1000 | dateInYearFilter:'MMM d':'MMM d yyyy'}}</span>
