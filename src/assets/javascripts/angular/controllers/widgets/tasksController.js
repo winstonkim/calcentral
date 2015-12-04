@@ -118,22 +118,6 @@ angular.module('calcentral.controllers').controller('TasksController', function(
     });
   };
 
-  $scope.clearCompletedTasks = function() {
-    apiService.analytics.sendEvent('Tasks', 'Clear completed tasks', 'Clear completed tasks');
-    tasksFactory.clearCompletedTasks({
-      emitter: 'Google'
-    }).success(function(data) {
-      if (data.tasksCleared) {
-        getTasks({
-          refreshCache: true
-        });
-      }
-    }).error(function() {
-      apiService.analytics.sendEvent('Error', 'Clear completed tasks failure', 'Clear completed tasks failure');
-      // Some error notification would be helpful.
-    });
-  };
-
   // Switch mode for scheduled/unscheduled/completed tasks
   $scope.switchTasksMode = function(tasksMode) {
     apiService.analytics.sendEvent('Tasks', 'Switch mode', tasksMode);
