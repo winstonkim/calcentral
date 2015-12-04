@@ -111,7 +111,7 @@ angular.module('calcentral.controllers').controller('SirItemController', functio
    */
   var selectFirstResponseReason = function() {
     $scope.$watch('item.responseReasons', function(value) {
-      if (!value) {
+      if (!_.get(value, 'length')) {
         return;
       }
       $scope.sirItem.form.decline.reasonCode = $scope.item.responseReasons[0].responseReason;
