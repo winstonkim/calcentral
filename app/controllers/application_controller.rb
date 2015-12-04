@@ -34,7 +34,7 @@ class ApplicationController < ActionController::Base
   def reauthenticate(opts = {})
     delete_reauth_cookie
     url = '/auth/cas?renew=true'
-    url << "&url=#{opts[:redirect_path]}" if opts[:redirect_path]
+    url << "&url=#{url_for_path opts[:redirect_path]}" if opts[:redirect_path]
     redirect_to url_for_path url
   end
 
@@ -110,6 +110,17 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def self.correct_port(host_with_port, http_referer)
+    # A developer on localhost running `gulp build` will expect port 3001. However, low-level Rails logic will deduce
+    # a port value of 3000. Problems arise when we HTTP redirect: developer unexpectedly hops from 3001 to 3000.
+    # Therefore, we use a conservative hack to undo the false assumption of Rails.
+    if http_referer.to_s.include?('localhost:3001')
+      host_with_port.sub(':3000', ':3001')
+    else
+      host_with_port
+    end
+  end
+
   private
 
   def get_settings
@@ -151,7 +162,7 @@ class ApplicationController < ActionController::Base
   # first to "http:" and then to "https:". This method makes relative paths safer to use.
   def url_for_path(path)
     if (protocol = default_url_options[:protocol])
-      protocol + request.host_with_port + path
+      protocol + ApplicationController.correct_port(request.host_with_port, env['HTTP_REFERER']) + path
     else
       path
     end
