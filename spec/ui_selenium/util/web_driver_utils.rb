@@ -31,7 +31,7 @@ class WebDriverUtils
     # If the browser did not start successfully, the quit method will fail.
     driver.quit rescue NoMethodError
     # Pause after quitting the browser to make sure it shuts down completely before the next test relaunches it
-    sleep(3)
+    sleep 2
   end
 
   def self.base_url

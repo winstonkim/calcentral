@@ -1,6 +1,6 @@
 describe 'User authorization', :testui => true do
 
-  if ENV["UI_TEST"]
+  if ENV["UI_TEST"] && Settings.ui_selenium.layer != 'production'
 
     timeout = WebDriverUtils.page_load_timeout
 
