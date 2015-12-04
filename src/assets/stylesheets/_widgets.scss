@@ -1,8 +1,8 @@
 .cc-widget {
-  background: #fff;
+  background: $cc-color-white;
   margin: 15px 15px 0 0;
 
-  // See https://github.com/h5bp/html5-boilerplate/blob/master/css/main.css
+  // See https://git.io/vITBH
   // For an explanation of this magic
   &:before, &:after {
     content: " ";
@@ -16,6 +16,9 @@
   .cc-widget {
     margin-right: 0;
   }
+}
+.cc-widget-border {
+  border-bottom: 1px solid $cc-color-widget-background;
 }
 .cc-widget-list {
   font-size: 12px;

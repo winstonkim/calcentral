@@ -12,7 +12,7 @@ application:
   protocol: "http://"
   fake_cas: false
   fake_cas_id: "1" # Change this to the UID you want to fake cas auth with.
-  # Neither VCR nor WebMock are thread-safe, and so fake proxy support should
+  # WebMock is not thread-safe, and so fake proxy support should
   # be disabled when no fakes are needed (e.g., in production).
   fake_proxies_enabled: true
   # timeout (in seconds) for outgoing http request establishment
@@ -38,8 +38,8 @@ campusdb:
   username: sa
   password: sa
   pool: 95
-  # Needed when the bSpace application tables are in a different namespace.
-  bspace_prefix:
+  fake: false
+  fake_user_id: "300939"
 terms:
   # Limit how far back our academic history goes.
   oldest: spring-2010
@@ -51,7 +51,6 @@ test_sqlite:
   pool: 3
 
 # Proxy support
-freshen_vcr: <%= ENV['freshen_vcr'] %>
 # MUST BE SET FOR DEVELOPMENT & PRODUCTION
 # Example generated with SecureRandom.base64(32)
 oauth2:
@@ -66,10 +65,10 @@ canvas_proxy:
   url_root: "http://localhost:12345"
   fake: false
   account_id: '90242'
+  admin_tools_account_id: '129607'
   official_courses_account_id: '129410'
   projects_account_id: '129407'
   projects_term_id: '5494'
-  projects_owner_role_id: '1766'
   default_grading_scheme_id: '4068930'
   export_directory: 'tmp/canvas'
   lti_key: 'someMumboJumbo'
@@ -83,8 +82,17 @@ canvas_proxy:
   dry_run_import: <%= ENV['CANVAS_DRY_RUN_IMPORT'] || '' %>
   # Set to false to disable synchronization of obfuscated names in Dev/QA.
   maintain_user_names: true
+  # Set to false to disable user account inactivation based on campus data.
+  inactivate_expired_users: true
+  # Set to false if Canvas permissions block our ability to delete an invalid email address.
+  delete_bad_emails: true
   # URL for scripts to point to CalCentral/Junction
   app_provider_host: 'http://localhost:3000'
+  test_admin_id:
+  test_servers:
+  test_cas_url: 'https://auth-test.berkeley.edu/cas'
+  # If reports are provided through Google Drive, this is the UID that creates them.
+  reporter_uid:
 ldap:
   host: 'nds.berkeley.edu'
   port: 636
@@ -92,18 +100,14 @@ ldap:
   application_password: 'someMumboJumbo'
 google_proxy:
   client_id: 1
-  client_secret: 'someMumboJumbo'
+  client_secret: 'bogusClientSecret'
+  scope: 'profile email https://www.googleapis.com/auth/calendar https://www.googleapis.com/auth/tasks https://www.googleapis.com/auth/drive.readonly.metadata https://mail.google.com/mail/feed/atom/'
   fake: false
   #Maps to tammi.chang.clc@gmail.com. Used for testing + recording responses
-  test_user_access_token: "someMumboJumbo"
-  test_user_refresh_token: "someMumboJumbo"
+  test_user_access_token: "bogusAccessToken"
+  test_user_refresh_token: "bogusRefreshToken"
   atom_mail_feed_url: "https://mail.google.com/mail/feed/atom/"
-sakai_proxy:
-  host: "https://sakai-dev.berkeley.edu"
-  fake: false
-  fake_user_id: "300939"
-  # Timestamp in UTC, needed when testing against older DB snapshot
-  fake_now:
+
 cal_link_proxy:
   fake: false
   base_url: "https://callink.berkeley.edu"
@@ -112,7 +116,6 @@ cal_link_proxy:
 
 bearfacts_proxy:
   fake: false
-  token: secret set per deployment layer
   app_id: ''
   app_key: ''
   base_url: "https://apis-dev.berkeley.edu/bearfacts-apis"
@@ -128,6 +131,7 @@ calmail_proxy:
   api_key: '99999'
   base_url: 'https://example.com/manage/api1'
   domain: 'bcourses-lists.berkeley.edu'
+  owner_address: 'owner@example.com'
   owner_uid: '211159'
 
 regstatus_proxy:
@@ -138,7 +142,6 @@ regstatus_proxy:
 
 myfinaid_proxy:
   fake: false
-  token: secret set per deployment layer
   app_id: ''
   app_key: ''
   base_url: "https://apis-qa.berkeley.edu/myfinaid"
@@ -156,7 +159,7 @@ textbooks_proxy:
 
 webcast_proxy:
   fake: false
-  base_url: 'https://video-dev.ets.berkeley.edu/warehouse'
+  base_url: 'https://webcast-cc-dev.ets.berkeley.edu'
   username: 'secret'
   password: 'secret'
 
@@ -165,11 +168,15 @@ audio_proxy:
 
 blog_latest_release_notes_feed_proxy:
   fake: false
-  base_url: "https://ets.berkeley.edu/taxonomy/term/788/all/feed"
+  base_url: "https://www.ets.berkeley.edu/news-archive/calcentral-release-notes/feed"
 
 app_alerts_proxy:
   fake: false
   base_url: "http://ets.berkeley.edu/calcentral-alerts/feed"
+
+service_alerts_proxy:
+  fake: false
+  base_url: 'http://www.ets.berkeley.edu/news-archive/calcentral-service-alert/feed'
 
 cal1card_proxy:
   fake: false
@@ -196,7 +203,7 @@ cache:
   race_condition_ttl: <%= 10.seconds %>
   stale_connection_flush_interval: <%= 30.seconds %>
   store: "memcached"
-  log_level: <%= Logger::ERROR %>
+  log_level: <%= Logger::WARN %>
   expiration:
     default: <%= 35.minutes %>
     failure: <%= 30.seconds %>
@@ -215,11 +222,11 @@ cache:
     User::Api: NEXT_08_00
     User::Photo: <%= 24.hours %>
     UserApiController: <%= 4.hours %>
-    Canvas::Lti: <%= 5.minutes %>
     Canvas::CourseStudents: <%= 15.minutes %>
     Canvas::CourseTeachers: <%= 5.minutes %>
     CanvasBackgroundJobs: <%= 24.hours %>
-    Canvas::Egrades: <%= 1.minute %>
+    CanvasLti::Egrades: <%= 1.minute %>
+    CanvasLti::Lti: <%= 5.minutes %>
     Advising::MyAdvising: <%= 2.hours %>
 
     Berkeley::Terms: NEXT_08_00
@@ -236,9 +243,6 @@ cache:
     Canvas::Todo: <%= 20.minutes %>
     Canvas::UpcomingEvents: <%= 20.minutes %>
 
-    Sakai::SakaiMergedUserSites: <%= 30.minutes %>
-    Sakai::SiteAnnouncements: <%= 30.minutes %>
-
     MyBadges::GoogleCalendar: <%= 4.minutes %>
     MyBadges::GoogleDrive: <%= 10.minutes %>
     MyBadges::GoogleMail: <%= 4.minutes %>
@@ -250,6 +254,28 @@ cache:
 
     Textbooks::Proxy: <%= 24.hours %>
     EtsBlog::Alerts: <%= 2.minutes %>
+    EtsBlog::ServiceAlerts: <%= 2.minutes %>
+
+    CampusSolutions::AddressLabel: <%= 29.days %>
+    CampusSolutions::AddressType: <%= 29.days %>
+    CampusSolutions::Checklist: <%= 15.minutes %>
+    CampusSolutions::Country: <%= 29.days %>
+    CampusSolutions::CurrencyCode: <%= 29.days %>
+    CampusSolutions::Deposit: <%= 15.minutes %>
+    CampusSolutions::EthnicitySetup: <%= 29.days %>
+    CampusSolutions::LanguageCode: <%= 29.days %>
+    CampusSolutions::ListOfValues: <%= 24.hours %>
+    CampusSolutions::HigherOneUrl: <%= 1.seconds %>
+    CampusSolutions::MyHigherOneUrl: <%= 1.seconds %>
+    CampusSolutions::NameType: <%= 29.days %>
+    CampusSolutions::SirConfig: <%= 24.hours %>
+    CampusSolutions::State: <%= 29.days %>
+    CampusSolutions::Translate: <%= 24.hours %>
+    CampusSolutions::DashboardUrl: <%= 29.days %>
+
+    CalnetCrosswalk::Proxy: <%= 24.hours %>
+    CalnetCrosswalk::ByUid: <%= 24.hours %>
+    CalnetCrosswalk::BySid: <%= 24.hours %>
 
 # Cache warmer settings
 cache_warmer:
@@ -281,10 +307,8 @@ background_jobs_check:
 # feature toggles. If a feature's key is false OR nil, it's disabled.
 features:
   my_fin_aid: false
-  research: false
   textbooks: false
   videos: false
-  app_alerts: false
   cal1card: false
   reauthentication: true
   audio: false
@@ -292,15 +316,39 @@ features:
   advising: false
   background_jobs_check: true
   course_manage_official_sections: false
+  manage_site_mailing_lists: false
+  cs_fin_aid: false
+  cs_profile: false
+  cs_profile_visible_for_legacy_users: true
+  show_notifications_archive_link: false
+  cs_sir: false
+  slate_checklist: false
+  webcast_sign_up_on_calcentral: false
+  service_alerts_rss: true
+  prevent_acting_as_users_from_posting: true
 
 youtube_splash_id: 'EQ-a7xrfVag'
 
 oec:
+  administrator_uid: ''
+  local_write_directory: 'tmp/oec'
+  explorance:
+    sftp_server: ''
+    sftp_port: 22
+    sftp_user: ''
+    ssh_private_key_file: ''
+  google:
+    uid: ''
+    client_id: 'oecClientId'
+    client_secret: 'oecClientSecret'
+    access_token: 'oecAccessToken'
+    refresh_token: 'oecRefreshToken'
+    scope: 'profile email https://mail.google.com/mail/feed/atom/ https://spreadsheets.google.com/feeds/ https://www.googleapis.com/auth/calendar https://www.googleapis.com/auth/drive https://www.googleapis.com/auth/drive.appdata https://www.googleapis.com/auth/drive.apps.readonly https://www.googleapis.com/auth/drive.file https://www.googleapis.com/auth/drive.readonly.metadata https://www.googleapis.com/auth/tasks'
   current_terms_codes: [{
     year: 2015,
-    code: "B"
+    code: "C"
   }]
-  departments: [ 'BIOLOGY', 'CATALAN', 'CHEM', 'DATASCI', 'ECON', 'EPS', 'ILA', 'INFO', 'INTEGBI', 'MCELLBI', 'POL SCI', 'PORTUG', 'PSYCH', 'SPANISH', 'STAT' ]
+  departments: [ 'A,RESEC', 'BIOLOGY', 'CATALAN', 'CHEM', 'DATASCI', 'ECON', 'ENE,RES', 'ENVECON', 'EPS', 'ESPM', 'GWS', 'INFO', 'INTEGBI', 'LGBT', 'LINGUIS', 'MATH', 'MCELLBI', 'NUSCTX', 'PHYSICS', 'PLANTBI', 'POL SCI', 'PORTUG', 'PSYCH', 'SPANISH', 'STAT' ]
 
 class_calendar:
   slice_size: 10000
@@ -312,21 +360,21 @@ class_calendar:
 ui_selenium:
   baseUrl: https://calcentral-dev.berkeley.edu
   calNetUrl: https://auth-test.berkeley.edu
+  canvas_base_url: https://ucberkeley.beta.instructure.com
+  canvas_qa_sub_account: secret
   googleAuthUrl: /api/google/request_authorization?force_domain=false
   layer: development
 
   # Alternative browsers for Selenium tests: chrome, safari, ie
   webDriver: firefox
 
-  googleOauthTimeout: 10
   googleTaskTimeout: 12
   pageEventTimeout: 3
   pageLoadTimeout: 12
+  campus_solutions_timeout: 6
   liveUpdateTimeoutDelta: 180
-  finResourcesLinksTimeout: 10
-  financialsTimeout: 5
-  academicsTimeout: 15
-  finAidTimeout: 20
+  academicsTimeout: 20
+  canvasUpdateTimeout: 60
   test_user_password: secret
   oski_username: secret
   oski_password: secret
@@ -341,5 +389,29 @@ ui_selenium:
 advising_proxy:
   fake: false
   base_url: 'https://bhive.berkeley.edu/api'
+  username: secret
+  password: secret
+
+campus_solutions_proxy:
+  fake: true
+  base_url: 'http://sis-demo-02.is.berkeley.edu'
+  username: secret
+  password: secret
+
+slate_checklist_proxy:
+  fake: true
+  base_url: 'https://ucb.test.technolutions.net/manage/query/process?id=3c37bfd5-a42d-42d7-9f66-86dd87d41b7f&h=df64a234-1365-6a1a-0084-685307371123&output=raw.xml'
+  username: secret
+  password: secret
+
+hub_edos_proxy:
+  fake: true
+  base_url: 'https://apis.berkeley.edu/something'
+  username: secret
+  password: secret
+
+calnet_crosswalk_proxy:
+  fake: true
+  base_url: 'https://registry-d1.calnet.1918.berkeley.edu:8453/registry-service/api/v1/identifiers'
   username: secret
   password: secret

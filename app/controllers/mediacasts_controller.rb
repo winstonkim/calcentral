@@ -14,7 +14,9 @@ class MediacastsController < ApplicationController
     catalog_id = params['catalog_id']
     sections = CampusOracle::Queries.get_all_course_sections(term_yr, term_cd, dept_name, catalog_id)
     ccn_list = sections.map { |section| section['course_cntl_num'].to_i }
-    render :json => Webcast::Merged.new(term_yr, term_cd, ccn_list, @options).get_feed
+    policy = policy(Berkeley::Course.new @options)
+    uid = session['user_id']
+    render :json => Webcast::Merged.new(uid, policy, term_yr, term_cd, ccn_list, @options).get_feed
   end
 
 end

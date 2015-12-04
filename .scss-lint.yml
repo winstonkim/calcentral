@@ -1,11 +1,15 @@
 exclude:
   - 'app/assets/stylesheets/rails_admin/**'
   - 'src/assets/stylesheets/lib/**'
+  - 'public/**'
+  - 'node_modules/**'
 
 linters:
   DuplicateProperty:
     enabled: false
   EmptyLineBetweenBlocks:
+    enabled: false
+  ImportantRule:
     enabled: false
   NestingDepth:
     max_depth: 5

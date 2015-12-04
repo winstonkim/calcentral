@@ -1,16 +1,3 @@
-require 'spec_helper'
-require 'selenium-webdriver'
-require 'page-object'
-require 'csv'
-require 'json'
-require_relative 'util/web_driver_utils'
-require_relative 'pages/cal_central_pages'
-require_relative 'pages/splash_page'
-require_relative 'pages/api_my_status_page'
-require_relative 'pages/api_my_financials_page'
-require_relative 'pages/my_finances_pages'
-require_relative 'pages/my_finances_details_page'
-
 describe 'My Finances activity details', :testui => true do
 
   if ENV["UI_TEST"]
@@ -18,9 +5,10 @@ describe 'My Finances activity details', :testui => true do
     include ClassLogger
 
     begin
-      driver = WebDriverUtils.driver
+      driver = WebDriverUtils.launch_browser
       test_output = UserUtils.initialize_output_csv(self)
       test_users = UserUtils.load_test_users
+      testable_users = []
 
       CSV.open(test_output, 'wb') do |user_info_csv|
         user_info_csv << ['UID', 'Has Adjustment', 'Has Award', 'Has Charge', 'Has Payment', 'Has Refund', 'Has Waiver',
@@ -34,15 +22,15 @@ describe 'My Finances activity details', :testui => true do
 
           begin
             splash_page = CalCentralPages::SplashPage.new(driver)
-            splash_page.load_page(driver)
-            splash_page.basic_auth(driver, uid)
+            splash_page.load_page
+            splash_page.basic_auth uid
             status_api_page = ApiMyStatusPage.new(driver)
             status_api_page.get_json(driver)
             fin_api_page = ApiMyFinancialsPage.new(driver)
             fin_api_page.get_json(driver)
             my_finances_page = CalCentralPages::MyFinancesPages::MyFinancesDetailsPage.new(driver)
-            my_finances_page.load_page(driver)
-            my_finances_page.wait_for_billing_summary(driver)
+            my_finances_page.load_page
+            my_finances_page.billing_summary_spinner_element.when_not_visible(timeout=WebDriverUtils.page_load_timeout)
 
             if fin_api_page.has_cars_data?
               has_adjustment = false
@@ -55,15 +43,16 @@ describe 'My Finances activity details', :testui => true do
               has_partial_payment = false
               has_potential_disburse = false
               threw_error = false
+              testable_users.push(uid)
 
-              my_finances_page.select_transactions_filter('All Transactions')
+              WebDriverUtils.wait_for_element_and_select(my_finances_page.activity_filter_select_element, 'All Transactions')
               my_finances_page.keep_showing_more
               api_all_transactions = fin_api_page.all_transactions
               my_finances_all_transactions = my_finances_page.visible_transaction_count
               it "shows all the transactions for UID #{uid}" do
                 expect(my_finances_all_transactions).to eql(api_all_transactions.length)
               end
-              my_finances_page.select_transactions_filter('Date Range')
+              WebDriverUtils.wait_for_element_and_select(my_finances_page.activity_filter_select_element, 'Date Range')
 
               adjustments = fin_api_page.all_transactions_by_type('Adjustment')
               if adjustments.length > 0
@@ -159,7 +148,7 @@ describe 'My Finances activity details', :testui => true do
                   api_award_dept = fin_api_page.trans_dept(award)
                   api_award_term = fin_api_page.trans_term(award)
                   api_award_status = fin_api_page.trans_status(award)
-                  it "shows he award date for UID #{uid}" do
+                  it "shows the award date for UID #{uid}" do
                     expect(my_fin_award_date).to eql(api_award_date)
                   end
                   it "shows the award description for UID #{uid}" do
@@ -357,7 +346,7 @@ describe 'My Finances activity details', :testui => true do
                   it "shows the payment term for UID #{uid}" do
                     expect(my_fin_payment_term).to eql("Term: #{api_payment_term}")
                   end
-                  if api_payment_disburse == ''
+                  if api_payment_disburse.nil?
                     it "shows no payment potential disbursement date for UID #{uid}" do
                       expect(my_fin_has_payment_disburse).to be false
                     end
@@ -499,7 +488,7 @@ describe 'My Finances activity details', :testui => true do
                   my_fin_waiver_term = my_finances_page.trans_term
                   my_fin_waiver_has_disburse = my_finances_page.trans_disburse_date?
                   my_fin_waiver_has_ref_method = my_finances_page.trans_ref_method?
-                  my_fin_waiver_has_ref_date = my_finances_page.trans_ref_date? 
+                  my_fin_waiver_has_ref_date = my_finances_page.trans_ref_date?
                   my_fin_waiver_has_ref_action = my_finances_page.trans_ref_action?
                   my_fin_waiver_has_ref_void = my_finances_page.trans_ref_void?
                   api_waiver_date = Time.parse(fin_api_page.trans_date(waiver)).strftime('%m/%d/%y')
@@ -558,11 +547,15 @@ describe 'My Finances activity details', :testui => true do
           end
         end
       end
+
+        it 'has CARS data for at least one of the test UIDs' do
+          expect(testable_users.any?).to be true
+        end
+
     rescue => e
       logger.error e.message + "\n" + e.backtrace.join("\n ")
     ensure
-      logger.info('Quitting the browser')
-      driver.quit
+      WebDriverUtils.quit_browser(driver)
     end
   end
 end

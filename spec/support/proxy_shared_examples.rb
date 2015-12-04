@@ -25,6 +25,14 @@ shared_examples 'a proxy logging errors' do
   end
 end
 
+shared_examples 'a polite HTTP client' do
+  after { WebMock.reset! }
+  it 'includes default request headers' do
+    subject
+    expect(a_request(:any, /.*/).with(headers: {'Accept' => '*/*', 'User-Agent' => 'Ruby'})).to have_been_made.at_least_once
+  end
+end
+
 shared_examples 'a student data proxy' do
   def fake_proxy(uid); proxy_class.new({user_id: uid, fake: true}); end
   def real_proxy(uid); proxy_class.new({user_id: uid, fake: false}); end
@@ -36,6 +44,10 @@ shared_examples 'a student data proxy' do
     end
   end
 
+  it_behaves_like 'a polite HTTP client' do
+    subject { fake_proxy('61889').get }
+  end
+
   it 'should get fake data for Oski' do
     response = fake_proxy('61889').get
     expect_feed(response, feed_key)
@@ -45,11 +57,6 @@ shared_examples 'a student data proxy' do
     response = fake_proxy('0').get
     expect(response[:noStudentId]).to eq true
     expect(response[:feed]).to be_nil
-  end
-
-  it 'should get Oski data from real server', :testext => true do
-    response = real_proxy('61889').get
-    expect(response).to be_present
   end
 
   context 'connection failure' do

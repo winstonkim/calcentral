@@ -22,6 +22,9 @@ module User
 
       return users unless all_uids.present?
 
+      # TODO SISRP-10824 / SISRP-11917: Have to find a way to replace this batch user query with Crosswalk
+      # (which doesn't offer multi-user lookup, or names)
+      # Until that's done, act-as search history will only be saved for users who are present in Oracle.
       users_found = User::SearchUsersByUid.new(:ids => all_uids).search_users_by_uid_batch
       uid_hash = {}
 
@@ -29,9 +32,12 @@ module User
         uid_hash[user['ldap_uid']] = user
       end
 
+      saved_uid_set = Set.new
+
       uid_entries[:saved].each do |entry|
         user = uid_hash[entry[:stored_uid]]
         if user.present?
+          saved_uid_set.add entry[:stored_uid]
           users[:saved] << user
         end
       end
@@ -39,7 +45,7 @@ module User
       uid_entries[:recent].each do |entry|
         user = uid_hash[entry[:stored_uid]]
         if user.present?
-          users[:recent] << user
+          users[:recent] << user.merge('saved' => saved_uid_set.include?(entry[:stored_uid]))
         end
       end
 
@@ -68,6 +74,18 @@ module User
       user = get_user(uid)
       return error_response("Could not find user #{uid}.") unless user
       delete(user.recent_uids, uid, uid_to_delete)
+    end
+
+    def self.delete_all_recent(uid)
+      user = get_user(uid)
+      return error_response("Could not find user #{uid}.") unless user
+      delete_all(user.recent_uids)
+    end
+
+    def self.delete_all_saved(uid)
+      user = get_user(uid)
+      return error_response("Could not find user #{uid}.") unless user
+      delete_all(user.saved_uids)
     end
 
     private
@@ -99,6 +117,11 @@ module User
       if (found.size > 0)
         found.first.destroy
       end
+      success_response
+    end
+
+    def self.delete_all(association)
+      association.destroy_all
       success_response
     end
 

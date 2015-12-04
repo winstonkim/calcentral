@@ -11,10 +11,24 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150430222956) do
+ActiveRecord::Schema.define(version: 20151027193159) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "canvas_site_mailing_lists", force: true do |t|
+    t.string   "canvas_site_id"
+    t.string   "list_name"
+    t.string   "state"
+    t.datetime "populated_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "members_count"
+    t.integer  "populate_add_errors"
+    t.integer  "populate_remove_errors"
+  end
+
+  add_index "canvas_site_mailing_lists", ["canvas_site_id"], name: "index_canvas_site_mailing_lists_on_canvas_site_id", unique: true, using: :btree
 
   create_table "canvas_synchronization", force: true do |t|
     t.datetime "last_guest_user_sync"
@@ -138,6 +152,18 @@ ActiveRecord::Schema.define(version: 20150430222956) do
   end
 
   add_index "oauth2_data", ["uid", "app_id"], name: "index_oauth2_data_on_uid_app_id", unique: true, using: :btree
+
+  create_table "oec_course_codes", force: true do |t|
+    t.string   "dept_name",      null: false
+    t.string   "catalog_id",     null: false
+    t.string   "dept_code",      null: false
+    t.boolean  "include_in_oec", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "oec_course_codes", ["dept_code"], name: "index_oec_course_codes_on_dept_code", using: :btree
+  add_index "oec_course_codes", ["dept_name", "catalog_id"], name: "index_oec_course_codes_on_dept_name_and_catalog_id", unique: true, using: :btree
 
   create_table "recent_uids", force: true do |t|
     t.string   "owner_id"

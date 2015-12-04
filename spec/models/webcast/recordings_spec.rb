@@ -1,12 +1,12 @@
 describe Webcast::Recordings do
 
-  let (:webcast_uri) { URI.parse "#{Settings.webcast_proxy.base_url}/webcast.json" }
+  let (:webcast_uri) { URI.parse "#{Settings.webcast_proxy.base_url}/warehouse/webcast.json" }
 
   context 'a fake proxy' do
     context 'data organized by ccn' do
       let(:recordings) { Webcast::Recordings.new({:fake => true}).get }
       it 'should return a lot of playlists' do
-        expect(recordings[:courses].keys.length).to eq 19
+        expect(recordings[:courses].keys.length).to eq 22
         law_2723 = recordings[:courses]['2008-D-49688']
         expect(law_2723).to_not be_nil
         expect(law_2723[:recordings]).to have(12).items
@@ -14,13 +14,15 @@ describe Webcast::Recordings do
     end
   end
 
-  context 'a real, non-fake proxy' do
+  context 'a real, non-fake proxy', :testext => true do
     subject { Webcast::Recordings.new }
 
-    context 'normal return of real data', :testext => true do
+    context 'normal return of real data' do
       it 'should return a bunch of playlists' do
         result = subject.get
-        expect(result[:courses].keys.length).to be >= 0
+        courses = result[:courses]
+        expect(courses).to_not be_nil
+        expect(courses.keys.length).to be >= 0
       end
     end
 
@@ -34,7 +36,7 @@ describe Webcast::Recordings do
       after(:each) { WebMock.reset! }
       it 'should return the fetch error message' do
         response = subject.get
-        expect(response[:proxy_error_message]).to include('There was a problem')
+        expect(response[:proxyErrorMessage]).to include('There was a problem')
       end
     end
 
@@ -45,7 +47,7 @@ describe Webcast::Recordings do
       after(:each) { WebMock.reset! }
       it 'should return the fetch error message' do
         response = subject.get
-        expect(response[:proxy_error_message]).to include('There was a problem')
+        expect(response[:proxyErrorMessage]).to include('There was a problem')
       end
     end
 
@@ -58,5 +60,15 @@ describe Webcast::Recordings do
         expect(result).to be_empty
       end
     end
+
+    context 'course with zero recordings is different than course not scheduled for recordings' do
+      it 'returns nil recordings attribute when course is scheduled for recordings' do
+        result = subject.get
+        # 2015-B-58301: Recordings were planned but instructor backed out. These legacy cases should not surface in feed.
+        expect(result[:courses]).not_to include '2015-B-58301'
+        expect(result[:courses]['2015-B-56745'][:recordings]).to have_at_least(10).items
+      end
+    end
   end
+
 end

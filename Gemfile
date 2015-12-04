@@ -2,33 +2,33 @@ source 'https://rubygems.org'
 
 # The core framework
 # https://github.com/rails/rails
-gem 'rails', '4.1.8'
+gem 'rails', '4.1.11'
 
 gem 'actionpack-action_caching', '~>1.1.1'
 gem 'actionpack-page_caching', '~>1.0.2'
 gem 'actionpack-xml_parser', '~>1.0.1'
 gem 'actionview-encoded_mail_to', '~>1.0.5'
-gem 'activerecord-session_store', '~>0.1.0'
+gem 'activerecord-session_store', '~>0.1.1'
 gem 'activeresource', '~>4.0.0'
 gem 'protected_attributes', '~> 1.0.8'
 gem 'rails-observers', '~>0.1.2'
 gem 'rails-perftest', '~>0.0.5'
 
-gem 'activerecord-jdbc-adapter', '~> 1.3.13'
+gem 'activerecord-jdbc-adapter', '~> 1.3.16'
 
 # Postgresql adapter
-gem 'activerecord-jdbcpostgresql-adapter', '~> 1.3.13'
+gem 'activerecord-jdbcpostgresql-adapter', '~> 1.3.16'
 
 # H2 adapter
-gem 'activerecord-jdbch2-adapter', '~> 1.3.13'
+gem 'activerecord-jdbch2-adapter', '~> 1.3.16'
 
 # A JSON implementation as a Ruby extension in C
 # http://flori.github.com/json/
 gem 'json', '~> 1.8.0'
 
-# CAS Strategy for OmniAuth
-# https://rubygems.org/gems/omniauth-cas
-gem 'omniauth-cas', '~> 1.1.0'
+# CAS Strategy for OmniAuth. ETS maintains its own fork with SAML Ticket Validator capability,
+# provided by Steven Hansen.
+gem 'omniauth-cas', '~> 1.1.0', git: 'https://github.com/ets-berkeley-edu/omniauth-cas.git'
 
 # LDAP
 gem 'net-ldap', '~> 0.11.0'
@@ -43,14 +43,10 @@ gem 'httparty', '~> 0.13.3'
 # OAuth2 support
 gem 'signet', '~> 0.6.0'
 gem 'google-api-client', '~> 0.8.6'
+gem 'google_drive', '~> 1.0.1'
 
 # LTI support
 gem 'ims-lti', :git => 'https://github.com/instructure/ims-lti.git'
-
-# for VCR http recording tool
-gem 'vcr', '~> 2.9.3'
-# Replace with this line for a new recording, if you truly must make a new recording.
-# gem 'vcr', :git => 'https://github.com/vcr/vcr.git'
 
 # for memcached connection
 gem 'dalli', '~> 2.7.2'
@@ -107,12 +103,13 @@ gem 'closure-compiler', '~> 1.1.11'
 # Oracle adapter
 # Purposely excluding this for test environments since folks have to install ojdbc6
 group :development, :testext, :production do
-  gem 'activerecord-oracle_enhanced-adapter', '1.5.5'
+  gem 'activerecord-oracle_enhanced-adapter', '~> 1.5.6'
   gem 'rvm-capistrano', '~> 1.3.1'
   gem 'capistrano', '~> 2.15.4'
 end
 
 group :development, :test , :testext do
+  gem 'rspec-core', '~> 3.1.7'
   gem 'rspec-rails', '~> 3.1.0'
   gem 'rspec-mocks', '~> 3.1.3'
   gem 'rspec-support', '~> 3.1.2'
@@ -121,11 +118,12 @@ group :development, :test , :testext do
   gem 'minitest-reporters', '~> 1.0.8'
 
   # We need to specify the latest webdriver here, to support the latest firefox
-  gem 'selenium-webdriver', '~> 2.44.0'
+  gem 'selenium-webdriver', '~> 2.46.2'
 
   # Code coverage for Ruby 1.9 with a powerful configuration library and automatic merging of coverage across test suites
   # https://rubygems.org/gems/simplecov
-  gem 'simplecov', '~> 0.9.1', require: false
+  gem 'simplecov', '~> 0.9.2', require: false
+  gem 'simplecov-html', '~> 0.9.0', require: false
 
   # Capybara is an integration testing tool for rack based web applications.
   # It simulates how a user would interact with a website
@@ -151,8 +149,8 @@ group :development do
 end
 
 group :test do
-  gem 'activerecord-jdbcsqlite3-adapter', '~> 1.3.13'
-  gem 'page-object', '~> 1.0.3'
+  gem 'activerecord-jdbcsqlite3-adapter', '~> 1.3.16'
+  gem 'page-object', '~> 1.1.0'
 end
 
 group :test, :testext do

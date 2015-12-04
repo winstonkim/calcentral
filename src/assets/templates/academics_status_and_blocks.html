@@ -1,11 +1,11 @@
-<div class="cc-widget cc-academics-status-and-blocks" data-ng-if="!regblocks.noStudentId || studentInfo.regStatus.code !== null">
+<div class="cc-widget cc-academics-status-and-blocks" data-ng-if="!regblocks.noStudentId || studentInfo.regStatus.code !== null || studentInfo.californiaResidency">
 
   <div class="cc-widget-title">
-    <h2><span data-ng-if="studentInfo.regStatus.code !== null">Status and </span>Blocks</h2>
+    <h2><span data-ng-if="studentInfo.regStatus.code !== null || studentInfo.californiaResidency">Status and </span>Blocks</h2>
   </div>
 
   <div class="cc-widget-padding">
-    <div class="cc-table" data-ng-if="studentInfo.regStatus.code !== null">
+    <div class="cc-table" data-ng-if="studentInfo.regStatus.code !== null || studentInfo.californiaResidency">
       <h3>Status</h3>
       <table class="cc-academics-status-and-blocks-status-table">
         <thead>
@@ -18,20 +18,20 @@
           <tr data-ng-if="api.user.profile.features.regstatus">
             <th class="cc-table-subheader" scope="row">Registration</td>
             <td>
-              <i class="cc-icon fa"
+              <i data-ng-if="studentInfo.regStatus.summary=='Registered' || studentInfo.regStatus.needsAction" class="cc-icon fa"
                  data-ng-class="{true:'fa-check-circle cc-icon-green',false:'fa-exclamation-circle cc-icon-red'}[studentInfo.regStatus.summary=='Registered']">
               </i>
               <span data-ng-bind="studentInfo.regStatus.summary"></span>
             </td>
           </tr>
-          <tr>
+          <tr data-ng-if="api.user.profile.features.regstatus">
             <td colspan="2" data-ng-bind-html="studentInfo.regStatus.explanation"></td>
           </tr>
-          <tr>
+          <tr data-ng-if="studentInfo.californiaResidency">
             <th class="cc-table-subheader" scope="row">California Residency</td>
             <td>
               <i class="cc-icon fa"
-                 data-ng-class="{true:'fa-exclamation-circle cc-icon-red',false:'fa-check-circle cc-icon-green'}[studentInfo.californiaResidency.needsAction]"></i>
+                 data-ng-class="{true:'fa-info-circle cc-icon-gold',false:'fa-check-circle cc-icon-green'}[studentInfo.californiaResidency.needsAction]"></i>
               <span data-ng-bind="studentInfo.californiaResidency.summary"></span>
             </td>
           </tr>

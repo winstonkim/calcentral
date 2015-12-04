@@ -1,12 +1,8 @@
 module Webcast
   class Recordings < Proxy
 
-    def initialize(options = {})
-      super(options)
-    end
-
     def get_json_path
-      'webcast.json'
+      'warehouse/webcast.json'
     end
 
     def request_internal

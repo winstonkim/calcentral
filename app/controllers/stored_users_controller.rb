@@ -1,6 +1,6 @@
 class StoredUsersController < ApplicationController
   before_filter :authenticate
-  before_filter :numeric_uid?, except: [:get]
+  before_filter :numeric_uid?, except: [:get, :delete_all_recent, :delete_all_saved]
   respond_to :json
 
   def get
@@ -16,6 +16,16 @@ class StoredUsersController < ApplicationController
 
   def delete_saved_uid
     response = User::StoredUsers.delete_saved_uid(current_user.real_user_id, params['uid'])
+    render json: response.to_json
+  end
+
+  def delete_all_recent
+    response = User::StoredUsers.delete_all_recent current_user.real_user_id
+    render json: response.to_json
+  end
+
+  def delete_all_saved
+    response = User::StoredUsers.delete_all_saved current_user.real_user_id
     render json: response.to_json
   end
 

@@ -6,12 +6,30 @@ class SessionsController < ApplicationController
   def lookup
     auth = request.env["omniauth.auth"]
     auth_uid = auth['uid']
+
+    # Save crosswalk some work by caching critical IDs if they were asserted to us via SAML.
+    if auth.respond_to?(:extra)
+      logger.warn "Omniauth extra from SAML = #{auth.extra.inspect}"
+      crosswalk = CalnetCrosswalk::ByUid.new(user_id: auth_uid)
+      sid = auth.extra['berkeleyEduStuID']
+      cs_id = auth.extra['berkeleyEduCSID']
+      if sid.present?
+        logger.debug "Caching student ID #{sid} for UID #{auth_uid} based on SAML assertion"
+        crosswalk.cache_student_id sid
+      end
+      if cs_id.present?
+        # TODO reduce this log level once CAS reliably sends us the CS ID
+        logger.warn "Caching Campus Solutions ID #{cs_id} for UID #{auth_uid} based on SAML assertion"
+        crosswalk.cache_campus_solutions_id cs_id
+      end
+    end
+
     if params['renew'] == 'true'
       # If we're reauthenticating due to view-as, then the CAS-provided UID should match
       # the session's "original_user_id".
       if session['original_user_id']
         if session['original_user_id'] != auth_uid
-          logger.warn "ACT-AS: Active user session for #{session['original_user_id']} exists, but CAS is giving us a different UID: #{auth_uid}. Logging user out."
+          logger.warn "ACT-AS: CAS returned UID #{auth_uid} not matching active session: #{session_message}. Logging user out."
           logout
           return redirect_to Settings.cas_logout_url
         else
@@ -20,14 +38,14 @@ class SessionsController < ApplicationController
       elsif session['user_id'] != auth_uid
         # If we're reauthenticating for any other reason, then the CAS-provided UID should
         # match the session "user_id" from the previous authentication.
-        logger.warn "REAUTHENTICATION: Active user session for #{session['user_id']} exists, but CAS is giving us a different UID: #{auth_uid}. Starting new session."
+        logger.warn "REAUTHENTICATION: CAS returned UID #{auth_uid} not matching active session: #{session_message}. Starting new session."
         reset_session
       else
         create_reauth_cookie
       end
     else
       if session['lti_authenticated_only'] && session['user_id'] != auth_uid
-        logger.warn "LTI user session for #{session['user_id']} exists, but CAS is giving us a different UID: #{auth_uid}. Logging user out."
+        logger.warn "LTI SESSION: CAS returned UID #{auth_uid} not matching active session: #{session_message}. Logging user out."
         logout
         return redirect_to Settings.cas_logout_url
       end

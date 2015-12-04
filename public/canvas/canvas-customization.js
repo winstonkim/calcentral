@@ -99,7 +99,7 @@
             $('#create-users-step-1 p:first').replaceWith('<p>Type or paste a list of email addresses or CalNet UIDs below:</p>');
 
             // add the calnet directory link
-            $('<div class="pull-right" id="calnet-directory-link"><a href="' + findAPersonToAddToolHref + '"><i class="icon-search-address-book"></i>Find a Person to Add</a></div>').prependTo('#create-users-step-1 p:first');
+            $('<div class="pull-right" id="calnet-directory-link"><a href="' + findAPersonToAddToolHref + '"><i class="icon-search-address-book" aria-hidden="true"></i>Find a Person to Add</a></div>').prependTo('#create-users-step-1 p:first');
 
             // make sure the calnet-guest-info div is removed so you never have more than one
             $('#add-people-help').remove();
@@ -110,19 +110,21 @@
             var addPeopleHelp = [
               '<div id="add-people-help">',
               ' <p>',
-              '   <a class="element_toggler lead" aria-controls="add-people-help-details" aria-expanded="false" aria-label="Toggler toggle list visibility" role="button">',
-              '     <i class="icon-question"></i> Need help adding someone to your site?',
+              '   <a class="element_toggler lead" aria-haspopup="true" aria-controls="add-people-help-details" aria-expanded="false" aria-label="Toggler toggle list visibility" role="button">',
+              '     <i class="icon-question" aria-hidden="true"></i> Need help adding someone to your site?',
               '   </a>',
               ' </p>',
-              ' <div id="add-people-help-details" class="content-box pad-box-mini border border-trbl border-round" style="display: none;">',
-              '   <dl>',
-              '     <dt>UC Berkeley Faculty, Staff and Students</dt>',
-              '     <dd>UC Berkeley faculty, staff and students <em>(regular and concurrent enrollment)</em> can be found in the <a href="http://directory.berkeley.edu/" target="_blank">CalNet Directory</a> and be added to your site using their CalNet UID or official email address.</dd>',
-              '     <dt>Guests</dt>',
-              '     <dd>Peers from other institutions or guests from the community must be sponsored with a <a href="https://idc.berkeley.edu/guests/" target="_blank">CalNet Guest Account</a>. Do NOT request a CalNet Guest Account for concurrent enrollment students.</dd>',
-              '     <dt>More Information</dt>',
-              '     <dd>Go to the <a href="http://ets.berkeley.edu/bcourses/faq/adding-people" target="_blank">bCourses FAQ</a> for more information about adding people to bCourse sites.</dd>',
-              '   </dl>',
+              ' <div aria-live="polite">',
+              '   <div id="add-people-help-details" class="content-box pad-box-mini border border-trbl border-round" style="display: none;">',
+              '     <dl>',
+              '       <dt>UC Berkeley Faculty, Staff and Students</dt>',
+              '       <dd>UC Berkeley faculty, staff and students <em>(regular and concurrent enrollment)</em> can be found in the <a href="http://directory.berkeley.edu/" target="_blank">CalNet Directory</a> and be added to your site using their CalNet UID or official email address.</dd>',
+              '       <dt>Guests</dt>',
+              '       <dd>Peers from other institutions or guests from the community must be sponsored with a <a href="https://idc.berkeley.edu/guests/" target="_blank">CalNet Guest Account</a>. Do NOT request a CalNet Guest Account for concurrent enrollment students.</dd>',
+              '       <dt>More Information</dt>',
+              '       <dd>Go to the <a href="http://ets.berkeley.edu/bcourses/faq/adding-people" target="_blank">bCourses FAQ</a> for more information about adding people to bCourse sites.</dd>',
+              '     </dl>',
+              '   </div>',
               ' </div>',
               '</div>'
             ].join('');
@@ -326,8 +328,8 @@
   $(document).ready(function() {
     $('#footer a.footer-logo').remove();
     $('#footer span').wrap('<div class="bcourses-footer"></div>');
-    var $bcoursesFooter = $('<p class="bcourses-footer-message"><span>bCourses, powered by <a href="http://www.canvaslms.com/higher-education/" target="_blank">canvas</a></span>, part of the <a href="http://ets.berkeley.edu/bcourses" target="_blank">bSpace Replacement Project</a></p>');
-    var $bcoursesLinks = $('<p class="footer-links"><a href="http://ets.berkeley.edu/bcourses/support" target="_blank">bCourses Support</a><a href="http://www.canvaslms.com/policies/privacy" target="_blank">Privacy Policy</a><a href="http://www.canvaslms.com/policies/terms-of-use-internet2" target="_blank">Terms of Service</a><a href="http://www.facebook.com/pages/UC-Berkeley-Educational-Technology-Services/108164709233254" target="_blank" class="icon-facebook-boxed"><span class="screenreader-only">Facebook</span></a><a href="http://www.twitter.com/etsberkeley" target="_blank" class="icon-twitter"><span class="screenreader-only">Twitter</span></a></p><p class="footer-links"><a href="http://asuc.org/honorcode/index.php" target="_blank">UC Berkeley Honor Code</a><a href="http://www.wellness.asuc.org" target="_blank">Student Wellness Resources</a></p>');
+    var $bcoursesFooter = $('<p class="bcourses-footer-message"><span>bCourses, powered by <a href="http://www.canvaslms.com/higher-education/" target="_blank">canvas</a></span></p>');
+    var $bcoursesLinks = $('<p class="footer-links"><a href="http://www.ets.berkeley.edu/discover-services/bcourses" target="_blank">bCourses Support</a><a href="http://www.canvaslms.com/policies/privacy" target="_blank">Privacy Policy</a><a href="http://www.canvaslms.com/policies/terms-of-use-internet2" target="_blank">Terms of Service</a><a href="http://www.facebook.com/pages/UC-Berkeley-Educational-Technology-Services/108164709233254" target="_blank" class="icon-facebook-boxed"><span class="screenreader-only">Facebook</span></a><a href="http://www.twitter.com/etsberkeley" target="_blank" class="icon-twitter"><span class="screenreader-only">Twitter</span></a></p><p class="footer-links"><a href="http://asuc.org/honorcode/index.php" target="_blank">UC Berkeley Honor Code</a><a href="http://www.wellness.asuc.org" target="_blank">Student Wellness Resources</a></p>');
     $('#footer div.bcourses-footer').prepend($bcoursesFooter);
     $('#footer span#footer-links').replaceWith($bcoursesLinks);
 
@@ -346,25 +348,60 @@
    * Resizing the iFrame based on its content is handled by Instructure's `public/javascripts/tool_inline.js`
    * file, and it determines the message format we use.
    *
-   * We include the following custom event types:
-   *
-   *  - Scroll the parent container to a specified position:
-   *    `{subject: 'changeParent', scrollTo: <scrollPosition>}`
-   *
-   *  - Scroll the parent container to the top of the screen:
-   *    `{subject: 'changeParent', scrollToTop: true}`
+   * The following custom event is provided for modifying the URL of the parent container:
    *
    *  - Change the location of the parent container:
-   *    `{subject: 'changeParent', parentLocation: <newLocation>}`
+   *    ```
+   *     {
+   *       subject: 'changeParent',
+   *       parentLocation: <newLocation>
+   *     }
+   *    ```
    *
-   *  - Get the scroll position of the parent container:
-   *    `{subject: 'getScrollPosition'}`
-   *    This will respond with a window event back to the LTI iFrame with the following message:
-   *    `{scrollPosition: <currentScrollPosition>}`
+   * The following custom events are provided to support scrolling-related interaction between
+   * the LTI iFrame and the parent container:
    *
-   *  - If the iFrame is so enormous as to hit the 5000px limit in Instructure's code,
-   *    resize it ourselves.
-   *    `{subject: 'resizeLargeFrame', height: <height>}`
+   *  - Change the height of the LTI iFrame:
+   *    ```
+   *     {
+   *       subject: 'changeParent',
+   *       height: <height>
+   *     }
+   *    ```
+   *
+   *  - Scroll the parent container to a specified position:
+   *    ```
+   *     {
+   *       subject: 'changeParent',
+   *       scrollTo: <scrollPosition>
+   *     }
+   *    ```
+   *
+   *  - Scroll the parent container to the top of the screen:
+   *    ```
+   *     {
+   *       subject: 'changeParent',
+   *       scrollToTop: true
+   *     }
+   *    ```
+   *
+   *  - Get the scroll information of the parent container:
+   *    ```
+   *     {
+   *       subject: 'getScrollInformation'
+   *     }
+   *    ```
+   *
+   *    Each of these events will respond with a window event back to the LTI iFrame containing the scroll information
+   *    for the parent container:
+   *    ```
+   *     {
+   *       iFrameHeight: <currentIframeHeight>,
+   *       parentHeight: <currentParentHeight>,
+   *       scrollPosition: <currentScrollPosition>,
+   *       scrollToBottom: <currentHeightBelowFold>
+   *     }
+   *    ```
    *
    * @param  {Object}    ev         Event that is sent over from the iframe
    * @param  {String}    ev.data    The message sent with the event. Note that this is expected to be a stringified JSON object
@@ -380,30 +417,39 @@
         return;
       }
 
-      // Events that will cause changes to the parent container
-      if (message.subject === 'changeParent') {
+      // Event that will modify the URL of the parent container
+      if (message.subject === 'changeParent' && message.parentLocation) {
+        window.location = message.parentLocation;
+
+      // Events related to scrolling interaction between the LTI iFrame and the parent container
+      } else if (message.subject === 'changeParent' || message.subject === 'getScrollInformation') {
         // Scroll to the specified position
         if (message.scrollTo !== undefined) {
           window.scrollTo(0, message.scrollTo);
         // Scroll to the top of the current window
         } else if (message.scrollToTop) {
           window.scrollTo(0, 0);
-        // Change the current location
-        } else if (message.parentLocation) {
-          window.location = message.parentLocation;
+        } else if (message.height !== undefined) {
+          if (!message.height || message.height < 450) {
+            message.height = 450;
+          }
+          $('.tool_content_wrapper').height(message.height).data('height_overridden', true);
         }
-      // Retrieve the current scroll position of the parent container
-      } else if (message.subject === 'getScrollPosition') {
-        // Only respond when the source iFrame is present
+
+        // Respond with a window event back to the LTI iFrame containing the scroll information for the parent container
         if (ev.source) {
-          var scrollPosition = (window.pageYOffset || document.documentElement.scrollTop) - (document.documentElement.clientTop || 0);
-          var response = {scrollPosition: scrollPosition};
+          var iFrameHeight = $('.tool_content_wrapper').height();
+          var parentHeight = $(document).height();
+          var scrollPosition = $(document).scrollTop();
+          var scrollToBottom = parentHeight - $(window).height() - scrollPosition;
+          var response = {
+            iFrameHeight: iFrameHeight,
+            parentHeight: parentHeight,
+            scrollPosition: scrollPosition,
+            scrollToBottom: scrollToBottom
+          };
           ev.source.postMessage(JSON.stringify(response), '*');
         }
-      // Resize frame if too large for Instructure's `public/javascripts/tool_inline.js`
-      } else if (message.subject === 'resizeLargeFrame' && message.height) {
-        $('#tool_content').height(message.height);
-        $('.tool_content_wrapper').height('auto');
       }
     }
   };

@@ -120,18 +120,8 @@ button {
     font-size: 13px;
     font-weight: normal;
   }
-}
-
-.cc-button-star {
-  background: transparent;
-  border: 0;
-  color: $body-font-color !important;
-  padding: 0;
-  &:focus, &:hover {
-    background: transparent;
-  }
-  .cc-button-star-grey {
-    color: $cc-color-lighter-medium-grey;
+  &:hover i, &:focus i {
+    text-decoration: underline;
   }
 }
 

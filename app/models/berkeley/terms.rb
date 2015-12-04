@@ -31,12 +31,16 @@ module Berkeley
     attr_reader :current
     # The term officially in progress. The academic calendar has gaps, and so this will sometimes be nil.
     attr_reader :running
+    # The "Current Term" (or "CT") in legacy SIS systems such as Bear Facts.
+    attr_reader :sis_current_term
     # The next term (after the current one).
     attr_reader :next
     # The next term after the next term. This will often be nil but is particularly useful
     # during Spring terms, when most instructors and most enrolled students will have more
     # interest in the Fall schedule than in Summer classes.
     attr_reader :future
+    # The previous term (before the current one).
+    attr_reader :previous
     # The previous term immediately after its official end, while final
     # grades are being posted.
     attr_reader :grading_in_progress
@@ -62,20 +66,22 @@ module Berkeley
       db_terms.each do |db_term|
         term = Term.new(db_term)
         terms[term.slug] = term
+        @sis_current_term = term if term.sis_term_status == 'CT'
         if term.start > current_date
           future_terms.push term
         elsif term.end >= current_date
           @running = term
-        elsif @grading_in_progress.blank? && term.grades_entered >= current_date
-          @grading_in_progress = term
+        else
+          @previous ||= term
+          @grading_in_progress ||= term if term.grades_entered >= current_date
         end
         break if term.slug == @oldest
       end
       @current = @running || future_terms.pop
       if (@next = future_terms.pop)
         if (@future = future_terms.pop)
-          if !future_terms.empty?
-            logger.info("Found more than two future terms: #{future_terms}")
+          unless future_terms.empty?
+            logger.info("Found more than two future terms: #{future_terms.map(&:slug).join(', ')}")
             future_terms.each {|t| terms.delete(t.slug)}
           end
         end

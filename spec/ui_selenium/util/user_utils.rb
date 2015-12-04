@@ -70,4 +70,17 @@ class UserUtils
     JSON.parse(File.read(WebDriverUtils.live_users))['users']
   end
 
+  def self.load_profile_test_data
+    test_data_file = File.join(CalcentralConfig.local_dir, "profile.json")
+    JSON.parse(File.read(test_data_file))['users']
+  end
+
+  def self.clear_cache(driver, splash_page, my_dashboard_page)
+    splash_page.load_page
+    splash_page.basic_auth UserUtils.admin_uid
+    driver.get "#{WebDriverUtils.base_url}/api/cache/clear"
+    my_dashboard_page.load_page
+    my_dashboard_page.click_logout_link
+  end
+
 end

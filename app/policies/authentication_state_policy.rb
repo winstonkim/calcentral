@@ -26,6 +26,10 @@ class AuthenticationStatePolicy
     can_administrate? || Canvas::Admins.new.admin_user?(@user.user_id)
   end
 
+  def can_administer_oec?
+    can_administrate? || Oec::Administrator.is_admin?(@user.user_id)
+  end
+
   def can_author?
     @user.real_user_auth.active? && (@user.real_user_auth.is_superuser? || @user.real_user_auth.is_author?)
   end
@@ -36,6 +40,10 @@ class AuthenticationStatePolicy
 
   def can_clear_cache?
     # Only super-users are allowed to clear caches in production, but in development mode, anyone can.
+    !Rails.env.production? || can_administrate?
+  end
+
+  def can_reload_yaml_settings?
     !Rails.env.production? || can_administrate?
   end
 
@@ -51,12 +59,13 @@ class AuthenticationStatePolicy
     Canvas::CurrentTeacher.new(@user.user_id).user_currently_teaching?
   end
 
-  def can_refresh_log_settings?
-    # Only super-users are allowed to change logging settings in production, but in development mode, anyone can.
-    !Rails.env.production? || can_administrate?
-  end
-
   def can_view_as?
     @user.real_user_auth.active? && (@user.real_user_auth.is_superuser? || @user.real_user_auth.is_viewer?)
+  end
+
+  def can_view_webcast_sign_up?
+    # Remove feature-flag when Webcast sign-up is supported on CalCentral
+    feature_flag = Settings.features.webcast_sign_up_on_calcentral
+    feature_flag.present? && feature_flag && (can_administrate? || can_view_as? || can_add_current_official_sections?)
   end
 end

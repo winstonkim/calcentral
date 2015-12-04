@@ -2,20 +2,19 @@ module CampusOracle
   class Queries < Connection
     include ActiveRecordHelper
 
-    def self.get_person_attributes(person_id)
+    def self.get_person_attributes(person_id, term_yr, term_cd)
       result = {}
       use_pooled_connection {
         log_access(connection, connection_handler, name)
         sql = <<-SQL
       select pi.ldap_uid, pi.student_id, pi.ug_grad_flag, trim(pi.first_name) as first_name, trim(pi.last_name) as last_name,
-        pi.person_name, pi.email_address, pi.affiliations,
+        pi.person_name, pi.email_address, pi.affiliations, pi.person_type,
         reg.reg_status_cd, reg.educ_level, reg.admin_cancel_flag, reg.acad_blk_flag, reg.admin_blk_flag,
-        reg.fin_blk_flag, reg.reg_blk_flag, reg.tot_enroll_unit, reg.cal_residency_flag
+        reg.fin_blk_flag, reg.reg_blk_flag, reg.tot_enroll_unit, reg.fee_resid_cd, reg.reg_special_pgm_cd, reg.role_cd
       from calcentral_person_info_vw pi
       left outer join calcentral_student_term_vw reg on
-        reg.ldap_uid = pi.ldap_uid
+        reg.ldap_uid = pi.ldap_uid and reg.term_yr = #{term_yr} and reg.term_cd = #{connection.quote(term_cd)}
       where pi.ldap_uid = #{person_id.to_i}
-      order by reg.term_yr desc, reg.term_cd desc
         SQL
         result = connection.select_one(sql)
       }
@@ -26,7 +25,8 @@ module CampusOracle
       result = []
       use_pooled_connection {
         sql = <<-SQL
-        select pi.ldap_uid, trim(pi.first_name) as first_name, trim(pi.last_name) as last_name, pi.email_address, pi.student_id, pi.affiliations
+        select pi.ldap_uid, trim(pi.first_name) as first_name, trim(pi.last_name) as last_name, pi.email_address, pi.student_id, pi.affiliations,
+          pi.person_type
         from calcentral_person_info_vw pi
         where pi.ldap_uid in (#{up_to_1000_ldap_uids.collect { |id| id.to_i }.join(', ')})
         SQL
@@ -41,7 +41,7 @@ module CampusOracle
         sql = <<-SQL
         select pi.ldap_uid
         from calcentral_person_info_vw pi
-        where (affiliations LIKE '%-TYPE-%')
+        where (affiliations LIKE '%-TYPE-%') and (person_type != 'Z')
         SQL
         uids = connection.select_all(sql)
       }
@@ -67,6 +67,7 @@ module CampusOracle
                   pi.email_address,
                   pi.student_id,
                   pi.affiliations,
+                  pi.person_type,
                   row_number() over(order by 1) row_number,
                   count(*) over() result_count
           from calcentral_person_info_vw pi
@@ -95,6 +96,7 @@ module CampusOracle
                   pi.email_address,
                   pi.student_id,
                   pi.affiliations,
+                  pi.person_type,
                   row_number() over(order by 1) row_number,
                   count(*) over() result_count
           from calcentral_person_info_vw pi
@@ -129,7 +131,8 @@ module CampusOracle
       result = []
       use_pooled_connection {
         sql = <<-SQL
-      select pi.ldap_uid, trim(pi.first_name) as first_name, trim(pi.last_name) as last_name, pi.email_address, pi.student_id, pi.affiliations, 1.0 row_number, 1.0 result_count
+      select pi.ldap_uid, trim(pi.first_name) as first_name, trim(pi.last_name) as last_name, pi.email_address, pi.student_id, pi.affiliations,
+        pi.person_type, 1.0 row_number, 1.0 result_count
       from calcentral_person_info_vw pi
       where pi.ldap_uid = #{user_id_string}
       and rownum <= 1
@@ -144,18 +147,15 @@ module CampusOracle
       string.to_i.to_s == string
     end
 
-    def self.get_reg_status(person_id)
+    def self.get_reg_status(person_id, term_yr, term_cd)
       result = nil
       use_pooled_connection {
-        # To date, the student academic status view has always contained data for only one term.
-        # The "order by" clause is included in case that changes without warning.
         sql = <<-SQL
       select pi.ldap_uid, pi.student_id, reg.reg_status_cd
       from calcentral_person_info_vw pi
       left outer join calcentral_student_term_vw reg on
         reg.ldap_uid = pi.ldap_uid
-      where pi.ldap_uid = #{person_id.to_i}
-      order by reg.term_yr desc, reg.term_cd desc
+      where pi.ldap_uid = #{person_id.to_i} and reg.term_yr = #{term_yr} and reg.term_cd = #{connection.quote(term_cd)}
         SQL
         result = connection.select_one(sql)
       }
@@ -164,6 +164,23 @@ module CampusOracle
       else
         stringify_ints! result
       end
+    end
+
+    # This method is currently used only for support and research, not by deployed code.
+    def self.get_student_term_info(person_id)
+      result = nil
+      use_pooled_connection {
+        sql = <<-SQL
+      select pi.student_id, reg.ldap_uid, reg.fee_resid_cd, reg.educ_level, reg.reg_status_cd, reg.elig_reg_status_cd, reg.admin_cancel_flag,
+        reg.admit_special_pgm_grp, reg.reg_special_pgm_cd, reg.cat_cd, reg.acad_blk_flag, reg.admin_blk_flag, reg.fin_blk_flag,
+        reg.tot_enroll_unit, reg.new_trfr_flag, reg.term_yr, reg.term_cd, reg.role_cd
+      from calcentral_person_info_vw pi, calcentral_student_term_vw reg where
+        reg.ldap_uid = #{person_id.to_i} and reg.ldap_uid = pi.ldap_uid
+      order by reg.term_yr desc, reg.term_cd desc
+        SQL
+        result = connection.select_all(sql)
+      }
+      stringify_ints! result
     end
 
     def self.get_enrolled_students(ccn, term_yr, term_cd)
@@ -254,7 +271,7 @@ module CampusOracle
       use_pooled_connection {
         sql = <<-SQL
       select t.term_yr, t.term_cd, trim(t.dept_cd) as dept_name, trim(t.course_num) as catalog_id,
-        trim(t.grade) as grade, t.unit as transcript_unit, t.line_type, trim(t.memo_or_title) as memo_or_title
+        trim(t.grade) as grade, t.unit as transcript_unit, t.transf_passed_unit as transfer_unit, t.line_type, trim(t.memo_or_title) as memo_or_title
       from calcentral_transcript_vw t where
         t.student_ldap_uid = #{person_id.to_i}
           #{terms_clause}

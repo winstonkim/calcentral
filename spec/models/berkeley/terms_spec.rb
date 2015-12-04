@@ -1,5 +1,3 @@
-require "spec_helper"
-
 describe Berkeley::Terms do
   let(:options) {{fake_now: fake_now}}
   subject {Berkeley::Terms.fetch(options)}
@@ -22,6 +20,10 @@ describe Berkeley::Terms do
   end
 
   context 'working against test data', if: CampusOracle::Queries.test_data? do
+    let(:fake_now) {Settings.terms.fake_now.to_datetime}
+    it 'finds the legacy SIS CT term' do
+      expect(subject.sis_current_term.slug).to eq 'fall-2013'
+    end
     context 'in Fall 2013' do
       let(:fake_now) {DateTime.parse('2013-10-10')}
       it_behaves_like 'a list of campus terms'
@@ -50,10 +52,10 @@ describe Berkeley::Terms do
       its('grading_in_progress.slug') {should eq 'fall-2013'}
     end
     context 'in last of available terms' do
-      let(:fake_now) {DateTime.parse('2014-11-11')}
+      let(:fake_now) {DateTime.parse('2016-06-27')}
       it_behaves_like 'a list of campus terms'
-      its('current.slug') {should eq 'fall-2014'}
-      its('running.slug') {should eq 'fall-2014'}
+      its('current.slug') {should eq 'summer-2016'}
+      its('running.slug') {should eq 'summer-2016'}
       its(:next) {should be_nil}
       its(:future) {should be_nil}
       its('grading_in_progress') {should be_nil}

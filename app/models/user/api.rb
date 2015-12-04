@@ -4,22 +4,62 @@ module User
     include Cache::LiveUpdatesEnabled
     include Cache::FreshenOnWarm
     include Cache::JsonAddedCacher
+    include CampusSolutions::ProfileFeatureFlagged
     include ClassLogger
 
     def init
       use_pooled_connection {
         @calcentral_user_data ||= User::Data.where(:uid => @uid).first
       }
-      @campus_attributes ||= CampusOracle::UserAttributes.new(user_id: @uid).get_feed
-      @default_name ||= @campus_attributes['person_name']
+      @oracle_attributes ||= CampusOracle::UserAttributes.new(user_id: @uid).get_feed
+      if is_cs_profile_feature_enabled
+        @edo_attributes ||= HubEdos::UserAttributes.new(user_id: @uid).get
+      end
+      @default_name ||= get_campus_attribute('person_name', :string)
       @first_login_at ||= @calcentral_user_data ? @calcentral_user_data.first_login_at : nil
-      @first_name ||= @campus_attributes['first_name'] || ""
-      @last_name ||= @campus_attributes['last_name'] || ""
+      @first_name ||= get_campus_attribute('first_name', :string) || ''
+      @last_name ||= get_campus_attribute('last_name', :string) || ''
       @override_name ||= @calcentral_user_data ? @calcentral_user_data.preferred_name : nil
+      @student_id = get_campus_attribute('student_id', :numeric_string)
+    end
+
+    # split brain until SIS GoLive5 makes registration data available
+    def get_campus_attribute(field, format)
+      if is_sis_profile_visible? && @edo_attributes[:noStudentId].blank? && (edo_attribute = @edo_attributes[field.to_sym])
+        begin
+          validated_edo_attribute = validate_attribute(edo_attribute, format)
+        rescue
+          logger.error "EDO attribute #{field} failed validation for UID #{@uid}: expected a #{format}, got #{edo_attribute}"
+        end
+      end
+      validated_edo_attribute || @oracle_attributes[field]
+    end
+
+    def validate_attribute(value, format)
+      case format
+        when :string
+          raise ArgumentError unless value.is_a?(String) && value.present?
+        when :numeric_string
+          raise ArgumentError unless value.is_a?(String) && Integer(value, 10)
+      end
+      value
+    end
+
+    # Conservative merge of roles from EDO
+    WHITELISTED_EDO_ROLES = [:student]
+
+    def get_campus_roles
+      oracle_roles = (@oracle_attributes && @oracle_attributes[:roles]) || {}
+      edo_roles = (@edo_attributes && @edo_attributes[:roles]) || {}
+      if is_sis_profile_visible? && edo_roles.respond_to?(:slice)
+        oracle_roles.merge edo_roles.slice(*WHITELISTED_EDO_ROLES)
+      else
+        oracle_roles
+      end
     end
 
     def preferred_name
-      @override_name || @default_name || ""
+      @override_name || @default_name || ''
     end
 
     def preferred_name=(val)
@@ -82,6 +122,15 @@ module User
       save
     end
 
+    def is_campus_solutions_student?
+      # no, really, BCS users are identified by having 10-digit IDs.
+      @edo_attributes.present? && @edo_attributes[:campus_solutions_id].present? && @edo_attributes[:campus_solutions_id].to_s.length >= 10
+    end
+
+    def is_sis_profile_visible?
+      is_cs_profile_feature_enabled && (is_campus_solutions_student? || is_profile_visible_for_legacy_users)
+    end
+
     def get_feed_internal
       google_mail = User::Oauth2Data.get_google_email(@uid)
       canvas_mail = User::Oauth2Data.get_canvas_email(@uid)
@@ -91,7 +140,7 @@ module User
       is_calendar_opted_in = Calendar::User.where(:uid => @uid).first.present?
       has_student_history = CampusOracle::UserCourses::HasStudentHistory.new({:user_id => @uid}).has_student_history?
       has_instructor_history = CampusOracle::UserCourses::HasInstructorHistory.new({:user_id => @uid}).has_instructor_history?
-      roles = (@campus_attributes && @campus_attributes[:roles]) ? @campus_attributes[:roles] : {}
+      roles = get_campus_roles
       {
         :isSuperuser => current_user_policy.can_administrate?,
         :isViewer => current_user_policy.can_view_as?,
@@ -110,13 +159,17 @@ module User
         ),
         :hasFinancialsTab => (roles[:student] || roles[:exStudent]),
         :hasPhoto => User::Photo.has_photo?(@uid),
+        :inEducationAbroadProgram => @oracle_attributes[:education_abroad],
         :googleEmail => google_mail,
         :canvasEmail => canvas_mail,
         :last_name => @last_name,
         :preferred_name => self.preferred_name,
-        :roles => @campus_attributes[:roles],
+        :roles => roles,
         :uid => @uid,
-        :sid => @campus_attributes['student_id']
+        :sid => @student_id,
+        :campusSolutionsID => get_campus_attribute('campus_solutions_id', :string),
+        :isCampusSolutionsStudent => is_campus_solutions_student?,
+        :showSisProfileUI => is_sis_profile_visible?
       }
     end
 

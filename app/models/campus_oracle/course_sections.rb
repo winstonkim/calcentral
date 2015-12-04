@@ -2,7 +2,7 @@ module CampusOracle
   class CourseSections < BaseProxy
 
     def initialize(options = {})
-      super(Settings.sakai_proxy, options)
+      super(Settings.campusdb, options)
       @term_yr = options[:term_yr]
       @term_cd = options[:term_cd]
       @ccn = options[:ccn]
@@ -88,7 +88,8 @@ module CampusOracle
         found_instructors.each do |instructor|
           instructors << {
             :name => instructor['person_name'],
-            :uid => instructor['ldap_uid']
+            :uid => instructor['ldap_uid'],
+            :instructor_func => instructor['instructor_func']
           }
         end
       end

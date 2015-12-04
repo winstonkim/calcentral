@@ -1,5 +1,3 @@
-require "spec_helper"
-
 describe AuthenticationStatePolicy do
   let(:session_state) do
     {'user_id' => user_id, 'original_user_id' => original_user_id, 'lti_authenticated_only' => lti_authenticated_only}
@@ -9,6 +7,7 @@ describe AuthenticationStatePolicy do
   let(:superuser_uid) {random_id}
   let(:author_uid) {random_id}
   let(:viewer_uid) {random_id}
+  let(:oec_administrator_uid) {random_id}
   let(:average_joe_uid) {random_id}
   let(:inactive_superuser_uid) {random_id}
   let(:auth_map) do
@@ -17,13 +16,15 @@ describe AuthenticationStatePolicy do
       author_uid => {uid: author_uid, is_superuser: false, is_author: true, is_viewer: false, active: true},
       viewer_uid => {uid: viewer_uid, is_superuser: false, is_author: false, is_viewer: true, active: true},
       average_joe_uid => {uid: average_joe_uid, is_superuser: false, is_author: false, is_viewer: false, active: true},
-      inactive_superuser_uid => {uid: inactive_superuser_uid, is_superuser: true, is_author: false, is_viewer: false, active: false}
+      inactive_superuser_uid => {uid: inactive_superuser_uid, is_superuser: true, is_author: false, is_viewer: false, active: false},
+      oec_administrator_uid => {uid: oec_administrator_uid, is_superuser: false, is_author: false, is_viewer: false, active: true}
     }
   end
   before do
     allow(User::Auth).to receive(:get) do |uid|
       User::Auth.new(auth_map[uid])
     end
+    allow(Settings.oec).to receive(:administrator_uid).and_return oec_administrator_uid
   end
 
   subject { AuthenticationState.new(session_state).policy }
@@ -76,6 +77,21 @@ describe AuthenticationStatePolicy do
       let(:user_id) {superuser_uid}
       let(:lti_authenticated_only) {true}
       its(:can_administrate?) { should be_falsey }
+    end
+  end
+
+  describe '#can_administer_oec?' do
+    context 'superuser as self' do
+      let(:user_id) {superuser_uid}
+      its(:can_administer_oec?) { should eq true }
+    end
+    context 'oec administrator' do
+      let(:user_id) {oec_administrator_uid}
+      its(:can_administer_oec?) { should eq true }
+    end
+    context 'average joe' do
+      let(:user_id) {average_joe_uid}
+      its(:can_administer_oec?) { should eq false }
     end
   end
 
@@ -185,6 +201,36 @@ describe AuthenticationStatePolicy do
     context 'when user is a calcentral administrator' do
       let(:user_id) {superuser_uid}
       it { should be_truthy }
+    end
+  end
+
+  describe '#can_view_webcast_sign_up?' do
+    subject { AuthenticationState.new(session_state).policy.can_view_webcast_sign_up? }
+    context 'when feature flag is true' do
+      context 'when superuser is authorized' do
+        let(:user_id) {superuser_uid}
+        it { should be true }
+      end
+      context 'when user is currently teaching course' do
+        let(:user_id) {average_joe_uid}
+        before do
+          allow_any_instance_of(Canvas::CurrentTeacher).to receive(:user_currently_teaching?).and_return true
+        end
+        it { should be true }
+      end
+      context 'when user can view-as' do
+        let(:user_id) {viewer_uid}
+        it { should be true }
+      end
+      context 'when user is inactive superuser' do
+        let(:user_id) {inactive_superuser_uid}
+        it { should be false }
+      end
+    end
+    context 'when feature flag is false' do
+      let(:user_id) {author_uid}
+      before { allow(Settings.features).to receive(:webcast_sign_up_on_calcentral).and_return false }
+      it { should be false }
     end
   end
 

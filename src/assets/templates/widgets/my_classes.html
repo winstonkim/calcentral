@@ -33,7 +33,7 @@
               <div class="cc-ellipsis cc-text-light cc-widget-classes-subtitle" data-ng-class="{'cc-italic': class.waitlistPosition}" data-ng-show="!!class.name" data-ng-bind="class.name"></div>
               <ul class="cc-widget-sublist">
                 <li class="cc-widget-icon-container" data-ng-repeat="subclass in class.subclasses">
-                  <div class="cc-icon cc-widget-icon" data-ng-class="{'bSpace':'cc-icon-bspace', 'bCourses':'cc-icon-bcourses'}[subclass.emitter]">
+                  <div class="cc-icon cc-widget-icon" data-ng-class="{'bCourses':'cc-icon-bcourses'}[subclass.emitter]">
                   </div>
                   <div class="cc-widget-course-site">
                     <a class="cc-ellipsis" data-ng-bind="subclass.name" data-ng-href="{{subclass.site_url}}"></a>
@@ -47,27 +47,35 @@
       </ul>
     </div>
    <div data-ng-if="!allClassesPresent" class="cc-widget-text">
-      <div data-ng-if="api.user.profile.roles.student && !api.user.profile.roles.teacher">
-        <p>You are not enrolled in any classes.</p>
+      <div data-ng-if="api.user.profile.roles.student && !api.user.profile.roles.faculty">
+        <div data-ng-if="!api.user.profile.inEducationAbroadProgram">
+          <p>You are not enrolled in any UC Berkeley classes this semester.</p>
+        </div>
+        <div data-ng-if="api.user.profile.inEducationAbroadProgram">
+          <p>You are enrolled in the Education Abroad Program this semester.</p>
+        </div>
         <ul class="cc-list-bullets">
-          <li>Check <a href="/academics">My Academics</a> to see your academic history.</li>
+          <li>Check <a href="/academics">My Academics</a> to see your academic history or upcoming semesters.</li>
           <li>If you still have questions, contact the <a href="http://registrar.berkeley.edu/">Office of the Registrar</a> or visit <a href="http://studentcentral.berkeley.edu/">Cal Student Central</a>.</li>
         </ul>
       </div>
-      <div data-ng-if="!api.user.profile.roles.student && api.user.profile.roles.teacher">
-        <p>You have no classes assigned to you.</p>
-        <p>If you have any questions about your teaching assignments, please contact your academic department.</p>
-      </div>
-      <div data-ng-if="api.user.profile.roles.student && api.user.profile.roles.teacher">
-        <p>You are not enrolled in any classes and you have no classes assigned to you.</p>
+      <div data-ng-if="!api.user.profile.roles.student && api.user.profile.roles.faculty">
+        <p>You have no classes assigned to you this semester.</p>
         <ul class="cc-list-bullets">
-          <li>For enrollments, check <a href="/academics">My Academics</a> to see your academic history.</li>
+          <li>Check <a href="/academics">My Academics</a> to see past or upcoming semesters.</li>
+          <li>If you have any questions about your teaching assignments, please contact your academic department.</li>
+        </ul>
+      </div>
+      <div data-ng-if="api.user.profile.roles.student && api.user.profile.roles.faculty">
+        <p>You are not enrolled in any UC Berkeley classes and you have no classes assigned to you this semester.</p>
+        <ul class="cc-list-bullets">
+          <li>Check <a href="/academics">My Academics</a> to see your academic history or upcoming semesters.</li>
           <li>If you still have questions, contact the <a href="http://registrar.berkeley.edu/">Office of the Registrar</a> or visit <a href="http://studentcentral.berkeley.edu/">Cal Student Central</a>.</li>
           <li>If you have any questions about your teaching assignments, please contact your academic department.</li>
         </ul>
       </div>
-      <div data-ng-if="!api.user.profile.roles.student && !api.user.profile.roles.teacher">
-        There are currently no classes available.
+      <div data-ng-if="!api.user.profile.roles.student && !api.user.profile.roles.faculty">
+        You are not enrolled in any UC Berkeley classes this semester.
       </div>
     </div>
   </div>

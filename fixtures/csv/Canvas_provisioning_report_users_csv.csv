@@ -1,0 +1,4 @@
+canvas_user_id,user_id,login_id,first_name,last_name,full_name,sortable_name,short_name,email,status
+3,211159,211159,Ray,Davis,Ray Davis,"Davis, Ray",,raydavis@berkeley.edu,active
+5,978966,978966,Christian Raymond Marcel,Vuerings,Christian Raymond Marcel Vuerings,"Vuerings, Christian Raymond Marcel",,christian@example.com,active
+72,999,canvassupport,Canvas,Support,Canvas Support,"Support, Canvas",,canvassupport@example.com,active

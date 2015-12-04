@@ -6,6 +6,28 @@ html {
 // Body
 body {
   background-color: $cc-color-main-background;
+  color: $body-font-color;
+  cursor: auto;
+  font-family: Arial, sans-serif;
+  font-style: normal;
+  font-weight: normal;
+  line-height: 1.5;
+  margin: 0;
+  overflow-x: hidden;
+  padding: 0;
+  position: relative;
+}
+// Make sure printing still works
+@media print {
+  body {
+    overflow-x: visible;
+  }
+}
+
+// HTML & Body
+html, body {
+  font-size: 13px;
+  height: 100%;
 }
 
 // Reset
@@ -73,15 +95,28 @@ ul {
 a {
   color: $primary-color;
   text-decoration: none;
+  &:hover {
+    cursor: pointer;
+  }
   &:hover, &:focus {
     text-decoration: underline;
   }
 }
 
+// Horizontal rule
+hr {
+  border: 0;
+  border-bottom: 1px solid $cc-color-widget-background;
+  margin: 15px 0;
+}
+.cc-hr-spacing-5 {
+  margin: 5px 0;
+}
+
 // Form
 form {
   background: $cc-color-widget-more-background;
-  border: 1px solid #dedede;
+  border: 1px solid $cc-color-form-border;
   padding: 10px 5px;
 
   input[type="number"],
@@ -102,6 +137,10 @@ form {
     &:focus {
       border: 1px solid $cc-color-lighter-medium-grey;
     }
+  }
+
+  fieldset {
+    border: 0;
   }
 
   label {

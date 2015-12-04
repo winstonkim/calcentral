@@ -20,11 +20,11 @@
         "major": "Civil Engineering"
       }
     ],
-    "empty": "false",
+    "empty": false,
     "errored": false,
     "level": "Senior",
     "nonApLevel": "Junior",
-    "noStudentId": "false",
+    "noStudentId": false,
     "standing": "Undergraduate",
     "termName": "Fall 2013"
   },
@@ -796,12 +796,6 @@
               "name": "BIO 1A Everyone",
               "emitter": "bCourses",
               "site_url": "https://ucberkeley.beta.instructure.com/courses/11866397"
-            },
-            {
-              "id": "de1f491a-525e-4848-952b-11866397",
-              "site_url": "https://bspace-dev.berkeley.edu/portal/site/de1f491a-525e-4848-952b-11866397",
-              "emitter": "bSpace",
-              "name": "Bio 1A DIS 008 Su13"
             }
           ],
           "sections": [
@@ -961,17 +955,6 @@
                 {
                   "ccn": "27619"
                 },
-                {
-                  "ccn": "49713"
-                }
-              ]
-            },
-            {
-              "id": "de1f491a-525e-4848-952b-11866397",
-              "site_url": "https://bspace-dev.berkeley.edu/portal/site/de1f491a-525e-4848-952b-11866397",
-              "emitter": "bSpace",
-              "name": "Bio 123A DIS 008 Su13",
-              "sections": [
                 {
                   "ccn": "49713"
                 }
@@ -1291,7 +1274,7 @@
       "url": "http://registrar.berkeley.edu/tbfaqs.html"
     }
   ],
-  "transitionRegStatus": null,
+  "transitionTerm": null,
   "lastModified": {
     "hash": "af8f7132a5d2efdf8bd3d88c2d1fa5d37086c389",
     "timestamp": {

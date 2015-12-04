@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe Advising::MyAdvising do
   let (:uid) { '61889' }
   let (:fake_oski_model) { Advising::MyAdvising.new(uid, fake: true) }
@@ -92,6 +90,8 @@ describe Advising::MyAdvising do
 
     context 'fetching fake data feed' do
       subject { fake_oski_model.get_parsed_response }
+
+      it_behaves_like 'a polite HTTP client'
 
       it 'has correctly parsed JSON' do
         expect(subject[:sid]).to eq '11667051'

@@ -1,20 +1,42 @@
 module Canvas
   class UserCourses < Proxy
-
+    include PagedProxy
     include Cache::UserCacheExpiry
+    include ClassLogger
 
     def courses
-      self.class.fetch_from_cache(@uid) do
-        all_courses = []
-        params = "include[]=term&as_user_id=sis_login_id:#{@uid}&per_page=100"
-        while params do
-          response = request_uncached("courses?#{params}", '_courses')
-          break unless (response && response.status == 200 && courses = safe_json(response.body))
-          all_courses.concat(courses)
-          params = next_page_params(response)
+      courses_response[:body].select do |course_site|
+        if contains_expected_properties? course_site
+          true
+        elsif course_site['access_restricted_by_date']
+          logger.info "Skipping date-restricted course site with ID #{course_site['id']} for UID #{@uid}"
+          false
+        else
+          logger.error "Unexpected course site entry for UID #{@uid}: #{course_site}"
+          false
         end
-        all_courses
       end
+    end
+
+    def courses_response
+      self.class.fetch_from_cache(@uid) do
+        paged_get request_path, as_user_id: "sis_login_id:#{@uid}", include: ['term']
+      end
+    end
+
+    private
+
+    def contains_expected_properties?(course_site)
+      expected_properties = %w(id term course_code)
+      expected_properties.select { |prop| course_site[prop].blank? }.none?
+    end
+
+    def mock_interactions
+      mock_paged_interaction 'canvas_courses'
+    end
+
+    def request_path
+      'courses'
     end
 
   end

@@ -4,20 +4,34 @@ class WebDriverUtils
 
   include ClassLogger
 
-  def self.driver
-    if Settings.ui_selenium.webDriver == 'firefox'
-      Rails.logger.info('Browser is Firefox')
-      Selenium::WebDriver.for :firefox
-    elsif Settings.ui_selenium.webDriver == 'chrome'
-      Rails.logger.info('Browser is Chrome')
-      Selenium::WebDriver.for :chrome
-    elsif Settings.ui_selenium.webDriver == 'safari'
-      Rails.logger.info('Browser is Safari')
-      Selenium::WebDriver.for :safari
+  def self.launch_browser
+    # Sometimes browser does not launch successfully, so try twice
+    tries ||= 2
+    logger.info('Launching browser')
+    case Settings.ui_selenium.webDriver
+      when 'firefox'
+        driver = Selenium::WebDriver.for :firefox
+        driver.manage.window.maximize
+        driver
+      when 'chrome'
+        Selenium::WebDriver.for :chrome
+      when 'safari'
+        Selenium::WebDriver.for :safari
+      else
+        logger.error 'Unsupported webdriver'
     end
   rescue => e
-    Rails.logger.error('Unable to initialize the designated WebDriver')
-    Rails.logger.error e.message + "\n" + e.backtrace.join("\n")
+    logger.error('Browser failed to launch')
+    logger.error e.message + "\n" + e.backtrace.join("\n")
+    retry unless (tries -= 1).zero?
+  end
+
+  def self.quit_browser(driver)
+    logger.info 'Quitting the browser'
+    # If the browser did not start successfully, the quit method will fail.
+    driver.quit rescue NoMethodError
+    # Pause after quitting the browser to make sure it shuts down completely before the next test relaunches it
+    sleep(3)
   end
 
   def self.base_url
@@ -28,6 +42,14 @@ class WebDriverUtils
     Settings.ui_selenium.calNetUrl
   end
 
+  def self.canvas_base_url
+    Settings.ui_selenium.canvas_base_url
+  end
+
+  def self.canvas_qa_sub_account
+    Settings.ui_selenium.canvas_qa_sub_account
+  end
+
   def self.google_auth_url
     Settings.ui_selenium.googleAuthUrl
   end
@@ -36,24 +58,12 @@ class WebDriverUtils
     Settings.ui_selenium.pageLoadTimeout
   end
 
-  def self.financials_timeout
-    Settings.ui_selenium.financialsTimeout
+  def self.campus_solutions_timeout
+    Settings.ui_selenium.campus_solutions_timeout
   end
 
   def self.academics_timeout
     Settings.ui_selenium.academicsTimeout
-  end
-
-  def self.fin_aid_timeout
-    Settings.ui_selenium.finAidTimeout
-  end
-
-  def self.fin_resources_links_timeout
-    Settings.ui_selenium.finResourcesLinksTimeout
-  end
-
-  def self.google_oauth_timeout
-    Settings.ui_selenium.googleOauthTimeout
   end
 
   def self.google_task_timeout
@@ -62,6 +72,10 @@ class WebDriverUtils
 
   def self.page_event_timeout
     Settings.ui_selenium.pageEventTimeout
+  end
+
+  def self.canvas_update_timeout
+    Settings.ui_selenium.canvasUpdateTimeout
   end
 
   def self.mail_live_update_timeout
@@ -76,7 +90,7 @@ class WebDriverUtils
     File.join(CalcentralConfig.local_dir, "uids.json")
   end
 
-  def self.ui_date_display_format(date)
+  def self.ui_numeric_date_format(date)
     today = Date.today
     if date.strftime("%Y") == today.strftime("%Y")
       date_format = date.strftime("%m/%d")
@@ -86,8 +100,35 @@ class WebDriverUtils
     date_format
   end
 
+  def self.ui_alphanumeric_date_format(date)
+    date.strftime("%b %-d")
+  end
+
   def self.ui_date_input_format(date)
     date.strftime("%m/%d/%Y")
+  end
+
+  def self.wait_for_page_and_click(element)
+    element.when_visible timeout=page_load_timeout
+    element.click
+  end
+
+  def self.wait_for_element_and_click(element)
+    element.when_visible timeout=page_event_timeout
+    element.click
+  end
+
+  def self.wait_for_element_and_type(element, text)
+    wait_for_element_and_click element
+    element.clear
+    element.send_keys text
+  end
+
+  def self.wait_for_element_and_select(element, option)
+    element.when_visible(timeout=page_event_timeout)
+    wait = Selenium::WebDriver::Wait.new(:timeout => WebDriverUtils.page_event_timeout)
+    wait.until { element.include? option }
+    element.select option
   end
 
   def self.verify_external_link(driver, link, expected_page_title)
@@ -115,4 +156,5 @@ class WebDriverUtils
       driver.switch_to.window driver.window_handles.first
     end
   end
+
 end

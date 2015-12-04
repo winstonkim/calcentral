@@ -1,0 +1,2078 @@
+{
+  "courses": [
+    {
+      "year": 2008,
+      "semester": "Fall",
+      "ccn": 9688,
+      "catalogId": "2722",
+      "deptName": "LAW"
+    },
+    {
+      "year": 2008,
+      "semester": "Fall",
+      "ccn": 49688,
+      "catalogId": "2723",
+      "deptName": "LAW",
+      "audioOnly": false,
+      "youTubePlaylist": "EC8DA9DAD111EAAD28",
+      "iTunesAudio": 354822467,
+      "iTunesVideo": 354822464,
+      "public": true,
+      "audioRSS": "http://wbe-itunes.berkeley.edu/media/common/rss/law_2723_Fall_2008_Audio__itunes.rss",
+      "videoRSS": "http://wbe-itunes.berkeley.edu/media/common/rss/law_2723_Fall_2008_Video__itunes.rss",
+      "recordings": [
+        {
+          "lecture": "Lecture 1: The Science of Climate Change",
+          "youTubeId": "t3_7rmSe80c"
+        },
+        {
+          "lecture": "Lecture 2: The Economics of Climate Change",
+          "youTubeId": "CrSfIoRDLL8"
+        },
+        {
+          "lecture": "Lecture 3: Financing Adaptation",
+          "youTubeId": "JyEsim_d64Q"
+        },
+        {
+          "lecture": "Lecture 4: Insurance",
+          "youTubeId": "IdJke1w0JC8"
+        },
+        {
+          "lecture": "Lecture 5: The International Climate Regime",
+          "youTubeId": "rNDWOaP6VSE"
+        },
+        {
+          "lecture": "Lecture 6: Technology and Policy for Mitigation",
+          "youTubeId": "e393WJjGIgE"
+        },
+        {
+          "lecture": "Lecture 7: Climate Change and Biodiversity",
+          "youTubeId": "sIsrZEI-wOk"
+        },
+        {
+          "lecture": "Lecture 8: Climate and Trade Law: The Biofuels Problem",
+          "youTubeId": "unjDAssdQI0"
+        },
+        {
+          "lecture": "Lecture 9: Massachusetts v. EPA and its Aftermath",
+          "youTubeId": "BmGjzCoTjMM"
+        },
+        {
+          "lecture": "Lecture 10: Putting a Price on Carbon - Cap & Trade, Carbon Tax",
+          "youTubeId": "MYF5Ebst9nk"
+        },
+        {
+          "lecture": "Lecture 11: Current Federal Statutes and Litigation",
+          "youTubeId": "OaT5poi5FWw"
+        },
+        {
+          "lecture": "Lecture 12: State initiatives",
+          "youTubeId": "bBithUtaaas"
+        }
+      ]
+    },
+    {
+      "year": 2009,
+      "semester": "Spring",
+      "ccn": 81852,
+      "catalogId": "150A",
+      "deptName": "SOCIOL",
+      "audioOnly": false,
+      "public": true,
+      "youTubePlaylist": "ECBFB989AB595269F6",
+      "iTunesAudio": 461123891,
+      "iTunesVideo": 461123880,
+      "audioRSS": "http://wbe-itunes.berkeley.edu/media/common/rss/Sociology_150A__001_Spring_2009_Audio__webcast.rss",
+      "videoRSS": "http://wbe-itunes.berkeley.edu/media/common/rss/Sociology_150A__001_Spring_2009_Video__webcast.rss",
+      "recordings": [
+        {
+          "lecture": "Lecture 1: Introduction to Social Psychology",
+          "youTubeId": "edfKMAePWfE"
+        },
+        {
+          "lecture": "Lecture 2: Experiments",
+          "youTubeId": "eT7zzAwEbHg"
+        },
+        {
+          "lecture": "Lecture 3: Cognitive Biases 1",
+          "youTubeId": "HK9qsqNdOzk"
+        },
+        {
+          "lecture": "Lecture 4: Cognitive Biases 2",
+          "youTubeId": "BOd7eBXF9-M"
+        },
+        {
+          "lecture": "Lecture 5: Cognitive Biases 3",
+          "youTubeId": "kQLN-rNJ55I"
+        },
+        {
+          "lecture": "Lecture 6: Conformity",
+          "youTubeId": "Tl47JmU10k0"
+        },
+        {
+          "lecture": "Lecture 7: Conformity and Norms 1",
+          "youTubeId": "g6l1LuqoM_0"
+        },
+        {
+          "lecture": "Lecture 8: Conformity and Norms 2",
+          "youTubeId": "wdJxv6loJKg"
+        },
+        {
+          "lecture": "Lecture 9: Conformity and Norms 3",
+          "youTubeId": "KTUXTH0_aks"
+        },
+        {
+          "lecture": "Lecture 10: Obedience 1",
+          "youTubeId": "sIxmw2RSYq0"
+        },
+        {
+          "lecture": "Lecture 11: Obedience 2",
+          "youTubeId": "Il8pHMupqFs"
+        },
+        {
+          "lecture": "Lecture 12: Film and Roles and Identity 1",
+          "youTubeId": "p8wgWAVBq4Q"
+        },
+        {
+          "lecture": "Lecture 13: Roles and Identity 2",
+          "youTubeId": "38OjS7m4nQw"
+        },
+        {
+          "lecture": "Lecture14: Social Identity Theory 1",
+          "youTubeId": "Bgarc9vSj5I"
+        },
+        {
+          "lecture": "Lecture 15: Social Identity Theory 2",
+          "youTubeId": "gAU8_gWFVpM"
+        },
+        {
+          "lecture": "Lecture 16: The Southern Culture of Honor",
+          "youTubeId": "i_DqVBmV7nc"
+        },
+        {
+          "lecture": "Lecture 18: Status and Review Session for Mid-term",
+          "youTubeId": "LeJQilriPt0"
+        },
+        {
+          "lecture": "Lecture 19: Stereotypes 1",
+          "youTubeId": "j3sNajeM_h0"
+        },
+        {
+          "lecture": "Lecture 20: Stereotypes 2",
+          "youTubeId": "bub9vjN9qCg"
+        },
+        {
+          "lecture": "Lecture 21: Automaticity 1",
+          "youTubeId": "gLd72dRpVR0"
+        },
+        {
+          "lecture": "Lecture 22: Automaticity 2",
+          "youTubeId": "jFup1Iu63Jk"
+        },
+        {
+          "lecture": "Lecture 23: Automaticity 3 and Immune Neglect",
+          "youTubeId": "DEgwMUKd8fE"
+        },
+        {
+          "lecture": "Lecture 24: Immune Neglect 2 and Happiness",
+          "youTubeId": "f61zwIg1jCE"
+        },
+        {
+          "lecture": "Lecture 25: Relationships",
+          "youTubeId": "x52e6YV9otk"
+        },
+        {
+          "lecture": "Lecture 26: Carpe Diem, Final Thoughts",
+          "youTubeId": "qkyx27ixBkI"
+        }
+      ]
+    },
+    {
+      "year": 2009,
+      "semester": "Spring",
+      "ccn": 49982,
+      "catalogId": "27171",
+      "deptName": "LAW",
+      "audioOnly": false,
+      "public": true,
+      "youTubePlaylist": "EC5A39957CF1E5C676",
+      "iTunesAudio": 354822513,
+      "iTunesVideo": 354822509,
+      "audioRSS": "http://wbe-itunes.berkeley.edu/media/common/rss/law_27171_Spring_2009_Audio__itunes.rss",
+      "videoRSS": "http://wbe-itunes.berkeley.edu/media/common/rss/law_27171_Spring_2009_Video__itunes.rss",
+      "recordings": [
+        {
+          "lecture": "Lecture 1: The Scope of International Environmental Law",
+          "youTubeId": "srVn5lQlh_o"
+        }
+      ]
+    },
+    {
+      "year": 2009,
+      "semester": "Spring",
+      "ccn": 81853,
+      "catalogId": "150A",
+      "deptName": "SOCIOL",
+      "audioOnly": false,
+      "public": true,
+      "youTubePlaylist": "ECBFB989AB595269F6",
+      "iTunesAudio": 461123891,
+      "iTunesVideo": 461123880,
+      "audioRSS": "http://wbe-itunes.berkeley.edu/media/common/rss/Sociology_150A__001_Spring_2009_Audio__webcast.rss",
+      "videoRSS": "http://wbe-itunes.berkeley.edu/media/common/rss/Sociology_150A__001_Spring_2009_Video__webcast.rss",
+      "recordings": [
+        {
+          "lecture": "Lecture 1: Introduction to Social Psychology",
+          "youTubeId": "edfKMAePWfE"
+        },
+        {
+          "lecture": "Lecture 2: Experiments",
+          "youTubeId": "eT7zzAwEbHg"
+        },
+        {
+          "lecture": "Lecture 3: Cognitive Biases 1",
+          "youTubeId": "HK9qsqNdOzk"
+        },
+        {
+          "lecture": "Lecture 4: Cognitive Biases 2",
+          "youTubeId": "BOd7eBXF9-M"
+        },
+        {
+          "lecture": "Lecture 5: Cognitive Biases 3",
+          "youTubeId": "kQLN-rNJ55I"
+        },
+        {
+          "lecture": "Lecture 6: Conformity",
+          "youTubeId": "Tl47JmU10k0"
+        },
+        {
+          "lecture": "Lecture 7: Conformity and Norms 1",
+          "youTubeId": "g6l1LuqoM_0"
+        },
+        {
+          "lecture": "Lecture 8: Conformity and Norms 2",
+          "youTubeId": "wdJxv6loJKg"
+        },
+        {
+          "lecture": "Lecture 9: Conformity and Norms 3",
+          "youTubeId": "KTUXTH0_aks"
+        },
+        {
+          "lecture": "Lecture 10: Obedience 1",
+          "youTubeId": "sIxmw2RSYq0"
+        },
+        {
+          "lecture": "Lecture 11: Obedience 2",
+          "youTubeId": "Il8pHMupqFs"
+        },
+        {
+          "lecture": "Lecture 12: Film and Roles and Identity 1",
+          "youTubeId": "p8wgWAVBq4Q"
+        },
+        {
+          "lecture": "Lecture 13: Roles and Identity 2",
+          "youTubeId": "38OjS7m4nQw"
+        },
+        {
+          "lecture": "Lecture14: Social Identity Theory 1",
+          "youTubeId": "Bgarc9vSj5I"
+        },
+        {
+          "lecture": "Lecture 15: Social Identity Theory 2",
+          "youTubeId": "gAU8_gWFVpM"
+        },
+        {
+          "lecture": "Lecture 16: The Southern Culture of Honor",
+          "youTubeId": "i_DqVBmV7nc"
+        },
+        {
+          "lecture": "Lecture 18: Status and Review Session for Mid-term",
+          "youTubeId": "LeJQilriPt0"
+        },
+        {
+          "lecture": "Lecture 19: Stereotypes 1",
+          "youTubeId": "j3sNajeM_h0"
+        },
+        {
+          "lecture": "Lecture 20: Stereotypes 2",
+          "youTubeId": "bub9vjN9qCg"
+        },
+        {
+          "lecture": "Lecture 21: Automaticity 1",
+          "youTubeId": "gLd72dRpVR0"
+        },
+        {
+          "lecture": "Lecture 22: Automaticity 2",
+          "youTubeId": "jFup1Iu63Jk"
+        },
+        {
+          "lecture": "Lecture 23: Automaticity 3 and Immune Neglect",
+          "youTubeId": "DEgwMUKd8fE"
+        },
+        {
+          "lecture": "Lecture 24: Immune Neglect 2 and Happiness",
+          "youTubeId": "f61zwIg1jCE"
+        },
+        {
+          "lecture": "Lecture 25: Relationships",
+          "youTubeId": "x52e6YV9otk"
+        },
+        {
+          "lecture": "Lecture 26: Carpe Diem, Final Thoughts",
+          "youTubeId": "qkyx27ixBkI"
+        }
+      ]
+    },
+    {
+      "year": 2010,
+      "semester": "Spring",
+      "ccn": 69390,
+      "catalogId": "C10",
+      "deptName": "PHYSICS",
+      "audioOnly": false,
+      "public": true,
+      "youTubePlaylist": "EC810FF8DB5EB87B5F",
+      "iTunesAudio": 461123864,
+      "iTunesVideo": 461123867,
+      "audioRSS": "http://wbe-itunes.berkeley.edu/media/common/rss/Letters_and_Science_C70V__001__Physics_C10__001_Spring_2010_Audio__webcast.rss",
+      "videoRSS": "http://wbe-itunes.berkeley.edu/media/common/rss/Letters_and_Science_C70V__001__Physics_C10__001_Spring_2010_Video__webcast.rss",
+      "recordings": [
+        {
+          "lecture": "Lecture 1",
+          "youTubeId": "-12jGGbkvE4"
+        },
+        {
+          "lecture": "Lecture 2",
+          "youTubeId": "3BdYIyvQMVQ"
+        },
+        {
+          "lecture": "Lecture 3",
+          "youTubeId": "xDxRjGUgm3E"
+        },
+        {
+          "lecture": "Lecture 4",
+          "youTubeId": "4gt6dQBLGFg"
+        },
+        {
+          "lecture": "Lecture 5",
+          "youTubeId": "h7o-yp1me9w"
+        },
+        {
+          "lecture": "Lecture 6",
+          "youTubeId": "Q4fDPs5x0pI"
+        },
+        {
+          "lecture": "Lecture 7",
+          "youTubeId": "dU8wqbX5zBY"
+        },
+        {
+          "lecture": "Lecture 8",
+          "youTubeId": "6dgP_HJ6Rbw"
+        },
+        {
+          "lecture": "Lecture 9",
+          "youTubeId": "W1LkRO2fiVs"
+        },
+        {
+          "lecture": "Lecture 10",
+          "youTubeId": "HwVWcWm89xU"
+        },
+        {
+          "lecture": "Lecture 12",
+          "youTubeId": "1Zib6FlqGxc"
+        },
+        {
+          "lecture": "Lecture 13",
+          "youTubeId": "3orwDGQI-zs"
+        },
+        {
+          "lecture": "Lecture 14",
+          "youTubeId": "oJr04GrV70o"
+        },
+        {
+          "lecture": "Lecture 15",
+          "youTubeId": "nsXW6T0eClg"
+        },
+        {
+          "lecture": "Lecture 16",
+          "youTubeId": "7Y4oYMfRbMc"
+        },
+        {
+          "lecture": "Lecture 17",
+          "youTubeId": "w8yFkcoCB2I"
+        },
+        {
+          "lecture": "Lecture 18",
+          "youTubeId": "RNZUrHBWuF0"
+        },
+        {
+          "lecture": "Lecture 21",
+          "youTubeId": "DQbhqbhE64w"
+        },
+        {
+          "lecture": "Lecture 22",
+          "youTubeId": "Ks-t007AwrI"
+        },
+        {
+          "lecture": "Lecture 23",
+          "youTubeId": "wG9sBJeE4lk"
+        },
+        {
+          "lecture": "Lecture 24",
+          "youTubeId": "AWhmg95w2nI"
+        },
+        {
+          "lecture": "Lecture 25",
+          "youTubeId": "qFxcz-vPqbc"
+        },
+        {
+          "lecture": "Lecture 26",
+          "youTubeId": "QTOVZwv4Tlo"
+        }
+      ]
+    },
+    {
+      "year": 2012,
+      "semester": "Fall",
+      "ccn": 25195,
+      "catalogId": "105",
+      "deptName": "EL ENG",
+      "audioOnly": false,
+      "public": true,
+      "youTubePlaylist": "ECC9EE10FC67D122E1",
+      "iTunesAudio": 556234847,
+      "iTunesVideo": 556234894,
+      "audioRSS": "http://wbe-itunes.berkeley.edu/media/common/rss/electrical_engineering_105_001_Fall_2012_Audio__itunes.rss",
+      "videoRSS": "http://wbe-itunes.berkeley.edu/media/common/rss/electrical_engineering_105_001_Fall_2012_Video__itunes.rss",
+      "recordings": [
+        {
+          "lecture": "Lecture 1",
+          "youTubeId": "HukR2JlICU0"
+        },
+        {
+          "lecture": "Lecture 2",
+          "youTubeId": "8sBofGHcmZY"
+        },
+        {
+          "lecture": "Lecture 3",
+          "youTubeId": "BuWKTfSQQDQ"
+        },
+        {
+          "lecture": "Lecture 4",
+          "youTubeId": "25kERWNuFPM"
+        },
+        {
+          "lecture": "Lecture 5",
+          "youTubeId": "pqEnFAnWiX0"
+        },
+        {
+          "lecture": "Lecture 6",
+          "youTubeId": "KJVpwzOvxyg"
+        },
+        {
+          "lecture": "Lecture 7",
+          "youTubeId": "UN_77ZO2zqY"
+        },
+        {
+          "lecture": "Lecture 8",
+          "youTubeId": "Xgv7lbR8leA"
+        },
+        {
+          "lecture": "Lecture 9",
+          "youTubeId": "pHBrlKEzEOI"
+        },
+        {
+          "lecture": "Lecture 10",
+          "youTubeId": "-mIsbhYgPCI"
+        },
+        {
+          "lecture": "Lecture 11",
+          "youTubeId": "INP2ZYuAnOE"
+        },
+        {
+          "lecture": "Lecture 12",
+          "youTubeId": "PJi6eQ0SmtY"
+        },
+        {
+          "lecture": "Lecture 13",
+          "youTubeId": "6QNtJmLKKoY"
+        },
+        {
+          "lecture": "Lecture 14",
+          "youTubeId": "oiNGDmVbfZc"
+        },
+        {
+          "lecture": "Lecture 15",
+          "youTubeId": "JMdKfMYq0pQ"
+        },
+        {
+          "lecture": "Lecture 16",
+          "youTubeId": "_bBOC8zbFeQ"
+        },
+        {
+          "lecture": "Lecture 17",
+          "youTubeId": "AsMBAatLfyQ"
+        },
+        {
+          "lecture": "Lecture 18",
+          "youTubeId": "RNVl3Ult0DA"
+        },
+        {
+          "lecture": "Lecture 19",
+          "youTubeId": "f3W2yrPSisU"
+        },
+        {
+          "lecture": "Lecture 20",
+          "youTubeId": "L-9VzSGfKI4"
+        },
+        {
+          "lecture": "Lecture 21",
+          "youTubeId": "53plsBCiX4g"
+        }
+      ]
+    },
+    {
+      "year": 2013,
+      "semester": "Fall",
+      "ccn": 7309,
+      "catalogId": "1A",
+      "deptName": "BIOLOGY",
+      "audioOnly": false,
+      "public": true,
+      "youTubePlaylist": "-XXv-cvA_iDoDi4YEjSRuViC1hIjenaF",
+      "iTunesVideo": 704945873,
+      "screenRSS": "http://wbe-itunes.berkeley.edu/media/common/courses/fall_2013/rss/environmental_economics_and_policy_c1_001_screen.rss",
+      "recordings": [
+        {
+          "lecture": "Lecture 1",
+          "youTubeId": "hA4h5uUcFYI",
+          "recordingStartUTC": "2013-08-25T16:06:00-08:00"
+        },
+        {
+          "lecture": "Lecture 2",
+          "youTubeId": "mpRyi0O0Ji4",
+          "recordingStartUTC": "2013-08-27T16:06:00-08:00"
+        },
+        {
+          "lecture": "Lecture 3",
+          "youTubeId": "UZprWZYadQY",
+          "recordingStartUTC": "2013-08-29T16:06:00-08:00"
+        },
+        {
+          "lecture": "Lecture 4",
+          "youTubeId": "Pl33Ko_9P7A",
+          "recordingStartUTC": "2013-09-01T16:06:00-08:00"
+        },
+        {
+          "lecture": "Lecture 5",
+          "youTubeId": "0yrS_TwBKt8",
+          "recordingStartUTC": "2013-09-03T16:06:00-08:00"
+        },
+        {
+          "lecture": "Lecture 6",
+          "youTubeId": "iLTisnUHdII",
+          "recordingStartUTC": "2013-09-05T16:06:00-08:00"
+        },
+        {
+          "lecture": "Lecture 7",
+          "youTubeId": "AfrBBBOEcbE",
+          "recordingStartUTC": "2013-09-08T16:06:00-08:00"
+        },
+        {
+          "lecture": "Lecture 8",
+          "youTubeId": "xQGDR1rnXb8",
+          "recordingStartUTC": "2013-09-10T16:06:00-08:00"
+        },
+        {
+          "lecture": "Lecture 9",
+          "youTubeId": "kBFzUVI8V6E",
+          "recordingStartUTC": "2013-09-12T16:06:00-08:00"
+        },
+        {
+          "lecture": "Lecture 10",
+          "youTubeId": "hTav_QtrvUM",
+          "recordingStartUTC": "2013-09-15T16:06:00-08:00"
+        },
+        {
+          "lecture": "Lecture 11",
+          "youTubeId": "FP1kgjuJcCc",
+          "recordingStartUTC": "2013-09-17T16:06:00-08:00"
+        },
+        {
+          "lecture": "Lecture 12",
+          "youTubeId": "wF6DtdfnzRI",
+          "recordingStartUTC": "2013-09-19T16:06:00-08:00"
+        },
+        {
+          "lecture": "Lecture 13",
+          "youTubeId": "a74--WOf2xk",
+          "recordingStartUTC": "2013-09-22T16:06:00-08:00"
+        },
+        {
+          "lecture": "Lecture 15",
+          "youTubeId": "mdNiLbDdjw4",
+          "recordingStartUTC": "2013-09-24T16:06:00-08:00"
+        },
+        {
+          "lecture": "Lecture 16:No aud last mins of lec",
+          "youTubeId": "CItwUXHrjAg",
+          "recordingStartUTC": "2013-09-26T16:06:00-08:00"
+        },
+        {
+          "lecture": "Lecture 17",
+          "youTubeId": "MTEpbIBhEVQ",
+          "recordingStartUTC": "2013-09-29T16:06:00-08:00"
+        },
+        {
+          "lecture": "Lecture 18",
+          "youTubeId": "na3dSFKGW2U",
+          "recordingStartUTC": "2013-10-01T16:06:00-08:00"
+        },
+        {
+          "lecture": "Lecture 19",
+          "youTubeId": "HYOcgTI9CiM",
+          "recordingStartUTC": "2013-10-03T16:06:00-08:00"
+        },
+        {
+          "lecture": "Lecture 20",
+          "youTubeId": "jDZVcCRrv9g",
+          "recordingStartUTC": "2013-10-06T16:06:00-08:00"
+        },
+        {
+          "lecture": "Lecture 21",
+          "youTubeId": "HK3XLGGWXYg",
+          "recordingStartUTC": "2013-10-08T16:06:00-08:00"
+        },
+        {
+          "lecture": "Lecture 22",
+          "youTubeId": "Rj3yLrTxe4o",
+          "recordingStartUTC": "2013-10-10T16:06:00-08:00"
+        },
+        {
+          "lecture": "Lecture 23",
+          "youTubeId": "-F0sUIIpPAY",
+          "recordingStartUTC": "2013-10-13T16:06:00-08:00"
+        },
+        {
+          "lecture": "Lecture 24",
+          "youTubeId": "EQHM0ZGXtPM",
+          "recordingStartUTC": "2013-10-15T16:06:00-08:00"
+        },
+        {
+          "lecture": "Lecture 25",
+          "youTubeId": "mEKFW4FI31s",
+          "recordingStartUTC": "2013-10-17T16:06:00-08:00"
+        },
+        {
+          "lecture": "Lecture 26",
+          "youTubeId": "OHBOtDLnFCI",
+          "recordingStartUTC": "2013-10-20T16:06:00-08:00"
+        },
+        {
+          "lecture": "Lecture 27",
+          "youTubeId": "VHCRgCHKNps",
+          "recordingStartUTC": "2013-10-22T16:06:00-08:00"
+        },
+        {
+          "lecture": "Lecture 28:No audio after min 18",
+          "youTubeId": "YXl9PFH0m24",
+          "recordingStartUTC": "2013-10-24T16:06:00-08:00"
+        },
+        {
+          "lecture": "Lecture 29: Last mins not avail",
+          "youTubeId": "u2PGzidDgdY",
+          "recordingStartUTC": "2013-10-27T16:06:00-08:00"
+        }
+      ]
+    },
+        {
+      "year": 2014,
+      "semester": "Spring",
+      "ccn": 56745,
+      "catalogId": "C104C",
+      "deptName": "MEDIAST",
+      "audioOnly": false,
+      "public": true,
+      "youTubePlaylist": "-XXv-cvA_iDIx4iAfMsFgGH9VCjhWy7C",
+      "iTunesVideo": 804524534,
+      "screenRSS": "http://wbe-itunes.berkeley.edu/media/common/courses/spring_2014/rss/cognitive_science_c103_001_screen.rss",
+      "recordings": [
+        {
+          "lecture": "2014-04-01, Low audio from 00:06:47 to 00:15:41",
+          "youTubeId": "OYQRzPtVsUY"
+        }
+      ]
+    },
+    {
+      "year": 2014,
+      "semester": "Spring",
+      "ccn": 64596,
+      "catalogId": "11",
+      "deptName": "NUSCTX",
+      "audioOnly": false,
+      "public": true,
+      "youTubePlaylist": "-XXv-cvA_iDB_CQznbg243kNm4BMrxqe",
+      "iTunesVideo": 804503889,
+      "screenRSS": "http://wbe-itunes.berkeley.edu/media/common/courses/spring_2014/rss/nutritional_sciences_and_toxicology_11_001_screen.rss",
+      "recordings": [
+        {
+          "lecture": "Thu, January 23",
+          "youTubeId": "KweDx1yvV2Y"
+        },
+        {
+          "lecture": "Wed, January 29",
+          "youTubeId": "T3GHKkrjDYg"
+        },
+        {
+          "lecture": "Wed, January 29, part 2",
+          "youTubeId": "Mn9fNzGSbxc"
+        },
+        {
+          "lecture": "Thu, January 30",
+          "youTubeId": "DBkN2nV96M8"
+        },
+        {
+          "lecture": "Wed, February 5",
+          "youTubeId": "ugIZWHwmaew"
+        },
+        {
+          "lecture": "Tue, February 11",
+          "youTubeId": "pEgrxTMc_RY"
+        },
+        {
+          "lecture": "Thu, February 13",
+          "youTubeId": "FJKOSnVH_lo"
+        },
+        {
+          "lecture": "Thu, February 20",
+          "youTubeId": "GWTpmQpdm3s"
+        },
+        {
+          "lecture": "Tue, February 25",
+          "youTubeId": "jN9ofqmBTOg"
+        },
+        {
+          "lecture": "Tue, March 4",
+          "youTubeId": "QDiu-jtRkjU"
+        },
+        {
+          "lecture": "Thu, March 6",
+          "youTubeId": "nqKGuihD9CA"
+        },
+        {
+          "lecture": "Thu, March 13",
+          "youTubeId": "GawWRjPBDqw"
+        },
+        {
+          "lecture": "Tue, April 1",
+          "youTubeId": "QyIRCEzC1ZI"
+        },
+        {
+          "lecture": "Thu, April 3",
+          "youTubeId": "fFPs3sIwBHs"
+        },
+        {
+          "lecture": "Thu, April 17",
+          "youTubeId": "Rd0X5Cr8Ot0"
+        },
+        {
+          "lecture": "Tue, April 22",
+          "youTubeId": "fNm204B1GIU"
+        },
+        {
+          "lecture": "Thu, April 24",
+          "youTubeId": "ivJJmNmkt6Y"
+        }
+      ]
+    },
+    {
+      "year": 2014,
+      "semester": "Spring",
+      "ccn": 67301,
+      "catalogId": "135",
+      "deptName": "PHILOS",
+      "audioOnly": false,
+      "public": true,
+      "youTubePlaylist": "-XXv-cvA_iD9kWJvDoqa7WoLok3P55qn",
+      "iTunesVideo": 805328142,
+      "screenRSS": "http://wbe-itunes.berkeley.edu/media/common/courses/spring_2014/rss/philosophy_135_001_screen.rss",
+      "recordings": [
+        {
+          "lecture": "Wed, January 22",
+          "youTubeId": "hcdPjC-6Gn8"
+        },
+        {
+          "lecture": "Fri, January 24",
+          "youTubeId": "r9fn7i9JctY"
+        },
+        {
+          "lecture": "Mon, January 27",
+          "youTubeId": "rsA7_PU-ESc"
+        },
+        {
+          "lecture": "Wed, January 29",
+          "youTubeId": "qr2WCBSn4nY"
+        },
+        {
+          "lecture": "Fri, January 31",
+          "youTubeId": "I_06JqsW_r4"
+        },
+        {
+          "lecture": "Mon, February 3",
+          "youTubeId": "r14F4GdPQ9I"
+        },
+        {
+          "lecture": "Wed, February 5",
+          "youTubeId": "sodP44cdGfw"
+        },
+        {
+          "lecture": "Fri, February 7",
+          "youTubeId": "9oHfjWZxxhA"
+        },
+        {
+          "lecture": "Mon, February 10",
+          "youTubeId": "E3sJNYRTTZQ"
+        },
+        {
+          "lecture": "Thu, February 13",
+          "youTubeId": "ZQorQ92qOd4"
+        },
+        {
+          "lecture": "Fri, February 14",
+          "youTubeId": "-poZcgJX_eo"
+        },
+        {
+          "lecture": "Wed, February 19",
+          "youTubeId": "fufIBr_WLYs"
+        },
+        {
+          "lecture": "Fri, February 21",
+          "youTubeId": "-KIRpb26jj4"
+        },
+        {
+          "lecture": "Mon, February 24",
+          "youTubeId": "OKPqi3qUbDg"
+        },
+        {
+          "lecture": "Fri, February 28",
+          "youTubeId": "nniPOGYS54o"
+        },
+        {
+          "lecture": "Fri, February 28, part 2",
+          "youTubeId": "JB6pdx10npY"
+        },
+        {
+          "lecture": "Mon, March 3",
+          "youTubeId": "Lt6fBbQjcXw"
+        },
+        {
+          "lecture": "Wed, March 5",
+          "youTubeId": "6LHLw4d9ZO8"
+        },
+        {
+          "lecture": "Fri, March 7",
+          "youTubeId": "iq_yYoefSA0"
+        },
+        {
+          "lecture": "Mon, March 10",
+          "youTubeId": "Qkgun0kYer0"
+        },
+        {
+          "lecture": "Wed, March 12",
+          "youTubeId": "7D28-j85tdE"
+        },
+        {
+          "lecture": "Fri, March 14",
+          "youTubeId": "7hn-sVo0jMg"
+        },
+        {
+          "lecture": "Mon, March 17",
+          "youTubeId": "7OI7tM6CNW0"
+        },
+        {
+          "lecture": "Wed, March 19",
+          "youTubeId": "9kWqshZZoHI"
+        },
+        {
+          "lecture": "Fri, March 21",
+          "youTubeId": "Qdd5XGNBLv0"
+        },
+        {
+          "lecture": "Wed, April 2",
+          "youTubeId": "zcbUFWjDRXE"
+        },
+        {
+          "lecture": "Fri, April 4",
+          "youTubeId": "bDcIwcjrQjU"
+        },
+        {
+          "lecture": "Mon, April 7",
+          "youTubeId": "BfCoUP91Ux0"
+        },
+        {
+          "lecture": "Wed, April 9",
+          "youTubeId": "BKUXxjexEr4"
+        },
+        {
+          "lecture": "Fri, April 11",
+          "youTubeId": "QEH1XcXVP44"
+        },
+        {
+          "lecture": "Mon, April 14",
+          "youTubeId": "z4igls7Xeys"
+        },
+        {
+          "lecture": "Wed, April 16",
+          "youTubeId": "p-jZU-hMGpE"
+        },
+        {
+          "lecture": "Fri, April 18",
+          "youTubeId": "iUW2-D3kf58"
+        },
+        {
+          "lecture": "Mon, April 21",
+          "youTubeId": "pTMwKt48Xpw"
+        },
+        {
+          "lecture": "Mon, April 28",
+          "youTubeId": "QCD6ytmZgaw"
+        },
+        {
+          "lecture": "Wed, April 30",
+          "youTubeId": "Byyo5C8P7JU"
+        },
+        {
+          "lecture": "Fri, May 2",
+          "youTubeId": "XHiLhxSO9Q0"
+        }
+      ]
+    },
+    {
+      "year": 2014,
+      "semester": "Spring",
+      "ccn": 69344,
+      "catalogId": "C10",
+      "deptName": "PHYSICS",
+      "audioOnly": false,
+      "public": true,
+      "youTubePlaylist": "-XXv-cvA_iAKxxGD1tIWLS0DcieGLHh0",
+      "iTunesVideo": 804529583,
+      "screenRSS": "http://wbe-itunes.berkeley.edu/media/common/courses/spring_2014/rss/physics_c10_001_screen.rss",
+      "recordings": [
+        {
+          "lecture": "Thu, January 23",
+          "youTubeId": "AT0pBzfTZT8"
+        },
+        {
+          "lecture": "Tue, January 28",
+          "youTubeId": "K76YgTs1IVk"
+        },
+        {
+          "lecture": "Thu, January 30",
+          "youTubeId": "t3AxgFZHo4A"
+        },
+        {
+          "lecture": "Fri, January 31",
+          "youTubeId": "KEiYSQnMHHQ"
+        },
+        {
+          "lecture": "Tue, February 4",
+          "youTubeId": "BeR_QXYDx8o"
+        },
+        {
+          "lecture": "Thu, February 6",
+          "youTubeId": "nAHcubEmLuc"
+        },
+        {
+          "lecture": "Tue, February 11",
+          "youTubeId": "wUy8yyKb-ww"
+        },
+        {
+          "lecture": "Thu, February 13",
+          "youTubeId": "mlnTVR0xWS8"
+        },
+        {
+          "lecture": "Tue, February 18",
+          "youTubeId": "6jAcOEMevK4"
+        },
+        {
+          "lecture": "Thu, February 20",
+          "youTubeId": "jdipySIyYcg"
+        },
+        {
+          "lecture": "Fri, February 28",
+          "youTubeId": "qg8GRQEbuUU"
+        },
+        {
+          "lecture": "Tue, March 4",
+          "youTubeId": "WycSGnXTpQQ"
+        },
+        {
+          "lecture": "Thu, March 6",
+          "youTubeId": "XK9FC31GGco"
+        },
+        {
+          "lecture": "Tue, March 11",
+          "youTubeId": "7t4FVYLmHJY"
+        },
+        {
+          "lecture": "Thu, March 13",
+          "youTubeId": "26cS6cqtIPQ"
+        },
+        {
+          "lecture": "Tue, March 18",
+          "youTubeId": "wcCRSFLpmwI"
+        },
+        {
+          "lecture": "Thu, March 20",
+          "youTubeId": "O3wqSVABbtU"
+        },
+        {
+          "lecture": "Tue, April 1",
+          "youTubeId": "bZleX5XfH8k"
+        },
+        {
+          "lecture": "Thu, April 3",
+          "youTubeId": "DqZwEXilcys"
+        },
+        {
+          "lecture": "Thu, April 10",
+          "youTubeId": "Eqa7gVPSgok"
+        },
+        {
+          "lecture": "Tue, April 15",
+          "youTubeId": "9y-yEr8jBr0"
+        },
+        {
+          "lecture": "Thu, April 17",
+          "youTubeId": "lVwhYAfZRzg"
+        },
+        {
+          "lecture": "Tue, April 22",
+          "youTubeId": "B98eEjzPOjU"
+        },
+        {
+          "lecture": "Thu, April 24",
+          "youTubeId": "ZDgNyORmrJM"
+        },
+        {
+          "lecture": "Tue, April 29",
+          "youTubeId": "SXP1UnJNx_w"
+        },
+        {
+          "lecture": "Thu, May 1",
+          "youTubeId": "YgkT0Likua0"
+        },
+        {
+          "lecture": "Thu, May 8",
+          "youTubeId": "P-mFH4SzVbo"
+        }
+      ]
+    },
+    {
+      "year": 2014,
+      "semester": "Spring",
+      "ccn": 71859,
+      "catalogId": "179",
+      "deptName": "POL SCI",
+      "audioOnly": false,
+      "public": true,
+      "youTubePlaylist": "-XXv-cvA_iAXFq_NM5rmehLjFFB6pahf",
+      "iTunesVideo": 806033899,
+      "screenRSS": "http://wbe-itunes.berkeley.edu/media/common/courses/spring_2014/rss/political_science_179_001_screen.rss",
+      "recordings": [
+        {
+          "lecture": "Wed, January 22",
+          "youTubeId": "WxRPMy1Gtd4"
+        },
+        {
+          "lecture": "Wed, January 29",
+          "youTubeId": "MDCh0I6vYUk"
+        },
+        {
+          "lecture": "Wed, February 5",
+          "youTubeId": "1jG70bxN8NU"
+        },
+        {
+          "lecture": "Fri, February 14",
+          "youTubeId": "t9P5Xgpspzw"
+        },
+        {
+          "lecture": "Wed, February 26",
+          "youTubeId": "iNQmZyxnPrY"
+        },
+        {
+          "lecture": "Wed, March 5",
+          "youTubeId": "WaK7b5diGi4"
+        },
+        {
+          "lecture": "Wed, March 19",
+          "youTubeId": "ixnTN7xjuBw"
+        },
+        {
+          "lecture": "Wed, April 2",
+          "youTubeId": "RjEScOD2siI"
+        },
+        {
+          "lecture": "Wed, April 9",
+          "youTubeId": "zkZXJ9G_qo0"
+        },
+        {
+          "lecture": "Wed, April 16",
+          "youTubeId": "xGaXZcb87Mc"
+        },
+        {
+          "lecture": "Wed, April 23",
+          "youTubeId": "bKEVvGHFp0M"
+        }
+      ]
+    },
+    {
+      "year": 2014,
+      "semester": "Spring",
+      "ccn": 74163,
+      "catalogId": "131",
+      "deptName": "PSYCH",
+      "audioOnly": false,
+      "public": true,
+      "youTubePlaylist": "-XXv-cvA_iCx-g-oTS7fGLPt2nJKPIGx",
+      "iTunesVideo": 806034944,
+      "screenRSS": "http://wbe-itunes.berkeley.edu/media/common/courses/spring_2014/rss/psychology_131_001_screen.rss",
+      "recordings": [
+        {
+          "lecture": "Wed, January 22",
+          "youTubeId": "YTVaqe8iks0"
+        },
+        {
+          "lecture": "Mon, January 27",
+          "youTubeId": "ObJGH333dlE"
+        },
+        {
+          "lecture": "Wed, January 29",
+          "youTubeId": "jUhajylpOGU"
+        },
+        {
+          "lecture": "Mon, February 3",
+          "youTubeId": "gs6Fhf5i_Xc"
+        },
+        {
+          "lecture": "Wed, February 5",
+          "youTubeId": "UF2xmEHilUA"
+        },
+        {
+          "lecture": "Mon, February 10",
+          "youTubeId": "buIE072-Z8Y"
+        },
+        {
+          "lecture": "Wed, February 12",
+          "youTubeId": "fKSs83fAT8c"
+        },
+        {
+          "lecture": "Wed, February 19",
+          "youTubeId": "_mMSJRRFwok"
+        },
+        {
+          "lecture": "Mon, February 24",
+          "youTubeId": "QiFzPBKNzsY"
+        },
+        {
+          "lecture": "Mon, March 3",
+          "youTubeId": "yOi2xCpF1Rg"
+        },
+        {
+          "lecture": "Wed, March 5",
+          "youTubeId": "ELMLFHI0JBU"
+        },
+        {
+          "lecture": "Mon, March 10",
+          "youTubeId": "KVhiqbS-JD4"
+        },
+        {
+          "lecture": "Wed, March 12",
+          "youTubeId": "QhLBjtRQQRI"
+        },
+        {
+          "lecture": "Mon, March 17",
+          "youTubeId": "iIcEPyLuJwI"
+        },
+        {
+          "lecture": "Wed, March 19",
+          "youTubeId": "XXJUovNSECs"
+        },
+        {
+          "lecture": "Mon, March 31",
+          "youTubeId": "uBLAniQZAYc"
+        },
+        {
+          "lecture": "Mon, April 7",
+          "youTubeId": "iVWfYCzuHSU"
+        },
+        {
+          "lecture": "Wed, April 9",
+          "youTubeId": "XoLXD3Dw0yw"
+        },
+        {
+          "lecture": "Mon, April 14",
+          "youTubeId": "bsfnu2rX0rg"
+        },
+        {
+          "lecture": "Wed, April 16",
+          "youTubeId": "DEcv4t7Cp5M"
+        },
+        {
+          "lecture": "Mon, April 21",
+          "youTubeId": "Y62eZP2T3g4"
+        },
+        {
+          "lecture": "Wed, April 23",
+          "youTubeId": "Gc7jhLsNHtE"
+        },
+        {
+          "lecture": "Mon, April 28",
+          "youTubeId": "2QQgGFvngfU"
+        },
+        {
+          "lecture": "Wed, April 30",
+          "youTubeId": "b8Q29b9h6pY"
+        }
+      ]
+    },
+    {
+      "year": 2014,
+      "semester": "Spring",
+      "ccn": 74193,
+      "catalogId": "140",
+      "deptName": "PSYCH",
+      "audioOnly": false,
+      "public": true,
+      "youTubePlaylist": "-XXv-cvA_iB7lXNvTI_KkwIJrPm9__5E",
+      "iTunesVideo": 805328514,
+      "screenRSS": "http://wbe-itunes.berkeley.edu/media/common/courses/spring_2014/rss/psychology_140_001_screen.rss",
+      "recordings": [
+        {
+          "lecture": "Wed, January 22",
+          "youTubeId": "tzoEwisoe1U"
+        },
+        {
+          "lecture": "Mon, January 27",
+          "youTubeId": "WEacq5T8ERk"
+        },
+        {
+          "lecture": "Wed, January 29",
+          "youTubeId": "-yJUKwl_S64"
+        },
+        {
+          "lecture": "Mon, February 10",
+          "youTubeId": "jO3PgueH7ys"
+        },
+        {
+          "lecture": "Wed, February 12",
+          "youTubeId": "RBhuvXmLgOA"
+        },
+        {
+          "lecture": "Wed, February 19",
+          "youTubeId": "dNGBpVoIfIU"
+        },
+        {
+          "lecture": "Mon, February 24",
+          "youTubeId": "2uy0aGWGM8U"
+        },
+        {
+          "lecture": "Thu, February 27",
+          "youTubeId": "COOC1gAxO24"
+        },
+        {
+          "lecture": "Mon, March 3",
+          "youTubeId": "mSTuKPYw6lw"
+        },
+        {
+          "lecture": "Wed, March 5",
+          "youTubeId": "UKMrFvhLDiw"
+        },
+        {
+          "lecture": "Mon, March 10",
+          "youTubeId": "IXeq-hq76Ds"
+        },
+        {
+          "lecture": "Mon, March 17",
+          "youTubeId": "ckNTuYksVwM"
+        },
+        {
+          "lecture": "Wed, March 19",
+          "youTubeId": "yZ3n3f1Aq0o"
+        },
+        {
+          "lecture": "Mon, March 31",
+          "youTubeId": "txFee3Md_rQ"
+        },
+        {
+          "lecture": "Wed, April 2",
+          "youTubeId": "d0qyNFch5_o"
+        },
+        {
+          "lecture": "Mon, April 7",
+          "youTubeId": "jbJcz0rrozk"
+        },
+        {
+          "lecture": "Wed, April 9",
+          "youTubeId": "kKvzKakzKiI"
+        },
+        {
+          "lecture": "Mon, April 14",
+          "youTubeId": "0aJrXsoTsgQ"
+        },
+        {
+          "lecture": "Wed, April 16",
+          "youTubeId": "2q9vWSw6ANY"
+        },
+        {
+          "lecture": "Mon, April 21",
+          "youTubeId": "Zwv0juGxl8U"
+        },
+        {
+          "lecture": "Wed, April 23",
+          "youTubeId": "9iy0Z-c2md0"
+        },
+        {
+          "lecture": "Mon, April 28",
+          "youTubeId": "9Dyopu_QgOY"
+        }
+      ]
+    },
+    {
+      "year": 2014,
+      "semester": "Spring",
+      "ccn": 74253,
+      "catalogId": "164",
+      "deptName": "PSYCH",
+      "audioOnly": false,
+      "public": true,
+      "youTubePlaylist": "-XXv-cvA_iCcEZBHdPAdKdwJjpwlgYRO",
+      "iTunesVideo": 805328563,
+      "screenRSS": "http://wbe-itunes.berkeley.edu/media/common/courses/spring_2014/rss/psychology_164_001_screen.rss",
+      "recordings": [
+        {
+          "lecture": "Wed, January 22",
+          "youTubeId": "Jl1sBwpikj4"
+        },
+        {
+          "lecture": "Mon, January 27",
+          "youTubeId": "VrnH4x4o3Zs"
+        },
+        {
+          "lecture": "Mon, February 3",
+          "youTubeId": "URZ-SRq06Ig"
+        },
+        {
+          "lecture": "Wed, February 5",
+          "youTubeId": "FRUErSlQ8aY"
+        },
+        {
+          "lecture": "Mon, February 10",
+          "youTubeId": "EoN-x9awJPs"
+        },
+        {
+          "lecture": "Wed, February 12",
+          "youTubeId": "BVOlSEa1B_k"
+        },
+        {
+          "lecture": "Wed, February 19",
+          "youTubeId": "vO-_RNupB-M"
+        },
+        {
+          "lecture": "Mon, February 24",
+          "youTubeId": "1wcajuIK7k4"
+        },
+        {
+          "lecture": "Wed, February 26",
+          "youTubeId": "AsTyon3rvs4"
+        },
+        {
+          "lecture": "Mon, March 3",
+          "youTubeId": "iCPqpcE-g9E"
+        },
+        {
+          "lecture": "Wed, March 5",
+          "youTubeId": "tJmb_-YLiJM"
+        },
+        {
+          "lecture": "Mon, March 10",
+          "youTubeId": "FALiiMwofco"
+        },
+        {
+          "lecture": "Wed, March 12",
+          "youTubeId": "1PCKnisxZbg"
+        },
+        {
+          "lecture": "Mon, March 17",
+          "youTubeId": "xZk0ozmaaNo"
+        },
+        {
+          "lecture": "Mon, March 31",
+          "youTubeId": "qoZnPW0ftos"
+        },
+        {
+          "lecture": "Wed, April 2",
+          "youTubeId": "TYRmvNyTF4M"
+        },
+        {
+          "lecture": "Mon, April 7",
+          "youTubeId": "iSZeR9gE1t8"
+        },
+        {
+          "lecture": "Wed, April 9",
+          "youTubeId": "ekd7niQqY6M"
+        },
+        {
+          "lecture": "Mon, April 14",
+          "youTubeId": "wa8VVsf2GyI"
+        },
+        {
+          "lecture": "Wed, April 16",
+          "youTubeId": "reEgihaXRBw"
+        },
+        {
+          "lecture": "Mon, April 21",
+          "youTubeId": "v3Bt8SeYU8M"
+        },
+        {
+          "lecture": "Wed, April 23",
+          "youTubeId": "YlcnERU3Gg8"
+        },
+        {
+          "lecture": "Mon, April 28",
+          "youTubeId": "C68Y1m49BwE"
+        },
+        {
+          "lecture": "Wed, April 30",
+          "youTubeId": "TQ1KMjZlpqY"
+        }
+      ]
+    },
+    {
+      "year": 2014,
+      "semester": "Spring",
+      "ccn": 76207,
+      "catalogId": "241",
+      "deptName": "PB HLTH",
+      "audioOnly": false,
+      "public": true,
+      "youTubePlaylist": "-XXv-cvA_iBacs-uhTVhDhip4sGWoq2C",
+      "iTunesAudio": 805328862,
+      "screenRSS": "http://wbe-itunes.berkeley.edu/media/common/courses/spring_2014/rss/public_health_241_001_screen.rss",
+      "recordings": [
+        {
+          "lecture": "Wed, January 22",
+          "youTubeId": "-Fz--_Zgpfs"
+        },
+        {
+          "lecture": "Fri, January 24",
+          "youTubeId": "Jc5CyLzRti0"
+        },
+        {
+          "lecture": "Mon, January 27",
+          "youTubeId": "3RMT9Rpw6zg"
+        },
+        {
+          "lecture": "Wed, January 29",
+          "youTubeId": "Dg4fXYgQh7c"
+        },
+        {
+          "lecture": "Mon, February 3",
+          "youTubeId": "NlbWBHdNRLs"
+        },
+        {
+          "lecture": "Mon, February 3, part 2",
+          "youTubeId": "1z_8CGYcIhU"
+        },
+        {
+          "lecture": "Wed, February 5",
+          "youTubeId": "rc_7AQC-RPY"
+        },
+        {
+          "lecture": "Fri, February 7",
+          "youTubeId": "IU25Dg1_MGQ"
+        },
+        {
+          "lecture": "Mon, February 10",
+          "youTubeId": "QqEXiM1nL-8"
+        },
+        {
+          "lecture": "Wed, February 12",
+          "youTubeId": "BcOFucwGFHg"
+        },
+        {
+          "lecture": "Fri, February 14",
+          "youTubeId": "76FWrzQir2U"
+        },
+        {
+          "lecture": "Fri, February 21",
+          "youTubeId": "6CF8abHwKzs"
+        },
+        {
+          "lecture": "Mon, February 24",
+          "youTubeId": "N5V9l25mNNM"
+        },
+        {
+          "lecture": "Wed, February 26",
+          "youTubeId": "gSyNHNQGK1s"
+        },
+        {
+          "lecture": "Fri, March 7",
+          "youTubeId": "Kr8Fxf-W47E"
+        },
+        {
+          "lecture": "Mon, March 10",
+          "youTubeId": "MYqjbhCNziA"
+        },
+        {
+          "lecture": "Wed, March 12",
+          "youTubeId": "AjfOJdWpCNQ"
+        },
+        {
+          "lecture": "Fri, March 14",
+          "youTubeId": "NHbxkHQWY8Y"
+        },
+        {
+          "lecture": "Mon, March 17",
+          "youTubeId": "USxpG57SPB8"
+        },
+        {
+          "lecture": "Wed, March 19",
+          "youTubeId": "6Kj_9JkFUOc"
+        },
+        {
+          "lecture": "Fri, March 21",
+          "youTubeId": "LwNozRUBg2c"
+        },
+        {
+          "lecture": "Mon, March 31",
+          "youTubeId": "9u5vwBq9jM4"
+        },
+        {
+          "lecture": "Wed, April 2",
+          "youTubeId": "yfh9ZnaOxmQ"
+        },
+        {
+          "lecture": "Fri, April 4",
+          "youTubeId": "wNfVNBnLtf0"
+        },
+        {
+          "lecture": "Mon, April 7",
+          "youTubeId": "TnynR7nV91w"
+        },
+        {
+          "lecture": "Fri, April 11",
+          "youTubeId": "ddcN5_yyxMs"
+        },
+        {
+          "lecture": "Mon, April 14",
+          "youTubeId": "5J_Ahb-U2OA"
+        },
+        {
+          "lecture": "Wed, April 16",
+          "youTubeId": "MstU5KIUFYo"
+        },
+        {
+          "lecture": "Fri, April 18",
+          "youTubeId": "3nBiJ5UszEw"
+        },
+        {
+          "lecture": "Mon, April 21",
+          "youTubeId": "nO0E6xj1-8U"
+        },
+        {
+          "lecture": "Wed, April 23",
+          "youTubeId": "AyBZeQlFeyg"
+        },
+        {
+          "lecture": "Fri, April 25",
+          "youTubeId": "9MO6EOScnqE"
+        },
+        {
+          "lecture": "Mon, April 28",
+          "youTubeId": "4Xe3qXR90P4"
+        },
+        {
+          "lecture": "Wed, April 30",
+          "youTubeId": "A9d8EPbbwcY"
+        },
+        {
+          "lecture": "Fri, May 2",
+          "youTubeId": "GO4vYj8U_cI"
+        }
+      ]
+    },
+    {
+      "year": 2014,
+      "semester": "Spring",
+      "ccn": 87432,
+      "catalogId": "131A",
+      "deptName": "STAT",
+      "audioOnly": false,
+      "public": true,
+      "youTubePlaylist": "-XXv-cvA_iDmBzAfitlZXganWpqMiXkG",
+      "iTunesVideo": 819827827,
+      "iTunesAudio": 819827828,
+      "screenRSS": "http://wbe-itunes.berkeley.edu/media/common/courses/spring_2014/rss/statistics_131a_001_screen.rss",
+      "recordings": [
+        {
+          "lecture": "Wed, January 22",
+          "youTubeId": "k4NZOdfLpEM"
+        },
+        {
+          "lecture": "Fri, January 24",
+          "youTubeId": "nu5HIjJhrmY"
+        },
+        {
+          "lecture": "Mon, January 27",
+          "youTubeId": "p9loVsJ0uBE"
+        },
+        {
+          "lecture": "Wed, January 29",
+          "youTubeId": "18hg2iKCQLo"
+        },
+        {
+          "lecture": "Fri, January 31",
+          "youTubeId": "kTLOqt8hz3I"
+        },
+        {
+          "lecture": "Mon, February 3",
+          "youTubeId": "TicHGIcjJwY"
+        },
+        {
+          "lecture": "Wed, February 5",
+          "youTubeId": "SgNvnSt57Qk"
+        },
+        {
+          "lecture": "Fri, February 7",
+          "youTubeId": "FHfLODc8Ruk"
+        },
+        {
+          "lecture": "Mon, February 10",
+          "youTubeId": "TPx_aR-3lcA"
+        },
+        {
+          "lecture": "Thu, February 13",
+          "youTubeId": "vdQHRVkpzC4"
+        },
+        {
+          "lecture": "Fri, February 14",
+          "youTubeId": "yMCYqtWHtLo"
+        },
+        {
+          "lecture": "Wed, February 19",
+          "youTubeId": "gL89NLYP440"
+        },
+        {
+          "lecture": "Mon, February 24",
+          "youTubeId": "v15Y2jet1Ec"
+        },
+        {
+          "lecture": "Wed, February 26",
+          "youTubeId": "2oS9Mc-lP1Y"
+        },
+        {
+          "lecture": "Mon, March 3",
+          "youTubeId": "E3Tlr_UFGlQ"
+        },
+        {
+          "lecture": "Wed, March 5",
+          "youTubeId": "sdKCqKE6bkk"
+        },
+        {
+          "lecture": "Fri, March 7",
+          "youTubeId": "KNsF2XA2jc0"
+        },
+        {
+          "lecture": "Mon, March 17",
+          "youTubeId": "xKzkUU2GPxQ"
+        },
+        {
+          "lecture": "Mon, March 31",
+          "youTubeId": "KRNShUJusNU"
+        },
+        {
+          "lecture": "Wed, April 2",
+          "youTubeId": "wgWD8zZxA-Y"
+        },
+        {
+          "lecture": "Mon, April 7",
+          "youTubeId": "UnG9lUiWeek"
+        },
+        {
+          "lecture": "Wed, April 9",
+          "youTubeId": "ypRy2_a_xW0"
+        },
+        {
+          "lecture": "Fri, April 11",
+          "youTubeId": "7hWh2hvk9YI"
+        },
+        {
+          "lecture": "Mon, April 14",
+          "youTubeId": "z9V_591jcno"
+        },
+        {
+          "lecture": "Wed, April 16",
+          "youTubeId": "VaFce6wvCQE"
+        },
+        {
+          "lecture": "Fri, April 18",
+          "youTubeId": "gdo6cZ1BKQc"
+        },
+        {
+          "lecture": "Mon, April 21",
+          "youTubeId": "z2189At7Ky0"
+        },
+        {
+          "lecture": "Wed, April 23",
+          "youTubeId": "IcoaFDQjhOY"
+        },
+        {
+          "lecture": "Fri, April 25",
+          "youTubeId": "AMNjc74mHgU"
+        },
+        {
+          "lecture": "Mon, April 28",
+          "youTubeId": "PDk4cWfTr8E"
+        },
+        {
+          "lecture": "Wed, April 30",
+          "youTubeId": "ScMgK24rWHg"
+        }
+      ]
+    },
+    {
+      "year": 2014,
+      "semester": "Fall",
+      "ccn": 123,
+      "catalogId": "catalog_id_1",
+      "audioOnly": true,
+      "public": true,
+      "youTubePlaylist": "youTubePlaylistId",
+      "iTunesVideo": 789,
+      "audioRSS": "http://berkeley.edu/audio.rss",
+      "screenRSS": "http://berkeley.edu/video.rss"
+    },
+    {
+      "year": 2014,
+      "semester": "Fall",
+      "ccn": 85006,
+      "catalogId": "100A",
+      "deptName": "MALAY/I",
+      "audioOnly": false,
+      "public": true,
+      "youTubePlaylist": "PL-XXv-cvA_iDy-rACIy-kh40XJJDp3Y0X",
+      "iTunesVideo": 819827828,
+      "videoRSS": "http://wbe-itunes.berkeley.edu/media/common/courses/spring_2014/rss/statistics_131a_001_screen.rss"
+    },
+    {
+      "year": 2015,
+      "semester": "Spring",
+      "ccn": 51990,
+      "deptName": "L & S",
+      "catalogId": "C70U",
+      "public": false,
+      "youTubePlaylist": "PL-XXv-cvA_iAn6Qt6B7D-phRT0Ld1GOUV",
+      "audioRSS": "http://wbe-itunes.berkeley.edu/media/common/courses/2015B/rss/5915_audio.rss",
+      "screenRSS": "http://wbe-itunes.berkeley.edu/media/common/courses/2015B/rss/5915_screen.rss",
+      "recordings": [
+        {
+          "lecture": "2015-01-21: A Grand Tour of the Cosmos",
+          "youTubeId": "E8WBr8u7YoI",
+          "recordingStartUTC": "2015-01-21T15:07:00-08:00"
+        },
+        {
+          "lecture": "2015-01-23: Journey Through Space and Time",
+          "youTubeId": "hoLFZNm3lsk",
+          "recordingStartUTC": "2015-01-23T15:07:00-08:00"
+        },
+        {
+          "lecture": "2015-01-26: Light â€“ The Supreme Informant",
+          "youTubeId": "a5arg3cSFeg",
+          "recordingStartUTC": "2015-01-26T15:07:00-08:00"
+        },
+        {
+          "lecture": "2015-01-28: The Fingerprints of Atoms",
+          "youTubeId": "ibG9xrcKs2g",
+          "recordingStartUTC": "2015-01-28T15:07:00-08:00"
+        },
+        {
+          "lecture": "2015-01-30: Thermal Radiation; Doppler Effect",
+          "youTubeId": "MGUFdWgjEyU",
+          "recordingStartUTC": "2015-01-30T15:07:00-08:00"
+        },
+        {
+          "lecture": "2015-01-30: Telescopes: Tools of the Trade",
+          "youTubeId": "OX2fKZNIXLA",
+          "recordingStartUTC": "2015-01-30T16:07:00-08:00"
+        },
+        {
+          "lecture": "2015-02-02: Telescopes; Twinkling; Lunar Phases",
+          "youTubeId": "5LF4QaTTR80",
+          "recordingStartUTC": "2015-02-02T15:07:00-08:00"
+        },
+        {
+          "lecture": "2015-02-04: Glorious Total Solar Eclipses",
+          "youTubeId": "IEK2sThtnB8",
+          "recordingStartUTC": "2015-02-04T15:07:00-08:00"
+        },
+        {
+          "lecture": "2015-02-06: Eclipses; Celestial Phenomena",
+          "youTubeId": "cISHdRPoml8",
+          "recordingStartUTC": "2015-02-06T15:06:00-08:00"
+        },
+        {
+          "lecture": "2015-02-09: Seasons; The Copernican Revolution",
+          "youTubeId": "CB-FypT3TwY",
+          "recordingStartUTC": "2015-02-09T15:06:00-08:00"
+        },
+        {
+          "lecture": "2015-02-11: On the Shoulders of Giants",
+          "youTubeId": "zE6PuqmEgIo",
+          "recordingStartUTC": "2015-02-11T15:06:00-08:00"
+        },
+        {
+          "lecture": "2015-02-18: Newton; Origin of Solar System; Earth",
+          "youTubeId": "aPs816-AzLg",
+          "recordingStartUTC": "2015-02-18T15:06:00-08:00"
+        },
+        {
+          "lecture": "2015-02-20: (Part 1) The Moon, Mercury, Venus, Mars",
+          "youTubeId": "Sb7_aZlZXjk",
+          "recordingStartUTC": "2015-02-20T15:06:00-08:00"
+        },
+        {
+          "lecture": "2015-02-20: (Part 2) Mars, Jupiter, Saturn",
+          "youTubeId": "LYUuTlcAgUk",
+          "recordingStartUTC": "2015-02-20T16:06:00-08:00"
+        },
+        {
+          "lecture": "2015-02-23: Uranus, Neptune, Pluto",
+          "youTubeId": "piwH4DTIx2Q",
+          "recordingStartUTC": "2015-02-23T15:06:00-08:00"
+        },
+        {
+          "lecture": "2015-02-25: Comets, Space Debris, Collisions",
+          "youTubeId": "1r3d3uq1gKQ",
+          "recordingStartUTC": "2015-02-25T15:06:00-08:00"
+        },
+        {
+          "lecture": "2015-02-27: Collisions; Exoplanets",
+          "youTubeId": "ZaRnqiMPzuE",
+          "recordingStartUTC": "2015-02-27T15:06:00-08:00"
+        },
+        {
+          "lecture": "2015-03-02: Other Worlds",
+          "youTubeId": "Dr3y8TNoWvs",
+          "recordingStartUTC": "2015-03-02T15:06:00-08:00"
+        },
+        {
+          "lecture": "2015-03-04: Our Sun and other Stars",
+          "youTubeId": "jq-1XmLFkMI",
+          "recordingStartUTC": "2015-03-04T15:06:00-08:00"
+        },
+        {
+          "lecture": "2015-03-06: (Part 1) Social Stars: Binaries and Clusters",
+          "youTubeId": "XEJvZ1H0BcU",
+          "recordingStartUTC": "2015-03-06T15:06:00-08:00"
+        },
+        {
+          "lecture": "2015-03-06: (Part 2) How Stars Shine: Cosmic Furnaces",
+          "youTubeId": "oPIOnqW1b1k",
+          "recordingStartUTC": "2015-03-06T16:06:00-08:00"
+        },
+        {
+          "lecture": "2015-03-09: The Fate of Our Sun: Stellar Evolution",
+          "youTubeId": "c7rHGsrqBU4",
+          "recordingStartUTC": "2015-03-09T15:06:00-07:00"
+        },
+        {
+          "lecture": "2015-03-11: Exploding Stars: Celestial Fireworks!",
+          "youTubeId": "EqBdNSI8YQ4",
+          "recordingStartUTC": "2015-03-11T15:07:00-07:00"
+        },
+        {
+          "lecture": "2015-03-13: The Corpses of Massive Stars",
+          "youTubeId": "NR2nUQ-OXq8",
+          "recordingStartUTC": "2015-03-13T15:06:00-07:00"
+        },
+        {
+          "lecture": "2015-03-18: The Milky Way and Other Galaxies",
+          "youTubeId": "vXr-DTe5D2E",
+          "recordingStartUTC": "2015-03-18T15:06:00-07:00"
+        },
+        {
+          "lecture": "2015-03-20: The Dark Side of Matter",
+          "youTubeId": "yg2EPjsAJGs",
+          "recordingStartUTC": "2015-03-20T15:06:00-07:00"
+        },
+        {
+          "lecture": "2015-03-30: The Expansion of the Universe",
+          "youTubeId": "DWbYMmXgx8k",
+          "recordingStartUTC": "2015-03-30T15:06:00-07:00"
+        },
+        {
+          "lecture": "2015-04-01: Black Holes: Hearts of Darkness",
+          "youTubeId": "Ax670ei7h2Q",
+          "recordingStartUTC": "2015-04-01T15:06:00-07:00"
+        }
+      ],
+      "audioOnly": false
+    },
+    {
+      "year": 2015,
+      "semester": "Spring",
+      "ccn": 5915,
+      "deptName": "ASTRON",
+      "catalogId": "C10",
+      "public": false,
+      "youTubePlaylist": "PL-XXv-cvA_iAn6Qt6B7D-phRT0Ld1GOUV",
+      "audioRSS": "http://wbe-itunes.berkeley.edu/media/common/courses/2015B/rss/5915_audio.rss",
+      "screenRSS": "http://wbe-itunes.berkeley.edu/media/common/courses/2015B/rss/5915_screen.rss",
+      "recordings": [
+        {
+          "lecture": "2015-01-21: A Grand Tour of the Cosmos",
+          "youTubeId": "E8WBr8u7YoI",
+          "recordingStartUTC": "2015-01-21T15:07:00-08:00"
+        },
+        {
+          "lecture": "2015-01-23: Journey Through Space and Time",
+          "youTubeId": "hoLFZNm3lsk",
+          "recordingStartUTC": "2015-01-23T15:07:00-08:00"
+        },
+        {
+          "lecture": "2015-01-26: Light â€“ The Supreme Informant",
+          "youTubeId": "a5arg3cSFeg",
+          "recordingStartUTC": "2015-01-26T15:07:00-08:00"
+        },
+        {
+          "lecture": "2015-01-28: The Fingerprints of Atoms",
+          "youTubeId": "ibG9xrcKs2g",
+          "recordingStartUTC": "2015-01-28T15:07:00-08:00"
+        },
+        {
+          "lecture": "2015-01-30: Thermal Radiation; Doppler Effect",
+          "youTubeId": "MGUFdWgjEyU",
+          "recordingStartUTC": "2015-01-30T15:07:00-08:00"
+        },
+        {
+          "lecture": "2015-01-30: Telescopes: Tools of the Trade",
+          "youTubeId": "OX2fKZNIXLA",
+          "recordingStartUTC": "2015-01-30T16:07:00-08:00"
+        },
+        {
+          "lecture": "2015-02-02: Telescopes; Twinkling; Lunar Phases",
+          "youTubeId": "5LF4QaTTR80",
+          "recordingStartUTC": "2015-02-02T15:07:00-08:00"
+        },
+        {
+          "lecture": "2015-02-04: Glorious Total Solar Eclipses",
+          "youTubeId": "IEK2sThtnB8",
+          "recordingStartUTC": "2015-02-04T15:07:00-08:00"
+        },
+        {
+          "lecture": "2015-02-06: Eclipses; Celestial Phenomena",
+          "youTubeId": "cISHdRPoml8",
+          "recordingStartUTC": "2015-02-06T15:06:00-08:00"
+        },
+        {
+          "lecture": "2015-02-09: Seasons; The Copernican Revolution",
+          "youTubeId": "CB-FypT3TwY",
+          "recordingStartUTC": "2015-02-09T15:06:00-08:00"
+        },
+        {
+          "lecture": "2015-02-11: On the Shoulders of Giants",
+          "youTubeId": "zE6PuqmEgIo",
+          "recordingStartUTC": "2015-02-11T15:06:00-08:00"
+        },
+        {
+          "lecture": "2015-02-18: Newton; Origin of Solar System; Earth",
+          "youTubeId": "aPs816-AzLg",
+          "recordingStartUTC": "2015-02-18T15:06:00-08:00"
+        },
+        {
+          "lecture": "2015-02-20: (Part 1) The Moon, Mercury, Venus, Mars",
+          "youTubeId": "Sb7_aZlZXjk",
+          "recordingStartUTC": "2015-02-20T15:06:00-08:00"
+        },
+        {
+          "lecture": "2015-02-20: (Part 2) Mars, Jupiter, Saturn",
+          "youTubeId": "LYUuTlcAgUk",
+          "recordingStartUTC": "2015-02-20T16:06:00-08:00"
+        },
+        {
+          "lecture": "2015-02-23: Uranus, Neptune, Pluto",
+          "youTubeId": "piwH4DTIx2Q",
+          "recordingStartUTC": "2015-02-23T15:06:00-08:00"
+        },
+        {
+          "lecture": "2015-02-25: Comets, Space Debris, Collisions",
+          "youTubeId": "1r3d3uq1gKQ",
+          "recordingStartUTC": "2015-02-25T15:06:00-08:00"
+        },
+        {
+          "lecture": "2015-02-27: Collisions; Exoplanets",
+          "youTubeId": "ZaRnqiMPzuE",
+          "recordingStartUTC": "2015-02-27T15:06:00-08:00"
+        },
+        {
+          "lecture": "2015-03-02: Other Worlds",
+          "youTubeId": "Dr3y8TNoWvs",
+          "recordingStartUTC": "2015-03-02T15:06:00-08:00"
+        },
+        {
+          "lecture": "2015-03-04: Our Sun and other Stars",
+          "youTubeId": "jq-1XmLFkMI",
+          "recordingStartUTC": "2015-03-04T15:06:00-08:00"
+        },
+        {
+          "lecture": "2015-03-06: (Part 1) Social Stars: Binaries and Clusters",
+          "youTubeId": "XEJvZ1H0BcU",
+          "recordingStartUTC": "2015-03-06T15:06:00-08:00"
+        },
+        {
+          "lecture": "2015-03-06: (Part 2) How Stars Shine: Cosmic Furnaces",
+          "youTubeId": "oPIOnqW1b1k",
+          "recordingStartUTC": "2015-03-06T16:06:00-08:00"
+        },
+        {
+          "lecture": "2015-03-09: The Fate of Our Sun: Stellar Evolution",
+          "youTubeId": "c7rHGsrqBU4",
+          "recordingStartUTC": "2015-03-09T15:06:00-07:00"
+        },
+        {
+          "lecture": "2015-03-11: Exploding Stars: Celestial Fireworks!",
+          "youTubeId": "EqBdNSI8YQ4",
+          "recordingStartUTC": "2015-03-11T15:07:00-07:00"
+        },
+        {
+          "lecture": "2015-03-13: The Corpses of Massive Stars",
+          "youTubeId": "NR2nUQ-OXq8",
+          "recordingStartUTC": "2015-03-13T15:06:00-07:00"
+        },
+        {
+          "lecture": "2015-03-18: The Milky Way and Other Galaxies",
+          "youTubeId": "vXr-DTe5D2E",
+          "recordingStartUTC": "2015-03-18T15:06:00-07:00"
+        },
+        {
+          "lecture": "2015-03-20: The Dark Side of Matter",
+          "youTubeId": "yg2EPjsAJGs",
+          "recordingStartUTC": "2015-03-20T15:06:00-07:00"
+        },
+        {
+          "lecture": "2015-03-30: The Expansion of the Universe",
+          "youTubeId": "DWbYMmXgx8k",
+          "recordingStartUTC": "2015-03-30T15:06:00-07:00"
+        },
+        {
+          "lecture": "2015-04-01: Black Holes: Hearts of Darkness",
+          "youTubeId": "Ax670ei7h2Q",
+          "recordingStartUTC": "2015-04-01T15:06:00-07:00"
+        }
+      ],
+      "audioOnly": false
+    }
+  ]
+}

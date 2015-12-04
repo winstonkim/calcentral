@@ -15,7 +15,7 @@
 * [PostgreSQL](http://www.postgresql.org/)
 * [Rails 3.2.x](http://rubyonrails.org/download)
 * [Rubygems](http://rubyforge.org/frs/?group_id=126)
-* [Rvm](https://rvm.io/rvm/install/) - Ruby version managers
+* [RVM](https://rvm.io/rvm/install/) - Ruby version managers
 * [xvfb](http://xquartz.macosforge.org/landing/) - xvfb headless browser, included for Macs with XQuartz
 
 ## Installation
@@ -23,15 +23,15 @@
 1. Install Java 7 JDK:
 http://www.oracle.com/technetwork/java/javase/downloads/index.html
 
-1. Install postgres:
+1. Install Postgres:
 
-    **Note**: To install postgres, you must first install homebrew.
+    **Note**: To install Postgres, you must first install [Homebrew](http://brew.sh/).
 
-    Install homebrew with the following command:
+    Install Homebrew with the following command:
     ```bash
     ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
     ```
-    Run the following command in terminal after installation:
+    Run the following command in Terminal after installation:
     ```bash
     brew --version
     ```
@@ -54,7 +54,7 @@ http://www.oracle.com/technetwork/java/javase/downloads/index.html
 
     1. __For Mountain Lion & Mavericks users ONLY:__ [Install XQuartz](http://xquartz.macosforge.org/landing/) and make sure that /opt/X11/bin is on your `PATH`.
 
-1. Start postgres, add users and create the necessary databases. (If your PostgreSQL server is managed externally, you'll probably need to create a schema that matches the database username. See [CLC-893](https://jira.media.berkeley.edu/jira/browse/CLC-893) for details.):
+1. Start Postgres, add users and create the necessary databases. (If your PostgreSQL server is managed externally, you'll probably need to create a schema that matches the database username. See [CLC-893](https://jira.media.berkeley.edu/jira/browse/CLC-893) for details.):
 
     ```bash
     pg_ctl -D /usr/local/var/postgres -l /usr/local/var/postgres/server.log start
@@ -73,7 +73,7 @@ http://www.oracle.com/technetwork/java/javase/downloads/index.html
     alter database calcentral_test owner to calcentral_test;
     ```
 
-    **Note**: At this point, exit out of postgres. To do this, type "\q" and then press ENTER.
+    **Note**: At this point, exit out of Postgres. To do this, type "\q" and then press ENTER.
 
 1. Fork this repository, then:
 
@@ -136,7 +136,7 @@ http://www.oracle.com/technetwork/java/javase/downloads/index.html
 1. Initialize PostgreSQL database tables:
 
     ```bash
-    rake db:schema:load db:seed
+    rake environment db:schema:load db:seed
     ```
 
 1. Make yourself powerful:
@@ -146,14 +146,14 @@ http://www.oracle.com/technetwork/java/javase/downloads/index.html
     # e.g. rake superuser:create UID=61889
     ```
 
-1. Install the frond-end tools
+1. Install the front-end tools:
 
     ```bash
     npm install
     npm install -g gulp
     ```
 
-1. Start the front-end build & watch for changes
+1. Start the front-end build & watch for changes:
 
     ```bash
     gulp build
@@ -220,6 +220,25 @@ jscs .
 ```
 
 This will check for any potential JavaScript issues and whether you formatted the code correctly.
+
+## Browsersync
+
+[Browsersync](http://www.browsersync.io/) makes developing faster by synchronizing file changes and interactions across multiple devices. Browsersync will automatically:
+
+- Update the browser when SCSS files are changed
+- Reload the browser when a template or JS file is changed
+
+Browsersync is turned on by default during development mode. To turn it off, set the option to `false`:
+
+```bash
+gulp --browsersync false
+```
+
+During production mode, Browsersync is turned off.
+
+Your `rails server` must finish starting up before executing Browsersync. Once Browsersync is executed, access your development server at [localhost:3001](http://localhost:3001/). No real time file changes will be reflected at [localhost:3000](http://localhost:3000/).
+
+While the server is running, you can access Browsersync settings at [localhost:3002](http://localhost:3002/), where you can change sync options, view history, and more.
 
 ## Role-Aware Testing
 
@@ -296,7 +315,7 @@ In production we use [TorqueBox](http://torquebox.org/) as this provides us with
 ### Test connection
 
 Make sure you are on the Berkeley network or connected through [preconfigured VPN](https://kb.berkeley.edu/page.php?id=23065) for the Oracle connection.
-If you use VPN, use group `1-Campus_VPN`.
+If you use a VPN, use group `1-Campus_VPN`.
 
 ### Enable basic authentication
 
@@ -312,7 +331,7 @@ This is necessary when your application can't be CAS authenticated or when you'r
       password: topsecret!
     ```
 
-1. (re)start the server for the changes to take effect.
+1. (Re)start the server for the changes to take effect.
 
 1. Click on the footer (Berkeley logo) when you load the page.
 
@@ -324,7 +343,6 @@ To help another user debug an issue, you can "become" them on CalCentral. To ass
 
 - Currently be logged in as a designated superuser
 - Be accessing a machine/server which the other user has previously logged into (e.g. from localhost, you can't act as a random student, since that student has probably never logged in at your terminal)
-- Have enabled `act_as` in `settings.yml` (`features:`)
 
 Access the URL:
 
@@ -368,27 +386,17 @@ Logging behavior and destination can be controlled from the command line or shel
 
 See [docs/styleguide.md](docs/styleguide.md).
 
-## Recording fake data feeds and timeshifting them
+## Creating timeshifted fake data feeds
 
-Make sure your testext.local.yml file has real connections to real external services that are fakeable (Canvas, Google, etc). Now do:
+Proxies running in fake mode use WebMock to substitute fixture data for connections to external services (Canvas, Google, etc). This fake data lives in `fixtures/json` and `fixtures/xml`.
 
-```bash
-rake vcr:record
-rake vcr:prettify
-```
-
-* `vcr:record` can also take a `SPEC=".../my_favorite_spec.rb"` to help limit the recordings.
-* `vcr:prettify` can also take a `REGEX_FILTER="my_raw_recording.json"` to target a specific raw file.
-
-You can now find the prettified files in `fixtures/pretty_vcr_recordings`. You can edit these files to put in tokens that will be substituted on server startup. See `config/initializers/timeshift.rb` for the dictionary of substitutions. Edit the `debug_json` property of each response, and `timeshift.rb` will automatically convert `debug_json` to the format actually used by VCR.
+Fixture files can represent time information by tokens that are substituted with appropriately shifted values when fixture data is loaded. See `config/initializers/timeshift.rb` for the dictionary of substitutions.
 
 ## Rake tasks:
 
 To view other rake task for the project: `rake -T`
 
 * `rake spec:xml` - Runs rake spec, but pipes the output to xml using the `rspec_junit_formatter` gem, for JUnit compatible test result reports
-* `rake vcr:record` - Refresh vcr recordings and reformats the fixtures with formatted JSON output. Will also parse the reponse body's string into json output for legibility.
-* `rake vcr:list` - List the available recordings captured in the fixtures.
 
 ## Memcached tasks:
 

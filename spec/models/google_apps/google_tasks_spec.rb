@@ -1,15 +1,10 @@
-require "spec_helper"
-
 describe "GoogleTaskList" do
 
   before do
     @random_id = rand(999999).to_s
   end
 
-  after do
-    # Making sure we return cassettes back to the store after we're done.
-    VCR.eject_cassette
-  end
+  after { WebMock.reset! }
 
   # simulates creating a tasklist, create a task, toggle statuses back and forth, delete tasklist.
   it "should simulate a fake task toggle between statuses", :testext => true do

@@ -4,7 +4,7 @@ module CampusOracle
     include Cache::UserCacheExpiry
 
     def initialize(options = {})
-      super(Settings.sakai_proxy, options)
+      super(Settings.campusdb, options)
     end
 
     def get_feed
@@ -17,17 +17,21 @@ module CampusOracle
 
     # TODO Eliminate mix of string keys and symbol keys.
     def get_feed_internal
-      result = CampusOracle::Queries.get_person_attributes(@uid)
+      sis_current_term = Berkeley::Terms.fetch.sis_current_term
+      result = CampusOracle::Queries.get_person_attributes(@uid, sis_current_term.year, sis_current_term.code)
       if result
-        result[:reg_status] = {
-          :code => result["reg_status_cd"],
-          :summary => reg_status_translator.status(result["reg_status_cd"]),
-          :explanation => reg_status_translator.status_explanation(result["reg_status_cd"]),
-          :needsAction => !reg_status_translator.is_registered(result["reg_status_cd"])
-        }
-        result[:education_level] = educ_level_translator.translate(result["educ_level"])
-        result[:california_residency] = cal_residency_translator.translate(result["cal_residency_flag"])
-        result[:roles] = roles_from_campus_row(result)
+        result[:education_level] = educ_level_translator.translate result['educ_level']
+        result[:reg_status] = reg_status_translator.translate_for_feed result['reg_status_cd']
+        result[:roles] = roles_from_campus_row result
+        result.merge! Berkeley::SpecialRegistrationProgram.attributes_from_code(result['reg_special_pgm_cd'])
+
+        if term_transition?
+          result[:california_residency] = nil
+          result[:reg_status][:transitionTerm] = true
+        else
+          result[:california_residency] = Berkeley::CalResidency.california_residency_from_campus_row result
+        end
+
         result
       else
         {}
@@ -41,15 +45,16 @@ module CampusOracle
     def educ_level_translator
       @educ_level_translator ||= Notifications::EducLevelTranslator.new
     end
-    def cal_residency_translator
-      @cal_residency_translator ||= Notifications::CalResidencyTranslator.new
-    end
 
     def is_staff_or_faculty?
       if feed = get_feed
         return true if get_feed[:roles] && (get_feed[:roles][:faculty] || get_feed[:roles][:staff])
       end
       false
+    end
+
+    def term_transition?
+      Berkeley::Terms.fetch.current.sis_term_status != 'CT'
     end
 
   end

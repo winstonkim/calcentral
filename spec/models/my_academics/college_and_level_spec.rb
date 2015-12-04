@@ -1,80 +1,81 @@
-require "spec_helper"
+describe 'MyAcademics::CollegeAndLevel' do
 
-describe "MyAcademics::CollegeAndLevel" do
+  context 'known test users' do
+    let(:uid) { '61889' }
+    let(:feed) { {} }
 
-  it "should get properly formatted data from fake Bearfacts" do
-    oski_profile_proxy = Bearfacts::Profile.new({:user_id => "61889", :fake => true})
-    Bearfacts::Profile.stub(:new).and_return(oski_profile_proxy)
+    before do
+      profile_proxy = Bearfacts::Profile.new(user_id: uid, fake: true)
+      allow(Bearfacts::Profile).to receive(:new).and_return profile_proxy
+      MyAcademics::CollegeAndLevel.new(uid).merge feed
+      expect(feed).not_to be_empty
+    end
 
-    feed = {}
-    MyAcademics::CollegeAndLevel.new("61889").merge(feed)
-    feed.empty?.should be_falsey
+    let(:colleges) { feed[:collegeAndLevel][:colleges] }
 
-    oski_college = feed[:collegeAndLevel]
-    oski_college.should_not be_nil
-    oski_college[:colleges].size.should == 3
-    oski_college[:colleges][0][:college].should == "College of Engineering"
-    oski_college[:colleges][1][:college].should == ""
-    oski_college[:colleges][2][:college].should == ""
-    oski_college[:colleges][0][:major].should == "Economics"
-    oski_college[:colleges][1][:major].should == "Rhetoric"
-    oski_college[:colleges][2][:major].should == "Business Administration"
-    oski_college[:standing].should == "Undergraduate"
-    expect(oski_college[:termName]).to eq 'Summer 2013'
+    it 'should get properly formatted data from fake Bearfacts' do
+      expect(colleges).to have(1).items
+      expect(colleges.first).to include(
+        college: 'College of Letters & Science',
+        major: 'Statistics'
+      )
+      expect(feed[:collegeAndLevel]).to include(
+        standing: 'Undergraduate',
+        termName: 'Fall 2015'
+      )
+    end
+
+    context 'enrollment in multiple colleges' do
+      let(:uid) { '300940' }
+      it 'should return multiple colleges and majors' do
+        expect(colleges).to have(2).items
+        expect(colleges[0]).to include(
+          college: 'College of Natural Resources',
+          major: 'Conservation And Resource Studies'
+        )
+        expect(colleges[1]).to include(
+          college: 'College of Environmental Design',
+          major: 'Landscape Architecture'
+        )
+      end
+    end
+
+    context 'a concurrent enrollment triple major' do
+      let(:uid) { '212379' }
+      it 'should return even more colleges and majors' do
+        expect(colleges).to have(3).items
+        expect(colleges[0]).to include(
+          college: 'College of Chemistry',
+          major: 'Chemistry'
+        )
+        expect(colleges[1]).to include(
+          college: 'College of Letters & Science',
+          major: 'Applied Mathematics'
+        )
+        expect(colleges[2]).to include(
+          college: '',
+          major: 'Physics'
+        )
+      end
+    end
+
+    context 'a double law major' do
+      let(:uid) { '212381' }
+      it 'should return the law in all its aspects' do
+        expect(colleges).to have(2).items
+        expect(colleges[0]).to include(
+          college: 'School of Law',
+          major: 'Jurisprudence And Social Policy'
+        )
+        expect(colleges[1]).to include(
+          college: '',
+          major: 'Law'
+        )
+      end
+    end
   end
 
-  it "should get test-300940's multiple college enrollments" do
-    tammi_proxy = Bearfacts::Profile.new({:user_id => "300940", :fake => true})
-    Bearfacts::Profile.stub(:new).and_return(tammi_proxy)
-
-    feed = {}
-    MyAcademics::CollegeAndLevel.new("300940").merge(feed)
-    feed.empty?.should be_falsey
-
-    colleges = feed[:collegeAndLevel][:colleges]
-    colleges.size.should == 2
-    colleges[0][:college].should == "College of Natural Resources"
-    colleges[0][:major].should == "Conservation And Resource Studies"
-    colleges[1][:college].should == "College of Environmental Design"
-    colleges[1][:major].should == "Landscape Architecture"
-
-  end
-
-  it "should get get a concurrent enrollment triple major's multiple college enrollments" do
-    triple_proxy = Bearfacts::Profile.new({:user_id => "212379", :fake => true})
-    Bearfacts::Profile.stub(:new).and_return(triple_proxy)
-
-    feed = {}
-    MyAcademics::CollegeAndLevel.new("212379").merge(feed)
-    feed.empty?.should be_falsey
-
-    colleges = feed[:collegeAndLevel][:colleges]
-    colleges.size.should == 3
-    colleges[0][:college].should == "College of Chemistry"
-    colleges[0][:major].should == "Chemistry"
-    colleges[1][:college].should == "College of Letters & Science"
-    colleges[1][:major].should == "Applied Mathematics"
-    colleges[2][:college].should == ""
-    colleges[2][:major].should == "Physics"
-  end
-
-  it "should get a double Law major correctly" do
-    double_proxy = Bearfacts::Profile.new({:user_id => "212381", :fake => true})
-    Bearfacts::Profile.stub(:new).and_return(double_proxy)
-
-    feed = {}
-    MyAcademics::CollegeAndLevel.new("212381").merge(feed)
-    feed.empty?.should be_falsey
-
-    colleges = feed[:collegeAndLevel][:colleges]
-    colleges.size.should == 2
-    colleges[0][:college].should == "School of Law"
-    colleges[0][:major].should == "Jurisprudence And Social Policy"
-    colleges[1][:college].should == ""
-    colleges[1][:major].should == "Law"
-  end
-
-  context "failing bearfacts proxy" do
+  context 'failing bearfacts proxy' do
     let(:uid) {'212381'}
     let(:feed) {{}}
     before(:each) do
@@ -94,22 +95,31 @@ describe "MyAcademics::CollegeAndLevel" do
       allow(Bearfacts::Profile).to receive(:new).with(user_id: uid).and_return(double(get: {
         feed: FeedWrapper.new(MultiXml.parse(xml_body))
       }))
-    end
-    subject do
       MyAcademics::CollegeAndLevel.new(uid).merge(feed)
-      feed[:collegeAndLevel]
     end
-    context 'when ex-student with empty BearFacts student profile' do
-      let(:xml_body) {nil}
-      its([:errored]) {should be_falsey}
-      its([:empty]) {should be_truthy}
-    end
+
     context 'when Bearfacts student profile lacks key data' do
       let(:xml_body) {
-        "<studentProfile xmlns=\"urn:berkeley.edu/babl\" termName=\"Spring\" termYear=\"2014\" asOfDate=\"May 27, 2014 12:00 AM\"><studentType>STUDENT</studentType><noProfileDataFlag>false</noProfileDataFlag><studentGeneralProfile><studentName><firstName>OWPRQTOPEW</firstName><lastName>SEBIRTFEIWB</lastName></studentName></studentGeneralProfile></studentProfile>"
+        '<studentProfile xmlns="urn:berkeley.edu/babl" termName="Spring" termYear="2014" asOfDate="May 27, 2014 12:00 AM"><studentType>STUDENT</studentType><noProfileDataFlag>false</noProfileDataFlag><studentGeneralProfile><studentName><firstName>OWPRQTOPEW</firstName><lastName>SEBIRTFEIWB</lastName></studentName></studentGeneralProfile></studentProfile>'
       }
-      its([:errored]) {should be_falsey}
-      its([:empty]) {should be_truthy}
+      it 'reports an empty feed for the Bearfacts-provided term' do
+        expect(feed[:collegeAndLevel]).to include(
+          empty: true,
+          termName: 'Spring 2014'
+        )
+        expect(feed[:collegeAndLevel]).not_to include :errored
+      end
+    end
+
+    context 'when Bearfacts student profile is completely empty' do
+      let(:xml_body) { nil }
+      it 'reports an empty feed for the CalCentral current term' do
+        expect(feed[:collegeAndLevel]).to include(
+          empty: true,
+          termName: Berkeley::Terms.fetch.current.to_english
+        )
+        expect(feed[:collegeAndLevel]).not_to include :errored
+      end
     end
   end
 

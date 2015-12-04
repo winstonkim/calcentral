@@ -1,5 +1,3 @@
-require "spec_helper"
-
 describe Textbooks::Proxy do
 
   # We do not use shared_examples so as to avoid hammering an external data source
@@ -18,7 +16,7 @@ describe Textbooks::Proxy do
   end
 
   describe '#get' do
-    describe 'live testext tests enabled for order-independent expectations', testext: true do
+    describe 'live testext tests enabled for order-independent expectations', testext: true, ignore: true do
       subject { Textbooks::Proxy.new({
         course_catalog: course_catalog,
         dept: dept,
@@ -27,10 +25,10 @@ describe Textbooks::Proxy do
       }).get }
 
       context 'valid section numbers and term slug' do
-        let(:course_catalog) { '130' }
+        let(:course_catalog) { 'R1A' }
         let(:dept) { 'COLWRIT' }
         let(:section_numbers) { ['001'] }
-        let(:slug) { 'spring-2015' }
+        let(:slug) { 'summer-2015' }
         it 'produces the expected textbook feed' do
           it_is_a_normal_server_response
           it_has_at_least_one_title
@@ -44,10 +42,10 @@ describe Textbooks::Proxy do
       end
 
       context 'an unknown section number' do
-        let(:course_catalog) { '130A' }
+        let(:course_catalog) { '102' }
         let(:dept) { 'MCELLBI' }
         let(:section_numbers) { ['101'] }
-        let(:slug) { 'spring-2015' }
+        let(:slug) { 'summer-2015' }
         it 'returns a helpful message' do
           it_is_a_normal_server_response
           feed = subject[:books]
@@ -56,10 +54,10 @@ describe Textbooks::Proxy do
       end
 
       context 'multiple section numbers' do
-        let(:course_catalog) { '130A' }
+        let(:course_catalog) { '102' }
         let(:dept) { 'MCELLBI' }
         let(:section_numbers) { ['101', '001'] }
-        let(:slug) { 'spring-2015' }
+        let(:slug) { 'summer-2015' }
         it 'finds the one with books' do
           it_is_a_normal_server_response
           it_has_at_least_one_title

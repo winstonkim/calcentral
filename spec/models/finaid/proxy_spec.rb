@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe Finaid::Proxy do
 
   let(:this_year){ 2013 }
@@ -9,6 +7,8 @@ describe Finaid::Proxy do
   let(:live_non_student){ Finaid::Proxy.new({user_id: '212377', term_year: this_year}).get }
 
   shared_examples "oski tests" do
+    it_behaves_like 'a polite HTTP client'
+
     it 'should return a successful response' do
       expect(subject.unwrap.code).to eq 200
       expect(subject.unwrap.body).to be_present
@@ -28,7 +28,7 @@ describe Finaid::Proxy do
     end
 
     context "Test-Emeritus live feed with no data" do
-      #Never hits VCR so it should be fine for non-testext, but to make sure
+      #Never hits a mock proxy so it should be fine for non-testext, but to make sure
       before(:each) { Finaid::Proxy.any_instance.stub(:lookup_student_id).and_return(nil) }
 
       it 'should return empty feed on no student ID' do

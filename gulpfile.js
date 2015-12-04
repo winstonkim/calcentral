@@ -14,11 +14,34 @@
   // Rename files
   var rename = require('gulp-rename');
 
+  // Plug-in to inject html into other html
+  var inject = require('gulp-inject');
+
+  // File system
+  var fs = require('fs');
+
+  // Browserify dependencies
+  var browserify = require('browserify');
+  var watchify = require('watchify');
+  var bulkify = require('bulkify');
+  var source = require('vinyl-source-stream');
+  var addStream = require('add-stream');
+  var streamify = require('gulp-streamify');
+  var ngAnnotate = require('gulp-ng-annotate');
+  var concat = require('gulp-concat');
+  var uglify = require('gulp-uglify');
+  var util = require('gulp-util');
+
+  // Initialize BrowserSync
+  var browserSync = require('browser-sync').create();
+
   // Base options for the command line
   var baseOptions = {
-    string: 'env',
-    default: {
-      env: process.env.RAILS_ENV || 'development'
+    'string': 'env',
+    'boolean': 'browsersync',
+    'default': {
+      'env': process.env.RAILS_ENV || 'development',
+      'browsersync': true
     }
   };
 
@@ -27,6 +50,13 @@
 
   // Are we in production mode?
   var isProduction = options.env === 'production';
+
+  // If not development mode, BrowserSync is turned off
+  // Otherwise, in development mode, BrowserSync set by options
+  var useBrowserSync = options.env !== 'development' ? false : options.browsersync;
+
+  // Check if Watchify has been turned on so it is only executed once
+  var watchifyOn = false;
 
   // List all the used paths
   var paths = {
@@ -59,37 +89,12 @@
       img: 'src/assets/images/**/*.*',
       // JavaScript
       js: {
-        external: [
-          // Date parsing
-          'node_modules/moment/moment.js',
-          // Libraries (google analytics)
-          'src/assets/javascripts/lib/**/*.js',
-          // Human Sorting in JavaScript
-          'node_modules/js-natural-sort/dist/naturalSort.js',
-          // Remote JavaScript error logging
-          'node_modules/raven-js/dist/raven.js',
-          // Datepicker
-          'node_modules/pikaday/pikaday.js',
-          // Angular
-          'node_modules/angular/angular.js',
-          // Angular Routing
-          'node_modules/angular-route/angular-route.js',
-          // Angular Sanitize (avoid XSS exploits)
-          'node_modules/angular-sanitize/angular-sanitize.js',
-          // Angular Swipe Directive
-          // TODO - remove as soon as
-          // https://github.com/angular/angular.js/issues/4030 is fixed
-          'src/assets/javascripts/angularlib/swipeDirective.js'
-        ],
-        // Our own files, we put this in a separate array to make sure we run
-        // ng-annotate on it
-        internal: [
-          'src/assets/javascripts/**/*.js'
-        ],
-        // The JS templates files ($templateCache)
-        templates: [
-          'public/assets/templates/templates.js'
-        ]
+        // Angular Javascript
+        angular: 'src/assets/javascripts/**/*.js',
+        // Public JavaScript
+        external: 'public/assets/javascripts/index.js',
+        // Browserify creates bundled JS with internal JS files
+        internal: 'src/assets/javascripts/index.js'
       },
       // Main templates (not used for inclusing in AngularJS templates)
       mainTemplates: {
@@ -119,10 +124,23 @@
       css: 'public/assets/stylesheets',
       fonts: 'public/assets/fonts',
       img: 'public/assets/images',
-      js: 'public/assets/javascripts',
-      templates: 'public/assets/templates'
+      js: 'public/assets/javascripts'
     }
   };
+
+  /**
+   * BrowserSync task
+   *   Initialized BrowserSync
+   */
+  gulp.task('browser-sync', ['css', 'browserify'], function() {
+    if (!useBrowserSync) {
+      return;
+    }
+
+    return browserSync.init({
+      proxy: 'localhost:3000'
+    });
+  });
 
   /**
    * Images task
@@ -173,11 +191,16 @@
       // Base 64 encode certain images
       .pipe(gulpif(isProduction, base64()))
       // Minify CSS
-      .pipe(gulpif(isProduction, minifyCSS()))
+      .pipe(gulpif(isProduction, minifyCSS({
+        // This is a temporary workaround until the following issue is fixed:
+        // https://github.com/jakubpawlowicz/clean-css/issues/676
+        keepBreaks: true
+      })))
       // Combine the files
       .pipe(concat('application.css'))
       // Output to the correct directory
-      .pipe(gulp.dest(paths.dist.css));
+      .pipe(gulp.dest(paths.dist.css))
+      .pipe(gulpif(useBrowserSync, browserSync.reload({stream: true})));
   });
 
   /**
@@ -191,98 +214,142 @@
   });
 
   /**
-   * Templates task
+   * Templates function
    *   Concatenate the contents of all .html-files in the templates directory
    *   and save to public/templates.js
    */
-  gulp.task('templates', function() {
+  var prepareTemplates = function() {
     // Template cache will put all the .html files in the angular templateCache
     var templateCache = require('gulp-angular-templatecache');
+    // Minify our html templates
+    var minifyHTML = require('gulp-minify-html');
 
+    // Minify options
+    var minifyOptions = {
+      // Do not remove conditional internet explorer comments
+      conditionals: true,
+      // Do not remove empty attributes used by Angular
+      empty: true,
+      // Preserve one whitespace
+      loose: true
+    };
     return gulp.src(paths.src.templates)
-      .pipe(templateCache({
-        // Creates a standalone module called 'templates'
-        // This makes it easier to load in CalCentral
-        standalone: true
+    .pipe(minifyHTML(minifyOptions))
+    .pipe(templateCache({
+      // Creates a standalone module called 'templates'
+      // This makes it easier to load in CalCentral
+      standalone: true
+    }));
+  };
+
+  /**
+   * bundleShare function
+   *   Bundling process for initial bundle and update for Browserify task
+   *   @param {object} bundle - bundler produced by browserify (during prod) or watchify (during dev)
+   *   @return                - returns application.js file in public JS directory
+   */
+  var bundleShare = function(bundle) {
+    return bundle.transform(bulkify)
+      .bundle()
+      .pipe(source('index.js'))
+      // Annotate the internal AngularJS files in production
+      .pipe(streamify(gulpif(isProduction, ngAnnotate())))
+      .pipe(addStream.obj(prepareTemplates()))
+      .pipe(streamify(concat('application.js')))
+      .pipe(streamify(gulpif(isProduction, uglify())))
+      .pipe(gulp.dest(paths.dist.js))
+      .on('end', function() {
+        if (useBrowserSync) {
+          browserSync.reload();
+        }
+      });
+  };
+
+  /**
+   * Browserify Task
+   *   Bundles all JS files using browserify
+   *   Add annotations (production)
+   *   Uglify (production)
+   *   Concatenates minified templates
+   *
+   *   Watchify tracks any NEW changes made to any internal JS files
+   */
+  gulp.task('browserify', function() {
+    var bundler = browserify({
+      entries: [paths.src.js.internal],
+      // Enables cache to be used for Watchify
+      cache: {},
+      packageCache: {},
+      fullPaths: true,
+      // Use source map if development mode
+      // Source map shows the exact file and line when there is an error
+      debug: !isProduction
+    });
+    if (!isProduction) {
+      var watcher = watchify(bundler);
+      if (!watchifyOn) {
+        watchifyOn = true;
+        // When any files update
+        watcher.on('update', function() {
+          util.log('Changed detected! Starting watchify ...');
+          var updateStart = Date.now();
+          // Create new bundle that uses the cache for high performance
+          bundleShare(watcher);
+          util.log('Update complete. Finished watchify after', util.colors.magenta(Date.now() - updateStart + ' ms'));
+        });
+      }
+      // Create initial bundle when starting the task
+      return bundleShare(watcher);
+    } else {
+      return bundleShare(bundler);
+    }
+  });
+
+  // Options for the injection
+  var injectOptions = {
+    // Which tag to look for the in base html
+    starttag: '<!-- inject:body:{{ext}} -->',
+    transform: function(filePath, file) {
+      // Return file contents as string
+      return file.contents.toString('utf8');
+    },
+    // Remove the tags after injection
+    removeTags: true
+  };
+
+  /**
+   * Inject file paths into an html page
+   */
+  var injectPage = function(source, baseName) {
+    return gulp.src(paths.src.mainTemplates.base)
+      .pipe(inject(
+        gulp.src(source),
+        injectOptions
+      ))
+      .pipe(rename({
+        basename: baseName
       }))
-      .pipe(gulp.dest(paths.dist.templates));
+      .pipe(gulp.dest('public'));
+  };
+
+  /**
+   * Inject the CSS / JS in the main index page
+   */
+  gulp.task('index-main', function() {
+    return injectPage(paths.src.mainTemplates.index, 'index-main');
   });
 
   /**
-   * JavaScript task
-   *   Add annotations (production)
-   *   Minify (production)
-   *   Concatenate
-   * We need to make sure the templates.js file is included into the
-   * concatenated files.
+   * Inject the CSS / JS in the bCourses embedded page
    */
-  gulp.task('js', ['templates'], function() {
-    var concat = require('gulp-concat');
-    var ngAnnotate = require('gulp-ng-annotate');
-    var uglify = require('gulp-uglify');
-
-    // Combine the templates JS and reqular JS
-    var streamqueue = require('streamqueue');
-    return streamqueue({
-        objectMode: true
-      },
-      gulp.src(paths.src.js.external),
-      gulp.src(paths.src.js.internal)
-        // Annotate the internal AngularJS files in production
-        .pipe(gulpif(isProduction, ngAnnotate())
-      ),
-      gulp.src(paths.src.js.templates))
-      .pipe(gulpif(isProduction, uglify()))
-      .pipe(concat('application.js'))
-      .pipe(gulp.dest(paths.dist.js));
+  gulp.task('index-bcourses', function() {
+    return injectPage(paths.src.mainTemplates.bcoursesEmbedded, 'bcourses_embedded');
   });
 
   /**
    * Index & bCourses task
    */
-  gulp.task('index', ['images', 'templates', 'js', 'css', 'fonts'], function() {
-    // Plug-in to inject html into other html
-    var inject = require('gulp-inject');
-
-    // Combine the index and bCourses streams
-    var streamqueue = require('streamqueue');
-
-    // Options for the injection
-    var injectOptions = {
-      // Which tag to look for the in base html
-      starttag: '<!-- inject:body:{{ext}} -->',
-      transform: function(filePath, file) {
-        // Return file contents as string
-        return file.contents.toString('utf8');
-      },
-      // Remove the tags after injection
-      removeTags: true
-    };
-
-    // Run the 2 index & bCourses stream in parallell
-    return streamqueue({
-        objectMode: true
-      },
-      gulp.src(paths.src.mainTemplates.base)
-        .pipe(inject(
-          gulp.src(paths.src.mainTemplates.index),
-          injectOptions
-        ))
-        .pipe(rename({
-          basename: 'index-main'
-        }))
-        .pipe(gulp.dest('public')),
-      gulp.src(paths.src.mainTemplates.base)
-        .pipe(inject(
-          gulp.src(paths.src.mainTemplates.bcoursesEmbedded),
-          injectOptions
-        ))
-        .pipe(rename({
-          basename: 'bcourses_embedded'
-        }))
-        .pipe(gulp.dest('public'))
-      );
-  });
+  gulp.task('index', ['index-main', 'index-bcourses']);
 
   /**
    * Mode the index & bCourses file back to the main public directory. (production)
@@ -305,30 +372,38 @@
     }
 
     var path = require('path');
-    var revall = require('gulp-rev-all');
+    var RevAll = require('gulp-rev-all');
+    var revAllAssets = new RevAll({
+      // Since we only run this in production mode, add some extra logging
+      debug: true,
+      dontGlobal: [
+        /favicon\.ico/g,
+        'manifest.json'
+      ],
+      dontRenameFile: [
+        /^(.+)\.html$/g
+      ],
+      // Increase the hashlength from 5 to 20 to avoid collisions
+      hashLength: 20,
+      // We can't have dots in our filenames, other wise we get a InvalidCrossOriginRequest response
+      transformFilename: function(file, hash) {
+        var extension = path.extname(file.path);
+        // filename-6546259a4f83fd81debc.extension
+        return path.basename(file.path, extension) + '-' + hash.substr(0, 20) + extension;
+      }
+    });
 
     return gulp.src([
         paths.src.assetsPublic,
         paths.src.mainTemplates.bcoursesEmbeddedPublic,
         paths.src.mainTemplates.indexPublic
       ])
-      .pipe(revall({
-        ignore: [
-          /^\/favicon.ico$/g,
-          'manifest.json',
-          '.html'
-        ],
-        base: 'assets/',
-        // Increase the hashlength from 5 to 20 to avoid collisions
-        hashLength: 20,
-        // We can't have dots in our filenames, other wise we get a InvalidCrossOriginRequest response
-        transformFilename: function(file, hash) {
-          var extension = path.extname(file.path);
-          // filename-6546259a4f83fd81debc.extension
-          return path.basename(file.path, extension) + '-'  + hash.substr(0, 20) + extension;
-        }
-      }))
-      .pipe(gulp.dest('public/assets/'));
+      .pipe(revAllAssets.revision())
+      .pipe(gulp.dest('public/'))
+      // Will add a manifest file at public/rev-manifest.json for debugging purposes
+      .pipe(revAllAssets.manifestFile())
+      .pipe(gulp.dest('public/')
+    );
 
     // Keep the following lines for debugging purposes
     // This puts out a manifest file with the links to all the resources
@@ -363,9 +438,15 @@
     gulp.watch(paths.src.mainTemplates.source, ['index']);
     gulp.watch(paths.src.cssWatch, ['css']);
     gulp.watch(paths.src.fonts, ['fonts']);
-    gulp.watch(paths.src.js.internal, ['js']);
-    gulp.watch(paths.src.templates, ['js']);
+    gulp.watch(paths.src.templates, ['browserify']);
     gulp.watch(paths.src.img, ['images']);
+    gulp.watch(paths.src.js.angular, function(e) {
+      // Checks if new file is added or deleted
+      if (e.type === 'added' || 'deleted') {
+        // Updates file timestamp of module file (index.js) to update watchify with new/deleted files
+        fs.utimes(paths.src.js.internal, new Date(), new Date());
+      }
+    });
   });
 
   /**
@@ -379,13 +460,13 @@
     runSequence(
       'build-clean',
       [
+        'browser-sync',
         'images',
-        'templates',
-        'js',
+        'browserify',
         'css',
-        'fonts',
-        'index'
+        'fonts'
       ],
+      'index',
       'revall',
       'revmove',
       'watch',

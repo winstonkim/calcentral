@@ -15,6 +15,9 @@
 @import "containers";
 @import "row_collapse_bug";
 
+// Useful
+@import "useful";
+
 // Accessibility
 @import "accessibility";
 
@@ -22,6 +25,8 @@
 @import "header";
 // Top navigation
 @import "navigation";
+// Sidebar
+@import "sidebar";
 // Alerts
 @import "alerts";
 // Footer
@@ -37,8 +42,6 @@
 @import "tables";
 // Scrollbars
 @import "scrollbars";
-// Useful
-@import "useful";
 // Date Picker
 @import "datepicker";
 // Act As
@@ -61,7 +64,11 @@
 // Webcasts
 @import "webcast";
 
+// Oec
+@import "oec";
+
 // Dashboard
+@import "sir_item";
 @import "classes";
 @import "mycalendar";
 @import "activities";
@@ -84,10 +91,20 @@
 @import "canvas_user_provision";
 @import "canvas_roster";
 @import "canvas_site_creation";
+@import "canvas_site_mailing_list";
 
 // My Finances
 @import "cal1card";
 @import "myfinances";
+
+// Finaid
+@import "finaid_coa";
+@import "finaid_summary";
+@import "finaid_profile";
+@import "finaid_permissions";
+
+// Profile
+@import "profile_page";
 
 // Settings
 @import "settings";
@@ -112,6 +129,3 @@
 
 // Print Styles
 @import "print";
-
-// Student Lookup
-@import "student_lookup";

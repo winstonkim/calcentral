@@ -1,15 +1,13 @@
-require 'selenium-webdriver'
-require 'page-object'
-require_relative '../util/web_driver_utils'
-
 class ApiMyAcademicsPage
 
   include PageObject
   include ClassLogger
 
+  element(:json_body, :xpath => '//pre')
+
   def get_json(driver)
     logger.info('Parsing JSON from /api/my/academics')
-    driver.get(WebDriverUtils.base_url + '/api/my/academics')
+    navigate_to "#{WebDriverUtils.base_url}/api/my/academics"
     wait = Selenium::WebDriver::Wait.new(:timeout => WebDriverUtils.academics_timeout)
     wait.until { driver.find_element(:xpath => '//pre[contains(.,"MyAcademics::Merged")]') }
     body = driver.find_element(:xpath, '//pre').text
@@ -30,27 +28,136 @@ class ApiMyAcademicsPage
     time
   end
 
-  # STANDING
+  # PROFILE
+
+  def college_and_level
+    @parsed['collegeAndLevel']
+  end
+
+  def standing
+    college_and_level['standing']
+  end
+
+  def has_no_standing?
+    college_and_level['empty']
+  end
+
+  def level
+    college_and_level['level']
+  end
+
+  def non_ap_level
+    college_and_level['nonApLevel']
+  end
+
+  def gpa_units
+    @parsed['gpaUnits']
+  end
+
+  def gpa
+    gpa_units['cumulativeGpa']
+  end
+
+  def ttl_units
+    units = gpa_units['totalUnits']
+    if units.nil?
+      nil
+    else
+      (units == units.floor) ? units.floor : units
+    end
+  end
+
+  def units_attempted
+    gpa_units['totalUnitsAttempted']
+  end
 
   def colleges_and_majors
-    @parsed['collegeAndLevel']['colleges']
+    college_and_level['colleges']
   end
 
   def colleges
     colleges = []
-    colleges_and_majors.each { |college| colleges.push(college['college']) }
+    colleges_and_majors.each do |college|
+      # For double majors within the same college, only show the college once
+      unless college['college'] == ''
+        colleges.push(college['college'])
+      end
+    end
     colleges
   end
 
   def majors
     majors = []
-    colleges_and_majors.each { |major| majors.push(major['major']) }
+    colleges_and_majors.each { |major| majors.push(major['major'].split.join(' ')) }
     majors
   end
 
-  def has_no_standing
-    @parsed['collegeAndLevel']['empty']
+  def term_name
+    college_and_level['termName']
   end
+
+  def transition_term
+    @parsed['transitionTerm']
+  end
+
+  def transition_term?
+    transition_term.nil? ? false : true
+  end
+
+  def trans_term_name
+    transition_term['termName']
+  end
+
+  def trans_term_registered?
+    transition_term['registered']
+  end
+
+  def trans_term_profile_current?
+    transition_term['isProfileCurrent']
+  end
+
+  # UNDERGRAD REQUIREMENTS
+
+  def requirements
+    @parsed['requirements'].inject({}) { |map, reqt| map[reqt['name']] = reqt; map }
+  end
+
+  def writing_reqt_met?
+    reqt = requirements['UC Entry Level Writing']
+    if reqt['status'] == 'met'
+      true
+    else
+      false
+    end
+  end
+
+  def history_reqt_met?
+    reqt = requirements['American History']
+    if reqt['status'] == 'met'
+      true
+    else
+      false
+    end
+  end
+
+  def institutions_reqt_met?
+    reqt = requirements['American Institutions']
+    if reqt['status'] == 'met'
+      true
+    else
+      false
+    end
+  end
+
+  def cultures_reqt_met?
+    reqt = requirements['American Cultures']
+    if reqt['status'] == 'met'
+      true
+    else
+      false
+    end
+  end
+
 
   # BLOCKS
 
@@ -278,4 +385,29 @@ class ApiMyAcademicsPage
   def tele_bears_date_time(epoch)
     academics_date(epoch) + ' | ' + academics_time(epoch)
   end
+
+  # OTHER SITE MEMBERSHIPS
+
+  def other_site_memberships
+    @parsed['otherSiteMemberships']
+  end
+
+  def other_sites(semester_name)
+    sites = []
+    other_site_memberships.nil? ? nil : other_site_memberships.each { |membership| sites.concat(membership['sites']) if membership['name'] == semester_name }
+    sites
+  end
+
+  def other_site_names(sites)
+    names = []
+    sites.each { |site| names.push(site['name']) }
+    names
+  end
+
+  def other_site_descriptions(sites)
+    descriptions = []
+    sites.each { |site| descriptions.push(site['shortDescription']) }
+    descriptions
+  end
+
 end
