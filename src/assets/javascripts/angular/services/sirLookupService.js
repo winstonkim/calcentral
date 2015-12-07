@@ -11,6 +11,15 @@ angular.module('calcentral.services').factory('sirLookupService', function() {
    * Images can be found at https://jira.berkeley.edu/browse/SISRP-6561
    */
   var lookup = {
+    DEFAULT: {
+      background: 'cc-widget-sir-background-berkeley'
+    },
+    GRADDIV: {
+      name: 'Fiona M. Doyle',
+      title: 'Dean of the Graduate Division',
+      background: 'cc-widget-sir-background-berkeley',
+      picture: 'cc-widget-sir-picture-grad'
+    },
     HAASGRAD: {
       name: 'Richard Lyons',
       title: 'Haas School of Business, Dean',
@@ -23,14 +32,11 @@ angular.module('calcentral.services').factory('sirLookupService', function() {
       background: 'cc-widget-sir-background-lawjd',
       picture: 'cc-widget-sir-picture-lawjd'
     },
-    GRADDIV: {
-      name: 'Fiona M. Doyle',
-      title: 'Dean of the Graduate Division',
+    UGRD: {
+      name: 'Amy W. Jarich',
+      title: 'Assistant Vice Chancellor & Director',
       background: 'cc-widget-sir-background-berkeley',
-      picture: 'cc-widget-sir-picture-grad'
-    },
-    DEFAULT: {
-      background: 'cc-widget-sir-background-berkeley'
+      picture: 'cc-widget-sir-picture-ugrad'
     }
   };
 
