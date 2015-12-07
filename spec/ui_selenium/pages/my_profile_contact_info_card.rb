@@ -385,7 +385,7 @@ module CalCentralPages
       input['text'].slice(0..(input['max'] - 1)).strip
     end
 
-    def verify_address(index, inputs, selections)
+    def verify_address(address, index, inputs, selections)
       wait_until(WebDriverUtils.campus_solutions_timeout, 'Timed out waiting for the new address to appear') do
         all_formatted_addresses.find { |address| address.include? trimmed_input(inputs[0]) } rescue Selenium::WebDriver::Error::StaleElementReferenceError
       end
@@ -409,6 +409,11 @@ module CalCentralPages
           wait_until(1, "The option '#{select['option']}' is not present") do
             formatted_address(index).include? select['option']
           end
+        end
+      end
+      unless address['country'] == 'United States'
+        wait_until(1, "The country '#{address['country']}' is not present but it should be") do
+          formatted_address(index).include? address['country']
         end
       end
     end

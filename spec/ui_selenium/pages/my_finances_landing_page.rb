@@ -55,7 +55,7 @@ module CalCentralPages
       unordered_list(:fin_messages_list, :xpath => '//ul[@class="cc-widget-activities-list"]')
       elements(:finaid_message, :list_item, :xpath => '//ul[@class="cc-widget-activities-list"]/li')
       elements(:finaid_message_sub_activity, :list_item, :xpath => '//ul[@class="cc-widget-activities-list"]/li//li[@data-ng-repeat="subActivity in activity.elements"]')
-      elements(:finaid_message_title, :div, :xpath => '//ul[@class="cc-widget-activities-list"]/li//strong[@class="ng-binding"]')
+      elements(:finaid_message_title, :div, :class => 'cc-widget-activities-title')
       elements(:finaid_message_source, :span, :xpath => '//ul[@class="cc-widget-activities-list"]/li//span[@data-ng-bind="activity.source"]')
       elements(:finaid_message_toggle, :link, :xpath => '//ul[@class="cc-widget-activities-list"]/li//div[@data-ng-click="api.widget.toggleShow($event, filteredList, activity, \'Recent Activity\')"]')
       elements(:finaid_message_year, :div, :xpath => '//ul[@class="cc-widget-activities-list"]/li//div[@data-ng-if="activity.termYear"]')
@@ -75,7 +75,7 @@ module CalCentralPages
       def all_fin_aid_message_titles
         titles = []
         finaid_message_title_elements.each do |msg|
-          title = msg.text.gsub(/\s+/, '')
+          title = msg.text
           titles.push(title)
         end
         titles
