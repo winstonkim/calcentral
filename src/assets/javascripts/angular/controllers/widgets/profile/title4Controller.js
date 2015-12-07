@@ -21,6 +21,7 @@ angular.module('calcentral.controllers').controller('Title4Controller', function
 
   $scope.sendResponseT4 = function(response) {
     $scope.title4.isLoading = true;
+    $scope.title4.showMessage = false;
     finaidFactory.postT4Response(response).then(sendEvent);
   };
 
@@ -29,8 +30,7 @@ angular.module('calcentral.controllers').controller('Title4Controller', function
    */
   var parseFinaid = function(data) {
     angular.extend($scope.title4, {
-      isApproved: _.get(data, 'feed.finaidSummary.title4.approved'),
-      longMessage: _.get(data, 'feed.finaidSummary.title4.longMessage')
+      isApproved: _.get(data, 'feed.finaidSummary.title4.approved')
     });
   };
 

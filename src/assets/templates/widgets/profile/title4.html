@@ -8,12 +8,33 @@
 
   <div data-ng-if="title4.hasFinaid">
     <p>
-      I have <span data-ng-if="!title4.isApproved">not</span> authorized UC Berkeley to pay non-institutional charges with my Title IV financial aid funds.
+      <span data-ng-if="title4.isApproved">
+        I have authorized the University to apply my Title IV awards to pay all outstanding charges on my UCB student account, in addition to registration fees, housing, and phone bills.
+      </span>
+      <span data-ng-if="!title4.isApproved">
+        I have not authorized the University to apply my Title IV awards to pay all outstanding charges on my UCB student account, beyond registration fees, housing, and phone bills.
+      </span>
+
       <button class="cc-button-link" data-ng-if="!title4.showMessage" data-ng-click="title4.showMessage = !title4.showMessage">Show more</button>
       <button class="cc-button-link" data-ng-if="title4.showMessage" data-ng-click="title4.showMessage = !title4.showMessage">Show less</button>
     </p>
 
-    <p data-ng-if="title4.showMessage" data-ng-bind="title4.longMessage" class="cc-text-pre-line"></p>
+    <div data-ng-if="title4.showMessage" class="cc-text-pre-line">
+      <div data-ng-if="title4.isApproved">
+        <p>
+          By agreeing to this authorization, I understand that the University will apply my Title IV awards to pay all outstanding charges on my UCB student account beyond registration fees, housing and phone bills. These charges may include late fees, University Health Services charges, library fines, etc. If I choose not to authorize the use of my Title IV aid to pay all outstanding charges, I assume responsibility to pay for all non-registration, housing and phone bill charges on my UCB student account by their due date. I understand that payments made after the due date may result in late fees and registration holds.
+        </p>
+
+        <p>
+          I have authorized the use of my Title IV awards to be applied to pay all outstanding charges. If you would like to revoke this authorization, please uncheck the box below.
+        </p>
+      </div>
+      <div data-ng-if="!title4.isApproved">
+        <p>
+          I authorize the use of my Title IV awards to be applied to pay all outstanding charges. If you would like to authorize the use of your Title IV awards to pay all outstanding charges, please check the box below.
+        </p>
+      </div>
+    </div>
 
     <p>
       <form class="cc-page-widget-profile-title4-form">
@@ -33,7 +54,7 @@
     </p>
 
     <div>
-      If you have any questions or would like to speak with a financial aid representative, feel free to open a case or call us at (510) 664-9181.
+      If you have any questions, please contact Cal Student Central at <a href="tel:15106649181">(510) 664-9181</a> or <a href="http://studentcentral.berkeley.edu/">submit an inquiry online.</a>
     </div>
   </div>
 </div>
