@@ -70,11 +70,11 @@
   </div>
 
   <div data-ng-show="task.show">
-    <div class="cc-widget-tasks-more" data-ng-hide="editorEnabled">
+    <div class="cc-widget-tasks-more cc-clearfix" data-ng-hide="editorEnabled">
       <div class="cc-clearfix" data-ng-if="task.completedDate && task.dueDate">Due Date:
         <span data-ng-bind="task.dueDate.epoch * 1000 | dateInYearFilter:'MM/dd'"></span>
       </div>
-      <div data-ng-bind-html="task.notes | linky" class="cc-break-word cc-clearfix"></div>
+      <div data-ng-bind-html="task.notes | linky" class="cc-break-word cc-clearfix cc-text-pre-line"></div>
 
       <div class="cc-clearfix" data-ng-if="task.cs.responsibleContactEmail">
         <strong>Contact:</strong>
