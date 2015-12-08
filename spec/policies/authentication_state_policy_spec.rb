@@ -7,6 +7,7 @@ describe AuthenticationStatePolicy do
   let(:superuser_uid) {random_id}
   let(:author_uid) {random_id}
   let(:viewer_uid) {random_id}
+  let(:inactive_viewer_uid) {random_id}
   let(:oec_administrator_uid) {random_id}
   let(:average_joe_uid) {random_id}
   let(:inactive_superuser_uid) {random_id}
@@ -15,6 +16,7 @@ describe AuthenticationStatePolicy do
       superuser_uid => {uid: superuser_uid, is_superuser: true, is_author: false, is_viewer: false, active: true},
       author_uid => {uid: author_uid, is_superuser: false, is_author: true, is_viewer: false, active: true},
       viewer_uid => {uid: viewer_uid, is_superuser: false, is_author: false, is_viewer: true, active: true},
+      inactive_viewer_uid => {uid: inactive_viewer_uid, is_superuser: false, is_author: false, is_viewer: true, active: false},
       average_joe_uid => {uid: average_joe_uid, is_superuser: false, is_author: false, is_viewer: false, active: true},
       inactive_superuser_uid => {uid: inactive_superuser_uid, is_superuser: true, is_author: false, is_viewer: false, active: false},
       oec_administrator_uid => {uid: oec_administrator_uid, is_superuser: false, is_author: false, is_viewer: false, active: true}
@@ -147,6 +149,29 @@ describe AuthenticationStatePolicy do
       let(:user_id) {viewer_uid}
       let(:lti_authenticated_only) {true}
       its(:can_view_as?) { should be_falsey }
+    end
+  end
+
+  describe '#has_toolbox_tab?' do
+    context 'superuser as self' do
+      let(:user_id) {superuser_uid}
+      its(:has_toolbox_tab?) { should eq true }
+    end
+    context 'inactive user with permission to view-as' do
+      let(:user_id) {inactive_superuser_uid}
+      its(:has_toolbox_tab?) { should eq false }
+    end
+    context 'user with permission to view-as' do
+      let(:user_id) {viewer_uid}
+      its(:has_toolbox_tab?) { should eq true }
+    end
+    context 'inactive user with permission to view-as' do
+      let(:user_id) {inactive_viewer_uid}
+      its(:has_toolbox_tab?) { should eq false }
+    end
+    context 'average joe' do
+      let(:user_id) {average_joe_uid}
+      its(:has_toolbox_tab?) { should eq false }
     end
   end
 
