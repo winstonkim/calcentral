@@ -51,7 +51,7 @@ module MyTasks
         cs: {
           responsibleContactEmail: result[:responsibleCntctEmail],
           organization: result[:associationIdName],
-          showStatus: result[:itemStatus]
+          showStatus: result[:itemStatus] != 'Completed' ? result[:itemStatus] : ''
         }
       }
       if result[:checkListMgmtFina] && (Finaid::Shared::ADMIN_FUNCTION.include? result[:adminFunc])

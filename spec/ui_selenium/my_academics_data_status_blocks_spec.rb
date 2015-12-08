@@ -1,6 +1,6 @@
 describe 'My Academics Status and Blocks', :testui => true do
 
-  if ENV["UI_TEST"]
+  if ENV["UI_TEST"] && Settings.ui_selenium.layer != 'production'
 
     include ClassLogger
 

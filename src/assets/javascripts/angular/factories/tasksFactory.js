@@ -7,13 +7,8 @@ var _ = require('lodash');
  * Tasks Factory
  */
 angular.module('calcentral.factories').factory('tasksFactory', function(apiService, $http) {
-  var clearCompletedUrl = '/api/my/tasks/clear_completed';
   var removeUrl = '/api/my/tasks/delete/';
   var url = '/api/my/tasks';
-
-  var clearCompletedTasks = function(params) {
-    return $http.post(clearCompletedUrl, params);
-  };
 
   var remove = function(task) {
     return $http.post(removeUrl + task.id, task);
@@ -47,7 +42,6 @@ angular.module('calcentral.factories').factory('tasksFactory', function(apiServi
   };
 
   return {
-    clearCompletedTasks: clearCompletedTasks,
     remove: remove,
     getFinaidTasks: getFinaidTasks,
     getTasks: getTasks,

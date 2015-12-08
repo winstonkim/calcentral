@@ -6,6 +6,7 @@ describe User::Api do
     allow(CampusOracle::UserAttributes).to receive(:new).and_return double get_feed: {
       'person_name' => @default_name,
       'student_id' => 12345678,
+      'official_bmail_address' => 'foo@foo.com',
       :roles => {
         :student => true,
         :exStudent => false,
@@ -48,6 +49,7 @@ describe User::Api do
     expect(user_data[:isCampusSolutionsStudent]).to be false
     expect(user_data[:showSisProfileUI]).to be false
     expect(user_data[:hasToolboxTab]).to be false
+    expect(user_data[:officialBmailAddress]).to eq 'foo@foo.com'
   end
   it 'should return whether the user is registered with Canvas' do
     expect(Canvas::Proxy).to receive(:has_account?).and_return(true, false)
