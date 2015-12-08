@@ -13,7 +13,7 @@ module CalCentralPages
     elements(:notification_summary, :div, :xpath => '//ul[@class="cc-widget-activities-list"]/li//strong')
     elements(:notification_source, :span, :xpath => '//ul[@class="cc-widget-activities-list"]/li//span[@data-ng-bind="activity.source"]')
     elements(:notification_date, :span, :xpath => '//ul[@class="cc-widget-activities-list"]/li//span[@data-ng-if="activity.date"]')
-    elements(:notification_desc, :paragraph, :class => 'cc-widget-activities-summary')
+    elements(:notification_desc, :span, :xpath => '//p[@data-onload="activityItem=activity"]/div/span')
 
     def wait_for_notifications(source)
       notifications_select_element.when_present timeout=WebDriverUtils.page_load_timeout
@@ -56,7 +56,7 @@ module CalCentralPages
     end
 
     def sub_notification_descrips(index)
-      descrip_elements = notification_elements[index].paragraph_elements(:class => 'cc-widget-activities-sub-activity-summary')
+      descrip_elements = notification_elements[index].span_elements(:xpath => '//ul/li//p[@data-onload="activityItem=subActivity"]//span')
       sub_notification_text(index, descrip_elements)
     end
   end

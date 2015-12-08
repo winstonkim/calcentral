@@ -8,12 +8,17 @@ class WebDriverUtils
     # Sometimes browser does not launch successfully, so try twice
     tries ||= 2
     logger.info('Launching browser')
-    if Settings.ui_selenium.webDriver == 'firefox'
-      Selenium::WebDriver.for :firefox
-    elsif Settings.ui_selenium.webDriver == 'chrome'
-      Selenium::WebDriver.for :chrome
-    elsif Settings.ui_selenium.webDriver == 'safari'
-      Selenium::WebDriver.for :safari
+    case Settings.ui_selenium.webDriver
+      when 'firefox'
+        driver = Selenium::WebDriver.for :firefox
+        driver.manage.window.maximize
+        driver
+      when 'chrome'
+        Selenium::WebDriver.for :chrome
+      when 'safari'
+        Selenium::WebDriver.for :safari
+      else
+        logger.error 'Unsupported webdriver'
     end
   rescue => e
     logger.error('Browser failed to launch')
@@ -26,7 +31,7 @@ class WebDriverUtils
     # If the browser did not start successfully, the quit method will fail.
     driver.quit rescue NoMethodError
     # Pause after quitting the browser to make sure it shuts down completely before the next test relaunches it
-    sleep(3)
+    sleep 2
   end
 
   def self.base_url
@@ -51,6 +56,10 @@ class WebDriverUtils
 
   def self.page_load_timeout
     Settings.ui_selenium.pageLoadTimeout
+  end
+
+  def self.campus_solutions_timeout
+    Settings.ui_selenium.campus_solutions_timeout
   end
 
   def self.academics_timeout
@@ -147,4 +156,5 @@ class WebDriverUtils
       driver.switch_to.window driver.window_handles.first
     end
   end
+
 end

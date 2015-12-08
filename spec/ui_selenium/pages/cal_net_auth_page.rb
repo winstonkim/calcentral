@@ -24,6 +24,7 @@
     def logout
       navigate_to "#{WebDriverUtils.cal_net_url}/cas/logout"
       logout_conf_heading_element.when_visible timeout=WebDriverUtils.page_load_timeout
+      sleep 1
     end
 
   end

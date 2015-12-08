@@ -310,10 +310,10 @@ module CalCentralPages
     def delete_all_completed_tasks
       WebDriverUtils.wait_for_page_and_click completed_tasks_tab_element
       while completed_task_one_toggle? do
-        logger.info('Deleting task')
-        WebDriverUtils.wait_for_page_and_click delete_completed_tasks_button_element
-        wait_until(WebDriverUtils.google_task_timeout, nil) { !completed_task_one_toggle? }
-        logger.info('Task deleted')
+        task_count = completed_task_count.to_i
+        WebDriverUtils.wait_for_page_and_click completed_task_one_toggle_element
+        WebDriverUtils.wait_for_page_and_click completed_task_one_delete_button_element
+        wait_until(WebDriverUtils.google_task_timeout, nil) { completed_task_count.to_i == (task_count - 1) }
       end
     end
 
