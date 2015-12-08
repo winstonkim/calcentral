@@ -116,7 +116,7 @@ describe 'My Profile Contact Info', :testui => true, :order => :defined do
         it 'requires that a valid phone extension be entered' do
           @contact_info_card.edit_phone(@home_index, @home_phone)
           @contact_info_card.phone_validation_error_element.when_visible(WebDriverUtils.page_load_timeout)
-          expect(@contact_info_card.phone_validation_error).to eql('Invalid Phone Extension number: ?')
+          expect(@contact_info_card.phone_validation_error).to eql('Invalid Phone Extension Number: ?')
         end
         it 'allows a maximum number of characters to be entered in each field' do
           @contact_info_card.edit_phone(@local_index, @local_phone)
@@ -309,8 +309,7 @@ describe 'My Profile Contact Info', :testui => true, :order => :defined do
             address_selects = address['selects']
             @contact_info_card.load_page
             @contact_info_card.edit_address(@local_index, address, address_inputs, address_selects)
-            @contact_info_card.verify_address(@local_index, address_inputs, address_selects)
-            sleep 30
+            @contact_info_card.verify_address(address, @local_index, address_inputs, address_selects)
           end
           it "requires a user to complete certain fields for an address in #{address['country']}" do
             @contact_info_card.load_page
@@ -332,7 +331,7 @@ describe 'My Profile Contact Info', :testui => true, :order => :defined do
             @contact_info_card.click_edit_address @local_index
             @contact_info_card.clear_address_fields(address, nonreq_address_inputs, address['selects'])
             @contact_info_card.click_save_address
-            @contact_info_card.verify_address(@local_index, req_address_inputs, [])
+            @contact_info_card.verify_address(address, @local_index, req_address_inputs, [])
           end
           it 'prevents a user adding an address of the same type as an existing one' do
             expect(@contact_info_card.add_address_button?).to be false
