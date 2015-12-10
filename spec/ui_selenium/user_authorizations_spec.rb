@@ -106,13 +106,15 @@ describe 'User authorization', :testui => true do
         end
         it 'allows conversion of UID to SID' do
           @settings_page.look_up_user('61889')
-          @settings_page.wait_until(timeout) { @settings_page.lookup_results_table? }
+          @settings_page.wait_until(timeout) { @settings_page.lookup_results_table_element.visible? }
+          @settings_page.wait_until(timeout) { !@settings_page.lookup_results_table_element.rows.zero? }
           expect(@settings_page.lookup_results_table_element[1][0].text).to eql('61889')
           expect(@settings_page.lookup_results_table_element[1][1].text).to eql('11667051')
         end
         it 'allows conversion of SID to UID' do
           @settings_page.look_up_user('11667051')
-          @settings_page.wait_until(timeout) { @settings_page.lookup_results_table? }
+          @settings_page.wait_until(timeout) { @settings_page.lookup_results_table_element.visible? }
+          @settings_page.wait_until(timeout) { !@settings_page.lookup_results_table_element.rows.zero? }
           expect(@settings_page.lookup_results_table_element[1][0].text).to eql('61889')
           expect(@settings_page.lookup_results_table_element[1][1].text).to eql('11667051')
         end

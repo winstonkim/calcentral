@@ -15,6 +15,7 @@ module CalCentralPages
   button(:email_badge, :xpath => '//button[@title="bMail"]')
   div(:email_count, :xpath => '//button[@title="bMail"]/div[@data-ng-bind="badge.count"]')
   h4(:unread_email_heading, :xpath => '//h4[text()="Unread bMail Messages"]')
+  h4(:email_not_connected_heading, :xpath => '//h4[text()="bMail (Not connected)"]')
   link(:email_one_link, :xpath => '//button[@title="bMail"]/following-sibling::div//a[@data-ng-href="http://bmail.berkeley.edu/"]')
   div(:email_one_sender, :xpath => '//button[@title="bMail"]/following-sibling::div//div[@data-ng-bind="item.editor"]')
   span(:email_one_subject, :xpath => '//button[@title="bMail"]/following-sibling::div//span[@data-ng-bind="item.title"]')
@@ -162,7 +163,8 @@ module CalCentralPages
     login = basic_auth_login_button_element
     basic_auth_login_button
     login.when_not_present(timeout=WebDriverUtils.page_load_timeout)
-    basic_auth_login_button_element.when_present(timeout=WebDriverUtils.page_load_timeout)
+    basic_auth_login_button_element.when_present(timeout)
+    basic_auth_uid_input_element.when_not_visible(timeout)
   end
 
   def click_class_link_by_text(link_text)

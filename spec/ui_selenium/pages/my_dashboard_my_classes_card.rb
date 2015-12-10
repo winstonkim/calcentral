@@ -102,5 +102,9 @@ module CalCentralPages
       descriptions
     end
 
+    def other_site_link(link_text)
+      other_course_site_link_elements.find { |link| link.text.include? link_text }
+    end
+
   end
 end

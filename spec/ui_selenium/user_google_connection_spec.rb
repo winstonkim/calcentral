@@ -26,11 +26,6 @@ describe 'Google apps', :testui => true do
       end
 
       context 'when connected' do
-        it 'shows no "connect" UI' do
-          my_dashboard = CalCentralPages::MyDashboardPage.new(@driver)
-          my_dashboard.notifications_heading_element.when_visible(timeout=WebDriverUtils.page_load_timeout)
-          expect(my_dashboard.connect_bconnected_button_element.visible?).to be false
-        end
         it 'shows "connected" on Settings' do
           @settings_page.load_page
           @settings_page.disconnect_button_element.when_visible(timeout=WebDriverUtils.page_load_timeout)
@@ -46,8 +41,9 @@ describe 'Google apps', :testui => true do
           @settings_page.disconnect_button
           @settings_page.disconnect_no_button_element.when_visible(timeout=WebDriverUtils.page_event_timeout)
           @settings_page.disconnect_no_button
-          @settings_page.disconnect_no_button_element.when_not_visible(timeout=WebDriverUtils.page_event_timeout)
-          expect(@settings_page.disconnect_button?).to be true
+          @settings_page.wait_until(WebDriverUtils.page_event_timeout, 'Disconnect button has not appeared') do
+            @settings_page.disconnect_button?
+          end
           expect(@settings_page.connect_button?).to be false
           expect(@settings_page.connected_as).to include("#{UserUtils.qa_gmail_username}")
         end
@@ -57,14 +53,11 @@ describe 'Google apps', :testui => true do
           @settings_page.disconnect_button
           @settings_page.disconnect_yes_button_element.when_visible(timeout=WebDriverUtils.page_event_timeout)
           @settings_page.disconnect_yes_button
-          @settings_page.disconnect_yes_button_element.when_not_present(timeout=WebDriverUtils.page_event_timeout)
+          @settings_page.wait_until(WebDriverUtils.page_event_timeout, 'Connect button has not appeared') do
+            @settings_page.connect_button?
+          end
           expect(@settings_page.disconnect_button?).to be false
-          expect(@settings_page.connect_button?).to be true
           expect(@settings_page.connected_as?).to be false
-          my_dashboard = CalCentralPages::MyDashboardPage.new(@driver)
-          my_dashboard.load_page
-          my_dashboard.connect_bconnected_heading_element.when_visible(timeout=WebDriverUtils.page_load_timeout)
-          expect(my_dashboard.connect_bconnected_button?).to be true
         end
       end
 
@@ -75,8 +68,10 @@ describe 'Google apps', :testui => true do
           @splash_page.wait_for_expected_title?
           @splash_page.click_sign_in_button
           @cal_net.login(UserUtils.qa_username, UserUtils.qa_password)
-          my_dashboard.connect_bconnected_heading_element.when_visible(timeout=WebDriverUtils.page_load_timeout)
-          expect(my_dashboard.connect_bconnected_button?).to be true
+          my_dashboard.click_email_badge
+          my_dashboard.wait_until(WebDriverUtils.page_load_timeout, 'Not-connected message has not appeared') do
+            my_dashboard.email_not_connected_heading_element.visible?
+          end
         end
       end
 
