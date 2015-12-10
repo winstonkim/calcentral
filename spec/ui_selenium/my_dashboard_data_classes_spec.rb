@@ -217,6 +217,12 @@ describe 'My Dashboard My Classes card', :testui => true do
 
             # HEADINGS DISPLAYED WITHIN THE CARD
 
+            my_classes.wait_until(WebDriverUtils.page_event_timeout) do
+              my_classes.enrollments_heading?
+              my_classes.teaching_heading?
+              my_classes.other_sites_heading?
+            end
+
             has_student_heading = my_classes.enrollments_heading_element.visible?
             has_teaching_heading = my_classes.teaching_heading_element.visible?
             has_other_sites_heading = my_classes.other_sites_heading_element.visible?
