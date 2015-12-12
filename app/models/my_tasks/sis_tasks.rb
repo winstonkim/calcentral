@@ -61,7 +61,8 @@ module MyTasks
         })
       end
       if status == 'completed'
-        format_date_into_entry!(convert_date(result[:statusDt]), formatted_entry, :completedDate)
+        completedDate = format_date(strptime_in_time_zone(result[:statusDt], "%Y-%m-%d"))
+        formatted_entry[:completedDate] = completedDate
         formatted_entry[:completedDate][:hasTime] = false # CS dates never have times
       end
       formatted_entry
