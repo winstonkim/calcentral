@@ -7,13 +7,18 @@ module GoogleApps
     end
 
     def drive_list(optional_params = {}, page_limiter = nil)
-      request :api => 'drive', :resource => 'files', :method => 'list', :params => optional_params,
-              :page_limiter => page_limiter
+      request(
+        api: 'drive',
+        api_version: 'v2',
+        resource: 'files',
+        method: 'list',
+        params: optional_params,
+        page_limiter: page_limiter
+      )
     end
 
     def mock_request
-      hostname = 'https://www.googleapis.com'
-      super.merge(uri: %r{.*#{Regexp.quote hostname}.*/drive/v[23]/files.*})
+      super.merge(uri_matching: 'https://www.googleapis.com/drive/v2/files')
     end
 
   end
