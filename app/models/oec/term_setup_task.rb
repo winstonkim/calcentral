@@ -59,8 +59,8 @@ module Oec
     def set_default_term_dates(courses)
       term = Berkeley::Terms.fetch.campus[Berkeley::TermCodes.to_slug *@term_code.split('-')]
       courses[0] = {
-        'START_DATE' => term.classes_start.strftime(Oec::Worksheet::WORKSHEET_DATE_FORMAT),
-        'END_DATE' => term.instruction_end.advance(days: 2).strftime(Oec::Worksheet::WORKSHEET_DATE_FORMAT)
+        'START_DATE' => @term_start.strftime(Oec::Worksheet::WORKSHEET_DATE_FORMAT),
+        'END_DATE' => @term_end.strftime(Oec::Worksheet::WORKSHEET_DATE_FORMAT)
       }
     end
   end

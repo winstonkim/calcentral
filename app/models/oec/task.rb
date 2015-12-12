@@ -19,6 +19,19 @@ module Oec
       "Oec::Task/#{id}"
     end
 
+    def self.opts_from_environment
+      term_code = ENV['term_code']
+      raise ArgumentError, 'term_code required' unless term_code
+      {
+        term_code: term_code,
+        allow_past_term: ENV['allow_past_term'].present?,
+        local_write: ENV['local_write'].present?,
+        import_all: ENV['import_all'].present?,
+        dept_names: ENV['dept_names'],
+        dept_codes: ENV['dept_codes']
+      }
+    end
+
     def self.timestamp_format
       '%H:%M:%S'
     end
@@ -33,6 +46,8 @@ module Oec
       write_status_to_cache if opts[:log_to_cache]
 
       @term_code = opts[:term_code]
+      set_term_dates
+
       @date_time = opts[:date_time] || default_date_time
       @course_code_filter = if opts[:dept_names]
                              {dept_name: opts[:dept_names].split.map { |name| name.tr('_', ' ') }}
@@ -47,6 +62,9 @@ module Oec
       return if @status == 'Error'
       begin
         log :info, "Starting #{self.class.name}"
+        if !@opts[:allow_past_term] && @term_end < DateTime.now
+          raise StandardError, "Past ending date #{@term_end} for term #{@term_code}"
+        end
         run_internal
         @status = 'Success' unless (@status == 'Error' || self.class.success_callback)
         true
@@ -181,6 +199,15 @@ module Oec
       return if (condition = self.class.success_callback[:if]) && !instance_eval(&condition)
       task_opts = @opts.merge(previous_task_log: @log)
       self.class.success_callback[:class].new(task_opts).run
+    end
+
+    def set_term_dates
+      term = Berkeley::Terms.fetch.campus[Berkeley::TermCodes.to_slug *@term_code.split('-')]
+      raise ArgumentError, "Unrecognized term code #{@term_code}" unless term
+      @term_start = term.classes_start
+      # Our default date to finalize course and enrollment data for evaluation is the Sunday following
+      # the last week of instruction. Campus data gives us the Friday of that week.
+      @term_end = term.instruction_end.advance(days: 2)
     end
 
     def timestamp(arg = @date_time)

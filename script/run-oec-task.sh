@@ -42,7 +42,7 @@ else
   read -d '' usage << EOF
 Usage:
 
-[term_code='2015-D'] [local_write='Y'] [dept_codes='IMMCB PMATH ...'] ...  ${0} [${PSV}]
+[term_code='2015-D'] [allow_past_term='Y'] [local_write='Y'] [dept_codes='IMMCB PMATH ...'] ...  ${0} [${PSV}]
 EOF
   echo "${usage}" | ${LOGIT}
 fi

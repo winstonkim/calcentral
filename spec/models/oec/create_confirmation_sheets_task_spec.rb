@@ -1,6 +1,8 @@
 describe Oec::CreateConfirmationSheetsTask do
   let(:term_code) { '2015-B' }
-  let(:task) { Oec::CreateConfirmationSheetsTask.new(term_code: term_code, local_write: local_write) }
+  let(:task) do
+    Oec::CreateConfirmationSheetsTask.new(term_code: term_code, local_write: local_write, allow_past_term: true)
+  end
 
   let(:fake_remote_drive) { double() }
 

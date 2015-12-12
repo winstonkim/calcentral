@@ -6,7 +6,7 @@ describe Oec::TermSetupTask do
   let(:logfile) { "#{now} term setup task.log" }
   before { allow(DateTime).to receive(:now).and_return DateTime.strptime("#{today} #{now}", '%F %H:%M:%S') }
 
-  subject { described_class.new(term_code: term_code) }
+  subject { described_class.new(term_code: term_code, allow_past_term: true) }
 
   let (:fake_remote_drive) { double() }
   before { allow(Oec::RemoteDrive).to receive(:new).and_return fake_remote_drive }
@@ -64,7 +64,8 @@ describe Oec::TermSetupTask do
       described_class.new({
         api_task_id: api_task_id,
         log_to_cache: true,
-        term_code: term_code
+        term_code: term_code,
+        allow_past_term: true
       })
     end
     include_context 'remote drive interaction'
@@ -107,7 +108,7 @@ describe Oec::TermSetupTask do
   end
 
   context 'local-write mode' do
-    subject { described_class.new(term_code: term_code, local_write: 'Y') }
+    subject { described_class.new(term_code: term_code, local_write: 'Y', allow_past_term: true) }
 
     before do
       allow(fake_remote_drive).to receive(:find_nested).and_return mock_google_drive_item
@@ -127,6 +128,17 @@ describe Oec::TermSetupTask do
         'START_DATE' => '01-22-2013',
         'END_DATE' => '05-12-2013'
       })
+    end
+  end
+
+  context 'not explicitly told that past terms are allowed' do
+    subject { described_class.new(term_code: term_code, local_write: 'Y') }
+    before do
+      allow(fake_remote_drive).to receive(:find_nested).and_return mock_google_drive_item
+    end
+    it 'refuses to run' do
+      expect(Rails.logger).to receive(:error).with /Past ending date/
+      subject.run
     end
   end
 end

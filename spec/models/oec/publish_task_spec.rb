@@ -1,7 +1,9 @@
 describe Oec::PublishTask do
   let(:term_code) { '2015-B' }
   let(:now) { DateTime.now }
-  let(:task) { Oec::PublishTask.new term_code: term_code, local_write: local_write, date_time: now }
+  let(:task) do
+    Oec::PublishTask.new(term_code: term_code, local_write: local_write, date_time: now, allow_past_term: true)
+  end
   let(:tmp_publish_directory) { now.strftime "publish_#{Oec::Task.date_format}_%H%M%S" }
 
   include_context 'OEC enrollment data merge'

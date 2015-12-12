@@ -406,7 +406,7 @@ class ApiMyAcademicsPage
 
   def other_site_descriptions(sites)
     descriptions = []
-    sites.each { |site| descriptions.push(site['shortDescription']) }
+    sites.each { |site| descriptions.push(site['shortDescription'].gsub('  ', ' ')) }
     descriptions
   end
 
