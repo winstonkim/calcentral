@@ -12,7 +12,7 @@ describe GoogleApps::SheetsManager do
       # No CSV files will be created by this test
       @sis_import_sheet = Oec::SisImportSheet.new(dept_code: 'LPSPP')
       course_codes = [Oec::CourseCode.new(dept_name: 'SPANISH', catalog_id: '', dept_code: 'LPSPP', include_in_oec: true)]
-      Oec::SisImportTask.new(:term_code => '2015-C').import_courses(@sis_import_sheet, course_codes)
+      Oec::SisImportTask.new(:term_code => '2014-C').import_courses(@sis_import_sheet, course_codes)
       @spreadsheet = @sheet_manager.upload_to_spreadsheet(@spreadsheet_title, @sis_import_sheet.to_io, @folder.id, @worksheet_title)
     end
 
