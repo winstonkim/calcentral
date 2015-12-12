@@ -11,7 +11,7 @@
     <div class="cc-widget-tasks-col cc-widget-tasks-col-title">
       <div
         class="cc-widget-tasks-status-{{task.status}}"
-        data-ng-class="{'cc-ellipsis':(!task.show),'cc-alert':(task.bucket == 'Overdue' && tasksMode != 'completed'), 'cc-strikethrough':(task.editorIsProcessing)}">
+        data-ng-class="{'cc-ellipsis':(!task.show),'cc-alert':(task.bucket === 'Overdue' && currentTaskMode !== 'completed'), 'cc-strikethrough':(task.editorIsProcessing)}">
         <strong data-ng-bind="task.title"></strong>
         <div data-ng-if="task.emitter === 'bCourses' && task.course_code" class="cc-widget-tasks-title-sub">
           <span data-ng-bind="task.course_code"></span>
@@ -54,13 +54,13 @@
     <div
       class="cc-widget-tasks-col cc-widget-tasks-col-date">
       <span data-ng-if="task.bucket == 'Due Today'">TODAY</span>
-      <span data-ng-if="task.dueDate && task.bucket != 'Due Today' && tasksMode != 'completed'" data-ng-bind="task.dueDate.epoch * 1000 | dateInYearFilter:'MM/dd'">
+      <span data-ng-if="task.dueDate && task.bucket !== 'Due Today' && currentTaskMode !== 'completed'" data-ng-bind="task.dueDate.epoch * 1000 | dateInYearFilter:'MM/dd'">
       </span>
       <div data-ng-if="task.emitter=='bCourses' && task.dueDate.hasTime"
         class="cc-widget-tasks-timestamp" data-ng-bind="task.dueDate.epoch * 1000 | date:'h a'">
       </div>
       <div data-ng-if="task.cs.showStatus" data-ng-bind="task.cs.showStatus" class="cc-widget-tasks-title-sub"></div>
-      <span data-ng-if="tasksMode=='completed'" data-ng-bind="task.completedDate.epoch * 1000 | dateInYearFilter:'MM/dd'"></span>
+      <span data-ng-if="currentTaskMode === 'completed'" data-ng-bind="task.completedDate.epoch * 1000 | dateInYearFilter:'MM/dd'"></span>
     </div>
     <div
       class="cc-widget-tasks-col cc-widget-tasks-col-date"
