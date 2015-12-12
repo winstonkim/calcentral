@@ -12,7 +12,8 @@ module GoogleApps
     end
 
     def mock_request
-      super.merge(uri_matching: 'https://www.googleapis.com/drive/v2/files')
+      hostname = 'https://www.googleapis.com'
+      super.merge(uri: %r{.*#{Regexp.quote hostname}.*/drive/v[23]/files.*})
     end
 
   end
