@@ -1,4 +1,3 @@
-<h3>Active Blocks</h3>
 <div class="cc-table" data-ng-if="regblocks.activeBlocks.length">
   <table>
     <thead>
@@ -45,8 +44,9 @@
   You have no active blocks at this time.
 </div>
 
-<p class="cc-academics-no-block-history cc-academics-emphasize"
-   data-ng-if="!regblocks.inactiveBlocks.length">No block history
+<p class="cc-academics-no-block-history"
+   data-ng-if="!regblocks.inactiveBlocks.length">
+   <strong>No block history</strong>
 </p>
 
 <div data-ng-if="showBlockHistory" class="cc-academics-block-history">

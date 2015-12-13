@@ -1,0 +1,60 @@
+<div data-ng-controller="HoldsController" data-cc-spinner-directive="holdsInfo.isLoading">
+  <div data-ng-if="!holds.errored">
+    <div class="cc-table" data-ng-if="holds.serviceIndicators.length">
+      <table>
+        <thead>
+          <tr>
+            <th scope="col">Reason</th>
+            <th scope="col" class="cc-table-right">Applied</th>
+          </tr>
+        </thead>
+        <tbody data-ng-repeat="indicator in holds.serviceIndicators">
+          <tr
+            class="cc-widget-table-hover"
+            data-ng-class="{'cc-widget-table-hover-opened':(indicator.show)}"
+            data-cc-accessible-focus-directive
+            data-ng-click="api.widget.toggleShow($event, holds.serviceIndicators, indicator, 'Active Hold')"
+          >
+            <td>
+              <i class="fa fa-exclamation-circle cc-icon-red"></i>
+              <span data-ng-bind="indicator.serviceIndicatorDescr"></span>
+            </td>
+            <td data-ng-bind="indicator.startDate.epoch * 1000 | date:'MM/dd/yy'" class="cc-table-right"></td>
+          </tr>
+          <tr data-ng-if="indicator.show">
+            <td colspan="2">
+              <div class="cc-table-padding" data-ng-if="indicator.instructions" data-ng-bind="indicator.instructions"></div>
+              <div class="cc-table-padding">
+                <div data-ng-if="indicator.amount">
+                  <strong>Amount:</strong>
+                  <span
+                    data-cc-amount-directive="myfinances.summary.accountBalance"
+                    data-cc-amount-directive-color="false"
+                    data-cc-amount-directive-initial-space="false"
+                  ></span>
+                </div>
+                <div data-ng-if="indicator.startTermDescr">
+                  <strong>Start Term:</strong>
+                  <span data-ng-bind="indicator.startTermDescr"></span>
+                </div>
+                <div>
+                  <strong>Contact:</strong>
+                  <span data-ng-if="!indicator.contactEmail && !indicator.contactName">N/A</span>
+                  <span data-ng-if="!indicator.contactEmail && indicator.contactName" data-ng-bind="indicator.contactName"></span>
+                  <a data-ng-if="indicator.contactEmail && !indicator.contactName" data-ng-bind="indicator.contactEmail" data-ng-href="mailto:{{indicator.contactEmail}}"></a>
+                  <a data-ng-if="indicator.contactEmail && indicator.contactName" data-ng-bind="indicator.contactName" data-ng-href="mailto:{{indicator.contactEmail}}"></a>
+                </div>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div data-ng-if="!holds.serviceIndicators.length">
+      You have no active holds at this time.
+    </div>
+  </div>
+  <div data-ng-if="holds.errored">
+    <i class="fa fa-exclamation-triangle cc-icon-red cc-errored"></i> Holds are currently unavailable.
+  </div>
+</div>
