@@ -19,8 +19,10 @@ module CampusSolutions
       return {} if response.parsed_response.blank?
       feed = response.parsed_response
       feed['SERVICE_INDICATORS'].each do |indicator|
-        # Convert to a CalCentral date
-        indicator['START_DATE'] = format_date(strptime_in_time_zone(indicator['START_DATE'], '%Y-%m-%d'))
+        if indicator['START_DATE']
+          # Convert to a CalCentral date
+          indicator['START_DATE'] = format_date(strptime_in_time_zone(indicator['START_DATE'], '%Y-%m-%d'))
+        end
       end
       feed
     end
