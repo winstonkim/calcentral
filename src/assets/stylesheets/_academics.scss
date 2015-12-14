@@ -99,9 +99,6 @@
   .cc-academics-course-number {
     width: 22%;
   }
-  .cc-academics-emphasize {
-    font-weight: bold;
-  }
   .cc-academics-instructors {
     color: $cc-color-green-light;
     list-style-type: square;
@@ -216,8 +213,8 @@
     font-size: 14px;
     margin-top: 10px;
   }
-  .cc-academics-status-and-blocks {
-    .cc-academics-status-and-blocks-status-table {
+  .cc-academics-status-holds-blocks {
+    .cc-academics-status-holds-blocks-status-table {
       margin-bottom: 15px;
       tbody tr:nth-child(odd) {
         td, th {

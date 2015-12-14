@@ -7,6 +7,14 @@
       An error occurred while trying to retrieve your data.
     </div>
     <div data-ng-if="!errored">
+      <div data-ng-if="api.user.profile.features.csHolds">
+        <div class="cc-widget-subtitle">
+          <h3>Holds</h3>
+        </div>
+        <div class="cc-widget-padding">
+          <div data-ng-include="'widgets/holds.html'"></div>
+        </div>
+      <div>
       <div>
         <div class="cc-widget-subtitle">
           <h3>Tasks</h3>
