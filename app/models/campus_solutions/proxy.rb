@@ -82,7 +82,7 @@ module CampusSolutions
     end
 
     def is_errored?(feed)
-      feed.kind_of?(Hash) && feed[:errmsgtext].present?
+      feed[:errmsgtext].present?
     end
 
     def request_options
