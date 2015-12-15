@@ -16,8 +16,8 @@ describe CampusSolutions::PendingMessages do
     it_should_behave_like 'a proxy that gets data'
     it 'returns specific mock data' do
       p "subj=#{subject}"
-      expect(subject[:feed][:commMessagePendingResponse][0][:emplid]).to eq '24188949'
-      expect(subject[:feed][:commMessagePendingResponse][0][:descr]).to eq 'Campus Provided Software'
+      expect(subject[:feed][:commMessagePendingResponse][0][:emplid]).to eq '26662066'
+      expect(subject[:feed][:commMessagePendingResponse][0][:descr]).to eq 'Missing Information Notice'
     end
   end
 

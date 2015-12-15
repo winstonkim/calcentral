@@ -45,6 +45,10 @@ angular.module('calcentral.config').config(function($routeProvider) {
     controller: 'DashboardController',
     fireUpdatedFeeds: true
   }).
+  when('/delegate_welcome', {
+    templateUrl: 'delegate_welcome.html',
+    controller: 'DelegateWelcomeController'
+  }).
   when('/finances', {
     templateUrl: 'myfinances.html',
     controller: 'MyFinancesController'
@@ -53,13 +57,17 @@ angular.module('calcentral.config').config(function($routeProvider) {
     templateUrl: 'cars_details.html',
     controller: 'MyFinancesController'
   }).
+  when('/finances/finaid/:finaidYearId?', {
+    templateUrl: 'finaid.html',
+    controller: 'MyFinancesController'
+  }).
+  when('/finances/finaid/awards/:finaidYearId?', {
+    templateUrl: 'finaid_awards_term.html',
+    controller: 'MyFinancesController'
+  }).
   when('/oec', {
     templateUrl: 'oec.html',
     controller: 'OecController'
-  }).
-  when('/finances/finaid/:finaidYearId?/:semesterOptionId?', {
-    templateUrl: 'finaid.html',
-    controller: 'MyFinancesController'
   }).
   when('/profile/:category?', {
     templateUrl: 'profile.html',
@@ -69,13 +77,9 @@ angular.module('calcentral.config').config(function($routeProvider) {
     templateUrl: 'settings.html',
     controller: 'SettingsController'
   }).
-  when('/tools', {
-    templateUrl: 'tools_index.html',
-    controller: 'ToolsController'
-  }).
-  when('/tools/styles', {
-    templateUrl: 'tools_styles.html',
-    controller: 'StylesController'
+  when('/toolbox', {
+    templateUrl: 'toolbox.html',
+    controller: 'MyToolboxController'
   }).
   when('/uid_error', {
     templateUrl: 'uid_error.html',

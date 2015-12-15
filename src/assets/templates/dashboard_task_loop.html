@@ -11,7 +11,7 @@
     <div class="cc-widget-tasks-col cc-widget-tasks-col-title">
       <div
         class="cc-widget-tasks-status-{{task.status}}"
-        data-ng-class="{'cc-ellipsis':(!task.show),'cc-alert':(task.bucket == 'Overdue' && tasksMode != 'completed'), 'cc-strikethrough':(task.editorIsProcessing)}">
+        data-ng-class="{'cc-ellipsis':(!task.show),'cc-alert':(task.bucket === 'Overdue' && currentTaskMode !== 'completed'), 'cc-strikethrough':(task.editorIsProcessing)}">
         <strong data-ng-bind="task.title"></strong>
         <div data-ng-if="task.emitter === 'bCourses' && task.course_code" class="cc-widget-tasks-title-sub">
           <span data-ng-bind="task.course_code"></span>
@@ -54,13 +54,13 @@
     <div
       class="cc-widget-tasks-col cc-widget-tasks-col-date">
       <span data-ng-if="task.bucket == 'Due Today'">TODAY</span>
-      <span data-ng-if="task.dueDate && task.bucket != 'Due Today' && tasksMode != 'completed'" data-ng-bind="task.dueDate.epoch * 1000 | dateInYearFilter:'MM/dd'">
+      <span data-ng-if="task.dueDate && task.bucket !== 'Due Today' && currentTaskMode !== 'completed'" data-ng-bind="task.dueDate.epoch * 1000 | dateInYearFilter:'MM/dd'">
       </span>
       <div data-ng-if="task.emitter=='bCourses' && task.dueDate.hasTime"
         class="cc-widget-tasks-timestamp" data-ng-bind="task.dueDate.epoch * 1000 | date:'h a'">
       </div>
-      <div data-ng-if="task.emitter === 'Campus Solutions' && task.showStatus" data-ng-bind="task.showStatus" class="cc-widget-tasks-title-sub"></div>
-      <span data-ng-if="tasksMode=='completed'" data-ng-bind="task.completedDate.epoch * 1000 | dateInYearFilter:'MM/dd'"></span>
+      <div data-ng-if="task.cs.showStatus" data-ng-bind="task.cs.showStatus" class="cc-widget-tasks-title-sub"></div>
+      <span data-ng-if="currentTaskMode === 'completed'" data-ng-bind="task.completedDate.epoch * 1000 | dateInYearFilter:'MM/dd'"></span>
     </div>
     <div
       class="cc-widget-tasks-col cc-widget-tasks-col-date"
@@ -70,20 +70,20 @@
   </div>
 
   <div data-ng-show="task.show">
-    <div class="cc-widget-tasks-more" data-ng-hide="editorEnabled">
+    <div class="cc-widget-tasks-more cc-clearfix" data-ng-hide="editorEnabled">
       <div class="cc-clearfix" data-ng-if="task.completedDate && task.dueDate">Due Date:
         <span data-ng-bind="task.dueDate.epoch * 1000 | dateInYearFilter:'MM/dd'"></span>
       </div>
-      <div data-ng-bind-html="task.notes | linky" class="cc-break-word cc-clearfix"></div>
+      <div data-cc-compile-directive="task.notes | linky" class="cc-break-word cc-clearfix cc-text-pre-line"></div>
 
-      <div class="cc-clearfix" data-ng-if="task.responsibleContactEmail && task.emitter === 'Campus Solutions'">
+      <div class="cc-clearfix" data-ng-if="task.cs.responsibleContactEmail">
         <strong>Contact:</strong>
-        <a data-ng-href="mailto:{{task.responsibleContactEmail}}" data-ng-bind="task.responsibleContactEmail"></a>
+        <a data-ng-href="mailto:{{task.cs.responsibleContactEmail}}" data-ng-bind="task.cs.responsibleContactEmail"></a>
       </div>
 
-      <div class="cc-clearfix" data-ng-if="task.organization && task.emitter === 'Campus Solutions'">
+      <div class="cc-clearfix" data-ng-if="task.cs.organization">
         <strong>Organization:</strong>
-        <span data-ng-bind="task.organization"></span>
+        <span data-ng-bind="task.cs.organization"></span>
       </div>
 
       <div class="cc-clearfix">
@@ -94,6 +94,15 @@
           <span data-ng-bind="task.linkDescription">
           <span class="cc-visuallyhidden" data-ng-bind-template="- {{ task.title }}"></span>
         </a>
+
+        <div data-ng-if="task.uploadUrl && (task.cs.showStatus === 'Initiated' || task.cs.showStatus === 'Incomplete')" class="cc-widget-tasks-upload">
+          <a class="cc-button"
+          data-ng-click="api.util.preventBubble($event);api.analytics.trackExternalLink('Tasks', 'Upload CS Document', task.uploadUrl)"
+          data-cc-campus-solutions-link-directive="task.uploadUrl"
+          data-cc-outbound-enabled="false">
+            <span>Upload</span>
+          </a>
+        </div>
 
         <button class="cc-button cc-button-blue"
         data-ng-show="task.emitter=='Google'"

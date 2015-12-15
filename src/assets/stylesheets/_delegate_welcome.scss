@@ -1,0 +1,39 @@
+.cc-delegate-welcome {
+  padding-left: 0;
+  .cc-delegate-linking-widget {
+    background: $cc-color-white;
+    form {
+      background: transparent;
+      border: 0;
+      margin: 0;
+      padding: 0;
+      label {
+        display: inline-block;
+        margin: 0;
+        text-align: left;
+      }
+      > div:not(:last-child) {
+        margin-bottom: 2px;
+      }
+    }
+    .cc-delegate-linking-error {
+      background-color: $cc-color-red-light;
+      border-bottom: 1px solid $cc-color-red;
+      margin: -10px -10px 10px;
+      padding: 10px;
+      white-space: pre-line;
+    }
+    .cc-delegate-linking-title {
+      width: 100%;
+    }
+    .cc-delegate-linking-agreement {
+      background: $cc-color-light-grey;
+    }
+    .cc-delegate-linking-footer {
+      color: $cc-color-lighter-medium-grey;
+    }
+    .cc-delegate-linking-footnote {
+      width: 5%;
+    }
+  }
+}

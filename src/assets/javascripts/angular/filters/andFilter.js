@@ -1,6 +1,7 @@
 'use strict';
 
 var angular = require('angular');
+var _ = require('lodash');
 
 /**
  * And filter
@@ -13,6 +14,10 @@ angular.module('calcentral.filters').filter('andFilter', function() {
   var delimiter = ', ';
   var delimiterLength = delimiter.length;
   return function(items) {
+    if (!_.isArray(items) || !items.length) {
+      return '';
+    }
+
     var joinedString = items.join(delimiter);
 
     var lastIndex = joinedString.lastIndexOf(delimiter);

@@ -1,0 +1,20 @@
+.cc-flex {
+  display: flex;
+}
+.cc-flex-align-base {
+  align-items: baseline;
+}
+.cc-flex-align-center {
+  align-items: center;
+}
+.cc-flex-space-between {
+  justify-content: space-between;
+}
+.cc-flex-space-between-horizontal-5 > div {
+  &:not(:first-child) {
+    margin-left: 5px;
+  }
+  &:not(:last-child) {
+    margin-right: 5px;
+  }
+}

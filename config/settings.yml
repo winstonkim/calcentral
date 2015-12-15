@@ -229,6 +229,10 @@ cache:
     CanvasLti::Lti: <%= 5.minutes %>
     Advising::MyAdvising: <%= 2.hours %>
 
+    MyAcademics::CollegeAndLevel: NEXT_08_00
+    MyAcademics::GpaUnits: NEXT_08_00
+    MyAcademics::TransitionTerm: NEXT_08_00
+
     Berkeley::Terms: NEXT_08_00
     Finaid::TimeRange: <%= 4.hours %>
 
@@ -318,10 +322,12 @@ features:
   course_manage_official_sections: false
   manage_site_mailing_lists: false
   cs_fin_aid: false
+  cs_holds: false
   cs_profile: false
   cs_profile_visible_for_legacy_users: true
   show_notifications_archive_link: false
   cs_sir: false
+  cs_delegated_access: false
   slate_checklist: false
   webcast_sign_up_on_calcentral: false
   service_alerts_rss: true

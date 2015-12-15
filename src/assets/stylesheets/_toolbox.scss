@@ -1,0 +1,48 @@
+.cc-toolbox {
+  .cc-toolbox-apitest-list {
+    margin-top: 10px;
+    .cc-toolbox-apitest-pending {
+      color: $cc-color-dark-grey;
+    }
+    .cc-toolbox-apitest-failed {
+      color: $cc-color-red;
+    }
+    .cc-toolbox-apitest-success {
+      color: $cc-color-green-plus;
+    }
+    .cc-toolbox-apitest-icon {
+      margin-right: 5px;
+    }
+  }
+  .cc-toolbox-error {
+    margin-bottom: 5px;
+  }
+  .cc-toolbox-section {
+    margin-top: 30px;
+  }
+  .cc-toolbox-table {
+    margin-top: 20px;
+    td, th {
+      border-bottom: 1px solid $cc-color-widget-background;
+      font-size: 12px;
+      padding: 4px;
+    }
+  }
+  .cc-toolbox-user-section {
+    margin-top: 10px;
+  }
+  .cc-toolbox-widget {
+    background: $cc-color-white;
+    form {
+      background: transparent;
+      border: 0;
+      margin: 0;
+      padding: 0;
+      label {
+        display: inline-block;
+        margin: 0;
+        text-align: left;
+      }
+    }
+  }
+}

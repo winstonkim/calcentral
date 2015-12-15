@@ -13,7 +13,7 @@ module MyActivities
       if feed && feed[:commMessagePendingResponse]
         feed[:commMessagePendingResponse].each do |message|
           if message[:descr].present?
-            results << {
+            formatted_entry = {
               emitter: CampusSolutions::Proxy::APP_NAME,
               id: '',
               linkText: 'Read more',
@@ -24,8 +24,18 @@ module MyActivities
               user_id: uid,
               date: format_date(strptime_in_time_zone(message[:lastupddttm], "%Y-%m-%d-%H.%M.%S.%N")), # 2015-12-01-14.09.04.701033
               sourceUrl: message[:url],
-              url: message[:url]
+              url: message[:url],
+              cs: {}
             }
+
+            if message[:adminFunction] && message[:adminFunction][:varSeqData] && (Finaid::Shared::ADMIN_FUNCTION.include? message[:adminFunction][:adminFunction])
+              formatted_entry[:cs].merge!({
+                isFinaid: true,
+                finaidYearId: message[:adminFunction][:varSeqData][:aidYear]
+              })
+            end
+
+            results << formatted_entry
           end
         end
       end

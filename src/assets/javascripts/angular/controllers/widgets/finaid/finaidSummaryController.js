@@ -1,6 +1,7 @@
 'use strict';
 
 var angular = require('angular');
+var _ = require('lodash');
 
 /**
  * Finaid Summary controller
@@ -12,7 +13,10 @@ angular.module('calcentral.controllers').controller('FinaidSummaryController', f
     selected: {},
     finaidSummaryInfo: {
       isLoadingOptions: true,
-      isLoadingData: true
+      isLoadingData: true,
+      // This will be true when it's loaded on the My Finances main dashboard
+      // If that's the case, we need to show some additional data
+      isLoadedOnMainDashboard: !$routeParams.finaidYearId
     },
     finaidSummaryData: {},
     shoppingSheet: {}
@@ -28,26 +32,23 @@ angular.module('calcentral.controllers').controller('FinaidSummaryController', f
   };
 
   /**
-   * Set the default selections on the finaid year and semester options
+   * Set the default selections on the finaid year
    */
   var setDefaultSelections = function(data) {
-    if (!data.finaidSummary) {
+    if (!_.get(data, 'finaidSummary.finaidYears.length')) {
       return;
     }
     finaidService.setDefaultFinaidYear(data, $routeParams.finaidYearId);
-    finaidService.setDefaultSemesterOption($routeParams.semesterOptionId);
-    selectFinaidYear();
-    selectSemesterOption();
-    updateFinaidUrl();
     updateCanSeeFinaid();
+    selectFinaidYear();
+    updateFinaidUrl();
   };
 
   var updateFinaidUrl = function() {
     if (!$scope.selected.finaidYear) {
       return;
     }
-    var semesterOptionUrl = $scope.selected.semesterOption ? '/' + $scope.selected.semesterOption.id : '';
-    $scope.finaidUrl = 'finances/finaid/' + $scope.selected.finaidYear.id + semesterOptionUrl;
+    $scope.finaidUrl = 'finances/finaid/' + $scope.selected.finaidYear.id;
 
     if ($scope.isMainFinaid) {
       $location.path($scope.finaidUrl, false);
@@ -62,6 +63,9 @@ angular.module('calcentral.controllers').controller('FinaidSummaryController', f
   };
 
   var getFinaidYearData = function() {
+    if (!$scope.canSeeFinaidData) {
+      return;
+    }
     return finaidFactory.getFinaidYearInfo({
       finaidYearId: finaidService.options.finaidYear.id
     }).success(parseFinaidYearData);
@@ -72,28 +76,13 @@ angular.module('calcentral.controllers').controller('FinaidSummaryController', f
     getFinaidYearData();
   };
 
-  var selectSemesterOption = function() {
-    $scope.selected.semesterOption = finaidService.options.semesterOption;
-  };
-
   $scope.$on('calcentral.custom.api.finaid.finaidYear', selectFinaidYear);
-  $scope.$on('calcentral.custom.api.finaid.semesterOption', selectSemesterOption);
-
-  /**
-   * Update a semester option selection
-   */
-  $scope.updateSemesterOption = function() {
-    finaidService.setSemesterOption($scope.selected.semesterOption);
-    updateFinaidUrl();
-  };
 
   /**
    * Update the finaid year selection
    */
   $scope.updateFinaidYear = function() {
     finaidService.setFinaidYear($scope.selected.finaidYear);
-    finaidService.setDefaultSemesterOption();
-    selectSemesterOption();
     updateFinaidUrl();
     updateCanSeeFinaid();
   };

@@ -29,10 +29,16 @@ angular.module('calcentral.services').factory('profileMenuService', function() {
         }
       ]
     },
-    /* TODO - On hold till we have designs for these & after the profile sprint
     {
       'label': 'Privacy & Permissions',
       'categories': [
+        /* TODO - On hold until GoLive 5
+        {
+          'id': 'delegate',
+          'name': 'Delegate Access'
+        },
+        */
+        /* TODO - On hold till we have designs for these & after the profile sprint
         {
           'id': 'recordaccess',
           'name': 'Record Access'
@@ -41,24 +47,24 @@ angular.module('calcentral.services').factory('profileMenuService', function() {
           'id': 'ferpa',
           'name': 'FERPA Restrictions'
         },
+        */
         {
           'id': 'title4',
           'name': 'Title IV Release'
         }
       ]
-    }*/
+    },
     {
       'label': 'Credentials',
       'categories': [
         {
           'id': 'languages',
           'name': 'Languages'
-        }
-        /* TODO - Work experience is currently not part of the EDO - see SISRP-7184 for progress
+        },
         {
           'id': 'work-experience',
           'name': 'Work Experience'
-        }*/
+        }
       ]
     }
     /* TODO - After the profile sprint

@@ -104,7 +104,6 @@ Calcentral::Application.routes.draw do
   get '/api/config' => 'config#get', :via => :get, :defaults => { :format => 'json' }
   get '/api/ping' => 'ping#do', :defaults => {:format => 'json'}
   get '/api/reload_yaml_settings' => 'yaml_settings#reload', :defaults => { :format => 'json' }
-  get '/api/tools/styles' => 'tools#get_styles', :via => :get
   get '/api/server_info' => 'server_runtime#get_info', :via => :get
   get '/api/stats' => 'stats#get_stats', :via => :get, :defaults => { :format => 'json' }
   get '/api/smoke_test_routes' => 'routes_list#smoke_test_routes', :as => :all_routes, :defaults => { :format => 'json' }
@@ -155,7 +154,14 @@ Calcentral::Application.routes.draw do
   get '/api/campus_solutions/list_of_values' => 'campus_solutions/list_of_values#get', :via => :get, :defaults => { :format => 'json' }
   get '/api/campus_solutions/aid_years' => 'campus_solutions/aid_years#get', :via => :get, :defaults => { :format => 'json' }
   get '/api/campus_solutions/financial_aid_data' => 'campus_solutions/financial_aid_data#get', :via => :get, :defaults => { :format => 'json' }
+  get '/api/campus_solutions/financial_aid_funding_sources' => 'campus_solutions/financial_aid_funding_sources#get', :via => :get, :defaults => { :format => 'json' }
+  get '/api/campus_solutions/financial_aid_funding_sources_term' => 'campus_solutions/financial_aid_funding_sources_term#get', :via => :get, :defaults => { :format => 'json' }
+  get '/api/campus_solutions/delegate_terms_and_conditions' => 'campus_solutions/delegate_access#get_terms_and_conditions', :via => :get, :defaults => { :format => 'json' }
+  get '/api/campus_solutions/delegate_management_url' => 'campus_solutions/delegate_access#get_delegate_management_url', :via => :get, :defaults => { :format => 'json' }
+  get '/api/campus_solutions/delegate_access/students' => 'campus_solutions/delegate_access#get_students', :via => :get, :defaults => { :format => 'json' }
+  get '/api/campus_solutions/holds' => 'campus_solutions/holds#get', :via => :get, :defaults => { :format => 'json' }
   post '/api/campus_solutions/address' => 'campus_solutions/address#post', :via => :post, :defaults => { :format => 'json' }
+  post '/api/campus_solutions/delegate_access' => 'campus_solutions/delegate_access#post', :via => :post, :defaults => { :format => 'json' }
   post '/api/campus_solutions/email' => 'campus_solutions/email#post', :via => :post, :defaults => { :format => 'json' }
   post '/api/campus_solutions/person_name' => 'campus_solutions/person_name#post', :via => :post, :defaults => { :format => 'json' }
   post '/api/campus_solutions/phone' => 'campus_solutions/phone#post', :via => :post, :defaults => { :format => 'json' }

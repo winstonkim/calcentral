@@ -9,16 +9,34 @@ var _ = require('lodash');
 angular.module('calcentral.factories').factory('activityFactory', function(apiService) {
   // var activityUrl = '/dummy/json/activities.json';
   var activityUrl = '/api/my/activities';
-  var finaidUrl = '/api/my/finaid';
+  var finaidOldUrl = '/api/my/finaid';
 
   /**
-   * Pare the the activity response
+   * Filter out only the finaid activities with a specific aid year
+   */
+  var filterFinaid = function(activities, finaidYearId) {
+    return _.filter(activities, {
+      cs: {
+        isFinaid: true,
+        finaidYearId: finaidYearId
+      }
+    });
+  };
+
+  /**
+   * Parse the the activity response
    * @param {Object} activityResponse The response from the server
    */
-  var parseActivities = function(activityResponse) {
+  var parseActivities = function(activityResponse, options) {
     if (!_.get(activityResponse, 'data.activities')) {
       return;
     }
+
+    var finaidYearId = _.get(options, 'finaidYearId');
+    if (finaidYearId) {
+      activityResponse.data.activities = filterFinaid(activityResponse.data.activities, finaidYearId);
+    }
+
     var data = activityResponse.data;
     var activities = activityResponse.data.activities;
 
@@ -213,19 +231,34 @@ angular.module('calcentral.factories').factory('activityFactory', function(apiSe
         return apiService.http.request(options, url);
       })
       // Parse the activities
-      .then(parseActivities);
+      .then(function(data) {
+        return parseActivities(data, options);
+      });
   };
 
   var getActivity = function(options) {
     return getActivityAll(options, activityUrl);
   };
 
+  /**
+   * Get Finaid activity / messages from 2016 onwards
+   * options.finaidYearId should contain the aid year ID
+   * that way, we'll be filtering messages only with that aid year
+   */
   var getFinaidActivity = function(options) {
-    return getActivityAll(options, finaidUrl);
+    return getActivityAll(options, activityUrl);
+  };
+
+  /**
+   * Get Finaid activity / messages from before 2016
+   */
+  var getFinaidActivityOld = function(options) {
+    return getActivityAll(options, finaidOldUrl);
   };
 
   return {
     getActivity: getActivity,
-    getFinaidActivity: getFinaidActivity
+    getFinaidActivity: getFinaidActivity,
+    getFinaidActivityOld: getFinaidActivityOld
   };
 });

@@ -41,18 +41,28 @@ module MyTasks
         emitter: CampusSolutions::Proxy::APP_NAME,
         linkDescription: result[:checkListDocMgmt][:linkUrlLbl],
         linkUrl: result[:checkListDocMgmt][:linkUrl],
+        uploadUrl: result[:checkListDocMgmt][:docUploadLink],
         sourceUrl: 'http://sis-project.berkeley.edu',
         status: status,
         title: result[:checkListDescr],
         notes: result[:itemComment],
         type: 'task',
         subTitle: result[:responsibleCntctName],
-        showStatus: result[:itemStatus] != 'Completed' ? result[:itemStatus] : '',
-        responsibleContactEmail: result[:responsibleCntctEmail],
-        organization: result[:associationIdName]
+        cs: {
+          responsibleContactEmail: result[:responsibleCntctEmail],
+          organization: result[:associationIdName],
+          showStatus: result[:itemStatus] != 'Completed' ? result[:itemStatus] : ''
+        }
       }
+      if result[:checkListMgmtFina] && (Finaid::Shared::ADMIN_FUNCTION.include? result[:adminFunc])
+        formatted_entry[:cs].merge!({
+          isFinaid: true,
+          finaidYearId: result[:checkListMgmtFina][:aidYear]
+        })
+      end
       if status == 'completed'
-        format_date_into_entry!(convert_date(result[:statusDt]), formatted_entry, :completedDate)
+        completedDate = format_date(strptime_in_time_zone(result[:statusDt], "%Y-%m-%d"))
+        formatted_entry[:completedDate] = completedDate
         formatted_entry[:completedDate][:hasTime] = false # CS dates never have times
       end
       formatted_entry

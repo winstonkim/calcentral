@@ -78,8 +78,9 @@ class SessionsController < ApplicationController
 
   def destroy
     logout
+    url = request.protocol + ApplicationController.correct_port(request.host_with_port, request.env['HTTP_REFERER'])
     render :json => {
-      :redirectUrl => "#{Settings.cas_logout_url}?service=#{CGI.escape(request.protocol + request.host_with_port)}"
+      :redirectUrl => "#{Settings.cas_logout_url}?service=#{CGI.escape url}"
     }.to_json
   end
 

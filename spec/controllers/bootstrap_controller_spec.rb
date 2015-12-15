@@ -29,9 +29,9 @@ describe BootstrapController do
       let(:original_user_id) {random_id}
       context 'when not already reauthenticated' do
         it 'should redirect to reauthenticate' do
-          # controller.stub(:cookies).and_return({:reauthenticated => nil})
           get :index
-          expect(response).to redirect_to('/auth/cas?renew=true')
+          hostname = request.env['HTTP_HOST']
+          expect(response).to redirect_to "/auth/cas?renew=true&url=http://#{hostname}/"
         end
       end
       context 'when already reauthenticated' do
@@ -40,14 +40,14 @@ describe BootstrapController do
         end
         it 'should not redirect' do
           get :index
-          expect(response).not_to redirect_to('/auth/cas?renew=true')
+          expect(response).not_to redirect_to('/auth/cas?renew=true&url=/')
         end
       end
     end
     context 'when not viewing as' do
       it 'should not redirect' do
         get :index
-        expect(response).not_to redirect_to('/auth/cas?renew=true')
+        expect(response).not_to redirect_to('/auth/cas?renew=true&url=/')
       end
     end
   end

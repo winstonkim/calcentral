@@ -180,6 +180,66 @@ describe User::Api do
     end
   end
 
+  describe 'My Toolbox tab' do
+    context 'superuser' do
+      before { User::Auth.new_or_update_superuser! @random_id }
+      it 'should show My Toolbox tab' do
+        user_api = User::Api.new(@random_id)
+        expect(user_api.get_feed[:hasToolboxTab]).to be true
+      end
+    end
+    context 'can_view_as' do
+      before {
+        user = User::Auth.new uid: @random_id
+        user.is_viewer = true
+        user.active = true
+        user.save
+      }
+      subject { User::Api.new(@random_id).get_feed[:hasToolboxTab] }
+      it { should be true }
+    end
+    context 'ordinary profiles' do
+      let(:profiles) do
+        {
+          :student   => { :student => true,  :exStudent => false, :faculty => false, :staff => false },
+          :faculty   => { :student => false, :exStudent => false, :faculty => true,  :staff => false },
+          :staff     => { :student => false, :exStudent => false, :faculty => true,  :staff => true }
+        }
+      end
+      before do
+        allow(CampusOracle::UserAttributes).to receive(:new).and_return double get_feed: {
+          roles: user_roles
+        }
+      end
+      subject { User::Api.new(@random_id).get_feed[:hasToolboxTab] }
+      context 'student' do
+        let(:user_roles) { profiles[:student] }
+        it { should be false }
+      end
+      context 'faculty' do
+        let(:user_roles) { profiles[:faculty] }
+        it { should be false }
+      end
+      context 'staff' do
+        let(:user_roles) { profiles[:staff] }
+        it { should be false }
+      end
+    end
+  end
+
+  it "should not explode when HubEdos returns empty feeds" do
+    HubEdos::UserAttributes.stub(:new).and_return(double(get: {
+    }))
+    fake_instructor_proxy = CampusOracle::UserCourses::HasInstructorHistory.new({:fake => true})
+    fake_instructor_proxy.stub(:has_instructor_history?).and_return(false)
+    CampusOracle::UserCourses::HasInstructorHistory.stub(:new).and_return(fake_instructor_proxy)
+    fake_student_proxy = CampusOracle::UserCourses::HasStudentHistory.new({:fake => true})
+    fake_student_proxy.stub(:has_student_history?).and_return(false)
+    CampusOracle::UserCourses::HasStudentHistory.stub(:new).and_return(fake_student_proxy)
+    user_data = User::Api.new("904715").get_feed
+    user_data[:hasAcademicsTab].should_not be_truthy
+  end
+
   context 'HubEdos errors', if: CampusOracle::Queries.test_data? do
     let(:uid) { '1151855' }
     let(:feed) { User::Api.new(uid).get_feed }
@@ -302,6 +362,7 @@ describe User::Api do
     it "should pass the superuser status" do
       subject[:isSuperuser].should be_truthy
       subject[:isViewer].should be_truthy
+      expect(subject[:hasToolboxTab]).to be true
     end
   end
 
@@ -316,8 +377,8 @@ describe User::Api do
     it "should pass the viewer status" do
       subject[:isSuperuser].should be_falsey
       subject[:isViewer].should be_truthy
+      expect(subject[:hasToolboxTab]).to be true
     end
   end
 
 end
-

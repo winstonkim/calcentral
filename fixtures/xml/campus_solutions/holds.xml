@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<SERVICE_INDICATORS type="array">
+    <SERVICE_INDICATOR>
+        <SERVICE_INDICATOR_DESCR>Financial Aid Hold Code</SERVICE_INDICATOR_DESCR>
+        <START_TERM></START_TERM>
+        <START_TERM_DESCR></START_TERM_DESCR>
+        <START_DATE>2015-12-01</START_DATE>
+        <REASON_DESCR>Hold All Disbursements Reason</REASON_DESCR>
+        <AMOUNT type="float">0</AMOUNT>
+        <CONTACT_NAME>Walter Wu</CONTACT_NAME>
+        <CONTACT_EMAIL>foo@foo.com</CONTACT_EMAIL>
+        <INSTRUCTIONS>Instructions</INSTRUCTIONS>
+    </SERVICE_INDICATOR>
+    <SERVICE_INDICATOR>
+        <SERVICE_INDICATOR_DESCR>Sent to Collection Agency</SERVICE_INDICATOR_DESCR>
+        <START_TERM>0000</START_TERM>
+        <START_TERM_DESCR>Begin Term - Srvc Indicatr Use</START_TERM_DESCR>
+        <START_DATE>2015-12-08</START_DATE>
+        <REASON_DESCR>Placed by Process</REASON_DESCR>
+        <AMOUNT type="float">0</AMOUNT>
+        <CONTACT_NAME>Walter Wu</CONTACT_NAME>
+        <CONTACT_EMAIL>foo@foo.com</CONTACT_EMAIL>
+        <INSTRUCTIONS></INSTRUCTIONS>
+    </SERVICE_INDICATOR>
+</SERVICE_INDICATORS>

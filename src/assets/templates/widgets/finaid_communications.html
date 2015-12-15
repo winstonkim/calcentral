@@ -1,0 +1,45 @@
+<div class="cc-widget" data-ng-controller="FinaidCommunicationsController">
+  <div class="cc-widget-title">
+    <h2>Communications</h2>
+  </div>
+  <div data-cc-spinner-directive="communicationsInfo.isLoading">
+    <div data-ng-if="errored">
+      An error occurred while trying to retrieve your data.
+    </div>
+    <div data-ng-if="!errored">
+      <div data-ng-if="api.user.profile.features.csHolds">
+        <div class="cc-widget-subtitle">
+          <h3>Holds</h3>
+        </div>
+        <div class="cc-widget-padding">
+          <div data-ng-include="'widgets/holds.html'"></div>
+        </div>
+      <div>
+      <div>
+        <div class="cc-widget-subtitle">
+          <h3>Tasks</h3>
+        </div>
+        <div class="cc-widget-tasks">
+          <div data-ng-include="'widgets/finaid_communications_tasks.html'"></div>
+        </div>
+      <div>
+      <div>
+        <div class="cc-widget-subtitle">
+          <h3>Messages</h3>
+        </div>
+        <div class="cc-widget-activities">
+          <div data-ng-include="'widgets/activity_list.html'" data-onload="aidYearName = communicationsInfo.aidYear.name"></div>
+        </div>
+      </div>
+      <div data-ng-if="archiveUrl.length">
+        <div class="cc-widget-subtitle">
+          <h3>Archive</h3>
+        </div>
+        <div
+          data-ng-include="'widgets/activity_archive.html'"
+          data-onload="backToText=finaid.backToText"
+        ></div>
+      </div>
+    </div>
+  </div>
+</div>
