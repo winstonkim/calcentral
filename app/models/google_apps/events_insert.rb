@@ -7,12 +7,15 @@ module GoogleApps
     end
 
     def insert_event(body)
-      request(api: self.class.api,
-              params: {"calendarId" => "primary"},
-              resource: "events",
-              method: "insert",
-              body: stringify_body(body),
-              headers: {"Content-Type" => "application/json"}).first
+      request(
+        api: 'calendar',
+        api_version: 'v3',
+        params: {'calendarId' => 'primary'},
+        resource: 'events',
+        method: 'insert',
+        body: stringify_body(body),
+        headers: {'Content-Type' => 'application/json'}
+      ).first
     end
 
     def mock_request

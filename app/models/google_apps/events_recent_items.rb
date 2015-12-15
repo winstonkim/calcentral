@@ -22,8 +22,14 @@ module GoogleApps
         :fields => 'items(htmlLink,attendees(responseStatus,self),created,updated,creator,summary,start,end)'
       )
       optional_params.select! { |k, v| !v.nil? }
-      request :api => "calendar", :resource => "events", :method => "list", :params => optional_params,
-              :page_limiter => 1
+      request(
+        api: 'calendar',
+        api_version: 'v3',
+        resource: 'events',
+        method: 'list',
+        params: optional_params,
+        page_limiter: 1
+      )
     end
 
   end

@@ -15,10 +15,15 @@ module GoogleApps
     end
 
     def update_task(task_list_id, task_id, body)
-      parsed_body = stringify_body(body)
-      request(:api => "tasks", :resource => "tasks", :method => "update",
-              :params => {tasklist: task_list_id, task: task_id},
-              :body => parsed_body, :headers => {"Content-Type" => "application/json"}).first
+      request(
+        api: 'tasks',
+        api_version: 'v1',
+        resource: 'tasks',
+        method: 'update',
+        params: {tasklist: task_list_id, task: task_id},
+        body: stringify_body(body),
+        headers: {'Content-Type' => 'application/json'}
+      ).first
     end
 
   end

@@ -16,9 +16,14 @@ module GoogleApps
     end
 
     def user_info
-      request(:api => 'plus', :resource => 'people', :method => 'get',
-              :headers => {'Content-Type' => 'application/json'},
-              :params => { 'userId' => 'me'}).first
+      request(
+        api: 'plus',
+        api_version: 'v1',
+        resource: 'people',
+        method: 'get',
+        headers: {'Content-Type' => 'application/json'},
+        params: { 'userId' => 'me'}
+      ).first
     end
 
     def current_scope
