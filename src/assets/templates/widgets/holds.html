@@ -17,23 +17,24 @@
           >
             <td>
               <i class="fa fa-exclamation-circle cc-icon-red"></i>
-              <span data-ng-bind="indicator.serviceIndicatorDescr"></span>
+              <span data-ng-bind="indicator.reasonDescr"></span>
             </td>
-            <td data-ng-bind="indicator.startDate.epoch * 1000 | date:'MM/dd/yy'" class="cc-table-right"></td>
+            <td data-ng-if="indicator.startDate.epoch" data-ng-bind="indicator.startDate.epoch * 1000 | date:'MM/dd/yy'" class="cc-table-right"></td>
+            <td data-ng-if="!indicator.startDate.epoch" data-ng-bind="indicator.startTermDescr" class="cc-table-right"></td>
           </tr>
           <tr data-ng-if="indicator.show">
             <td colspan="2">
-              <div class="cc-table-padding" data-ng-if="indicator.instructions" data-ng-bind="indicator.instructions"></div>
+              <div class="cc-table-padding cc-text-pre-line" data-ng-if="indicator.instructions" data-ng-bind="indicator.instructions"></div>
               <div class="cc-table-padding">
                 <div data-ng-if="indicator.amount">
                   <strong>Amount:</strong>
                   <span
-                    data-cc-amount-directive="myfinances.summary.accountBalance"
+                    data-cc-amount-directive="indicator.amount"
                     data-cc-amount-directive-color="false"
                     data-cc-amount-directive-initial-space="false"
                   ></span>
                 </div>
-                <div data-ng-if="indicator.startTermDescr">
+                <div data-ng-if="indicator.startTermDescr && indicator.startDate.epoch">
                   <strong>Start Term:</strong>
                   <span data-ng-bind="indicator.startTermDescr"></span>
                 </div>
