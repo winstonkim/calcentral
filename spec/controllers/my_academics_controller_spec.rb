@@ -19,6 +19,7 @@ describe MyAcademicsController do
         allow(klass).to receive(:new).and_return klass.new(user_id: uid, fake: true)
       end
       session['user_id'] = uid
+      allow_any_instance_of(AuthenticationState).to receive(:authenticated_as_delegate?).and_return false
     end
 
     it 'should get a feed full of content' do
@@ -37,7 +38,10 @@ describe MyAcademicsController do
     end
 
     context 'delegate view' do
-      before { allow_any_instance_of(AuthenticationState).to receive(:authenticated_as_delegate?).and_return true }
+      before do
+        allow_any_instance_of(AuthenticationState).to receive(:authenticated_as_delegate?).and_return true
+        allow(Settings.features).to receive(:cs_delegated_access).and_return true
+      end
 
       it 'should get a filtered feed' do
         get :get_feed

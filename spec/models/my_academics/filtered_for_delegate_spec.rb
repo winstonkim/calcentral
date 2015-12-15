@@ -9,7 +9,9 @@ describe MyAcademics::FilteredForDelegate do
   end
 
   let(:uid) { '61889' }
+
   before do
+    allow(Settings.features).to receive(:cs_delegated_access).and_return(is_feature_enabled)
     fake_classes = Bearfacts::Proxy.subclasses + [ Regstatus::Proxy ]
     fake_classes.each do |klass|
       allow(klass).to receive(:new).and_return klass.new(user_id: uid, fake: true)
@@ -26,7 +28,16 @@ describe MyAcademics::FilteredForDelegate do
     end
   end
 
+  context 'when feature is not enabled' do
+    let(:is_feature_enabled) { false }
+    let(:fake_delegate_permissions) { ['View grades', 'View enrollments'] }
+    it 'should include default metadata but nothing else' do
+      expect(feed.keys).to match_array %w(lastModified feedName)
+    end
+  end
+
   context 'when delegate permissions include grades', if: CampusOracle::Connection.test_data?  do
+    let(:is_feature_enabled) { true }
     let(:fake_delegate_permissions) { ['View grades', 'View enrollments'] }
     include_examples 'filtered feed'
 
@@ -41,6 +52,7 @@ describe MyAcademics::FilteredForDelegate do
   end
 
   context 'when delegate permissions do not include grades', if: CampusOracle::Connection.test_data? do
+    let(:is_feature_enabled) { true }
     let(:fake_delegate_permissions) { ['View enrollments', 'View finances'] }
     include_examples 'filtered feed'
 
