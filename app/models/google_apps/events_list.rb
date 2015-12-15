@@ -4,8 +4,14 @@ module GoogleApps
     def events_list(optional_params={})
       optional_params.reverse_merge!(:calendarId => 'primary', :maxResults => 1000)
       # Events API is quick but, 2000+ events within a day might be a little absurd.
-      request :api => "calendar", :resource => "events", :method => "list", :params => optional_params,
-              :page_limiter => 2
+      request(
+        api: 'calendar',
+        api_version: 'v3',
+        resource: 'events',
+        method: 'list',
+        params: optional_params,
+        page_limiter: 2
+      )
     end
 
     def json_filename

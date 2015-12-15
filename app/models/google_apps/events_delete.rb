@@ -16,12 +16,15 @@ module GoogleApps
     end
 
     def delete_event(event_id)
-      request(api: self.class.api,
-              params: {"calendarId" => "primary", "eventId" => "#{event_id}"},
-              resource: "events",
-              method: "delete",
-              body: "",
-              headers: {"Content-Type" => "application/json"}).first
+      request(
+        api: 'calendar',
+        api_version: 'v3',
+        params: {'calendarId' => 'primary', 'eventId' => event_id},
+        resource: 'events',
+        method: 'delete',
+        body: '',
+        headers: {'Content-Type' => 'application/json'}
+      ).first
     end
   end
 end
