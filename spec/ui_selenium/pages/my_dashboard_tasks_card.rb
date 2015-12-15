@@ -25,12 +25,12 @@ module CalCentralPages
     # TASKS: OVERDUE
     span(:overdue_task_count, :xpath => '//span[@data-ng-bind="overdueTasks.length"]')
     elements(:overdue_task, :list_item, :xpath => '//li[@data-ng-repeat="task in overdueTasks | limitTo: overdueLimit"]')
-    elements(:overdue_task_toggle, :link, :xpath => '//li[@data-ng-repeat="task in overdueTasks | limitTo: overdueLimit"]//span[contains(.,"Show more information about")]')
+    elements(:overdue_task_toggle, :div, :xpath => '//li[@data-ng-repeat="task in overdueTasks | limitTo: overdueLimit"]//span[contains(.,"Show")]/..')
     elements(:overdue_task_edit_button, :button, :xpath => '//li[@data-ng-repeat="task in overdueTasks | limitTo: overdueLimit"]//button[contains(.,"Edit")]')
     elements(:overdue_task_delete_button, :button, :xpath => '//li[@data-ng-repeat="task in overdueTasks | limitTo: overdueLimit"]//button[contains(.,"Delete")]')
     elements(:overdue_task_save_button, :button, :xpath => '//li[@data-ng-repeat="task in overdueTasks | limitTo: overdueLimit"]//button[contains(.,"Save")]')
     elements(:overdue_task_cbx, :checkbox, :xpath => '//li[@data-ng-repeat="task in overdueTasks | limitTo: overdueLimit"]//input[@id="cc-widget-tasks-checkbox-0"]')
-    elements(:overdue_task_title, :div, :xpath => '//li[@data-ng-repeat="task in overdueTasks | limitTo: overdueLimit"]//strong')
+    elements(:overdue_task_title, :div, :xpath => '//li[@data-ng-repeat="task in overdueTasks | limitTo: overdueLimit"]//strong[@data-ng-bind="task.title"]')
     elements(:overdue_task_title_input, :text_field, :xpath => '//li[@data-ng-repeat="task in overdueTasks | limitTo: overdueLimit"]//input[@data-ng-model="addEditTask.title"]')
     elements(:overdue_task_course, :span, :xpath => '//li[@data-ng-repeat="task in overdueTasks | limitTo: overdueLimit"]//span[@data-ng-bind="task.course_code"]')
     elements(:overdue_task_date, :div, :xpath => '//li[@data-ng-repeat="task in overdueTasks | limitTo: overdueLimit"]//div[@class="cc-widget-tasks-col cc-widget-tasks-col-date"]/span')
@@ -44,13 +44,13 @@ module CalCentralPages
     # TASKS: TODAY
     span(:today_task_count, :xpath => '//span[@data-ng-bind="dueTodayTasks.length"]')
     elements(:today_task, :list_item, :xpath => '//li[@data-ng-repeat="task in dueTodayTasks | limitTo: dueTodayLimit"]')
-    elements(:today_task_toggle, :link, :xpath => '//li[@data-ng-repeat="task in dueTodayTasks | limitTo: dueTodayLimit"]//span[contains(.,"Show more information about")]')
+    elements(:today_task_toggle, :div, :xpath => '//li[@data-ng-repeat="task in dueTodayTasks | limitTo: dueTodayLimit"]//span[contains(.,"Show")]/..')
     elements(:today_task_edit_button, :button, :xpath => '//li[@data-ng-repeat="task in dueTodayTasks | limitTo: dueTodayLimit"]//button[contains(.,"Edit")]')
     elements(:today_task_delete_button, :button, :xpath => '//li[@data-ng-repeat="task in dueTodayTasks | limitTo: dueTodayLimit"]//button[contains(.,"Delete")]')
     elements(:today_task_save_button, :button, :xpath => '//li[@data-ng-repeat="task in dueTodayTasks | limitTo: dueTodayLimit"]//button[contains(.,"Save")]')
     elements(:today_task_cancel_button, :button, :xpath => '//li[@data-ng-repeat="task in dueTodayTasks | limitTo: dueTodayLimit"]//button[contains(.,"Cancel")][2]')
     elements(:today_task_cbx, :checkbox, :xpath => '//li[@data-ng-repeat="task in dueTodayTasks | limitTo: dueTodayLimit"]//input[@id="cc-widget-tasks-checkbox-0"]')
-    elements(:today_task_title, :div, :xpath => '//li[@data-ng-repeat="task in dueTodayTasks | limitTo: dueTodayLimit"]//strong')
+    elements(:today_task_title, :div, :xpath => '//li[@data-ng-repeat="task in dueTodayTasks | limitTo: dueTodayLimit"]//strong[@data-ng-bind="task.title"]')
     elements(:today_task_course, :span, :xpath => '//li[@data-ng-repeat="task in dueTodayTasks | limitTo: dueTodayLimit"]//span[@data-ng-bind="task.course_code"]')
     elements(:today_task_title_input, :text_field, :xpath => '//li[@data-ng-repeat="task in dueTodayTasks | limitTo: dueTodayLimit"]//input[@data-ng-model="addEditTask.title"]')
     elements(:today_task_date, :div, :xpath => '//li[@data-ng-repeat="task in dueTodayTasks | limitTo: dueTodayLimit"]//div[@class="cc-widget-tasks-col cc-widget-tasks-col-date"]/span')
@@ -65,12 +65,12 @@ module CalCentralPages
     # TASKS: FUTURE
     span(:future_task_count, :xpath => '//span[@data-ng-bind="futureTasks.length"]')
     elements(:future_task, :list_item, :xpath => '//li[@data-ng-repeat="task in futureTasks | limitTo: futureLimit"]')
-    elements(:future_task_toggle, :link, :xpath => '//li[@data-ng-repeat="task in futureTasks | limitTo: futureLimit"]//span[contains(.,"Show more information about")]')
+    elements(:future_task_toggle, :div, :xpath => '//li[@data-ng-repeat="task in futureTasks | limitTo: futureLimit"]//span[contains(.,"Show")]/..')
     elements(:future_task_edit_button, :button, :xpath => '//li[@data-ng-repeat="task in futureTasks | limitTo: futureLimit"]//button[contains(.,"Edit")]')
     elements(:future_task_delete_button, :button, :xpath => '//li[@data-ng-repeat="task in futureTasks | limitTo: futureLimit"]//button[contains(.,"Delete")]')
     elements(:future_task_save_button, :button, :xpath => '//li[@data-ng-repeat="task in futureTasks | limitTo: futureLimit"]//button[contains(.,"Save")]')
     elements(:future_task_cbx, :checkbox, :xpath => '//li[@data-ng-repeat="task in futureTasks | limitTo: futureLimit"]//input[@id="cc-widget-tasks-checkbox-0"]')
-    elements(:future_task_title, :div, :xpath => '//li[@data-ng-repeat="task in futureTasks | limitTo: futureLimit"]//strong')
+    elements(:future_task_title, :div, :xpath => '//li[@data-ng-repeat="task in futureTasks | limitTo: futureLimit"]//strong[@data-ng-bind="task.title"]')
     elements(:future_task_course, :span, :xpath => '//li[@data-ng-repeat="task in futureTasks | limitTo: futureLimit"]//span[@data-ng-bind="task.course_code"]')
     elements(:future_task_title_input, :text_field, :xpath => '//li[@data-ng-repeat="task in futureTasks | limitTo: futureLimit"]//input[@data-ng-model="addEditTask.title"]')
     elements(:future_task_date, :div, :xpath => '//li[@data-ng-repeat="task in futureTasks | limitTo: futureLimit"]//div[@class="cc-widget-tasks-col cc-widget-tasks-col-date"]/span')
@@ -84,12 +84,12 @@ module CalCentralPages
     # TASKS: UNSCHEDULED
     span(:unsched_task_count, :xpath => '//span[@data-ng-bind="unscheduledTasks.length"]')
     elements(:unsched_task, :list_item, :xpath => '//li[@data-ng-repeat="task in unscheduledTasks | limitTo:unscheduledLimit"]')
-    elements(:unsched_task_toggle, :link, :xpath => '//li[@data-ng-repeat="task in unscheduledTasks | limitTo:unscheduledLimit"]//span[contains(.,"Show more information about")]')
+    elements(:unsched_task_toggle, :div, :xpath => '//li[@data-ng-repeat="task in unscheduledTasks | limitTo:unscheduledLimit"]//span[contains(.,"Show")]/..')
     elements(:unsched_task_edit_button, :button, :xpath => '//li[@data-ng-repeat="task in unscheduledTasks | limitTo:unscheduledLimit"]//button[contains(.,"Edit")]')
     elements(:unsched_task_delete_button, :button, :xpath => '//li[@data-ng-repeat="task in unscheduledTasks | limitTo:unscheduledLimit"]//button[contains(.,"Delete")]')
     elements(:unsched_task_save_button, :button, :xpath => '//li[@data-ng-repeat="task in unscheduledTasks | limitTo:unscheduledLimit"]//button[contains(.,"Save")]')
     elements(:unsched_task_cbx, :checkbox, :xpath => '//li[@data-ng-repeat="task in unscheduledTasks | limitTo:unscheduledLimit"]//input[@id="cc-widget-tasks-checkbox-0"]')
-    elements(:unsched_task_title, :div, :xpath => '//li[@data-ng-repeat="task in unscheduledTasks | limitTo:unscheduledLimit"]//strong')
+    elements(:unsched_task_title, :div, :xpath => '//li[@data-ng-repeat="task in unscheduledTasks | limitTo:unscheduledLimit"]//strong[@data-ng-bind="task.title"]')
     elements(:unsched_task_title_input, :text_field, :xpath => '//li[@data-ng-repeat="task in unscheduledTasks | limitTo:unscheduledLimit"]//input[@data-ng-model="addEditTask.title"]')
     elements(:unsched_task_date, :div, :xpath => '//li[@data-ng-repeat="task in unscheduledTasks | limitTo:unscheduledLimit"]//div[@data-ng-if="task.updatedDate && task.bucket === \'Unscheduled\'"]/span')
     elements(:unsched_task_date_input, :text_field, :xpath => '//li[@data-ng-repeat="task in unscheduledTasks | limitTo:unscheduledLimit"]//input[@name="add_task_due_date"]')
@@ -100,11 +100,11 @@ module CalCentralPages
     # TASKS: COMPLETED
     span(:completed_task_count, :xpath => '//span[@data-ng-bind="completedTasks.length"]')
     elements(:completed_task, :list_item, :xpath => '//li[@data-ng-repeat="task in completedTasks | limitTo:completedLimit"]')
-    elements(:completed_task_toggle, :link, :xpath => '//li[@data-ng-repeat="task in completedTasks | limitTo:completedLimit"]//span[contains(.,"Show more information about")]')
+    elements(:completed_task_toggle, :div, :xpath => '//li[@data-ng-repeat="task in completedTasks | limitTo:completedLimit"]//span[contains(.,"Show")]/..')
     elements(:completed_task_edit_button, :button, :xpath => '//li[@data-ng-repeat="task in completedTasks | limitTo:completedLimit"]//button[contains(.,"Edit")]')
     elements(:completed_task_delete_button, :button, :xpath => '//li[@data-ng-repeat="task in completedTasks | limitTo:completedLimit"]//button[contains(.,"Delete")]')
     elements(:completed_task_cbx, :checkbox, :xpath => '//li[@data-ng-repeat="task in completedTasks | limitTo:completedLimit"]//input[@id="cc-widget-tasks-checkbox-0"]')
-    elements(:completed_task_title, :div, :xpath => '//li[@data-ng-repeat="task in completedTasks | limitTo:completedLimit"]//strong')
+    elements(:completed_task_title, :div, :xpath => '//li[@data-ng-repeat="task in completedTasks | limitTo:completedLimit"]//strong[@data-ng-bind="task.title"]')
     elements(:completed_task_title_input, :text_field, :xpath => '//li[@data-ng-repeat="task in completedTasks | limitTo:completedLimit"]//input[@data-ng-model="addEditTask.title"]')
     elements(:completed_task_date_input, :text_field, :xpath => '//li[@data-ng-repeat="task in completedTasks | limitTo:completedLimit"]//input[@name="add_task_due_date"]')
     elements(:completed_task_notes_input, :text_field, :xpath => '//li[@data-ng-repeat="task in completedTasks | limitTo:completedLimit"]//textarea[@data-ng-model="addEditTask.notes"]')
@@ -112,37 +112,177 @@ module CalCentralPages
 
     # ADD NEW TASK
 
+    def click_new_task
+      WebDriverUtils.wait_for_page_and_click new_task_button_element
+    end
+
+    def click_cancel_task
+      WebDriverUtils.wait_for_page_and_click cancel_new_task_button_element
+      cancel_new_task_button_element.when_not_visible WebDriverUtils.page_event_timeout
+    end
+
     def edit_new_task(title, date, note)
       logger.info "Task title is #{title}, date is #{date}, and note is #{note}"
       WebDriverUtils.wait_for_element_and_type(new_task_title_input_element, title) unless title.nil?
-      WebDriverUtils.wait_for_element_and_type(new_task_date_input_element, date) unless date.nil?
+      if date.instance_of? String
+        WebDriverUtils.wait_for_element_and_type(new_task_date_input_element, date)
+      elsif date.instance_of? Date
+        WebDriverUtils.wait_for_element_and_type(new_task_date_input_element, WebDriverUtils.ui_date_input_format(date))
+      end
       WebDriverUtils.wait_for_element_and_type(new_task_notes_input_element, note) unless note.nil?
     end
 
     def click_add_task_button
-      logger.info('Clicking add task button')
       WebDriverUtils.wait_for_page_and_click add_new_task_button_element
       add_new_task_button_element.when_not_visible(timeout=WebDriverUtils.google_task_timeout)
     end
 
-    # OVERDUE TASKS
+    def add_task(title, date, note)
+      click_new_task
+      edit_new_task(title, date, note)
+      click_add_task_button
+    end
 
-    def edit_overdue_task(index, title, date, note)
+    def wait_for_overdue_tasks
+      WebDriverUtils.wait_for_element_and_click scheduled_tasks_tab_element
+      wait_until(WebDriverUtils.google_task_timeout) { overdue_task_elements.any? }
+    end
+
+    def wait_for_today_tasks
+      WebDriverUtils.wait_for_element_and_click scheduled_tasks_tab_element
+      wait_until(WebDriverUtils.google_task_timeout) { today_task_elements.any? }
+    end
+
+    def wait_for_future_tasks
+      WebDriverUtils.wait_for_element_and_click scheduled_tasks_tab_element
+      wait_until(WebDriverUtils.google_task_timeout) { future_task_elements.any? }
+    end
+
+    def wait_for_unsched_tasks
+      WebDriverUtils.wait_for_element_and_click unsched_tasks_tab_element
+      wait_until(WebDriverUtils.google_task_timeout) { unsched_task_elements.any? }
+    end
+
+    def wait_for_completed_tasks
+      WebDriverUtils.wait_for_element_and_click completed_tasks_tab_element
+      wait_until(WebDriverUtils.google_task_timeout) { completed_task_elements.any? }
+    end
+
+    def edit_overdue_task(task_index, title, date, note)
+      overdue_task_toggle_elements[task_index].click unless overdue_task_edit_button_elements[task_index].visible?
+      WebDriverUtils.wait_for_element_and_click overdue_task_edit_button_elements[task_index]
       logger.info "Task title is #{title}, date is #{date}, and note is #{note}"
-      WebDriverUtils.wait_for_element_and_type(overdue_task_title_input_elements[index], title) unless title.nil?
-      WebDriverUtils.wait_for_element_and_type(overdue_task_date_input_elements[index], date) unless date.nil?
-      WebDriverUtils.wait_for_element_and_type(overdue_task_notes_input_elements[index], note) unless note.nil?
+      WebDriverUtils.wait_for_element_and_type(overdue_task_title_input_elements[task_index], title) unless title.nil?
+      if date.instance_of? String
+        WebDriverUtils.wait_for_element_and_type(overdue_task_date_input_elements[task_index], date)
+      elsif date.instance_of? Date
+        WebDriverUtils.wait_for_element_and_type(overdue_task_date_input_elements[task_index], WebDriverUtils.ui_date_input_format(date))
+      end
+      WebDriverUtils.wait_for_element_and_type(overdue_task_notes_input_elements[task_index], note) unless note.nil?
     end
 
-    def complete_overdue_task(index)
-      logger.info('Completing overdue task')
-      overdue_task_cbx_elements[index].when_visible(timeout=WebDriverUtils.google_task_timeout)
-      task_count = overdue_task_count.to_i
-      WebDriverUtils.wait_for_element_and_click overdue_task_cbx[index]
-      wait_until(WebDriverUtils.google_task_timeout) { overdue_task_count.to_i == (task_count - 1) }
+    def edit_today_task(task_index, title, date, note)
+      today_task_toggle_elements[task_index].click unless today_task_edit_button_elements[task_index].visible?
+      WebDriverUtils.wait_for_element_and_click today_task_edit_button_elements[task_index]
+      logger.info "Task title is #{title}, date is #{date}, and note is #{note}"
+      WebDriverUtils.wait_for_element_and_type(today_task_title_input_elements[task_index], title) unless title.nil?
+      if date.instance_of? String
+        WebDriverUtils.wait_for_element_and_type(today_task_date_input_elements[task_index], date)
+      elsif date.instance_of? Date
+        WebDriverUtils.wait_for_element_and_type(today_task_date_input_elements[task_index], WebDriverUtils.ui_date_input_format(date))
+      end
+      WebDriverUtils.wait_for_element_and_type(today_task_notes_input_elements[task_index], note) unless note.nil?
     end
 
-    def delete_all_overdue_tasks
+    def edit_future_task(task_index, title, date, note)
+      future_task_toggle_elements[task_index].click unless future_task_edit_button_elements[task_index].visible?
+      WebDriverUtils.wait_for_element_and_click future_task_edit_button_elements[task_index]
+      logger.info "Task title is #{title}, date is #{date}, and note is #{note}"
+      WebDriverUtils.wait_for_element_and_type(future_task_title_input_elements[task_index], title) unless title.nil?
+      if date.instance_of? String
+        WebDriverUtils.wait_for_element_and_type(future_task_date_input_elements[task_index], date)
+      elsif date.instance_of? Date
+        WebDriverUtils.wait_for_element_and_type(future_task_date_input_elements[task_index], WebDriverUtils.ui_date_input_format(date))
+      end
+      WebDriverUtils.wait_for_element_and_type(future_task_notes_input_elements[task_index], note) unless note.nil?
+    end
+
+    def edit_unsched_task(task_index, title, date, note)
+      unsched_task_toggle_elements[task_index].click unless unsched_task_edit_button_elements[task_index].visible?
+      WebDriverUtils.wait_for_element_and_click unsched_task_edit_button_elements[task_index]
+      logger.info "Task title is #{title}, date is #{date}, and note is #{note}"
+      WebDriverUtils.wait_for_element_and_type(unsched_task_title_input_elements[task_index], title) unless title.nil?
+      if date.instance_of? String
+        WebDriverUtils.wait_for_element_and_type(unsched_task_date_input_elements[task_index], date)
+      elsif date.instance_of? Date
+        WebDriverUtils.wait_for_element_and_type(unsched_task_date_input_elements[task_index], WebDriverUtils.ui_date_input_format(date))
+      end
+      WebDriverUtils.wait_for_element_and_type(unsched_task_notes_input_elements[task_index], note) unless note.nil?
+    end
+
+    def edit_and_save_task(task_element, title, date, note)
+      if overdue_task_elements.include? task_element
+        wait_for_overdue_tasks
+        task_index = overdue_task_elements.index(task_element)
+        edit_overdue_task(task_index, title, date, note)
+        WebDriverUtils.wait_for_element_and_click overdue_task_save_button_elements[task_index]
+        overdue_task_save_button_elements[task_index].when_not_visible WebDriverUtils.google_task_timeout
+      elsif today_task_elements.include? task_element
+        wait_for_today_tasks
+        task_index = today_task_elements.index(task_element)
+        edit_today_task(task_index, title, date, note)
+        WebDriverUtils.wait_for_element_and_click today_task_save_button_elements[task_index]
+        today_task_save_button_elements[task_index].when_not_visible WebDriverUtils.google_task_timeout
+      elsif future_task_elements.include? task_element
+        wait_for_future_tasks
+        task_index = future_task_elements.index(task_element)
+        edit_future_task(task_index, title, date, note)
+        WebDriverUtils.wait_for_element_and_click future_task_save_button_elements[task_index]
+        future_task_save_button_elements[task_index].when_not_visible WebDriverUtils.google_task_timeout
+      elsif unsched_task_elements.include? task_element
+        wait_for_unsched_tasks
+        task_index = unsched_task_elements.index(task_element)
+        edit_unsched_task(task_index, title, date, note)
+        WebDriverUtils.wait_for_element_and_click unsched_task_save_button_elements[task_index]
+        unsched_task_save_button_elements[task_index].when_not_visible WebDriverUtils.google_task_timeout
+      else
+        logger.error 'Task not found in time bucket'
+      end
+    end
+
+    def complete_task(task_element)
+      if overdue_task_elements.include? task_element
+        wait_for_overdue_tasks
+        task_index = overdue_task_elements.index(task_element)
+        task_count = overdue_task_count.to_i
+        WebDriverUtils.wait_for_element_and_click overdue_task_cbx_elements[task_index]
+        wait_until(WebDriverUtils.google_task_timeout) { overdue_task_count.to_i == (task_count - 1) }
+      elsif today_task_elements.include? task_element
+        wait_for_today_tasks
+        task_index = today_task_elements.index(task_element)
+        task_count = today_task_count.to_i
+        WebDriverUtils.wait_for_element_and_click today_task_cbx_elements[task_index]
+        wait_until(WebDriverUtils.google_task_timeout) { today_task_count.to_i == (task_count - 1) }
+      elsif future_task_elements.include? task_element
+        wait_for_future_tasks
+        task_index = future_task_elements.index(task_element)
+        task_count = future_task_count.to_i
+        WebDriverUtils.wait_for_element_and_click future_task_cbx_elements[task_index]
+        wait_until(WebDriverUtils.google_task_timeout) { future_task_count.to_i == (task_count - 1) }
+      elsif unsched_task_elements.include? task_element
+        wait_for_unsched_tasks
+        task_index = unsched_task_elements.index(task_element)
+        task_count = unsched_task_count.to_i
+        WebDriverUtils.wait_for_element_and_click unsched_task_cbx_elements[task_index]
+        wait_until(WebDriverUtils.google_task_timeout) { unsched_task_count.to_i == (task_count - 1) }
+      else
+        logger.error 'Task not found in time bucket'
+      end
+    end
+
+    def delete_all_tasks
+      logger.info('Deleting all existing tasks')
+      load_page
       WebDriverUtils.wait_for_page_and_click scheduled_tasks_tab_element
       while overdue_task_toggle_elements.any? do
         task_count = overdue_task_count.to_i
@@ -150,80 +290,18 @@ module CalCentralPages
         WebDriverUtils.wait_for_element_and_click overdue_task_delete_button_elements[0]
         wait_until(WebDriverUtils.google_task_timeout) { overdue_task_count.to_i == (task_count - 1) }
       end
-    end
-
-    # TODAY'S TASKS
-
-    def edit_today_task(index, title, date, note)
-      logger.info "Task title is #{title}, date is #{date}, and note is #{note}"
-      WebDriverUtils.wait_for_element_and_type(today_task_title_input_elements[index], title) unless title.nil?
-      WebDriverUtils.wait_for_element_and_type(today_task_date_input_elements[index], date) unless date.nil?
-      WebDriverUtils.wait_for_element_and_type(today_task_notes_input_elements[index], note) unless note.nil?
-    end
-
-    def complete_today_task(index)
-      logger.info('Completing today task')
-      today_task_cbx_elements[index].when_visible(timeout=WebDriverUtils.google_task_timeout)
-      task_count = today_task_count.to_i
-      WebDriverUtils.wait_for_element_and_click today_task_cbx[index]
-      wait_until(WebDriverUtils.google_task_timeout) { today_task_count.to_i == (task_count - 1) }
-    end
-
-    def delete_all_today_tasks
-      WebDriverUtils.wait_for_page_and_click scheduled_tasks_tab_element
       while today_task_toggle_elements.any? do
         task_count = today_task_count.to_i
         WebDriverUtils.wait_for_element_and_click today_task_toggle_elements[0]
         WebDriverUtils.wait_for_element_and_click today_task_delete_button_elements[0]
         wait_until(WebDriverUtils.google_task_timeout) { today_task_count.to_i == (task_count - 1) }
       end
-    end
-
-    # FUTURE TASKS
-
-    def edit_future_task(index, title, date, note)
-      logger.info "Task title is #{title}, date is #{date}, and note is #{note}"
-      WebDriverUtils.wait_for_element_and_type(future_task_title_input_elements[index], title) unless title.nil?
-      WebDriverUtils.wait_for_element_and_type(future_task_date_input_elements[index], date) unless date.nil?
-      WebDriverUtils.wait_for_element_and_type(future_task_notes_input_elements[index], note) unless note.nil?
-    end
-
-    def complete_future_task(index)
-      logger.info('Completing future task')
-      future_task_cbx_elements[index].when_visible(timeout=WebDriverUtils.google_task_timeout)
-      task_count = future_task_count.to_i
-      WebDriverUtils.wait_for_element_and_click future_task_cbx[index]
-      wait_until(WebDriverUtils.google_task_timeout) { future_task_count.to_i == (task_count - 1) }
-    end
-
-    def delete_all_future_tasks
-      WebDriverUtils.wait_for_page_and_click scheduled_tasks_tab_element
       while future_task_toggle_elements.any? do
         task_count = future_task_count.to_i
         WebDriverUtils.wait_for_element_and_click future_task_toggle_elements[0]
         WebDriverUtils.wait_for_element_and_click future_task_delete_button_elements[0]
         wait_until(WebDriverUtils.google_task_timeout) { future_task_count.to_i == (task_count - 1) }
       end
-    end
-
-    # UNSCHEDULED TASKS
-
-    def edit_unsched_task(index, title, date, note)
-      logger.info "Task title is #{title}, date is #{date}, and note is #{note}"
-      WebDriverUtils.wait_for_element_and_type(unsched_task_title_input_elements[index], title) unless title.nil?
-      WebDriverUtils.wait_for_element_and_type(unsched_task_date_input_elements[index], date) unless date.nil?
-      WebDriverUtils.wait_for_element_and_type(unsched_task_notes_input_elements[index], note) unless note.nil?
-    end
-
-    def complete_unsched_task(index)
-      logger.info('Completing unsched task')
-      unsched_task_cbx_elements[index].when_visible(timeout=WebDriverUtils.google_task_timeout)
-      task_count = unsched_task_count.to_i
-      WebDriverUtils.wait_for_element_and_click unsched_task_cbx[index]
-      wait_until(WebDriverUtils.google_task_timeout) { unsched_task_count.to_i == (task_count - 1) }
-    end
-
-    def delete_all_unsched_tasks
       WebDriverUtils.wait_for_page_and_click unsched_tasks_tab_element
       while unsched_task_toggle_elements.any? do
         task_count = unsched_task_count.to_i
@@ -231,22 +309,6 @@ module CalCentralPages
         WebDriverUtils.wait_for_element_and_click unsched_task_delete_button_elements[0]
         wait_until(WebDriverUtils.google_task_timeout) { unsched_task_count.to_i == (task_count - 1) }
       end
-    end
-
-    # COMPLETED TASKS
-
-    def uncomplete_task(index)
-      logger.info('Un-completing task')
-      WebDriverUtils.wait_for_element_and_click completed_task_cbx_elements[index]
-    end
-
-    def all_completed_task_titles
-      titles = []
-      completed_task_title_elements.each { |title| titles << title.text }
-      titles
-    end
-
-    def delete_all_completed_tasks
       WebDriverUtils.wait_for_element_and_click completed_tasks_tab_element
       while completed_task_toggle_elements.any? do
         task_count = completed_task_count.to_i
@@ -256,14 +318,47 @@ module CalCentralPages
       end
     end
 
-    def delete_all_tasks
-      logger.info('Deleting all existing tasks')
-      load_page
-      delete_all_unscheduled_tasks
-      delete_all_today_tasks
-      delete_all_future_tasks
-      delete_all_overdue_tasks
-      delete_all_completed_tasks
+    def verify_task(task_element, title, date, note)
+      if overdue_task_elements.include? task_element
+        wait_for_overdue_tasks
+        task_index = overdue_task_elements.index(task_element)
+        wait_until(WebDriverUtils.google_task_timeout) do
+          overdue_task_toggle_elements[task_index].click unless overdue_task_toggle_elements[task_index].nil?
+          overdue_task_title_elements[task_index].text == title
+          overdue_task_date_elements[task_index].text == WebDriverUtils.ui_numeric_date_format(date)
+          overdue_task_notes_elements[task_index].text == note
+        end
+      elsif today_task_elements.include? task_element
+        wait_for_today_tasks
+        task_index = today_task_elements.index(task_element)
+        wait_until(WebDriverUtils.google_task_timeout) do
+          today_task_toggle_elements[task_index].click unless today_task_toggle_elements[task_index].nil?
+          today_task_title_elements[task_index].text == title
+          today_task_date_elements[task_index].text == WebDriverUtils.ui_numeric_date_format(date)
+          today_task_notes_elements[task_index].text == note
+        end
+      elsif future_task_elements.include? task_element
+        wait_for_future_tasks
+        task_index = future_task_elements.index(task_element)
+        wait_until(WebDriverUtils.google_task_timeout) do
+          future_task_toggle_elements[task_index].click unless future_task_toggle_elements[task_index].nil?
+          future_task_title_elements[task_index].text == title
+          future_task_date_elements[task_index].text == WebDriverUtils.ui_numeric_date_format(date)
+          future_task_notes_elements[task_index].text == note
+        end
+      elsif unsched_task_elements.include? task_element
+        wait_for_unsched_tasks
+        task_index = unsched_task_elements.index(task_element)
+        wait_until(WebDriverUtils.google_task_timeout) do
+          unsched_task_toggle_elements[task_index].click unless unsched_task_toggle_elements[task_index].nil?
+          unsched_task_title_elements[task_index].text == title
+          unsched_task_date_elements[task_index].text == ''
+          unsched_task_notes_elements[task_index].text == note
+        end
+      else
+        logger.error 'Task not found in time bucket'
+      end
     end
+
   end
 end
