@@ -6,7 +6,7 @@ var angular = require('angular');
 /**
  * Status controller
  */
-angular.module('calcentral.controllers').controller('StatusController', function(activityFactory, apiService, badgesFactory, financesFactory, $scope, $q) {
+angular.module('calcentral.controllers').controller('StatusController', function(activityFactory, apiService, badgesFactory, financesFactory, holdsFactory, $scope, $q) {
   // Keep track on whether the status has been loaded or not
   var hasLoaded = false;
 
@@ -58,6 +58,21 @@ angular.module('calcentral.controllers').controller('StatusController', function
     }
   };
 
+  var loadHolds = function(data) {
+    if (!apiService.user.profile.features.csHolds) {
+      return;
+    }
+    $scope.holds = _.get(data, 'data.feed');
+    var numberOfHolds = _.get($scope, 'holds.serviceIndicators.length');
+    if (numberOfHolds) {
+      $scope.count += numberOfHolds;
+      $scope.hasAlerts = true;
+    } else if ($scope.holds.errored) {
+      $scope.count++;
+      $scope.hasWarnings = true;
+    }
+  };
+
   var finishLoading = function() {
     // Hides the spinner
     $scope.statusLoading = '';
@@ -80,9 +95,10 @@ angular.module('calcentral.controllers').controller('StatusController', function
       var getBadges = badgesFactory.getBadges().success(loadStudentInfo);
       var getFinances = financesFactory.getFinances().success(loadFinances);
       var getFinaidActivityOld = activityFactory.getFinaidActivityOld().then(loadActivity);
+      var getHolds = holdsFactory.getHolds().then(loadHolds);
 
       // Make sure to hide the spinner when everything is loaded
-      $q.all(getBadges, getFinances, getFinaidActivityOld).then(finishLoading);
+      $q.all(getBadges, getFinances, getFinaidActivityOld, getHolds).then(finishLoading);
     }
   });
 });
