@@ -93,7 +93,7 @@ class GooglePage
 
   def send_email(recipient, subject, body)
     logger.info("Sending an email with the subject #{subject}")
-    sleep(WebDriverUtils.page_load_timeout)
+    sleep WebDriverUtils.page_event_timeout
     WebDriverUtils.wait_for_page_and_click compose_email_button_element
     WebDriverUtils.wait_for_element_and_click new_message_heading_element
     new_message_heading
@@ -101,7 +101,7 @@ class GooglePage
     WebDriverUtils.wait_for_element_and_type(to_element, recipient)
     self.subject_element.value = subject
     self.body_element.value = body
-    sleep(WebDriverUtils.page_event_timeout)
+    sleep WebDriverUtils.page_event_timeout
     send_email_button
     mail_sent_link_element.when_present(timeout=WebDriverUtils.page_event_timeout)
   end
@@ -114,9 +114,9 @@ class GooglePage
     sleep(WebDriverUtils.page_event_timeout)
     WebDriverUtils.wait_for_element_and_click event_location_element
     self.event_location_element.value = location
-    sleep(WebDriverUtils.page_event_timeout)
+    sleep 3
     add_video_link
-    sleep(WebDriverUtils.page_event_timeout)
+    sleep 3
     start_time = Time.strptime(event_start_time, "%l:%M%P")
     end_time = Time.strptime(event_end_time, "%l:%M%P")
     save_event
@@ -138,7 +138,7 @@ class GooglePage
     wait_until(timeout=WebDriverUtils.page_event_timeout, nil) { task_one_title_input == nil }
     self.task_one_title_input_element.value = title
     edit_task_details
-    sleep(WebDriverUtils.google_task_timeout)
+    sleep 3
     back_to_tasks
     driver.switch_to.default_content
     toggle_tasks_visibility

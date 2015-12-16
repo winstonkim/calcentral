@@ -1,6 +1,6 @@
 describe 'My Dashboard Up Next card', :testui => true do
 
-  if ENV["UI_TEST"] && Setting.ui_selenium.layer != 'production'
+  if ENV["UI_TEST"] && Settings.ui_selenium.layer != 'production'
 
     include ClassLogger
 
