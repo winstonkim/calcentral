@@ -1,4 +1,4 @@
-describe 'User authorization', :testui => true do
+describe 'User authorization', :testui => true, :order => :defined do
 
   if ENV["UI_TEST"] && Settings.ui_selenium.layer != 'production'
 
@@ -107,14 +107,14 @@ describe 'User authorization', :testui => true do
         it 'allows conversion of UID to SID' do
           @settings_page.look_up_user('61889')
           @settings_page.wait_until(timeout) { @settings_page.lookup_results_table_element.visible? }
-          @settings_page.wait_until(timeout) { !@settings_page.lookup_results_table_element.rows.zero? }
+          @settings_page.wait_until(timeout) { @settings_page.lookup_results_table_element.rows > 1 }
           expect(@settings_page.lookup_results_table_element[1][0].text).to eql('61889')
           expect(@settings_page.lookup_results_table_element[1][1].text).to eql('11667051')
         end
         it 'allows conversion of SID to UID' do
           @settings_page.look_up_user('11667051')
           @settings_page.wait_until(timeout) { @settings_page.lookup_results_table_element.visible? }
-          @settings_page.wait_until(timeout) { !@settings_page.lookup_results_table_element.rows.zero? }
+          @settings_page.wait_until(timeout) { @settings_page.lookup_results_table_element.rows > 1 }
           expect(@settings_page.lookup_results_table_element[1][0].text).to eql('61889')
           expect(@settings_page.lookup_results_table_element[1][1].text).to eql('11667051')
         end

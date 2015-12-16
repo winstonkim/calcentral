@@ -75,15 +75,15 @@ describe 'My Dashboard bConnected live updates', :testui => true do
       end
 
       it 'shows an updated count of tasks' do
-        WebDriverUtils.wait_for_page_and_click @tasks_card.unsched_tasks_tab_element
+        @tasks_card.wait_for_unsched_tasks
         @tasks_card.unsched_task_count_element.when_visible(timeout=WebDriverUtils.page_load_timeout)
         expect(@tasks_card.unsched_task_count).to eql((@initial_task_count + 1).to_s)
       end
 
       it 'shows the content of a new task' do
-        WebDriverUtils.wait_for_page_and_click @tasks_card.unsched_tasks_tab_element
-        expect(@tasks_card.unsched_task_one_title).to eql(@task_title)
-        expect(@tasks_card.unsched_task_one_date).to eql(today.strftime("%m/%d"))
+        @tasks_card.wait_for_unsched_tasks
+        expect(@tasks_card.unsched_task_title_elements[0].text).to eql(@task_title)
+        expect(@tasks_card.unsched_task_date_elements[0].text).to eql(today.strftime("%m/%d"))
       end
     end
   end

@@ -154,7 +154,7 @@ class CanvasPage
   def publish_course(course_id)
     logger.info 'Publishing the course'
     load_course_site course_id
-    WebDriverUtils.wait_for_element_and_click publish_button_element
+    WebDriverUtils.wait_for_page_and_click publish_button_element
     published_button_element.when_visible timeout=WebDriverUtils.page_load_timeout
   end
 
