@@ -60,4 +60,27 @@ describe CanvasCsv::Base do
     end
   end
 
+  describe '#get_csv' do
+    subject {Canvas::Report::Users.new(fake: true, download_to_file: download_filename)}
+    context 'without an intermediate save to the file system' do
+      let(:download_filename) { nil }
+      it 'returns parsed CSV' do
+        result = subject.get_csv
+        expect(result.length).to eq 3
+        expect(result.first['first_name']).to eq 'Ray'
+      end
+    end
+    context 'downloading to the file system' do
+      let(:download_filename) { "tmp/canvas/test_report_download_#{DateTime.now.strftime('%Y%m%dT%H%M%S')}.csv" }
+      after { delete_files_if_exists([download_filename]) }
+      it 'returns the file name' do
+        result = subject.get_csv
+        expect(result).to eq download_filename
+        copied_csv = CSV.read(download_filename, headers: true)
+        expect(copied_csv.length).to eq 3
+        expect(copied_csv.first['first_name']).to eq 'Ray'
+      end
+    end
+  end
+
 end

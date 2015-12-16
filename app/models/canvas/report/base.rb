@@ -6,6 +6,7 @@ module Canvas
       def initialize(options = {})
         super options
         @account_id = options.delete(:account_id) || settings.account_id
+        @download_to_file_name = options.delete(:download_to_file)
         @options = options
       end
 
@@ -49,7 +50,13 @@ module Canvas
         # Canvas's Files API builds an authorization token into the URL, which allows for redirection
         # to the file storage host but which conflicts with the authorization header we use for other API calls.
         if @fake
-          csv = CSV.read("fixtures/csv/Canvas_#{report_type}_report_#{object_type}_csv.csv", headers: true)
+          fake_csv = "fixtures/csv/Canvas_#{report_type}_report_#{object_type}_csv.csv"
+          if @download_to_file_name.blank?
+            csv = CSV.read(fake_csv, headers: true)
+          else
+            FileUtils.cp(fake_csv, @download_to_file_name)
+            csv = @download_to_file_name
+          end
         else
           conn = Faraday.new(file_response[:body]['url'], @options) do |c|
             c.use FaradayMiddleware::FollowRedirects
@@ -65,7 +72,12 @@ module Canvas
             logger.error "Unable to download report #{report_id} : #{csv_response}"
             return nil
           end
-          csv = CSV.parse(csv_response[:body], {headers: true})
+          if @download_to_file_name.blank?
+            csv = CSV.parse(csv_response[:body], {headers: true})
+          else
+            File.open(@download_to_file_name, 'w') {|fp| fp.write(csv_response[:body])}
+            csv = @download_to_file_name
+          end
         end
         csv
       end
