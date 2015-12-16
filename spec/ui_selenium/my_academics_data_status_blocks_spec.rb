@@ -39,22 +39,16 @@ describe 'My Academics Status and Blocks', :testui => true do
 
             # STATUS POPOVER
 
-            has_popover = my_academics_page.status_popover_visible?
-
-            if has_popover
-              my_academics_page.open_status_popover
-              has_reg_alert = my_academics_page.reg_status_alert_element.visible?
-              has_block_alert = my_academics_page.block_status_alert_element.visible?
-            else
-              has_reg_alert = false
-              has_block_alert = false
-            end
+            my_academics_page.open_status_popover
+            has_status_heading = my_academics_page.status_popover_heading_element.visible?
+            has_reg_alert = my_academics_page.reg_status_alert_element.visible?
+            has_block_alert = my_academics_page.block_status_alert_element.visible?
 
             is_student = status_api_page.is_student?
             if is_student
 
               it "is available via a person icon in the header for UID #{uid}" do
-                expect(has_popover).to be true
+                expect(has_status_heading).to be true
               end
 
               profile_card = CalCentralPages::MyAcademicsProfileCard.new(driver)
@@ -326,8 +320,9 @@ describe 'My Academics Status and Blocks', :testui => true do
               end
 
             else
-              it "is not available via a person icon in the header for UID #{uid}" do
-                expect(has_popover).to be false
+              # The status heading is currently showing for all users, but this might change.
+              it "is available via a person icon in the header for UID #{uid}" do
+                expect(has_status_heading).to be true
               end
             end
 

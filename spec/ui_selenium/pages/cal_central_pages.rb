@@ -10,6 +10,7 @@ module CalCentralPages
   link(:my_academics_link, :text => 'My Academics')
   link(:my_campus_link, :text => 'My Campus')
   link(:my_finances_link, :text => 'My Finances')
+  link(:my_toolbox_link, :text => 'My Toolbox')
 
   # Email Badge
   button(:email_badge, :xpath => '//button[@title="bMail"]')
@@ -21,9 +22,9 @@ module CalCentralPages
   span(:email_one_subject, :xpath => '//button[@title="bMail"]/following-sibling::div//span[@data-ng-bind="item.title"]')
   span(:email_one_summary, :xpath => '//button[@title="bMail"]/following-sibling::div//span[@data-ng-bind="item.summary"]')
 
-  # Status Popover
+  # Popover: Profile, Status, Settings, Log Out
   list_item(:status_loading, :xpath => '//li[@data-ng-show="statusLoading"]')
-  button(:status_icon, :xpath => '//button[@title="Show your status"]')
+  button(:status_icon, :xpath => '//button[@title="Settings"]')
   span(:status_alert_count, :xpath => '//span[@data-ng-if="hasAlerts"]/span[@data-ng-bind="count"]')
   h4(:status_popover_heading, :xpath => '//div[@class="cc-popover-title"]/h4')
   div(:no_status_alert, :xpath => '//div[@class="cc-popover-noitems ng-scope"]')
@@ -43,10 +44,7 @@ module CalCentralPages
   link(:finaid_status_alert_link, :xpath => '//li[@data-ng-if="countUndatedFinaid > 0"]//a')
   image(:finaid_status_alert_icon, :xpath => '//li[@data-ng-if="countUndatedFinaid > 0"]//i[@class="cc-left fa fa-exclamation-circle cc-icon-red"]')
   span(:finaid_status_alert_count, :xpath => '//li[@data-ng-if="countUndatedFinaid > 0"]//span[@data-ng-bind="countUndatedFinaid"]')
-
-  # Gear - Settings, Profile, Log Out
-  link(:gear_link, :xpath => '//i[@class="fa fa-cog"]')
-  button(:settings_link, :xpath => '//button[@data-ng-click="api.popover.clickThrough(\'Gear - Settings\');api.util.redirect(\'settings\')"]')
+  button(:settings_link, :xpath => '//button[contains(text(),"Settings")]')
   button(:profile_link, :xpath => '//button[contains(text(),"Profile")]')
   button(:logout_link, :xpath => '//button[contains(text(),"Log out")]')
 
@@ -77,6 +75,11 @@ module CalCentralPages
   def click_my_finances_link
     logger.info('Clicking My Finances link')
     WebDriverUtils.wait_for_page_and_click my_finances_link_element
+  end
+
+  def click_my_toolbox_link
+    logger.info 'Clicking My Toolbox link'
+    WebDriverUtils.wait_for_page_and_click my_toolbox_link_element
   end
 
   def click_email_badge
@@ -122,20 +125,20 @@ module CalCentralPages
 
   def click_settings_link
     logger.info('Clicking the link to the Settings page')
-    WebDriverUtils.wait_for_page_and_click gear_link_element
+    WebDriverUtils.wait_for_page_and_click status_icon_element
     WebDriverUtils.wait_for_element_and_click settings_link_element
   end
 
   def click_profile_link(driver)
     logger.info 'Clicking Profile link'
-    WebDriverUtils.wait_for_page_and_click gear_link_element
+    WebDriverUtils.wait_for_page_and_click status_icon_element
     WebDriverUtils.wait_for_element_and_click profile_link_element
     CalCentralPages::MyProfilePage::MyProfileBasicInfoCard.new driver
   end
 
   def click_logout_link
     logger.info('Logging out of CalCentral')
-    WebDriverUtils.wait_for_page_and_click gear_link_element
+    WebDriverUtils.wait_for_page_and_click status_icon_element
     WebDriverUtils.wait_for_element_and_click logout_link_element
   end
 
