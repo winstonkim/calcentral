@@ -168,8 +168,24 @@ module CalCentralPages
       wait_until(WebDriverUtils.google_task_timeout) { completed_task_elements.any? }
     end
 
-    def edit_overdue_task(task_index, title, date, note)
+    def show_overdue_task_detail(task_index)
       overdue_task_toggle_elements[task_index].click unless overdue_task_edit_button_elements[task_index].visible?
+    end
+
+    def show_today_task_detail(task_index)
+      today_task_toggle_elements[task_index].click unless today_task_edit_button_elements[task_index].visible?
+    end
+
+    def show_future_task_detail(task_index)
+      future_task_toggle_elements[task_index].click unless future_task_edit_button_elements[task_index].visible?
+    end
+
+    def show_unsched_task_detail(task_index)
+      unsched_task_toggle_elements[task_index].click unless unsched_task_edit_button_elements[task_index].visible?
+    end
+
+    def edit_overdue_task(task_index, title, date, note)
+      show_overdue_task_detail task_index
       WebDriverUtils.wait_for_element_and_click overdue_task_edit_button_elements[task_index]
       logger.info "Task title is #{title}, date is #{date}, and note is #{note}"
       WebDriverUtils.wait_for_element_and_type(overdue_task_title_input_elements[task_index], title) unless title.nil?
@@ -182,7 +198,7 @@ module CalCentralPages
     end
 
     def edit_today_task(task_index, title, date, note)
-      today_task_toggle_elements[task_index].click unless today_task_edit_button_elements[task_index].visible?
+      show_today_task_detail task_index
       WebDriverUtils.wait_for_element_and_click today_task_edit_button_elements[task_index]
       logger.info "Task title is #{title}, date is #{date}, and note is #{note}"
       WebDriverUtils.wait_for_element_and_type(today_task_title_input_elements[task_index], title) unless title.nil?
@@ -195,7 +211,7 @@ module CalCentralPages
     end
 
     def edit_future_task(task_index, title, date, note)
-      future_task_toggle_elements[task_index].click unless future_task_edit_button_elements[task_index].visible?
+      show_future_task_detail task_index
       WebDriverUtils.wait_for_element_and_click future_task_edit_button_elements[task_index]
       logger.info "Task title is #{title}, date is #{date}, and note is #{note}"
       WebDriverUtils.wait_for_element_and_type(future_task_title_input_elements[task_index], title) unless title.nil?
@@ -208,7 +224,7 @@ module CalCentralPages
     end
 
     def edit_unsched_task(task_index, title, date, note)
-      unsched_task_toggle_elements[task_index].click unless unsched_task_edit_button_elements[task_index].visible?
+      show_unsched_task_detail task_index
       WebDriverUtils.wait_for_element_and_click unsched_task_edit_button_elements[task_index]
       logger.info "Task title is #{title}, date is #{date}, and note is #{note}"
       WebDriverUtils.wait_for_element_and_type(unsched_task_title_input_elements[task_index], title) unless title.nil?
@@ -323,7 +339,7 @@ module CalCentralPages
         wait_for_overdue_tasks
         task_index = overdue_task_elements.index(task_element)
         wait_until(WebDriverUtils.google_task_timeout) do
-          overdue_task_toggle_elements[task_index].click unless overdue_task_toggle_elements[task_index].nil?
+          show_overdue_task_detail task_index
           overdue_task_title_elements[task_index].text == title
           overdue_task_date_elements[task_index].text == WebDriverUtils.ui_numeric_date_format(date)
           overdue_task_notes_elements[task_index].text == note
@@ -332,7 +348,7 @@ module CalCentralPages
         wait_for_today_tasks
         task_index = today_task_elements.index(task_element)
         wait_until(WebDriverUtils.google_task_timeout) do
-          today_task_toggle_elements[task_index].click unless today_task_toggle_elements[task_index].nil?
+          show_today_task_detail task_index
           today_task_title_elements[task_index].text == title
           today_task_date_elements[task_index].text == WebDriverUtils.ui_numeric_date_format(date)
           today_task_notes_elements[task_index].text == note
@@ -341,7 +357,7 @@ module CalCentralPages
         wait_for_future_tasks
         task_index = future_task_elements.index(task_element)
         wait_until(WebDriverUtils.google_task_timeout) do
-          future_task_toggle_elements[task_index].click unless future_task_toggle_elements[task_index].nil?
+          show_future_task_detail task_index
           future_task_title_elements[task_index].text == title
           future_task_date_elements[task_index].text == WebDriverUtils.ui_numeric_date_format(date)
           future_task_notes_elements[task_index].text == note
@@ -350,7 +366,7 @@ module CalCentralPages
         wait_for_unsched_tasks
         task_index = unsched_task_elements.index(task_element)
         wait_until(WebDriverUtils.google_task_timeout) do
-          unsched_task_toggle_elements[task_index].click unless unsched_task_toggle_elements[task_index].nil?
+          show_unsched_task_detail task_index
           unsched_task_title_elements[task_index].text == title
           unsched_task_date_elements[task_index].text == ''
           unsched_task_notes_elements[task_index].text == note
