@@ -112,12 +112,8 @@ class CanvasPage
   end
 
   def load_course_site(course_id)
-    # Retry due to SSO issue in test environment
-    tries ||= 2
     navigate_to "#{WebDriverUtils.canvas_base_url}/courses/#{course_id}"
     accept_login_messages course_id
-  rescue
-    retry unless (tries -= 1).zero?
   end
 
   def load_users_page(course_id)
