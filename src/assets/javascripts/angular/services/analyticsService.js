@@ -36,7 +36,7 @@ angular.module('calcentral.services').service('analyticsService', function(calce
 
   /**
    * This will track the the page that you're viewing
-   * e.g. /, /dashboard, /settings
+   * e.g. /, /dashboard
    */
   var trackPageview = function() {
     window.ga('send', 'pageview', $location.path());

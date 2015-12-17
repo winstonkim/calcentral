@@ -9,7 +9,7 @@ angular.module('calcentral.controllers').controller('bConnectedController', func
   var services = ['Google'];
 
   var refreshIsCalendarOptedIn = function(profile) {
-    $scope.settings = {
+    $scope.bConnected = {
       isCalendarOptedIn: profile.isCalendarOptedIn
     };
   };
@@ -30,6 +30,10 @@ angular.module('calcentral.controllers').controller('bConnectedController', func
     }
   });
 
+  // We need to do another fetch for the following usecase
+  // 1) We get the user status, which says you have a canvas token
+  // 2) We fetch the user's canvas classes and get a 400 back
+  // 3) Now we need to update the user status
   $scope.api.user.fetch({
     refreshCache: true
   });

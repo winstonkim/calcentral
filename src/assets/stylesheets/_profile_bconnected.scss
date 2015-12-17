@@ -1,0 +1,23 @@
+.cc-profile-bconnected {
+  .cc-profile-bconnected-service-row {
+    margin-bottom: 20px;
+  }
+  .cc-profile-bconnected-service-sure-buttons {
+    display: inline;
+  }
+  .cc-profile-bconnected-service-sure-disclaimer {
+    margin-top: 5px;
+  }
+  .cc-profile-bconnected-service-sure-question {
+    margin-right: 10px;
+  }
+  @media #{$small-only} {
+    .cc-profile-bconnected-service-sure-buttons {
+      display: block;
+    }
+    .cc-profile-bconnected-service-sure-question {
+      display: block;
+      margin-bottom: 5px;
+    }
+  }
+}

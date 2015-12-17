@@ -73,10 +73,6 @@ angular.module('calcentral.config').config(function($routeProvider) {
     templateUrl: 'profile.html',
     controller: 'ProfileController'
   }).
-  when('/settings', {
-    templateUrl: 'settings.html',
-    controller: 'SettingsController'
-  }).
   when('/toolbox', {
     templateUrl: 'toolbox.html',
     controller: 'MyToolboxController'
