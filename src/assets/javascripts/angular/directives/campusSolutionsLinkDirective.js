@@ -2,6 +2,17 @@
 
 var angular = require('angular');
 
+/**
+ * Directive for Campus Solutions links
+ * This will allow for the 'Back to CalCentral' branding in Campus Solutions
+ * and have a way to refresh the cache for CS specific items
+ *
+ * Usage:
+ *   data-cc-campus-solutions-link-directive="testUrl" // CS URL
+ *   data-cc-campus-solutions-link-directive-enabled="{{item.isCsLink}}" // Default is true, if set to false, we don't execute this directive
+ *   data-cc-campus-solutions-link-directive-text="backToText" // For the 'Back to ...'' text in CS
+ *   data-cc-campus-solutions-link-directive-cache="'finaid'" // Will add an addition querystring to the back to link to expire the cache (e.g. 'finaid' or 'profile')
+ */
 angular.module('calcentral.directives').directive('ccCampusSolutionsLinkDirective', function($compile, $location, $parse) {
   /**
    * Update a querystring parameter
@@ -21,6 +32,18 @@ angular.module('calcentral.directives').directive('ccCampusSolutionsLinkDirectiv
     }
   };
 
+  /**
+   * Get the Back To CalCentral link
+   */
+  var getCalCentralLink = function(cacheParam) {
+    var link = $location.absUrl();
+    if (cacheParam) {
+      // We need to do the extra encoding, otherwise, the complete URL will be incorrect
+      link = encodeURIComponent(updateQueryStringParameter(link, 'ucUpdateCache', cacheParam));
+    }
+    return link;
+  };
+
   return {
     priority: 99, // it needs to run after the attributes are interpolated
     restrict: 'A',
@@ -31,7 +54,8 @@ angular.module('calcentral.directives').directive('ccCampusSolutionsLinkDirectiv
         }
         if (/^http/.test(value) && scope.$eval(attrs.ccCampusSolutionsLinkDirectiveEnabled) !== false) {
           value = updateQueryStringParameter(value, 'ucFrom', 'CalCentral');
-          value = updateQueryStringParameter(value, 'ucFromLink', $location.absUrl());
+          var link = getCalCentralLink(scope.$eval(attrs.ccCampusSolutionsLinkDirectiveCache));
+          value = updateQueryStringParameter(value, 'ucFromLink', link);
           var textAttribute = attrs.ccCampusSolutionsLinkDirectiveText;
           if (textAttribute) {
             var text = $parse(textAttribute)(scope);
