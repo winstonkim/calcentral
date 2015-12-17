@@ -1,26 +1,32 @@
 <div class="cc-widget cc-widget-finaid-summary" data-ng-controller="FinaidSummaryController">
   <div class="cc-widget-title">
     <h2 class="cc-left">Financial Aid and Scholarships</h2>
-    <a data-ng-if="!isMainFinaid && finaidUrl" class="cc-right cc-widget-title-link" data-ng-href="{{finaidUrl}}">
+    <a data-ng-if="!isMainFinaid && finaidUrl && !finaidSummaryInfo.errored" class="cc-right cc-widget-title-link" data-ng-href="{{finaidUrl}}">
       <strong>Details</strong>
     </a>
   </div>
   <div class="cc-widget-text" data-cc-spinner-directive="finaidSummaryInfo.isLoadingOptions">
-    <div data-ng-if="finaidSummary.finaidYears.length">
-      <div data-ng-include="'widgets/finaid_summary_aidyear.html'"></div>
-      <hr data-ng-if="selected.finaidYear.availableSemesters.length" />
-      <div data-ng-include="'widgets/finaid_summary_approvals.html'"></div>
-      <div data-ng-if="canSeeFinaidData">
-        <div data-ng-include="'widgets/finaid_summary_semester.html'"></div>
-        <div data-cc-spinner-directive="finaidSummaryInfo.isLoadingData" data-ng-if="finaidSummaryInfo.isLoadedOnMainDashboard">
-          <div data-ng-include="'widgets/finaid_summary_netcost.html'" data-onload="netCostInfo.card = 'summary'"></div>
-          <hr data-ng-if="!finaidSummaryData.netCost && finaidSummaryData.fundingOffered" />
-          <div data-ng-include="'widgets/finaid_summary_fundingoffered.html'"></div>
+    <div data-ng-if="!finaidSummaryInfo.errored">
+      <div data-ng-if="finaidSummary.finaidYears.length">
+        <div data-ng-include="'widgets/finaid_summary_aidyear.html'"></div>
+        <hr data-ng-if="selected.finaidYear.availableSemesters.length" />
+        <div data-ng-include="'widgets/finaid_summary_approvals.html'"></div>
+        <div data-ng-if="canSeeFinaidData">
+          <div data-ng-include="'widgets/finaid_summary_semester.html'"></div>
+          <div data-cc-spinner-directive="finaidSummaryInfo.isLoadingData" data-ng-if="finaidSummaryInfo.isLoadedOnMainDashboard">
+            <div data-ng-include="'widgets/finaid_summary_netcost.html'" data-onload="netCostInfo.card = 'summary'"></div>
+            <hr data-ng-if="!finaidSummaryData.netCost && finaidSummaryData.fundingOffered" />
+            <div data-ng-include="'widgets/finaid_summary_fundingoffered.html'"></div>
+          </div>
         </div>
+        <hr />
       </div>
+      <div data-ng-if="!finaidSummary.finaidYears.length" data-ng-include="'widgets/finaid_not_available.html'"></div>
+    </div>
+    <div data-ng-if="finaidSummaryInfo.errored">
+      <div data-ng-include="'widgets/finaid_errored.html'"></div>
       <hr />
     </div>
-    <div data-ng-if="!finaidSummary.finaidYears.length" data-ng-include="'widgets/finaid_not_available.html'"></div>
     <div data-ng-include="'widgets/finaid_summary_footer.html'"></div>
   </div>
 </div>
