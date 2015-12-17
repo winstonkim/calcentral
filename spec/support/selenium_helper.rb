@@ -27,7 +27,6 @@ if ENV["UI_TEST"]
   require_relative '../ui_selenium/pages/my_finances_details_page'
   require_relative '../ui_selenium/pages/my_profile_page'
   require_relative '../ui_selenium/pages/my_toolbox_page'
-  require_relative '../ui_selenium/pages/settings_page'
 
   require_relative '../ui_selenium/pages/cal_net_auth_page'
   require_relative '../ui_selenium/pages/google_page'

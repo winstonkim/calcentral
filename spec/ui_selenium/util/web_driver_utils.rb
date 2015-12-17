@@ -1,5 +1,3 @@
-require 'selenium-webdriver'
-
 class WebDriverUtils
 
   include ClassLogger

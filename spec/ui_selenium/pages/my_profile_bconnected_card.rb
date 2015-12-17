@@ -1,24 +1,22 @@
 module CalCentralPages
 
-  class SettingsPage
+  class MyProfileBconnectedCard < MyProfilePage
 
     include PageObject
     include CalCentralPages
     include ClassLogger
 
-    h1(:page_heading, :xpath => '//h1[contains(.,"Settings")]')
-
     # bConnected
     div(:connected_as, :xpath => '//div[@data-ng-if="api.user.profile.googleEmail && api.user.profile.hasGoogleAccessToken"]')
-    checkbox(:calendar_opt_in, :id => 'cc-settings-service-calendar-optin')
+    checkbox(:calendar_opt_in, :id => 'cc-profile-bconnected-service-calendar-optin')
     button(:disconnect_button, :xpath => '//button[contains(.,"Disconnect")]')
     button(:disconnect_yes_button, :xpath => '//button[@data-ng-click="api.user.removeOAuth(service)"]')
     button(:disconnect_no_button, :xpath => '//button[@data-ng-click="showValidation = false"]')
     button(:connect_button, :xpath => '//button[@data-ng-click="api.user.enableOAuth(service)"]')
 
-     def load_page
+    def load_page
       logger.info('Loading settings page')
-      navigate_to "#{WebDriverUtils.base_url}/settings"
+      navigate_to "#{WebDriverUtils.base_url}/profile/bconnected"
     end
 
     def disconnect_bconnected

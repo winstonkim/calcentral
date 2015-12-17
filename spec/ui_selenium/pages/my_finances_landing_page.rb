@@ -51,7 +51,7 @@ module CalCentralPages
 
       # FINANCIAL AID MESSAGES CARD
       h2(:fin_messages_heading, :xpath => '//h2[text()="Financial Messages"]')
-      div(:no_messages, :xpath => '//div[@data-ng-show="!list.length"]')
+      div(:no_messages, :xpath => '//span[contains(text(),"You have no notifications at this time.")]')
       unordered_list(:fin_messages_list, :xpath => '//ul[@class="cc-widget-activities-list"]')
       elements(:finaid_message, :list_item, :xpath => '//ul[@class="cc-widget-activities-list"]/li')
       elements(:finaid_message_sub_activity, :list_item, :xpath => '//ul[@class="cc-widget-activities-list"]/li//li[@data-ng-repeat="subActivity in activity.elements"]')
