@@ -29,9 +29,17 @@
           I have authorized the use of my Title IV awards to be applied to pay all outstanding charges. If you would like to revoke this authorization, please uncheck the box below.
         </p>
       </div>
-      <div data-ng-if="!title4.isApproved">
+      <div data-ng-if="title4.isApproved === false">
         <p>
           I authorize the use of my Title IV awards to be applied to pay all outstanding charges. If you would like to authorize the use of your Title IV awards to pay all outstanding charges, please check the box below.
+        </p>
+      </div>
+      <div data-ng-if="title4.isApproved === null">
+        <p>
+          Not authorizing the use of my Title IV aid to pay all outstanding charges means I assume responsibility to pay for all non-registration, housing and phone bill charges on my UCB student account by their due date. I understand that payments made after the due date may result in late fees and registration holds.
+        </p>
+        <p>
+          If you would like to authorize the use of your Title IV awards to pay all outstanding charges, please check the box below.
         </p>
       </div>
     </div>
@@ -47,7 +55,8 @@
         <label for="cc-page-widget-profile-title4-check">
           <strong>
             <span data-ng-if="title4.isApproved">I have authorized use of Title IV aid for charges</span>
-            <span data-ng-if="!title4.isApproved">Authorized use of Title IV aid for charges</span>
+            <span data-ng-if="title4.isApproved === false">Authorized use of Title IV aid for charges</span>
+            <span data-ng-if="title4.isApproved === null">I authorize the use of my Title IV awards to be applied to pay all outstanding charges.</span>
           </strong>
         </label>
       </form>
