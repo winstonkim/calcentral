@@ -56,9 +56,9 @@ angular.module('calcentral.controllers').controller('FinaidSummaryController', f
   };
 
   var parseFinaidYearData = function(data) {
-    angular.extend($scope.finaidSummaryData, data.feed.financialAidSummary);
-    angular.extend($scope.shoppingSheet, data.feed.shoppingSheet);
-    $scope.errored = data.errored;
+    angular.extend($scope.finaidSummaryData, _.get(data, 'feed.financialAidSummary'));
+    angular.extend($scope.shoppingSheet, _.get(data, 'feed.shoppingSheet'));
+    $scope.finaidSummaryInfo.errored = data.errored;
     $scope.finaidSummaryInfo.isLoadingData = false;
   };
 

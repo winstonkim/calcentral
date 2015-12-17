@@ -69,7 +69,7 @@ angular.module('calcentral.controllers').controller('FinaidAwardsController', fu
   };
 
   var parseSummary = function(data) {
-    angular.extend($scope.finaidSummaryData, data.feed.financialAidSummary);
+    angular.extend($scope.finaidSummaryData, _.get(data, 'feed.financialAidSummary'));
     $scope.finaidSummaryInfo.errored = data.errored;
     $scope.finaidSummaryInfo.isLoadingData = false;
   };

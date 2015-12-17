@@ -26,7 +26,7 @@
       </div>
     </a>
   </li>
-  <li class="cc-popover-item" data-ng-if="api.user.profile.features.csHolds && holds.serviceIndicators.length">
+  <li class="cc-popover-item" data-ng-if="api.user.profile.features.csHolds && (holds.serviceIndicators.length || holds.errored)">
     <a href="/academics">
       <div class="cc-launcher-status-description">
         <i class="fa"

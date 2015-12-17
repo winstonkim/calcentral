@@ -67,7 +67,10 @@ angular.module('calcentral.controllers').controller('StatusController', function
     if (numberOfHolds) {
       $scope.count += numberOfHolds;
       $scope.hasAlerts = true;
-    } else if (_.get($scope, 'holds.errored')) {
+    } else if (_.get(data, 'data.errored')) {
+      $scope.holds = {
+        errored: true
+      };
       $scope.count++;
       $scope.hasWarnings = true;
     }

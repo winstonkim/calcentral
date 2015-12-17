@@ -3,9 +3,11 @@
     <h2>Awards</h2>
   </div>
   <div data-cc-spinner-directive="finaidAwardsInfo.isLoading">
-    <div data-ng-if="finaidAwardsInfo.errored || finaidSummaryInfo.errored" class="cc-widget-text">
-      An error occurred while trying to retrieve your data.
-    </div>
+    <div
+      data-ng-if="finaidAwardsInfo.errored || finaidSummaryInfo.errored"
+      class="cc-widget-text"
+      data-ng-include="'widgets/finaid_errored.html'"
+    ></div>
     <div data-ng-if="!finaidAwardsInfo.errored && !finaidSummaryInfo.errored">
       <div data-ng-if="finaidAwards.hasAwards">
         <div class="cc-widget-text cc-widget-finaid-awards-message">
