@@ -73,19 +73,28 @@ module HubEdos
     end
 
     def extract_roles(edo, result)
-      # TODO roles need more business analysis and transformation.
       result[:roles] = {}
-      if edo[:affiliations].present?
-        edo[:affiliations].each do |affiliation|
-          if affiliation[:type][:code] == 'UNDERGRAD' && affiliation[:statusCode] == 'ACT'
-            result[:roles][:student] = true
-            result[:ug_grad_flag] = 'U'
-          elsif affiliation[:type][:code] == 'GRAD' && affiliation[:statusCode] == 'ACT'
+      return unless edo[:affiliations]
+      # TODO We still need to cover staff, guests, concurrent-enrollment students and registration status.
+      edo[:affiliations].select { |a| a[:statusCode] == 'ACT' }.each do |active_affiliation|
+        case active_affiliation[:type][:code]
+          when 'APPLICANT'
+            result[:roles][:applicant] = true
+          when 'GRADUATE'
             result[:roles][:student] = true
             result[:ug_grad_flag] = 'G'
-          elsif affiliation[:type][:code] == 'APPLICANT' && affiliation[:statusCode] == 'ACT'
-            result[:roles][:applicant] = true
-          end
+          when 'INSTRUCTOR'
+            result[:roles][:faculty] = true
+          when 'STUDENT'
+            result[:roles][:student] = true
+          when 'UNDERGRAD'
+            result[:roles][:student] = true
+            result[:ug_grad_flag] = 'U'
+        end
+      end
+      edo[:affiliations].select { |a| a[:statusCode] == 'INA' }.each do |inactive_affiliation|
+        if !result[:roles][:student] && %w(GRADUATE STUDENT UNDERGRAD).include?(inactive_affiliation[:type][:code])
+          result[:roles][:exStudent] = true
         end
       end
     end
