@@ -7,6 +7,7 @@ module CalCentralPages
     include ClassLogger
 
     # bConnected
+    div(:bconnected_section, :class => 'cc-profile-bconnected')
     div(:connected_as, :xpath => '//div[@data-ng-if="api.user.profile.googleEmail && api.user.profile.hasGoogleAccessToken"]')
     checkbox(:calendar_opt_in, :id => 'cc-profile-bconnected-service-calendar-optin')
     button(:disconnect_button, :xpath => '//button[contains(.,"Disconnect")]')
@@ -21,6 +22,7 @@ module CalCentralPages
 
     def disconnect_bconnected
       logger.info('Checking if user is connected to Google')
+      bconnected_section_element.when_visible WebDriverUtils.page_load_timeout
       if disconnect_button_element.visible?
         logger.info('User is connected, so disconnecting from Google')
         disconnect_button

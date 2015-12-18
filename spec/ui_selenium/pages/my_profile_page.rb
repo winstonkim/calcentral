@@ -20,8 +20,9 @@ module CalCentralPages
       WebDriverUtils.wait_for_element_and_click contact_info_link_element
     end
 
-    def click_bconnected
+    def click_bconnected(driver)
       WebDriverUtils.wait_for_element_and_click bconnected_link_element
+      CalCentralPages::MyProfileBconnectedCard.new driver
     end
 
   end

@@ -13,15 +13,13 @@ describe 'Profile bConnected', :testui => true do
     context 'as any user' do
 
       before(:example) do
-        @splash_page = CalCentralPages::SplashPage.new(@driver)
-        @splash_page.load_page
-        @splash_page.click_sign_in_button
-        @cal_net = CalNetAuthPage.new(@driver)
-        @cal_net.login(UserUtils.qa_username, UserUtils.qa_password)
-        @bconnected_card = CalCentralPages::MyProfileBconnectedCard.new(@driver)
-        @bconnected_card.load_page
+        @splash_page = CalCentralPages::SplashPage.new @driver
+        @cal_net = CalNetAuthPage.new @driver
+        dashboard_page = @splash_page.log_into_dashboard(@driver, @cal_net, UserUtils.qa_username, UserUtils.qa_password)
+        basic_info_card = dashboard_page.click_profile_link @driver
+        @bconnected_card = basic_info_card.click_bconnected @driver
         @bconnected_card.disconnect_bconnected
-        google = GooglePage.new(@driver)
+        google = GooglePage.new @driver
         google.connect_calcentral_to_google(UserUtils.qa_gmail_username, UserUtils.qa_gmail_password)
       end
 
@@ -89,15 +87,13 @@ describe 'Profile bConnected', :testui => true do
 
       context 'when connected' do
         before(:example) do
-          @splash_page = CalCentralPages::SplashPage.new(@driver)
-          @splash_page.load_page
-          @splash_page.click_sign_in_button
-          cal_net = CalNetAuthPage.new(@driver)
-          cal_net.login(UserUtils.oski_username, UserUtils.oski_password)
-          @bconnected_card = CalCentralPages::MyProfileBconnectedCard.new(@driver)
-          @bconnected_card.load_page
+          @splash_page = CalCentralPages::SplashPage.new @driver
+          @cal_net = CalNetAuthPage.new @driver
+          dashboard_page = @splash_page.log_into_dashboard(@driver, @cal_net, UserUtils.oski_username, UserUtils.oski_password)
+          basic_info_card = dashboard_page.click_profile_link @driver
+          @bconnected_card = basic_info_card.click_bconnected @driver
           @bconnected_card.disconnect_bconnected
-          google = GooglePage.new(@driver)
+          google = GooglePage.new @driver
           google.connect_calcentral_to_google(UserUtils.oski_gmail_username, UserUtils.oski_gmail_password)
         end
         it 'shows a "class calendar" option' do
