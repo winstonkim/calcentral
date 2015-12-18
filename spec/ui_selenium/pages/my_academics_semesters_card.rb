@@ -7,7 +7,7 @@ module CalCentralPages
     include ClassLogger
 
     elements(:semester_links, :link, :xpath => '//h2[text()="Semesters"]/../following-sibling::div//a[@data-ng-bind="semester.name"]')
-    elements(:no_enrollment_semester_h3, :h3, :xpath => '//h2[text()="Semesters"]/../following-sibling::div//h3[@data-ng-if="!semester.hasEnrollmentData"]')
+    elements(:no_enrollment_semester_h3, :h3, :xpath => '//h2[text()="Semesters"]/../following-sibling::div//h3[@data-ng-if="!semester.hasEnrollmentData || !semester.slug"]')
     link(:order_transcripts_link, :xpath => '//h2[text()="Semesters"]/following-sibling::a[contains(.,"Order Transcripts")]')
     button(:show_more, :xpath => '//button[@data-ng-if="pastSemestersCount > 1"]/span[text()="Show More"]')
     button(:show_less, :xpath => '//button[@data-ng-if="pastSemestersCount > 1"]/span[text()="Show Less"]')

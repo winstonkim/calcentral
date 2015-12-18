@@ -17,13 +17,11 @@ describe 'My Dashboard Up Next card', :testui => true do
 
     before(:context) do
       splash_page = CalCentralPages::SplashPage.new(@driver)
-      splash_page.load_page
-      splash_page.click_sign_in_button
       cal_net_auth_page = CalNetAuthPage.new(@driver)
-      cal_net_auth_page.login(UserUtils.qa_username, UserUtils.qa_password)
-      settings_page = CalCentralPages::SettingsPage.new(@driver)
-      settings_page.load_page
-      settings_page.disconnect_bconnected
+      splash_page.log_into_dashboard(@driver, cal_net_auth_page, UserUtils.qa_username, UserUtils.qa_password)
+      bconnected_card = CalCentralPages::MyProfileBconnectedCard.new(@driver)
+      bconnected_card.load_page
+      bconnected_card.disconnect_bconnected
 
       @google = GooglePage.new(@driver)
       @google.connect_calcentral_to_google(UserUtils.qa_gmail_username, UserUtils.qa_gmail_password)

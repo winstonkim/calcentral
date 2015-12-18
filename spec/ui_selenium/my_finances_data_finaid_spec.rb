@@ -43,7 +43,7 @@ describe 'My Finances financial aid messages', :testui => true do
               my_finances_page = CalCentralPages::MyFinancesPages::MyFinancesLandingPage.new(driver)
               my_finances_page.load_page
               my_finances_page.fin_messages_list_element.when_visible(timeout=WebDriverUtils.page_load_timeout)
-              has_no_messages_message = my_finances_page.no_messages_element.visible?
+              has_no_messages_message = my_finances_page.no_messages?
               fin_api_message_total = finaid_api_page.all_activity.length
               if fin_api_message_total == 0
                 it "shows a 'no messages' message for UID #{uid}" do

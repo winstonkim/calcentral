@@ -251,7 +251,7 @@ describe 'My Dashboard', :testui => true, :order => :defined do
             expect(@tasks_card.overdue_task_title_elements.last.text).to eql(@past_assignment_title)
           end
           it 'show an overdue assignment\'s course site name on a task' do
-            expect(@tasks_card.overdue_task_course_elements.last.text).to eql(site_name.upcase!)
+            expect(@tasks_card.overdue_task_course_elements.last.text).to eql(site_name.upcase)
           end
           it 'show an overdue assignment\'s due date and time on a task' do
             expect(@tasks_card.overdue_task_date_elements.last.text).to eql(WebDriverUtils.ui_numeric_date_format @past_assignment_due_date)
@@ -266,7 +266,7 @@ describe 'My Dashboard', :testui => true, :order => :defined do
             expect(@tasks_card.today_task_title_elements.last.text).to eql(@current_assignment_title)
           end
           it 'show a currently due assignment\'s course site name on a task' do
-            expect(@tasks_card.today_task_course_elements.last.text).to eql(site_name)
+            expect(@tasks_card.today_task_course_elements.last.text).to eql(site_name.upcase)
           end
           it 'show a currently due assignment\'s due date and date on a task' do
             expect(@tasks_card.today_task_date_elements.last.text).to eql(WebDriverUtils.ui_numeric_date_format @current_assignment_due_date)
@@ -281,7 +281,7 @@ describe 'My Dashboard', :testui => true, :order => :defined do
             expect(@tasks_card.future_task_title_elements.last.text).to eql(@future_assignment_title)
           end
           it 'show a future assignment\'s course site name on a task' do
-            expect(@tasks_card.future_task_course_elements.last.text).to eql(site_name)
+            expect(@tasks_card.future_task_course_elements.last.text).to eql(site_name.upcase)
           end
           it 'show a future assignment\'s due date and time on a task' do
             expect(@tasks_card.future_task_date_elements.last.text).to eql(WebDriverUtils.ui_numeric_date_format @future_assignment_due_date)
