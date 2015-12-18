@@ -17,6 +17,9 @@ angular.module('calcentral.controllers').controller('StatusController', function
 
     $scope.studentInfo = data.studentInfo;
 
+    if (_.get(data, 'studentInfo.regStatus.code') !== null) {
+      $scope.hasRegistrationData = true;
+    }
     if (_.get(data, 'studentInfo.regStatus.needsAction') && apiService.user.profile.features.regstatus) {
       $scope.count++;
       $scope.hasAlerts = true;
@@ -44,6 +47,7 @@ angular.module('calcentral.controllers').controller('StatusController', function
     }
     $scope.totalPastDueAmount = data.summary.totalPastDueAmount;
     $scope.minimumAmountDue = data.summary.minimumAmountDue;
+    $scope.hasBillingData = ($scope.minimumAmountDue !== null);
   };
 
   var loadActivity = function(data) {

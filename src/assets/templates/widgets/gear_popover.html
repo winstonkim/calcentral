@@ -23,14 +23,16 @@
   </button>
   <div class="cc-popover cc-dropdown cc-launcher-dropdown-menu" data-ng-show="api.popover.status('cc-popover-menu')">
     <div>
-      <div class="cc-popover-title">
-        <h4>Status</h4>
+      <div data-ng-if="!statusLoading && (count !== 0 || hasBillingData || hasRegistrationData)">
+        <div class="cc-popover-title">
+          <h4>Status</h4>
+        </div>
+        <div class="cc-popover-noitems" data-ng-if="count === 0">
+          <i class="cc-left fa fa-check-circle cc-icon-green"></i>
+          <strong>No Active Alerts</strong>
+        </div>
+        <div data-ng-include="'widgets/status_popover.html'" data-ng-if="count !== 0"></div>
       </div>
-      <div class="cc-popover-noitems" data-ng-if="count === 0 && !statusLoading && !(studentInfo.regStatus.needsAction && !(studentInfo.regBlock.needsAction || studentInfo.regBlock.errored) && api.user.profile.features.regstatus) && minimumAmountDue <= 0">
-        <i class="cc-left fa fa-check-circle cc-icon-green"></i>
-        <strong>No Active Alerts</strong>
-      </div>
-      <div data-ng-include="'widgets/status_popover.html'" data-ng-if="count !== 0"></div>
       <div data-ng-include="'widgets/profile_popover.html'"></div>
     </div>
   </div>
