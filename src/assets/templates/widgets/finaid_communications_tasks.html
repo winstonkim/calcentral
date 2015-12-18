@@ -10,11 +10,16 @@
 
   <ul class="cc-widget-tasks-list cc-widget-list-color cc-widget-list-color-grey">
     <li
-      data-ng-repeat="task in tasks | limitTo: taskLimit"
+      data-ng-repeat="task in tasks | filter:{status:communicationsInfo.taskStatus}"
       data-ng-class="{'cc-widget-list-selected': task.show}">
       <div data-ng-include src="'dashboard_task_loop.html'"></div>
     </li>
   </ul>
+  <div class="cc-text-center cc-widget-padding">
+    <a data-ng-click="toggleCompletedTasks()">
+      {{communicationsInfo.taskStatus === 'completed' ? 'Hide' : 'Show'}} Completed
+    </a>
+  </div>
 </div>
 
 <div class="cc-widget-text">
