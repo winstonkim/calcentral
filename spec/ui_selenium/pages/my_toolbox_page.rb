@@ -10,12 +10,12 @@ module CalCentralPages
     text_area(:view_as_input, :id => 'cc-toolbox-view-as-uid')
     button(:view_as_submit_button, :xpath => '//button[text()="Submit"]')
     div(:saved_users, :xpath => '//div[@class="cc-toolbox-user-section ng-scope"][1]')
-    button(:clear_saved_users_button, :xpath => '//span[text()="Saved Users"]/following-sibling::button[text()="clear all"]')
-    elements(:saved_user_view_as_button, :div, :xpath => '//div[@class="cc-toolbox-user-section ng-scope"][1]//button[@data-ng-click="admin.updateIDField(user.ldap_uid)"]')
+    button(:clear_saved_users_button, :xpath => '//strong[text()="Saved Users"]/following-sibling::button[text()="clear all"]')
+    elements(:saved_user_view_as_button, :div, :xpath => '//strong[text()="Saved Users"]/following-sibling::ul//button[@data-ng-click="admin.updateIDField(user.ldap_uid)"]')
     elements(:saved_user_delete_button, :button, :xpath => '//button[text()="delete"]')
     div(:recent_users, :xpath => '//div[@class="cc-toolbox-user-section ng-scope"][2]')
-    button(:clear_recent_users_button, :xpath => '//span[text()="Recent Users"]/following-sibling::button[text()="clear all"]')
-    elements(:recent_user_view_as_button, :div, :xpath => '//div[@class="cc-toolbox-user-section ng-scope"][2]//button[@data-ng-click="admin.updateIDField(user.ldap_uid)"]')
+    button(:clear_recent_users_button, :xpath => '//strong[text()="Recent Users"]/following-sibling::button[text()="clear all"]')
+    elements(:recent_user_view_as_button, :div, :xpath => '//strong[text()="Recent Users"]/following-sibling::ul//button[@data-ng-click="admin.updateIDField(user.ldap_uid)"]')
     elements(:recent_user_save_button, :button, :xpath => '//button[text()="save"]')
 
     # UID/SID Lookup

@@ -33,14 +33,19 @@ describe 'User authorization', :testui => true, :order => :defined do
           @toolbox_page.load_page
         end
         it 'allows the admin to see recently viewed users' do
-          @toolbox_page.recent_users_element.when_present(timeout)
-          expect(@toolbox_page.recent_user_view_as_button_elements[0].text == '61889')
+          @toolbox_page.wait_until(timeout, 'Recent user did not appear') do
+            @toolbox_page.recent_user_view_as_button_elements.any?
+            @toolbox_page.recent_user_view_as_button_elements[0].text == '61889'
+          end
         end
         it 'allows the admin to save recently viewed users' do
           @toolbox_page.recent_users_element.when_present(timeout)
           @toolbox_page.save_first_recent_user
-          @toolbox_page.wait_until(timeout=WebDriverUtils.page_event_timeout) { @toolbox_page.clear_saved_users_button? }
-          expect(@toolbox_page.saved_user_view_as_button_elements[0].text == '61889')
+          @toolbox_page.wait_until(timeout, 'Saved user did not appear') do
+            @toolbox_page.saved_user_view_as_button_elements.any?
+            sleep 2
+            @toolbox_page.saved_user_view_as_button_elements[0].text == '61889'
+          end
         end
       end
 
@@ -109,7 +114,7 @@ describe 'User authorization', :testui => true, :order => :defined do
         it 'allows conversion of UID to SID' do
           @toolbox_page.look_up_user('61889')
           @toolbox_page.wait_until(timeout) do
-            @toolbox_page.lookup_results_table_element.visible?
+            @toolbox_page.lookup_results_table?
             @toolbox_page.lookup_results_table_element.rows > 1
           end
           expect(@toolbox_page.lookup_results_table_element[1][0].text).to eql('61889')
@@ -118,7 +123,7 @@ describe 'User authorization', :testui => true, :order => :defined do
         it 'allows conversion of SID to UID' do
           @toolbox_page.look_up_user('11667051')
           @toolbox_page.wait_until(timeout) do
-            @toolbox_page.lookup_results_table_element.visible?
+            @toolbox_page.lookup_results_table?
             @toolbox_page.lookup_results_table_element.rows > 1
           end
           expect(@toolbox_page.lookup_results_table_element[1][0].text).to eql('61889')

@@ -22,7 +22,7 @@ module CalCentralPages
   span(:email_one_subject, :xpath => '//button[@title="bMail"]/following-sibling::div//span[@data-ng-bind="item.title"]')
   span(:email_one_summary, :xpath => '//button[@title="bMail"]/following-sibling::div//span[@data-ng-bind="item.summary"]')
 
-  # Popover: Profile, Status, Settings, Log Out
+  # Popover: Profile, Status, Log Out
   list_item(:status_loading, :xpath => '//li[@data-ng-show="statusLoading"]')
   button(:status_icon, :xpath => '//button[@title="Settings"]')
   span(:status_alert_count, :xpath => '//span[@data-ng-if="hasAlerts"]/span[@data-ng-bind="count"]')
@@ -44,7 +44,6 @@ module CalCentralPages
   link(:finaid_status_alert_link, :xpath => '//li[@data-ng-if="countUndatedFinaid > 0"]//a')
   image(:finaid_status_alert_icon, :xpath => '//li[@data-ng-if="countUndatedFinaid > 0"]//i[@class="fa fa-exclamation-circle cc-icon-red"]')
   span(:finaid_status_alert_count, :xpath => '//li[@data-ng-if="countUndatedFinaid > 0"]//span[@data-ng-bind="countUndatedFinaid"]')
-  button(:settings_link, :xpath => '//button[contains(text(),"Settings")]')
   button(:profile_link, :xpath => '//button[contains(text(),"Profile")]')
   button(:logout_link, :xpath => '//button[contains(text(),"Log out")]')
 
@@ -121,12 +120,6 @@ module CalCentralPages
 
   def click_block_status_alert
     WebDriverUtils.wait_for_element_and_click block_status_alert_element
-  end
-
-  def click_settings_link
-    logger.info('Clicking the link to the Settings page')
-    WebDriverUtils.wait_for_page_and_click status_icon_element
-    WebDriverUtils.wait_for_element_and_click settings_link_element
   end
 
   def click_profile_link(driver)
