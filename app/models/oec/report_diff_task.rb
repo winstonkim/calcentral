@@ -29,10 +29,14 @@ module Oec
     def analyze(dept_code)
       dept_name = Berkeley::Departments.get(dept_code, concise: true)
       validate(dept_code, @term_code) do |errors|
-        sis_data = csv_row_hash([@term_code, Oec::Folder.sis_imports, "#{datestamp} #{timestamp}", dept_name], dept_code, Oec::SisImportSheet)
-        errors.add("#{dept_name} has no '#{Oec::Folder.sis_imports}' '#{datestamp} #{timestamp}' spreadsheet") && return unless sis_data
-        dept_data = csv_row_hash([@term_code, Oec::Folder.confirmations, dept_name], dept_code, Oec::CourseConfirmation)
-        errors.add("#{dept_name} has no department confirmation spreadsheet") && return unless dept_data
+        unless (sis_data = csv_row_hash([@term_code, Oec::Folder.sis_imports, "#{datestamp} #{timestamp}", dept_name], dept_code, Oec::SisImportSheet))
+          log :warn, "Skipping #{dept_name} diff: no '#{Oec::Folder.sis_imports}' '#{datestamp} #{timestamp}' spreadsheet found"
+          return
+        end
+        unless (dept_data = csv_row_hash([@term_code, Oec::Folder.confirmations, dept_name], dept_code, Oec::CourseConfirmation))
+          log :warn, "Skipping #{dept_name} diff: no department confirmation spreadsheet found"
+          return
+        end
         keys_of_rows_with_diff = []
         intersection = (sis_keys = sis_data.keys) & (dept_keys = dept_data.keys)
         (sis_keys | dept_keys).select do |key|
