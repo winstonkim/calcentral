@@ -16,7 +16,7 @@ module CalCentralPages
     button(:connect_button, :xpath => '//button[@data-ng-click="api.user.enableOAuth(service)"]')
 
     def load_page
-      logger.info('Loading settings page')
+      logger.info('Loading bConnected page')
       navigate_to "#{WebDriverUtils.base_url}/profile/bconnected"
     end
 
