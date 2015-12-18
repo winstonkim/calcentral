@@ -60,8 +60,7 @@ describe Oec::ReportDiffTask do
     }
 
     it 'should log errors' do
-      expect(subject.errors).to have(2).items
-      expect(subject.errors['FOO']).to have(1).item
+      expect(subject.errors).to have(1).item
       expect(subject.errors['PSTAT']).to have(2).item
       expect(subject.errors['PSTAT']['87672'].keys).to match_array ['Invalid EVALUATION_TYPE: X']
       expect(subject.errors['PSTAT']['99999'].keys).to match_array ['Invalid annotation: wrong', 'Invalid ldap_uid: bad_data']
