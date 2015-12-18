@@ -71,7 +71,7 @@ describe CanvasCsv::Base do
       end
     end
     context 'downloading to the file system' do
-      let(:download_filename) { "tmp/canvas/test_report_download_#{DateTime.now.strftime('%Y%m%dT%H%M%S')}.csv" }
+      let(:download_filename) { "tmp/test_report_download_#{DateTime.now.strftime('%Y%m%dT%H%M%S')}.csv" }
       after { delete_files_if_exists([download_filename]) }
       it 'returns the file name' do
         result = subject.get_csv

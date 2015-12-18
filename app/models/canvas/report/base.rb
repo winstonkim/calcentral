@@ -75,7 +75,7 @@ module Canvas
           if @download_to_file_name.blank?
             csv = CSV.parse(csv_response[:body], {headers: true})
           else
-            File.open(@download_to_file_name, 'w') {|fp| fp.write(csv_response[:body])}
+            File.open(@download_to_file_name, 'wb') {|fp| fp.write(csv_response[:body])}
             csv = @download_to_file_name
           end
         end

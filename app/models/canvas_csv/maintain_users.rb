@@ -71,12 +71,11 @@ module CanvasCsv
     end
 
     def check_all_user_accounts
-      # As the size of the CSV grows, it will become more efficient to use CSV.foreach.
-      # For now, however, we ingest the entire download.
-      users_csv = Canvas::Report::Users.new.get_csv
-      if users_csv.present?
+      users_csv_file = "#{Settings.canvas_proxy.export_directory}/provisioned-users-#{DateTime.now.strftime('%F-%H-%M')}.csv"
+      users_csv_file = Canvas::Report::Users.new(download_to_file: users_csv_file).get_csv
+      if users_csv_file.present?
         accounts_batch = []
-        users_csv.each do |account_row|
+        CSV.foreach(users_csv_file, headers: true) .each do |account_row|
           accounts_batch << account_row
           if accounts_batch.length == 1000
             compare_to_campus(accounts_batch)
@@ -120,6 +119,7 @@ module CanvasCsv
               if dry_run.present?
                 logger.warn "DRY RUN MODE: Would delete communication channel #{channel}"
               else
+                logger.warn "Deleting communication channel #{channel}"
                 proxy.delete channel_id
               end
             end
