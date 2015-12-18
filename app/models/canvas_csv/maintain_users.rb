@@ -75,7 +75,7 @@ module CanvasCsv
       users_csv_file = Canvas::Report::Users.new(download_to_file: users_csv_file).get_csv
       if users_csv_file.present?
         accounts_batch = []
-        CSV.foreach(users_csv_file, headers: true) .each do |account_row|
+        CSV.foreach(users_csv_file, headers: true) do |account_row|
           accounts_batch << account_row
           if accounts_batch.length == 1000
             compare_to_campus(accounts_batch)
