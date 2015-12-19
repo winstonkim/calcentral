@@ -10,7 +10,7 @@
           <strong data-ng-bind-template="{{item.type.description}} Address"></strong>
         </div>
         <div>
-          <div data-ng-bind-html="item.formattedAddress"></div>
+          <div class="cc-text-pre-line" data-ng-bind="item.formattedAddress"></div>
           <div data-ng-bind="item.countryCode" data-ng-if="item.countryCode !== 'USA'"></div>
         </div>
         <div data-ng-if="item.uiControl.code !== 'D'">
