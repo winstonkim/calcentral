@@ -5,9 +5,8 @@ describe CampusSolutions::Checklist do
     it_should_behave_like 'a simple proxy that returns errors'
     it_behaves_like 'a proxy that properly observes the SIR feature flag'
     it_behaves_like 'a proxy that got data successfully'
-    it 'returns data with the expected structure' do
-      expect(subject[:feed][:checkListItems][0][:emplid]).to be
-      expect(subject[:feed][:checkListItems][0][:checkListDescr]).to be
+    it 'returns a list of items' do
+      expect(subject[:feed][:checkListItems]).to_not be_empty
     end
   end
 
@@ -21,7 +20,7 @@ describe CampusSolutions::Checklist do
     end
   end
 
-  context 'real proxy', testext: true, ignore: true do
+  context 'real proxy', testext: true do
     let(:proxy) { CampusSolutions::Checklist.new(fake: false, user_id: user_id) }
     it_should_behave_like 'a proxy that gets data'
   end
