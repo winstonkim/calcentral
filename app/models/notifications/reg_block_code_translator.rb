@@ -8,7 +8,7 @@ module Notifications
 
     def translate_bearfacts_proxy(reason_code, office)
       office_code = office.strip
-      Rails.cache.fetch("global/BearfactsRegBlock/reason_code/#{reason_code}_#{office_code}", :expires_in => 0) {
+      Rails.cache.fetch("global/BearfactsRegBlock/reason_code/#{reason_code}_#{office_code}", :expires_in => Settings.cache.maximum_expires_in) {
         {
           message: translate_to_message(reason_code, office_code),
           office: translate_office_code(office_code),
