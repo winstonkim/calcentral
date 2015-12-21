@@ -3,7 +3,7 @@ module CalCentralPages
   class MyAcademicsProfileCard < MyAcademicsPage
 
     div(:profile_card, :xpath => '//div[@data-ng-if="api.user.profile.hasStudentHistory || api.user.profile.roles.student"]')
-    div(:term_transition_msg, :xpath => '//div[@data-ng-if="transitionRegStatus"]')
+    div(:term_transition_msg, :class => 'cc-widget-profile-message-text')
     h3(:term_transition_heading, :xpath => '//h3[@data-ng-if="transitionRegStatus && collegeAndLevel.termName"]')
     div(:name, :xpath => '//div/strong[@data-ng-bind="api.user.profile.fullName"]')
     button(:show_gpa, :xpath => '//button[text()="Show GPA"]')
