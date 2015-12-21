@@ -73,6 +73,7 @@ angular.module('calcentral.controllers').controller('FinaidSummaryController', f
 
   var selectFinaidYear = function() {
     $scope.selected.finaidYear = finaidService.options.finaidYear;
+    updateCanSeeFinaid();
     getFinaidYearData();
   };
 
