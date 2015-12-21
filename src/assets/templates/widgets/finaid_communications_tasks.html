@@ -17,7 +17,7 @@
   </ul>
   <div class="cc-text-center cc-widget-padding">
     <a data-ng-click="toggleCompletedTasks()">
-      {{communicationsInfo.taskStatus === 'completed' ? 'Hide' : 'Show'}} Completed
+      <span data-ng-bind="communicationsInfo.taskStatusText"></span>
     </a>
   </div>
 </div>

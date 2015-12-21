@@ -10,13 +10,17 @@ angular.module('calcentral.controllers').controller('FinaidCommunicationsControl
   $scope.communicationsInfo = {
     isLoading: true,
     aidYear: '',
-    taskStatus: '!completed'
+    taskStatus: '!completed',
+    taskStatusText: 'Show Completed'
   };
 
   $scope.toggleCompletedTasks = function() {
     var status = $scope.communicationsInfo.taskStatus;
+    var text = $scope.communicationsInfo.taskStatusText;
     status = (status === 'completed' ? '!completed' : 'completed');
     $scope.communicationsInfo.taskStatus = status;
+    text = 'Show ' + (status === 'completed' ? 'Uncompleted' : 'Completed');
+    $scope.communicationsInfo.taskStatusText = text;
   };
 
   var getMyFinaidActivity = function(options) {
