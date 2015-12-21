@@ -85,10 +85,10 @@ angular.module('calcentral.services').service('profileService', function() {
   };
 
   /**
-   * We need to replace the \n with <br /> in the formattedAddress
+   * We need to replace the \\n with \n in the formattedAddress
    */
   var fixFormattedAddress = function(formattedAddress) {
-    return formattedAddress.replace(/\\n/g, '<br />');
+    return formattedAddress.replace(/\\n/g, '\n');
   };
 
   /**
