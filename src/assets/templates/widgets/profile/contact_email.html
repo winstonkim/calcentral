@@ -12,7 +12,7 @@
         </div>
         <div data-ng-bind="item.emailAddress" class="cc-break-word"></div>
         <div data-ng-if="item.uiControl.code !== 'D'">
-          <button class="cc-button-link" data-ng-click="showEdit(item)">Edit <span class="cc-visuallyhidden">Your {{item.type.description}} Email</span></button>
+          <button class="cc-button-link" data-ng-click="showEdit(item)">Edit <span class="cc-visuallyhidden">Your <span data-ng-bind="item.type.description"></span> Email</span></button>
         </div>
       </div>
       <div data-ng-if="item.isModifying" data-ng-include="'widgets/profile/contact_email_editor.html'"></div>

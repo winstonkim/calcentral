@@ -15,7 +15,7 @@
           <span data-ng-if="item.extension" data-ng-bind-template="ext. {{item.extension}}"></span>
         </div>
         <div data-ng-if="item.uiControl.code !== 'D'">
-          <button class="cc-button-link" data-ng-click="showEdit(item)">Edit <span class="cc-visuallyhidden">Your {{item.type.description}} Phone</span></button>
+          <button class="cc-button-link" data-ng-click="showEdit(item)">Edit <span class="cc-visuallyhidden">Your <span data-ng-bind="item.type.description"></span> Phone</span></button>
         </div>
       </div>
       <div data-ng-if="item.isModifying" data-ng-include="'widgets/profile/contact_phone_editor.html'"></div>
