@@ -14,7 +14,7 @@
           <div data-ng-bind="item.countryCode" data-ng-if="item.countryCode !== 'USA'"></div>
         </div>
         <div data-ng-if="item.uiControl.code !== 'D'">
-          <button class="cc-button-link" data-ng-click="showEdit(item)">Edit</button>
+          <button class="cc-button-link" data-ng-click="showEdit(item)">Edit <span class="cc-visuallyhidden">Your <span data-ng-bind="item.type.description"></span> Address</span></button>
         </div>
       </div>
       <div data-ng-if="item.isModifying" data-ng-include="'widgets/profile/contact_address_editor.html'"></div>
@@ -22,7 +22,7 @@
   </div>
   <div class="cc-page-widget-profile-section-add" data-ng-if="!items.editorEnabled && types.length">
     <button class="cc-button-link" data-ng-click="showAdd()">
-      <i class="fa fa-plus"></i> Add
+      <i class="fa fa-plus"></i> Add <span class="cc-visuallyhidden">Contact Address</span>
     </button>
   </div>
 </div>

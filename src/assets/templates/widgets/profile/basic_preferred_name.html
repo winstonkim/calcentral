@@ -10,7 +10,7 @@
     </div>
   </div>
   <div class="cc-page-widget-profile-section-add" data-ng-if="!items.editorEnabled">
-    <button class="cc-button-link" data-ng-click="showEdit(items.content[0])" data-ng-if="items.content[0].givenName">Edit</button>
-    <button class="cc-button-link" data-ng-click="showAdd()" data-ng-if="!items.content[0].givenName">Add</button>
+    <button class="cc-button-link" data-ng-click="showEdit(items.content[0])" data-ng-if="items.content[0].givenName">Edit <span class="cc-visuallyhidden">Your Preferred Name</span></button>
+    <button class="cc-button-link" data-ng-click="showAdd()" data-ng-if="!items.content[0].givenName">Add <span class="cc-visuallyhidden">Your Preferred Name</span></button>
   </div>
 </div>
