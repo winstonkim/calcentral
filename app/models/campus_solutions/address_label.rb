@@ -21,8 +21,12 @@ module CampusSolutions
       return {} if response.parsed_response.blank?
       feed = response.parsed_response
       feed['LABELS'].each do |label|
-        # downcase and camelize the values of the FIELD key
-        label['FIELD'] = label['FIELD'].downcase.camelize(:lower)
+        if label['FIELD']
+          # downcase and camelize the values of the FIELD key
+          label['FIELD'] = label['FIELD'].downcase.camelize(:lower)
+        else
+          logger.warn "Feed contains unexpected label element: #{label}"
+        end
       end
       feed
     end
