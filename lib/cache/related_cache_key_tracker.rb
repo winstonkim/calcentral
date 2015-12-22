@@ -31,7 +31,7 @@ module Cache
         logger.debug "Writing related keys for uid #{uid}: #{related_keys.inspect}"
         Rails.cache.write(user_key(uid),
                           related_keys,
-                          :expires_in => Settings.maximum_expires_in,
+                          :expires_in => Settings.cache.maximum_expires_in,
                           :force => true)
       end
     end
