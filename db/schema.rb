@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151123150455) do
+ActiveRecord::Schema.define(version: 20151222002724) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -190,6 +190,18 @@ ActiveRecord::Schema.define(version: 20151123150455) do
   create_table "schema_migrations_fixed_backup", id: false, force: true do |t|
     t.string "version"
   end
+
+  create_table "service_alerts", force: true do |t|
+    t.string   "title",                            null: false
+    t.text     "snippet"
+    t.text     "body",                             null: false
+    t.datetime "publication_date",                 null: false
+    t.boolean  "display",          default: false, null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "service_alerts", ["display", "created_at"], name: "index_service_alerts_on_display_and_created_at", using: :btree
 
   create_table "summer_sub_terms", force: true do |t|
     t.integer  "year",          null: false

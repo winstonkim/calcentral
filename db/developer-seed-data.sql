@@ -12,10 +12,12 @@ SET search_path = public, pg_catalog;
 
 DROP INDEX public.index_user_auths_on_uid;
 DROP INDEX public.index_summer_sub_terms_on_year_and_sub_term_code;
+DROP INDEX public.index_service_alerts_on_display_and_created_at;
 DROP INDEX public.index_fin_aid_years_on_current_year;
 ALTER TABLE ONLY public.user_roles DROP CONSTRAINT user_roles_pkey;
 ALTER TABLE ONLY public.user_auths DROP CONSTRAINT user_auths_pkey;
 ALTER TABLE ONLY public.summer_sub_terms DROP CONSTRAINT summer_sub_terms_pkey;
+ALTER TABLE ONLY public.service_alerts DROP CONSTRAINT service_alerts_pkey;
 DROP INDEX public.index_oec_course_codes_on_dept_name_and_catalog_id;
 DROP INDEX public.index_oec_course_codes_on_dept_code;
 ALTER TABLE ONLY public.oec_course_codes DROP CONSTRAINT oec_course_codes_pkey;
@@ -26,6 +28,7 @@ ALTER TABLE ONLY public.fin_aid_years DROP CONSTRAINT fin_aid_years_pkey;
 ALTER TABLE public.user_roles ALTER COLUMN id DROP DEFAULT;
 ALTER TABLE public.user_auths ALTER COLUMN id DROP DEFAULT;
 ALTER TABLE public.summer_sub_terms ALTER COLUMN id DROP DEFAULT;
+ALTER TABLE public.service_alerts ALTER COLUMN id DROP DEFAULT;
 ALTER TABLE public.oec_course_codes ALTER COLUMN id DROP DEFAULT;
 ALTER TABLE public.links ALTER COLUMN id DROP DEFAULT;
 ALTER TABLE public.link_sections ALTER COLUMN id DROP DEFAULT;
@@ -37,6 +40,8 @@ DROP SEQUENCE public.user_auths_id_seq;
 DROP TABLE public.user_auths;
 DROP SEQUENCE public.summer_sub_terms_id_seq;
 DROP TABLE public.summer_sub_terms;
+DROP SEQUENCE public.service_alerts_id_seq;
+DROP TABLE public.service_alerts;
 DROP SEQUENCE public.oec_course_codes_id_seq;
 DROP TABLE public.oec_course_codes;
 DROP TABLE public.links_user_roles;
@@ -253,6 +258,45 @@ ALTER SEQUENCE oec_course_codes_id_seq OWNED BY oec_course_codes.id;
 
 
 --
+-- Name: service_alerts; Type: TABLE; Schema: public; Owner: -; Tablespace:
+--
+
+CREATE TABLE service_alerts (
+  id integer NOT NULL,
+  title character varying(255) NOT NULL,
+  snippet text,
+  body text NOT NULL,
+  publication_date timestamp without time zone NOT NULL,
+  display boolean DEFAULT false NOT NULL,
+  created_at timestamp without time zone,
+  updated_at timestamp without time zone
+);
+
+
+ALTER TABLE service_alerts OWNER TO calcentral_development;
+
+--
+-- Name: service_alerts_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE service_alerts_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE service_alerts_id_seq OWNER TO calcentral_development;
+
+--
+-- Name: service_alerts_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE service_alerts_id_seq OWNED BY service_alerts.id;
+
+
+--
 -- Name: summer_sub_terms; Type: TABLE; Schema: public; Owner: -; Tablespace:
 --
 
@@ -384,6 +428,13 @@ ALTER TABLE ONLY links ALTER COLUMN id SET DEFAULT nextval('links_id_seq'::regcl
 --
 
 ALTER TABLE ONLY oec_course_codes ALTER COLUMN id SET DEFAULT nextval('oec_course_codes_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: calcentral_development
+--
+
+ALTER TABLE ONLY service_alerts ALTER COLUMN id SET DEFAULT nextval('service_alerts_id_seq'::regclass);
 
 
 --
@@ -1954,6 +2005,14 @@ ALTER TABLE ONLY oec_course_codes
 -- Name: summer_sub_terms_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace:
 --
 
+ALTER TABLE ONLY service_alerts
+    ADD CONSTRAINT service_alerts_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: summer_sub_terms_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace:
+--
+
 ALTER TABLE ONLY summer_sub_terms
     ADD CONSTRAINT summer_sub_terms_pkey PRIMARY KEY (id);
 
@@ -1993,6 +2052,13 @@ CREATE INDEX index_oec_course_codes_on_dept_code ON oec_course_codes USING btree
 --
 
 CREATE UNIQUE INDEX index_oec_course_codes_on_dept_name_and_catalog_id ON oec_course_codes USING btree (dept_name, catalog_id);
+
+
+--
+-- Name: index_service_alerts_on_display_and_created_at; Type: INDEX; Schema: public; Owner: -; Tablespace:
+--
+
+CREATE INDEX index_service_alerts_on_display_and_created_at ON service_alerts USING btree (display, created_at);
 
 
 --
