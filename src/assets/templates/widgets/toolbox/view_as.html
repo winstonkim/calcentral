@@ -1,8 +1,8 @@
-<div class="cc-widget cc-toolbox-widget" data-ng-controller="AdminController" data-cc-spinner-directive="admin.isLoading">
+<div class="cc-widget cc-toolbox-widget" data-ng-controller="AdminController">
   <div class="cc-widget-title">
     <h2>View as</h2>
   </div>
-  <div class="cc-widget-text">
+  <div class="cc-widget-text" data-cc-spinner-directive="admin.isLoading">
     <div class="cc-toolbox-error" data-ng-if="admin.actAsErrorStatus">
       <i class="cc-icon-red fa fa-exclamation-circle"></i>
       <span class="cc-text-red" data-ng-bind="admin.actAsErrorStatus"></span>
