@@ -259,8 +259,8 @@ cache:
     CalLink::Organization: <%= 4.hours %>
 
     Textbooks::Proxy: <%= 24.hours %>
-    EtsBlog::Alerts: <%= 2.minutes %>
-    EtsBlog::ServiceAlerts: <%= 2.minutes %>
+
+    ServiceAlerts::Merged: <%= 2.minutes %>
 
     CampusSolutions::AddressLabel: <%= 29.days %>
     CampusSolutions::AddressType: <%= 29.days %>

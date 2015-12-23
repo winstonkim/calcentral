@@ -25,7 +25,6 @@ module MyBadges
 
     def get_feed_internal
       feed = {
-        alert: get_latest_alert,
         badges: {},
         studentInfo: StudentInfo.new(@uid).get
       }
@@ -50,14 +49,6 @@ module MyBadges
         handling_provider_exceptions(feed, self.class.providers) do |provider_key, provider_value|
           feed[:badges][provider_key] = provider_value.new(@uid).fetch_counts
         end
-      end
-    end
-
-    def get_latest_alert
-      if Settings.features.service_alerts_rss
-        EtsBlog::ServiceAlerts.new.get_latest
-      else
-        EtsBlog::Alerts.new.get_latest
       end
     end
 
