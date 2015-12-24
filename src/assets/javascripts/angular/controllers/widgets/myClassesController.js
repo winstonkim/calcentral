@@ -52,7 +52,7 @@ angular.module('calcentral.controllers').controller('MyClassesController', funct
   var getMyClasses = function(options) {
     myClassesFactory.getClasses(options).then(function(data) {
       if (_.get(data, 'feedName')) {
-        apiService.updatedFeeds.feedLoaded(data.feed);
+        apiService.updatedFeeds.feedLoaded(data);
         bindScopes(data.classes);
       }
       angular.extend($scope, data);
