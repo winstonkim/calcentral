@@ -1,100 +1,176 @@
 'use strict';
 
+var _ = require('lodash');
 var angular = require('angular');
 
 /**
  * Profile Menu Serives - provide all the information for the profile menu
  */
-angular.module('calcentral.services').factory('profileMenuService', function() {
+angular.module('calcentral.services').factory('profileMenuService', function(apiService, $q) {
   var navigation = [
     {
-      'label': 'Profile',
-      'categories': [
+      label: 'Profile',
+      categories: [
         {
-          'id': 'basic',
-          'name': 'Basic Information'
+          id: 'basic',
+          name: 'Basic Information'
         },
         {
-          'id': 'contact',
-          'name': 'Contact Information'
+          id: 'contact',
+          name: 'Contact Information'
         },
-        /* SISRP-12049 - Hide emergency contact information till after GL3
         {
-          'id': 'emergency',
-          'name': 'Emergency Contact'
-        },*/
+          id: 'emergency',
+          name: 'Emergency Contact',
+          featureFlag: 'csProfileEmergencyContacts'
+        },
         {
-          'id': 'demographic',
-          'name': 'Demographic Information'
+          id: 'demographic',
+          name: 'Demographic Information'
         }
       ]
     },
     {
-      'label': 'Privacy & Permissions',
-      'categories': [
-        /* TODO - On hold until GoLive 5
+      label: 'Privacy & Permissions',
+      categories: [
         {
-          'id': 'delegate',
-          'name': 'Delegate Access'
-        },
-        */
-        /* TODO - On hold till we have designs for these & after the profile sprint
-        {
-          'id': 'recordaccess',
-          'name': 'Record Access'
+          id: 'delegate',
+          name: 'Delegate Access',
+          featureFlag: 'csDelegatedAccess',
+          roles: {
+            student: true
+          }
         },
         {
-          'id': 'ferpa',
-          'name': 'FERPA Restrictions'
-        },
-        */
-        {
-          'id': 'title4',
-          'name': 'Title IV Release'
+          id: 'title4',
+          name: 'Title IV Release',
+          featureFlag: 'csFinAid',
+          roles: {
+            student: true
+          }
         }
       ]
     },
     {
-      'label': 'Credentials',
-      'categories': [
+      label: 'Credentials',
+      categories: [
         {
-          'id': 'languages',
-          'name': 'Languages'
+          id: 'languages',
+          name: 'Languages'
         },
         {
-          'id': 'work-experience',
-          'name': 'Work Experience'
+          id: 'work-experience',
+          name: 'Work Experience',
+          featureFlag: 'csProfileWorkExperience'
         }
       ]
     },
-    /* TODO - After the profile sprint
     {
-      'label': 'Awards',
-      'categories': [
+      label: 'Alerts & Notifications',
+      categories: [
         {
-          'id': 'honors-awards',
-          'name': 'Academic Honors & Awards'
-        }
-        TODO - On hold till SISRP-7185 is resolved
-        {
-          'id': 'finaid-awards',
-          'name': 'Financial Aid Awards'
-        }
-      ]
-    },
-    */
-    {
-      'label': 'Alerts & Notifications',
-      'categories': [
-        {
-          'id': 'bconnected',
-          'name': 'bConnected'
+          id: 'bconnected',
+          name: 'bConnected'
         }
       ]
     }
   ];
 
+  /**
+   * Wrap callbacks into a promise
+   */
+  var defer = function(navigation, callback) {
+    var deferred = $q.defer();
+
+    navigation = callback(navigation);
+
+    deferred.resolve(navigation);
+    return deferred.promise;
+  };
+
+  /**
+   * Filter the categories inside of the navigation element
+   */
+  var filterCategories = function(navigation, callback) {
+    return _.map(navigation, function(item) {
+      item.categories = callback(item.categories);
+      return item;
+    });
+  };
+
+  var filterRolesInCategory = function(categories) {
+    var userRoles = apiService.user.profile.roles;
+    return _.filter(categories, function(category) {
+      if (!category.roles) {
+        return true;
+      } else {
+        return _.some(category.roles, function(value, key) {
+          return userRoles[key] === value;
+        });
+      }
+    });
+  };
+
+  var filterRolesInNavigation = function(navigation) {
+    return filterCategories(navigation, filterRolesInCategory);
+  };
+
+  /**
+   * Filter based on the roles
+   * If there is no 'roles' definied, we assume everyone should see it
+   */
+  var filterRoles = function(navigation) {
+    return defer(navigation, filterRolesInNavigation);
+  };
+
+  var filterFeatureFlagsInCategory = function(categories) {
+    var featureFlags = apiService.user.profile.features;
+    return _.filter(categories, function(category) {
+      if (!category.featureFlag) {
+        return true;
+      } else {
+        return !!featureFlags[category.featureFlag];
+      }
+    });
+  };
+
+  var filterFeatureFlagsInNavigation = function(navigation) {
+    return filterCategories(navigation, filterFeatureFlagsInCategory);
+  };
+
+  var filterFeatureFlags = function(navigation) {
+    return defer(navigation, filterFeatureFlagsInNavigation);
+  };
+
+  var filterEmptyInNavigation = function(navigation) {
+    return _.filter(navigation, function(item) {
+      return !!_.get(item, 'categories.length');
+    });
+  };
+
+  /**
+   * If we remove all the links in a certain section, we need to make sure we
+   * don't show the heading
+   */
+  var filterEmpty = function(navigation) {
+    return defer(navigation, filterEmptyInNavigation);
+  };
+
+  var initialNavigation = function() {
+    return $q(function(resolve) {
+      resolve(navigation);
+    });
+  };
+
+  var getNavigation = function() {
+    return apiService.user.fetch()
+      .then(initialNavigation)
+      .then(filterRoles)
+      .then(filterFeatureFlags)
+      .then(filterEmpty);
+  };
+
   return {
-    navigation: navigation
+    getNavigation: getNavigation
   };
 });

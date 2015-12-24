@@ -6,7 +6,11 @@
       <div class="cc-widget-title">
         <h2 data-ng-bind="currentCategory.name"></h2>
       </div>
-      <div data-ng-include="('widgets/profile/' + currentCategory.id + '.html').replace('-', '_')" class="cc-page-profile-widget"></div>
+      <div
+        class="cc-page-profile-widget"
+        data-ng-if="navigation.length"
+        data-ng-include="('widgets/profile/' + currentCategory.id + '.html').replace('-', '_')"
+      ></div>
     </div>
   </div>
 
