@@ -1,5 +1,3 @@
-require 'selenium-webdriver'
-
 class WebDriverUtils
 
   include ClassLogger
@@ -109,12 +107,14 @@ class WebDriverUtils
   end
 
   def self.wait_for_page_and_click(element)
-    element.when_visible timeout=page_load_timeout
+    element.when_present timeout=page_load_timeout
+    element.when_visible timeout=page_event_timeout
     element.click
   end
 
   def self.wait_for_element_and_click(element)
-    element.when_visible timeout=page_event_timeout
+    element.when_present timeout=page_event_timeout
+    element.when_visible page_event_timeout
     element.click
   end
 

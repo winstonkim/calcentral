@@ -1,4 +1,4 @@
-describe 'User authorization', :testui => true do
+describe 'User authorization', :testui => true, :order => :defined do
 
   if ENV["UI_TEST"] && Settings.ui_selenium.layer != 'production'
 
@@ -20,27 +20,32 @@ describe 'User authorization', :testui => true do
           splash_page = CalCentralPages::SplashPage.new(@driver)
           splash_page.load_page
           splash_page.basic_auth UserUtils.admin_uid
-          @settings_page = CalCentralPages::SettingsPage.new(@driver)
-          @settings_page.load_page
-          @settings_page.clear_all_saved_users
-          @settings_page.clear_all_recent_users
-          @settings_page.view_as_user('61889')
+          @toolbox_page = CalCentralPages::MyToolboxPage.new(@driver)
+          @toolbox_page.load_page
+          @toolbox_page.clear_all_saved_users
+          @toolbox_page.clear_all_recent_users
+          @toolbox_page.view_as_user('61889')
           cal_net_auth_page = CalNetAuthPage.new(@driver)
           cal_net_auth_page.login(UserUtils.oski_username, UserUtils.oski_password)
           cal_net_auth_page.wait_until(timeout) { cal_net_auth_page.logout_conf_heading_element.visible? }
           splash_page.load_page
           splash_page.basic_auth UserUtils.admin_uid
-          @settings_page.load_page
+          @toolbox_page.load_page
         end
         it 'allows the admin to see recently viewed users' do
-          @settings_page.recent_users_element.when_present(timeout)
-          expect(@settings_page.recent_user_view_as_button_elements[0].text == '61889')
+          @toolbox_page.wait_until(timeout, 'Recent user did not appear') do
+            @toolbox_page.recent_user_view_as_button_elements.any?
+            @toolbox_page.recent_user_view_as_button_elements[0].text == '61889'
+          end
         end
         it 'allows the admin to save recently viewed users' do
-          @settings_page.recent_users_element.when_present(timeout)
-          @settings_page.save_first_recent_user
-          @settings_page.wait_until(timeout=WebDriverUtils.page_event_timeout) { @settings_page.clear_saved_users_button? }
-          expect(@settings_page.saved_user_view_as_button_elements[0].text == '61889')
+          @toolbox_page.recent_users_element.when_present(timeout)
+          @toolbox_page.save_first_recent_user
+          @toolbox_page.wait_until(timeout, 'Saved user did not appear') do
+            @toolbox_page.saved_user_view_as_button_elements.any?
+            sleep 2
+            @toolbox_page.saved_user_view_as_button_elements[0].text == '61889'
+          end
         end
       end
 
@@ -49,9 +54,9 @@ describe 'User authorization', :testui => true do
           splash_page = CalCentralPages::SplashPage.new(@driver)
           splash_page.load_page
           splash_page.basic_auth UserUtils.admin_uid
-          settings_page = CalCentralPages::SettingsPage.new(@driver)
-          settings_page.load_page
-          settings_page.view_as_user('61889')
+          toolbox_page = CalCentralPages::MyToolboxPage.new(@driver)
+          toolbox_page.load_page
+          toolbox_page.view_as_user('61889')
         end
         it 'logs the admin out of CalCentral' do
           cal_net_auth_page = CalNetAuthPage.new(@driver)
@@ -65,9 +70,9 @@ describe 'User authorization', :testui => true do
           splash_page = CalCentralPages::SplashPage.new(@driver)
           splash_page.load_page
           splash_page.basic_auth UserUtils.admin_uid
-          settings_page = CalCentralPages::SettingsPage.new(@driver)
-          settings_page.load_page
-          settings_page.view_as_user('61889')
+          toolbox_page = CalCentralPages::MyToolboxPage.new(@driver)
+          toolbox_page.load_page
+          toolbox_page.view_as_user('61889')
         end
         it 'locks the admin out of CalCentral' do
           cal_net_auth_page = CalNetAuthPage.new(@driver)
@@ -75,8 +80,10 @@ describe 'User authorization', :testui => true do
           cal_net_auth_page.wait_until(timeout) { cal_net_auth_page.password.blank? }
           dashboard_page = CalCentralPages::MyDashboardPage.new(@driver)
           dashboard_page.load_page
-          cal_net_auth_page.wait_until(timeout) { cal_net_auth_page.username.blank? }
-          cal_net_auth_page.wait_until(timeout) { cal_net_auth_page.password.blank? }
+          cal_net_auth_page.wait_until(timeout) do
+            cal_net_auth_page.username.blank?
+            cal_net_auth_page.password.blank?
+          end
         end
       end
 
@@ -85,11 +92,11 @@ describe 'User authorization', :testui => true do
           splash_page = CalCentralPages::SplashPage.new(@driver)
           splash_page.load_page
           splash_page.basic_auth '61889'
-          @settings_page = CalCentralPages::SettingsPage.new(@driver)
-          @settings_page.load_page
+          @toolbox_page = CalCentralPages::MyToolboxPage.new(@driver)
+          @toolbox_page.load_page
         end
         it 'offers no view-as interface' do
-          expect(@settings_page.view_as_input_element.visible?).to be false
+          expect(@toolbox_page.view_as_input_element.visible?).to be false
         end
       end
     end
@@ -101,22 +108,26 @@ describe 'User authorization', :testui => true do
           splash_page = CalCentralPages::SplashPage.new(@driver)
           splash_page.load_page
           splash_page.basic_auth UserUtils.admin_uid
-          @settings_page = CalCentralPages::SettingsPage.new(@driver)
-          @settings_page.load_page
+          @toolbox_page = CalCentralPages::MyToolboxPage.new(@driver)
+          @toolbox_page.load_page
         end
         it 'allows conversion of UID to SID' do
-          @settings_page.look_up_user('61889')
-          @settings_page.wait_until(timeout) { @settings_page.lookup_results_table_element.visible? }
-          @settings_page.wait_until(timeout) { !@settings_page.lookup_results_table_element.rows.zero? }
-          expect(@settings_page.lookup_results_table_element[1][0].text).to eql('61889')
-          expect(@settings_page.lookup_results_table_element[1][1].text).to eql('11667051')
+          @toolbox_page.look_up_user('61889')
+          @toolbox_page.wait_until(timeout) do
+            @toolbox_page.lookup_results_table?
+            @toolbox_page.lookup_results_table_element.rows > 1
+          end
+          expect(@toolbox_page.lookup_results_table_element[1][0].text).to eql('61889')
+          expect(@toolbox_page.lookup_results_table_element[1][1].text).to eql('11667051')
         end
         it 'allows conversion of SID to UID' do
-          @settings_page.look_up_user('11667051')
-          @settings_page.wait_until(timeout) { @settings_page.lookup_results_table_element.visible? }
-          @settings_page.wait_until(timeout) { !@settings_page.lookup_results_table_element.rows.zero? }
-          expect(@settings_page.lookup_results_table_element[1][0].text).to eql('61889')
-          expect(@settings_page.lookup_results_table_element[1][1].text).to eql('11667051')
+          @toolbox_page.look_up_user('11667051')
+          @toolbox_page.wait_until(timeout) do
+            @toolbox_page.lookup_results_table?
+            @toolbox_page.lookup_results_table_element.rows > 1
+          end
+          expect(@toolbox_page.lookup_results_table_element[1][0].text).to eql('61889')
+          expect(@toolbox_page.lookup_results_table_element[1][1].text).to eql('11667051')
         end
       end
 
@@ -125,11 +136,11 @@ describe 'User authorization', :testui => true do
           splash_page = CalCentralPages::SplashPage.new(@driver)
           splash_page.load_page
           splash_page.basic_auth '61889'
-          @settings_page = CalCentralPages::SettingsPage.new(@driver)
-          @settings_page.load_page
+          @toolbox_page = CalCentralPages::MyToolboxPage.new(@driver)
+          @toolbox_page.load_page
         end
         it 'offers no UID/SID conversion interface' do
-          expect(@settings_page.lookup_input_element.visible?).to be false
+          expect(@toolbox_page.lookup_input_element.visible?).to be false
         end
       end
     end

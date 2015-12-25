@@ -73,8 +73,12 @@ describe 'My Profile Basic Info', :testui => true, :order => :defined do
 
     describe 'viewing SID' do
 
-      it 'shows the SID and its label' do
-        expect(@basic_info_card.sid).to eql(@student_info['sid'])
+      it 'shows the SID and its label if the SID exists' do
+        if @student_info['sid'].nil?
+          expect(@basic_info_card.sid?).to be false
+        else
+          expect(@basic_info_card.sid).to eql(@student_info['sid'])
+        end
       end
 
     end

@@ -4,6 +4,7 @@ module MyAcademics
     include Cache::LiveUpdatesEnabled
     include Cache::FreshenOnWarm
     include Cache::JsonAddedCacher
+    include CampusSolutions::DelegatedAccessFeatureFlagged
     include MergedModel
 
     def self.providers
@@ -20,11 +21,13 @@ module MyAcademics
         super(force_cache_write)
       else
         feed = get_feed(force_cache_write)
-        filter_grades(feed).to_json
+        filter_grades feed
+        feed.to_json
       end
     end
 
     def get_feed_internal
+      return {} unless is_feature_enabled
       feed = {
         filteredForDelegate: true
       }
@@ -37,6 +40,7 @@ module MyAcademics
     private
 
     def filter_grades(feed)
+      return unless feed && feed[:semesters]
       feed[:semesters].each do |semester|
         semester[:classes].each do |course|
           [:sections, :transcript].each do |key|
@@ -45,7 +49,6 @@ module MyAcademics
         end
       end
       feed[:gpaUnits].delete :cumulativeGpa
-      feed
     end
 
     def show_grades?

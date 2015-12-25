@@ -44,6 +44,23 @@ namespace :canvas do
     canvas_worker.run
   end
 
+  desc "Delete email addresses from inactivated bCourses accounts"
+  task :delete_inactive_emails => :environment do
+    users_csv_file = ENV['USERS_CSV']
+    unless users_csv_file
+      # Ensure that the download directory exists in the file system.
+      CanvasCsv::Base.new()
+      users_csv_file = "#{Settings.canvas_proxy.export_directory}/provisioned-users-#{DateTime.now.strftime('%F-%H-%M')}.csv"
+      users_csv_file = Canvas::Report::Users.new(download_to_file: users_csv_file).get_csv
+    end
+    inactivated = []
+    CSV.foreach(users_csv_file, headers: true) {|row| inactivated << row['canvas_user_id'] if row['login_id'].start_with? 'inactive-'}
+    Rails.logger.warn "Found #{inactivated.length} inactivated users"
+    if inactivated.present?
+      CanvasCsv::MaintainUsers.new([], []).handle_email_deletions inactivated
+    end
+  end
+
   desc 'Add QA/Dev admin (TEST_ADMIN_ID="some_test_admin" DEV_TEST_CANVASES="https://ucb.beta.example.com,https://ucb.test.example.com")'
   task :add_test_admin => :environment do
     test_admin_id = ENV["TEST_ADMIN_ID"] || Settings.canvas_proxy.test_admin_id

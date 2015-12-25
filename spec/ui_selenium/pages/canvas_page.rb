@@ -112,12 +112,8 @@ class CanvasPage
   end
 
   def load_course_site(course_id)
-    # Retry due to SSO issue in test environment
-    tries ||= 2
     navigate_to "#{WebDriverUtils.canvas_base_url}/courses/#{course_id}"
     accept_login_messages course_id
-  rescue
-    retry unless (tries -= 1).zero?
   end
 
   def load_users_page(course_id)
@@ -154,7 +150,7 @@ class CanvasPage
   def publish_course(course_id)
     logger.info 'Publishing the course'
     load_course_site course_id
-    WebDriverUtils.wait_for_element_and_click publish_button_element
+    WebDriverUtils.wait_for_page_and_click publish_button_element
     published_button_element.when_visible timeout=WebDriverUtils.page_load_timeout
   end
 

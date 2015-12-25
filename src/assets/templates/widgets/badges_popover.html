@@ -33,7 +33,7 @@
       </div>
       <div class="cc-popover-noitems" data-ng-show="!badge.items.length && !api.user.profile.hasGoogleAccessToken">
         To display your bConnected activity, visit the
-         <button class="cc-button-link cc-popover-link" data-ng-click="api.popover.clickThrough(badge.display.name + ' - No Google Account');api.util.redirect('settings')">settings page</button>
+         <button class="cc-button-link cc-popover-link" data-ng-click="api.popover.clickThrough(badge.display.name + ' - No Google Account');api.util.redirect('profile/bconnected')">bConnected page</button>
       </div>
       <!-- Item container -->
       <ul class="cc-popover-items cc-scroll" data-ng-click="api.popover.clickThrough(badge.display.name)" data-ng-show="badge.items.length">

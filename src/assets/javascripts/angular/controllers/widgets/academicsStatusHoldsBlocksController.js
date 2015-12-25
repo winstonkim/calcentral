@@ -11,7 +11,7 @@ angular.module('calcentral.controllers').controller('AcademicsStatusHoldsBlocksC
   $scope.$watchGroup(['studentInfo.regStatus.code', 'studentInfo.californiaResidency', 'api.user.profile.features.csHolds'], function(newValues) {
     var enabledSections = [];
 
-    if (newValues[0] !== null && newValues[1]) {
+    if (newValues[0] !== null || newValues[1]) {
       enabledSections.push('Status');
     }
     if (newValues[2]) {

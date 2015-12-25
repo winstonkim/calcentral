@@ -5,5 +5,7 @@
    data-cc-campus-solutions-link-directive-enabled="{{activityItem.emitter === 'Campus Solutions'}}"
    data-cc-outbound-enabled="{{activityItem.emitter !== 'Campus Solutions'}}">
   <span data-ng-bind="activityItem.linkText || 'More info'"></span>
-  <span class="cc-visuallyhidden">View more info about {{ activityItem.title }} in {{ activityItem.source }}</span>
+  <span class="cc-visuallyhidden">
+    View more info about <span data-ng-bind="activityItem.title"></span> in <span data-ng-bind="activityItem.source"></span>
+  </span>
 </a>

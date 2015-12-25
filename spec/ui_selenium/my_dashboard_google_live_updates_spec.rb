@@ -17,13 +17,11 @@ describe 'My Dashboard bConnected live updates', :testui => true do
 
     before(:context) do
       splash_page = CalCentralPages::SplashPage.new(@driver)
-      splash_page.load_page
-      splash_page.click_sign_in_button
       cal_net_auth_page = CalNetAuthPage.new(@driver)
-      cal_net_auth_page.login(UserUtils.qa_username, UserUtils.qa_password)
-      settings_page = CalCentralPages::SettingsPage.new(@driver)
-      settings_page.load_page
-      settings_page.disconnect_bconnected
+      splash_page.log_into_dashboard(@driver, cal_net_auth_page, UserUtils.qa_username, UserUtils.qa_password)
+      bconnected_card = CalCentralPages::MyProfileBconnectedCard.new(@driver)
+      bconnected_card.load_page
+      bconnected_card.disconnect_bconnected
 
       @google = GooglePage.new(@driver)
       @google.connect_calcentral_to_google(UserUtils.qa_gmail_username, UserUtils.qa_gmail_password)
@@ -75,15 +73,15 @@ describe 'My Dashboard bConnected live updates', :testui => true do
       end
 
       it 'shows an updated count of tasks' do
-        WebDriverUtils.wait_for_page_and_click @tasks_card.unsched_tasks_tab_element
+        @tasks_card.wait_for_unsched_tasks
         @tasks_card.unsched_task_count_element.when_visible(timeout=WebDriverUtils.page_load_timeout)
         expect(@tasks_card.unsched_task_count).to eql((@initial_task_count + 1).to_s)
       end
 
       it 'shows the content of a new task' do
-        WebDriverUtils.wait_for_page_and_click @tasks_card.unsched_tasks_tab_element
-        expect(@tasks_card.unsched_task_one_title).to eql(@task_title)
-        expect(@tasks_card.unsched_task_one_date).to eql(today.strftime("%m/%d"))
+        @tasks_card.wait_for_unsched_tasks
+        expect(@tasks_card.unsched_task_title_elements[0].text).to eql(@task_title)
+        expect(@tasks_card.unsched_task_date_elements[0].text).to eql(today.strftime("%m/%d"))
       end
     end
   end

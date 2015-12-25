@@ -8,17 +8,17 @@ module Canvas
     end
 
     def list
-      wrapped_get request_path
+      wrapped_get "#{request_path}?as_user_id=#{@canvas_user_id}"
     end
 
     def delete(channel_id)
-      wrapped_delete "#{request_path}/#{channel_id}"
+      wrapped_delete "#{request_path}/#{channel_id}?as_user_id=#{@canvas_user_id}"
     end
 
     private
 
     def request_path
-      "users/#{@canvas_user_id}/communication_channels"
+      "users/self/communication_channels"
     end
 
     def mock_interactions

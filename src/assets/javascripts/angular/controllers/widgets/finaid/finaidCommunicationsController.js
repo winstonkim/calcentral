@@ -9,7 +9,18 @@ var _ = require('lodash');
 angular.module('calcentral.controllers').controller('FinaidCommunicationsController', function($q, $scope, activityFactory, finaidFactory, finaidService, tasksFactory) {
   $scope.communicationsInfo = {
     isLoading: true,
-    aidYear: ''
+    aidYear: '',
+    taskStatus: '!completed',
+    taskStatusText: 'Show Completed'
+  };
+
+  $scope.toggleCompletedTasks = function() {
+    var status = $scope.communicationsInfo.taskStatus;
+    var text = $scope.communicationsInfo.taskStatusText;
+    status = (status === 'completed' ? '!completed' : 'completed');
+    $scope.communicationsInfo.taskStatus = status;
+    text = 'Show ' + (status === 'completed' ? 'Uncompleted' : 'Completed');
+    $scope.communicationsInfo.taskStatusText = text;
   };
 
   var getMyFinaidActivity = function(options) {

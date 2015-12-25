@@ -8,10 +8,11 @@ module Cache
     # to the cache.
     def fetch_from_cache(id=nil, force_write=false)
       key = cache_key id
-      Rails.logger.debug "#{self.name} cache_key will be #{key}, expiration #{self.expires_in}, forced: #{force_write}"
+      expiration = self.expires_in
+      Rails.logger.debug "#{self.name} cache_key will be #{key}, expiration #{expiration}, forced: #{force_write}"
       value = Rails.cache.fetch(
         key,
-        :expires_in => self.expires_in,
+        :expires_in => expiration,
         :force => force_write
       ) do
         if block_given?
@@ -32,7 +33,8 @@ module Cache
       id = opts[:id]
       key = cache_key id
       force_write = opts[:force_write]
-      Rails.logger.debug "#{self.name} cache_key will be #{key}, expiration #{self.expires_in}"
+      expiration = self.expires_in
+      Rails.logger.debug "#{self.name} cache_key will be #{key}, expiration #{expiration}"
       unless force_write
         entry = Rails.cache.read key
         if entry
@@ -47,7 +49,6 @@ module Cache
         expiration = Settings.cache.expiration.failure
       else
         Rails.logger.debug "#{self.name} Writing entry to cache: #{key}"
-        expiration = self.expires_in
       end
       response = process_response_before_caching(response, opts)
       cached_entry = (response.nil?) ? NilClass : response
@@ -70,9 +71,18 @@ module Cache
 
     def expires_in
       expirations = Settings.cache.expiration.marshal_dump
-      exp = expirations[self.name.to_sym] || expirations[:default]
-      exp = parse_expiration_setting(exp)
-      [exp, Settings.cache.maximum_expires_in].min
+      expiration_config = expirations[self.name.to_sym] || expirations[:default]
+      begin
+        exp = parse_expiration_setting(expiration_config)
+        if exp.blank? || exp == 0
+          raise ArgumentError, 'No expiration'
+        else
+          [exp, Settings.cache.maximum_expires_in].min
+        end
+      rescue ArgumentError => e
+        logger.error "Cache expiration configured as #{expiration_config}; resetting to default #{expirations[:default]}. #{e.class}: #{e.message}\n #{e.backtrace.join "\n "}"
+        expirations[:default]
+      end
     end
 
     def parse_expiration_setting(exp)

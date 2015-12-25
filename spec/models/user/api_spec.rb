@@ -1,29 +1,25 @@
 describe User::Api do
   before(:each) do
-    Settings.features.cs_profile = false
     @random_id = Time.now.to_f.to_s.gsub('.', '')
-    @default_name = 'Joe Default'
-    allow(CampusOracle::UserAttributes).to receive(:new).and_return double get_feed: {
-      'person_name' => @default_name,
-      'student_id' => 12345678,
-      'official_bmail_address' => 'foo@foo.com',
-      :roles => {
-        :student => true,
-        :exStudent => false,
-        :faculty => false,
-        :staff => false
+    @preferred_name = 'Sid Vicious'
+    allow(HubEdos::UserAttributes).to receive(:new).and_return double get:  {
+      person_name: @preferred_name,
+      student_id: '1234567890',
+      campus_solutions_id: 'CC12345678',
+      official_bmail_address: 'foo@foo.com',
+      roles: {
+        student: true,
+        exStudent: false,
+        faculty: false,
+        staff: false
       }
     }
-  end
-
-  after do
-    Settings.features.cs_profile = true
   end
 
   it 'should find user with default name' do
     u = User::Api.new @random_id
     u.init
-    expect(u.preferred_name).to eq @default_name
+    expect(u.preferred_name).to eq @preferred_name
   end
   it 'should override the default name' do
     u = User::Api.new @random_id
@@ -39,18 +35,57 @@ describe User::Api do
     u.update_attributes preferred_name: ''
     u = User::Api.new @random_id
     u.init
-    expect(u.preferred_name).to eq @default_name
+    expect(u.preferred_name).to eq @preferred_name
   end
   it 'should return a user data structure' do
     user_data = User::Api.new(@random_id).get_feed
-    expect(user_data[:preferred_name]).to eq @default_name
+    expect(user_data[:preferred_name]).to eq @preferred_name
     expect(user_data[:hasCanvasAccount]).to_not be_nil
     expect(user_data[:isCalendarOptedIn]).to_not be_nil
-    expect(user_data[:isCampusSolutionsStudent]).to be false
-    expect(user_data[:showSisProfileUI]).to be false
+    expect(user_data[:isCampusSolutionsStudent]).to be true
+    expect(user_data[:showSisProfileUI]).to be true
     expect(user_data[:hasToolboxTab]).to be false
     expect(user_data[:officialBmailAddress]).to eq 'foo@foo.com'
+    expect(user_data[:campusSolutionsID]).to eq 'CC12345678'
+    expect(user_data[:sid]).to eq '1234567890'
   end
+
+  context 'with a legacy student' do
+    let(:user_data) { User::Api.new(@random_id).get_feed }
+    before do
+      expect(HubEdos::UserAttributes).to receive(:new).and_return(
+        double(
+          get: {
+            :person_name => @preferred_name,
+            :campus_solutions_id => '12345678', # 8-digit ID means legacy
+            :roles => {
+              :student => true,
+              :exStudent => false,
+              :faculty => false,
+              :staff => false
+            }
+          }))
+    end
+    context 'with the fallback enabled' do
+      before do
+        allow(Settings.features).to receive(:cs_profile_visible_for_legacy_users).and_return false
+      end
+      it 'should hide SIS profile for legacy students' do
+        expect(user_data[:isCampusSolutionsStudent]).to be false
+        expect(user_data[:showSisProfileUI]).to be false
+      end
+    end
+    context 'with the fallback disabled' do
+      before do
+        allow(Settings.features).to receive(:cs_profile_visible_for_legacy_users).and_return true
+      end
+      it 'should show SIS profile for legacy students' do
+        expect(user_data[:isCampusSolutionsStudent]).to be false
+        expect(user_data[:showSisProfileUI]).to be true
+      end
+    end
+  end
+
   it 'should return whether the user is registered with Canvas' do
     expect(Canvas::Proxy).to receive(:has_account?).and_return(true, false)
     user_data = User::Api.new(@random_id).get_feed
@@ -85,51 +120,52 @@ describe User::Api do
     expect(User::Data.where :uid => @random_id).to eq []
   end
 
-  it 'should say random student gets the academics tab', if: CampusOracle::Queries.test_data? do
+  it 'should say random student gets the academics tab' do
     user_data = User::Api.new(@random_id).get_feed
     expect(user_data[:hasAcademicsTab]).to be true
   end
 
-  it 'should say a staff member with no academic history does not get the academics tab', if: CampusOracle::Queries.test_data? do
+  it 'should say a staff member with no academic history does not get the academics tab' do
     allow(CampusOracle::UserAttributes).to receive(:new).and_return double get_feed: {
-      'person_name' => @default_name,
+      'person_name' => @preferred_name,
       :roles => {
         :student => false,
         :faculty => false,
         :staff => true
       }
     }
-    fake_instructor_proxy = CampusOracle::UserCourses::HasInstructorHistory.new :fake => true
-    expect(fake_instructor_proxy).to receive(:has_instructor_history?).and_return false
-    expect(CampusOracle::UserCourses::HasInstructorHistory).to receive(:new).and_return fake_instructor_proxy
-    fake_student_proxy = CampusOracle::UserCourses::HasStudentHistory.new :fake => true
-    expect(fake_student_proxy).to receive(:has_student_history?).and_return false
-    expect(CampusOracle::UserCourses::HasStudentHistory).to receive(:new).and_return fake_student_proxy
+    allow(CampusOracle::UserCourses::HasInstructorHistory).to receive(:new).and_return double(has_instructor_history?: false)
+    allow(HubEdos::UserAttributes).to receive(:new).and_return double(get: {
+      person_name: @preferred_name,
+      roles: {}
+    })
     user_data = User::Api.new('904715').get_feed
+    expect(user_data[:hasAcademicsTab]).to eq false
   end
 
   describe 'My Finances tab' do
-    let(:student_profiles) do
-      {
-        :active   => { :student => true,  :exStudent => false, :faculty => false, :staff => false },
-        :expired  => { :student => false, :exStudent => true,  :faculty => false, :staff => false },
-        :non      => { :student => false, :exStudent => false, :faculty => false, :staff => true }
-      }
-    end
     before do
-      allow(CampusOracle::UserAttributes).to receive(:new).and_return double get_feed: { roles: user_roles }
+      allow(CampusOracle::UserAttributes).to receive(:new).and_return double(get_feed: {
+        roles: oracle_roles
+      })
+      allow(HubEdos::UserAttributes).to receive(:new).and_return double(get: {
+        roles: edo_roles
+      })
     end
     subject { User::Api.new(@random_id).get_feed[:hasFinancialsTab] }
     context 'active student' do
-      let(:user_roles) { student_profiles[:active] }
+      let(:oracle_roles) { { :student => true, :exStudent => false, :faculty => false, :staff => false } }
+      let(:edo_roles) { { student: true } }
       it { should be true }
     end
-    context 'non-student' do
-      let(:user_roles) { student_profiles[:non] }
+    context 'staff' do
+      let(:oracle_roles) { { :student => false, :exStudent => false, :faculty => false, :staff => true } }
+      let(:edo_roles) { {} }
       it { should be false }
     end
-    context 'ex-student' do
-      let(:user_roles) { student_profiles[:expired] }
+    context 'former student' do
+      let(:oracle_roles) { { :student => false, :exStudent => true, :faculty => false, :staff => false } }
+      let(:edo_roles) { {} }
       it { should be true }
     end
   end
@@ -181,15 +217,84 @@ describe User::Api do
     end
   end
 
-  it 'should not explode when CampusOracle returns empty feeds' do
-    expect(CampusOracle::UserAttributes).to receive(:new).and_return double(get_feed: {})
-    fake_instructor_proxy = CampusOracle::UserCourses::HasInstructorHistory.new :fake => true
-    expect(fake_instructor_proxy).to receive(:has_instructor_history?).and_return false
-    expect(CampusOracle::UserCourses::HasInstructorHistory).to receive(:new).and_return fake_instructor_proxy
-    fake_student_proxy = CampusOracle::UserCourses::HasStudentHistory.new :fake => true
-    expect(fake_student_proxy).to receive(:has_student_history?).and_return false
-    expect(CampusOracle::UserCourses::HasStudentHistory).to receive(:new).and_return fake_student_proxy
-    user_data = User::Api.new('904715').get_feed
+  context 'HubEdos errors', if: CampusOracle::Queries.test_data? do
+    let(:uid) { '1151855' }
+    let(:feed) { User::Api.new(uid).get_feed }
+
+    before do
+      allow(HubEdos::UserAttributes).to receive(:new).and_return double(get: badly_behaved_edo_attributes)
+    end
+
+    let(:expected_values_from_campus_oracle) {
+      {
+        first_name: 'Eugene V',
+        last_name: 'Debs',
+        preferred_name: 'Eugene V Debs',
+        fullName: 'Eugene V Debs',
+        uid: '1151855',
+        sid: '18551926',
+        isCampusSolutionsStudent: false,
+        roles: {
+          student: true,
+          registered: true,
+          exStudent: false,
+          faculty: false,
+          staff: false,
+          guest: false,
+          concurrentEnrollmentStudent: false,
+          expiredAccount: false
+        }
+      }
+    }
+
+    shared_examples 'handling bad behavior' do
+      it 'should fall back to campus Oracle' do
+        expect(feed).to include expected_values_from_campus_oracle
+      end
+    end
+
+    context 'empty response' do
+      let(:badly_behaved_edo_attributes) { {} }
+      include_examples 'handling bad behavior'
+    end
+
+    context 'ID lookup errors' do
+      let(:badly_behaved_edo_attributes) do
+        {
+          student_id: {
+            body: 'An unknown server error occurred',
+            statusCode: 503
+          }
+        }
+      end
+      include_examples 'handling bad behavior'
+    end
+
+    context 'name lookup errors' do
+      let(:badly_behaved_edo_attributes) do
+        {
+          first_name: nil,
+          last_name: nil,
+          person_name: {
+            body: 'An unknown server error occurred',
+            statusCode: 503
+          }
+        }
+      end
+      include_examples 'handling bad behavior'
+    end
+
+    context 'role lookup errors' do
+      let(:badly_behaved_edo_attributes) do
+        {
+          roles: {
+            body: 'An unknown server error occurred',
+            statusCode: 503
+          }
+        }
+      end
+      include_examples 'handling bad behavior'
+    end
   end
 
   context 'proper cache handling' do

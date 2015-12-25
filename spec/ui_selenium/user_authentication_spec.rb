@@ -113,11 +113,11 @@ describe 'User authentication', :testui => true do
         expect(my_campus_page.current_url).to eql("#{WebDriverUtils.base_url}/campus")
       end
 
-      it 'can take the user to the Settings page' do
-        settings_page = CalCentralPages::SettingsPage.new(@driver)
-        settings_page.load_page
+      it 'can take the user to the Profile page' do
+        profile_page = CalCentralPages::MyProfileBasicInfoCard.new(@driver)
+        profile_page.load_page
         @cal_net_auth_page.login(UserUtils.oski_username, UserUtils.oski_password)
-        expect(settings_page.current_url).to eql("#{WebDriverUtils.base_url}/settings")
+        expect(profile_page.current_url).to eql("#{WebDriverUtils.base_url}/profile/basic")
       end
 
     end

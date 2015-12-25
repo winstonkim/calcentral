@@ -1,12 +1,13 @@
 'use strict';
 
+var _ = require('lodash');
 var angular = require('angular');
 
 /**
  * Financial Aid & Scholarships Profile controller
  */
 angular.module('calcentral.controllers').controller('FinaidProfileController', function($scope, finaidFactory, finaidService) {
-  $scope.finaidProfileLoading = {
+  $scope.finaidProfileInfo = {
     isLoading: true
   };
   $scope.finaidProfile = {};
@@ -15,9 +16,9 @@ angular.module('calcentral.controllers').controller('FinaidProfileController', f
     return finaidFactory.getFinaidYearInfo({
       finaidYearId: finaidService.options.finaidYear.id
     }).success(function(data) {
-      angular.extend($scope.finaidProfile, data.feed.status);
-      $scope.errored = data.errored;
-      $scope.finaidProfileLoading.isLoading = false;
+      angular.extend($scope.finaidProfile, _.get(data, 'feed.status'));
+      $scope.finaidProfileInfo.errored = data.errored;
+      $scope.finaidProfileInfo.isLoading = false;
     });
   };
 

@@ -154,11 +154,8 @@ module User
         :hasGoogleAccessToken => GoogleApps::Proxy.access_granted?(@uid),
         :hasStudentHistory => has_student_history,
         :hasInstructorHistory => has_instructor_history,
-        :hasAcademicsTab => (
-        roles[:student] || roles[:faculty] ||
-          has_instructor_history || has_student_history
-        ),
-        :hasFinancialsTab => (roles[:student] || roles[:exStudent]),
+        :hasAcademicsTab => roles[:student] || roles[:faculty] || has_instructor_history || has_student_history,
+        :hasFinancialsTab => roles[:student] || roles[:exStudent],
         :hasToolboxTab => current_user_policy.has_toolbox_tab?,
         :hasPhoto => User::Photo.has_photo?(@uid),
         :inEducationAbroadProgram => @oracle_attributes[:education_abroad],

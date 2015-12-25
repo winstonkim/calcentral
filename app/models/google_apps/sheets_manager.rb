@@ -100,19 +100,26 @@ module GoogleApps
             </feed>
       EOS
 
-      result = @session.execute!(
-        http_method: :post,
-        uri: "#{cells_feed_url}/batch",
-        body: xml,
-        headers: {
-          'Content-Type' => 'application/atom+xml;charset=utf-8',
-          'If-Match' => '*'
-        }
-      )
-      log_response result
-      raise Errors::ProxyError, "update_worksheet failed with file.id=#{file.id}. Error: #{result.data['error']}" if result.error?
-      raise Errors::ProxyError, "update_worksheet failed with file.id=#{file.id}. Error: interrupted" if result.body.include? 'batch:interrupted'
-      result.body
+      batch_url = "#{cells_feed_url}/batch"
+
+      begin
+        result = @session.execute!(
+          http_method: :post,
+          uri: batch_url,
+          body: xml,
+          headers: {
+            'Content-Type' => 'application/atom+xml;charset=utf-8',
+            'If-Match' => '*'
+          }
+        )
+        log_response result
+        raise Errors::ProxyError, "update_worksheet failed at URL #{batch_url}. Error: #{result.data['error']}" if result.error?
+        raise Errors::ProxyError, "update_worksheet failed at URL #{batch_url}. Error: interrupted" if result.body.include? 'batch:interrupted'
+        result.body
+      rescue Google::APIClient::TransmissionError => e
+        log_transmission_error(e, "update_worksheet failed failed at URL #{batch_url}")
+        raise e
+      end
     end
 
     def upload_to_spreadsheet(sheets_doc_title, path_or_io, parent_id, worksheet_title = nil)

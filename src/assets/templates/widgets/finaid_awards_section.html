@@ -6,6 +6,7 @@
     <div>
       <a data-ng-repeat="link in section.links"
         data-cc-campus-solutions-link-directive="link.url"
+        data-cc-campus-solutions-link-directive-cache="'finaid'"
         data-cc-campus-solutions-link-directive-enabled="{{link.isCsLink}}"
         data-cc-campus-solutions-link-directive-text="finaid.backToText"
         data-cc-outbound-enabled="{{!link.isCsLink}}"
@@ -53,6 +54,7 @@
               <a
                 class="cc-button cc-button-blue"
                 data-cc-campus-solutions-link-directive="item.rightColumn.link.url"
+                data-cc-campus-solutions-link-directive-cache="'finaid'"
                 data-cc-campus-solutions-link-directive-enabled="{{item.rightColumn.link.isCsLink}}"
                 data-cc-campus-solutions-link-directive-text="finaid.backToText"
                 data-cc-outbound-enabled="{{!item.rightColumn.link.isCsLink}}"

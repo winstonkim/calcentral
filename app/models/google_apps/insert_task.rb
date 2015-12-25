@@ -12,9 +12,15 @@ module GoogleApps
     end
 
     def insert_task(task_list_id, body)
-      parsed_body = stringify_body(body)
-      request(:api => "tasks", :resource => "tasks", :method => "insert", :params => {tasklist: task_list_id},
-              :body => parsed_body, :headers => {"Content-Type" => "application/json"}).first
+      request(
+        api: 'tasks',
+        api_version: 'v1',
+        resource: 'tasks',
+        method: 'insert',
+        params: {tasklist: task_list_id},
+        body: stringify_body(body),
+        headers: {'Content-Type' => 'application/json'}
+      ).first
     end
 
   end
