@@ -56,6 +56,8 @@ features:
   cs_delegated_access: true
   cs_fin_aid: true
   cs_holds: true
+  cs_profile_emergency_contacts: true
+  cs_profile_work_experience: true
   webcast_sign_up_on_calcentral: true
   service_alerts_rss: true
   show_notifications_archive_link: true

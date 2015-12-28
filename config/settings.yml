@@ -324,6 +324,8 @@ features:
   cs_fin_aid: false
   cs_holds: false
   cs_profile: true
+  cs_profile_emergency_contacts: false
+  cs_profile_work_experience: false
   cs_profile_visible_for_legacy_users: true
   show_notifications_archive_link: false
   cs_sir: true
