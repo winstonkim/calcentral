@@ -65,6 +65,10 @@ angular.module('calcentral.controllers').controller('AcademicsGpaController', fu
   $scope.gradeOptions = gradeOptions;
 
   var findWeight = function(grade) {
+    // Handle the discrepancy between transcript grades and menu options.
+    if (grade === 'A' || grade === 'A+') {
+      grade = 'A/A+';
+    }
     var weight = gradeOptions.filter(function(element) {
       return element.grade === grade;
     });
