@@ -244,8 +244,7 @@ body {
     margin-right: 0;
     padding-right: 18px;
   }
-  .cc-icon-status-person-layover-red {
-    background: $cc-color-red-dark;
+  .cc-icon-status-person-layover {
     border-radius: 50%;
     cursor: pointer;
     font-size: 8px;
@@ -257,21 +256,13 @@ body {
     position: absolute;
     top: -2px;
     z-index: 1;
-  }
-  .cc-icon-status-person-layover-white {
-    background: $cc-color-white;
-    border-radius: 50%;
-    color: $cc-color-dark-grey;
-    cursor: pointer;
-    font-size: 8px;
-    height: 15px;
-    left: 20px;
-    line-height: 10px;
-    min-width: 15px;
-    padding: 3px;
-    position: absolute;
-    top: -2px;
-    z-index: 1;
+    &.red {
+      background: $cc-color-red-dark;
+    }
+    &.white {
+      background: $cc-color-white;
+      color: $cc-color-dark-grey;
+    }
   }
   .cc-popover-gear {
     .cc-header-icon {
