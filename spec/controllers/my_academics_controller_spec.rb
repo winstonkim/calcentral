@@ -14,10 +14,13 @@ describe MyAcademicsController do
   context 'fake campus data', if: CampusOracle::Connection.test_data? do
     let(:uid) { '61889' }
     before do
+      # Initialize the Profile feed last to test regressions of CLC-6141.
+      fake_profile_class = Bearfacts::Profile
       fake_classes = Bearfacts::Proxy.subclasses + [ Regstatus::Proxy ]
       fake_classes.each do |klass|
-        allow(klass).to receive(:new).and_return klass.new(user_id: uid, fake: true)
+        allow(klass).to receive(:new).and_return klass.new(user_id: uid, fake: true) unless klass == fake_profile_class
       end
+      allow(fake_profile_class).to receive(:new).and_return fake_profile_class.new(user_id: uid, fake: true)
       session['user_id'] = uid
       allow_any_instance_of(AuthenticationState).to receive(:authenticated_as_delegate?).and_return false
     end
