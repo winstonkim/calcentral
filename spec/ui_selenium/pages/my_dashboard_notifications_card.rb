@@ -24,6 +24,7 @@ module CalCentralPages
     def date_format(date)
       ui_date = date.strftime('%b %-d')
       ui_date << date.strftime(', %Y') if date.strftime('%Y') != Date.today.strftime('%Y')
+      ui_date
     end
 
     def expand_notification_detail(index)
