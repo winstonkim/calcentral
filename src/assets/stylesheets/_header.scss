@@ -256,13 +256,13 @@ body {
     position: absolute;
     top: -2px;
     z-index: 1;
-    &.red {
-      background: $cc-color-red-dark;
-    }
-    &.white {
-      background: $cc-color-white;
-      color: $cc-color-dark-grey;
-    }
+  }
+  .cc-icon-status-person-layover-red {
+    background: $cc-color-red-dark;
+  }
+  .cc-icon-status-person-layover-white {
+    background: $cc-color-white;
+    color: $cc-color-dark-grey;
   }
   .cc-popover-gear {
     .cc-header-icon {
