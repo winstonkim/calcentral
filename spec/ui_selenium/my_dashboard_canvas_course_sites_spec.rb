@@ -72,9 +72,9 @@ describe 'My Dashboard', :testui => true, :order => :defined do
           @assignment_summaries = []
           @assignment_summaries << 'Assignment Created' << 'Assignment Created' << 'Assignment Created'
           @assignment_descriptions = []
-          @assignment_descriptions << "#{@future_assignment_title}, #{site_descrip} - A new assignment has been created for your course, #{site_descrip} #{@future_assignment_title} due: #{@future_assignment_due_date.strftime("%b %-d")} at 11:59pm"
-          @assignment_descriptions << "#{@current_assignment_title}, #{site_descrip} - A new assignment has been created for your course, #{site_descrip} #{@current_assignment_title} due: #{@current_assignment_due_date.strftime("%b %-d")} at 11:59pm"
-          @assignment_descriptions << "#{@past_assignment_title}, #{site_descrip} - A new assignment has been created for your course, #{site_descrip} #{@past_assignment_title} due: #{@past_assignment_due_date.strftime("%b %-d")} at 11:59pm"
+          @assignment_descriptions << "#{@future_assignment_title}, #{site_descrip} - A new assignment has been created for your course, #{site_descrip} #{@future_assignment_title} due: #{@notifications_card.date_format @future_assignment_due_date} at 11:59pm"
+          @assignment_descriptions << "#{@current_assignment_title}, #{site_descrip} - A new assignment has been created for your course, #{site_descrip} #{@current_assignment_title} due: #{@notifications_card.date_format @current_assignment_due_date} at 11:59pm"
+          @assignment_descriptions << "#{@past_assignment_title}, #{site_descrip} - A new assignment has been created for your course, #{site_descrip} #{@past_assignment_title} due: #{@notifications_card.date_format @past_assignment_due_date} at 11:59pm"
 
           @canvas.log_out @cal_net
 
