@@ -4,8 +4,6 @@ module HubEdos
     include Cache::UserCacheExpiry
     include ResponseHandler
 
-    SENSITIVE_KEYS = %w(addresses names phones emails emergencyContacts)
-
     def initialize(options = {})
       super(Settings.hub_edos_proxy, options)
     end
@@ -21,7 +19,7 @@ module HubEdos
     end
 
     def build_feed(response)
-      transformed_response = filter_fields(redact_sensitive_keys(transform_address_keys(parse_response(response))))
+      transformed_response = filter_fields(transform_address_keys(parse_response(response)))
       {
         'student' => transformed_response
       }
