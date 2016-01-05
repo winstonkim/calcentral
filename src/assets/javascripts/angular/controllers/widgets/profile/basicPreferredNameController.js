@@ -56,7 +56,6 @@ angular.module('calcentral.controllers').controller('BasicPreferredNameControlle
   };
 
   $scope.save = function(item) {
-    console.log([item.givenName, $scope.currentObject.data.givenName].join(' should be '));
     apiService.profile.save($scope, profileFactory.postName, {
       type: 'PRF',
       firstName: item.givenName,
