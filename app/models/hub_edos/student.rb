@@ -45,18 +45,6 @@ module HubEdos
       response
     end
 
-    def redact_sensitive_keys(response)
-      # TODO: more stuff the Integration Hub should be doing
-      get_students(response).each do |student|
-        SENSITIVE_KEYS.each do |key|
-          if student[key].present?
-            student[key].delete_if { |k| k['uiControl'].present? && k['uiControl']['code'] == 'N' }
-          end
-        end
-      end
-      response
-    end
-
     def filter_fields(response)
       # only include the fields that this proxy is responsible for
       students = get_students(response)
