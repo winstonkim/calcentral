@@ -84,8 +84,8 @@
               "formattedAddress": "1234 56TH ST\nAPT 789, BOX 101112\nBERKELEY, California 94708",
               "disclose": false,
               "uiControl": {
-                "code": "N",
-                "description": "Do Not Display"
+                "code": "U",
+                "description": "Edit - No Delete"
               },
               "fromDate": "2015-01-12"
             },

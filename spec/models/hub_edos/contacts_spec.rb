@@ -11,9 +11,9 @@ describe HubEdos::Contacts do
       expect(subject[:feed]['student']).to be
       expect(subject[:feed]['student']['identifiers'][0]['type']).to be
       expect(subject[:feed]['student']['addresses'][0]['state']).to eq 'CA'
-      expect(subject[:feed]['student']['addresses'][0]['postal']).to eq '94720'
+      expect(subject[:feed]['student']['addresses'][0]['postal']).to eq '94708'
       expect(subject[:feed]['student']['addresses'][0]['country']).to eq 'USA'
-      expect(subject[:feed]['student']['addresses'][0]['formattedAddress']).to eq "2111 BANCROFT WAY  #550\nBERKELEY, California 94720"
+      expect(subject[:feed]['student']['addresses'][0]['formattedAddress']).to eq "1234 56TH ST\nAPT 789, BOX 101112\nBERKELEY, California 94708"
       expect(subject[:feed]['student']['phones'].length).to eq 1
     end
   end
