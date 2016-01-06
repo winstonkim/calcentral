@@ -17,6 +17,7 @@ angular.module('calcentral.controllers').controller('BasicPreferredNameControlle
     currentObject: {},
     isSaving: false,
     errorMessage: '',
+    preferredNameErrorMessage: 'Preferred name can only consist of letters, spaces, and hyphens. Please re-enter.',
     preferredNamePattern: /^[\s]*([A-Za-z]+([\s\-]?[A-Za-z]+)*)[\s]*$/,
     primary: {}
   });
