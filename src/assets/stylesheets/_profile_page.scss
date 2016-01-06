@@ -44,14 +44,14 @@
       padding: 10px;
       white-space: pre-line;
     }
-    .cc-page-widget-profile-section-input-error {
+    .cc-input-error {
       background-color: $cc-color-red;
       border: 1px solid $cc-color-red;
       border-radius: 3px;
       color: $cc-color-white;
       margin-bottom: 10px;
     }
-    .cc-page-widget-profile-section-input-error-message {
+    .cc-input-error-message {
       background-color: $cc-color-red-light;
       border-bottom: 1px solid $cc-color-red;
       border-top: 1px solid $cc-color-red;
