@@ -1,25 +1,47 @@
 #!/bin/bash
 
+# cd to directory of this script
+dir_of_this_script="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+cd "${dir_of_this_script}"
+
 # Include utility
-. parse_yaml.sh
+. sis_script_utils.sh
 
 # --------------------
 # Verify API endpoints: Crosswalk, Campus Solutions, Hub
 # https://jira.ets.berkeley.edu/jira/browse/CLC-6123
 # --------------------
 
+if [[ $# -eq 0 ]] ; then
+  echo; echo "USAGE"; echo "    ${0} [Path to YAML file]"; echo
+  exit 0
+fi
+
 # Load YAML file
 yaml_filename="${1}"
+
+if [[ ! -f "${yaml_filename}" ]] ; then
+  echo; echo "ERROR"; echo "    YAML file not found: ${yaml_filename}"; echo
+  exit 0
+fi
+
 eval $(parse_yaml ${yaml_filename} "yml_")
 
 # --------------------
-# IDs
-export LEGACY_UID=61889
-export LEGACY_SID=11667051
-export CAMPUS_SOLUTIONS_ID=11667051
+LOG_DIRECTORY="${dir_of_this_script}/../../log/sis_api_endpoint_verification_$(date +"%Y-%m-%d_%H%M%S")"
+LEGACY_UID=61889
+LEGACY_SID=11667051
+CAMPUS_SOLUTIONS_ID=11667051
+
+echo "DESCRIPTION"
+echo "    Verify API endpoints: Crosswalk, Campus Solutions, Hub"; echo
+
+echo "OUTPUT"
+echo "    ${LOG_DIRECTORY} directory will have a log file per API verification"; echo
 
 echo "--------------------"
-echo "Verify Crosswalk API"; echo
+echo "VERIFY: CROSSWALK API"; echo
+mkdir -p "${LOG_DIRECTORY}/calnet_crosswalk"
 
 API_CALLS=(
   "/LEGACY_SIS_STUDENT_ID/${LEGACY_SID}"
@@ -27,14 +49,19 @@ API_CALLS=(
 )
 
 for path in ${API_CALLS[@]}; do
-  curl -k --digest \
+  log_file="${LOG_DIRECTORY}/calnet_crosswalk/${path//\//_}.log"
+  http_code=$(curl -k -w "%{http_code}\n" \
+    -so "${log_file}" \
+    --digest \
     -u "${yml_calnet_crosswalk_proxy_username//\'}:${yml_calnet_crosswalk_proxy_password//\'}" \
-    "${yml_calnet_crosswalk_proxy_base_url//\'}${path}"
-  echo; echo " Exit code ${?} for path: ${path}"; echo
+    "${yml_calnet_crosswalk_proxy_base_url//\'}${path}")
+  report_response_code "${path}" "${http_code}"
+  validate_api_response "${log_file}"
 done
 
 echo "--------------------"
-echo "Verify Campus Solutions API"; echo
+echo "VERIFY: CAMPUS SOLUTIONS API"; echo
+mkdir -p "${LOG_DIRECTORY}/campus_solutions"
 
 API_CALLS=(
   "/UC_CC_ADDR_LBL.v1/get?COUNTRY=ESP"
@@ -52,16 +79,24 @@ API_CALLS=(
   "/UC_SIR_CONFIG.v1/get/sir/config/?INSTITUTION=UCB01"
   "/UC_STATE_GET.v1/state/get/?COUNTRY=ESP"
   "/UC_CM_XLAT_VALUES.v1/GetXlats?FIELDNAME=PHONE_TYPE"
+  "/UC_CC_DELEGATED_ACCESS.v1/DelegatedAccess/get?SCC_DA_PRXY_OPRID=${LEGACY_UID}"
+  "/UC_CC_DELEGATED_ACCESS_URL.v1/get"
+  "/UC_DA_T_C.v1/get"
 )
 
 for path in ${API_CALLS[@]}; do
-  curl -k -u "${yml_campus_solutions_proxy_username//\'}:${yml_campus_solutions_proxy_password//\'}" \
-    "${yml_campus_solutions_proxy_base_url//\'}${path}"
-  echo; echo " Exit code ${?} for path: ${path}"; echo
+  log_file="${LOG_DIRECTORY}/campus_solutions/${path//\//_}.log"
+  http_code=$(curl -k -w "%{http_code}\n" \
+    -so "${log_file}" \
+    -u "${yml_campus_solutions_proxy_username//\'}:${yml_campus_solutions_proxy_password//\'}" \
+    "${yml_campus_solutions_proxy_base_url//\'}${path}")
+  report_response_code "${path}" "${http_code}"
+  validate_api_response "${log_file}"
 done
 
 echo "--------------------"
-echo "Verify Hub API"; echo
+echo "VERIFY: HUB API"; echo
+mkdir -p "${LOG_DIRECTORY}/hub_edos"
 
 API_CALLS=(
   "/${CAMPUS_SOLUTIONS_ID}/affiliation"
@@ -72,14 +107,21 @@ API_CALLS=(
 )
 
 for path in ${API_CALLS[@]}; do
-  curl -k -H "Accept:application/json" \
+  log_file="${LOG_DIRECTORY}/hub_edos/${path//\//_}.log"
+  http_code=$(curl -k -w "%{http_code}\n" \
+    -so "${log_file}" \
+    -H "Accept:application/json" \
     -u "${yml_hub_edos_proxy_username//\'}:${yml_hub_edos_proxy_password//\'}" \
     --header "app_id: ${yml_hub_edos_proxy_app_id//\'}" \
     --header "app_key: ${yml_hub_edos_proxy_app_key//\'}"  \
-    "${yml_hub_edos_proxy_base_url//\'}${path}"
-  echo; echo " Exit code ${?} for path: ${path}"; echo
+    "${yml_hub_edos_proxy_base_url//\'}${path}")
+  report_response_code "${path}" "${http_code}"
+  validate_api_response "${log_file}"
 done
 
 echo; echo "--------------------"; echo
+echo "DONE"
+echo "    Results can be found in the directory: ${LOG_DIRECTORY}"
+echo; echo
 
 exit 0
