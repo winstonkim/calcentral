@@ -42,6 +42,10 @@ angular.module('calcentral.services').factory('profileMenuService', function(api
           }
         },
         {
+          id: 'information-disclosure',
+          name: 'Information Disclosure'
+        },
+        {
           id: 'title4',
           name: 'Title IV Release',
           featureFlag: 'csFinAid',
