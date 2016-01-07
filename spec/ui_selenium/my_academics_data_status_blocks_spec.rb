@@ -6,12 +6,12 @@ describe 'My Academics Status and Blocks', :testui => true do
 
     begin
       driver = WebDriverUtils.launch_browser
-      test_output = UserUtils.initialize_output_csv(self)
+      test_output = UserUtils.initialize_output_csv self
       test_users = UserUtils.load_test_users
       testable_users = []
 
       CSV.open(test_output, 'wb') do |user_info_csv|
-        user_info_csv << ['UID', 'Student', 'Registered', 'Resident', 'Active Block', 'Block Types', 'Block History']
+        user_info_csv << ['UID', 'Student', 'Ex-Student', 'Registered', 'Resident', 'Active Block', 'Block Types', 'Block History']
       end
 
       test_users.each do |user|
@@ -21,38 +21,46 @@ describe 'My Academics Status and Blocks', :testui => true do
           api_reg_status = nil
           api_res_status = nil
           has_active_block = nil
+          popover_block_count = nil
           block_types = nil
           has_block_history = nil
 
           begin
-            splash_page = CalCentralPages::SplashPage.new(driver)
+            splash_page = CalCentralPages::SplashPage.new driver
             splash_page.load_page
             splash_page.basic_auth uid
-            status_api_page = ApiMyStatusPage.new(driver)
-            status_api_page.get_json(driver)
-            academics_api_page = ApiMyAcademicsPage.new(driver)
-            academics_api_page.get_json(driver)
-            badges_api_page = ApiMyBadgesPage.new(driver)
-            badges_api_page.get_json(driver)
-            my_academics_page = CalCentralPages::MyAcademicsStatusAndBlocksCard.new(driver)
+            status_api_page = ApiMyStatusPage.new driver
+            status_api_page.get_json driver
+            academics_api_page = ApiMyAcademicsPage.new driver
+            academics_api_page.get_json driver
+            badges_api_page = ApiMyBadgesPage.new driver
+            badges_api_page.get_json driver
+            my_academics_page = CalCentralPages::MyAcademicsStatusAndBlocksCard.new driver
             my_academics_page.load_page
 
-            # STATUS POPOVER
-
-            my_academics_page.open_status_popover
-            has_status_heading = my_academics_page.status_popover_heading_element.visible?
-            has_reg_alert = my_academics_page.reg_status_alert_element.visible?
-            has_block_alert = my_academics_page.block_status_alert_element.visible?
-
             is_student = status_api_page.is_student?
+            is_ex_student = status_api_page.is_ex_student?
+            is_faculty = status_api_page.is_faculty?
+
+            # Check contents of profile popover
+            my_academics_page.open_profile_popover
+            has_status_heading = my_academics_page.status_popover_heading_element.visible?
+            has_reg_alert = my_academics_page.reg_status_alert?
+            has_block_alert = my_academics_page.block_status_alert?
+            popover_block_count = my_academics_page.block_status_alert_number if has_block_alert
+
+            # Check actual reg and block status
+            api_reg_status = status_api_page.is_registered?
+            has_active_block = academics_api_page.active_blocks.any? unless academics_api_page.active_blocks.nil?
+
             if is_student
 
               it "is available via a person icon in the header for UID #{uid}" do
                 expect(has_status_heading).to be true
               end
 
-              profile_card = CalCentralPages::MyAcademicsProfileCard.new(driver)
-              profile_card.name_element.when_visible(timeout=WebDriverUtils.page_load_timeout)
+              profile_card = CalCentralPages::MyAcademicsProfileCard.new driver
+              profile_card.name_element.when_visible timeout=WebDriverUtils.page_load_timeout
 
               # REGISTRATION STATUS
 
@@ -73,7 +81,7 @@ describe 'My Academics Status and Blocks', :testui => true do
                 it "shows a you-are-registered explanation for UID #{uid}" do
                   expect(my_acad_reg_status_explanation).to include(api_reg_status_explanation)
                 end
-                it "does not show a status popover registration alert for UID #{uid}" do
+                it "does not show a profile popover registration alert for UID #{uid}" do
                   expect(has_reg_alert).to be false
                 end
               end
@@ -86,7 +94,7 @@ describe 'My Academics Status and Blocks', :testui => true do
                 term_name = academics_api_page.trans_term_name
 
                 # No users will have reg status alert, regardless of reg status
-                it "does not show a status popover registration alert during term transition for UID #{uid}" do
+                it "does not show a profile popover registration alert during term transition for UID #{uid}" do
                   expect(has_reg_alert).to be false
                 end
 
@@ -127,13 +135,13 @@ describe 'My Academics Status and Blocks', :testui => true do
 
                 # Users not registered during the regular term
                 unless api_reg_status
-                  it "shows a registration alert on the status popover during the regular term for UID #{uid}" do
+                  it "shows a registration alert on the profile popover during the regular term for UID #{uid}" do
                     expect(has_reg_alert).to be true
                   end
 
                   reg_alert_text = my_academics_page.reg_status_alert
 
-                  it "shows a registration alert message on the status popover during the regular term for UID #{uid}" do
+                  it "shows a registration alert message on the profile popover during the regular term for UID #{uid}" do
                     expect(reg_alert_text).to include('Not Registered')
                   end
                   it "shows 'Not Registered' status during the regular term for UID #{uid}" do
@@ -179,19 +187,16 @@ describe 'My Academics Status and Blocks', :testui => true do
 
               # ACTIVE BLOCKS
 
-              has_active_block = academics_api_page.active_blocks.any?
               if has_active_block
 
-                # Active blocks on status popover
-                my_academics_page.open_status_popover
-                popover_block_count = my_academics_page.block_status_alert_number
+                # Active blocks on profile popover
                 academics_api_block_count = academics_api_page.active_blocks.length.to_s
                 my_acad_block_count = my_academics_page.active_block_count.to_s
 
-                it "shows a block alert on the status popover for UID #{uid}" do
+                it "shows a block alert on the profile popover for UID #{uid}" do
                   expect(has_block_alert).to be true
                 end
-                it "shows the number of blocks on the status popover for UID #{uid}" do
+                it "shows the number of blocks on the profile popover for UID #{uid}" do
                   expect(popover_block_count).to eql(academics_api_block_count)
                 end
                 it "shows the number of blocks on My Academics for UID #{uid}" do
@@ -227,7 +232,7 @@ describe 'My Academics Status and Blocks', :testui => true do
 
                 has_no_blocks_message = my_academics_page.no_active_blocks_message?
 
-                it "shows no block alert on the status popover for UID #{uid}" do
+                it "shows no block alert on the profile popover for UID #{uid}" do
                   expect(has_block_alert).to be false
                 end
                 it "shows a no active blocks message for UID #{uid}" do
@@ -289,40 +294,53 @@ describe 'My Academics Status and Blocks', :testui => true do
                 end
               end
 
-              # STATUS POPOVER ALERT LINKS
+              # PROFILE POPOVER ALERT LINKS
 
-              dashboard_page = CalCentralPages::MyDashboardPage.new(driver)
+              dashboard_page = CalCentralPages::MyDashboardPage.new driver
 
               if has_reg_alert
                 dashboard_page.load_page
-                dashboard_page.wait_for_status_popover
-                dashboard_page.open_status_popover
+                dashboard_page.open_profile_popover
                 dashboard_page.click_reg_status_alert
-                my_academics_page.status_table_element.when_visible(timeout=WebDriverUtils.page_load_timeout)
+                my_academics_page.status_table_element.when_visible timeout
                 reg_status_link_works = my_academics_page.reg_status_summary_element.visible?
 
-                it "offers a link from the status popover registration alert to the My Academics page for UID #{uid}" do
+                it "offers a link from the profile popover registration alert to the My Academics page for UID #{uid}" do
                   expect(reg_status_link_works).to be true
                 end
               end
 
               if has_block_alert
                 dashboard_page.load_page
-                dashboard_page.wait_for_status_popover
-                dashboard_page.open_status_popover
+                dashboard_page.open_profile_popover
                 dashboard_page.click_block_status_alert
-                my_academics_page.active_blocks_heading_element.when_visible(timeout=WebDriverUtils.page_load_timeout)
+                my_academics_page.active_blocks_heading_element.when_visible timeout
                 block_alert_link_works = my_academics_page.active_blocks_table_element.visible?
 
-                it "offers a link from the status popover active block alert to the My Academics page for UID #{uid}" do
+                it "offers a link from the profile popover active block alert to the My Academics page for UID #{uid}" do
                   expect(block_alert_link_works).to be true
                 end
               end
 
-            else
-              # The status heading is currently showing for all users, but this might change.
+            elsif is_ex_student
               it "is available via a person icon in the header for UID #{uid}" do
                 expect(has_status_heading).to be true
+              end
+              it "shows no block alert on the profile popover for UID #{uid}" do
+                expect(has_block_alert).to be false
+              end
+              it "shows no registration alert on the profile popover for UID #{uid}" do
+                expect(has_reg_alert).to be false
+              end
+
+            elsif is_faculty
+              it "is not available via a person icon in the header for UID #{uid}" do
+                expect(has_status_heading).to be false
+              end
+
+            else
+              it "is not available via a person icon in the header for UID #{uid}" do
+                expect(has_status_heading).to be false
               end
             end
 
@@ -330,7 +348,7 @@ describe 'My Academics Status and Blocks', :testui => true do
             logger.error e.message + "\n" + e.backtrace.join("\n")
           ensure
             CSV.open(test_output, 'a+') do |user_info_csv|
-              user_info_csv << [uid, is_student, api_reg_status, api_res_status, has_active_block, block_types, has_block_history]
+              user_info_csv << [uid, is_student, is_ex_student, api_reg_status, api_res_status, has_active_block, block_types, has_block_history]
             end
           end
         end
