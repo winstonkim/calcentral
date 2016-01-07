@@ -166,6 +166,42 @@ describe 'My Finances Billing Summary', :testui => true do
                   expect(my_fin_dpp_text).to be false
                 end
               end
+
+              # ALERT POPOVER
+              if status_api_page.is_student? || status_api_page.is_ex_student?
+                my_finances_page.open_profile_popover
+
+                has_amt_due_alert = my_finances_page.amount_due_status_alert?
+                popover_amt_due = my_finances_page.alert_amt_due if has_amt_due_alert
+
+                if fin_api_page.min_amt_due > 0
+                  it "shows an Amount Due alert for UID #{uid}" do
+                    expect(has_amt_due_alert).to be true
+                  end
+                  it "shows the amount due on the Amount Due alert for UID #{uid}" do
+                    expect(popover_amt_due).to eql(fin_api_page.min_amt_due_str)
+                  end
+                else
+                  it "shows no Amount Due alert for UID #{uid}" do
+                    expect(has_amt_due_alert).to be false
+                  end
+                end
+
+                if has_amt_due_alert
+                  dashboard_page = CalCentralPages::MyDashboardPage.new driver
+                  dashboard_page.load_page
+                  dashboard_page.open_profile_popover
+                  dashboard_page.click_amt_due_alert
+                  my_finances_page.billing_summary_list_element.when_present timeout
+
+                  amt_due_link_works = my_finances_page.amt_due_now_element?
+
+                  it "offers a link from the profile popover amount due alert to the My Finances page for UID #{uid}" do
+                    expect(amt_due_link_works).to be true
+                  end
+                end
+              end
+
             else
               it "shows a no-data message for UID #{uid}" do
                 expect(my_fin_no_cars_msg).to be true
@@ -183,9 +219,9 @@ describe 'My Finances Billing Summary', :testui => true do
           end
         end
       end
-        it 'has CARS information for at least one of the test UIDs' do
-          expect(testable_users.length).to be > 0
-        end
+      it 'has CARS information for at least one of the test UIDs' do
+        expect(testable_users.length).to be > 0
+      end
     rescue => e
       logger.error e.message + "\n" + e.backtrace.join("\n ")
     ensure
