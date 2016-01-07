@@ -40,7 +40,6 @@ describe 'My Academics Status and Blocks', :testui => true do
 
             is_student = status_api_page.is_student?
             is_ex_student = status_api_page.is_ex_student?
-            is_faculty = status_api_page.is_faculty?
 
             # Check contents of profile popover
             my_academics_page.open_profile_popover
@@ -331,11 +330,6 @@ describe 'My Academics Status and Blocks', :testui => true do
               end
               it "shows no registration alert on the profile popover for UID #{uid}" do
                 expect(has_reg_alert).to be false
-              end
-
-            elsif is_faculty
-              it "is not available via a person icon in the header for UID #{uid}" do
-                expect(has_status_heading).to be false
               end
 
             else
