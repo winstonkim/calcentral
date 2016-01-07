@@ -60,21 +60,16 @@ describe ServiceAlerts::Alert do
 
     it 'returns feed attributes' do
       feed = described_class.get_latest.to_feed
-      expect(feed.keys).to match_array [:title, :snippet, :body, :timestamp, :link]
+      expect(feed.keys).to match_array [:title, :body, :timestamp]
       expect(feed.values).to all be_present
       expect(feed[:timestamp].keys).to match_array [:epoch, :dateTime, :dateString]
       expect(feed[:timestamp].values).to all be_present
     end
 
-    it 'sets default snippet to HTML-stripped body' do
-      described_class.create!(title: title, body: '<p>Please report encounters <a href="https://www.ets.berkeley.edu/">here</a>.</p>', display: true)
-      feed = described_class.get_latest.to_feed
-      expect(feed[:snippet]).to eq 'Please report encounters here.'
-    end
-
     it 'allows custom snippet to be set' do
       described_class.create!(title: title, body: body, snippet: 'WHAT? - AND LIKEWISE - WHERE?', display: true)
       feed = described_class.get_latest.to_feed
+      expect(feed.keys).to match_array [:title, :body, :timestamp, :snippet]
       expect(feed[:snippet]).to eq 'WHAT? - AND LIKEWISE - WHERE?'
     end
   end

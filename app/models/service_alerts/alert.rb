@@ -26,13 +26,13 @@ module ServiceAlerts
     end
 
     def to_feed
-      {
+      feed = {
         title: title,
-        link: '/alert',
         timestamp: format_date(publication_date.to_datetime, '%b %d'),
-        snippet: sanitize_html(snippet || body),
         body: body
       }
+      feed[:snippet] = snippet if snippet.present?
+      feed
     end
 
   end

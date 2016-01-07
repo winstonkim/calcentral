@@ -38,6 +38,9 @@ $cc-color-splash-blue-dark: #025a86;
     }
     .cc-page-splash-blog-summary {
       margin-bottom: 0;
+      p {
+        margin: 15px 15px 10px 0;
+      }
     }
   }
   .cc-page-splash-buttons .cc-button {
