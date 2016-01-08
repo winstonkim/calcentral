@@ -81,7 +81,6 @@ API_CALLS=(
   "/UC_CM_XLAT_VALUES.v1/GetXlats?FIELDNAME=PHONE_TYPE"
   "/UC_CC_DELEGATED_ACCESS.v1/DelegatedAccess/get?SCC_DA_PRXY_OPRID=${LEGACY_UID}"
   "/UC_CC_DELEGATED_ACCESS_URL.v1/get"
-  "/UC_DA_T_C.v1/get"
 )
 
 for path in ${API_CALLS[@]}; do

@@ -24,7 +24,7 @@ parse_yaml() {
 
 validate_api_response() {
   local path_to_file=$1
-  error_count=$(grep -i 'error\|unable to find a routing' ${path_to_file} | wc -l)
+  error_count=$(grep -i 'error\|unable to find a routing\|not authorized' ${path_to_file} | wc -l)
   if [ "${error_count}" -ne "0" ]; then
     echo; echo "    [WARN] Errors found in ${path_to_file}:"
     cat "${path_to_file}"; echo
