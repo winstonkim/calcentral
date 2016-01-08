@@ -4,7 +4,7 @@ module CalCentralPages
 
     div(:profile_card, :xpath => '//div[@data-ng-if="api.user.profile.hasStudentHistory || api.user.profile.roles.student"]')
     div(:term_transition_msg, :class => 'cc-widget-profile-message-text')
-    h3(:term_transition_heading, :xpath => '//div[@class="cc-widget cc-widget-profile ng-scope"]//h3')
+    h3(:term_transition_heading, :xpath => '//h3[contains(text(),"Academic status as of")]')
     div(:name, :xpath => '//div/strong[@data-ng-bind="api.user.profile.fullName"]')
     button(:show_gpa, :xpath => '//button[text()="Show GPA"]')
     button(:hide_gpa, :xpath => '//button[text()="Hide"]')
