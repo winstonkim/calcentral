@@ -29,7 +29,7 @@ angular.module('calcentral.controllers').controller('FinaidCoaController', funct
       finaidYearId: finaidService.options.finaidYear.id
     }).success(function(data) {
       angular.extend($scope.coa, _.get(data, 'feed.coa'));
-      $scope.errored = data.errored;
+      $scope.coa.errored = data.errored;
       $scope.coa.isLoading = false;
     });
   };

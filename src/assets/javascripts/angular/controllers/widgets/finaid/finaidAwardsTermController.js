@@ -17,7 +17,7 @@ angular.module('calcentral.controllers').controller('FinaidAwardsTermController'
       finaidYearId: $routeParams.finaidYearId
     }).success(function(data) {
       angular.extend($scope.finaidAwardsTerm.feed, _.get(data, 'feed'));
-      $scope.errored = data.errored;
+      $scope.finaidAwardsTerm.errored = data.errored;
       $scope.finaidAwardsTerm.isLoading = false;
     });
   };
