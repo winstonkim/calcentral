@@ -17,6 +17,7 @@ angular.module('calcentral.controllers').controller('BasicPreferredNameControlle
     currentObject: {},
     isSaving: false,
     errorMessage: '',
+    preferredNamePattern: /^[\s]*([A-Za-z]+([\s\-]?[A-Za-z]+)*)[\s]*$/,
     primary: {}
   });
 
