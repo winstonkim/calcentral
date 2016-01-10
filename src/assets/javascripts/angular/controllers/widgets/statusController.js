@@ -63,7 +63,8 @@ angular.module('calcentral.controllers').controller('StatusController', function
   };
 
   var loadHolds = function(data) {
-    if (!apiService.user.profile.features.csHolds) {
+    if (!apiService.user.profile.features.csHolds ||
+      !(apiService.user.profile.roles.student || apiService.user.profile.roles.applicant)) {
       return;
     }
     $scope.holds = _.get(data, 'data.feed');
