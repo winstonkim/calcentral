@@ -44,8 +44,8 @@ module HubEdos
           internal_response
         else
           internal_response.merge({
-                                    errored: true
-                                  })
+            errored: true
+          })
         end
       else
         {}
@@ -63,21 +63,24 @@ module HubEdos
       else
         logger.info "Fake = #{@fake}; Making request to #{url} on behalf of user #{@uid}; cache expiration #{self.class.expires_in}"
         opts = request_options.merge({
-                                       on_error: {
-                                         rescue_status: 404
-                                       }
-                                     })
+          on_error: {
+            rescue_status: 404
+          }
+        })
         response = get_response(url, opts)
         logger.debug "Remote server status #{response.code}, Body = #{response.body.force_encoding('UTF-8')}"
         if response.code == 404
           if response['StudentResponse'] && response['StudentResponse']['message'] == 'Student Not Found'
-            student_not_found = true
             logger.warn "Student Not Found for UID #{@uid}, Campus Solutions ID #{@campus_solutions_id}"
+            feed = build_feed response
+            student_not_found = true
           else
             logger.error "Unexpected 404 response for UID #{@uid}, Campus Solutions ID #{@campus_solutions_id}: #{response}"
+            feed = empty_feed
           end
+        else
+          feed = build_feed response
         end
-        feed = build_feed response
         {
           statusCode: response.code,
           feed: feed,
@@ -98,18 +101,14 @@ module HubEdos
       }
       if @settings.app_id.present? && @settings.app_key.present?
         # app ID and token are used on the prod/staging Hub servers
-        opts[:headers].merge!({
-                                'app_id' => @settings.app_id,
-                                'app_key' => @settings.app_key
-                              })
+        opts[:headers]['app_id'] = @settings.app_id
+        opts[:headers]['app_key'] = @settings.app_key
       else
         # basic auth is used on Hub dev servers
-        opts.merge!({
-                      basic_auth: {
-                        username: @settings.username,
-                        password: @settings.password
-                      }
-                    })
+        opts[:basic_auth] = {
+          username: @settings.username,
+          password: @settings.password
+        }
       end
       opts
     end
