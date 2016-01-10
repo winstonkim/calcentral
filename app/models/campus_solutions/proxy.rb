@@ -53,7 +53,6 @@ module CampusSolutions
         }
       else
         logger.info "Fake = #{@fake}; Making request to #{url} on behalf of user #{@uid}, campus_solutions_id = #{@campus_solutions_id}; cache expiration #{self.class.expires_in}"
-        logger.debug "Request options = #{request_options}"
         response = get_response(url, request_options)
         logger.debug "Remote server status #{response.code}, Body = #{response.body.force_encoding('UTF-8')}"
         feed = build_feed response
