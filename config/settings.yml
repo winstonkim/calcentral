@@ -404,7 +404,7 @@ advising_proxy:
 
 campus_solutions_proxy:
   fake: true
-  base_url: 'http://sis-demo-02.is.berkeley.edu'
+  base_url: 'https://bcs-web-dev-03.is.berkeley.edu:8443/PSIGW/RESTListeningConnector/PSFT_CS'
   username: secret
   password: secret
 
@@ -416,7 +416,7 @@ slate_checklist_proxy:
 
 hub_edos_proxy:
   fake: true
-  base_url: 'https://apis.berkeley.edu/something'
+  base_url: 'https://sis-integration.berkeley.edu/apis/sis/v1/students'
   username: secret
   password: secret
 
