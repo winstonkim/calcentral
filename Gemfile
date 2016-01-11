@@ -58,7 +58,7 @@ gem 'log4r', '~> 1.1'
 gem 'active_attr', '~> 0.8.5'
 
 # for production deployment
-gem 'jruby-activemq', '~> 5.5.1'
+gem 'jruby-activemq', '~> 5.13.0', git: 'https://github.com/ets-berkeley-edu/jruby-activemq.git'
 
 # Addressable is a replacement for the URI implementation that is part of Ruby's standard library.
 # https://github.com/sporkmonger/addressable
@@ -88,6 +88,7 @@ gem 'retriable', '~> 1.4'
 gem 'pundit', '~> 0.3.0'
 
 gem 'cancan', '~> 1.6.10'
+gem 'net-ssh', '~>2.9.2' # v3 requires Ruby 2.0
 
 gem 'icalendar', '~> 2.2.2'
 

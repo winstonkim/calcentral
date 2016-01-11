@@ -1,4 +1,10 @@
 GIT
+  remote: https://github.com/ets-berkeley-edu/jruby-activemq.git
+  revision: 26cf938f9d52c269fdd9f73488b9e98a37dc317b
+  specs:
+    jruby-activemq (5.13.0-java)
+
+GIT
   remote: https://github.com/ets-berkeley-edu/omniauth-cas.git
   revision: 0c740de3a3c8b297df88453ec89a3875301d5458
   specs:
@@ -208,7 +214,6 @@ GEM
       thor (>= 0.14, < 2.0)
     jquery-ui-rails (5.0.0)
       railties (>= 3.2.16)
-    jruby-activemq (5.5.1-java)
     json (1.8.3-java)
     jwt (1.5.1)
     kaminari (0.16.1)
@@ -249,7 +254,7 @@ GEM
       net-ssh (>= 2.6.5)
     net-sftp (2.1.2)
       net-ssh (>= 2.6.5)
-    net-ssh (2.8.0)
+    net-ssh (2.9.2)
     net-ssh-gateway (1.2.0)
       net-ssh (>= 2.6.5)
     nokogiri (1.5.11-java)
@@ -479,12 +484,13 @@ DEPENDENCIES
   httparty (~> 0.13.3)
   icalendar (~> 2.2.2)
   ims-lti!
-  jruby-activemq (~> 5.5.1)
+  jruby-activemq (~> 5.13.0)!
   json (~> 1.8.0)
   link_header (~> 0.0.7)
   log4r (~> 1.1)
   minitest-reporters (~> 1.0.8)
   net-ldap (~> 0.11.0)
+  net-ssh (~> 2.9.2)
   nokogiri (~> 1.5.9)
   omniauth-cas (~> 1.1.0)!
   page-object (~> 1.1.0)
