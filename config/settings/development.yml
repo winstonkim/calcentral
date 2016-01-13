@@ -1,9 +1,6 @@
 application:
   layer: "development"
 
-app_alerts_proxy:
-  fake: true
-
 bearfacts_proxy:
   fake: true
 
