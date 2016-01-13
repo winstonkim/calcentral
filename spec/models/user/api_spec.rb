@@ -43,6 +43,7 @@ describe User::Api do
     expect(user_data[:hasCanvasAccount]).to_not be_nil
     expect(user_data[:isCalendarOptedIn]).to_not be_nil
     expect(user_data[:isCampusSolutionsStudent]).to be true
+    expect(user_data[:isDelegateUser]).to be false
     expect(user_data[:showSisProfileUI]).to be true
     expect(user_data[:hasToolboxTab]).to be false
     expect(user_data[:officialBmailAddress]).to eq 'foo@foo.com'
@@ -58,6 +59,7 @@ describe User::Api do
           get: {
             :person_name => @preferred_name,
             :campus_solutions_id => '12345678', # 8-digit ID means legacy
+            :delegate_user_id => '87654321',
             :roles => {
               :student => true,
               :exStudent => false,
@@ -82,6 +84,7 @@ describe User::Api do
       it 'should show SIS profile for legacy students' do
         expect(user_data[:isCampusSolutionsStudent]).to be false
         expect(user_data[:showSisProfileUI]).to be true
+        expect(user_data[:isDelegateUser]).to be true
       end
     end
   end

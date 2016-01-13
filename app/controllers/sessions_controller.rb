@@ -4,7 +4,7 @@ class SessionsController < ApplicationController
   skip_before_filter :check_reauthentication, :only => [:lookup, :destroy]
 
   def lookup
-    auth = request.env["omniauth.auth"]
+    auth = request.env['omniauth.auth']
     auth_uid = auth['uid']
 
     # Save crosswalk some work by caching critical IDs if they were asserted to us via SAML.
@@ -21,6 +21,11 @@ class SessionsController < ApplicationController
         # TODO reduce this log level once CAS reliably sends us the CS ID
         logger.warn "Caching Campus Solutions ID #{cs_id} for UID #{auth_uid} based on SAML assertion"
         crosswalk.cache_campus_solutions_id cs_id
+      end
+      delegate_id = auth.extra['berkeleyEduCSDelegateID']
+      if delegate_id.present?
+        logger.debug "Caching Campus Solutions Delegate ID #{delegate_id} for UID #{auth_uid} based on SAML assertion"
+        crosswalk.cache_delegate_user_id delegate_id
       end
     end
 
@@ -61,7 +66,7 @@ class SessionsController < ApplicationController
   end
 
   def reauth_admin
-    redirect_to url_for_path("/auth/cas?renew=true&url=/ccadmin")
+    redirect_to url_for_path '/auth/cas?renew=true&url=/ccadmin'
   end
 
   def basic_lookup
@@ -107,7 +112,7 @@ class SessionsController < ApplicationController
     else
       # Unless we're re-authenticating after view-as, initialize the session.
       session['user_id'] = uid unless session['original_user_id']
-      redirect_to smart_success_path, :notice => "Signed in!"
+      redirect_to smart_success_path, :notice => 'Signed in!'
     end
   end
 

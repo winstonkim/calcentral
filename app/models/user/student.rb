@@ -12,5 +12,9 @@ module User
     def lookup_student_id_from_crosswalk
       CalnetCrosswalk::ByUid.new(user_id: @uid).lookup_student_id
     end
+
+    def lookup_delegate_user_id
+      CalnetCrosswalk::ByUid.new(user_id: @uid).lookup_delegate_user_id
+    end
   end
 end
