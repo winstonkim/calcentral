@@ -69,7 +69,7 @@
   </div>
 
   <div class="cc-widget-padding">
-    <h3 data-ng-if="!isProfileCurrent && collegeAndLevel.termName">Academic status as of <span data-ng-bind="collegeAndLevel.termName"></span></h3>
+    <h3 data-ng-if="!isProfileCurrent && api.user.profile.roles.student && collegeAndLevel.termName">Academic status as of <span data-ng-bind="collegeAndLevel.termName"></span></h3>
     <div data-ng-if="showProfileMessage" class="cc-table-top-border"></div>
 
     <div class="cc-left cc-widget-profile-picture">

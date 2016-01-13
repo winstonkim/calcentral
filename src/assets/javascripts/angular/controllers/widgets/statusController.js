@@ -11,13 +11,13 @@ angular.module('calcentral.controllers').controller('StatusController', function
   var hasLoaded = false;
 
   var loadStudentInfo = function(data) {
-    if (!data.studentInfo) {
+    if (!data.studentInfo || !apiService.user.profile.roles.student) {
       return;
     }
 
     $scope.studentInfo = data.studentInfo;
 
-    if (_.get(data, 'studentInfo.regStatus.code') !== null) {
+    if (_.get(data, 'studentInfo.regStatus.code')) {
       $scope.hasRegistrationData = true;
     }
     if (_.get(data, 'studentInfo.regStatus.needsAction') && apiService.user.profile.features.regstatus) {
@@ -63,7 +63,8 @@ angular.module('calcentral.controllers').controller('StatusController', function
   };
 
   var loadHolds = function(data) {
-    if (!apiService.user.profile.features.csHolds) {
+    if (!apiService.user.profile.features.csHolds ||
+      !(apiService.user.profile.roles.student || apiService.user.profile.roles.applicant)) {
       return;
     }
     $scope.holds = _.get(data, 'data.feed');

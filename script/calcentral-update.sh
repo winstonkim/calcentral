@@ -9,7 +9,7 @@ source .rvmrc
 
 export RAILS_ENV=production
 export LOGGER_STDOUT=only
-export JRUBY_OPTS="-Xcext.enabled=true -J-client -X-C"
+export JRUBY_OPTS="--dev"
 
 echo "------------------------------------------"
 echo "`date`: Redeploying CalCentral on app nodes..."

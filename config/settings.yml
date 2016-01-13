@@ -18,6 +18,8 @@ application:
   # timeout (in seconds) for outgoing http request establishment
   outgoing_http_timeout: 30
   layer: development
+  # Lifespan of session cookie
+  session_expiration: <%= 4.hours %>
 
 cas_server: 'https://auth.berkeley.edu/cas'
 cas_logout_url: 'https://auth.berkeley.edu/cas/logout'
@@ -257,8 +259,8 @@ cache:
     CalLink::Organization: <%= 4.hours %>
 
     Textbooks::Proxy: <%= 24.hours %>
-    EtsBlog::Alerts: <%= 2.minutes %>
-    EtsBlog::ServiceAlerts: <%= 2.minutes %>
+
+    ServiceAlerts::Merged: <%= 2.minutes %>
 
     CampusSolutions::AddressLabel: <%= 29.days %>
     CampusSolutions::AddressType: <%= 29.days %>
@@ -324,6 +326,8 @@ features:
   cs_fin_aid: false
   cs_holds: false
   cs_profile: true
+  cs_profile_emergency_contacts: false
+  cs_profile_work_experience: false
   cs_profile_visible_for_legacy_users: true
   show_notifications_archive_link: false
   cs_sir: true
@@ -400,7 +404,7 @@ advising_proxy:
 
 campus_solutions_proxy:
   fake: true
-  base_url: 'http://sis-demo-02.is.berkeley.edu'
+  base_url: 'https://bcs-web-dev-03.is.berkeley.edu:8443/PSIGW/RESTListeningConnector/PSFT_CS'
   username: secret
   password: secret
 
@@ -412,7 +416,7 @@ slate_checklist_proxy:
 
 hub_edos_proxy:
   fake: true
-  base_url: 'https://apis.berkeley.edu/something'
+  base_url: 'https://sis-integration.berkeley.edu/apis/sis/v1/students'
   username: secret
   password: secret
 

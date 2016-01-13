@@ -28,7 +28,7 @@ then
   export RAILS_ENV=${RAILS_ENV:-production}
   export LOGGER_STDOUT=only
   export LOGGER_LEVEL=INFO
-  export JRUBY_OPTS="-Xcext.enabled=true -J-client -X-C"
+  export JRUBY_OPTS="--dev"
 
   echo "[$(date +"%F %H:%M:%S")] [INFO] Begin oec:${TASK} on $(hostname -s)" | ${LOGIT}
 

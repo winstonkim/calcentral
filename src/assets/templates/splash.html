@@ -17,9 +17,16 @@
       </div>
       <div class="medium-10 columns small-12">
         <p class="cc-page-splash-blog-title">
-          <a data-ng-href="{{splashNote.link}}">{{splashNote.title}}</a>
+          <a data-ng-if="splashNote.link" data-ng-href="{{splashNote.link}}" data-ng-bind="splashNote.title"></a>
+          <span data-ng-if="!splashNote.link" data-ng-bind="splashNote.title"></span>
         </p>
-        <p class="cc-page-splash-blog-summary" data-ng-bind-html="splashNote.snippet"></p>
+        <div data-ng-show="splashNote.snippet && !showFullBody">
+          <div class="cc-page-splash-blog-summary" data-ng-bind-html="splashNote.snippet"></div>
+          <button class="cc-button-link" data-ng-show="splashNote.body" data-ng-click="showFullBody=!showFullBody">Show more</button>
+        </div>
+        <div data-ng-show="!splashNote.snippet || showFullBody">
+          <div class="cc-page-splash-blog-summary" data-ng-bind-html="splashNote.body"></div>
+        </div>
       </div>
     </div>
   </div>

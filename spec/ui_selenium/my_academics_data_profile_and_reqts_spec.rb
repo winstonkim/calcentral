@@ -270,14 +270,22 @@ describe 'My Academics profile and university requirements cards', :testui => tr
                 end
 
               else
-                user_type = 'existing student'
-                testable_users.push(uid)
                 if academics_api_page.transition_term? && !academics_api_page.trans_term_profile_current?
                   term_transition = true
                   api_term_transition = "Academic status as of #{academics_api_page.term_name}"
-                  my_academics_term_transition = profile_card.term_transition_heading
-                  it "show the term transition heading to UID #{uid}" do
-                    expect(my_academics_term_transition).to eql(api_term_transition)
+                  if status_api_page.is_student?
+                    user_type = 'existing student'
+                    testable_users.push(uid)
+                    my_academics_term_transition = profile_card.term_transition_heading
+                    it "show the term transition heading to UID #{uid}" do
+                      expect(my_academics_term_transition).to eql(api_term_transition)
+                    end
+                  else
+                    user_type = 'ex-student'
+                    has_transition_heading = profile_card.term_transition_heading?
+                    it "shows no term transition heading to UID #{uid}" do
+                      expect(has_transition_heading).to be false
+                    end
                   end
                 end
               end

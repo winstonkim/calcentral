@@ -24,7 +24,7 @@ module CalCentralPages
 
   # Popover: Profile, Status, Log Out
   list_item(:status_loading, :xpath => '//li[@data-ng-show="statusLoading"]')
-  button(:status_icon, :xpath => '//button[@title="Settings"]')
+  button(:profile_icon, :xpath => '//button[@title="Settings"]')
   span(:status_alert_count, :xpath => '//span[@data-ng-if="hasAlerts"]/span[@data-ng-bind="count"]')
   h4(:status_popover_heading, :xpath => '//div[@class="cc-popover-title"]/h4')
   div(:no_status_alert, :xpath => '//div[@class="cc-popover-noitems ng-scope"]')
@@ -32,11 +32,12 @@ module CalCentralPages
   div(:reg_status_alert, :xpath => '//li[@data-ng-if="studentInfo.regStatus.needsAction && api.user.profile.features.regstatus"]//div')
   link(:reg_status_alert_link, :xpath => '//li[@data-ng-if="studentInfo.regStatus.needsAction && api.user.profile.features.regstatus"]/a')
   image(:reg_status_alert_icon, :xpath => '//li[@data-ng-if="studentInfo.regStatus.needsAction && api.user.profile.features.regstatus"]//i[@class="cc-left fa fa-exclamation-circle cc-icon-red"]')
-  div(:block_status_alert, :xpath => '//li[@data-ng-if="studentInfo.regBlock.needsAction || studentInfo.regBlock.errored"]//div')
-  span(:block_status_alert_number, :xpath => '//li[@data-ng-if="studentInfo.regBlock.needsAction || studentInfo.regBlock.errored"]//span[@data-ng-bind="studentInfo.regBlock.activeBlocks"]')
-  link(:block_status_alert_link, :xpath => '//li[@data-ng-if="studentInfo.regBlock.needsAction || studentInfo.regBlock.errored"]//a')
-  image(:block_status_alert_icon, :xpath => '//li[@data-ng-if="studentInfo.regBlock.needsAction || studentInfo.regBlock.errored"]//i[@class="cc-left fa fa-exclamation-circle cc-icon-red"]')
+  div(:block_status_alert, :xpath => '//li[@data-ng-if="api.user.profile.roles.student && (studentInfo.regBlock.needsAction || studentInfo.regBlock.errored)"]//div')
+  span(:block_status_alert_number, :xpath => '//li[@data-ng-if="api.user.profile.roles.student && (studentInfo.regBlock.needsAction || studentInfo.regBlock.errored)"]//span[@data-ng-bind="studentInfo.regBlock.activeBlocks"]')
+  link(:block_status_alert_link, :xpath => '//li[@data-ng-if="api.user.profile.roles.student && (studentInfo.regBlock.needsAction || studentInfo.regBlock.errored)"]//a')
+  image(:block_status_alert_icon, :xpath => '//li[@data-ng-if="api.user.profile.roles.student && (studentInfo.regBlock.needsAction || studentInfo.regBlock.errored)"]//i[@class="cc-left fa fa-exclamation-circle cc-icon-red"]')
   div(:amount_due_status_alert, :xpath => '//li[@data-ng-if="minimumAmountDue && minimumAmountDue > 0"]//div')
+  span(:amount_due_amount, :xpath => '//li[@data-ng-if="minimumAmountDue && minimumAmountDue > 0"]//span[@data-ng-bind="minimumAmountDue | currency"]')
   link(:amount_due_status_alert_link, :xpath => '//li[@data-ng-if="minimumAmountDue && minimumAmountDue > 0"]//a')
   image(:amount_due_status_alert_icon, :xpath => '//li[@data-ng-if="minimumAmountDue && minimumAmountDue > 0"]//i[@class="cc-left fa fa-exclamation-triangle cc-icon-gold"]')
   image(:amount_overdue_status_alert_icon, :xpath => '//li[@data-ng-if="minimumAmountDue && minimumAmountDue > 0"]//i[@class="cc-left fa fa-exclamation-circle cc-icon-red"]')
@@ -93,25 +94,9 @@ module CalCentralPages
     end
   end
 
-  def wait_for_status_popover
-    logger.debug('Waiting for status popover to be present')
-    status_icon_element.when_present(timeout=WebDriverUtils.page_event_timeout)
-  end
-
-  def status_popover_visible?
-    status_icon_element.when_visible(timeout=WebDriverUtils.page_event_timeout)
-    true
-  rescue
-    false
-  end
-
-  def open_status_popover
-    logger.debug('Waiting for status popover to become visible')
-    status_icon_element.when_visible(timeout=WebDriverUtils.page_load_timeout)
-    unless status_popover_heading_element.visible?
-      logger.debug('Clicking status popover to open the content')
-      status_icon
-    end
+  def open_profile_popover
+    WebDriverUtils.wait_for_page_and_click profile_icon_element unless logout_link_element.visible?
+    logout_link_element.when_visible WebDriverUtils.page_event_timeout
   end
 
   def click_reg_status_alert
@@ -122,16 +107,24 @@ module CalCentralPages
     WebDriverUtils.wait_for_element_and_click block_status_alert_element
   end
 
+  def click_amt_due_alert
+    WebDriverUtils.wait_for_page_and_click amount_due_status_alert_element
+  end
+
+  def alert_amt_due
+    amount_due_amount.delete('$,')
+  end
+
   def click_profile_link(driver)
     logger.info 'Clicking Profile link'
-    WebDriverUtils.wait_for_page_and_click status_icon_element
+    open_profile_popover
     WebDriverUtils.wait_for_element_and_click profile_link_element
     CalCentralPages::MyProfilePage::MyProfileBasicInfoCard.new driver
   end
 
   def click_logout_link
     logger.info('Logging out of CalCentral')
-    WebDriverUtils.wait_for_page_and_click status_icon_element
+    open_profile_popover
     WebDriverUtils.wait_for_element_and_click logout_link_element
   end
 

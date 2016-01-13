@@ -11,7 +11,7 @@ module CalCentralPages
     elements(:phone_type, :div, :xpath => '//div[@data-ng-controller="ProfilePhoneController"]//div[@data-ng-repeat="item in items.content"]//strong')
     elements(:phone_number, :span, :xpath => '//div[@data-ng-controller="ProfilePhoneController"]//div[@data-ng-repeat="item in items.content"]//span[@data-ng-bind="item.number"]')
     elements(:phone_extension, :span, :xpath => '//div[@data-ng-controller="ProfilePhoneController"]//div[@data-ng-repeat="item in items.content"]//span[@data-ng-if="item.extension"]')
-    elements(:phone_edit_button, :button, :xpath => '//div[@data-ng-controller="ProfilePhoneController"]//div[@data-ng-repeat="item in items.content"]//button[text()="Edit"]')
+    elements(:phone_edit_button, :button, :xpath => '//div[@data-ng-controller="ProfilePhoneController"]//div[@data-ng-repeat="item in items.content"]//button[contains(text(),"Edit")]')
 
     button(:add_phone_button, :xpath => '//div[@data-ng-controller="ProfilePhoneController"]//button[@data-ng-click="showAdd()"]')
     button(:save_phone_button, :xpath => '//div[@data-ng-controller="ProfilePhoneController"]//button[contains(.,"Save")]')
@@ -248,8 +248,8 @@ module CalCentralPages
     div(:address_label, :xpath => '//div[text()="Address"]')
     elements(:address, :div, :xpath => '//div[@data-ng-controller="ProfileAddressController"]//div[@data-ng-repeat="item in items.content"]')
     elements(:address_type, :div, :xpath => '//div[@data-ng-controller="ProfileAddressController"]//div[@data-ng-repeat="item in items.content"]//strong')
-    elements(:address_formatted, :div, :xpath => '//div[@data-ng-controller="ProfileAddressController"]//div[@data-ng-repeat="item in items.content"]//div[@data-ng-bind-html="item.formattedAddress"]')
-    elements(:address_edit_button, :button, :xpath => '//div[@data-ng-controller="ProfileAddressController"]//div[@data-ng-repeat="item in items.content"]//button[text()="Edit"]')
+    elements(:address_formatted, :div, :xpath => '//div[@data-ng-controller="ProfileAddressController"]//div[@data-ng-repeat="item in items.content"]//div[@data-ng-bind="item.formattedAddress"]')
+    elements(:address_edit_button, :button, :xpath => '//div[@data-ng-controller="ProfileAddressController"]//div[@data-ng-repeat="item in items.content"]//button[contains(text(),"Edit")]')
 
     button(:add_address_button, :xpath => '//div[@data-ng-controller="ProfileAddressController"]//button[@data-ng-click="showAdd()"]')
     button(:save_address_button, :xpath => '//div[@data-ng-controller="ProfileAddressController"]//button[contains(.,"Save")]')

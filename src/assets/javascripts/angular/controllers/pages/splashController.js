@@ -5,10 +5,10 @@ var angular = require('angular');
 /**
  * Splash controller
  */
-angular.module('calcentral.controllers').controller('SplashController', function(apiService, blogFactory, $filter, $scope) {
+angular.module('calcentral.controllers').controller('SplashController', function(apiService, serviceAlertsFactory, $filter, $scope) {
   apiService.util.setTitle('Home');
 
-  blogFactory.getBlog().success(function(data) {
+  serviceAlertsFactory.getAlerts().success(function(data) {
     if (data.alert && data.alert.title) {
       $scope.splashNote = data.alert;
     } else {

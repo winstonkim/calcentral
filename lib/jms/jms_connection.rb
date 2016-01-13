@@ -4,6 +4,7 @@ require "activemq.rb"
 # JMS Session and Consumer must be single-threaded.
 # Connection start should be called after sessions & consumers are set up.
 class JmsConnection
+  attr_reader :connection
 
   def initialize(url = Settings.ist_jms.url,
       username = Settings.ist_jms.username,

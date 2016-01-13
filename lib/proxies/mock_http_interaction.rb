@@ -34,7 +34,11 @@ module Proxies
     def set_response(options={}, &blk)
       uri_matcher = if @request[:uri_matching]
                       parsed_uri = URI.parse(@request[:uri_matching])
-                      /.*#{parsed_uri.hostname}.*#{parsed_uri.path}.*/
+                      if @request[:uri_end_of_path]
+                        /.*#{parsed_uri.hostname}.*#{parsed_uri.path}[^\/]*$/
+                      else
+                        /.*#{parsed_uri.hostname}.*#{parsed_uri.path}.*/
+                      end
                     else
                       @request[:uri]
                     end

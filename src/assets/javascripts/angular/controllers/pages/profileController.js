@@ -7,12 +7,10 @@ var angular = require('angular');
  * Profile controller
  */
 angular.module('calcentral.controllers').controller('ProfileController', function(apiService, profileMenuService, $routeParams, $scope) {
-  var navigation = profileMenuService.navigation;
-
   /**
    * Find the category object when we get a categoryId back
    */
-  var findCategory = function(categoryId) {
+  var findCategory = function(categoryId, navigation) {
     return _.find(_.flatten(_.pluck(navigation, 'categories')), {
       id: categoryId
     });
@@ -21,9 +19,12 @@ angular.module('calcentral.controllers').controller('ProfileController', functio
   /**
    * Get the category depending on the routeParam
    */
-  var getCurrentCategory = function() {
+  var getCurrentCategory = function(navigation) {
+    if (!navigation || !navigation.length) {
+      return false;
+    }
     if ($routeParams.category) {
-      return findCategory($routeParams.category);
+      return findCategory($routeParams.category, navigation);
     } else {
       return navigation[0].categories[0];
     }
@@ -37,8 +38,19 @@ angular.module('calcentral.controllers').controller('ProfileController', functio
     apiService.util.setTitle(title);
   };
 
-  var init = function() {
-    var currentCategory = getCurrentCategory();
+  /**
+   * Get the navigation for the profile page
+   * This will depend on feature flags and the user's roles
+   */
+  var getNavigation = function() {
+    return profileMenuService.getNavigation();
+  };
+
+  /**
+   * Set the correct navigation information
+   */
+  var setNavigation = function(navigation) {
+    var currentCategory = getCurrentCategory(navigation);
 
     // If no category was found, redirect to the 404 page
     if (!currentCategory) {
@@ -51,6 +63,10 @@ angular.module('calcentral.controllers').controller('ProfileController', functio
     $scope.navigation = navigation;
 
     setPageTitle();
+  };
+
+  var init = function() {
+    return getNavigation().then(setNavigation);
   };
 
   init();

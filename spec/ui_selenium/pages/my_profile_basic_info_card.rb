@@ -8,8 +8,8 @@ module CalCentralPages
     div(:name, :xpath => '//div[@data-ng-bind="name.content.formattedName"]')
 
     div(:preferred_name, :xpath => '//div[@data-ng-bind="items.content[0].givenName"]')
-    button(:preferred_name_add_button, :xpath => '//button[text()="Add"]')
-    button(:preferred_name_edit_button, :xpath => '//button[text()="Edit"]')
+    button(:preferred_name_add_button, :xpath => '//button[contains(text(),"Add")]')
+    button(:preferred_name_edit_button, :xpath => '//button[contains(text(),"Edit")]')
     text_area(:preferred_name_input, :id => 'cc-page-widget-basic-preferred-first-name')
     button(:preferred_name_save_button, :xpath => '//button[@type="submit"]')
     button(:preferred_name_cancel_button, :xpath => '//button[@data-ng-click="closeEditor()"]')
