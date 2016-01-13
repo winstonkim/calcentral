@@ -1,7 +1,7 @@
 describe Cache::Cacheable do
   class TestCacheable
     extend Cache::Cacheable
-
+    include ClassLogger
     def self.cache_key id
       id
     end
@@ -158,7 +158,7 @@ describe Cache::Cacheable do
   describe '#expires_in' do
     before do
       allow(Time).to receive(:now).and_return(Time.zone.parse(fake_now).to_time)
-      allow(Settings.cache.expiration).to receive(:marshal_dump).and_return({TestCacheable: fake_setting})
+      allow(Settings.cache.expiration).to receive(:marshal_dump).and_return({TestCacheable: fake_setting, default: 1 })
     end
     describe 'next day' do
       let(:fake_setting) {'NEXT_00_01'}
@@ -179,6 +179,12 @@ describe Cache::Cacheable do
         let(:fake_now) {'2014-09-02 09:00'}
         it 'returns tomorrow morning' do
           expect(TestCacheable.expires_in).to eq 23.hours.to_i
+        end
+      end
+      context 'exactly at expiration time' do
+        let(:fake_now) {'2014-09-02 08:00'}
+        it 'returns tomorrow morning' do
+          expect(TestCacheable.expires_in).to eq 24.hours.to_i
         end
       end
     end
