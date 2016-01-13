@@ -1,4 +1,4 @@
-require "activemq.rb"
+require 'activemq.rb'
 
 # JMS Connection is relatively heavyweight & can be used across multiple threads.
 # JMS Session and Consumer must be single-threaded.
@@ -6,12 +6,9 @@ require "activemq.rb"
 class JmsConnection
   attr_reader :connection
 
-  def initialize(url = Settings.ist_jms.url,
-      username = Settings.ist_jms.username,
-      password = Settings.ist_jms.password,
-      queue_name = Settings.ist_jms.queue)
-    java_import "javax.jms.Session"
-    java_import "org.apache.activemq.ActiveMQConnectionFactory"
+  def initialize(connection_settings)
+    java_import 'javax.jms.Session'
+    java_import 'org.apache.activemq.ActiveMQConnectionFactory'
 
     # JMS listeners do not generate any exceptions when a server goes away. Without failover,
     # a dangling connection and session will stay open and useless forever (or until
@@ -21,15 +18,21 @@ class JmsConnection
     # another thread, and then close the dangling connection/session from there.
     # The following URL means: wait at least 5 minutes before trying to reconnect; wait at most
     # 4 hours; do not block failed "send" attempts forever.
-    url = "failover:(#{url})?initialReconnectDelay=300000&maxReconnectDelay=14400000&timeout=30000&randomize=false"
+    failover_url = "failover:(#{connection_settings.url})?initialReconnectDelay=300000&maxReconnectDelay=14400000&timeout=30000&randomize=false"
 
-    connection_factory = username ?
-        ActiveMQConnectionFactory.new(username, password, url) :
-        ActiveMQConnectionFactory.new(url)
+    connection_factory = connection_settings.username ?
+        ActiveMQConnectionFactory.new(connection_settings.username, connection_settings.password, failover_url) :
+        ActiveMQConnectionFactory.new(failover_url)
     @connection = connection_factory.createConnection
-    @queue_name = queue_name
-    @session = @connection.createSession(false, Session.AUTO_ACKNOWLEDGE)
-    @consumer = @session.createConsumer(@session.createQueue(@queue_name))
+    @sessions = []
+    @consumers = []
+
+    connection_settings.queues.each do |queue_name|
+      session = @connection.createSession(false, Session.AUTO_ACKNOWLEDGE)
+      consumer = session.createConsumer(session.createQueue(queue_name))
+      @sessions << session
+      @consumers << consumer
+    end
   end
 
   def close
@@ -38,7 +41,7 @@ class JmsConnection
   end
 
   def count
-    defined?(@listener) ? @listener.count : nil
+    @listeners.map(&:count).reduce(:+) if @listeners
   end
 
   def finalize
@@ -46,16 +49,19 @@ class JmsConnection
   end
 
   def start_listening_with(&proc)
-    @listener = JmsTextListener.new(&proc)
-    @consumer.setMessageListener(@listener)
+    @listeners = @consumers.map do |consumer|
+      listener = JmsTextListener.new(&proc)
+      consumer.setMessageListener(listener)
+      listener
+    end
     @connection.start
   end
 
   # For testing with local ActiveMQ deployments.
-  def send_message(message_text)
+  def send_message(message_text, queue_name)
     begin
       session = @connection.createSession(false, Session.AUTO_ACKNOWLEDGE)
-      producer = session.createProducer(session.createQueue(@queue_name))
+      producer = session.createProducer(session.createQueue(queue_name))
       producer.send(session.createTextMessage(message_text))
     ensure
       producer.close() if producer
@@ -63,10 +69,10 @@ class JmsConnection
     end
   end
   # For testing error handling of text message listener.
-  def send_bytes_message()
+  def send_bytes_message(queue_name)
     begin
       session = @connection.createSession(false, Session.AUTO_ACKNOWLEDGE)
-      producer = session.createProducer(session.createQueue(@queue_name))
+      producer = session.createProducer(session.createQueue(queue_name))
       producer.send(session.createBytesMessage())
     ensure
       producer.close() if producer
