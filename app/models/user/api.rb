@@ -127,6 +127,10 @@ module User
       @edo_attributes.present? && @edo_attributes[:campus_solutions_id].present? && @edo_attributes[:campus_solutions_id].to_s.length >= 10
     end
 
+    def is_delegate_user?
+      @edo_attributes.present? && @edo_attributes[:delegate_user_id].present?
+    end
+
     def is_sis_profile_visible?
       is_cs_profile_feature_enabled && (is_campus_solutions_student? || is_profile_visible_for_legacy_users)
     end
@@ -169,6 +173,7 @@ module User
         :sid => @student_id,
         :campusSolutionsID => get_campus_attribute('campus_solutions_id', :string),
         :isCampusSolutionsStudent => is_campus_solutions_student?,
+        :isDelegateUser => is_delegate_user?,
         :showSisProfileUI => is_sis_profile_visible?
       }
     end

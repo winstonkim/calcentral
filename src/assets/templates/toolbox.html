@@ -11,6 +11,7 @@
     </div>
     <div class="medium-4 columns cc-column-last" data-ng-if="api.user.profile.isSuperuser">
       <div data-ng-include="'widgets/toolbox/api_test.html'"></div>
+      <div data-ng-include="'widgets/toolbox/delegate_quick_links.html'" data-ng-if="api.user.profile.isDelegateUser"></div>
     </div>
   </div>
 </div>
