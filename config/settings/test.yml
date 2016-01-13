@@ -36,14 +36,6 @@ oauth2:
 myfinaid_proxy:
   fake: true
 
-app_alerts_proxy:
-  fake: true
-  base_url: "http://ets-dev.berkeley.edu/calcentral-alerts/feed"
-
-service_alerts_proxy:
-  fake: true
-  base_url: 'https://test-ets.pantheon.berkeley.edu/news-archive/calcentral-service-alert/feed'
-
 features:
   bearfacts: true
   financials: true
@@ -59,7 +51,6 @@ features:
   cs_profile_emergency_contacts: true
   cs_profile_work_experience: true
   webcast_sign_up_on_calcentral: true
-  service_alerts_rss: true
   show_notifications_archive_link: true
 
 cache:
