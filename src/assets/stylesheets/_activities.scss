@@ -106,7 +106,8 @@
   .cc-widget-activities-text-margin {
     margin-left: 30px;
     .cc-widget-activities-title {
-      margin-right: 20px;
+      display: inline-block;
+      width: 94%;
     }
     .cc-widget-activities-status-line {
       margin-top: 4px;
