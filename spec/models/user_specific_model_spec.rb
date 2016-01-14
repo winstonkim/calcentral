@@ -1,42 +1,49 @@
 describe UserSpecificModel do
-
   describe '#from_session' do
-    let(:fake_session) {{
-      'user_id' => random_id,
-      'original_user_id' => random_id,
-      'lti_authenticated_only' => true
-    }}
-    it 'instantiates using session variables' do
-      expect(UserSpecificModel).to receive(:new).with(fake_session['user_id'], {
-            'original_user_id' => fake_session['original_user_id'],
-            'lti_authenticated_only' => fake_session['lti_authenticated_only']
-      })
-      UserSpecificModel.from_session(fake_session)
+    subject { UserSpecificModel.from_session session_extras.merge({'user_id' => random_id}) }
+    context 'when standard user session' do
+      let(:session_extras) { {} }
+      it 'should be directly_authenticated' do
+        expect(subject.directly_authenticated?).to be true
+        expect(subject.delegate_permissions).to be_empty
+      end
     end
-  end
-
-  describe '#directly_authenticated?' do
-    subject {UserSpecificModel.from_session(fake_session).directly_authenticated?}
-    context 'when normally authenticated' do
-      let(:fake_session) {{
-        'user_id' => random_id
-      }}
-      it {should be_truthy}
+    context 'standard view-as mode' do
+      let(:session_extras) {
+        {
+          'original_user_id' => random_id
+        }
+      }
+      it 'should identify user as not directly_authenticated' do
+        expect(subject.directly_authenticated?).to be false
+        expect(subject.delegate_permissions).to be_empty
+      end
     end
-    context 'when viewing as' do
-      let(:fake_session) {{
-        'user_id' => random_id,
-        'original_user_id' => random_id
-      }}
-      it {should be_falsey}
+    context 'delegate view-as mode' do
+      let(:session_extras) {
+        {
+          'original_delegate_user_id' => random_id
+        }
+      }
+      before {
+        permissions = ['Power-to-rule-the-Universe!']
+        allow_any_instance_of(AuthenticationState).to receive(:delegate_permissions).and_return permissions
+      }
+      it 'should identify user as having delegate_permissions' do
+        expect(subject.directly_authenticated?).to be false
+        expect(subject.delegate_permissions).to_not be_empty
+      end
     end
     context 'when only authenticated from an external app' do
-      let(:fake_session) {{
-        'user_id' => random_id,
-        'lti_authenticated_only' => true
-      }}
-      it {should be_falsey}
+      let(:session_extras) {
+        {
+          'lti_authenticated_only' => true
+        }
+      }
+      it {
+        expect(subject.directly_authenticated?).to be false
+        expect(subject.delegate_permissions).to be_empty
+      }
     end
   end
-
 end

@@ -15,6 +15,13 @@ describe AuthenticationState do
       }}
       it {should be_falsey}
     end
+    context 'when delegate viewing as' do
+      let(:fake_session) {{
+        'user_id' => random_id,
+        'original_delegate_user_id' => random_id
+      }}
+      it {should be_falsey}
+    end
     context 'when only authenticated from an external app' do
       let(:fake_session) {{
         'user_id' => random_id,
@@ -78,6 +85,13 @@ describe AuthenticationState do
       let(:fake_session) {{
         'user_id' => random_id,
         'original_user_id' => random_id
+      }}
+      it {should be_truthy}
+    end
+    context 'when viewing as' do
+      let(:fake_session) {{
+        'user_id' => random_id,
+        'original_delegate_user_id' => random_id
       }}
       it {should be_truthy}
     end
