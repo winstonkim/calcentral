@@ -62,7 +62,7 @@ class JmsWorker
 
   def open_connection(connection_settings)
     begin
-      jms_connection ||= JmsConnection.new(connection_settings)
+      jms_connection = JmsConnection.new(connection_settings)
     rescue => e
       Rails.logger.error "#{self.class.name} Unable to start JMS listener at #{connection_settings.url}: #{e.class} #{e.message}"
       return false
@@ -78,7 +78,8 @@ class JmsWorker
         end
       end
       write_stats
-      Rails.logger.debug "#{self.class} message from JMS Provider = #{@jms.connection.getMetaData.getJMSProviderName} #{@jms.connection.getMetaData.getProviderVersion}"
+      metadata = jms_connection.connection.getMetaData
+      Rails.logger.debug "#{self.class} message from JMS Provider = #{metadata.getJMSProviderName} #{metadata.getProviderVersion}"
       yield msg
     end
     jms_connection
