@@ -11,5 +11,13 @@ module CampusSolutions
       CampusSolutions::AidYears.new({user_id: @uid}).get
     end
 
+    def default_aid_year
+      feed = self.get_feed
+      years = feed && feed[:feed] && feed[:feed][:finaidSummary] && feed[:feed][:finaidSummary][:finaidYears]
+      if years && (default_year = years.find { |y| y[:default] })
+        default_year[:id]
+      end
+    end
+
   end
 end

@@ -15,5 +15,9 @@ module CampusSolutions
       })
     end
 
+    def error_response_root_xml_node
+      'UC_CM_FAULT_DOC'
+    end
+
   end
 end
