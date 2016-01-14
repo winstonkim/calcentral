@@ -8,6 +8,10 @@ angular.module('calcentral.directives').directive('ccCompileDirective', function
     link: function(scope, element, attrs) {
       scope.$watch(attrs.ccCompileDirective,
         function(value) {
+          // value can be undefined, when that's the case set it to an empty string
+          // we need to do this since otherwise the html won't be set
+          value = value || '';
+
           // when the 'compile' expression changes assign it into the current DOM
           element.html(value);
 
