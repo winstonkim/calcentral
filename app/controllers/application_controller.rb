@@ -139,7 +139,7 @@ class ApplicationController < ActionController::Base
   end
 
   def session_message
-    session_keys = %w(user_id original_user_id canvas_user_id canvas_masquerading_user_id canvas_course_id)
+    session_keys = %w(user_id original_user_id original_delegate_user_id canvas_user_id canvas_masquerading_user_id canvas_course_id)
     session_keys.map { |key| "#{key}: #{session[key]}" if session[key] }.compact.join('; ')
   end
 
@@ -149,6 +149,8 @@ class ApplicationController < ActionController::Base
     line = "ACCESS_LOG #{remote} #{request.request_method} #{request.filtered_path} #{status}"
     if session['original_user_id']
       line += " uid=#{session['original_user_id']}_acting_as_uid=#{session['user_id']}"
+    elsif session['original_delegate_user_id']
+      line += " uid=#{session['original_delegate_user_id']}_delegate_acting_as_uid=#{session['user_id']}"
     else
       line += " uid=#{session['user_id']}"
     end

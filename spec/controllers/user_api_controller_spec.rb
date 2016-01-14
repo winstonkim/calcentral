@@ -71,6 +71,21 @@ describe UserApiController do
     end
   end
 
+  describe '#delegate_acting_as_uid' do
+    subject do
+      get :mystatus
+      JSON.parse(response.body)['delegateActingAsStudent']
+    end
+    context 'when normally authenticated' do
+      it { should be false }
+    end
+    context 'when viewing as' do
+      let(:original_delegate_user_id) { random_id }
+      before { session['original_delegate_user_id'] = original_delegate_user_id }
+      it { should be true }
+    end
+  end
+
   describe 'superuser status' do
     before do
       session['original_user_id'] = original_user_id

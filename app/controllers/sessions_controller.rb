@@ -30,10 +30,10 @@ class SessionsController < ApplicationController
     end
 
     if params['renew'] == 'true'
-      # If we're reauthenticating due to view-as, then the CAS-provided UID should match
-      # the session's "original_user_id".
-      if session['original_user_id']
-        if session['original_user_id'] != auth_uid
+      # If we're reauthenticating due to view-as, then the CAS-provided UID should match original_user_id in session.
+      original_uid = session['original_delegate_user_id'] || session['original_user_id']
+      if original_uid
+        if original_uid != auth_uid
           logger.warn "ACT-AS: CAS returned UID #{auth_uid} not matching active session: #{session_message}. Logging user out."
           logout
           return redirect_to Settings.cas_logout_url
@@ -111,7 +111,7 @@ class SessionsController < ApplicationController
       redirect_to url_for_path('/uid_error')
     else
       # Unless we're re-authenticating after view-as, initialize the session.
-      session['user_id'] = uid unless session['original_user_id']
+      session['user_id'] = uid unless session['original_user_id'] || session['original_delegate_user_id']
       redirect_to smart_success_path, :notice => 'Signed in!'
     end
   end

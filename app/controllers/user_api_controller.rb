@@ -23,16 +23,18 @@ class UserApiController < ApplicationController
 
     if session['user_id']
       # wrap User::Visit.record_session inside a cache lookup so that we have to write User::Visit records less often.
+      directly_authenticated = current_user.directly_authenticated?
       self.class.fetch_from_cache session['user_id'] do
-        User::Visit.record session['user_id'] if current_user.directly_authenticated?
+        User::Visit.record session['user_id'] if directly_authenticated
         true
       end
+      delegate_acting_as_student = !directly_authenticated && current_user.original_delegate_user_id.present?
       status.merge!({
         :isBasicAuthEnabled => Settings.developer_auth.enabled,
         :isLoggedIn => true,
         :features => features,
-        # Note the misleading field name.
-        :actingAsUid => (current_user.directly_authenticated? ? false : current_user.real_user_id),
+        :actingAsUid => directly_authenticated || delegate_acting_as_student ? false : current_user.real_user_id,
+        :delegateActingAsStudent => directly_authenticated ? false : delegate_acting_as_student,
         :youtubeSplashId => Settings.youtube_splash_id
       })
       status.merge!(User::Api.from_session(session).get_feed)
