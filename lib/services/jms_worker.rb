@@ -9,7 +9,8 @@ class JmsWorker
 
   attr_reader :jms_connections
 
-  def initialize
+  # The unused opts argument is expected by Torquebox.
+  def initialize(opts={})
     @handler = Notifications::JmsMessageHandler.new
     @stopped = false
   end
