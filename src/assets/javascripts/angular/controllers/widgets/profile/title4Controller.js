@@ -46,10 +46,26 @@ angular.module('calcentral.controllers').controller('Title4Controller', function
       }
 
       $scope.title4.isLoading = false;
+
+      return data;
     });
   };
 
   getFinaidPermissions();
+
+  /**
+   * After changing the T4 permissions, we also need to update the aid year info for each aid year (profile)
+   */
+  var refreshAidYearInfo = function(data) {
+    var aidYears = _.get(data, 'data.feed.finaidSummary.finaidYears');
+    var aidYearsIds = _.map(aidYears, 'id');
+    _.forEach(aidYearsIds, function(aidYearId) {
+      finaidFactory.getFinaidYearInfo({
+        finaidYearId: aidYearId,
+        refreshCache: true
+      });
+    });
+  };
 
   /**
    * We need to update the finaid summary when the approvals have changed
@@ -57,6 +73,6 @@ angular.module('calcentral.controllers').controller('Title4Controller', function
   $scope.$on('calcentral.custom.api.finaid.approvals', function() {
     getFinaidPermissions({
       refreshCache: true
-    });
+    }).then(refreshAidYearInfo);
   });
 });
