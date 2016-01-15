@@ -10,7 +10,7 @@ module MyTasks
 
     def fetch_tasks
       tasks = []
-      checklist_feed = CampusSolutions::Checklist.new(user_id: @uid).get
+      checklist_feed = CampusSolutions::MyChecklist.new(@uid).get_feed
       checklist_results = collect_results(checklist_feed) { |result| format_checklist result }
       tasks.concat checklist_results.compact if checklist_results
       tasks

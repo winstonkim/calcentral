@@ -2,12 +2,16 @@ module CampusSolutions
   class Proxy < BaseProxy
 
     include ClassLogger
-    include Cache::UserCacheExpiry
     include Proxies::MockableXml
     include User::Student
 
     APP_ID = 'campussolutions'
     APP_NAME = 'Campus Solutions'
+
+    def initialize(options = {})
+      super(Settings.campus_solutions_proxy, options)
+      initialize_mocks if @fake && xml_filename.present?
+    end
 
     def instance_key
       @uid
@@ -26,17 +30,12 @@ module CampusSolutions
     end
 
     def get
-      if is_feature_enabled
-        internal_response = self.class.smart_fetch_from_cache(id: instance_key) do
-          get_internal
-        end
-        if internal_response[:noStudentId] || internal_response[:statusCode] < 400
-          internal_response
-        else
-          internal_response.merge({
-                                    errored: true
-                                  })
-        end
+      return {} unless is_feature_enabled
+      wrapped_response = self.class.handling_exceptions(instance_key) do
+        get_internal
+      end
+      if wrapped_response && wrapped_response[:response].is_a?(Hash)
+        decorate_internal_response wrapped_response[:response]
       else
         {}
       end
@@ -76,6 +75,13 @@ module CampusSolutions
       HashConverter.downcase_and_camelize(feed)
     end
 
+    def decorate_internal_response(response)
+      if response[:statusCode] && response[:statusCode] >= 400 && !response[:noStudentId]
+        response[:errored] = true
+      end
+      response
+    end
+
     def url
       @settings.base_url
     end
@@ -85,7 +91,12 @@ module CampusSolutions
     end
 
     def request_options
-      {}
+      {
+        basic_auth: {
+          username: @settings.username,
+          password: @settings.password
+        }
+      }
     end
 
     def build_feed(response)

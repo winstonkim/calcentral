@@ -1,5 +1,5 @@
 module CampusSolutions
-  class PostingProxy < DirectProxy
+  class PostingProxy < Proxy
 
     attr_reader :params
 
@@ -7,10 +7,6 @@ module CampusSolutions
       super options
       @params = options[:params]
       initialize_mocks if @fake
-    end
-
-    def self.expires_in
-      1.seconds
     end
 
     def mock_request

@@ -1,5 +1,5 @@
 module CampusSolutions
-  class Country < DirectProxy
+  class Country < CachedProxy
 
     include ProfileFeatureFlagged
 

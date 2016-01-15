@@ -1,7 +1,6 @@
 module CampusSolutions
-  class FinancialAidFundingSourcesTerm < DirectProxy
+  class FinancialAidFundingSourcesTerm < Proxy
 
-    include Cache::RelatedCacheKeyTracker
     include FinaidFeatureFlagged
     include CampusSolutionsIdRequired
 
@@ -9,15 +8,6 @@ module CampusSolutions
       super options
       @aid_year = options[:aid_year] || '0'
       initialize_mocks if @fake
-    end
-
-    def instance_key
-      "#{@uid}-#{@aid_year}"
-    end
-
-    def get
-      self.class.save_related_cache_key(@uid, self.class.cache_key(instance_key))
-      super
     end
 
     def xml_filename
