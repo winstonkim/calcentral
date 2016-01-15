@@ -1,0 +1,14 @@
+<div class="cc-widget cc-toolbox-widget" data-ng-controller="DelegateStudentsController">
+  <div class="cc-widget-title">
+    <h2>Students</h2>
+  </div>
+  <div class="cc-widget-text" data-cc-spinner-directive="delegateStudents.isLoading">
+    <ul>
+      <li data-ng-repeat="student in students">
+        <div>
+          <button class="cc-button-link" data-ng-bind="student.name" data-ng-click="delegateStudents.actAs(student.emplid)"></button>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>
