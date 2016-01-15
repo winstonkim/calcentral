@@ -184,7 +184,7 @@ angular.module('calcentral.services').service('utilService', function($cacheFact
     $window.print();
   };
 
-  var uidPattern = /^[0-9]{1,9}$/;
+  var uidPattern = /^[0-9]{1,10}$/;
 
   var accessibilityAnnounce = function(message) {
     // remove existing announcer

@@ -4,11 +4,13 @@ class JmsWorker
 
   JMS_RECORDING = "#{Rails.root}/fixtures/jms_recordings/ist_jms.txt"
 
-  RECEIVED_MESSAGES = "Received Messages"
-  LAST_MESSAGE_RECEIVED_TIME = "Last Message Received Time"
+  RECEIVED_MESSAGES = 'Received Messages'
+  LAST_MESSAGE_RECEIVED_TIME = 'Last Message Received Time'
 
-  def initialize(opts = {})
-    @jms = nil
+  attr_reader :jms_connections
+
+  # The unused opts argument is expected by Torquebox.
+  def initialize(opts={})
     @handler = Notifications::JmsMessageHandler.new
     @stopped = false
   end
@@ -31,42 +33,64 @@ class JmsWorker
   def run
     if Settings.ist_jms.fake
       Rails.logger.warn "#{self.class.name} Reading fake messages"
-      read_fake { |msg| @handler.handle(msg) }
+      open_fake_connection { |msg| @handler.handle(msg) }
     else
-      read_jms { |msg| @handler.handle(msg) }
+      open_jms_connections(Settings.ist_jms.connections) { |msg| @handler.handle(msg) }
     end
   end
 
-  def read_jms
-    until @jms do
-      begin
-        @jms ||= JmsConnection.new
-      rescue => e
-        Rails.logger.error "#{self.class.name} Unable to start JMS listener: #{e.class} #{e.message}"
-        sleep(30.minutes)
+  def open_jms_connections(connections, &blk)
+    @jms_connections = []
+    loop do
+      failed_connections = []
+      connections.each do |connection_settings|
+        if (jms_connection = open_connection(connection_settings, &blk))
+          @jms_connections << jms_connection
+        else
+          failed_connections << connection_settings
+        end
+      end
+      if failed_connections.any?
+        # Spell out 30.minutes in seconds because sleep and ActiveSupport are not friends in JRuby 1.7.19
+        # https://github.com/jruby/jruby/issues/1856
+        sleep 1800
+        connections = failed_connections
+      else
+        break
       end
     end
-    Rails.logger.warn "#{self.class.name} JMS Connection is initialized"
-    @jms.start_listening_with() do |msg|
+  end
+
+  def open_connection(connection_settings)
+    begin
+      jms_connection = JmsConnection.new(connection_settings)
+    rescue => e
+      Rails.logger.error "#{self.class.name} Unable to start JMS listener at #{connection_settings.url}: #{e.class} #{e.message}"
+      return false
+    end
+    Rails.logger.warn "#{self.class.name} JMS Connection is initialized at #{connection_settings.url}"
+    jms_connection.start_listening_with() do |msg|
       if Settings.ist_jms.freshen_recording
         File.open(JMS_RECORDING, 'a') do |f|
           # Use double newline as a serialized object separator.
           # Hat tip to: http://www.skorks.com/2010/04/serializing-and-deserializing-objects-with-ruby/
-          f.puts(YAML.dump(msg))
-          f.puts('')
+          f.puts YAML.dump(msg)
+          f.puts ''
         end
       end
       write_stats
-      Rails.logger.debug "#{self.class} message from JMS Provider = #{@jms.connection.getMetaData.getJMSProviderName} #{@jms.connection.getMetaData.getProviderVersion}"
-      yield(msg)
+      metadata = jms_connection.connection.getMetaData
+      Rails.logger.debug "#{self.class} message from JMS Provider = #{metadata.getJMSProviderName} #{metadata.getProviderVersion}"
+      yield msg
     end
+    jms_connection
   end
 
-  def read_fake
+  def open_fake_connection
     File.open(JMS_RECORDING, 'r').each("\n\n") do |msg_yaml|
       msg = YAML::load(msg_yaml)
       write_stats
-      yield(msg)
+      yield msg
     end
   end
 
@@ -76,9 +100,9 @@ class JmsWorker
   end
 
   def self.ping
-    received_messages = self.get_value(RECEIVED_MESSAGES)
-    last_received_message_time = self.get_value(LAST_MESSAGE_RECEIVED_TIME)
-    server = ServerRuntime.get_settings["hostname"]
+    received_messages = self.get_value RECEIVED_MESSAGES
+    last_received_message_time = self.get_value LAST_MESSAGE_RECEIVED_TIME
+    server = ServerRuntime.get_settings['hostname']
     if received_messages || last_received_message_time
       {
         server: server,
@@ -88,11 +112,6 @@ class JmsWorker
     else
       "#{self.name} Running on #{server}; Stats are not available"
     end
-  end
-
-  # Debugging helper.
-  def jms
-    @jms
   end
 
 end

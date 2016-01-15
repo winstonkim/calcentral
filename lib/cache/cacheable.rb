@@ -91,7 +91,7 @@ module Cache
         next_time = Time.zone.today.in_time_zone.to_datetime.advance(hours: parsed[:hour].to_i,
           minutes: parsed[:minute].to_i)
         now = Time.zone.now.to_i
-        if now > next_time.to_i
+        if now >= next_time.to_i
           next_time = next_time.advance(days: 1)
         end
         next_time.to_i - now
