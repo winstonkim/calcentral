@@ -82,6 +82,9 @@ module MyTasks
       unless result.is_a?(Hash) && result[:checkListDescr].present?
         return nil
       end
+      if result[:checkListMgmtFina] && result[:checkListMgmtFina][:displayInCalcentral] == false
+        return nil
+      end
       formatted_entry = entry_from_result result
       due_date = convert_datetime_or_date result[:dueDt]
       format_date_and_bucket(formatted_entry, due_date)
