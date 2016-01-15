@@ -56,8 +56,9 @@ module CampusSolutions
         response = get_response(url, request_options)
         logger.debug "Remote server status #{response.code}, Body = #{response.body.force_encoding('UTF-8')}"
         feed = build_feed response
-        feed = convert_feed_keys(feed)
-        if is_errored?(feed)
+        feed = convert_feed_keys feed
+        if is_errored? feed
+          logger.error "Error reported in Campus Solutions response (campus_solutions_id=#{@campus_solutions_id}): #{response.inspect}"
           {
             statusCode: 400,
             errored: true,
@@ -73,7 +74,7 @@ module CampusSolutions
     end
 
     def convert_feed_keys(feed)
-      HashConverter.downcase_and_camelize(feed)
+      HashConverter.downcase_and_camelize feed
     end
 
     def url
@@ -81,7 +82,7 @@ module CampusSolutions
     end
 
     def is_errored?(feed)
-      feed[:errmsgtext].present?
+      feed.is_a?(Hash) && feed[:errmsgtext].present?
     end
 
     def request_options
