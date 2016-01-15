@@ -1,13 +1,6 @@
 module HubEdos
   class Student < Proxy
 
-    include Cache::UserCacheExpiry
-    include ResponseHandler
-
-    def initialize(options = {})
-      super(Settings.hub_edos_proxy, options)
-    end
-
     def url
       "#{@settings.base_url}/#{@campus_solutions_id}/all"
     end

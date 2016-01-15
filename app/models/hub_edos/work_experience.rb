@@ -1,14 +1,6 @@
 module HubEdos
   class WorkExperience < Proxy
 
-    include Cache::UserCacheExpiry
-    include ResponseHandler
-
-    def initialize(options = {})
-      super(Settings.hub_edos_proxy, options)
-      initialize_mocks if @fake
-    end
-
     def url
       "#{@settings.base_url}/#{@campus_solutions_id}/work-experiences"
     end
