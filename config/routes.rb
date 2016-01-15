@@ -129,6 +129,8 @@ Calcentral::Application.routes.draw do
   end
 
   # Act-as endpoints
+  post '/delegate_act_as' => 'delegate_act_as#start', :via => :post
+  post '/stop_delegate_act_as' => 'delegate_act_as#stop', :via => :post
   post '/act_as' => 'act_as#start', :via => :post
   post '/stop_act_as' => 'act_as#stop', :via => :post
   get '/stored_users' => 'stored_users#get', :via => :get, :defaults => { :format => 'json' }
