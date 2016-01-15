@@ -13,7 +13,7 @@ angular.module('calcentral.controllers').controller('DelegateStudentsController'
 
   var getStudents = function() {
     return delegateFactory.getStudents().then(function(data) {
-      angular.extend($scope, _.get(data, 'feed'));
+      angular.extend($scope, _.get(data, 'data.feed'));
       $scope.delegateStudents.isLoading = false;
     });
   };
