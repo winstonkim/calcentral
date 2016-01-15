@@ -1,22 +1,17 @@
 module HubEdos
-  class UserAttributes < Proxy
+  class UserAttributes
 
-    include Cache::UserCacheExpiry
     include User::Student
 
     def initialize(options = {})
-      super(Settings.hub_edos_proxy, options)
+      @uid = options[:user_id]
     end
 
     def self.test_data?
       Settings.hub_edos_proxy.fake.present?
     end
 
-    def initialize_mocks
-      #no-op; this proxy calls no endpoints itself.
-    end
-
-    def get_internal
+    def get
       edo_feed = MyStudent.new(@uid).get_feed
       result = {}
       if (feed = edo_feed[:feed])

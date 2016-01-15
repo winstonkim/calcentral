@@ -2,17 +2,17 @@ module HubEdos
   class Proxy < BaseProxy
 
     include ClassLogger
-    include Cache::UserCacheExpiry
     include Proxies::Mockable
     include CampusSolutions::ProfileFeatureFlagged
     include User::Student
     include SafeJsonParser
+    include ResponseHandler
 
     APP_ID = 'integrationhub'
     APP_NAME = 'Integration Hub'
 
-    def initialize(settings, options)
-      super
+    def initialize(options = {})
+      super(Settings.hub_edos_proxy, options)
       if @fake
         @campus_solutions_id = lookup_campus_solutions_id
         initialize_mocks
@@ -37,9 +37,10 @@ module HubEdos
 
     def get
       if is_feature_enabled
-        internal_response = self.class.smart_fetch_from_cache(id: instance_key) do
+        wrapped_response = self.class.handling_exceptions(instance_key) do
           get_internal
         end
+        internal_response = wrapped_response ? wrapped_response[:response] : {}
         if internal_response[:noStudentId] || internal_response[:studentNotFound] || internal_response[:statusCode] < 400
           internal_response
         else
