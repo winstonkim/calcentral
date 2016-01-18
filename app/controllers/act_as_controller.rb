@@ -9,7 +9,8 @@ class ActAsController < ApplicationController
     return redirect_to root_path unless valid_params?(params['uid'])
     logger.warn "ACT-AS: User #{current_user.real_user_id} acting as #{params['uid']} begin"
     session['original_user_id'] = session['user_id'] unless session['original_user_id']
-    session['user_id'] = params['uid']
+    session['user_id'] = User::AuthenticationValidator.new(params['uid']).validated_user_id
+    # TODO Mimic '/uid_error' redirect for nulled session user IDs.
 
     # This makes sure the most recently viewed user is at the top of the list
     User::StoredUsers.delete_recent_uid(session['original_user_id'], params['uid'])
