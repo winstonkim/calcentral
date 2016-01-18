@@ -1,7 +1,6 @@
 module CampusSolutions
-  class HigherOneUrl < DirectProxy
+  class HigherOneUrl < Proxy
 
-    include Cache::UserCacheExpiry
     include SirFeatureFlagged
     include CampusSolutionsIdRequired
 

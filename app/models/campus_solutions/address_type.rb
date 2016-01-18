@@ -1,5 +1,5 @@
 module CampusSolutions
-  class AddressType < DirectProxy
+  class AddressType < CachedProxy
 
     include ProfileFeatureFlagged
 

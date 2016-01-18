@@ -1,7 +1,6 @@
 module CampusSolutions
-  class PendingMessages < DirectProxy
+  class PendingMessages < Proxy
 
-    include Cache::UserCacheExpiry
     include ProfileFeatureFlagged
     include CampusSolutionsIdRequired
 
