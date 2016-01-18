@@ -79,8 +79,6 @@ class JmsWorker
         end
       end
       write_stats
-      metadata = jms_connection.connection.getMetaData
-      Rails.logger.debug "#{self.class} message from JMS Provider = #{metadata.getJMSProviderName} #{metadata.getProviderVersion}"
       yield msg
     end
     jms_connection
