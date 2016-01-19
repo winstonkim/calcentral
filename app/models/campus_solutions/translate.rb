@@ -1,5 +1,5 @@
 module CampusSolutions
-  class Translate < DirectProxy
+  class Translate < CachedProxy
 
     include ProfileFeatureFlagged
 

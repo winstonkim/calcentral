@@ -1,5 +1,5 @@
 module CampusSolutions
-  class SirConfig < DirectProxy
+  class SirConfig < CachedProxy
 
     include SirFeatureFlagged
 

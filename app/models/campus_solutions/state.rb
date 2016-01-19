@@ -1,5 +1,5 @@
 module CampusSolutions
-  class State < DirectProxy
+  class State < CachedProxy
 
     include ProfileFeatureFlagged
 

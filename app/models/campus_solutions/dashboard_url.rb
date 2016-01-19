@@ -1,5 +1,5 @@
 module CampusSolutions
-  class DashboardUrl < DirectProxy
+  class DashboardUrl < CachedProxy
 
     def initialize(options = {})
       super options

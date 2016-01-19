@@ -256,14 +256,13 @@ cache:
 
     CampusSolutions::AddressLabel: <%= 29.days %>
     CampusSolutions::AddressType: <%= 29.days %>
-    CampusSolutions::Checklist: <%= 15.minutes %>
     CampusSolutions::Country: <%= 29.days %>
     CampusSolutions::CurrencyCode: <%= 29.days %>
-    CampusSolutions::Deposit: <%= 15.minutes %>
     CampusSolutions::EthnicitySetup: <%= 29.days %>
     CampusSolutions::LanguageCode: <%= 29.days %>
     CampusSolutions::ListOfValues: <%= 24.hours %>
-    CampusSolutions::HigherOneUrl: <%= 1.seconds %>
+    CampusSolutions::MyChecklist: <%= 15.minutes %>
+    CampusSolutions::MyDeposit: <%= 15.minutes %>
     CampusSolutions::MyHigherOneUrl: <%= 1.seconds %>
     CampusSolutions::NameType: <%= 29.days %>
     CampusSolutions::SirConfig: <%= 24.hours %>

@@ -1,5 +1,5 @@
 module CampusSolutions
-  class EthnicitySetup < DirectProxy
+  class EthnicitySetup < CachedProxy
 
     include ProfileFeatureFlagged
 

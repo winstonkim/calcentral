@@ -1,7 +1,7 @@
 describe CampusSolutions::Proxy do
 
   context 'error' do
-    subject { CampusSolutions::Proxy.new(Settings.campus_solutions_proxy, uid: random_id) }
+    subject { CampusSolutions::Proxy.new(uid: random_id) }
     before {
       response = double
       allow(Proxies::HttpRequest).to receive(:new).and_return double perform: response

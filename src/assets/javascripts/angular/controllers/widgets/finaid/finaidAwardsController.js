@@ -17,11 +17,6 @@ angular.module('calcentral.controllers').controller('FinaidAwardsController', fu
   };
   $scope.finaidAwards = {};
 
-  $scope.finaidSummaryInfo = {
-    isLoadingData: true
-  };
-  $scope.finaidSummaryData = {};
-
   /**
    * Check whether an object has any keys with actual values in them
    */
@@ -68,21 +63,8 @@ angular.module('calcentral.controllers').controller('FinaidAwardsController', fu
     });
   };
 
-  var parseSummary = function(data) {
-    angular.extend($scope.finaidSummaryData, _.get(data, 'feed.financialAidSummary'));
-    $scope.finaidSummaryInfo.errored = data.errored;
-    $scope.finaidSummaryInfo.isLoadingData = false;
-  };
-
-  var loadSummary = function() {
-    return finaidFactory.getFinaidYearInfo({
-      finaidYearId: finaidService.options.finaidYear.id
-    }).success(parseSummary);
-  };
-
   var loadData = function() {
     loadAwards();
-    loadSummary();
   };
 
   $scope.$on('calcentral.custom.api.finaid.finaidYear', loadData);

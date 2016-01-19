@@ -1,7 +1,6 @@
 module CampusSolutions
-  class AidYears < DirectProxy
+  class AidYears < Proxy
 
-    include Cache::UserCacheExpiry
     include FinaidFeatureFlagged
     include CampusSolutionsIdRequired
 

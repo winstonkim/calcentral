@@ -1,5 +1,5 @@
 module CampusSolutions
-  class DelegateTermsAndConditions < DirectProxy
+  class DelegateTermsAndConditions < CachedProxy
 
     include DelegatedAccessFeatureFlagged
 

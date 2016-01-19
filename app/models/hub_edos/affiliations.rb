@@ -1,8 +1,6 @@
 module HubEdos
   class Affiliations < Student
 
-    include Cache::UserCacheExpiry
-
     def initialize(options = {})
       super(options)
     end
