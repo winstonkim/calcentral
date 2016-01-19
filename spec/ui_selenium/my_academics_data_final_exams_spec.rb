@@ -67,10 +67,12 @@ describe 'My Academics Final Exams card', :testui => true do
                 end
 
                 # IF LINKED LOCATIONS EXIST, VERIFY THAT ONE OF LINKS OPENS GOOGLE MAPS IN NEW WINDOW
-                exam_location_link = my_academics_page.exam_location_links_elements.first
-                link_works = WebDriverUtils.verify_external_link(driver, exam_location_link, 'Google Maps')
-                it "offers a Google Maps link on My Academics for UID #{uid}" do
-                  expect(link_works).to be true
+                exam_location_links = my_academics_page.exam_location_links_elements
+                unless exam_location_links.empty?
+                  link_works = WebDriverUtils.verify_external_link(driver, exam_location_links.first, 'Google Maps')
+                  it "offers a Google Maps link on My Academics for UID #{uid}" do
+                    expect(link_works).to be true
+                  end
                 end
 
                 # EXAM SCHEDULES ON SEMESTER PAGE
