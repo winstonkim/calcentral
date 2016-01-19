@@ -28,13 +28,13 @@ class UserApiController < ApplicationController
         User::Visit.record session['user_id'] if directly_authenticated
         true
       end
-      delegate_acting_as_student = !directly_authenticated && current_user.original_delegate_user_id.present?
+      delegate_acting_as_uid = !directly_authenticated && current_user.original_delegate_user_id
       status.merge!({
         :isBasicAuthEnabled => Settings.developer_auth.enabled,
         :isLoggedIn => true,
         :features => features,
-        :actingAsUid => directly_authenticated || delegate_acting_as_student ? false : current_user.real_user_id,
-        :delegateActingAsStudent => directly_authenticated ? false : delegate_acting_as_student,
+        :actingAsUid => directly_authenticated || delegate_acting_as_uid ? false : current_user.real_user_id,
+        :delegateActingAsUid => directly_authenticated ? false : delegate_acting_as_uid,
         :youtubeSplashId => Settings.youtube_splash_id
       })
       status.merge!(User::Api.from_session(session).get_feed)
