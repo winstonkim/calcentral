@@ -162,7 +162,7 @@ describe HubEdos::UserAttributes do
         [
           {
             'type' => {
-              'code' => 'APPLICANT',
+              'code' => 'ADMT_UX',
               'description' => ''
             },
             'statusCode' => 'ACT',

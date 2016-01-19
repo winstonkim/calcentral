@@ -64,8 +64,14 @@ describe 'My Finances landing page', :testui => true do
       it 'includes the heading Financial Resources' do
         expect(@my_finances_page.fin_resources_heading?).to be true
       end
+
+      # Billing & Payments
+
       it 'includes a link to Billing Services' do
         expect(WebDriverUtils.verify_external_link(@driver, @my_finances_page.student_billing_svcs_link_element, 'Student Billing Services, University of California, Berkeley')).to be true
+      end
+      it 'includes a link to "How does my SHIP Waiver affect my billing?"' do
+        expect(WebDriverUtils.verify_external_link(@driver, @my_finances_page.ship_waiver_link_element, 'How does my SHIP Waiver affect my billing? | Cal Student Central'))
       end
       it 'includes a link to e-bills' do
         expect(WebDriverUtils.verify_external_link(@driver, @my_finances_page.ebills_link_element, 'BearFacts | ')).to be true
@@ -79,6 +85,9 @@ describe 'My Finances landing page', :testui => true do
       it 'includes a link to Tax 1098-T Form' do
         expect(WebDriverUtils.verify_external_link(@driver, @my_finances_page.tax_1098t_form_link_element, 'Taxpayer Relief Act of 1997')).to be true
       end
+
+      # Financial Assistance
+
       it 'includes a link to FAFSA' do
         expect(WebDriverUtils.verify_external_link(@driver, @my_finances_page.fafsa_link_element, 'Home - FAFSA on the Web - Federal Student Aid')).to be true
       end
@@ -87,6 +96,9 @@ describe 'My Finances landing page', :testui => true do
       end
       it 'includes a link to Graduate Financial Support' do
         expect(WebDriverUtils.verify_external_link(@driver, @my_finances_page.grad_fin_support_link_element, 'Financial Support | Berkeley Graduate Division')).to be true
+      end
+      it 'includes a link to Loan Repayment Calculator' do
+        expect(WebDriverUtils.verify_external_link(@driver, @my_finances_page.loan_replay_calc_link_element, 'StudentLoans.gov'))
       end
       it 'includes a link to MyFinAid' do
         expect(WebDriverUtils.verify_external_link(@driver, @my_finances_page.my_fin_aid_link_element, 'UC Berkeley Financial Aid Web Self Service')).to be true
@@ -97,18 +109,27 @@ describe 'My Finances landing page', :testui => true do
       it 'includes a link to Work Study' do
         expect(WebDriverUtils.verify_external_link(@driver, @my_finances_page.work_study_link_element, 'Work-Study | Financial Aid and Scholarships | UC Berkeley')).to be true
       end
+
+      # Leaving Cal?
+
       it 'includes a link to Have a loan?' do
         expect(WebDriverUtils.verify_external_link(@driver, @my_finances_page.have_loan_link_element, 'Exit Loan Counseling')).to be true
       end
       it 'includes a link to Withdrawing or Canceling?' do
         expect(WebDriverUtils.verify_external_link(@driver, @my_finances_page.withdraw_cancel_link_element, 'Cancellation,  Withdrawal and Readmission - Office Of The Registrar')).to be true
       end
+
+      # Summer Programs
+
       it 'includes a link to Schedule & Deadlines' do
         expect(WebDriverUtils.verify_external_link(@driver, @my_finances_page.sched_and_dead_link_element, 'Schedule | Berkeley Summer Sessions')).to be true
       end
       it 'includes a link to Summer Session' do
         expect(WebDriverUtils.verify_external_link(@driver, @my_finances_page.summer_session_link_element, 'Berkeley Summer Sessions |')).to be true
       end
+
+      # Your Questions Answered Here
+
       it 'includes a link to Cal Student Central' do
         expect(WebDriverUtils.verify_external_link(@driver, @my_finances_page.cal_student_central_link_element, 'Welcome! | Cal Student Central')).to be true
       end

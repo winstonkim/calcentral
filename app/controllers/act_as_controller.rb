@@ -14,7 +14,9 @@ class ActAsController < ApplicationController
     return redirect_to root_path unless valid_params? uid_param
     logger.warn "Start: #{current_user.real_user_id} act as #{uid_param}"
     session[@act_as_session_key] = session['user_id'] unless session[@act_as_session_key]
-    session['user_id'] = uid_param
+    session['user_id'] = User::AuthenticationValidator.new(uid_param).validated_user_id
+    # TODO Mimic '/uid_error' redirect for nulled session user IDs.
+
     # Post-processing
     after_successful_start(session, params)
     render :nothing => true, :status => 204
