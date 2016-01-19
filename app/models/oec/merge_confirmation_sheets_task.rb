@@ -7,16 +7,16 @@ module Oec
       term_folder = @remote_drive.find_first_matching_item @term_code
       imports_folder = @remote_drive.find_first_matching_item(Oec::Folder.sis_imports, term_folder)
       most_recent_import = @remote_drive.find_folders(imports_folder.id).sort_by(&:title).last
-      raise RuntimeError, "No SIS imports found for term #{@term_code}" unless most_recent_import
+      raise UnexpectedDataError, "No SIS imports found for term #{@term_code}" unless most_recent_import
 
       confirmations_folder = @remote_drive.find_first_matching_item(Oec::Folder.confirmations, term_folder)
-      raise RuntimeError, "No '#{Oec::Folder.confirmations}' folder found for term #{@term_code}" unless confirmations_folder
+      raise UnexpectedDataError, "No '#{Oec::Folder.confirmations}' folder found for term #{@term_code}" unless confirmations_folder
       merged_confirmations_folder = @remote_drive.find_first_matching_item(Oec::Folder.merged_confirmations, term_folder)
-      raise RuntimeError, "No '#{Oec::Folder.merged_confirmations}' folder found for term #{@term_code}" unless merged_confirmations_folder
+      raise UnexpectedDataError, "No '#{Oec::Folder.merged_confirmations}' folder found for term #{@term_code}" unless merged_confirmations_folder
 
       overrides = @remote_drive.find_first_matching_item(Oec::Folder.overrides, term_folder)
       supervisors_sheet = @remote_drive.find_first_matching_item('supervisors', overrides)
-      raise RuntimeError, "No supervisor sheet found in overrides for term #{@term_code}" unless supervisors_sheet
+      raise UnexpectedDataError, "No supervisor sheet found in overrides for term #{@term_code}" unless supervisors_sheet
 
       supervisors = Oec::Supervisors.from_csv @remote_drive.export_csv(supervisors_sheet)
 
@@ -31,7 +31,7 @@ module Oec
         if (sis_import_sheet = @remote_drive.find_first_matching_item(department_item.title, most_recent_import))
           sis_import = Oec::SisImportSheet.from_csv @remote_drive.export_csv(sis_import_sheet)
         else
-          raise RuntimeError, "Could not find sheet '#{department_item.title}' in folder '#{most_recent_import.title}'"
+          raise UnexpectedDataError, "Could not find sheet '#{department_item.title}' in folder '#{most_recent_import.title}'"
         end
 
         confirmation_sheet = @remote_drive.spreadsheet_by_id department_item.id
@@ -40,14 +40,14 @@ module Oec
           course_confirmation = Oec::CourseConfirmation.from_csv @remote_drive.export_csv(course_confirmation_worksheet)
           log :info, "Retrieved course confirmations from department sheet '#{department_item.title}'"
         else
-          raise RuntimeError, "Could not find worksheet 'Courses' in sheet '#{confirmation_sheet.title}'"
+          raise UnexpectedDataError, "Could not find worksheet 'Courses' in sheet '#{confirmation_sheet.title}'"
         end
 
         if (supervisor_confirmation_worksheet = confirmation_sheet.worksheets.find { |w| w.title == 'Report Viewers' })
           supervisor_confirmation = Oec::SupervisorConfirmation.from_csv @remote_drive.export_csv(supervisor_confirmation_worksheet)
           log :info, "Retrieved supervisor confirmations from department sheet '#{department_item.title}'"
         else
-          raise RuntimeError, "Could not find worksheet 'Report Viewers' in sheet '#{confirmation_sheet.title}'"
+          raise UnexpectedDataError, "Could not find worksheet 'Report Viewers' in sheet '#{confirmation_sheet.title}'"
         end
 
         course_confirmation.each do |course_confirmation_row|

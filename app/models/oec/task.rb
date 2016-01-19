@@ -7,6 +7,8 @@ module Oec
 
     class << self; attr_accessor :success_callback; end
 
+    class UnexpectedDataError < StandardError; end
+
     def self.on_success_run(task_class, opts={})
       self.success_callback = opts.merge(class: task_class)
     end
@@ -68,6 +70,10 @@ module Oec
         run_internal
         @status = 'Success' unless (@status == 'Error' || self.class.success_callback)
         true
+      rescue UnexpectedDataError => e
+        log :warn, "#{self.class.name} aborted with unexpected data: #{e.message}"
+        @status = 'Error'
+        nil
       rescue => e
         log :error, "#{self.class.name} aborted with error: #{e.message}\n#{e.backtrace.join "\n\t"}"
         @status = 'Error'
@@ -175,7 +181,7 @@ module Oec
       parent = @remote_drive.find_nested([@term_code, category_name])
       folders = @remote_drive.find_folders(parent.id)
       unless (last = folders.sort_by(&:title).last)
-        raise RuntimeError, "#{self.class.name} requires a non-empty '#{@term_code}/#{category_name}' folder"
+        raise UnexpectedDataError, "#{self.class.name} requires a non-empty '#{@term_code}/#{category_name}' folder"
       end
       log :info, "#{self.class.name} will pull data from '#{@term_code}/#{category_name}/#{last.title}'"
       DateTime.strptime(last.title, "#{self.class.date_format} #{self.class.timestamp_format}")

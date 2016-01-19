@@ -7,18 +7,18 @@ module Oec
       term_folder = @remote_drive.find_first_matching_item @term_code
       imports_folder = @remote_drive.find_first_matching_item(Oec::Folder.sis_imports, term_folder)
       most_recent_import = @remote_drive.find_folders(imports_folder.id).sort_by(&:title).last
-      raise RuntimeError, "No SIS imports found for term #{@term_code}" unless most_recent_import
+      raise UnexpectedDataError, "No SIS imports found for term #{@term_code}" unless most_recent_import
 
       overrides = @remote_drive.find_first_matching_item(Oec::Folder.overrides, term_folder)
       supervisors_sheet = @remote_drive.find_first_matching_item('supervisors', overrides)
-      raise RuntimeError, "No supervisor sheet found in #{Oec::Folder.overrides} folder for term #{@term_code}" unless supervisors_sheet
+      raise UnexpectedDataError, "No supervisor sheet found in #{Oec::Folder.overrides} folder for term #{@term_code}" unless supervisors_sheet
       supervisors = Oec::Supervisors.from_csv @remote_drive.export_csv(supervisors_sheet)
 
       confirmations = generate_confirmations(most_recent_import, supervisors)
 
       if valid?
         confirmations_folder = @remote_drive.find_first_matching_item(Oec::Folder.confirmations, term_folder)
-        raise RuntimeError, "No '#{Oec::Folder.confirmations}' folder found for term #{@term_code}" unless confirmations_folder
+        raise UnexpectedDataError, "No '#{Oec::Folder.confirmations}' folder found for term #{@term_code}" unless confirmations_folder
         template = @remote_drive.find_first_matching_item('TEMPLATE', confirmations_folder)
 
         confirmations.each do |dept_name, dept_confirmations|
@@ -38,9 +38,9 @@ module Oec
               dept_sheet = (template_copy = @remote_drive.copy_item(template.id, dept_name)) && @remote_drive.spreadsheet_by_id(template_copy.id)
               dept_worksheets = dept_sheet.worksheets
               courses_worksheet = dept_worksheets.find { |w| w.title == 'Courses' }
-              raise RuntimeError, "Could not find worksheet 'Courses' in template copy '#{dept_sheet.title}'" unless courses_worksheet
+              raise UnexpectedDataError, "Could not find worksheet 'Courses' in template copy '#{dept_sheet.title}'" unless courses_worksheet
               report_viewers_worksheet = dept_worksheets.find { |w| w.title == 'Report Viewers' }
-              raise RuntimeError, "Could not find worksheet 'Report Viewers' in template copy '#{dept_sheet.title}'" unless report_viewers_worksheet
+              raise UnexpectedDataError, "Could not find worksheet 'Report Viewers' in template copy '#{dept_sheet.title}'" unless report_viewers_worksheet
             else
               log :debug, "No template confirmation sheet found, will create blank '#{dept_name}' confirmation sheet"
               dept_sheet = @remote_drive.upload_to_spreadsheet(dept_name, StringIO.new(dept_confirmations[:courses].headers.join(',')), departments_folder.id)

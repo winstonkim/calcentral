@@ -9,7 +9,7 @@ module Oec
 
     def check_conflicts_and_copy_file(file, dest_folder, opts={})
       if find_items_by_title(file.title, parent_id: folder_id(dest_folder)).any?
-        raise RuntimeError, "File '#{file.title}' already exists in remote drive folder '#{dest_folder.title}'; could not copy"
+        raise Oec::Task::UnexpectedDataError, "File '#{file.title}' already exists in remote drive folder '#{dest_folder.title}'; could not copy"
       elsif (item = copy_item_to_folder(file, folder_id(dest_folder)))
         opts[:on_success].call if opts[:on_success]
         item
@@ -24,7 +24,7 @@ module Oec
           when :return_existing
             return existing_folder
           when :error
-            raise RuntimeError, "Folder '#{folder_name}' with parent '#{folder_title(parent)}' already exists on remote drive"
+            raise Oec::Task::UnexpectedDataError, "Folder '#{folder_name}' with parent '#{folder_title(parent)}' already exists on remote drive"
         end
       elsif (new_folder = create_folder(folder_name, folder_id(parent)))
         opts[:on_creation].call if opts[:on_creation]
@@ -36,7 +36,7 @@ module Oec
 
     def check_conflicts_and_upload(item, title, type, folder, opts={})
       if find_items_by_title(title, parent_id: folder_id(folder)).any?
-        raise RuntimeError, "Item '#{title}' already exists in remote drive folder '#{folder.title}'; could not upload"
+        raise Oec::Task::UnexpectedDataError, "Item '#{title}' already exists in remote drive folder '#{folder.title}'; could not upload"
       end
       upload_operation = (type == Oec::Worksheet) ?
         upload_to_spreadsheet(title, item.to_io, folder_id(folder)) :
@@ -61,7 +61,7 @@ module Oec
         if !(item = find_first_matching_item(title, parent))
           case opts[:on_failure]
           when :error
-            raise RuntimeError, "Could not locate folder '#{title}' with parent '#{folder_title(parent)}' on remote drive"
+            raise Oec::Task::UnexpectedDataError, "Could not locate folder '#{title}' with parent '#{folder_title(parent)}' on remote drive"
           else
             return nil
           end
