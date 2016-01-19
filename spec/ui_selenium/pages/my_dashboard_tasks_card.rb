@@ -36,7 +36,6 @@ module CalCentralPages
     elements(:overdue_task_date, :div, :xpath => '//li[@data-ng-repeat="task in overdueTasks | limitTo: overdueLimit"]//div[@class="cc-widget-tasks-col cc-widget-tasks-col-date"]/span')
     elements(:overdue_task_time, :div, :xpath => '//li[@data-ng-repeat="task in overdueTasks | limitTo: overdueLimit"]//div[@data-ng-if="task.emitter==\'bCourses\' && task.dueDate.hasTime"]')
     elements(:overdue_task_date_input, :text_field, :xpath => '//li[@data-ng-repeat="task in overdueTasks | limitTo: overdueLimit"]//input[@name="add_task_due_date"]')
-    elements(:overdue_task_notes, :div, :xpath => '//li[@data-ng-repeat="task in overdueTasks | limitTo: overdueLimit"]//div[@data-ng-bind-html="task.notes | linky"]')
     elements(:overdue_task_notes_input, :text_field, :xpath => '//li[@data-ng-repeat="task in overdueTasks | limitTo: overdueLimit"]//textarea[@data-ng-model="addEditTask.notes"]')
     elements(:overdue_task_bcourses_link, :link, :xpath => '//li[@data-ng-repeat="task in overdueTasks | limitTo: overdueLimit"]//a[contains(.,"View in bCourses")]')
     button(:overdue_show_more_button, :xpath => '//div[@data-cc-show-more-limit="overdueLimit"]/button')
@@ -56,7 +55,6 @@ module CalCentralPages
     elements(:today_task_date, :div, :xpath => '//li[@data-ng-repeat="task in dueTodayTasks | limitTo: dueTodayLimit"]//div[@class="cc-widget-tasks-col cc-widget-tasks-col-date"]/span')
     elements(:today_task_time, :div, :xpath => '//li[@data-ng-repeat="task in dueTodayTasks | limitTo: dueTodayLimit"]//div[@data-ng-if="task.emitter==\'bCourses\' && task.dueDate.hasTime"]')
     elements(:today_task_date_input, :text_field, :xpath => '//li[@data-ng-repeat="task in dueTodayTasks | limitTo: dueTodayLimit"]//input[@name="add_task_due_date"]')
-    elements(:today_task_notes, :div, :xpath => '//li[@data-ng-repeat="task in dueTodayTasks | limitTo: dueTodayLimit"]//div[@data-ng-bind-html="task.notes | linky"]')
     elements(:today_task_notes_input, :text_field, :xpath => '//li[@data-ng-repeat="task in dueTodayTasks | limitTo: dueTodayLimit"]//textarea[@data-ng-model="addEditTask.notes"]')
     elements(:today_task_bcourses_link, :link, :xpath => '//li[@data-ng-repeat="task in dueTodayTasks | limitTo: dueTodayLimit"]//a[contains(.,"View in bCourses")]')
     button(:today_show_more_button, :xpath => '//div[@data-cc-show-more-limit="dueTodayLimit"]/button')
@@ -76,7 +74,6 @@ module CalCentralPages
     elements(:future_task_date, :div, :xpath => '//li[@data-ng-repeat="task in futureTasks | limitTo: futureLimit"]//div[@class="cc-widget-tasks-col cc-widget-tasks-col-date"]/span')
     elements(:future_task_time, :div, :xpath => '//li[@data-ng-repeat="task in futureTasks | limitTo: futureLimit"]//div[@data-ng-if="task.emitter==\'bCourses\' && task.dueDate.hasTime"]')
     elements(:future_task_date_input, :text_field, :xpath => '//li[@data-ng-repeat="task in futureTasks | limitTo: futureLimit"]//input[@name="add_task_due_date"]')
-    elements(:future_task_notes, :div, :xpath => '//li[@data-ng-repeat="task in futureTasks | limitTo: futureLimit"]//div[@data-ng-bind-html="task.notes | linky"]')
     elements(:future_task_notes_input, :text_field, :xpath => '//li[@data-ng-repeat="task in futureTasks | limitTo: futureLimit"]//textarea[@data-ng-model="addEditTask.notes"]')
     elements(:future_task_bcourses_link, :link, :xpath => '//li[@data-ng-repeat="task in futureTasks | limitTo: futureLimit"]//a[contains(.,"View in bCourses")]')
     button(:future_show_more_button, :xpath => '//div[@data-cc-show-more-limit="futureLimit"]/button')
@@ -91,9 +88,8 @@ module CalCentralPages
     elements(:unsched_task_cbx, :checkbox, :xpath => '//li[@data-ng-repeat="task in unscheduledTasks | limitTo:unscheduledLimit"]//input[@id="cc-widget-tasks-checkbox-0"]')
     elements(:unsched_task_title, :div, :xpath => '//li[@data-ng-repeat="task in unscheduledTasks | limitTo:unscheduledLimit"]//strong[@data-ng-bind="task.title"]')
     elements(:unsched_task_title_input, :text_field, :xpath => '//li[@data-ng-repeat="task in unscheduledTasks | limitTo:unscheduledLimit"]//input[@data-ng-model="addEditTask.title"]')
-    elements(:unsched_task_date, :div, :xpath => '//li[@data-ng-repeat="task in unscheduledTasks | limitTo:unscheduledLimit"]//div[@data-ng-if="task.updatedDate && task.bucket === \'Unscheduled\'"]/span')
+    elements(:unsched_task_date, :div, :xpath => '//li[@data-ng-repeat="task in unscheduledTasks | limitTo:unscheduledLimit"]//div[@data-ng-if="task.updatedDate && task.bucket === \'Unscheduled\'"]/div')
     elements(:unsched_task_date_input, :text_field, :xpath => '//li[@data-ng-repeat="task in unscheduledTasks | limitTo:unscheduledLimit"]//input[@name="add_task_due_date"]')
-    elements(:unsched_task_notes, :div, :xpath => '//li[@data-ng-repeat="task in unscheduledTasks | limitTo:unscheduledLimit"]//div[@data-ng-bind-html="task.notes | linky"]')
     elements(:unsched_task_notes_input, :text_field, :xpath => '//li[@data-ng-repeat="task in unscheduledTasks | limitTo:unscheduledLimit"]//textarea[@data-ng-model="addEditTask.notes"]')
     button(:unsched_show_more_button, :xpath => '//div[@data-cc-show-more-limit="unscheduledLimit"]/button')
 
@@ -109,6 +105,22 @@ module CalCentralPages
     elements(:completed_task_date_input, :text_field, :xpath => '//li[@data-ng-repeat="task in completedTasks | limitTo:completedLimit"]//input[@name="add_task_due_date"]')
     elements(:completed_task_notes_input, :text_field, :xpath => '//li[@data-ng-repeat="task in completedTasks | limitTo:completedLimit"]//textarea[@data-ng-model="addEditTask.notes"]')
     button(:completed_show_more_button, :xpath => '//div[@data-cc-show-more-limit="completedLimit"]/button')
+
+    def overdue_task_note_element(task_index)
+      span_element(:xpath => "//li[@data-ng-repeat='task in overdueTasks | limitTo: overdueLimit'][#{task_index + 1}]//div[@data-cc-compile-directive='task.notes | linky']/span")
+    end
+
+    def today_task_note_element(task_index)
+      span_element(:xpath => "//li[@data-ng-repeat='task in dueTodayTasks | limitTo: dueTodayLimit'][#{task_index + 1}]//div[@data-cc-compile-directive='task.notes | linky']/span")
+    end
+
+    def future_task_note_element(task_index)
+      span_element(:xpath => "//li[@data-ng-repeat='task in futureTasks | limitTo: futureLimit'][#{task_index + 1}]//div[@data-cc-compile-directive='task.notes | linky']/span")
+    end
+
+    def unsched_task_note_element(task_index)
+      span_element(:xpath => "//li[@data-ng-repeat='task in unscheduledTasks | limitTo:unscheduledLimit'][#{task_index + 1}]//div[@data-cc-compile-directive='task.notes | linky']/span")
+    end
 
     # ADD NEW TASK
 
@@ -187,7 +199,6 @@ module CalCentralPages
     def edit_overdue_task(task_index, title, date, note)
       show_overdue_task_detail task_index
       WebDriverUtils.wait_for_element_and_click overdue_task_edit_button_elements[task_index]
-      logger.info "Task title is #{title}, date is #{date}, and note is #{note}"
       WebDriverUtils.wait_for_element_and_type(overdue_task_title_input_elements[task_index], title) unless title.nil?
       if date.instance_of? String
         WebDriverUtils.wait_for_element_and_type(overdue_task_date_input_elements[task_index], date)
@@ -200,7 +211,6 @@ module CalCentralPages
     def edit_today_task(task_index, title, date, note)
       show_today_task_detail task_index
       WebDriverUtils.wait_for_element_and_click today_task_edit_button_elements[task_index]
-      logger.info "Task title is #{title}, date is #{date}, and note is #{note}"
       WebDriverUtils.wait_for_element_and_type(today_task_title_input_elements[task_index], title) unless title.nil?
       if date.instance_of? String
         WebDriverUtils.wait_for_element_and_type(today_task_date_input_elements[task_index], date)
@@ -213,7 +223,6 @@ module CalCentralPages
     def edit_future_task(task_index, title, date, note)
       show_future_task_detail task_index
       WebDriverUtils.wait_for_element_and_click future_task_edit_button_elements[task_index]
-      logger.info "Task title is #{title}, date is #{date}, and note is #{note}"
       WebDriverUtils.wait_for_element_and_type(future_task_title_input_elements[task_index], title) unless title.nil?
       if date.instance_of? String
         WebDriverUtils.wait_for_element_and_type(future_task_date_input_elements[task_index], date)
@@ -226,7 +235,6 @@ module CalCentralPages
     def edit_unsched_task(task_index, title, date, note)
       show_unsched_task_detail task_index
       WebDriverUtils.wait_for_element_and_click unsched_task_edit_button_elements[task_index]
-      logger.info "Task title is #{title}, date is #{date}, and note is #{note}"
       WebDriverUtils.wait_for_element_and_type(unsched_task_title_input_elements[task_index], title) unless title.nil?
       if date.instance_of? String
         WebDriverUtils.wait_for_element_and_type(unsched_task_date_input_elements[task_index], date)
@@ -342,7 +350,7 @@ module CalCentralPages
           show_overdue_task_detail task_index
           overdue_task_title_elements[task_index].text == title
           overdue_task_date_elements[task_index].text == WebDriverUtils.ui_numeric_date_format(date)
-          overdue_task_notes_elements[task_index].text == note
+          note.blank? ? !overdue_task_note_element(task_index).exists? : overdue_task_note_element(task_index).text == note
         end
       elsif today_task_elements.include? task_element
         wait_for_today_tasks
@@ -351,7 +359,7 @@ module CalCentralPages
           show_today_task_detail task_index
           today_task_title_elements[task_index].text == title
           today_task_date_elements[task_index].text == WebDriverUtils.ui_numeric_date_format(date)
-          today_task_notes_elements[task_index].text == note
+          note.blank? ? !today_task_note_element(task_index).exists? : today_task_note_element(task_index).text == note
         end
       elsif future_task_elements.include? task_element
         wait_for_future_tasks
@@ -360,7 +368,7 @@ module CalCentralPages
           show_future_task_detail task_index
           future_task_title_elements[task_index].text == title
           future_task_date_elements[task_index].text == WebDriverUtils.ui_numeric_date_format(date)
-          future_task_notes_elements[task_index].text == note
+          note.blank? ? !future_task_note_element(task_index).exists? : future_task_note_element(task_index).text == note
         end
       elsif unsched_task_elements.include? task_element
         wait_for_unsched_tasks
@@ -368,8 +376,7 @@ module CalCentralPages
         wait_until(WebDriverUtils.google_task_timeout) do
           show_unsched_task_detail task_index
           unsched_task_title_elements[task_index].text == title
-          unsched_task_date_elements[task_index].text == ''
-          unsched_task_notes_elements[task_index].text == note
+          note.blank? ? !unsched_task_note_element(task_index).exists? : unsched_task_note_element(task_index).text == note
         end
       else
         logger.error 'Task not found in time bucket'
