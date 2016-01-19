@@ -74,7 +74,7 @@ describe UserApiController do
   describe '#delegate_acting_as_uid' do
     subject do
       get :mystatus
-      JSON.parse(response.body)['delegateActingAsStudent']
+      JSON.parse(response.body)['delegateActingAsUid']
     end
     context 'when normally authenticated' do
       it { should be false }
@@ -82,7 +82,7 @@ describe UserApiController do
     context 'when viewing as' do
       let(:original_delegate_user_id) { random_id }
       before { session['original_delegate_user_id'] = original_delegate_user_id }
-      it { should be true }
+      it { should eq original_delegate_user_id }
     end
   end
 

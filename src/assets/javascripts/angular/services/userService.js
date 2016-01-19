@@ -64,7 +64,7 @@ angular.module('calcentral.services').service('userService', function($http, $lo
       analyticsService.sendEvent('Authentication', 'Sign in - redirect to login');
       signIn();
     // Record that the user visited calcentral
-    } else if (events.isAuthenticated && !profile.firstLoginAt && !profile.actingAsUid) {
+    } else if (events.isAuthenticated && !profile.firstLoginAt && !profile.actingAsUid && !profile.delegateActingAsUid) {
       analyticsService.sendEvent('Authentication', 'First login');
       $http.post('/api/my/record_first_login').success(setFirstLogin);
     // Redirect to the dashboard when you're accessing the root page and are authenticated
