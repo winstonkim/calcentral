@@ -23,6 +23,15 @@
               "statusDescription": "Inactive",
               "fromDate": "2015-10-02",
               "toDate": "2015-10-28"
+            },
+            {
+              "type": {
+                "code": "ADMT_UX",
+                "description": "Admitted Students CalCentral Access"
+              },
+              "statusCode": "ACT",
+              "statusDescription": "Active",
+              "fromDate": "2015-10-22"
             }
           ],
           "confidential": false

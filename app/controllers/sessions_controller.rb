@@ -101,6 +101,7 @@ class SessionsController < ApplicationController
     # Force a new CSRF token to be generated on login.
     # http://homakov.blogspot.com.es/2013/06/cookie-forcing-protection-made-easy.html
     session.try(:delete, :_csrf_token)
+    uid = User::AuthenticationValidator.new(uid).validated_user_id
     if (Integer(uid, 10) rescue nil).nil?
       logger.warn "FAILED login with CAS UID: #{uid}"
       redirect_to url_for_path('/uid_error')

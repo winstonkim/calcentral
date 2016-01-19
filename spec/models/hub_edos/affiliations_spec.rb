@@ -9,7 +9,7 @@ describe HubEdos::Affiliations do
 
     it 'returns data with the expected structure' do
       expect(subject[:feed]['student']).to be
-      expect(subject[:feed]['student']['affiliations'].length).to eq 1
+      expect(subject[:feed]['student']['affiliations'].length).to eq 2
     end
   end
 
