@@ -2,10 +2,6 @@ module CampusSolutions
   module FinancialAidExpiry
     def self.expire(uid=nil)
       [
-        AidYears,
-        FinancialAidData,
-        FinancialAidFundingSources,
-        FinancialAidFundingSourcesTerm,
         MyAidYears,
         MyFinancialAidData,
         MyFinancialAidFundingSources,

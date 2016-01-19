@@ -1,9 +1,7 @@
 module CampusSolutions
-  class Deposit < DirectProxy
+  class Deposit < Proxy
 
-    include Cache::UserCacheExpiry
     include SirFeatureFlagged
-    include Cache::RelatedCacheKeyTracker
     include CampusSolutionsIdRequired
 
     def initialize(options = {})
@@ -14,15 +12,6 @@ module CampusSolutions
 
     def xml_filename
       'deposit.xml'
-    end
-
-    def instance_key
-      "#{@uid}-#{@adm_appl_nbr}"
-    end
-
-    def get
-      self.class.save_related_cache_key(@uid, self.class.cache_key(instance_key))
-      super
     end
 
     def url

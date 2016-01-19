@@ -1,5 +1,5 @@
 module CampusSolutions
-  class DelegateManagementURL < DirectProxy
+  class DelegateManagementURL < CachedProxy
 
     include DelegatedAccessFeatureFlagged
 

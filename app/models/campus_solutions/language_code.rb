@@ -1,5 +1,5 @@
 module CampusSolutions
-  class LanguageCode < DirectProxy
+  class LanguageCode < CachedProxy
 
     include ProfileFeatureFlagged
 

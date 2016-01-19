@@ -13,18 +13,10 @@
         <div class="cc-widget-text cc-widget-finaid-awards-message">
           <div data-ng-bind="finaidAwards.message"></div>
 
-          <div class="cc-widget-finaid-awards-padding-top">
+          <div class="cc-widget-finaid-awards-padding-top" data-ng-if="finaidAwards.awards.grandtotal.total.amount">
             <a data-ng-href="/finances/finaid/awards/{{finaidYear.id}}">
               Term View
             </a>
-          </div>
-        </div>
-
-        <div class="cc-widget-finaid-summary">
-          <div class="cc-widget-text" data-cc-spinner-directive="finaidSummaryInfo.isLoadingData">
-            <div data-ng-if="finaidSummary.finaidYears.length && canSeeFinaidData">
-              <div data-ng-include="'widgets/finaid_summary_netcost.html'" data-onload="netCostInfo.card = 'awards'"></div>
-            </div>
           </div>
         </div>
 

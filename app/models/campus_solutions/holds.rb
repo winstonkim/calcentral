@@ -1,7 +1,6 @@
 module CampusSolutions
-  class Holds < DirectProxy
+  class Holds < Proxy
 
-    include Cache::UserCacheExpiry
     include HoldsFeatureFlagged
     include CampusSolutionsIdRequired
     include DatedFeed

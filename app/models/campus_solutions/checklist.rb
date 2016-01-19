@@ -1,7 +1,6 @@
 module CampusSolutions
-  class Checklist < DirectProxy
+  class Checklist < Proxy
 
-    include Cache::UserCacheExpiry
     include SirFeatureFlagged
     include CampusSolutionsIdRequired
 
