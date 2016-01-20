@@ -1,0 +1,45 @@
+<div class="cc-widget cc-toolbox-widget">
+  <div class="cc-widget-title">
+    <h2>Welcome to CalCentral</h2>
+  </div>
+  <div class="cc-widget-padding">
+    <h3>You are a Delegate</h3>
+    <p>
+      CalCentral is the portal for the University of California, Berkeley. If you are seeing this view of CalCentral,
+      you have been designated as a Delegate by a Berkeley student. Delegates are often parents, guardians or other
+      trusted adults.
+    </p>
+    <p>
+      You may be a Delegate for more than one student.
+    </p>
+    <h3>Using CalCentral</h3>
+    <h4>Your Privileges</h4>
+    <p>
+      A student (your Delegator) has delegated privileges to you. Your privileges may include features such as paying
+      bills and viewing the student's schedule.<br />
+      <button class="cc-button-link" data-ng-show="!showDelegateWelcome" data-ng-click="showDelegateWelcome=true">Show more</button>
+    </p>
+    <div data-ng-hide="!showDelegateWelcome">
+      <h4>Viewing as a Student</h4>
+      <p>
+        To view information for a student ("Act As"), click on the student's name in the Students card. The information
+        shown in CalCentral will then reflect the student. You will see new menu items such as My Finances at the top of
+        the page. There will be an overlay at the bottom of each page that indicates which student you are Acting As. To
+        stop Acting As, in the overlay click Stop.
+      </p>
+      <h4>User Menu</h4>
+      <p>
+        The user menu is at the top right of this page. It has your name as its title.
+      </p>
+      <h4>Editing your Contact Information</h4>
+      <p>
+        To view and edit information about you such as your mailing address, choose Profile from the user menu.
+      </p>
+      <h4>Signing Out</h4>
+      <p>
+        To sign out of CalCentral, choose Log Out from the user menu.<br />
+        <button class="cc-button-link" data-ng-show="showDelegateWelcome" data-ng-click="showDelegateWelcome=false">Show less</button>
+      </p>
+    </div>
+  </div>
+</div>
