@@ -74,7 +74,7 @@ module HubEdos
       # TODO We still need to cover staff, guests, concurrent-enrollment students and registration status.
       edo[:affiliations].select { |a| a[:statusCode] == 'ACT' }.each do |active_affiliation|
         case active_affiliation[:type][:code]
-          when 'APPLICANT'
+          when 'ADMT_UX'
             result[:roles][:applicant] = true
           when 'GRADUATE'
             result[:roles][:student] = true

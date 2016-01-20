@@ -69,9 +69,10 @@ module Cache
       Rails.cache.exist? key
     end
 
-    def expires_in
+    def expires_in(expires_key = nil)
+      expires_key ||= self.name
       expirations = Settings.cache.expiration.marshal_dump
-      expiration_config = expirations[self.name.to_sym] || expirations[:default]
+      expiration_config = expirations[expires_key.to_sym] || expirations[:default]
       begin
         exp = parse_expiration_setting(expiration_config)
         if exp.blank? || exp == 0

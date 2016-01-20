@@ -49,7 +49,7 @@ module CalCentralPages
   button(:logout_link, :xpath => '//button[contains(text(),"Log out")]')
 
   # Footer
-  div(:toggle_footer_link, :xpath => '//div[@class=\'cc-footer-berkeley\']')
+  div(:toggle_footer_link, :class => 'cc-footer-berkeley')
   button(:opt_out_button, :xpath => '//button[text()="Opt out of CalCentral"]')
   button(:opt_out_yes, :xpath => '//button[@data-ng-click="api.user.optOut()"]')
   button(:out_out_no, :xpath => '//button[@data-ng-click="deleteSelf=false"]')
