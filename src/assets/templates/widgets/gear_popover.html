@@ -9,7 +9,7 @@
       <span data-ng-if="!api.user.profile.hasPhoto" class="cc-popover-gear-round-profile cc-popover-gear-round-profile-no-photo">
         <i class="fa fa-user"></i>
       </span>
-      <span data-ng-bind="api.user.profile.first_name" class="cc-popover-gear-first-name" data-ng-class="{'cc-popover-gear-has-alerts': hasAlerts && !api.user.profile.delegateActingAsUid}"></span>
+      <span data-ng-bind="api.user.profile.firstName" class="cc-popover-gear-first-name" data-ng-class="{'cc-popover-gear-has-alerts': hasAlerts && !api.user.profile.delegateActingAsUid}"></span>
       <span data-ng-if="!api.user.profile.delegateActingAsUid">
         <span class="cc-visuallyhidden">.</span>
         <span data-ng-if="hasAlerts" class="cc-icon-status-person-layover cc-icon-status-person-layover-red">
