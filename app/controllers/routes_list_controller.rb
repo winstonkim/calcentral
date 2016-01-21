@@ -13,7 +13,7 @@ class RoutesListController < ApplicationController
   def get_smoke_test_routes
     %w(
       /api/academics/canvas/external_tools
-      /api/academics/canvas/user_can_create_course_site
+      /api/academics/canvas/user_can_create_site
       /api/blog
       /api/my/academics
       /api/my/activities
