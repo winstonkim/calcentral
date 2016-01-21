@@ -25,9 +25,7 @@ module MyTasks
         GoogleApps::Proxy::APP_ID => {access_granted: GoogleApps::Proxy.access_granted?(@uid),
                                 source: MyTasks::GoogleTasks.new(@uid, @starting_date)},
         CampusSolutions::Proxy::APP_ID => {access_granted: true,
-                                source: MyTasks::SisTasks.new(@uid, @starting_date)},
-        Slate::Checklist::APP_ID => {access_granted: true,
-                                source: MyTasks::SlateTasks.new(@uid, @starting_date)}
+                                source: MyTasks::SisTasks.new(@uid, @starting_date)}
       }
     end
 
