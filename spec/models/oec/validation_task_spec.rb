@@ -15,8 +15,8 @@ describe Oec::ValidationTask do
   shared_examples 'validation error logging' do
     it 'should log error' do
       merged_course_confirmations_csv.concat invalid_row
-      allow(Rails.logger).to receive(:error)
-      expect(Rails.logger).to receive(:error).with /Validation failed!/
+      allow(Rails.logger).to receive(:warn)
+      expect(Rails.logger).to receive(:warn).with /Validation failed!/
       task.run
       expect(task.errors[sheet_name][key].keys.first).to eq expected_message
     end

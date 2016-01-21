@@ -158,7 +158,7 @@ describe Oec::MergeConfirmationSheetsTask do
     end
 
     it 'should record errors' do
-      expect(Rails.logger).to receive(:error).at_least(1).times
+      expect(Rails.logger).to receive(:warn).at_least(1).times
       task.run
       expect(task.errors['Merged course confirmations']['2015-B-91111-100008'].keys).to eq ["Conflicting values found under DEPT_FORM: 'GWS', 'MCELLBI'"]
     end
@@ -178,7 +178,7 @@ describe Oec::MergeConfirmationSheetsTask do
     end
 
     it 'should record errors' do
-      expect(Rails.logger).to receive(:error).at_least(1).times
+      expect(Rails.logger).to receive(:warn).at_least(1).times
       task.run
       expect(task.errors['Merged course confirmations']['2015-B-91111-100008'].keys).to eq ['No SIS import row found matching confirmation row']
     end
@@ -202,7 +202,7 @@ describe Oec::MergeConfirmationSheetsTask do
     end
 
     it 'should record errors' do
-      expect(Rails.logger).to receive(:error).at_least(1).times
+      expect(Rails.logger).to receive(:warn).at_least(1).times
       task.run
       pp task.errors
       expect(task.errors['Merged supervisor confirmations']['999999'].keys).to match_array([
@@ -226,7 +226,7 @@ describe Oec::MergeConfirmationSheetsTask do
     end
 
     it 'should record errors' do
-      expect(Rails.logger).to receive(:error).at_least(1).times
+      expect(Rails.logger).to receive(:warn).at_least(1).times
       task.run
       expect(task.errors['Merged supervisor confirmations']['999999'].keys).to include 'No supervisors row found matching confirmation row'
     end

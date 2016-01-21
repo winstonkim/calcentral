@@ -211,12 +211,12 @@ cache:
     MyClasses::Merged: NEXT_08_00
     Finaid::MyFinAid: NEXT_08_00
     MyGroups::Merged: NEXT_08_00
-    MyTasks::Merged: NEXT_00_00
+    MyTasks::Merged: <%= 10.minutes %>
     UpNext::MyUpNext: NEXT_00_00
     User::Api: NEXT_08_00
     User::Photo: <%= 24.hours %>
     User::AuthenticationValidator: <%= 8.hours %>
-    User::AuthenticationValidator::short: <%= 15.minutes %>
+    User::AuthenticationValidator::short: <%= 5.minutes %>
     UserApiController: <%= 4.hours %>
     Canvas::CourseStudents: <%= 15.minutes %>
     Canvas::CourseTeachers: <%= 5.minutes %>
@@ -264,7 +264,7 @@ cache:
     CampusSolutions::LanguageCode: <%= 29.days %>
     CampusSolutions::ListOfValues: <%= 24.hours %>
     CampusSolutions::MyChecklist: <%= 15.minutes %>
-    CampusSolutions::MyDeposit: <%= 15.minutes %>
+    CampusSolutions::MyDeposit: <%= 2.minutes %>
     CampusSolutions::MyHigherOneUrl: <%= 1.seconds %>
     CampusSolutions::NameType: <%= 29.days %>
     CampusSolutions::SirConfig: <%= 24.hours %>
@@ -275,6 +275,8 @@ cache:
     CalnetCrosswalk::Proxy: <%= 24.hours %>
     CalnetCrosswalk::ByUid: <%= 24.hours %>
     CalnetCrosswalk::BySid: <%= 24.hours %>
+
+    HubEdos::MyStudent: <%= 20.minutes %>
 
 # Cache warmer settings
 cache_warmer:
