@@ -9,7 +9,6 @@ var _ = require('lodash');
 angular.module('calcentral.controllers').controller('ApiTestController', function(apiTestFactory, $scope, $q) {
   // Crude way of testing against the http.success responses due to insufficient status codes.
   var responseDictionary = {
-    '/api/blog/release_notes/latest': 'entries',
     '/api/my/academics': 'collegeAndLevel',
     '/api/my/activities': 'activities',
     '/api/my/badges': 'badges',
