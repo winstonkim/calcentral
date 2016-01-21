@@ -16,7 +16,7 @@ module Oec
 
     def update_remote_drive
       confirmations_folder = @remote_drive.find_nested([@term_code, Oec::Folder.confirmations])
-      raise RuntimeError, "No department confirmations folder found for term #{@term_code}" unless confirmations_folder
+      raise UnexpectedDataError, "No department confirmations folder found for term #{@term_code}" unless confirmations_folder
       title = "#{@term_code} diff report"
       if (remote_file = @remote_drive.find_first_matching_item(title, confirmations_folder))
         # TODO: Be transactional, implement @remote_drive.update_worksheet(). For now, the benefit is not worth the risk of refactor.

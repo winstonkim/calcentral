@@ -123,7 +123,7 @@ module Oec
         [instructors, course_instructors, courses, students, course_students, supervisors, course_supervisors]
       else
         @status = 'Error'
-        log :error, 'Validation failed!'
+        log :warn, 'Validation failed!'
         log_validation_errors
         nil
       end

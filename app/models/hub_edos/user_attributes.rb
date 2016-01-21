@@ -11,11 +11,18 @@ module HubEdos
       Settings.hub_edos_proxy.fake.present?
     end
 
-    def get
+    def get_edo
       edo_feed = MyStudent.new(@uid).get_feed
-      result = {}
       if (feed = edo_feed[:feed])
-        edo = HashConverter.symbolize feed[:student] # TODO will have to dynamically switch student/person EDO somehow
+        HashConverter.symbolize feed[:student] # TODO will have to dynamically switch student/person EDO somehow
+      else
+        nil
+      end
+    end
+
+    def get
+      result = {}
+      if (edo = get_edo)
         set_ids(result)
         extract_passthrough_elements(edo, result)
         extract_names(edo, result)
@@ -32,6 +39,19 @@ module HubEdos
         result[:noStudentId] = true
       end
       result
+    end
+
+    def has_role?(*roles)
+      if (edo = get_edo)
+        result = {}
+        extract_roles(edo, result)
+        if (user_role_map = result[:roles])
+          roles.each do |role|
+            return true if user_role_map[role]
+          end
+        end
+      end
+      false
     end
 
     def set_ids(result)

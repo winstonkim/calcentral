@@ -3,7 +3,6 @@ module CampusSolutions
 
     include ClassLogger
     include Cache::LiveUpdatesEnabled
-    include Cache::FreshenOnWarm
     include Cache::JsonAddedCacher
     include Cache::RelatedCacheKeyTracker
     include CampusSolutions::SirFeatureFlagged
@@ -11,7 +10,7 @@ module CampusSolutions
     attr_accessor :adm_appl_nbr
 
     def get_feed_internal
-      return {} unless is_feature_enabled
+      return {} unless is_feature_enabled && HubEdos::UserAttributes.new(user_id: @uid).has_role?(:applicant)
       logger.debug "User #{@uid}; aid adm_appl_nbr #{adm_appl_nbr}"
       CampusSolutions::Deposit.new({user_id: @uid, adm_appl_nbr: adm_appl_nbr}).get
     end

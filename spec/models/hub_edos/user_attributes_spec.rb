@@ -23,6 +23,7 @@ describe HubEdos::UserAttributes do
     expect(subject[:official_bmail_address]).to eq 'oski@berkeley.edu'
     expect(subject[:names]).to be
     expect(subject[:addresses]).to be
+    expect(subject[:roles]).to eq({applicant: true})
   end
 
   context 'role transformation' do
@@ -223,6 +224,15 @@ describe HubEdos::UserAttributes do
         expect(subject[:roles]).to eq({})
         expect(subject[:ug_grad_flag]).to be_nil
       end
+    end
+  end
+
+  describe '#has_role' do
+    subject { HubEdos::UserAttributes.new(user_id: user_id) }
+    it 'finds matching roles' do
+      expect(subject.has_role?(:student, :applicant)).to be_truthy
+      expect(subject.has_role?(:student)).to be_falsey
+      expect(subject.has_role?(:applicant)).to be_truthy
     end
   end
 end
