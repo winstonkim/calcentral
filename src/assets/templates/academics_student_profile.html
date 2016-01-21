@@ -9,22 +9,22 @@
       Please try again later, or check <a href="https://sis.berkeley.edu/bearfacts/student/studentMain.do?bfaction=welcome">Bear Facts</a>.
     </div>
     <div data-ng-if="!collegeAndLevel.errored">
-      <div data-ng-if="!api.user.profile.roles.student">
+      <div data-ng-if="api.user.profile.roles.concurrentEnrollmentStudent">
+        <div class="cc-widget-profile-message-text">
+          You are a concurrent enrollment student.
+        </div>
+        <ul class="cc-list-bullets">
+          <li>If you are a UC Extension student, more information is available at <a href="http://extension.berkeley.edu/static/studentservices/concurrent/">UC Berkeley Extension</a>.</li>
+          <li>If you are an EAP student, more information is available at the <a href="http://internationaloffice.berkeley.edu/students/exchange/main">Berkeley International Office</a>.</li>
+        </ul>
+      </div>
+      <div data-ng-if="!api.user.profile.roles.student && !api.user.profile.roles.concurrentEnrollmentStudent">
         <h3>Standing</h3>
         <div data-ng-if="api.user.profile.roles.exStudent" class="cc-widget-profile-message-text">
           You are not currently considered an active student.
         </div>
-        <div data-ng-if="api.user.profile.roles.concurrentEnrollmentStudent">
-          <div class="cc-widget-profile-message-text">
-            You are a concurrent enrollment student.
-          </div>
-          <ul class="cc-list-bullets">
-            <li>If you are a UC Extension student, more information is available at <a href="http://extension.berkeley.edu/static/studentservices/concurrent/">UC Berkeley Extension</a>.</li>
-            <li>If you are an EAP student, more information is available at the <a href="http://internationaloffice.berkeley.edu/students/exchange/main">Berkeley International Office</a>.</li>
-          </ul>
-        </div>
       </div>
-      <div data-ng-if="api.user.profile.roles.student">
+      <div data-ng-if="api.user.profile.roles.student && !api.user.profile.roles.concurrentEnrollmentStudent">
         <div data-ng-if="!isProfileCurrent">
           <div data-ng-if="transitionTerm.registered" class="cc-widget-profile-message-text">
             You are registered for the <span data-ng-bind="transitionTerm.termName"></span> term, but complete profile information is not available. Please check
