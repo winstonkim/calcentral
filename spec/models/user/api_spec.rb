@@ -39,7 +39,7 @@ describe User::Api do
   end
   it 'should return a user data structure' do
     user_data = User::Api.new(@random_id).get_feed
-    expect(user_data[:preferred_name]).to eq @preferred_name
+    expect(user_data[:preferredName]).to eq @preferred_name
     expect(user_data[:hasCanvasAccount]).to_not be_nil
     expect(user_data[:isCalendarOptedIn]).to_not be_nil
     expect(user_data[:isCampusSolutionsStudent]).to be true
@@ -230,10 +230,12 @@ describe User::Api do
 
     let(:expected_values_from_campus_oracle) {
       {
-        first_name: 'Eugene V',
-        last_name: 'Debs',
-        preferred_name: 'Eugene V Debs',
+        preferredName: 'Eugene V Debs',
+        firstName: 'Eugene V',
+        lastName: 'Debs',
         fullName: 'Eugene V Debs',
+        givenFirstName: 'Eugene V',
+        givenFullName: 'Eugene V Debs',
         uid: '1151855',
         sid: '18551926',
         isCampusSolutionsStudent: false,

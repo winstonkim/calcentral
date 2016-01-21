@@ -20,6 +20,8 @@ module User
       @first_name ||= get_campus_attribute('first_name', :string) || ''
       @last_name ||= get_campus_attribute('last_name', :string) || ''
       @override_name ||= @calcentral_user_data ? @calcentral_user_data.preferred_name : nil
+      @given_first_name = (@edo_attributes && @edo_attributes[:given_name]) || @first_name || ''
+      @family_name = (@edo_attributes && @edo_attributes[:family_name]) || @last_name || ''
       @student_id = get_campus_attribute('student_id', :numeric_string)
     end
 
@@ -153,8 +155,11 @@ module User
         :isSuperuser => current_user_policy.can_administrate?,
         :isViewer => current_user_policy.can_view_as?,
         :firstLoginAt => @first_login_at,
-        :first_name => @first_name,
+        :firstName => @first_name,
+        :lastName => @last_name,
         :fullName => @first_name + ' ' + @last_name,
+        :givenFirstName => @given_first_name,
+        :givenFullName => @given_first_name + ' ' + @family_name,
         :isGoogleReminderDismissed => is_google_reminder_dismissed,
         :isCalendarOptedIn => is_calendar_opted_in,
         :hasCanvasAccount => Canvas::Proxy.has_account?(@uid),
@@ -169,8 +174,7 @@ module User
         :googleEmail => google_mail,
         :canvasEmail => canvas_mail,
         :officialBmailAddress => official_bmail_address,
-        :last_name => @last_name,
-        :preferred_name => self.preferred_name,
+        :preferredName => self.preferred_name,
         :roles => roles,
         :uid => @uid,
         :sid => @student_id,

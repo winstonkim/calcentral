@@ -24,12 +24,12 @@
                 "code": "PRF",
                 "description": "Preferred"
               },
-              "familyName": "Bear",
-              "givenName": "René",
+              "familyName": "Stardust",
+              "givenName": "Ziggy",
               "middleName": "",
               "prefixName": "",
               "suffixName": "",
-              "formattedName": "René  Bear ",
+              "formattedName": "Ziggy  Stardust ",
               "preferred": true,
               "disclose": false,
               "uiControl": {
