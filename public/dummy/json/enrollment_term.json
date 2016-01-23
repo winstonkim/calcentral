@@ -1,0 +1,16 @@
+{
+  "enrollmentTerm": {
+    "studentId": "0000012",
+    "termId": "2176",
+    "termDescr": "Spring 2017",
+    "advisors": [
+      {
+        "id": "123456",
+        "name": "Dai Smith",
+        "emailAddress": "DaiSmith@yahoo.com",
+        "title": "Major Advisor",
+        "program": "College of Engineering"
+      }
+    ]
+  }
+}

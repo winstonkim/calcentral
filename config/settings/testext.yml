@@ -32,6 +32,7 @@ features:
   audio: true
   advising: true
   cs_delegated_access: true
+  cs_enrollment_card: true
   cs_fin_aid: true
   cs_holds: true
   cs_profile_emergency_contacts: true
