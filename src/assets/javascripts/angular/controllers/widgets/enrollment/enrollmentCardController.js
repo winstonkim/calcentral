@@ -41,7 +41,7 @@ angular.module('calcentral.controllers').controller('EnrollmentCardController', 
   };
 
   /**
-   * Stop the main stop the main spinner
+   * Stop the main spinner.
    * This happens when
    * 	- the terms data has loaded
    * 	- or when there is no term data
