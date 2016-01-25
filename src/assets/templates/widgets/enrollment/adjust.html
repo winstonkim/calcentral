@@ -1,0 +1,25 @@
+<div
+  data-cc-enrollment-card-header-directive
+  data-count="$index + 1"
+  data-date="After to {{enrollmentTerm.enrollmentPeriodsById.phase1.date.epoch * 1000 | date:'MMM d'}}"
+  data-title="section.title"
+></div>
+
+<div class="cc-enrollment-card-section-content" data-ng-if="section.show">
+  <ul class="cc-list-links">
+    <li>
+      <div
+        data-cc-enrollment-link-directive
+        data-link="enrollmentTerm.links.updateEnrolledClasses"
+      ></div>
+      <div
+        data-cc-enrollment-link-directive
+        data-link="enrollmentTerm.links.dropWaitlistedClasses"
+      ></div>
+      <div
+        data-cc-enrollment-link-directive
+        data-link="enrollmentTerm.links.withdrawFromSemester"
+      ></div>
+    </li>
+  </ul>
+</div>
