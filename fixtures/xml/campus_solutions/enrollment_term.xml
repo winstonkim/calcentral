@@ -1,0 +1,113 @@
+<?xml version="1.0"?>
+<UC_SR_CLASS_ENROLLMENT>
+  <STUDENT_ID>0000012</STUDENT_ID>
+  <TERM_ID>2176</TERM_ID>
+  <TERM_DESCR>Spring 2017</TERM_DESCR>
+  <ADVISORS type="array">
+    <ADVISOR>
+      <ID>123456</ID>
+      <NAME>Dai Smith</NAME>
+      <EMAIL_ADDRESS>DaiSmith@yahoo.com</EMAIL_ADDRESS>
+      <PROGRAM>College of Engineering</PROGRAM>
+      <TITLE>Major Advisor</TITLE>
+    </ADVISOR>
+    <ADVISOR>
+      <ID>1337</ID>
+      <NAME>Marsh Man</NAME>
+      <EMAIL_ADDRESS>man@marsh.com</EMAIL_ADDRESS>
+      <PROGRAM>College of Letters &amp; Science</PROGRAM>
+      <TITLE>College Advisor</TITLE>
+    </ADVISOR>
+  </ADVISORS>
+  <LINKS>
+    <SCHEDULE_CLASSES>
+      <NAME>Schedule of Classes</NAME>
+      <IS_CS_LINK type="boolean">true</IS_CS_LINK>
+      <URL>https://bcs-web-dev-03.is.berkeley.edu:8443/psc/bcsdev/EMPLOYEE/HRMS/c/UC_FA_AWD_MGT_FLU.UC_FA_AWD_MGT_FLU.GBL</URL>
+    </SCHEDULE_CLASSES>
+    <COURSE_CATALOG>
+      <NAME>Course Catalog</NAME>
+      <IS_CS_LINK type="boolean">true</IS_CS_LINK>
+      <URL>https://bcs-web-dev-03.is.berkeley.edu:8443/psc/bcsdev/EMPLOYEE/HRMS/c/UC_FA_AWD_MGT_FLU.UC_FA_AWD_MGT_FLU.GBL</URL>
+    </COURSE_CATALOG>
+    <DECAL>
+      <NAME>DeCal (student-run education programs)</NAME>
+      <IS_CS_LINK type="boolean">false</IS_CS_LINK>
+      <URL>http://www.decal.org/</URL>
+    </DECAL>
+    <DISCOVERY_COURSES>
+      <NAME>Discovery Courses</NAME>
+      <IS_CS_LINK type="boolean">true</IS_CS_LINK>
+      <URL>https://bcs-web-dev-03.is.berkeley.edu:8443/psc/bcsdev/EMPLOYEE/HRMS/c/UC_FA_AWD_MGT_FLU.UC_FA_AWD_MGT_FLU.GBL</URL>
+    </DISCOVERY_COURSES>
+    <BIG_IDEAS>
+      <NAME>Big Ideas Courses</NAME>
+      <IS_CS_LINK type="boolean">true</IS_CS_LINK>
+      <URL>https://bcs-web-dev-03.is.berkeley.edu:8443/psc/bcsdev/EMPLOYEE/HRMS/c/UC_FA_AWD_MGT_FLU.UC_FA_AWD_MGT_FLU.GBL</URL>
+    </BIG_IDEAS>
+    <FRESHMAN_SEMINARS>
+      <NAME>Freshman and Sophomore Seminars</NAME>
+      <URL>https://bcs-web-dev-03.is.berkeley.edu:8443/psc/bcsdev/EMPLOYEE/HRMS/c/UC_FA_AWD_MGT_FLU.UC_FA_AWD_MGT_FLU.GBL</URL>
+      <IS_CS_LINK type="boolean">true</IS_CS_LINK>
+    </FRESHMAN_SEMINARS>
+    <CHOOSE_CLASSES>
+      <NAME>Choose classes</NAME>
+      <URL>https://bcs-web-dev-03.is.berkeley.edu:8443/psc/bcsdev/EMPLOYEE/HRMS/c/UC_FA_AWD_MGT_FLU.UC_FA_AWD_MGT_FLU.GBL</URL>
+      <IS_CS_LINK type="boolean">true</IS_CS_LINK>
+    </CHOOSE_CLASSES>
+    <ENROLLMENT_RULES>
+      <NAME>Enrollment rules and information</NAME>
+      <URL>http://registrar.berkeley.edu/Records/tbinfo.html</URL>
+      <IS_CS_LINK type="boolean">false</IS_CS_LINK>
+    </ENROLLMENT_RULES>
+    <UPDATE_ENROLLED_CLASSES>
+      <NAME>Update enrolled classes</NAME>
+      <URL>https://bcs-web-dev-03.is.berkeley.edu:8443/psc/bcsdev/EMPLOYEE/HRMS/c/UC_FA_AWD_MGT_FLU.UC_FA_AWD_MGT_FLU.GBL</URL>
+      <IS_CS_LINK type="boolean">true</IS_CS_LINK>
+    </UPDATE_ENROLLED_CLASSES>
+    <DROP_WAITLISTED_CLASSES>
+      <NAME>Drop waitlisted classes</NAME>
+      <URL>https://bcs-web-dev-03.is.berkeley.edu:8443/psc/bcsdev/EMPLOYEE/HRMS/c/UC_FA_AWD_MGT_FLU.UC_FA_AWD_MGT_FLU.GBL</URL>
+      <IS_CS_LINK type="boolean">true</IS_CS_LINK>
+    </DROP_WAITLISTED_CLASSES>
+    <WITHDRAW_FROM_SEMESTER>
+      <NAME>Withdraw from semester</NAME>
+      <URL>https://bcs-web-dev-03.is.berkeley.edu:8443/psc/bcsdev/EMPLOYEE/HRMS/c/UC_FA_AWD_MGT_FLU.UC_FA_AWD_MGT_FLU.GBL</URL>
+      <IS_CS_LINK type="boolean">true</IS_CS_LINK>
+    </WITHDRAW_FROM_SEMESTER>
+  </LINKS>
+  <ENROLLMENT_PERIODS type="array">
+    <PERIOD>
+      <ID>phase1</ID>
+      <NAME>Phase I</NAME>
+      <DATETIME>2016-04-18T15:40:00-07:00</DATETIME>
+    </PERIOD>
+    <PERIOD>
+      <ID>phase2</ID>
+      <NAME>Phase II</NAME>
+      <DATETIME>2016-06-05T16:30:00-07:00</DATETIME>
+    </PERIOD>
+    <PERIOD>
+      <ID>adjust</ID>
+      <NAME>Adjust</NAME>
+      <DATETIME>2016-08-15T18:20:00-07:00</DATETIME>
+    </PERIOD>
+  </ENROLLMENT_PERIODS>
+  <SCHEDULE_OF_CLASSES_PERIOD>
+    <DATETIME>2016-03-28T12:00:00-07:00</DATETIME>
+  </SCHEDULE_OF_CLASSES_PERIOD>
+  <ENROLLED_CLASSES type="array">
+    <CLASS>
+      <ID>21786</ID>
+      <WHEN>Monday Wednesday Friday</WHEN>
+      <UNITS>4.00</UNITS>
+    </CLASS>
+  </ENROLLED_CLASSES>
+  <WAITLISTED_CLASSES type="array">
+    <CLASS>
+      <ID>15636</ID>
+      <TITLE>Intro Tagalog</TITLE>
+      <POSITION>2</POSITION>
+    </CLASS>
+  </WAITLISTED_CLASSES>
+</UC_SR_CLASS_ENROLLMENT>

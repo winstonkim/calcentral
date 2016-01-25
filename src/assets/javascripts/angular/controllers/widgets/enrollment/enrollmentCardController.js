@@ -105,7 +105,7 @@ angular.module('calcentral.controllers').controller('EnrollmentCardController', 
    * Parse a certain enrollment term
    */
   var parseEnrollmentTerm = function(data) {
-    var termData = _.get(data, 'data.enrollmentTerm');
+    var termData = _.get(data, 'data.feed.enrollmentTerm');
 
     termData = mapEnrollmentPeriodsById(termData);
     termData = mapLinks(termData);
@@ -144,11 +144,11 @@ angular.module('calcentral.controllers').controller('EnrollmentCardController', 
    * Parse all the terms and create an array of promises for each
    */
   var parseEnrollmentTerms = function(data) {
-    if (!_.get(data, 'data.enrollmentTerms.length')) {
+    if (!_.get(data, 'data.feed.enrollmentTerms.length')) {
       return;
     }
 
-    var enrollmentTerms = _.get(data, 'data.enrollmentTerms');
+    var enrollmentTerms = _.get(data, 'data.feed.enrollmentTerms');
     setEnrollmentTerms(enrollmentTerms);
     stopMainSpinner();
 
