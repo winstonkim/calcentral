@@ -1,0 +1,21 @@
+<div
+  data-cc-enrollment-card-header-directive
+  data-count="$index + 1"
+  data-date="{{enrollmentTerm.enrollmentPeriodsById.phase1.date.epoch * 1000 | date:'h:mm a'}}"
+  data-date-important="{{enrollmentTerm.enrollmentPeriodsById.phase1.date.epoch * 1000 | date:'EEE MMM d'}}"
+  data-title="section.title"
+></div>
+
+<div class="cc-enrollment-card-section-content" data-ng-if="section.show">
+  <span
+    data-cc-enrollment-link-directive
+    data-link="enrollmentTerm.links.chooseClasses"
+    data-text="Choose classes"
+  ></span> for the upcoming semester.<br/>
+  Learn more about
+  <span
+    data-cc-enrollment-link-directive
+    data-link="enrollmentTerm.links.enrollmentRules"
+    data-text="enrollment rules and information"
+  ></span>
+</div>

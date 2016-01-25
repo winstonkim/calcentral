@@ -1,0 +1,106 @@
+{
+  "enrollmentTerm": {
+    "studentId": "0000012",
+    "termId": "2176",
+    "termDescr": "Spring 2017",
+    "advisors": [{
+      "id": "123456",
+      "name": "Dai Smith",
+      "emailAddress": "DaiSmith@yahoo.com",
+      "title": "Major Advisor",
+      "program": "College of Engineering"
+    }, {
+      "id": "1337",
+      "name": "Marsh Man",
+      "emailAddress": "man@marsh.com",
+      "title": "College Advisor",
+      "program": "College of Letters & Science"
+    }],
+    "links": {
+      "scheduleClasses": {
+        "name": "Schedule of Classes",
+        "isCsLink": true,
+        "url": "https://bcs-web-dev-03.is.berkeley.edu:8443/psc/bcsdev/EMPLOYEE/HRMS/c/UC_FA_AWD_MGT_FLU.UC_FA_AWD_MGT_FLU.GBL"
+      },
+      "courseCatalog": {
+        "name": "Course Catalog",
+        "isCsLink": true,
+        "url": "https://bcs-web-dev-03.is.berkeley.edu:8443/psc/bcsdev/EMPLOYEE/HRMS/c/UC_FA_AWD_MGT_FLU.UC_FA_AWD_MGT_FLU.GBL"
+      },
+      "decal": {
+        "name": "DeCal (student-run education programs)",
+        "isCsLink": false,
+        "url": "http://www.decal.org/"
+      },
+      "discoveryCourses": {
+        "name": "Discovery Courses",
+        "isCsLink": true,
+        "url": "https://bcs-web-dev-03.is.berkeley.edu:8443/psc/bcsdev/EMPLOYEE/HRMS/c/UC_FA_AWD_MGT_FLU.UC_FA_AWD_MGT_FLU.GBL"
+      },
+      "bigIdeas": {
+        "name": "Big Ideas Courses",
+        "isCsLink": false,
+        "url": "https://bcs-web-dev-03.is.berkeley.edu:8443/psc/bcsdev/EMPLOYEE/HRMS/c/UC_FA_AWD_MGT_FLU.UC_FA_AWD_MGT_FLU.GBL"
+      },
+      "freshmanSeminars": {
+        "name": "Freshman and Sophomore Seminars",
+        "isCsLink": true,
+        "url": "https://bcs-web-dev-03.is.berkeley.edu:8443/psc/bcsdev/EMPLOYEE/HRMS/c/UC_FA_AWD_MGT_FLU.UC_FA_AWD_MGT_FLU.GBL"
+      },
+      "chooseClasses": {
+        "name": "Choose your classes",
+        "isCsLink": true,
+        "url": "https://bcs-web-dev-03.is.berkeley.edu:8443/psc/bcsdev/EMPLOYEE/HRMS/c/UC_FA_AWD_MGT_FLU.UC_FA_AWD_MGT_FLU.GBL"
+      },
+      "enrollmentRules": {
+        "name": "Enrollment rules and information",
+        "isCsLink": false,
+        "url": "http://registrar.berkeley.edu/Records/tbinfo.html"
+      },
+      "updateEnrolledClasses": {
+        "name": "Update enrolled classes",
+        "isCsLink": true,
+        "url": "https://bcs-web-dev-03.is.berkeley.edu:8443/psc/bcsdev/EMPLOYEE/HRMS/c/UC_FA_AWD_MGT_FLU.UC_FA_AWD_MGT_FLU.GBL"
+      },
+      "dropWaitlistedClasses": {
+        "name": "Drop waitlisted classes",
+        "isCsLink": true,
+        "url": "https://bcs-web-dev-03.is.berkeley.edu:8443/psc/bcsdev/EMPLOYEE/HRMS/c/UC_FA_AWD_MGT_FLU.UC_FA_AWD_MGT_FLU.GBL"
+      },
+      "withdrawFromSemester": {
+        "name": "Withdraw from semester",
+        "isCsLink": true,
+        "url": "https://bcs-web-dev-03.is.berkeley.edu:8443/psc/bcsdev/EMPLOYEE/HRMS/c/UC_FA_AWD_MGT_FLU.UC_FA_AWD_MGT_FLU.GBL"
+      }
+    },
+    "enrollmentPeriods": [{
+      "id": "phase1",
+      "date": {
+        "epoch": 1461019200,
+        "dateTime": "2016-04-18T15:40:00-07:00",
+        "dateString": "04/18"
+      }
+    }, {
+      "id": "phase2",
+      "date": {
+        "epoch": 1465169400,
+        "dateTime": "2016-06-05T16:30:00-07:00",
+        "dateString": "06/05"
+      }
+    }, {
+      "id": "adjust",
+      "date": {
+        "epoch": 1471310400,
+        "dateTime": "2016-08-15T18:20:00-07:00",
+        "dateString": "08/15"
+      }
+    }],
+    "scheduleOfClassesPeriod": {
+      "date": {
+        "epoch": 1459191600,
+        "dateTime": "2016-03-28T12:00:00-07:00",
+        "dateString": "03/28"
+      }
+    }
+  }
+}

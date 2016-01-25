@@ -1,0 +1,33 @@
+<div data-ng-controller="EnrollmentCardController" data-cc-spinner-directive="enrollment.isLoading" class="cc-enrollment-card">
+  <div class="cc-widget cc-widget-enrollment-card" data-ng-repeat="enrollmentTerm in enrollment.terms">
+    <div class="cc-widget-title">
+      <h2>
+        Class Enrollment
+        <span class="cc-widget-title-sub" data-ng-bind="enrollmentTerm.termDescr"></span>
+      </h2>
+    </div>
+    <div data-cc-spinner-directive="enrollmentTerm.isTermLoading">
+      <div class="cc-widget-text cc-enrollment-card-head">
+        <div class="cc-flex cc-flex-space-between cc-text-light">
+          <div>
+            <strong>Action</strong>
+          </div>
+          <div>
+            <strong>When</strong>
+          </div>
+        </div>
+      </div>
+
+      <ul class="cc-widget-list cc-widget-list-border-top">
+        <li
+          data-ng-repeat="section in enrollment.sections"
+          class="cc-widget-list-hover cc-widget-list-hover-notriangle cc-enrollment-card-section"
+          data-ng-class="{'cc-widget-list-hover-opened':(section.show)}"
+          data-cc-accessible-focus-directive
+          data-ng-click="api.widget.toggleShow($event, null, section, 'Class Enrollment Section - ' + section.title)"
+          data-ng-include="'widgets/enrollment/' + section.id + '.html'">
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
