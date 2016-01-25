@@ -1,3 +1,10 @@
-<h3 data-ng-bind-template="{{$index + 1}}. {{section.title}}"></h3>
+<div
+  data-cc-enrollment-card-header-directive
+  data-count="$index + 1"
+  data-date="Prior to {{enrollmentTerm.enrollmentPeriodsById.phase1.date.epoch * 1000 | date:'MMM d'}}"
+  data-title="section.title"
+></div>
 
-TODO
+<div class="cc-enrollment-card-section-content" data-ng-if="section.show">
+  Multi-year academic planner is unavailable at this time.
+</div>

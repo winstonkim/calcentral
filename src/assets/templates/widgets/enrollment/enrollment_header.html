@@ -1,0 +1,11 @@
+<div class="cc-flex cc-flex-space-between cc-flex-align-base">
+  <h3
+    class="cc-enrollment-card-header-title"
+    data-ng-bind-template="{{count}}. {{title}}"
+  ></h3>
+  <div class="cc-enrollment-card-date">
+    <strong data-ng-bind="dateImportant"></strong>
+    <span data-ng-if="dateImportant && date" aria-hidden>|</span>
+    <span data-ng-bind="date"></span>
+  </div>
+</div>
