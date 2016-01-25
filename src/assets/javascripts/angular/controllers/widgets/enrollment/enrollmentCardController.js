@@ -8,6 +8,7 @@ var _ = require('lodash');
  * Main controller for the enrollment card on the My Academics page
  */
 angular.module('calcentral.controllers').controller('EnrollmentCardController', function(apiService, enrollmentFactory, $scope, $q) {
+  var backToText = 'Class Enrollment';
   $scope.enrollment = {
     isLoading: true,
     terms: [],
@@ -67,10 +68,43 @@ angular.module('calcentral.controllers').controller('EnrollmentCardController', 
   };
 
   /**
+   * Map enrollment periods by id (e.g. 'phase1')
+   * This makes it easier to look it up in JavaScript
+   */
+  var mapEnrollmentPeriodsById = function(data) {
+    if (!data.enrollmentPeriods) {
+      return data;
+    }
+
+    data.enrollmentPeriodsById = _.indexBy(data.enrollmentPeriods, 'id');
+
+    return data;
+  };
+
+  /**
+   * Add aditional metadata to the links
+   */
+  var mapLinks = function(data) {
+    if (!data.links) {
+      return data;
+    }
+
+    data.links = _.mapValues(data.links, function(link) {
+      link.backToText = backToText;
+      return link;
+    });
+
+    return data;
+  };
+
+  /**
    * Parse a certain enrollment term
    */
   var parseEnrollmentTerm = function(data) {
     var termData = _.get(data, 'data.enrollmentTerm');
+
+    termData = mapEnrollmentPeriodsById(termData);
+    termData = mapLinks(termData);
 
     setTermData(termData);
   };
