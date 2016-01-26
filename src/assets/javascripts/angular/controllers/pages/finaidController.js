@@ -7,7 +7,7 @@ var _ = require('lodash');
  * Financial Aid controller
  */
 angular.module('calcentral.controllers').controller('FinaidController', function(apiService, finaidFactory, finaidService, $routeParams, $scope) {
-  apiService.util.setTitle('Financial Aid');
+  apiService.util.setTitle('Financial Aid and Scholarships');
 
   $scope.isMainFinaid = true;
   $scope.finaid = {
