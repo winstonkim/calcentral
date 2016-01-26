@@ -7,9 +7,13 @@ var _ = require('lodash');
  * Enrollment Card Controller
  * Main controller for the enrollment card on the My Academics page
  */
-angular.module('calcentral.controllers').controller('EnrollmentCardController', function(apiService, enrollmentFactory, $scope, $q) {
+angular.module('calcentral.controllers').controller('EnrollmentCardController', function(apiService, enrollmentFactory, holdsFactory, $scope, $q) {
   var backToText = 'Class Enrollment';
   $scope.enrollment = {
+    holds: {
+      isLoading: true,
+      hasHolds: false
+    },
     isLoading: true,
     terms: [],
     sections: [
@@ -161,12 +165,24 @@ angular.module('calcentral.controllers').controller('EnrollmentCardController', 
   };
 
   /**
+   * Load the holds information for this student.
+   * If they do have a hold, we need to show a message to the student.
+   */
+  var loadHolds = function() {
+    return holdsFactory.getHolds().then(function(data) {
+      $scope.enrollment.holds.isLoading = false;
+      $scope.enrollment.holds.hasHolds = !!_.get(data, 'data.feed.serviceIndicators.length');
+    });
+  };
+
+  /**
    * We should check the roles of the current person since we should only load
    * the enrollment card for students
    */
   var checkRoles = function(data) {
     if (_.get(data, 'student')) {
       loadEnrollmentData();
+      loadHolds();
     }
   };
 

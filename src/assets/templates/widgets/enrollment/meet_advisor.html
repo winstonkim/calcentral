@@ -5,6 +5,18 @@
   data-title="section.title"
 ></div>
 
+<div data-cc-spinner-directive="enrollment.holds.isLoading">
+  <div data-ng-if="enrollment.holds.hasHolds" class="cc-flex">
+    <div>
+      <i class="fa fa-exclamation-circle cc-icon-red cc-enrollment-card-icon"></i>
+    </div>
+    <div>
+      You have a hold that may affect your ability to enroll in classes.
+      Schedule an appointment with an advisor.
+    </div>
+  </div>
+</div>
+
 <div data-ng-if="section.show">
   <div class="cc-enrollment-card-section-content">
     <ul class="cc-enrollment-card-advisors">
