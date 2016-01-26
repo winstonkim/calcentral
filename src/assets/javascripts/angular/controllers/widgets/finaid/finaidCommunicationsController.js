@@ -11,16 +11,16 @@ angular.module('calcentral.controllers').controller('FinaidCommunicationsControl
     isLoading: true,
     aidYear: '',
     taskStatus: '!completed',
-    taskStatusText: 'Show Completed'
+    counts: {
+      completed: 0,
+      uncompleted: 0
+    }
   };
 
   $scope.toggleCompletedTasks = function() {
     var status = $scope.communicationsInfo.taskStatus;
-    var text = $scope.communicationsInfo.taskStatusText;
     status = (status === 'completed' ? '!completed' : 'completed');
     $scope.communicationsInfo.taskStatus = status;
-    text = 'Show ' + (status === 'completed' ? 'Uncompleted' : 'Completed');
-    $scope.communicationsInfo.taskStatusText = text;
   };
 
   var getMyFinaidActivity = function(options) {
@@ -33,9 +33,23 @@ angular.module('calcentral.controllers').controller('FinaidCommunicationsControl
     });
   };
 
+  /**
+   * Calculate the counts for the completed and uncompleted tasks
+   */
+  var calculateCounts = function(data) {
+    if (!_.get(data, 'tasks.length')) {
+      return;
+    }
+    $scope.communicationsInfo.counts.completed = _.filter(data.tasks, {
+      status: 'completed'
+    }).length;
+    $scope.communicationsInfo.counts.uncompleted = data.tasks.length - $scope.communicationsInfo.counts.completed;
+  };
+
   var getMyFinaidTasks = function(options) {
     return tasksFactory.getFinaidTasks(options).then(function(data) {
       angular.extend($scope, data);
+      calculateCounts(data);
     });
   };
 
