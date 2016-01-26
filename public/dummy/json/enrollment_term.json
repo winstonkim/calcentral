@@ -75,6 +75,7 @@
     },
     "enrollmentPeriods": [{
       "id": "phase1",
+      "name": "Phase I",
       "date": {
         "epoch": 1461019200,
         "dateTime": "2016-04-18T15:40:00-07:00",
@@ -82,6 +83,7 @@
       }
     }, {
       "id": "phase2",
+      "name": "Phase II",
       "date": {
         "epoch": 1465169400,
         "dateTime": "2016-06-05T16:30:00-07:00",
@@ -89,6 +91,7 @@
       }
     }, {
       "id": "adjust",
+      "name": "Adjust",
       "date": {
         "epoch": 1471310400,
         "dateTime": "2016-08-15T18:20:00-07:00",
