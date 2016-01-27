@@ -18,4 +18,33 @@
     data-link="enrollmentTerm.links.enrollmentRules"
     data-text="enrollment rules and information"
   ></span>
+
+  <div data-ng-if="enrollmentTerm.enrollmentPeriods.length">
+    <h4 class="cc-enrollment-card-headersub-title">Enrollment Period</h4>
+    <div class="cc-table">
+      <table>
+        <thead class="cc-visuallyhidden">
+          <th scope="col">Phase</th>
+          <th scope="col">Day of the week</th>
+          <th scope="col">Date and time</th>
+        </thead>
+        <tr data-ng-repeat="period in enrollmentTerm.enrollmentPeriods">
+          <th scope="row">
+            <span data-ng-bind="period.name" class="cc-text-light"></span>
+          </th>
+          <td>
+            <strong data-ng-bind="period.date.epoch * 1000 | date:'EEE'"></strong>
+          </td>
+          <td>
+            <strong data-ng-bind="period.date.epoch * 1000 | date:'MMM d'"></strong>
+            <span aria-hidden>|</span>
+            <span class="cc-visuallyhidden">at</span>
+            <span data-ng-bind="period.date.epoch * 1000 | date:'h:mm a'"></span>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+
+
 </div>
