@@ -18,7 +18,7 @@ echo "`date`: Stopping running instances of CalCentral..." | $LOGIT
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm"
 source .rvmrc
 
-export RAILS_ENV=production
+export RAILS_ENV=${RAILS_ENV:-production}
 
 echo | $LOGIT
 echo "------------------------------------------" | $LOGIT

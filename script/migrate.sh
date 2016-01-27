@@ -16,7 +16,7 @@ if [ -z $1 ]; then
   VERSION=`/bin/ls deploy/db/migrate/ | awk -F _ '{print $1}' | sort | tail -1`
 fi
 
-export RAILS_ENV=production
+export RAILS_ENV=${RAILS_ENV:-production}
 export LOGGER_STDOUT=only
 export JRUBY_OPTS="--dev"
 LOG_DIR=${CALCENTRAL_LOG_DIR:=`pwd`"/log"}
