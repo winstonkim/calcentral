@@ -16,8 +16,14 @@ class AuthenticationState
   end
 
   def delegate_permissions
-    #TODO implement me
-    nil
+    return nil unless authenticated_as_delegate? &&
+      (response = CampusSolutions::DelegateStudents.new(user_id: @original_delegate_user_id).get)
+    if response[:feed] && (students = response[:feed][:students])
+      campus_solutions_id = CalnetCrosswalk::ByUid.new(user_id: @user_id).lookup_campus_solutions_id
+      students.detect { |s| campus_solutions_id == s[:campusSolutionsId] }
+    else
+      nil
+    end
   end
 
   def directly_authenticated?

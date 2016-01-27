@@ -27,9 +27,9 @@ describe CampusSolutions::DelegateAccessController do
       expect(json['statusCode']).to eq 200
       expect(json['feed']['students']).to be_present
       json['feed']['students'].each do |student|
-        expect(student['emplid']).to be_present
-        expect(student['name']).to be_present
-        expect(student['rolenames']).to be_present
+        expect(student['campusSolutionsId']).to be_present
+        expect(student['fullName']).to be_present
+        expect(student['privileges']).to be_present
       end
     end
 
