@@ -10,8 +10,21 @@ describe CampusSolutions::DelegateStudents do
   it 'returns expected mock data' do
     students = subject[:feed][:students]
     expect(students).to have(2).items
-    expect(students.find { |s| s[:name] == 'Tom Tulliver' }[:emplid]).to eq '16777216'
-    expect(students.find { |s| s[:name] == 'Tom Tulliver' }[:rolenames]).to eq ['UC DA InPerson Call Access']
-    expect(students.find { |s| s[:name] == 'Maggie Tulliver' }[:rolenames]).to match_array ['UC DA Financial View', 'UC DA InPerson Call Access']
+    tom = students.find {|s| s[:fullName] == 'Tom Tulliver' }
+    expect(tom[:campusSolutionsId]).to eq '16777216'
+    expect(tom[:privileges]).to eq({
+      financial: false,
+      viewEnrollments: false,
+      viewGrades: false,
+      phone: true
+    })
+    maggie = students.find {|s| s[:fullName] == 'Maggie Tulliver' }
+    expect(maggie[:campusSolutionsId]).to eq '1073741824'
+    expect(maggie[:privileges]).to eq({
+      financial: true,
+      viewEnrollments: false,
+      viewGrades: false,
+      phone: true
+    })
   end
 end
