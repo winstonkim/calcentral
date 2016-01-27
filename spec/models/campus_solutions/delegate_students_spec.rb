@@ -7,24 +7,26 @@ describe CampusSolutions::DelegateStudents do
   it_should_behave_like 'a proxy that got data successfully'
   it_should_behave_like 'a proxy that properly observes the delegated access feature flag'
 
-  it 'returns expected mock data' do
-    students = subject[:feed][:students]
-    expect(students).to have(2).items
-    tom = students.find {|s| s[:fullName] == 'Tom Tulliver' }
-    expect(tom[:campusSolutionsId]).to eq '16777216'
-    expect(tom[:privileges]).to eq({
-      financial: false,
-      viewEnrollments: false,
-      viewGrades: false,
-      phone: true
-    })
-    maggie = students.find {|s| s[:fullName] == 'Maggie Tulliver' }
-    expect(maggie[:campusSolutionsId]).to eq '1073741824'
-    expect(maggie[:privileges]).to eq({
-      financial: true,
-      viewEnrollments: false,
-      viewGrades: false,
-      phone: true
-    })
+  context 'delegate is linked to two students' do
+    let(:tom_uid) { random_id }
+    let(:maggie_uid) { random_id }
+    before do
+      allow(CalnetCrosswalk::BySid).to receive(:new).with(user_id: '16777216').and_return (tom = double)
+      allow(tom).to receive(:lookup_ldap_uid).and_return tom_uid
+      allow(CalnetCrosswalk::BySid).to receive(:new).with(user_id: '1073741824').and_return (maggie = double)
+      allow(maggie).to receive(:lookup_ldap_uid).and_return maggie_uid
+    end
+    it 'returns expected mock data' do
+      students = subject[:feed][:students]
+      expect(students).to have(2).items
+      tom = students.find {|s| s[:fullName] == 'Tom Tulliver' }
+      expect(tom[:campusSolutionsId]).to eq '16777216'
+      expect(tom[:uid]).to eq tom_uid
+      expect(tom[:privileges]).to eq({ financial: false, viewEnrollments: false, viewGrades: false, phone: true })
+      maggie = students.find {|s| s[:fullName] == 'Maggie Tulliver' }
+      expect(maggie[:campusSolutionsId]).to eq '1073741824'
+      expect(maggie[:uid]).to eq maggie_uid
+      expect(maggie[:privileges]).to eq({ financial: true, viewEnrollments: false, viewGrades: false, phone: true })
+    end
   end
 end
