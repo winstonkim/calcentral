@@ -173,6 +173,17 @@
     var base64 = require('gulp-base64');
     // Minify the CSS in production
     var minifyCSS = require('gulp-minify-css');
+    // PostCSS plug-in
+    var postcss = require('gulp-postcss');
+    // Pack same CSS media query rules into one media query rule
+    var mqpacker = require('css-mqpacker');
+    // Modular minifier, composed of single-responsibility PostCSS plugins
+    var cssnano = require('cssnano');
+    // PostCSS processors
+    var processors = [
+      mqpacker,
+      cssnano()
+    ];
 
     return streamqueue({
         // Streams that are in object mode can emit generic JavaScript values
@@ -196,6 +207,8 @@
         // https://github.com/jakubpawlowicz/clean-css/issues/676
         keepBreaks: true
       })))
+      // PostCSS optimizations
+      .pipe(gulpif(isProduction, postcss(processors)))
       // Combine the files
       .pipe(concat('application.css'))
       // Output to the correct directory
