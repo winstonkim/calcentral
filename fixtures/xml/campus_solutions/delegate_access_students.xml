@@ -3,18 +3,47 @@
   <STUDENT_DELEGATED_ACCESS>
     <STUDENTS type="array">
       <STUDENT>
-        <EMPLID>16777216</EMPLID>
+        <EMPLID>23009422</EMPLID>
         <NAME>Tom Tulliver</NAME>
         <ROLENAMES type="array">
           <ROLENAME>UC DA InPerson Call Access</ROLENAME>
         </ROLENAMES>
       </STUDENT>
       <STUDENT>
-        <EMPLID>1073741824</EMPLID>
+        <EMPLID>24363318</EMPLID>
         <NAME>Maggie Tulliver</NAME>
         <ROLENAMES type="array">
           <ROLENAME>UC DA Financial View</ROLENAME>
           <ROLENAME>UC DA InPerson Call Access</ROLENAME>
+        </ROLENAMES>
+      </STUDENT>
+      <STUDENT>
+        <EMPLID>23623575</EMPLID>
+        <NAME>Bessy Tulliver</NAME>
+        <ROLENAMES type="array">
+          <ROLENAME>UC DA Financial View</ROLENAME>
+        </ROLENAMES>
+      </STUDENT>
+      <STUDENT>
+        <EMPLID>17986976</EMPLID>
+        <NAME>Philip Wakem</NAME>
+        <ROLENAMES type="array">
+          <ROLENAME>UC_CS_DA_ENROLLMENTS_VIEW</ROLENAME>
+        </ROLENAMES>
+      </STUDENT>
+      <STUDENT>
+        <EMPLID>24346769</EMPLID>
+        <NAME>Stephen Guest</NAME>
+        <ROLENAMES type="array">
+          <ROLENAME>UC DA Financial View</ROLENAME>
+          <ROLENAME>UC_CS_DA_ENROLLMENTS_GRADES_VW</ROLENAME>
+          <ROLENAME>UC DA InPerson Call Access</ROLENAME>
+        </ROLENAMES>
+      </STUDENT>
+      <STUDENT>
+        <EMPLID>24549574</EMPLID>
+        <NAME>Yap</NAME>
+        <ROLENAMES type="array">
         </ROLENAMES>
       </STUDENT>
     </STUDENTS>

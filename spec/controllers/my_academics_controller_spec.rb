@@ -42,13 +42,16 @@ describe MyAcademicsController do
 
     context 'delegate view' do
       before do
+        allow(CalnetCrosswalk::ByUid).to receive(:new).and_return (crosswalk = double)
+        allow(crosswalk).to receive(:lookup_campus_solutions_id).and_return '24363318'
         allow_any_instance_of(AuthenticationState).to receive(:authenticated_as_delegate?).and_return true
+        allow_any_instance_of(AuthenticationState).to receive(:delegate_permissions).and_return({ privileges: { view_grades: true } })
         allow(Settings.features).to receive(:cs_delegated_access).and_return true
       end
 
       it 'should get a filtered feed' do
         get :get_feed
-        json_response = JSON.parse(response.body)
+        json_response = JSON.parse response.body
         expect(json_response['feedName']).to eq 'MyAcademics::FilteredForDelegate'
         expect(json_response).not_to include 'examSchedule'
         expect(json_response['gpaUnits']).not_to include 'cumulativeGpa'
