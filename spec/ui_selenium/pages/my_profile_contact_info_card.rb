@@ -124,8 +124,8 @@ module CalCentralPages
       logger.debug "There are #{phone_count} phones to delete"
       (1..phone_count).each do
         phone_count = phone_elements.length
-        # Don't try to delete the first phone if it will trigger a validation error
-        (phone_primary?(0) && phone_count > 2) ? index = 1 : index = 0
+        # Delete the preferred phone last or it might trigger a CS validation error
+        (phone_primary?(0) && phone_count > 1) ? index = 1 : index = 0
         delete_phone index
       end
     end

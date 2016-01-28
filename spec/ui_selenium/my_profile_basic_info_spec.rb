@@ -17,7 +17,8 @@ describe 'My Profile Basic Info', :testui => true, :order => :defined do
     before(:all) do
       @student = @test_users.first
       @student_info = @student['basicInfo']
-      @splash_page.log_into_dashboard(@driver, @cal_net_page, @student['username'], @student['password'])
+      @splash_page.load_page
+      @splash_page.basic_auth @student_info['uid']
       @my_dashboard.click_profile_link @driver
     end
 
@@ -63,10 +64,39 @@ describe 'My Profile Basic Info', :testui => true, :order => :defined do
         @basic_info_card.wait_until(WebDriverUtils.page_load_timeout) { @basic_info_card.preferred_name == max_char_name[0..29] }
       end
 
-      it 'permits the use of special characters for an edited name' do
+      it 'permits but trims leading or trailing spaces in an edited name' do
+        whitespace_name = @student_info['preferredName']['leadingWhitespace']
+        @basic_info_card.edit_pref_name whitespace_name
+        @basic_info_card.wait_until(WebDriverUtils.page_load_timeout) { @basic_info_card.preferred_name == whitespace_name.strip }
+      end
+
+    end
+
+    describe 'preferred name validation' do
+
+      it 'does not permit the use of special characters for an edited name' do
         special_char_name = @student_info['preferredName']['specChar']
-        @basic_info_card.edit_pref_name special_char_name
-        @basic_info_card.wait_until(WebDriverUtils.page_load_timeout) { @basic_info_card.preferred_name == special_char_name }
+        @basic_info_card.click_edit_pref_name_button
+        @basic_info_card.enter_preferred_name special_char_name
+        @basic_info_card.preferred_name_error_element.when_visible WebDriverUtils.page_event_timeout
+      end
+
+      it 'does not permit the use of consecutive spaces in an edited name' do
+        spaces_name = @student_info['preferredName']['consecutiveSpaces']
+        @basic_info_card.enter_preferred_name spaces_name
+        @basic_info_card.preferred_name_error_element.when_visible WebDriverUtils.page_event_timeout
+      end
+
+      it 'does not permit the use of consecutive hyphens in an edited name' do
+        hyphens_name = @student_info['preferredName']['consecutiveHyphens']
+        @basic_info_card.enter_preferred_name hyphens_name
+        @basic_info_card.preferred_name_error_element.when_visible WebDriverUtils.page_event_timeout
+      end
+
+      it 'does not permit the use of leading or trailing hyphens in an edited name' do
+        leading_hyphen_name = @student_info['preferredName']['leadingHyphens']
+        @basic_info_card.enter_preferred_name leading_hyphen_name
+        @basic_info_card.preferred_name_error_element.when_visible WebDriverUtils.page_event_timeout
       end
 
     end
