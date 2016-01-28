@@ -15,7 +15,7 @@ LOGIT="tee -a $LOG"
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm"
 source .rvmrc
 
-export RAILS_ENV=production
+export RAILS_ENV=${RAILS_ENV:-production}
 export LOGGER_STDOUT=only
 export LOGGER_LEVEL=INFO
 export JRUBY_OPTS="-Xcompile.invokedynamic=false -Xcext.enabled=true -J-XX:+UseConcMarkSweepGC -J-XX:+CMSPermGenSweepingEnabled -J-XX:+CMSClassUnloadingEnabled -J-XX:MaxPermSize=512m -J-Xmx1024m"
