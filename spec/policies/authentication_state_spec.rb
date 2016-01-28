@@ -115,15 +115,13 @@ describe AuthenticationState do
     end
     context 'when in delegate-view-as mode' do
       let(:user_id) { random_id }
-      let(:campus_solutions_id) { '16777216' }
+      let(:campus_solutions_id) { '23009422' }
       let(:fake_session) {{
         'user_id' => user_id,
         'original_delegate_user_id' => random_id
       }}
       before do
-        crosswalk_proxy = CalnetCrosswalk::ByUid.new
-        allow(crosswalk_proxy).to receive(:lookup_campus_solutions_id).and_return campus_solutions_id
-        allow(CalnetCrosswalk::ByUid).to receive(:new).with(user_id: user_id).and_return crosswalk_proxy
+        allow(CalnetCrosswalk::ByUid).to receive(:new).with(user_id: user_id).and_return double(lookup_campus_solutions_id: campus_solutions_id)
       end
       it 'should get student of delegate user' do
         expect(subject).to be_authenticated_as_delegate

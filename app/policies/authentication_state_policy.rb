@@ -70,6 +70,6 @@ class AuthenticationStatePolicy
   end
 
   def has_toolbox_tab?
-    can_administrate? || (@user.user_auth.active? && @user.user_auth.is_viewer?)
+    (can_administrate? || (@user.user_auth.active? && @user.user_auth.is_viewer?)) && !@user.authenticated_as_delegate?
   end
 end

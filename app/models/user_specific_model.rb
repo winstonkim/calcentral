@@ -27,7 +27,7 @@ class UserSpecificModel
   end
 
   def delegate_permissions
-    @authentication_state.delegate_permissions || []
+    @authentication_state.delegate_permissions
   end
 
 end

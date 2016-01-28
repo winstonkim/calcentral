@@ -5,7 +5,7 @@ describe UserSpecificModel do
       let(:session_extras) { {} }
       it 'should be directly_authenticated' do
         expect(subject.directly_authenticated?).to be true
-        expect(subject.delegate_permissions).to be_empty
+        expect(subject.delegate_permissions).to be_nil
       end
     end
     context 'standard view-as mode' do
@@ -16,7 +16,7 @@ describe UserSpecificModel do
       }
       it 'should identify user as not directly_authenticated' do
         expect(subject.directly_authenticated?).to be false
-        expect(subject.delegate_permissions).to be_empty
+        expect(subject.delegate_permissions).to be_nil
       end
     end
     context 'delegate view-as mode' do
@@ -31,7 +31,7 @@ describe UserSpecificModel do
       }
       it 'should identify user as having delegate_permissions' do
         expect(subject.directly_authenticated?).to be false
-        expect(subject.delegate_permissions).to_not be_empty
+        expect(subject.delegate_permissions).to_not be_nil
       end
     end
     context 'when only authenticated from an external app' do
@@ -42,7 +42,7 @@ describe UserSpecificModel do
       }
       it {
         expect(subject.directly_authenticated?).to be false
-        expect(subject.delegate_permissions).to be_empty
+        expect(subject.delegate_permissions).to be_nil
       }
     end
   end

@@ -23,6 +23,8 @@ module User
       @given_first_name = (@edo_attributes && @edo_attributes[:given_name]) || @first_name || ''
       @family_name = (@edo_attributes && @edo_attributes[:family_name]) || @last_name || ''
       @student_id = get_campus_attribute('student_id', :numeric_string)
+      delegate_permissions = authentication_state.delegate_permissions
+      @delegate_privileges = delegate_permissions && delegate_permissions[:privileges]
     end
 
     # split brain until SIS GoLive5 makes registration data available
@@ -136,8 +138,24 @@ module User
       @edo_attributes.present? && @edo_attributes[:delegate_user_id].present?
     end
 
+    def has_delegate_privilege(type)
+      @delegate_privileges.present? && @delegate_privileges[type]
+    end
+
     def is_sis_profile_visible?
       is_cs_profile_feature_enabled && (is_campus_solutions_student? || is_profile_visible_for_legacy_users)
+    end
+
+    def has_academics_tab(roles, has_instructor_history, has_student_history)
+      return false if authentication_state.authenticated_as_delegate? &&
+        !has_delegate_privilege(:viewEnrollments) &&
+        !has_delegate_privilege(:viewGrades)
+      roles[:student] || roles[:faculty] || has_instructor_history || has_student_history
+    end
+
+    def has_financials_tab(roles)
+      return false if authentication_state.authenticated_as_delegate? && !has_delegate_privilege(:financial)
+      roles[:student] || roles[:exStudent]
     end
 
     def get_feed_internal
@@ -152,36 +170,36 @@ module User
       has_instructor_history = CampusOracle::UserCourses::HasInstructorHistory.new({:user_id => @uid}).has_instructor_history?
       roles = get_campus_roles
       {
-        :isSuperuser => current_user_policy.can_administrate?,
-        :isViewer => current_user_policy.can_view_as?,
-        :firstLoginAt => @first_login_at,
-        :firstName => @first_name,
-        :lastName => @last_name,
-        :fullName => @first_name + ' ' + @last_name,
-        :givenFirstName => @given_first_name,
-        :givenFullName => @given_first_name + ' ' + @family_name,
-        :isGoogleReminderDismissed => is_google_reminder_dismissed,
-        :isCalendarOptedIn => is_calendar_opted_in,
-        :hasCanvasAccount => Canvas::Proxy.has_account?(@uid),
-        :hasGoogleAccessToken => GoogleApps::Proxy.access_granted?(@uid),
-        :hasStudentHistory => has_student_history,
-        :hasInstructorHistory => has_instructor_history,
-        :hasAcademicsTab => roles[:student] || roles[:faculty] || has_instructor_history || has_student_history,
-        :hasFinancialsTab => roles[:student] || roles[:exStudent],
-        :hasToolboxTab => current_user_policy.has_toolbox_tab?,
-        :hasPhoto => User::Photo.has_photo?(@uid),
-        :inEducationAbroadProgram => @oracle_attributes[:education_abroad],
-        :googleEmail => google_mail,
-        :canvasEmail => canvas_mail,
-        :officialBmailAddress => official_bmail_address,
-        :preferredName => self.preferred_name,
-        :roles => roles,
-        :uid => @uid,
-        :sid => @student_id,
-        :campusSolutionsID => get_campus_attribute('campus_solutions_id', :string),
-        :isCampusSolutionsStudent => is_campus_solutions_student?,
-        :isDelegateUser => is_delegate_user?,
-        :showSisProfileUI => is_sis_profile_visible?
+        isSuperuser: current_user_policy.can_administrate?,
+        isViewer: current_user_policy.can_view_as?,
+        firstLoginAt: @first_login_at,
+        firstName: @first_name,
+        lastName: @last_name,
+        fullName: @first_name + ' ' + @last_name,
+        givenFirstName: @given_first_name,
+        givenFullName: @given_first_name + ' ' + @family_name,
+        isGoogleReminderDismissed: is_google_reminder_dismissed,
+        isCalendarOptedIn: is_calendar_opted_in,
+        hasCanvasAccount: Canvas::Proxy.has_account?(@uid),
+        hasGoogleAccessToken: GoogleApps::Proxy.access_granted?(@uid),
+        hasStudentHistory: has_student_history,
+        hasInstructorHistory: has_instructor_history,
+        hasAcademicsTab: has_academics_tab(roles, has_instructor_history, has_student_history),
+        hasFinancialsTab: has_financials_tab(roles),
+        hasToolboxTab: current_user_policy.has_toolbox_tab? && !authentication_state.authenticated_as_delegate?,
+        hasPhoto: User::Photo.has_photo?(@uid),
+        inEducationAbroadProgram: @oracle_attributes[:education_abroad],
+        googleEmail: google_mail,
+        canvasEmail: canvas_mail,
+        officialBmailAddress: official_bmail_address,
+        preferredName: self.preferred_name,
+        roles: roles,
+        uid: @uid,
+        sid: @student_id,
+        campusSolutionsID: get_campus_attribute('campus_solutions_id', :string),
+        isCampusSolutionsStudent: is_campus_solutions_student?,
+        isDelegateUser: is_delegate_user?,
+        showSisProfileUI: is_sis_profile_visible?
       }
     end
 
