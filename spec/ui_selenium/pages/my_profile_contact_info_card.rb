@@ -11,7 +11,7 @@ module CalCentralPages
     elements(:phone_type, :div, :xpath => '//div[@data-ng-controller="ProfilePhoneController"]//div[@data-ng-repeat="item in items.content"]//strong')
     elements(:phone_number, :span, :xpath => '//div[@data-ng-controller="ProfilePhoneController"]//div[@data-ng-repeat="item in items.content"]//span[@data-ng-bind="item.number"]')
     elements(:phone_extension, :span, :xpath => '//div[@data-ng-controller="ProfilePhoneController"]//div[@data-ng-repeat="item in items.content"]//span[@data-ng-if="item.extension"]')
-    elements(:phone_edit_button, :button, :xpath => '//div[@data-ng-controller="ProfilePhoneController"]//div[@data-ng-repeat="item in items.content"]//button[contains(text(),"Edit")]')
+    elements(:phone_edit_button, :button, :xpath => '//div[@data-ng-controller="ProfilePhoneController"]//div[@data-ng-repeat="item in items.content"]//button[contains(.,"Edit")]')
 
     button(:add_phone_button, :xpath => '//div[@data-ng-controller="ProfilePhoneController"]//button[@data-ng-click="showAdd()"]')
     button(:save_phone_button, :xpath => '//div[@data-ng-controller="ProfilePhoneController"]//button[contains(.,"Save")]')
@@ -91,7 +91,9 @@ module CalCentralPages
       if phone_type? && !type.nil?
         WebDriverUtils.wait_for_element_and_select(phone_type_element, type)
       end
-      pref ? check_phone_preferred_cbx : uncheck_phone_preferred_cbx
+      if phone_preferred_cbx?
+        pref ? check_phone_preferred_cbx : uncheck_phone_preferred_cbx
+      end
     end
 
     def add_new_phone(phone, pref = false)
@@ -219,7 +221,9 @@ module CalCentralPages
     def enter_email(address, pref)
       logger.info "Entering email address '#{address}'"
       WebDriverUtils.wait_for_element_and_type(email_input_element, address) unless address.nil?
-      pref ? check_email_preferred_cbx : uncheck_email_preferred_cbx
+      if email_preferred_cbx?
+        pref ? check_email_preferred_cbx : uncheck_email_preferred_cbx
+      end
     end
 
     def add_email(address, pref = false)
@@ -249,7 +253,7 @@ module CalCentralPages
     elements(:address, :div, :xpath => '//div[@data-ng-controller="ProfileAddressController"]//div[@data-ng-repeat="item in items.content"]')
     elements(:address_type, :div, :xpath => '//div[@data-ng-controller="ProfileAddressController"]//div[@data-ng-repeat="item in items.content"]//strong')
     elements(:address_formatted, :div, :xpath => '//div[@data-ng-controller="ProfileAddressController"]//div[@data-ng-repeat="item in items.content"]//div[@data-ng-bind="item.formattedAddress"]')
-    elements(:address_edit_button, :button, :xpath => '//div[@data-ng-controller="ProfileAddressController"]//div[@data-ng-repeat="item in items.content"]//button[contains(text(),"Edit")]')
+    elements(:address_edit_button, :button, :xpath => '//div[@data-ng-controller="ProfileAddressController"]//div[@data-ng-repeat="item in items.content"]//button[contains(.,"Edit")]')
 
     button(:add_address_button, :xpath => '//div[@data-ng-controller="ProfileAddressController"]//button[@data-ng-click="showAdd()"]')
     button(:save_address_button, :xpath => '//div[@data-ng-controller="ProfileAddressController"]//button[contains(.,"Save")]')
@@ -279,6 +283,12 @@ module CalCentralPages
       address_types.index(type)
     end
 
+    def scroll_to_bottom
+      # Scroll to the bottom of the page in case the page element is not in view
+      sleep 1
+      execute_script('window.scrollTo(0, document.body.scrollHeight);')
+    end
+
     def click_add_address
       click_cancel_address if cancel_address_button_element.visible?
       WebDriverUtils.wait_for_element_and_click add_address_button_element
@@ -287,20 +297,17 @@ module CalCentralPages
     def click_edit_address(index)
       click_cancel_address if cancel_address_button_element.visible?
       wait_until(WebDriverUtils.page_load_timeout) { address_edit_button_elements.any? }
-      # Scroll to the bottom of the page in case the Edit button is not in view
-      execute_script('window.scrollTo(0, document.body.scrollHeight);')
+      scroll_to_bottom
       WebDriverUtils.wait_for_element_and_click address_edit_button_elements[index]
     end
 
     def click_save_address
-      # Scroll to the bottom of the page in case the Save button is not in view
-      execute_script('window.scrollTo(0, document.body.scrollHeight);')
+      scroll_to_bottom
       WebDriverUtils.wait_for_element_and_click save_address_button_element
     end
 
     def click_cancel_address
-      # Scroll to the bottom of the page in case the Cancel button is not in view
-      execute_script('window.scrollTo(0, document.body.scrollHeight);')
+      scroll_to_bottom
       WebDriverUtils.wait_for_element_and_click cancel_address_button_element
       cancel_address_button_element.when_not_visible WebDriverUtils.page_event_timeout
     end
@@ -329,8 +336,7 @@ module CalCentralPages
     def load_country_form(address)
       WebDriverUtils.wait_for_element_and_select(country_select_element, address['country'])
       wait_for_address_form address
-      # Scroll to the bottom of the page to bring the complete form into view
-      execute_script('window.scrollTo(0, document.body.scrollHeight);')
+      scroll_to_bottom
     end
 
     def enter_address(address, inputs, selections)
