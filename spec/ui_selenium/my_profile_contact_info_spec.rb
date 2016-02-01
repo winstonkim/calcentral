@@ -233,8 +233,11 @@ describe 'My Profile Contact Info', :testui => true, :order => :defined do
       describe 'deleting' do
 
         it 'allows a user to delete an email of type Other' do
-          @contact_info_card.delete_email
-          @contact_info_card.wait_until(WebDriverUtils.page_event_timeout) { !@contact_info_card.email_types.include? 'Other' }
+          # Don't try to delete the Other email if it's preferred
+          unless @contact_info_card.email_primary? @contact_info_card.email_type_index('Other')
+            @contact_info_card.delete_email
+            @contact_info_card.wait_until(WebDriverUtils.page_event_timeout) { !@contact_info_card.email_types.include? 'Other' }
+          end
         end
 
       end
