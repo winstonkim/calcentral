@@ -14,8 +14,13 @@
       <div>
         <input id="cc-toolbox-view-as-uid" data-ng-model="admin.actAs.id" data-ng-pattern="api.util.uidPattern" placeholder="Enter UID or SID here" type="text" data-cc-select-on-click-directive />
       </div>
-      <div>
-        <button class="cc-button cc-button-blue" data-ng-disabled="!admin.actAs.id" type="submit">Submit</button>
+      <div class="cc-flex cc-flex-align-base cc-flex-space-between">
+        <div>
+          <button class="cc-button cc-button-blue" data-ng-disabled="!admin.actAs.id" type="submit">Submit</button>
+        </div>
+        <div>
+          <a href="http://www.berkeley.edu/directory">Campus Directory</a>
+        </div>
       </div>
       <div class="cc-toolbox-user-section">
         <ul data-ng-repeat="user in admin.userPool" data-ng-if="admin.userPool">
@@ -28,17 +33,40 @@
       <div data-ng-repeat="block in admin.userBlocks" class="cc-toolbox-user-section">
         <div data-ng-if="block.users.length">
           <strong data-ng-bind="block.title"></strong>
-          (<button type="button" class="cc-button-link" data-ng-click="block.clearAllUsers()">clear all</button>)
-          <ul>
-            <li data-ng-repeat="user in block.users track by $index">
-                <span>
-                  UID: <button type="submit" class="cc-button-link" data-ng-click="admin.updateIDField(user.ldap_uid)" data-ng-bind="user.ldap_uid"></button>
-                  (SID: <span data-ng-bind="user.student_id || 'none'"></span>)
-                </span>
-              <span data-ng-if="block.storeUser && !user.saved">(<button type="button" class="cc-button-link" data-ng-click="block.storeUser(user)">save</button>)</span>
-              <span data-ng-if="block.clearUser">(<button type="button" class="cc-button-link" data-ng-click="block.clearUser(user)">delete</button>)</span>
-            </li>
-          </ul>
+          (<button type="button" class="cc-button-link" data-ng-click="block.clearAllUsers()">clear all <span class="cc-visuallyhidden" data-ng-bind="block.title"></span></button>)
+          <div class="cc-table">
+            <table>
+              <thead>
+                <tr>
+                  <th width="20%" scope="col">
+                    UID
+                  </th>
+                  <th width="20%" scope="col">
+                    SID
+                  </th>
+                  <th width="60%" scope="col">
+                    <span data-ng-if="block.storeUser" class="cc-visuallyhidden">Save</span>
+                    <span data-ng-if="block.clearUser" class="cc-visuallyhidden">Delete</span>
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr data-ng-repeat="user in block.users track by $index">
+                  <td class="cc-table-top-border">
+                    <span class="cc-visuallyhidden">Act as </span>
+                    <button type="submit" class="cc-button-link" data-ng-click="admin.updateIDField(user.ldap_uid)" data-ng-bind="user.ldap_uid"></button>
+                  </td>
+                  <td class="cc-table-top-border">
+                    <span data-ng-bind="user.student_id || 'none'">
+                  </td>
+                  <td class="cc-table-right cc-table-top-border">
+                    <span data-ng-if="block.storeUser && !user.saved"><button type="button" class="cc-button-link" data-ng-click="block.storeUser(user)">save <span class="cc-visuallyhidden" data-ng-bind="'UID ' + user.ldap_uid"></span></button></span>
+                    <span data-ng-if="block.clearUser"><button type="button" class="cc-button-link" data-ng-click="block.clearUser(user)">delete <span class="cc-visuallyhidden" data-ng-bind="'UID ' + user.ldap_uid"></span></button></span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </form>
