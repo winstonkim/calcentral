@@ -100,6 +100,8 @@ module HubEdos
             result[:ug_grad_flag] = 'G'
           when 'INSTRUCTOR'
             result[:roles][:faculty] = true
+          when 'ADVISOR'
+            result[:roles][:advisor] = true
           when 'STUDENT'
             result[:roles][:student] = true
           when 'UNDERGRAD'
