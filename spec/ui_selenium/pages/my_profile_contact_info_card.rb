@@ -284,7 +284,7 @@ module CalCentralPages
     end
 
     def scroll_to_bottom
-      # Scroll to the bottom of the page in case the a page element is not in view
+      # Scroll to the bottom of the page in case the page element is not in view
       sleep 1
       execute_script('window.scrollTo(0, document.body.scrollHeight);')
     end
