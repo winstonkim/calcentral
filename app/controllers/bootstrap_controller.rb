@@ -49,6 +49,8 @@ class BootstrapController < ApplicationController
         CampusSolutions::FinancialAidExpiry.expire current_user.user_id
       when 'profile'
         CampusSolutions::PersonDataExpiry.expire current_user.user_id
+      when 'enrollment'
+        CampusSolutions::EnrollmentTermExpiry.expire current_user.user_id
       else
         # no-op
     end
