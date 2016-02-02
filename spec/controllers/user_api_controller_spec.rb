@@ -76,7 +76,7 @@ describe UserApiController do
       get :mystatus
       JSON.parse response.body
     end
-    context 'when normally authenticated' do
+    context 'normally authenticated' do
       it 'should deliver user\'s preferred and given names' do
         expect(subject['delegateActingAsUid']).to be false
         expect(subject['preferredName']).to_not be_nil
@@ -85,7 +85,7 @@ describe UserApiController do
         expect(subject['preferredName']).to_not eq subject['givenFullName']
       end
     end
-    context 'when viewing as' do
+    context 'viewing as' do
       let(:original_delegate_user_id) { random_id }
       before do
         session['original_delegate_user_id'] = original_delegate_user_id
@@ -111,6 +111,30 @@ describe UserApiController do
         expect(subject['isDelegateUser']).to be false
         expect(subject['isViewer']).to be false
         expect(subject['isSuperuser']).to be false
+      end
+    end
+  end
+
+  describe '#advisor_acting_as_uid' do
+    subject do
+      get :mystatus
+      JSON.parse response.body
+    end
+    context 'viewing as' do
+      let(:original_advisor_user_id) { random_id }
+      before do
+        session['original_advisor_user_id'] = original_advisor_user_id
+        allow(User::Auth).to receive(:get) do |uid|
+          case uid
+            when user_id
+              double(is_superuser?: true, is_viewer?: true, active?: true)
+            else
+              double(is_superuser?: false, is_viewer?: false, active?: true)
+          end
+        end
+      end
+      it 'should identify user in delegate-view-as mode' do
+        expect(subject['advisorActingAsUid']).to eq original_advisor_user_id
       end
     end
   end

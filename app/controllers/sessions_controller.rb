@@ -30,8 +30,8 @@ class SessionsController < ApplicationController
     end
 
     if params['renew'] == 'true'
-      # If we're reauthenticating due to view-as, then the CAS-provided UID should match original_user_id in session.
-      original_uid = session['original_delegate_user_id'] || session['original_user_id']
+      # If we're re-authenticating due to view-as, then the CAS-provided UID should match original_user_id in session.
+      original_uid = session['original_user_id'] || session['original_advisor_user_id'] || session['original_delegate_user_id']
       if original_uid
         if original_uid != auth_uid
           logger.warn "ACT-AS: CAS returned UID #{auth_uid} not matching active session: #{session_message}. Logging user out."
@@ -41,9 +41,9 @@ class SessionsController < ApplicationController
           create_reauth_cookie
         end
       elsif session['user_id'] != auth_uid
-        # If we're reauthenticating for any other reason, then the CAS-provided UID should
+        # If we're re-authenticating for any other reason, then the CAS-provided UID should
         # match the session "user_id" from the previous authentication.
-        logger.warn "REAUTHENTICATION: CAS returned UID #{auth_uid} not matching active session: #{session_message}. Starting new session."
+        logger.warn "RE-AUTHENTICATION: CAS returned UID #{auth_uid} not matching active session: #{session_message}. Starting new session."
         reset_session
       else
         create_reauth_cookie
@@ -112,7 +112,7 @@ class SessionsController < ApplicationController
       redirect_to url_for_path('/uid_error')
     else
       # Unless we're re-authenticating after view-as, initialize the session.
-      session['user_id'] = uid unless session['original_user_id'] || session['original_delegate_user_id']
+      session['user_id'] = uid unless session['original_user_id'] || session['original_advisor_user_id'] || session['original_delegate_user_id']
       redirect_to smart_success_path, :notice => 'Signed in!'
     end
   end
