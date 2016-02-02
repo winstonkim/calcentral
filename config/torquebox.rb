@@ -42,5 +42,11 @@ TorqueBox.configure do
     processor BackgroundJobsCheck
   end
 
+  # Reload settings from YAML across clusters.
+  topic '/topics/settings_reload' do
+    durable false
+    processor SettingsReloadWorker
+  end
+
 end
 
