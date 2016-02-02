@@ -5,6 +5,7 @@ module User
     include Cache::FreshenOnWarm
     include Cache::JsonAddedCacher
     include CampusSolutions::ProfileFeatureFlagged
+    include CampusSolutions::DelegatedAccessFeatureFlagged
     include ClassLogger
 
     def init
@@ -135,6 +136,7 @@ module User
     end
 
     def is_delegate_user?
+      return false unless is_cs_delegated_access_feature_enabled
       @edo_attributes.present? && @edo_attributes[:delegate_user_id].present?
     end
 
@@ -146,21 +148,26 @@ module User
       is_cs_profile_feature_enabled && (is_campus_solutions_student? || is_profile_visible_for_legacy_users)
     end
 
-    def has_academics_tab(roles, has_instructor_history, has_student_history)
+    def has_academics_tab?(roles, has_instructor_history, has_student_history)
       return false if authentication_state.authenticated_as_delegate? &&
         !has_delegate_privilege(:viewEnrollments) &&
         !has_delegate_privilege(:viewGrades)
       roles[:student] || roles[:faculty] || has_instructor_history || has_student_history
     end
 
-    def has_financials_tab(roles)
+    def has_financials_tab?(roles)
       return false if authentication_state.authenticated_as_delegate? && !has_delegate_privilege(:financial)
       roles[:student] || roles[:exStudent]
     end
 
+    def has_toolbox_tab?(policy, roles)
+      return false unless authentication_state.directly_authenticated? && authentication_state.user_auth.active?
+      policy.can_administrate? || authentication_state.real_user_auth.is_viewer? || is_delegate_user? || !!roles[:advisor]
+    end
+
     def get_feed_internal
-      google_mail = User::Oauth2Data.get_google_email(@uid)
-      canvas_mail = User::Oauth2Data.get_canvas_email(@uid)
+      google_mail = User::Oauth2Data.get_google_email @uid
+      canvas_mail = User::Oauth2Data.get_canvas_email @uid
       official_bmail_address = get_campus_attribute('official_bmail_address', :string)
       current_user_policy = authentication_state.policy
       is_google_reminder_dismissed = User::Oauth2Data.is_google_reminder_dismissed(@uid)
@@ -184,9 +191,9 @@ module User
         hasGoogleAccessToken: GoogleApps::Proxy.access_granted?(@uid),
         hasStudentHistory: has_student_history,
         hasInstructorHistory: has_instructor_history,
-        hasAcademicsTab: has_academics_tab(roles, has_instructor_history, has_student_history),
-        hasFinancialsTab: has_financials_tab(roles),
-        hasToolboxTab: current_user_policy.has_toolbox_tab? && !authentication_state.authenticated_as_delegate?,
+        hasAcademicsTab: has_academics_tab?(roles, has_instructor_history, has_student_history),
+        hasFinancialsTab: has_financials_tab?(roles),
+        hasToolboxTab: has_toolbox_tab?(current_user_policy, roles),
         hasPhoto: User::Photo.has_photo?(@uid),
         inEducationAbroadProgram: @oracle_attributes[:education_abroad],
         googleEmail: google_mail,

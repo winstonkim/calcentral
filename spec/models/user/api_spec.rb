@@ -194,9 +194,10 @@ describe User::Api do
     context 'ordinary profiles' do
       let(:profiles) do
         {
-          :student   => { :student => true,  :exStudent => false, :faculty => false, :staff => false },
-          :faculty   => { :student => false, :exStudent => false, :faculty => true,  :staff => false },
-          :staff     => { :student => false, :exStudent => false, :faculty => true,  :staff => true }
+          :student   => { :student => true,  :exStudent => false, :faculty => false, :advisor => false, :staff => false },
+          :faculty   => { :student => false, :exStudent => false, :faculty => true,  :advisor => false, :staff => false },
+          :advisor   => { :student => false, :exStudent => false, :faculty => true,  :advisor => true,  :staff => true },
+          :staff     => { :student => false, :exStudent => false, :faculty => true,  :advisor => false, :staff => true }
         }
       end
       before do
@@ -212,6 +213,10 @@ describe User::Api do
       context 'faculty' do
         let(:user_roles) { profiles[:faculty] }
         it { should be false }
+      end
+      context 'advisor' do
+        let(:user_roles) { profiles[:advisor] }
+        it { should be true }
       end
       context 'staff' do
         let(:user_roles) { profiles[:staff] }
