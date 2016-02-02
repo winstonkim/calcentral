@@ -152,29 +152,6 @@ describe AuthenticationStatePolicy do
     end
   end
 
-  describe '#has_toolbox_tab?' do
-    context 'superuser as self' do
-      let(:user_id) {superuser_uid}
-      its(:has_toolbox_tab?) { should eq true }
-    end
-    context 'inactive user with permission to view-as' do
-      let(:user_id) {inactive_superuser_uid}
-      its(:has_toolbox_tab?) { should eq false }
-    end
-    context 'user with permission to view-as' do
-      let(:user_id) {viewer_uid}
-      its(:has_toolbox_tab?) { should eq true }
-    end
-    context 'inactive user with permission to view-as' do
-      let(:user_id) {inactive_viewer_uid}
-      its(:has_toolbox_tab?) { should eq false }
-    end
-    context 'average joe' do
-      let(:user_id) {average_joe_uid}
-      its(:has_toolbox_tab?) { should eq false }
-    end
-  end
-
   describe '#can_administrate_canvas?' do
     let(:user_id) {average_joe_uid}
     it 'returns true when user is a canvas root account administrator' do
