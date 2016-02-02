@@ -16,10 +16,8 @@ module CalcentralConfig
   def reload_settings
     if Kernel.const_defined? :Settings
       new_settings = load_settings
-      Rails.logger.warn 'Preparing to reload application settings via Kernel'
       Kernel.const_set(:Settings, new_settings)
       update_rails_logger_level Settings.logger.level
-      Rails.logger.warn 'YAML settings reloaded. Ask yourself, should I clear the cache?'
     end
   end
 
