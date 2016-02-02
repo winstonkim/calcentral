@@ -30,7 +30,7 @@ fi
 eval $(parse_yaml ${yaml_filename} 'yml_')
 
 # --------------------
-UID=61889
+UID_CROSSWALK=1022796
 SID=11667051
 CAMPUS_SOLUTIONS_ID=11667051
 
@@ -44,7 +44,6 @@ echo "--------------------"
 echo "VERIFY: CROSSWALK API"; echo
 mkdir -p "${LOG_DIRECTORY}/calnet_crosswalk"
 
-UID_CROSSWALK=1022796
 API_CALLS=(
   "/CAMPUS_SOLUTIONS_ID/${CAMPUS_SOLUTIONS_ID}"
   "/LEGACY_SIS_STUDENT_ID/${SID}"
@@ -90,25 +89,29 @@ API_CALLS=(
 
   # GoLive 4: show_notifications_archive_link
   "/UC_CC_COMM_DB_URL.v1/dashboard/url/"
-
-  # GoLive 5: cs_enrollment_card
-  # "/UC_SR_CURR_TERMS.v1/GetCurrentItems?EMPLID=#{CAMPUS_SOLUTIONS_ID}"
-  # "/UC_SR_STDNT_CLASS_ENROLL.v1/Get?EMPLID=${CAMPUS_SOLUTIONS_ID}&STRM=2168"
-  # "/UC_SR_ACADEMIC_PLAN.v1/get?EMPLID=${CAMPUS_SOLUTIONS_ID}&STRM=2168"
-
-  # GoLive 5: cs_delegated_access
-  # "/UC_CC_DELEGATED_ACCESS.v1/DelegatedAccess/get?SCC_DA_PRXY_OPRID=${UID}"
-  # "/UC_CC_DELEGATED_ACCESS_URL.v1/get"
-
-  # GoLive 5: cs_profile_emergency_contacts
-  # -> PostingProxy only
-
-  # GoLive 5: cs_fin_aid
-  # /UC_FA_FINANCIAL_AID_DATA.v1/get?EMPLID=${CAMPUS_SOLUTIONS_ID}&INSTITUTION=UCB01&AID_YEAR=2015
-  # /UC_FA_FUNDING_SOURCES.v1/get?EMPLID=${CAMPUS_SOLUTIONS_ID}&INSTITUTION=UCB01&AID_YEAR=2015
-  # /UC_FA_FUNDING_SOURCES_TERM.v1/get?EMPLID=${CAMPUS_SOLUTIONS_ID}&INSTITUTION=UCB01&AID_YEAR=2015
-  # /UC_FA_GET_T_C.v1/get?EMPLID=${CAMPUS_SOLUTIONS_ID}&INSTITUTION=UCB01
 )
+
+if [ "${yml_features_cs_fin_aid}" == "true" ] ; then
+  API_CALLS+=("/UC_FA_FINANCIAL_AID_DATA.v1/get?EMPLID=${CAMPUS_SOLUTIONS_ID}&INSTITUTION=UCB01&AID_YEAR=2015")
+  API_CALLS+=("/UC_FA_FUNDING_SOURCES.v1/get?EMPLID=${CAMPUS_SOLUTIONS_ID}&INSTITUTION=UCB01&AID_YEAR=2015")
+  API_CALLS+=("/UC_FA_FUNDING_SOURCES_TERM.v1/get?EMPLID=${CAMPUS_SOLUTIONS_ID}&INSTITUTION=UCB01&AID_YEAR=2015")
+  API_CALLS+=("/UC_FA_GET_T_C.v1/get?EMPLID=${CAMPUS_SOLUTIONS_ID}&INSTITUTION=UCB01")
+fi
+
+#if [ "${yml_features_cs_profile_emergency_contacts}" == "true" ] ; then
+#  # -> PostingProxy only
+#fi
+
+if [ "${yml_features_cs_delegated_access}" == "true" ] ; then
+  API_CALLS+=("/UC_CC_DELEGATED_ACCESS.v1/DelegatedAccess/get?SCC_DA_PRXY_OPRID=${UID_CROSSWALK}")
+  API_CALLS+=("/UC_CC_DELEGATED_ACCESS_URL.v1/get")
+fi
+
+if [ "${yml_features_cs_enrollment_card}" == "true" ] ; then
+  API_CALLS+=("/UC_SR_CURR_TERMS.v1/GetCurrentItems?EMPLID=#{CAMPUS_SOLUTIONS_ID}")
+  API_CALLS+=("/UC_SR_STDNT_CLASS_ENROLL.v1/Get?EMPLID=${CAMPUS_SOLUTIONS_ID}&STRM=2168")
+  API_CALLS+=("/UC_SR_ACADEMIC_PLAN.v1/get?EMPLID=${CAMPUS_SOLUTIONS_ID}&STRM=2168")
+fi
 
 for path in ${API_CALLS[@]}; do
   log_file="${LOG_DIRECTORY}/campus_solutions/${path//\//_}.log"
