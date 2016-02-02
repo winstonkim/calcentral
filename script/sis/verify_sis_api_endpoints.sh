@@ -46,6 +46,7 @@ mkdir -p "${LOG_DIRECTORY}/calnet_crosswalk"
 
 UID_CROSSWALK=1022796
 API_CALLS=(
+  "/CAMPUS_SOLUTIONS_ID/${CAMPUS_SOLUTIONS_ID}"
   "/LEGACY_SIS_STUDENT_ID/${SID}"
   "/UID/${UID_CROSSWALK}"
 )
@@ -89,6 +90,11 @@ API_CALLS=(
 
   # GoLive 4: show_notifications_archive_link
   "/UC_CC_COMM_DB_URL.v1/dashboard/url/"
+
+  # GoLive 5: cs_enrollment_card
+  # "/UC_SR_CURR_TERMS.v1/GetCurrentItems?EMPLID=#{CAMPUS_SOLUTIONS_ID}"
+  # "/UC_SR_STDNT_CLASS_ENROLL.v1/Get?EMPLID=${CAMPUS_SOLUTIONS_ID}&STRM=2168"
+  # "/UC_SR_ACADEMIC_PLAN.v1/get?EMPLID=${CAMPUS_SOLUTIONS_ID}&STRM=2168"
 
   # GoLive 5: cs_delegated_access
   # "/UC_CC_DELEGATED_ACCESS.v1/DelegatedAccess/get?SCC_DA_PRXY_OPRID=${UID}"

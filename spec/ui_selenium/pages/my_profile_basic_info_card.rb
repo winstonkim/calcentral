@@ -13,6 +13,7 @@ module CalCentralPages
     text_area(:preferred_name_input, :id => 'cc-page-widget-basic-preferred-first-name')
     button(:preferred_name_save_button, :xpath => '//button[@type="submit"]')
     button(:preferred_name_cancel_button, :xpath => '//button[@data-ng-click="closeEditor()"]')
+    span(:preferred_name_error, :xpath => '//span[contains(.,"Preferred name can only consist of letters, spaces, and hyphens. Please re-enter.")]')
 
     div(:sid, :xpath => '//div[@data-ng-bind="api.user.profile.sid"]')
     div(:uid, :xpath => '//div[@data-ng-bind="api.user.profile.uid"]')

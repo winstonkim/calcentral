@@ -57,7 +57,7 @@ describe HubEdos::UserAttributes do
         ]
       end
       it 'should return undergraduate attributes' do
-        expect(subject[:roles][:student]).to eq true
+        expect(subject[:roles][:student]).to be true
         expect(subject[:ug_grad_flag]).to eq 'U'
       end
     end
@@ -196,7 +196,38 @@ describe HubEdos::UserAttributes do
       end
       it 'should return faculty attributes' do
         expect(subject[:roles][:faculty]).to eq true
-        expect(subject[:roles][:student]).to eq nil
+        expect(subject[:roles][:student]).to be_nil
+      end
+    end
+
+    context 'advisor affiliation' do
+      let(:affiliations) do
+        [
+          {
+            'type' => {
+              'code' => 'ADVISOR',
+              'description' => 'Advisor'
+            },
+            'statusCode' => status_code,
+            'statusDescription' => status_description,
+            'fromDate' => '2014-05-15'
+          }
+        ]
+      end
+      context 'active status in date range' do
+        let(:status_code) { 'ACT' }
+        let(:status_description) { 'Active' }
+        after do
+          expect(subject[:roles]).to have(1).item
+          expect(subject[:roles][:advisor]).to be true
+        end
+      end
+      context 'inactive' do
+        let(:status_code) { 'INA' }
+        let(:status_description) { 'Inactive' }
+        it 'should not have advisor role' do
+          expect(subject[:roles]).to be_empty
+        end
       end
     end
 
