@@ -6,33 +6,40 @@ describe AuthenticationState do
       let(:fake_session) {{
         'user_id' => random_id
       }}
-      it {should be_truthy}
+      it {should be true}
     end
     context 'when viewing as' do
       let(:fake_session) {{
         'user_id' => random_id,
         'original_user_id' => random_id
       }}
-      it {should be_falsey}
+      it {should be false}
     end
     context 'when delegate viewing as' do
       let(:fake_session) {{
         'user_id' => random_id,
         'original_delegate_user_id' => random_id
       }}
-      it {should be_falsey}
+      it {should be false}
+    end
+    context 'when advisor viewing as' do
+      let(:fake_session) {{
+        'user_id' => random_id,
+        'original_advisor_user_id' => random_id
+      }}
+      it {should be false}
     end
     context 'when only authenticated from an external app' do
       let(:fake_session) {{
         'user_id' => random_id,
         'lti_authenticated_only' => true
       }}
-      it {should be_falsey}
+      it {should be false}
     end
     context 'when not logged in' do
       let(:fake_session) {{
       }}
-      it {should be_falsey}
+      it {should be_nil}
     end
   end
 
@@ -69,7 +76,7 @@ describe AuthenticationState do
     context 'when not logged in' do
       let(:fake_session) {{
       }}
-      it {should be_falsey}
+      it {should be_nil}
     end
   end
 
@@ -79,26 +86,26 @@ describe AuthenticationState do
       let(:fake_session) {{
         'user_id' => random_id
       }}
-      it {should be_falsey}
+      it {should be false}
     end
     context 'when viewing as' do
       let(:fake_session) {{
         'user_id' => random_id,
         'original_user_id' => random_id
       }}
-      it {should be_truthy}
+      it {should be true}
     end
     context 'when only authenticated from an external app' do
       let(:fake_session) {{
         'user_id' => random_id,
         'lti_authenticated_only' => true
       }}
-      it {should be_falsey}
+      it {should be false}
     end
     context 'when not logged in' do
       let(:fake_session) {{
       }}
-      it {should be_falsey}
+      it {should be false}
     end
   end
 
@@ -135,6 +142,16 @@ describe AuthenticationState do
            viewGrades: false,
            phone: true
          })
+      end
+    end
+    context 'when in advisor-view-as mode' do
+      let(:user_id) { random_id }
+      let(:fake_session) {{
+        'user_id' => user_id,
+        'original_advisor_user_id' => random_id
+      }}
+      it 'should get student of advisor user' do
+        expect(subject).to be_authenticated_as_advisor
       end
     end
     context 'when only authenticated from an external app' do

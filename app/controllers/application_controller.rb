@@ -139,16 +139,18 @@ class ApplicationController < ActionController::Base
   end
 
   def session_message
-    session_keys = %w(user_id original_user_id original_delegate_user_id canvas_user_id canvas_masquerading_user_id canvas_course_id)
+    session_keys = %w(user_id original_user_id original_advisor_user_id original_delegate_user_id canvas_user_id canvas_masquerading_user_id canvas_course_id)
     session_keys.map { |key| "#{key}: #{session[key]}" if session[key] }.compact.join('; ')
   end
 
   def access_log
     # HTTP_X_FORWARDED_FOR is the client's IP when we're behind Apache; REMOTE_ADDR otherwise
-    remote = request.env["HTTP_X_FORWARDED_FOR"] || request.env["REMOTE_ADDR"]
+    remote = request.env['HTTP_X_FORWARDED_FOR'] || request.env['REMOTE_ADDR']
     line = "ACCESS_LOG #{remote} #{request.request_method} #{request.filtered_path} #{status}"
     if session['original_user_id']
       line += " uid=#{session['original_user_id']}_acting_as_uid=#{session['user_id']}"
+    elsif session['original_advisor_user_id']
+      line += " uid=#{session['original_advisor_user_id']}_advisor_acting_as_uid=#{session['user_id']}"
     elsif session['original_delegate_user_id']
       line += " uid=#{session['original_delegate_user_id']}_delegate_acting_as_uid=#{session['user_id']}"
     else

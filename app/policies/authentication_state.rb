@@ -1,11 +1,12 @@
 class AuthenticationState
-  attr_reader :user_id, :original_user_id, :original_delegate_user_id, :canvas_masquerading_user_id, :lti_authenticated_only
+  attr_reader :user_id, :original_user_id, :original_advisor_user_id, :original_delegate_user_id, :canvas_masquerading_user_id, :lti_authenticated_only
 
   LTI_AUTHENTICATED_ONLY = 'Authenticated through LTI'
 
   def initialize(session)
     @user_id = session['user_id']
     @original_user_id = session['original_user_id']
+    @original_advisor_user_id = session['original_advisor_user_id']
     @original_delegate_user_id = session['original_delegate_user_id']
     @canvas_masquerading_user_id = session['canvas_masquerading_user_id']
     @lti_authenticated_only = session['lti_authenticated_only']
@@ -13,6 +14,10 @@ class AuthenticationState
 
   def authenticated_as_delegate?
     @original_delegate_user_id.present?
+  end
+
+  def authenticated_as_advisor?
+    @original_advisor_user_id.present?
   end
 
   def delegate_permissions
@@ -28,6 +33,7 @@ class AuthenticationState
 
   def directly_authenticated?
     user_id && !lti_authenticated_only &&
+      (original_advisor_user_id.blank? || (user_id == original_advisor_user_id)) &&
       (original_delegate_user_id.blank? || (user_id == original_delegate_user_id)) &&
       (original_user_id.blank? || (user_id == original_user_id))
   end

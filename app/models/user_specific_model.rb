@@ -6,6 +6,7 @@ class UserSpecificModel
   def self.from_session(session_state)
     filtered_session = {
       'original_user_id' => session_state['original_user_id'],
+      'original_advisor_user_id' => session_state['original_advisor_user_id'],
       'original_delegate_user_id' => session_state['original_delegate_user_id'],
       'lti_authenticated_only' => session_state['lti_authenticated_only']
     }
