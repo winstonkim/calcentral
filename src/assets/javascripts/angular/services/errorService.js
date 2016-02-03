@@ -21,7 +21,7 @@ angular.module('calcentral.services').service('errorService', function(calcentra
   var send = function(exception) {
     exception = exception.message || exception;
     var uid = findElement('cc-footer-uid');
-    var actAsUid = findElement('cc-footer-actingas-uid');
+    var actAsUid = findElement('cc-footer-acting-as-uid');
 
     Raven.captureMessage(exception, {
       tags: {

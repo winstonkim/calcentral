@@ -16,7 +16,7 @@ module CampusSolutions
 
     def build_feed(response)
       return {} if response.parsed_response.blank?
-      response.parsed_response['ROOT']
+      response.parsed_response['ROOT'] || response.parsed_response[error_response_root_xml_node] || {}
     end
 
     def url

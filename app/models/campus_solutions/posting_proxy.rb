@@ -68,10 +68,6 @@ module CampusSolutions
       'PostResponse'
     end
 
-    def error_response_root_xml_node
-      'UC_CM_FAULT_DOC'
-    end
-
     def build_feed(response)
       parsed = response.parsed_response
       parsed[response_root_xml_node] || parsed[error_response_root_xml_node]

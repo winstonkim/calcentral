@@ -39,10 +39,11 @@ describe User::Api do
   end
   it 'should return a user data structure' do
     user_data = User::Api.new(@random_id).get_feed
-    expect(user_data[:preferred_name]).to eq @preferred_name
+    expect(user_data[:preferredName]).to eq @preferred_name
     expect(user_data[:hasCanvasAccount]).to_not be_nil
     expect(user_data[:isCalendarOptedIn]).to_not be_nil
     expect(user_data[:isCampusSolutionsStudent]).to be true
+    expect(user_data[:isDelegateUser]).to be false
     expect(user_data[:showSisProfileUI]).to be true
     expect(user_data[:hasToolboxTab]).to be false
     expect(user_data[:officialBmailAddress]).to eq 'foo@foo.com'
@@ -58,6 +59,7 @@ describe User::Api do
           get: {
             :person_name => @preferred_name,
             :campus_solutions_id => '12345678', # 8-digit ID means legacy
+            :delegate_user_id => '87654321',
             :roles => {
               :student => true,
               :exStudent => false,
@@ -82,6 +84,7 @@ describe User::Api do
       it 'should show SIS profile for legacy students' do
         expect(user_data[:isCampusSolutionsStudent]).to be false
         expect(user_data[:showSisProfileUI]).to be true
+        expect(user_data[:isDelegateUser]).to be true
       end
     end
   end
@@ -191,9 +194,10 @@ describe User::Api do
     context 'ordinary profiles' do
       let(:profiles) do
         {
-          :student   => { :student => true,  :exStudent => false, :faculty => false, :staff => false },
-          :faculty   => { :student => false, :exStudent => false, :faculty => true,  :staff => false },
-          :staff     => { :student => false, :exStudent => false, :faculty => true,  :staff => true }
+          :student   => { :student => true,  :exStudent => false, :faculty => false, :advisor => false, :staff => false },
+          :faculty   => { :student => false, :exStudent => false, :faculty => true,  :advisor => false, :staff => false },
+          :advisor   => { :student => false, :exStudent => false, :faculty => true,  :advisor => true,  :staff => true },
+          :staff     => { :student => false, :exStudent => false, :faculty => true,  :advisor => false, :staff => true }
         }
       end
       before do
@@ -209,6 +213,10 @@ describe User::Api do
       context 'faculty' do
         let(:user_roles) { profiles[:faculty] }
         it { should be false }
+      end
+      context 'advisor' do
+        let(:user_roles) { profiles[:advisor] }
+        it { should be true }
       end
       context 'staff' do
         let(:user_roles) { profiles[:staff] }
@@ -227,10 +235,12 @@ describe User::Api do
 
     let(:expected_values_from_campus_oracle) {
       {
-        first_name: 'Eugene V',
-        last_name: 'Debs',
-        preferred_name: 'Eugene V Debs',
+        preferredName: 'Eugene V Debs',
+        firstName: 'Eugene V',
+        lastName: 'Debs',
         fullName: 'Eugene V Debs',
+        givenFirstName: 'Eugene V',
+        givenFullName: 'Eugene V Debs',
         uid: '1151855',
         sid: '18551926',
         isCampusSolutionsStudent: false,

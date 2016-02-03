@@ -21,6 +21,16 @@ describe CampusSolutions::FinancialAidFundingSources do
   context 'real proxy', testext: true do
     let(:proxy) { CampusSolutions::FinancialAidFundingSources.new(user_id: user_id, fake: false, aid_year: 2016) }
     it_should_behave_like 'a proxy that gets data'
+
+    context 'an invalid request' do
+      let(:proxy) { CampusSolutions::FinancialAidFundingSources.new(user_id: user_id, fake: false, aid_year: 0) }
+      subject { proxy.get }
+
+      context 'requesting an invalid year' do
+        it_should_behave_like 'a simple proxy that returns errors'
+        it_should_behave_like 'a proxy that responds to user error gracefully'
+      end
+    end
   end
 
 end

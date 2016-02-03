@@ -129,8 +129,12 @@ Calcentral::Application.routes.draw do
   end
 
   # Act-as endpoints
-  post '/act_as' => 'act_as#start', :via => :post
-  post '/stop_act_as' => 'act_as#stop', :via => :post
+  post '/advisor_act_as' => 'advisor_act_as#start'
+  post '/stop_advisor_act_as' => 'advisor_act_as#stop'
+  post '/delegate_act_as' => 'delegate_act_as#start'
+  post '/stop_delegate_act_as' => 'delegate_act_as#stop'
+  post '/act_as' => 'act_as#start'
+  post '/stop_act_as' => 'act_as#stop'
   get '/stored_users' => 'stored_users#get', :via => :get, :defaults => { :format => 'json' }
   post '/store_user/saved' => 'stored_users#store_saved_uid', via: :post, defaults: { format: 'json' }
   post '/delete_user/saved' => 'stored_users#delete_saved_uid', via: :post, defaults: { format: 'json' }

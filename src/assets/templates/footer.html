@@ -1,5 +1,5 @@
 <footer class="row" data-ng-controller="FooterController" data-ng-cloak role="complementary">
-  <div data-ng-class="{'cc-footer-actingas':(api.user.profile.actingAsUid)}">
+  <div data-ng-class="{'cc-footer-acting-as':(api.user.profile.actingAsUid || api.user.profile.delegateActingAsUid || api.user.profile.advisorActingAsUid)}">
     <div data-ng-click="footer.showInfo=!footer.showInfo" data-cc-accessible-focus-directive class="cc-footer-berkeley">
       <div class="hide-for-small cc-left cc-print-show">
         <div data-ng-include="'svg/uc_berkeley_logo.html'"></div>
@@ -31,7 +31,9 @@
     <ul>
       <li>Hostname: <span data-ng-bind="hostname"></span></li>
       <li>UID: <span data-ng-bind="api.user.profile.uid" id="cc-footer-uid"></span></li>
-      <li data-ng-if="api.user.profile.actingAsUid">Actually logged in as: <span id="cc-footer-actingas-uid" data-ng-bind="api.user.profile.actingAsUid"></span></li>
+      <li data-ng-if="api.user.profile.actingAsUid">Actually logged in as: <span id="cc-footer-acting-as-uid" data-ng-bind="api.user.profile.actingAsUid"></span></li>
+      <li data-ng-if="api.user.profile.delegateActingAsUid">Delegate user: <span id="cc-footer-delegate-acting-as-uid" data-ng-bind="api.user.profile.delegateActingAsUid"></span></li>
+      <li data-ng-if="api.user.profile.advisorActingAsUid">Advisor user: <span id="cc-footer-advisor-acting-as-uid" data-ng-bind="api.user.profile.advisorActingAsUid"></span></li>
       <li>Application Version: <span data-ng-bind="versions.application"></span></li>
       <li>API Version: <span data-ng-bind="versions.api"></span></li>
       <li>Current DB Schema: <span data-ng-bind="versions.currentDbSchema"></span></li>

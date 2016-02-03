@@ -7,21 +7,35 @@ var angular = require('angular');
  */
 angular.module('calcentral.factories').factory('adminFactory', function(apiService, $http) {
   var actAsUrl = '/act_as';
-  var stopActAsUrl = '/stop_act_as';
+  var advisorActAsUrl = '/advisor_act_as';
+  var delegateActAsUrl = '/delegate_act_as';
   var searchUsersUrl = '/api/search_users/';
   var searchUsersByUidUrl = '/api/search_users/uid/';
+  var stopActAsUrl = '/stop_act_as';
+  var stopAdvisorActAsUrl = '/stop_advisor_act_as';
+  var stopDelegateActAsUrl = '/stop_delegate_act_as';
   var storedUsersUrl = '/stored_users';
   var storeSavedUserUrl = '/store_user/saved';
   var deleteSavedUserUrl = '/delete_user/saved';
   var deleteAllRecentUsersUrl = '/delete_users/recent';
   var deleteAllSavedUsersUrl = '/delete_users/saved';
 
+  var delegateActAs = function(user) {
+    return $http.post(delegateActAsUrl, user);
+  };
+
+  var stopDelegateActAs = function() {
+    return $http.post(stopDelegateActAsUrl);
+  };
+
   var actAs = function(user) {
-    return $http.post(actAsUrl, user);
+    var url = apiService.user.profile.roles.advisor ? advisorActAsUrl : actAsUrl;
+    return $http.post(url, user);
   };
 
   var stopActAs = function() {
-    return $http.post(stopActAsUrl);
+    var url = apiService.user.profile.advisorActingAsUid ? stopAdvisorActAsUrl : stopActAsUrl;
+    return $http.post(url);
   };
 
   var userLookup = function(options) {
@@ -54,11 +68,13 @@ angular.module('calcentral.factories').factory('adminFactory', function(apiServi
 
   return {
     actAs: actAs,
+    delegateActAs: delegateActAs,
     deleteAllRecentUsers: deleteAllRecentUsers,
     deleteAllSavedUsers: deleteAllSavedUsers,
     deleteUser: deleteUser,
     getStoredUsers: getStoredUsers,
     stopActAs: stopActAs,
+    stopDelegateActAs: stopDelegateActAs,
     storeUser: storeUser,
     userLookup: userLookup,
     userLookupByUid: userLookupByUid

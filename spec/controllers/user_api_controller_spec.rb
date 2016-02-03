@@ -32,7 +32,7 @@ describe UserApiController do
       json_response = JSON.parse(response.body)
       expect(json_response['isLoggedIn']).to be_truthy
       expect(json_response['uid']).to eq user_id
-      expect(json_response['preferred_name']).to be_present
+      expect(json_response['preferredName']).to be_present
       expect(json_response['features']).to be_present
       visit = User::Visit.where(:uid => session['user_id'])[0]
       expect(visit.last_visit_at).to be_present
@@ -68,6 +68,74 @@ describe UserApiController do
     context 'when authenticated by LTI' do
       before { session['lti_authenticated_only'] = true }
       it { should eq 'Authenticated through LTI' }
+    end
+  end
+
+  describe '#delegate_acting_as_uid' do
+    subject do
+      get :mystatus
+      JSON.parse response.body
+    end
+    context 'normally authenticated' do
+      it 'should deliver user\'s preferred and given names' do
+        expect(subject['delegateActingAsUid']).to be false
+        expect(subject['preferredName']).to_not be_nil
+        expect(subject['firstName']).to_not eq subject['givenFirstName']
+        expect(subject['fullName']).to_not eq subject['givenFullName']
+        expect(subject['preferredName']).to_not eq subject['givenFullName']
+      end
+    end
+    context 'viewing as' do
+      let(:original_delegate_user_id) { random_id }
+      before do
+        session['original_delegate_user_id'] = original_delegate_user_id
+        # Give student superpowers with the hope that delegate user has powers turned off.
+        allow(User::Auth).to receive(:get) do |uid|
+          case uid
+            when user_id
+              double(is_superuser?: true, is_viewer?: true, active?: true)
+            else
+              double(is_superuser?: false, is_viewer?: false, active?: true)
+          end
+        end
+      end
+      it 'should identify user in delegate-view-as mode' do
+        expect(subject['delegateActingAsUid']).to eq original_delegate_user_id
+      end
+      it 'should remove preferred name and other sensitive during delegate-view-as mode' do
+        expect(subject['delegateActingAsUid']).to eq original_delegate_user_id
+        expect(subject['firstLoginAt']).to be_nil
+        expect(subject['firstName']).to eq subject['givenFirstName']
+        expect(subject['fullName']).to eq subject['givenFullName']
+        expect(subject['preferredName']).to eq subject['givenFullName']
+        expect(subject['isDelegateUser']).to be false
+        expect(subject['isViewer']).to be false
+        expect(subject['isSuperuser']).to be false
+      end
+    end
+  end
+
+  describe '#advisor_acting_as_uid' do
+    subject do
+      get :mystatus
+      JSON.parse response.body
+    end
+    context 'viewing as' do
+      let(:original_advisor_user_id) { random_id }
+      before do
+        session['original_advisor_user_id'] = original_advisor_user_id
+        allow(User::Auth).to receive(:get) do |uid|
+          case uid
+            when user_id
+              double(is_superuser?: true, is_viewer?: true, active?: true)
+            else
+              double(is_superuser?: false, is_viewer?: false, active?: true)
+          end
+        end
+      end
+      it 'should identify user in delegate-view-as mode' do
+        expect(subject['advisorActingAsUid']).to eq original_advisor_user_id
+      end
     end
   end
 

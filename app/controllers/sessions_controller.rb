@@ -4,7 +4,7 @@ class SessionsController < ApplicationController
   skip_before_filter :check_reauthentication, :only => [:lookup, :destroy]
 
   def lookup
-    auth = request.env["omniauth.auth"]
+    auth = request.env['omniauth.auth']
     auth_uid = auth['uid']
 
     # Save crosswalk some work by caching critical IDs if they were asserted to us via SAML.
@@ -22,13 +22,18 @@ class SessionsController < ApplicationController
         logger.warn "Caching Campus Solutions ID #{cs_id} for UID #{auth_uid} based on SAML assertion"
         crosswalk.cache_campus_solutions_id cs_id
       end
+      delegate_id = auth.extra['berkeleyEduCSDelegateID']
+      if delegate_id.present?
+        logger.debug "Caching Campus Solutions Delegate ID #{delegate_id} for UID #{auth_uid} based on SAML assertion"
+        crosswalk.cache_delegate_user_id delegate_id
+      end
     end
 
     if params['renew'] == 'true'
-      # If we're reauthenticating due to view-as, then the CAS-provided UID should match
-      # the session's "original_user_id".
-      if session['original_user_id']
-        if session['original_user_id'] != auth_uid
+      # If we're re-authenticating due to view-as, then the CAS-provided UID should match original_user_id in session.
+      original_uid = session['original_user_id'] || session['original_advisor_user_id'] || session['original_delegate_user_id']
+      if original_uid
+        if original_uid != auth_uid
           logger.warn "ACT-AS: CAS returned UID #{auth_uid} not matching active session: #{session_message}. Logging user out."
           logout
           return redirect_to Settings.cas_logout_url
@@ -36,9 +41,9 @@ class SessionsController < ApplicationController
           create_reauth_cookie
         end
       elsif session['user_id'] != auth_uid
-        # If we're reauthenticating for any other reason, then the CAS-provided UID should
+        # If we're re-authenticating for any other reason, then the CAS-provided UID should
         # match the session "user_id" from the previous authentication.
-        logger.warn "REAUTHENTICATION: CAS returned UID #{auth_uid} not matching active session: #{session_message}. Starting new session."
+        logger.warn "RE-AUTHENTICATION: CAS returned UID #{auth_uid} not matching active session: #{session_message}. Starting new session."
         reset_session
       else
         create_reauth_cookie
@@ -61,7 +66,7 @@ class SessionsController < ApplicationController
   end
 
   def reauth_admin
-    redirect_to url_for_path("/auth/cas?renew=true&url=/ccadmin")
+    redirect_to url_for_path '/auth/cas?renew=true&url=/ccadmin'
   end
 
   def basic_lookup
@@ -107,8 +112,8 @@ class SessionsController < ApplicationController
       redirect_to url_for_path('/uid_error')
     else
       # Unless we're re-authenticating after view-as, initialize the session.
-      session['user_id'] = uid unless session['original_user_id']
-      redirect_to smart_success_path, :notice => "Signed in!"
+      session['user_id'] = uid unless session['original_user_id'] || session['original_advisor_user_id'] || session['original_delegate_user_id']
+      redirect_to smart_success_path, :notice => 'Signed in!'
     end
   end
 

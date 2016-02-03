@@ -16,9 +16,11 @@ describe HubEdos::UserAttributes do
   it 'should provide the converted person data structure' do
     expect(subject[:ldap_uid]).to eq '61889'
     expect(subject[:student_id]).to eq '11667051'
-    expect(subject[:first_name]).to eq 'René'
-    expect(subject[:last_name]).to eq 'Bear'
-    expect(subject[:person_name]).to eq 'René  Bear '
+    expect(subject[:given_name]).to eq 'Oski'
+    expect(subject[:family_name]).to eq 'Bear'
+    expect(subject[:first_name]).to eq 'Ziggy'
+    expect(subject[:last_name]).to eq 'Stardust'
+    expect(subject[:person_name]).to eq 'Ziggy  Stardust '
     expect(subject[:email_address]).to eq 'oski@gmail.com'
     expect(subject[:official_bmail_address]).to eq 'oski@berkeley.edu'
     expect(subject[:names]).to be
@@ -84,7 +86,7 @@ describe HubEdos::UserAttributes do
         ]
       end
       it 'should return graduate attributes' do
-        expect(subject[:roles][:student]).to eq true
+        expect(subject[:roles][:student]).to be true
         expect(subject[:ug_grad_flag]).to eq 'G'
       end
     end
@@ -113,9 +115,9 @@ describe HubEdos::UserAttributes do
         ]
       end
       it 'should return ex-student attributes' do
-        expect(subject[:roles][:exStudent]).to eq true
-        expect(subject[:roles][:student]).to eq nil
-        expect(subject[:ug_grad_flag]).to eq nil
+        expect(subject[:roles][:exStudent]).to be true
+        expect(subject[:roles][:student]).to be_nil
+        expect(subject[:ug_grad_flag]).to be_nil
       end
     end
 
@@ -152,8 +154,8 @@ describe HubEdos::UserAttributes do
         ]
       end
       it 'should return graduate attributes' do
-        expect(subject[:roles][:exStudent]).to eq nil
-        expect(subject[:roles][:student]).to eq true
+        expect(subject[:roles][:exStudent]).to be_nil
+        expect(subject[:roles][:student]).to be true
         expect(subject[:ug_grad_flag]).to eq 'G'
       end
     end
@@ -173,8 +175,8 @@ describe HubEdos::UserAttributes do
         ]
       end
       it 'should return applicant attributes' do
-        expect(subject[:roles][:applicant]).to eq true
-        expect(subject[:roles][:student]).to eq nil
+        expect(subject[:roles][:applicant]).to be true
+        expect(subject[:roles][:student]).to be_nil
       end
     end
 
@@ -193,7 +195,7 @@ describe HubEdos::UserAttributes do
         ]
       end
       it 'should return faculty attributes' do
-        expect(subject[:roles][:faculty]).to eq true
+        expect(subject[:roles][:faculty]).to be true
         expect(subject[:roles][:student]).to be_nil
       end
     end

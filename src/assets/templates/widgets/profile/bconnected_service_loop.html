@@ -24,7 +24,7 @@
     <div class="cc-text-center">
       <button
         data-ng-click="showValidation = true"
-        data-ng-disabled="api.user.profile['actingAsUid']"
+        data-ng-disabled="api.user.profile['actingAsUid'] || api.user.profile['delegateActingAsUid'] || api.user.profile['advisorActingAsUid']"
         data-ng-show="!showValidation"
         class="cc-button">
         Disconnect <span class="cc-visuallyhidden">Google access</span>
@@ -44,7 +44,7 @@
   <div class="medium-3 column" data-ng-if="loopname === 'disconnected'">
     <div class="cc-text-center">
       <button
-        data-ng-disabled="api.user.profile['actingAsUid']"
+        data-ng-disabled="api.user.profile['actingAsUid'] || api.user.profile['delegateActingAsUid'] || api.user.profile['advisorActingAsUid']"
         class="cc-button cc-button-blue" data-ng-click="api.user.enableOAuth(service)">
         Connect <span class="cc-visuallyhidden">Google Access</span>
       </button>

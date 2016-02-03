@@ -5,6 +5,7 @@ module User
     include Cache::FreshenOnWarm
     include Cache::JsonAddedCacher
     include CampusSolutions::ProfileFeatureFlagged
+    include CampusSolutions::DelegatedAccessFeatureFlagged
     include ClassLogger
 
     def init
@@ -20,7 +21,11 @@ module User
       @first_name ||= get_campus_attribute('first_name', :string) || ''
       @last_name ||= get_campus_attribute('last_name', :string) || ''
       @override_name ||= @calcentral_user_data ? @calcentral_user_data.preferred_name : nil
+      @given_first_name = (@edo_attributes && @edo_attributes[:given_name]) || @first_name || ''
+      @family_name = (@edo_attributes && @edo_attributes[:family_name]) || @last_name || ''
       @student_id = get_campus_attribute('student_id', :numeric_string)
+      delegate_permissions = authentication_state.delegate_permissions
+      @delegate_privileges = delegate_permissions && delegate_permissions[:privileges]
     end
 
     # split brain until SIS GoLive5 makes registration data available
@@ -46,7 +51,7 @@ module User
     end
 
     # Conservative merge of roles from EDO
-    WHITELISTED_EDO_ROLES = [:student, :applicant]
+    WHITELISTED_EDO_ROLES = [:student, :applicant, :advisor]
 
     def get_campus_roles
       oracle_roles = (@oracle_attributes && @oracle_attributes[:roles]) || {}
@@ -130,13 +135,39 @@ module User
       @edo_attributes.present? && @edo_attributes[:campus_solutions_id].present? && @edo_attributes[:campus_solutions_id].to_s.length >= 10
     end
 
+    def is_delegate_user?
+      return false unless is_cs_delegated_access_feature_enabled
+      @edo_attributes.present? && @edo_attributes[:delegate_user_id].present?
+    end
+
+    def has_delegate_privilege(type)
+      @delegate_privileges.present? && @delegate_privileges[type]
+    end
+
     def is_sis_profile_visible?
       is_cs_profile_feature_enabled && (is_campus_solutions_student? || is_profile_visible_for_legacy_users)
     end
 
+    def has_academics_tab?(roles, has_instructor_history, has_student_history)
+      return false if authentication_state.authenticated_as_delegate? &&
+        !has_delegate_privilege(:viewEnrollments) &&
+        !has_delegate_privilege(:viewGrades)
+      roles[:student] || roles[:faculty] || has_instructor_history || has_student_history
+    end
+
+    def has_financials_tab?(roles)
+      return false if authentication_state.authenticated_as_delegate? && !has_delegate_privilege(:financial)
+      roles[:student] || roles[:exStudent]
+    end
+
+    def has_toolbox_tab?(policy, roles)
+      return false unless authentication_state.directly_authenticated? && authentication_state.user_auth.active?
+      policy.can_administrate? || authentication_state.real_user_auth.is_viewer? || is_delegate_user? || !!roles[:advisor]
+    end
+
     def get_feed_internal
-      google_mail = User::Oauth2Data.get_google_email(@uid)
-      canvas_mail = User::Oauth2Data.get_canvas_email(@uid)
+      google_mail = User::Oauth2Data.get_google_email @uid
+      canvas_mail = User::Oauth2Data.get_canvas_email @uid
       official_bmail_address = get_campus_attribute('official_bmail_address', :string)
       current_user_policy = authentication_state.policy
       is_google_reminder_dismissed = User::Oauth2Data.is_google_reminder_dismissed(@uid)
@@ -146,33 +177,36 @@ module User
       has_instructor_history = CampusOracle::UserCourses::HasInstructorHistory.new({:user_id => @uid}).has_instructor_history?
       roles = get_campus_roles
       {
-        :isSuperuser => current_user_policy.can_administrate?,
-        :isViewer => current_user_policy.can_view_as?,
-        :firstLoginAt => @first_login_at,
-        :first_name => @first_name,
-        :fullName => @first_name + ' ' + @last_name,
-        :isGoogleReminderDismissed => is_google_reminder_dismissed,
-        :isCalendarOptedIn => is_calendar_opted_in,
-        :hasCanvasAccount => Canvas::Proxy.has_account?(@uid),
-        :hasGoogleAccessToken => GoogleApps::Proxy.access_granted?(@uid),
-        :hasStudentHistory => has_student_history,
-        :hasInstructorHistory => has_instructor_history,
-        :hasAcademicsTab => roles[:student] || roles[:faculty] || has_instructor_history || has_student_history,
-        :hasFinancialsTab => roles[:student] || roles[:exStudent],
-        :hasToolboxTab => current_user_policy.has_toolbox_tab?,
-        :hasPhoto => User::Photo.has_photo?(@uid),
-        :inEducationAbroadProgram => @oracle_attributes[:education_abroad],
-        :googleEmail => google_mail,
-        :canvasEmail => canvas_mail,
-        :officialBmailAddress => official_bmail_address,
-        :last_name => @last_name,
-        :preferred_name => self.preferred_name,
-        :roles => roles,
-        :uid => @uid,
-        :sid => @student_id,
-        :campusSolutionsID => get_campus_attribute('campus_solutions_id', :string),
-        :isCampusSolutionsStudent => is_campus_solutions_student?,
-        :showSisProfileUI => is_sis_profile_visible?
+        isSuperuser: current_user_policy.can_administrate?,
+        isViewer: current_user_policy.can_view_as?,
+        firstLoginAt: @first_login_at,
+        firstName: @first_name,
+        lastName: @last_name,
+        fullName: @first_name + ' ' + @last_name,
+        givenFirstName: @given_first_name,
+        givenFullName: @given_first_name + ' ' + @family_name,
+        isGoogleReminderDismissed: is_google_reminder_dismissed,
+        isCalendarOptedIn: is_calendar_opted_in,
+        hasCanvasAccount: Canvas::Proxy.has_account?(@uid),
+        hasGoogleAccessToken: GoogleApps::Proxy.access_granted?(@uid),
+        hasStudentHistory: has_student_history,
+        hasInstructorHistory: has_instructor_history,
+        hasAcademicsTab: has_academics_tab?(roles, has_instructor_history, has_student_history),
+        hasFinancialsTab: has_financials_tab?(roles),
+        hasToolboxTab: has_toolbox_tab?(current_user_policy, roles),
+        hasPhoto: User::Photo.has_photo?(@uid),
+        inEducationAbroadProgram: @oracle_attributes[:education_abroad],
+        googleEmail: google_mail,
+        canvasEmail: canvas_mail,
+        officialBmailAddress: official_bmail_address,
+        preferredName: self.preferred_name,
+        roles: roles,
+        uid: @uid,
+        sid: @student_id,
+        campusSolutionsID: get_campus_attribute('campus_solutions_id', :string),
+        isCampusSolutionsStudent: is_campus_solutions_student?,
+        isDelegateUser: is_delegate_user?,
+        showSisProfileUI: is_sis_profile_visible?
       }
     end
 

@@ -1,0 +1,59 @@
+<div class="cc-widget cc-toolbox-widget" data-ng-controller="DelegateStudentsController">
+  <div class="cc-widget-title">
+    <h2>Students</h2>
+  </div>
+  <div class="cc-widget-text" data-cc-spinner-directive="delegateStudents.isLoading">
+    <div id="cc_toolbox_widget_delegate_students" data-ng-if="students.length">
+      <ul>
+        <li class="cc-flex cc-flex-align-center cc-toolbox-widget-delegate-student" data-ng-repeat="student in students">
+          <div class="cc-toolbox-widget-delegate-student-profile">
+
+            <!-- TODO: Replace the `profilePhotoApi` setting method in the DelegateStudents controller with back-end property setting on the student object returned in the feed. -->
+            <div data-ng-if="student.profilePhotoApi">
+              <img class="cc-toolbox-widget-delegate-student-profile-img" border="1" height="96" width="72" data-cc-image-loaded-directive="profilePictureLoading" data-ng-attr-alt="{{student.fullName}}'s Profile Picture" data-ng-src="{{student.profilePhotoApi}}">
+            </div>
+            <div data-ng-if="!student.profilePhotoApi" class="cc-toolbox-widget-delegate-student-profile-img-not-available"></div>
+          </div>
+          <div class="cc-widget-padding">
+            <button class="cc-button-link" data-ng-click="delegateStudents.actAs(student.emplid)" data-ng-if="student.delegateAccess">
+              <span class="cc-text-big" data-ng-bind="student.fullName"></span>
+            </button>
+            <div data-ng-if="!student.delegateAccess">
+              <strong class="cc-text-big" data-ng-bind="student.fullName"></strong>
+              <div>
+                <div class="cc-text-small" data-ng-if="student.privileges.phone">
+                  (TBD person-or-phone-only privilege)
+                </div>
+                <div class="cc-text-small" data-ng-if="!student.privileges.phone">
+                  No Privileges.
+                </div>
+              </div>
+            </div>
+          </div>
+        </li>
+      </ul>
+      <hr>
+      <div>
+        <p data-ng-if="showNoPrivilegesMessage">
+          <!-- using the p tag for bottom padding/margin which divs don't have -->
+          <strong>
+            No privileges:
+          </strong>
+          The indicated student(s) above have not granted you any privileges.
+        </p>
+        <div>
+          <strong>
+            Adding other students:
+          </strong>
+          If you are a delegate for other students, to add them here please start with the email message you received for each student.
+        </div>
+      </div>
+    </div>
+    <div data-ng-if="!students.length">
+      <strong>
+        You are not currently a delegate for any students.
+      </strong>
+      If you have been a delegate in the past, your student may have changed your permissions.
+    </div>
+  </div>
+</div>

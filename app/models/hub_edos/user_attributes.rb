@@ -58,6 +58,7 @@ module HubEdos
       result[:ldap_uid] = @uid
       result[:student_id] = lookup_student_id_from_crosswalk
       result[:campus_solutions_id] = lookup_campus_solutions_id
+      result[:delegate_user_id] = lookup_delegate_user_id
     end
 
     def extract_passthrough_elements(edo, result)
@@ -74,17 +75,24 @@ module HubEdos
     end
 
     def find_name(type, edo, result)
+      found_match = false
       if edo[:names].present?
         edo[:names].each do |name|
-          if name[:type].present? && name[:type][:code].present? && name[:type][:code].upcase == type.upcase
-            result[:first_name] = name[:givenName]
-            result[:last_name] = name[:familyName]
-            result[:person_name] = name[:formattedName]
-            return true
+          if name[:type].present? && name[:type][:code].present?
+            if name[:type][:code].upcase == 'PRI'
+              result[:given_name] = name[:givenName]
+              result[:family_name] = name[:familyName]
+            end
+            if name[:type].present? && name[:type][:code].present? && name[:type][:code].upcase == type.upcase
+              result[:first_name] = name[:givenName]
+              result[:last_name] = name[:familyName]
+              result[:person_name] = name[:formattedName]
+              found_match = true
+            end
           end
         end
       end
-      false
+      found_match
     end
 
     def extract_roles(edo, result)

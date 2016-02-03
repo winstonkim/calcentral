@@ -8,9 +8,9 @@ class UserApiController < ApplicationController
   end
 
   def am_i_logged_in
-    response.headers["Cache-Control"] = "no-cache, no-store, private, must-revalidate"
-    response.headers["Pragma"] = "no-cache"
-    response.headers["Expires"] = "-1"
+    response.headers['Cache-Control'] = 'no-cache, no-store, private, must-revalidate'
+    response.headers['Pragma'] = 'no-cache'
+    response.headers['Expires'] = '-1'
     render :json => {
       :amILoggedIn => !!session['user_id']
     }.to_json
@@ -23,19 +23,23 @@ class UserApiController < ApplicationController
 
     if session['user_id']
       # wrap User::Visit.record_session inside a cache lookup so that we have to write User::Visit records less often.
+      directly_authenticated = current_user.directly_authenticated?
       self.class.fetch_from_cache session['user_id'] do
-        User::Visit.record session['user_id'] if current_user.directly_authenticated?
+        User::Visit.record session['user_id'] if directly_authenticated
         true
       end
+      advisor_acting_as_uid = !directly_authenticated && current_user.original_advisor_user_id
+      delegate_acting_as_uid = !directly_authenticated && current_user.original_delegate_user_id
       status.merge!({
         :isBasicAuthEnabled => Settings.developer_auth.enabled,
         :isLoggedIn => true,
         :features => features,
-        # Note the misleading field name.
-        :actingAsUid => (current_user.directly_authenticated? ? false : current_user.real_user_id),
+        :actingAsUid => directly_authenticated || advisor_acting_as_uid || delegate_acting_as_uid ? false : current_user.real_user_id,
+        :advisorActingAsUid => advisor_acting_as_uid,
+        :delegateActingAsUid => delegate_acting_as_uid,
         :youtubeSplashId => Settings.youtube_splash_id
       })
-      status.merge!(User::Api.from_session(session).get_feed)
+      status.merge! User::Api.from_session(session).get_feed
     else
       status.merge!({
         :isBasicAuthEnabled => Settings.developer_auth.enabled,
@@ -44,7 +48,20 @@ class UserApiController < ApplicationController
         :youtubeSplashId => Settings.youtube_splash_id
       })
     end
+    filter_user_api_for_delegator status if delegate_acting_as_uid
     render :json => status.to_json
+  end
+
+  def filter_user_api_for_delegator(feed)
+    # Delegate users do not have access to preferred name and similar sensitive data.
+    feed[:firstName] = feed[:givenFirstName]
+    feed[:fullName] = feed[:givenFullName]
+    feed[:preferredName] = feed[:givenFullName]
+    feed.delete :firstLoginAt
+    # Extraordinary privileges are set to false.
+    feed[:isDelegateUser] = false
+    feed[:isViewer] = false
+    feed[:isSuperuser] = false
   end
 
   def record_first_login
