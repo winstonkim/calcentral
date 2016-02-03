@@ -11,37 +11,66 @@ angular.module('calcentral.controllers').controller('DelegateStudentsController'
     isLoading: true
   };
 
-  var linkablePrivileges = [
+  /**
+   * `delegateAccessPrivileges` here mean __only__ those that allow the delegate
+   * "linkable" access to the student's profile. The `phone` privilege by itself
+   * does not grant that access.
+   */
+  var delegateAccessPrivileges = [
     'financial',
+    'phone',
     'viewEnrollments',
     'viewGrades'
   ];
 
   /**
-   * TEMPORARY LOGIC ~ TO BE REPLACED BY BACK-END PROPERTY SETTING.
-   * setFakeStudentPhotoAPI() adds `profilePhoto` property as a fictious API for
-   * retrieving a delegate student's profile photo.
+   * setDelegateAccess() adds `delegateAccess` property on student, if and only
+   * if the student has granted at least one `viewable` (i.e., other than phone)
+   * privilege.
    */
-  var setFakeStudentPhotoAPI = function(student) {
-    student.fakeProfilePhotoAPI = '/api/student/photo/' + student.uid;
+  var setDelegateAccess = function(student) {
+    var phone = 'phone';
+    var viewable = _.some(delegateAccessPrivileges, function(key) {
+      return student.privileges[key] && key !== phone;
+    });
+
+    student.delegateAccess = viewable;
+
+    /**
+     * If at least one student grants no privileges, this flag let's us show the
+     * global 'No privileges' explanatory paragraph in the template.
+     */
+    if (!viewable && !$scope.showNoPrivilegesMessage && !student.privileges[phone]) {
+      $scope.showNoPrivilegesMessage = true;
+    }
   };
 
   /**
-   * setStudentViewability() adds `viewable` property on student, if and only if student
-   * has granted at least one delegate viewing privilege.
+   * TODO:
+   * REPLACE THIS PROPERTY-SETTING METHOD WITH BACK-END PROPERTY SETTING ON THE
+   * STUDENT OBJECT.
+   *
+   * setStudentPhotoApi() adds the `profilePhotoUrl` property for a fictitious
+   * API to retrieve a delegate student's profile photo.
+   *
+   * For testing purposes, you can commment out the single assignment to display
+   * the img-not-available case in the template.
    */
-  var setStudentViewability = function(student) {
-    var viewable = _.some(linkablePrivileges, function(key) {
-      return student.privileges[key];
-    });
-    student.viewable = viewable;
+  var setStudentPhotoApi = function(student) {
+    student.profilePhotoApi = '/api/student/photo/' + student.uid;
   };
 
   var getStudents = function() {
     return delegateFactory.getStudents().then(function(data) {
       angular.extend($scope, _.get(data, 'data.feed'));
-      _.each($scope.students, setFakeStudentPhotoAPI);
-      _.each($scope.students, setStudentViewability);
+
+      /**
+       * TODO: replace setStudentPhotoApi() function with back-end photo URL
+       * property (see above).
+       */
+      _.each($scope.students, setStudentPhotoApi);
+
+      _.each($scope.students, setDelegateAccess);
       $scope.delegateStudents.isLoading = false;
     });
   };
