@@ -1,10 +1,24 @@
-<UC_SR_ENROLLMENT_TERMS type="array">
-  <TERM>
-    <TERM_ID>2176</TERM_ID>
-    <TERM_DESCR>Spring 2017</TERM_DESCR>
-  </TERM>
-  <TERM>
-    <TERM_ID>2179</TERM_ID>
-    <TERM_DESCR>Summer 2017</TERM_DESCR>
-  </TERM>
+<?xml version="1.0"?>
+<UC_SR_ENROLLMENT_TERMS>
+  <STUDENT_ID>12701798</STUDENT_ID>
+  <CAREERS type="array">
+    <CAREER>
+      <ACAD_CAREER>GRAD</ACAD_CAREER>
+      <TERM>
+        <TERM_ID>2175</TERM_ID>
+        <TERM_DESCR>2017 Summer</TERM_DESCR>
+      </TERM>
+      <TERM>
+        <TERM_ID>2178</TERM_ID>
+        <TERM_DESCR>2017 Fall</TERM_DESCR>
+      </TERM>
+    </CAREER>
+    <CAREER>
+      <ACAD_CAREER>UGRD</ACAD_CAREER>
+      <TERM>
+        <TERM_ID>2172</TERM_ID>
+        <TERM_DESCR>2017 Spring</TERM_DESCR>
+      </TERM>
+    </CAREER>
+  </CAREERS>
 </UC_SR_ENROLLMENT_TERMS>
