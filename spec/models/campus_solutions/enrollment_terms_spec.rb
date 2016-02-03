@@ -25,7 +25,7 @@ describe CampusSolutions::EnrollmentTerms do
     end
 
     it 'returns terms in order of ID' do
-      expect(terms.map { |term| term[:termId] }).to eq %w(2172 2175 2178)
+      expect(terms.map { |term| term[:termId] }).to eq %w(2162 2165 2168)
     end
 
     it 'map terms to correct academic career' do

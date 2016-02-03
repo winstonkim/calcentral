@@ -15,9 +15,9 @@ describe CampusSolutions::EnrollmentTermController do
       it_behaves_like 'a successful feed'
       it 'has some term data' do
         session['user_id'] = user_id
-        get feed, {term_id: '2176', format: 'json'}
+        get feed, {term_id: '2162', format: 'json'}
         json = JSON.parse response.body
-        expect(json['feed']['enrollmentTerm']['termDescr']).to eq 'Spring 2017'
+        expect(json['feed']['enrollmentTerm']['termDescr']).to eq '2016 Spring'
       end
     end
   end

@@ -17,7 +17,7 @@ describe CampusSolutions::EnrollmentTermsController do
         session['user_id'] = user_id
         get feed
         json = JSON.parse(response.body)
-        expect(json['feed']['enrollmentTerms'][0]['termId']).to eq '2172'
+        expect(json['feed']['enrollmentTerms'][0]['termId']).to eq '2162'
       end
     end
   end
