@@ -20,14 +20,6 @@ angular.module('calcentral.factories').factory('adminFactory', function(apiServi
   var deleteAllRecentUsersUrl = '/delete_users/recent';
   var deleteAllSavedUsersUrl = '/delete_users/saved';
 
-  var advisorActAs = function(user) {
-    return $http.post(advisorActAsUrl, user);
-  };
-
-  var stopAdvisorActAs = function() {
-    return $http.post(stopAdvisorActAsUrl);
-  };
-
   var delegateActAs = function(user) {
     return $http.post(delegateActAsUrl, user);
   };
@@ -37,11 +29,13 @@ angular.module('calcentral.factories').factory('adminFactory', function(apiServi
   };
 
   var actAs = function(user) {
-    return $http.post(actAsUrl, user);
+    var url = apiService.user.profile.roles.advisor ? advisorActAsUrl : actAsUrl;
+    return $http.post(url, user);
   };
 
   var stopActAs = function() {
-    return $http.post(stopActAsUrl);
+    var url = apiService.user.profile.advisorActingAsUid ? stopAdvisorActAsUrl : stopActAsUrl;
+    return $http.post(url);
   };
 
   var userLookup = function(options) {
@@ -74,14 +68,12 @@ angular.module('calcentral.factories').factory('adminFactory', function(apiServi
 
   return {
     actAs: actAs,
-    advisorActAs: advisorActAs,
     delegateActAs: delegateActAs,
     deleteAllRecentUsers: deleteAllRecentUsers,
     deleteAllSavedUsers: deleteAllSavedUsers,
     deleteUser: deleteUser,
     getStoredUsers: getStoredUsers,
     stopActAs: stopActAs,
-    stopAdvisorActAs: stopAdvisorActAs,
     stopDelegateActAs: stopDelegateActAs,
     storeUser: storeUser,
     userLookup: userLookup,
