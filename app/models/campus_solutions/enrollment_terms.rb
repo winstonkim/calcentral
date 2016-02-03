@@ -10,9 +10,17 @@ module CampusSolutions
     end
 
     def build_feed(response)
-      return {} if response.parsed_response.blank?
+      return {} unless (response.parsed_response && response['UC_SR_ENROLLMENT_TERMS'] && response['UC_SR_ENROLLMENT_TERMS']['CAREERS'])
+      terms = []
+      response['UC_SR_ENROLLMENT_TERMS']['CAREERS'].each do |career|
+        Array.wrap(career['TERM']).each do |term|
+          term['ACAD_CAREER'] = career['ACAD_CAREER']
+          terms << term
+        end
+      end
       {
-        enrollment_terms: response['UC_SR_ENROLLMENT_TERMS']
+        enrollment_terms: terms.sort_by { |term| term['TERM_ID'] },
+        student_id: response['UC_SR_ENROLLMENT_TERMS']['STUDENT_ID']
       }
     end
 
@@ -21,8 +29,7 @@ module CampusSolutions
     end
 
     def url
-      # This fake URL allows tests against mock proxies until we get a real URL.
-      "#{@settings.base_url}/NOT_A_REAL_URL.v1/get/enrollment_terms?EMPLID=#{@campus_solutions_id}"
+      "#{@settings.base_url}/UC_SR_CURR_TERMS.v1/GetCurrentItems?EMPLID=#{@campus_solutions_id}"
     end
   end
 end

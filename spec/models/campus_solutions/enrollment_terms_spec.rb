@@ -13,10 +13,25 @@ describe CampusSolutions::EnrollmentTerms do
   context 'mock proxy' do
     let(:proxy) { CampusSolutions::EnrollmentTerms.new(fake: true, user_id: user_id) }
     subject { proxy.get }
+    let(:terms) { subject[:feed][:enrollmentTerms] }
     it_should_behave_like 'a proxy that gets data'
-    it 'returns specific mock data' do
-      expect(subject[:feed][:enrollmentTerms][0]).to eq(termId: '2176', termDescr: 'Spring 2017')
-      expect(subject[:feed][:enrollmentTerms][1]).to eq(termId: '2179', termDescr: 'Summer 2017')
+
+    it 'includes student ID' do
+      expect(subject[:feed][:studentId]).to eq '12701798'
+    end
+
+    it 'returns expected attributes for all terms' do
+      expect(terms).to all(include(:acadCareer, :termId, :termDescr))
+    end
+
+    it 'returns terms in order of ID' do
+      expect(terms.map { |term| term[:termId] }).to eq %w(2172 2175 2178)
+    end
+
+    it 'map terms to correct academic career' do
+      expect(terms[0][:acadCareer]).to eq 'UGRD'
+      expect(terms[1][:acadCareer]).to eq 'GRAD'
+      expect(terms[2][:acadCareer]).to eq 'GRAD'
     end
   end
 end

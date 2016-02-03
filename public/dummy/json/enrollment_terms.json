@@ -3,13 +3,21 @@
   "feed": {
     "enrollmentTerms": [
       {
-        "termId": "2176",
-        "termDescr": "Spring 2017"
+        "acadCareer": "UGRD",
+        "termId": "2172",
+        "termDescr": "2017 Spring"
       },
       {
-        "termId": "2179",
-        "termDescr": "Summer 2017"
+        "acadCareer": "GRAD",
+        "termId": "2175",
+        "termDescr": "2017 Summer"
+      },
+      {
+        "acadCareer": "GRAD",
+        "termId": "2178",
+        "termDescr": "2017 Fall"
       }
-    ]
+    ],
+    "studentId": "12701798"
   }
 }
