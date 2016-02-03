@@ -69,7 +69,7 @@ class ApiMyFinAidPage
 
   def all_message_titles_sorted
     titles = []
-    all_messages_sorted.each { |message| titles << title(message) }
+    all_messages_sorted.each { |message| titles << title(message).gsub(/\s+/, ' ') }
     titles
   end
 
