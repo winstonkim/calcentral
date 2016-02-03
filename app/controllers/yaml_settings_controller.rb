@@ -8,8 +8,14 @@ class YamlSettingsController < ApplicationController
     begin
       # Feature flag diff is our litmus test: Were settings actually reloaded?
       feature_flags_before = Settings.features.marshal_dump
-      # Reload happens here
+
+      Rails.logger.warn 'Reloading application settings from YAML in web subsystem'
       CalcentralConfig.reload_settings
+      Rails.logger.warn 'YAML settings reloaded. Ask yourself, should I clear the cache?'
+
+      Rails.logger.warn 'Requesting message processors across cluster to reload application settings'
+      SettingsReloadWorker.request_reload
+
       feature_flags_after = Settings.features.marshal_dump
       msg = (feature_flags_before.to_a - feature_flags_after.to_a).any? ?
         'Settings reloaded. Please consider clearing the cache.' :
