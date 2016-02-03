@@ -1,7 +1,7 @@
 <!-- Top Navbar -->
 <div class="row cc-navigation-bar" data-ng-cloak data-ng-show="api.user.events.isAuthenticated">
   <ul>
-    <li data-ng-class="{true:'active'}[controllerName=='DashboardController']" data-ng-if="!api.user.profile.delegateActingAsUid">
+    <li data-ng-class="{true:'active'}[controllerName=='DashboardController']" data-ng-if="!api.user.profile.delegateActingAsUid && !api.user.profile.advisorActingAsUid">
       <a href="/dashboard" data-ng-click="offCanvasMenu.show=false"><i class="fa fa-home"></i>My Dashboard</a>
     </li>
     <li data-ng-class="{true:'active'}[controllerName=='AcademicsController']" data-ng-if="api.user.profile.hasAcademicsTab">
@@ -17,7 +17,7 @@
       <a href="/toolbox" data-ng-click="offCanvasMenu.show=false"><i class="fa fa-wrench"></i>My Toolbox</a>
     </li>
   </ul>
-  <div class="cc-updated-feeds" data-ng-cloak data-ng-controller="UpdatedFeedsController" data-ng-show="!api.user.profile.delegateActingAsUid && (controllerName === 'DashboardController')">
+  <div class="cc-updated-feeds" data-ng-cloak data-ng-controller="UpdatedFeedsController" data-ng-show="!api.user.profile.delegateActingAsUid && !api.user.profile.advisorActingAsUid && (controllerName === 'DashboardController')">
     <div data-ng-show="hasUpdates">
       New data is available. <button class="cc-button" data-ng-click="refreshFeeds()">Load</button>
     </div>

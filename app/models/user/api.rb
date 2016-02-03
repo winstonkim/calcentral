@@ -51,7 +51,7 @@ module User
     end
 
     # Conservative merge of roles from EDO
-    WHITELISTED_EDO_ROLES = [:student, :applicant]
+    WHITELISTED_EDO_ROLES = [:student, :applicant, :advisor]
 
     def get_campus_roles
       oracle_roles = (@oracle_attributes && @oracle_attributes[:roles]) || {}

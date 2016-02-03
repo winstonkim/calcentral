@@ -60,7 +60,16 @@ class AuthenticationStatePolicy
   end
 
   def can_view_as?
-    @user.real_user_auth.active? && (@user.real_user_auth.is_superuser? || @user.real_user_auth.is_viewer?)
+    real_auth = @user.real_user_auth
+    return false unless real_auth.active?
+    real_auth.is_superuser? || real_auth.is_viewer?
+  end
+
+  def can_view_as_for_all_uids?
+    # Delegate users are intentionally omitted.
+    return true if can_view_as?
+    roles = HubEdos::UserAttributes.new(user_id: @user.real_user_id).get[:roles]
+    !!roles[:advisor]
   end
 
   def can_view_webcast_sign_up?

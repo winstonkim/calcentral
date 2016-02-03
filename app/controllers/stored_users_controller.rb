@@ -4,7 +4,7 @@ class StoredUsersController < ApplicationController
   respond_to :json
 
   def get
-    authorize(current_user, :can_view_as?)
+    authorize(current_user, :can_view_as_for_all_uids?)
     users_found = User::StoredUsers.get(current_user.real_user_id)
     render json: { users: users_found }.to_json
   end
