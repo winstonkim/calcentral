@@ -89,14 +89,17 @@
 
       <div class="cc-clearfix">
         <a class="cc-button"
-        data-ng-show="task.linkDescription"
+        data-ng-if="task.linkDescription && task.linkUrl"
         data-ng-click="api.util.preventBubble($event);api.analytics.trackExternalLink('Tasks', task.emitter, task.linkUrl)"
         data-ng-href="{{task.linkUrl}}">
           <span data-ng-bind="task.linkDescription">
           <span class="cc-visuallyhidden" data-ng-bind-template="- {{ task.title }}"></span>
         </a>
 
-        <div data-ng-if="task.uploadUrl && (task.cs.showStatus === 'Initiated' || task.cs.showStatus === 'Incomplete')" class="cc-widget-tasks-upload">
+        <div
+          data-ng-if="api.user.profile.actAsOptions.canSeeCSLinks && task.uploadUrl && (task.cs.showStatus === 'Initiated' || task.cs.showStatus === 'Incomplete')"
+          class="cc-widget-tasks-upload"
+        >
           <a class="cc-button"
           data-ng-click="api.util.preventBubble($event);api.analytics.trackExternalLink('Tasks', 'Upload CS Document', task.uploadUrl)"
           data-cc-campus-solutions-link-directive="task.uploadUrl"

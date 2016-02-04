@@ -1,6 +1,6 @@
 <a class="cc-widget-activities-info-link"
    data-ng-click="api.util.preventBubble($event);api.analytics.trackExternalLink('Activities', activityItem.source, activityItem.sourceUrl)"
-   data-ng-if="activityItem.sourceUrl"
+   data-ng-if="activityItem.sourceUrl && api.user.profile.actAsOptions.canSeeCSLinks"
    data-cc-campus-solutions-link-directive="activityItem.sourceUrl"
    data-cc-campus-solutions-link-directive-enabled="{{activityItem.emitter === 'Campus Solutions'}}"
    data-cc-outbound-enabled="{{activityItem.emitter !== 'Campus Solutions'}}">

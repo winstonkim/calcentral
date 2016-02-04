@@ -35,7 +35,7 @@
     <li>
       Financial Aid and Scholarships <a href="http://financialaid.berkeley.edu/forms">Forms Page</a>.
     </li>
-    <li>
+    <li data-ng-if="api.user.profile.actAsOptions.canSeeCSLinks">
       <strong>Optional</strong>
       <a
         data-cc-campus-solutions-link-directive="communicationsInfo.unsolicitedResourcesUrl"

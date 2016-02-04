@@ -123,6 +123,11 @@ button {
   &:hover i, &:focus i {
     text-decoration: underline;
   }
+  &:disabled {
+    background-color: inherit;
+    color: $cc-color-lighter-medium-grey;
+    pointer-events: none;
+  }
 }
 
 .cc-button-group {

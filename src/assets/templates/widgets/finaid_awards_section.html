@@ -11,7 +11,9 @@
         data-cc-campus-solutions-link-directive-text="finaid.backToText"
         data-cc-outbound-enabled="{{!link.isCsLink}}"
         data-ng-bind="link.title"
-        data-ng-class="{'cc-widget-finaid-awards-section-link-separator': ($index > 0)}">
+        data-ng-class="{'cc-widget-finaid-awards-section-link-separator': ($index > 0)}"
+        data-ng-if="api.user.profile.actAsOptions.canSeeCSLinks"
+      >
       </a>
     </div>
   </div>
@@ -59,6 +61,7 @@
                 data-cc-campus-solutions-link-directive-text="finaid.backToText"
                 data-cc-outbound-enabled="{{!item.rightColumn.link.isCsLink}}"
                 data-ng-bind="item.rightColumn.link.title"
+                data-ng-if="api.user.profile.actAsOptions.canSeeCSLinks"
               ></a>
             </div>
           </div>
