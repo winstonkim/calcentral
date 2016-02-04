@@ -39,7 +39,8 @@ angular.module('calcentral.services').factory('profileMenuService', function(api
           featureFlag: 'csDelegatedAccess',
           roles: {
             student: true
-          }
+          },
+          hideWhenActAsModes: ['advisorActingAsUid']
         },
         {
           id: 'information-disclosure',
@@ -77,7 +78,8 @@ angular.module('calcentral.services').factory('profileMenuService', function(api
       categories: [
         {
           id: 'bconnected',
-          name: 'bConnected'
+          name: 'bConnected',
+          hideWhenActAsModes: ['advisorActingAsUid']
         }
       ]
     }
@@ -149,6 +151,30 @@ angular.module('calcentral.services').factory('profileMenuService', function(api
     return defer(navigation, filterFeatureFlagsInNavigation);
   };
 
+  var filterActAsInCategory = function(categories) {
+    var userProfile = apiService.user.profile;
+    return _.filter(categories, function(category) {
+      if (!_.get(category, 'hideWhenActAsModes.length')) {
+        return true;
+      } else {
+        return !_.some(category.hideWhenActAsModes, function(hideWhenActAsMode) {
+          return userProfile[hideWhenActAsMode];
+        });
+      }
+    });
+  };
+
+  var filterActAsInNavigation = function(navigation) {
+    return filterCategories(navigation, filterActAsInCategory);
+  };
+
+  /**
+   * Filter based on active view-as mode (admin, advisor, delegate, etc.)
+   */
+  var filterActAs = function(navigation) {
+    return defer(navigation, filterActAsInNavigation);
+  };
+
   var filterEmptyInNavigation = function(navigation) {
     return _.filter(navigation, function(item) {
       return !!_.get(item, 'categories.length');
@@ -174,6 +200,7 @@ angular.module('calcentral.services').factory('profileMenuService', function(api
       .then(initialNavigation)
       .then(filterRoles)
       .then(filterFeatureFlags)
+      .then(filterActAs)
       .then(filterEmpty);
   };
 
