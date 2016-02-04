@@ -7,17 +7,19 @@
 ></div>
 
 <div class="cc-enrollment-card-section-content" data-ng-if="section.show">
-  <span
-    data-cc-enrollment-link-directive
-    data-link="enrollmentTerm.links.chooseClasses"
-    data-text="Choose classes"
-  ></span> for the upcoming semester.<br/>
-  Learn more about
-  <span
-    data-cc-enrollment-link-directive
-    data-link="enrollmentTerm.links.enrollmentRules"
-    data-text="enrollment rules and information"
-  ></span>
+  <div data-ng-if="api.user.profile.actAsOptions.canSeeCSLinks">
+    <span
+      data-cc-enrollment-link-directive
+      data-link="enrollmentTerm.links.chooseClasses"
+      data-text="Choose classes"
+    ></span> for the upcoming semester.<br/>
+    Learn more about
+    <span
+      data-cc-enrollment-link-directive
+      data-link="enrollmentTerm.links.enrollmentRules"
+      data-text="enrollment rules and information"
+    ></span>
+  </div>
 
   <div data-ng-if="enrollmentTerm.enrollmentPeriods.length">
     <h4 class="cc-enrollment-card-headersub-title">Enrollment Period</h4>

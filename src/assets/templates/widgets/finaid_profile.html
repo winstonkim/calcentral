@@ -22,8 +22,8 @@
             <div data-ng-repeat="item in items" class="cc-clearfix-container">
               <div class="cc-left">
                 <strong data-ng-bind="item.title"></strong>
-                <a data-ng-if="item.title === 'Title IV'" href="/profile/title4">Update</a>
-                <a data-ng-if="item.link.url"
+                <a data-ng-if="item.title === 'Title IV' && api.user.profile.actAsOptions.canSeeCSLinks" href="/profile/title4">Update</a>
+                <a data-ng-if="item.link.url && api.user.profile.actAsOptions.canSeeCSLinks"
                    data-cc-campus-solutions-link-directive="item.link.url"
                    data-cc-campus-solutions-link-directive-cache="'finaid'"
                    data-cc-campus-solutions-link-directive-enabled="{{item.link.isCsLink}}"

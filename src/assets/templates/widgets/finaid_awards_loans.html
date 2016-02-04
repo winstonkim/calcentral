@@ -2,7 +2,7 @@
   <div>
     <h3 class="cc-page-finaid-header cc-text-uppercase">Loans</h3>
   </div>
-  <div data-ng-if="finaidAwards.awards.loans.links">
+  <div data-ng-if="finaidAwards.awards.loans.links && api.user.profile.actAsOptions.canSeeCSLinks">
     <a data-ng-repeat="link in finaidAwards.awards.loans.links"
       data-cc-campus-solutions-link-directive="link.url"
       data-cc-campus-solutions-link-directive-cache="'finaid'"
@@ -10,7 +10,8 @@
       data-cc-campus-solutions-link-directive-text="finaid.backToText"
       data-cc-outbound-enabled="{{!link.isCsLink}}"
       data-ng-bind="link.title"
-      data-ng-class="{'cc-widget-finaid-awards-section-link-separator': ($index > 0)}">
+      data-ng-class="{'cc-widget-finaid-awards-section-link-separator': ($index > 0)}"
+    >
     </a>
   </div>
 </div>

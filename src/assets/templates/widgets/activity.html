@@ -13,5 +13,5 @@
     </div>
   </div>
   <div data-ng-include="'widgets/activity_list.html'"></div>
-  <div data-ng-include="'widgets/activity_archive.html'"></div>
+  <div data-ng-include="'widgets/activity_archive.html'" data-ng-if="api.user.profile.actAsOptions.canSeeCSLinks"></div>
 </div>

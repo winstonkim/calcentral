@@ -83,6 +83,13 @@ angular.module('calcentral.services').service('userService', function($http, $lo
       profile.isApplicantOnly = (_.size(profile.roles) === 1 && profile.roles.applicant);
     }
 
+    // Set whether the current user can POST information when acting as someone
+    profile.actAsOptions = {
+      canPost: !(_.get(profile, 'features.preventActingAsUsersFromPosting') &&
+      (profile.actingAsUid || profile.delegateActingAsUid || profile.advisorActingAsUid)),
+      canSeeCSLinks: !(profile.delegateActingAsUid || profile.advisorActingAsUid)
+    };
+
     return profile;
   };
 

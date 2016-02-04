@@ -50,7 +50,7 @@
           </div>
         </div>
         <div class="cc-widget-sir-button-container">
-          <button class="cc-button cc-button-blue" type="submit" data-ng-disabled="!sirItem.isFormValid || sirItem.isSubmitting">
+          <button class="cc-button cc-button-blue" type="submit" data-ng-disabled="!api.user.profile.actAsOptions.canPost || !sirItem.isFormValid || sirItem.isSubmitting">
             <span data-ng-if="!sirItem.isSubmitting">
               <span data-ng-if="sirItem.form.option.progAction !== 'WAPP'">Continue</span>
               <span data-ng-if="sirItem.form.option.progAction === 'WAPP'">I Decline This Offer</span>
