@@ -62,13 +62,13 @@ angular.module('calcentral.controllers').controller('EnrollmentCardController', 
     var termIndex = _.indexOf(
       $scope.enrollment.terms,
       _.find($scope.enrollment.terms, {
-        termId: data.termId
+        termId: data.term
       })
     );
 
-    data.isTermLoading = false;
-
-    $scope.enrollment.terms.splice(termIndex, 1, data);
+    if (termIndex !== -1) {
+      $scope.enrollment.terms.splice(termIndex, 1, data);
+    }
   };
 
   /**
@@ -76,11 +76,11 @@ angular.module('calcentral.controllers').controller('EnrollmentCardController', 
    * This makes it easier to look it up in JavaScript
    */
   var mapEnrollmentPeriodsById = function(data) {
-    if (!data.enrollmentPeriods) {
+    if (!data.enrollmentPeriod) {
       return data;
     }
 
-    data.enrollmentPeriodsById = _.indexBy(data.enrollmentPeriods, 'id');
+    data.enrollmentPeriodsById = _.indexBy(data.enrollmentPeriod, 'id');
 
     return data;
   };
@@ -106,6 +106,9 @@ angular.module('calcentral.controllers').controller('EnrollmentCardController', 
    */
   var parseEnrollmentTerm = function(data) {
     var termData = _.get(data, 'data.feed.enrollmentTerm');
+    if (!termData) {
+      return;
+    }
 
     termData = mapEnrollmentPeriodsById(termData);
     termData = mapLinks(termData);
@@ -131,16 +134,6 @@ angular.module('calcentral.controllers').controller('EnrollmentCardController', 
   };
 
   /**
-   * Set the scope for the enrollment cards and set each one to loading = true
-   */
-  var setEnrollmentTerms = function(enrollmentTerms) {
-    $scope.enrollment.terms = _.map(enrollmentTerms, function(enrollmentTerm) {
-      enrollmentTerm.isTermLoading = true;
-      return enrollmentTerm;
-    });
-  };
-
-  /**
    * Parse all the terms and create an array of promises for each
    */
   var parseEnrollmentTerms = function(data) {
@@ -149,9 +142,7 @@ angular.module('calcentral.controllers').controller('EnrollmentCardController', 
     }
 
     var enrollmentTerms = _.get(data, 'data.feed.enrollmentTerms');
-    setEnrollmentTerms(enrollmentTerms);
-    stopMainSpinner();
-
+    $scope.enrollment.terms = enrollmentTerms;
     return createEnrollmentPromises(enrollmentTerms);
   };
 
@@ -183,6 +174,8 @@ angular.module('calcentral.controllers').controller('EnrollmentCardController', 
     if (_.get(data, 'student')) {
       loadEnrollmentData();
       loadHolds();
+    } else {
+      stopMainSpinner();
     }
   };
 

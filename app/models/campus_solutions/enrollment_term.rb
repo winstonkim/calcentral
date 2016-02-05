@@ -7,26 +7,31 @@ module CampusSolutions
 
     def initialize(options = {})
       super options
+      @term_id = options[:term_id]
       initialize_mocks if @fake
     end
 
     def build_feed(response)
-      return {} if response.parsed_response.blank?
-      enrollment_term = response['UC_SR_CLASS_ENROLLMENT']
-      if enrollment_term['ENROLLMENT_PERIODS']
-        enrollment_term['ENROLLMENT_PERIODS'].each { |period| format_cs_datetime period }
+      return {} unless response &&
+        (enrollment_term = response['UC_SR_CLASS_ENROLLMENT']) &&
+        enrollment_term['ENROLLMENT_PERIOD'].present?
+
+      # Though its name is in the singular, ENROLLMENT_PERIOD is an array containing multiple periods.
+      enrollment_term['ENROLLMENT_PERIOD'].each do |period|
+        format_cs_datetime(period, '%Y-%m-%dT%H:%M:%S')
       end
       if enrollment_term['SCHEDULE_OF_CLASSES_PERIOD']
-        format_cs_datetime enrollment_term['SCHEDULE_OF_CLASSES_PERIOD']
+        format_cs_datetime(enrollment_term['SCHEDULE_OF_CLASSES_PERIOD'], '%Y-%m-%d')
       end
       {
         enrollment_term: enrollment_term
       }
     end
 
-    def format_cs_datetime(hash)
+    def format_cs_datetime(hash, format)
       if hash['DATETIME']
-        hash['DATETIME'] = format_date DateTime.rfc3339(hash['DATETIME'])
+        hash['DATE'] = format_date strptime_in_time_zone(hash['DATETIME'], format)
+        hash.delete 'DATETIME'
       end
     end
 
@@ -35,8 +40,7 @@ module CampusSolutions
     end
 
     def url
-      # This fake URL allows tests against mock proxies until we get a real URL.
-      "#{@settings.base_url}/NOT_A_REAL_URL.v1/get/enrollment_term?EMPLID=#{@campus_solutions_id}&TERM_ID=#{@term_id}"
+      "#{@settings.base_url}/UC_SR_STDNT_CLASS_ENROLL.v1/Get?EMPLID=#{@campus_solutions_id}&STRM=#{@term_id}"
     end
   end
 end
